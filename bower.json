@@ -1,0 +1,33 @@
+{
+  "name": "thrust-engine",
+  "version": "0.0.1",
+  "authors": [
+    "Andy Hayes <andygoestohollywood@gmail.com>"
+  ],
+  "description": "see package.json",
+  "main": "public/javascripts/thrust-engine.min.js",
+  "keywords": [
+    "see",
+    "package.json"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser-official": "~2.3.0",
+    "stats.js": "*",
+    "requirejs": "~2.1.17",
+    "lodash": "~3.9.0"
+  },
+  "install": {
+    "path": "public/javascripts/vendor",
+    "sources": {
+      "devicejs": "bower_components/devicejs/lib/device.min.js"
+    }
+  }
+}
