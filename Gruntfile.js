@@ -50,24 +50,20 @@ module.exports = function (grunt) {
 			}
 		},
 
-		watch: {
-			gruntfile: {
-				files: '<%= jshint.gruntfile.src %>',
-				tasks: ['jshint:gruntfile']
-			},
-			lib_test: {
-				files: '<%= jshint.lib_test.src %>',
-				tasks: ['jshint:lib_test', 'qunit']
-			}
-		},
-
-		requirejs: {
-			compile: {
+		browserify: {
+			app: {
+				src: ['src/game.js'],
+				dest: './public/javascripts/browserify/thrust-engine.js',
 				options: {
-					baseUrl: "public/javascripts/app",
-					mainConfigFile: "public/javascripts/app/app.js",
-					name: "main",
-					out: "public/javascripts/build/main.js"
+					keepAlive: true,
+					watch: true,
+					postBundleCB: function(err, src, next) {
+						grunt.log.writeln('bundle created successfully at: ' + new Date());
+						next(err, src);
+					},
+					browserifyOptions: {
+						debug: true
+					}
 				}
 			}
 		}

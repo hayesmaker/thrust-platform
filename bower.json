@@ -24,10 +24,12 @@
     "requirejs": "~2.1.17",
     "lodash": "~3.9.0"
   },
+
   "install": {
-    "path": "public/javascripts/vendor",
+    "path": "src/libs/",
     "sources": {
-      "devicejs": "bower_components/devicejs/lib/device.min.js"
+
     }
   }
+
 }
