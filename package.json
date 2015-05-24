@@ -1,5 +1,7 @@
 {
   "name": "thrust-engine",
+  "author": "@hayes_maker",
+  "license": "ISC",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -23,14 +25,16 @@
   "main": "app.js",
   "keywords": [
     "thrust",
-    "thrust",
-    "clone",
-    "phaser",
-    "thrust",
     "phaser"
   ],
-  "author": "@hayes_maker",
-  "license": "ISC",
+  "browserify-shim": {
+    "Stats": {
+      "exports": "Stats"
+    }
+  },
+  "browser": {
+    "Stats": "./src/libs/stats.js/stats.min.js"
+  },
   "devDependencies": {
     "bower": "^1.4.1",
     "bower-installer": "^1.2.0",

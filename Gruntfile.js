@@ -56,6 +56,7 @@ module.exports = function (grunt) {
 				dest: './public/javascripts/browserify/thrust-engine.js',
 				options: {
 					keepAlive: true,
+					transform: ['browserify-shim'],
 					watch: true,
 					postBundleCB: function(err, src, next) {
 						grunt.log.writeln('bundle created successfully at: ' + new Date());
