@@ -1,4 +1,5 @@
 var Stats = require('Stats');
+var properties = require('../properties');
 
 /**
  * The boot state
@@ -10,7 +11,7 @@ var Stats = require('Stats');
 module.exports = {
 	preload: function() {
 		//game.load.script('joystick', 'javascripts/browserify/phaser-virtual-joystick.min.js');
-		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		game.scale.scaleMode = properties.scale.mode;
 		game.scale.setScreenSize();
 	},
 

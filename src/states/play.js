@@ -1,3 +1,5 @@
+var properties = require('../properties');
+
 /**
  * The play state - this is where the magic happens
  *
@@ -19,6 +21,9 @@ var pad;
 var map;
 var buttonA;
 var buttonADown = false;
+var joypad = properties.enableJoypad;
+
+
 
 module.exports = {
 
@@ -26,20 +31,21 @@ module.exports = {
 		game.load.image('thrustmap', 'images/thrust-level2.png');
 		game.load.physics('physicsData', 'images/thrust-level2.json');
 		game.load.image('stars', 'images/starfield.png');
-		game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json')
+		if (joypad) {
+			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
+		}
 	},
 
 	create: function() {
-		//game.touchControl = this.game.plugins.add(Phaser.Plugin.TouchControl);
-		//game.touchControl.inputEnable();
+		if (joypad) {
+			pad = game.plugins.add(Phaser.VirtualJoystick);
+			this.stick = pad.addDPad(0, 0, 200, 'dpad');
+			this.stick.alignBottomLeft();
 
-		pad = game.plugins.add(Phaser.VirtualJoystick);
-		this.stick = pad.addDPad(0, 0, 200, 'dpad');
-		this.stick.alignBottomLeft();
-
-		buttonA = pad.addButton(615, 400, 'dpad', 'button1-up', 'button1-down');
-		buttonA.onDown.add(this.pressButtonA, this);
-		buttonA.onUp.add(this.upButtonA, this);
+			buttonA = pad.addButton(615, 400, 'dpad', 'button1-up', 'button1-down');
+			buttonA.onDown.add(this.pressButtonA, this);
+			buttonA.onUp.add(this.upButtonA, this);
+		}
 
 		game.world.setBounds(0, 0, 928, 1280);
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -70,6 +76,7 @@ module.exports = {
 		graphics.lineTo(0,0);
 		//graphics.endFill();
 		player.addChild(graphics);
+
 
 		player.scale.setTo(0.3,0.3);
 		player.pivot.x = 0;
@@ -128,10 +135,6 @@ module.exports = {
 		game.camera.follow(player);
 
 		cursors = game.input.keyboard.createCursorKeys();
-
-		var pad = game.plugins.add(Phaser.VirtualJoystick);
-		var stick = pad.addStick(x, y, distance, 'arcade');
-
 	},
 	update: function() {
 		if (cursors.left.isDown) {
@@ -145,13 +148,16 @@ module.exports = {
 			player.body.thrust(300);
 		}
 
-		if (this.stick.isDown) {
-			if (this.stick.direction === Phaser.LEFT) {
-				player.body.rotateLeft(100);
-			} else if (this.stick.direction === Phaser.RIGHT) {
-				player.body.rotateRight(100);
+		if (joypad) {
+			if (this.stick.isDown) {
+				if (this.stick.direction === Phaser.LEFT) {
+					player.body.rotateLeft(100);
+				} else if (this.stick.direction === Phaser.RIGHT) {
+					player.body.rotateRight(100);
+				}
 			}
 		}
+
 
 
 
