@@ -8,7 +8,6 @@ var properties = require('../properties');
  * @type {{create: Function, update: Function}}
  */
 var player;
-var currentSpeed = 0;
 var cursors;
 var game = window.game;
 var ground;
@@ -23,6 +22,8 @@ var buttonA;
 var buttonADown = false;
 var joypad = properties.enableJoypad;
 
+var bulletBitmap;
+var bullets;
 
 
 module.exports = {
@@ -84,7 +85,7 @@ module.exports = {
 
 		player.body.clearShapes();
 		player.body.addRectangle(-10,-17, 0,-2);
-		player.body.collideWorldBounds = true;
+		player.body.collideWorldBounds = false;
 
 
 
@@ -132,11 +133,31 @@ module.exports = {
 
 		ground.addChild(graphics);
 
+
+		bulletBitmap = game.make.bitmapData(5,5);
+		bulletBitmap.ctx.fillStyle = '#ffffff';
+		bulletBitmap.ctx.beginPath();
+		bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
+		bulletBitmap.ctx.closePath();
+		bulletBitmap.ctx.fill();
+
+		var sprite = game.add.sprite(100,100, bulletBitmap);
+		sprite.fixedToCamera = true;
+
+		bullets = [];
+
 		game.camera.follow(player);
 
 		cursors = game.input.keyboard.createCursorKeys();
+
+		spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		spacePress.onDown.add(this.fire, this);
+
+
+
 	},
 	update: function() {
+
 		if (cursors.left.isDown) {
 			player.body.rotateLeft(100);
 		} else if (cursors.right.isDown) {
@@ -158,11 +179,19 @@ module.exports = {
 			}
 		}
 
-
-
-
-
 		game.world.wrap(player.body, 0, false);
+	},
+
+	fire: function() {
+		var magnitue = 225;
+		var bullet = this.add.sprite(player.position.x, player.position.y, bulletBitmap);
+		bullet.anchor.setTo(0.5,0.5);
+		game.physics.p2.enable(bullet);
+		var angle = player.body.rotation + (3 * Math.PI) / 2;
+		bullet.body.data.gravityScale = 0;
+		bullet.body.velocity.x = magnitue * Math.cos(angle) + player.body.velocity.x;
+		bullet.body.velocity.y = magnitue * Math.sin(angle) + player.body.velocity.y;
+		bullets.push(0);
 	},
 
 	render: function() {
@@ -179,6 +208,10 @@ module.exports = {
 
 	upButtonA: function() {
 		buttonADown = false;
+	},
+
+	pressButtonB: function() {
+		this.fire();
 	}
 
 };
