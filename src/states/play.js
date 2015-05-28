@@ -1,4 +1,8 @@
 var properties = require('../properties');
+var Physics = require('../environment/Physics');
+var Collisions = require('../environment/Collisions');
+var Groups = require('../environment/Groups');
+var Player = require('../actors/Player');
 
 /**
  * The play state - this is where the magic happens
@@ -21,10 +25,12 @@ var map;
 var buttonA;
 var buttonADown = false;
 var joypad = properties.enableJoypad;
-
 var bulletBitmap;
-var bullets;
 
+//modules
+var physics;
+var collisions;
+var groups;
 
 module.exports = {
 
@@ -49,71 +55,35 @@ module.exports = {
 		}
 
 		game.world.setBounds(0, 0, 928, 1280);
-		game.physics.startSystem(Phaser.Physics.P2JS);
 
-		game.physics.p2.setImpactEvents(true);
-		game.physics.p2.gravity.y = 100;
-
-		actors = game.add.group();
-		terrain = game.add.group();
+		physics = new Physics();
+		groups = new Groups();
 
 		stars = game.add.tileSprite(0, 0, 928, 600, 'stars');
 
-		//game.physics.p2.enable(stars);
-		//stars.body.static = true;
-		//stars.body.clearShapes();
+		collisions = new Collisions();
 
-		player = game.make.sprite(game.world.centerX, 300);
-		game.physics.p2.enable(player, false);
+		game.physics.p2.updateBoundsCollisionGroup();
 
-
-		graphics = new Phaser.Graphics(game, 0,0);
-		//graphics.beginFill(0x000000);
-		graphics.lineStyle(4,0xffffff);
-		graphics.lineTo(20,40);
-		graphics.lineTo(25,40);
-		graphics.arc(0,40,25,game.math.degToRad(0), game.math.degToRad(180), false);
-		graphics.lineTo(-20,40);
-		graphics.lineTo(0,0);
-		//graphics.endFill();
-		player.addChild(graphics);
-
-
-		player.scale.setTo(0.3,0.3);
-		player.pivot.x = 0;
-		player.pivot.y = 40;
-
-		player.body.clearShapes();
-		player.body.addRectangle(-10,-17, 0,-2);
-		player.body.collideWorldBounds = false;
-
-
+		player = new Player(collisions);
 
 		map = game.add.sprite(0,0, 'thrustmap');
-		//map.scale.setTo(2,2);
 		map.position.setTo(map.width/2, 970);
 
 		game.physics.p2.enable(map, false);
 
-
 		map.body.clearShapes();
 		map.body.loadPolygon('physicsData', 'thrustmap');
 		map.body.static = true;
-		//player.body.setCollisionGroup(playerColGroup);
-		//player.body.collides(terrainColGroup, this.crash, true);
-		//console.log('player dimension:', player.getBounds());
+		map.body.setCollisionGroup(collisions.terrain);
+		map.body.collides([collisions.players, collisions.terrain, collisions.bullets]);
 
 		ground = game.add.sprite(0, 700);
-		//ground.body.setCollisionGroup(terrainColGroup);
-
 		graphics = new Phaser.Graphics(game, 0,0);
 		graphics.lineStyle(2, 0xffffff, 0.7);
-		//graphics.lineTo(2000, 0);
-
 		var groundWidth = 2000;
 		var peakW = 200;
 		var peakH = 100;
-
 		var up = true;
 		for (i = 0; i < groundWidth; i++) {
 			if (i % peakW === 0) {
@@ -121,36 +91,34 @@ module.exports = {
 				up = !up;
 			}
 		}
-
-		terrain.add(stars);
-		terrain.add(ground);
-		actors.add(player);
-
-		game.world.swap(terrain, actors);
-
-		game.physics.p2.enable(ground);
-		ground.body.static = true;
-
 		ground.addChild(graphics);
+
+		groups.terrain.add(stars);
+		groups.terrain.add(ground);
+		groups.actors.add(player.sprite);
+
+		game.world.swap(groups.terrain, groups.actors);
+
+		//game.physics.p2.enable(ground);
+		//ground.body.static = true;
+
 
 
 		bulletBitmap = game.make.bitmapData(5,5);
 		bulletBitmap.ctx.fillStyle = '#ffffff';
 		bulletBitmap.ctx.beginPath();
-		bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
+		bulletBitmap.ctx.arc(1.0,1.0,2, 0, Math.PI*2, true);
 		bulletBitmap.ctx.closePath();
 		bulletBitmap.ctx.fill();
 
-		var sprite = game.add.sprite(100,100, bulletBitmap);
-		sprite.fixedToCamera = true;
 
 		bullets = [];
 
-		game.camera.follow(player);
+		game.camera.follow(player.sprite);
 
 		cursors = game.input.keyboard.createCursorKeys();
 
-		spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		var spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		spacePress.onDown.add(this.fire, this);
 
 
@@ -183,23 +151,29 @@ module.exports = {
 	},
 
 	fire: function() {
-		var magnitue = 225;
-		var bullet = this.add.sprite(player.position.x, player.position.y, bulletBitmap);
+		var magnitue = 240;
+		var bullet = game.make.sprite(player.position.x, player.position.y, bulletBitmap);
 		bullet.anchor.setTo(0.5,0.5);
 		game.physics.p2.enable(bullet);
 		var angle = player.body.rotation + (3 * Math.PI) / 2;
+		bullet.body.collidesWorldBounds = false;
+		bullet.body.setCollisionGroup(collisions.bullets);
+		bullet.body.collides(collisions.terrain, this.bulletDeath, this);
 		bullet.body.data.gravityScale = 0;
 		bullet.body.velocity.x = magnitue * Math.cos(angle) + player.body.velocity.x;
 		bullet.body.velocity.y = magnitue * Math.sin(angle) + player.body.velocity.y;
-		bullets.push(0);
+		bullet.body.bulletsIndex = bullets.length;
+		groups.bullets.add(bullet);
 	},
 
 	render: function() {
 		game.debug.cameraInfo(game.camera, 500, 20);
 	},
 
-	crash: function() {
-		console.log('crashy crashy');
+	bulletDeath: function(bulletBody) {
+		bulletBody.sprite.kill();
+		//bullets.splice(bulletBody.bulletsIndex, 1);
+		groups.bullets.remove(bulletBody.sprite);
 	},
 
 	pressButtonA: function() {

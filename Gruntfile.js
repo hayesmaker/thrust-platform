@@ -51,6 +51,14 @@ module.exports = function (grunt) {
 		},
 
 		browserify: {
+			test: {
+				src: ['test/tests.js'],
+				dest: './public/javascripts/test/tests.js',
+				options: {
+					watch: true,
+					transform: ['browserify-shim']
+				}
+			},
 			app: {
 				src: ['src/game.js'],
 				dest: './public/javascripts/browserify/thrust-engine.js',
@@ -67,11 +75,33 @@ module.exports = function (grunt) {
 					}
 				}
 			}
-		}
+		},
+
+		smoothie: {
+			default_task: {
+				options: {
+					prompt: true,
+					src: "src/",
+					test: "test/",
+					moduleTemplate: './node_modules/grunt-smoothie/tasks/flavours/node/CustomType.js',
+					specTemplate: './node_modules/grunt-smoothie/tasks/flavours/node/CustomTypeSpec.js',
+					packageMap: [
+						{
+							name: 'Top Level',
+							value: ''
+						},
+						'actors',
+						'environment',
+						'states'
+					]
+				}
+			}
+		},
 
 	});
 
 	// These plugins provide necessary tasks.
+	grunt.loadNpmTasks('grunt-smoothie');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -79,6 +109,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// Default task.
-	grunt.registerTask('default', ['browserify:app']);
+	grunt.registerTask('default', ['browserify']);
 
 };

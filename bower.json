@@ -24,12 +24,11 @@
     "requirejs": "~2.1.17",
     "lodash": "~3.9.0"
   },
-
   "install": {
     "path": "src/libs/",
-    "sources": {
-
-    }
+    "sources": {}
+  },
+  "devDependencies": {
+    "mocha-matrix": "~0.0.1"
   }
-
 }

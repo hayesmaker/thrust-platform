@@ -7,6 +7,7 @@
  */
 module.exports = {
 	enableJoypad: false,
+	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.NO_SCALE
 	}
