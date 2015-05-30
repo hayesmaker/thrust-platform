@@ -3,7 +3,9 @@ var Physics = require('../environment/Physics');
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
 var Player = require('../actors/Player');
+var Orb = require('../actors/Orb');
 
+var game = window.game;
 /**
  * The play state - this is where the magic happens
  *
@@ -12,25 +14,32 @@ var Player = require('../actors/Player');
  * @type {{create: Function, update: Function}}
  */
 var player;
+var orb;
 var cursors;
-var game = window.game;
 var ground;
 var graphics;
 var actors;
 var terrain;
 var stars;
-var pad;
-//var stick;
+var bulletBitmap;
 var map;
+//stick;
+var pad;
 var buttonA;
 var buttonADown = false;
+var isXDown     = false;
 var joypad = properties.enableJoypad;
-var bulletBitmap;
+
 
 //modules
 var physics;
 var collisions;
 var groups;
+
+var tractorBeam;
+var beamGfx;
+
+var shouldDraw = true;
 
 module.exports = {
 
@@ -41,6 +50,15 @@ module.exports = {
 		if (joypad) {
 			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
 		}
+	},
+
+	xDown: function () {
+		isXDown = true;
+
+	},
+
+	xUp: function() {
+		isXDown = false;
 	},
 
 	create: function() {
@@ -59,13 +77,12 @@ module.exports = {
 		physics = new Physics();
 		groups = new Groups();
 
-		stars = game.add.tileSprite(0, 0, 928, 600, 'stars');
+		stars = game.make.tileSprite(0, 0, 928, 600, 'stars');
 
 		collisions = new Collisions();
 
-		game.physics.p2.updateBoundsCollisionGroup();
-
 		player = new Player(collisions);
+		orb = new Orb(collisions);
 
 		map = game.add.sprite(0,0, 'thrustmap');
 		map.position.setTo(map.width/2, 970);
@@ -78,9 +95,12 @@ module.exports = {
 		map.body.setCollisionGroup(collisions.terrain);
 		map.body.collides([collisions.players, collisions.terrain, collisions.bullets]);
 
+		orb.body.collides([collisions.players, collisions.terrain, collisions.bullets]);
+
 		ground = game.add.sprite(0, 700);
 		graphics = new Phaser.Graphics(game, 0,0);
 		graphics.lineStyle(2, 0xffffff, 0.7);
+
 		var groundWidth = 2000;
 		var peakW = 200;
 		var peakH = 100;
@@ -93,16 +113,22 @@ module.exports = {
 		}
 		ground.addChild(graphics);
 
+		beamGfx = new Phaser.Graphics(game, 0,0);
+		beamGfx.lineStyle(2, 0xff0000, 1);
+
+		tractorBeam = game.add.sprite(0,0);
+		tractorBeam.addChild(beamGfx);
+
 		groups.terrain.add(stars);
 		groups.terrain.add(ground);
-		groups.actors.add(player.sprite);
+		groups.actors.add(player);
+		groups.actors.add(orb);
+		//groups.actors.add(tractorBeam);
 
 		game.world.swap(groups.terrain, groups.actors);
 
 		//game.physics.p2.enable(ground);
 		//ground.body.static = true;
-
-
 
 		bulletBitmap = game.make.bitmapData(5,5);
 		bulletBitmap.ctx.fillStyle = '#ffffff';
@@ -111,17 +137,14 @@ module.exports = {
 		bulletBitmap.ctx.closePath();
 		bulletBitmap.ctx.fill();
 
-
-		bullets = [];
-
-		game.camera.follow(player.sprite);
+		game.camera.follow(player);
 
 		cursors = game.input.keyboard.createCursorKeys();
-
 		var spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		var xKey	   = game.input.keyboard.addKey(Phaser.Keyboard.X);
 		spacePress.onDown.add(this.fire, this);
-
-
+		xKey.onDown.add(this.xDown, this);
+		xKey.onUp.add(this.xUp, this);
 
 	},
 	update: function() {
@@ -135,6 +158,9 @@ module.exports = {
 		}
 		if (cursors.up.isDown || buttonADown){
 			player.body.thrust(300);
+		}
+		if (isXDown) {
+			this.draw();
 		}
 
 		if (joypad) {
@@ -150,6 +176,11 @@ module.exports = {
 		game.world.wrap(player.body, 0, false);
 	},
 
+	draw: function() {
+		beamGfx.moveTo(player.position.x, player.position.y);
+		beamGfx.lineTo(orb.position.x, orb.position.y);
+	},
+
 	fire: function() {
 		var magnitue = 240;
 		var bullet = game.make.sprite(player.position.x, player.position.y, bulletBitmap);
@@ -162,7 +193,6 @@ module.exports = {
 		bullet.body.data.gravityScale = 0;
 		bullet.body.velocity.x = magnitue * Math.cos(angle) + player.body.velocity.x;
 		bullet.body.velocity.y = magnitue * Math.sin(angle) + player.body.velocity.y;
-		bullet.body.bulletsIndex = bullets.length;
 		groups.bullets.add(bullet);
 	},
 
@@ -172,7 +202,6 @@ module.exports = {
 
 	bulletDeath: function(bulletBody) {
 		bulletBody.sprite.kill();
-		//bullets.splice(bulletBody.bulletsIndex, 1);
 		groups.bullets.remove(bulletBody.sprite);
 	},
 

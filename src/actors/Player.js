@@ -35,7 +35,18 @@ var Player = function(collisions) {
 	 * @type {Collisions}
 	 */
 	this.collisions = collisions;
+
+	/**
+	 * Creates the player sprite which is returned for easy reference by the containing state
+	 *
+	 * @property sprite
+	 * @type {Phaser.Sprite}
+	 */
+	this.sprite = game.make.sprite(game.world.centerX, 300);
+
 	this.init();
+
+	return this.sprite;
 };
 
 var p = Player.prototype;
@@ -46,12 +57,10 @@ var p = Player.prototype;
  * @method init
  */
 p.init = function() {
-	this.sprite = game.make.sprite(game.world.centerX, 300);
 
 	game.physics.p2.enable(this.sprite, false);
 
 	this.body = this.sprite.body;
-	this.position = this.sprite.position;
 
 	var graphics = new Phaser.Graphics(game, 0,0);
 	//graphics.beginFill(0x000000);

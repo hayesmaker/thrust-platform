@@ -16,20 +16,23 @@ module.exports = {
 	},
 
 	create: function() {
-		window.stats = new Stats();
-		stats.setMode(0);
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0px';
-		stats.domElement.style.top = '0px';
+		if (properties.drawStats) {
+			window.stats = new Stats();
+			stats.setMode(0);
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.left = '0px';
+			stats.domElement.style.top = '0px';
 
-		document.body.appendChild( stats.domElement );
+			document.body.appendChild( stats.domElement );
+
+			setInterval(function () {
+				stats.begin();
+				stats.end();
+			}, 1000 / 60);
+		}
 
 		game.state.start('play');
 
-		setInterval(function () {
-			stats.begin();
-			stats.end();
-		}, 1000 / 60);
 	},
 	update: function() {
 

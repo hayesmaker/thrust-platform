@@ -1,3 +1,6 @@
+var game = window.game;
+var properties = require('../properties');
+
 /**
  * A private var description
  *
@@ -14,7 +17,7 @@ var myPrivateVar = 0;
  * @class Collisions
  * @constructor
  */
-var Collisions = function() {
+var Collisions = function(collisions) {
 	/**
 	 * A public var description
 	 *
@@ -36,6 +39,8 @@ p.init = function() {
 	this.players = game.physics.p2.createCollisionGroup();
 	this.terrain = game.physics.p2.createCollisionGroup();
 	this.bullets = game.physics.p2.createCollisionGroup();
+
+	game.physics.p2.updateBoundsCollisionGroup();
 };
 
 

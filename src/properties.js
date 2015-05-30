@@ -10,5 +10,6 @@ module.exports = {
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.NO_SCALE
-	}
+	},
+	drawStats: false
 };
