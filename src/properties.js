@@ -8,8 +8,8 @@
  * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	debugPhysics: true,
-	collideWorldBounds: true,
+	debugPhysics: false,
+	collideWorldBounds: false,
 	freeOrbLocking: false,
 	enableJoypad: true,
 	fatalCollisions: true,

@@ -225,17 +225,9 @@ module.exports = {
 			return;
 		}
 		isOrbLocked = true;
-		var maxForce = 100000;
-		var beamSpr = game.add.sprite(orb.sprite.x, orb.sprite.y);
-		game.physics.p2.enable(beamSpr, properties.debugPhysics);
-		var diffX = player.sprite.position.x - orb.sprite.position.x;
-		var diffY = player.sprite.position.y - orb.sprite.position.y;
-		beamSpr.body.collideWorldBounds = properties.collideWorldBounds;
-		beamSpr.body.mass = 0.5;
-	//	beamSpr.body.clearShapes();
-		game.physics.p2.createRevoluteConstraint(beamSpr, [0, 0], orb.sprite, [0,0], maxForce);
-		game.physics.p2.createRevoluteConstraint(beamSpr, [diffX,diffY], player.sprite, [0,0], maxForce);
+		var maxForce = 200000;
 		orb.move();
+		game.physics.p2.createRevoluteConstraint(player.sprite, [0, 0], orb.sprite, [diffX,diffY], maxForce);
 	},
 
 	render: function() {
@@ -259,7 +251,6 @@ module.exports = {
 
 	upButtonA: function() {
 		buttonADown = false;
-		this.releaseTractorBeam();
 	},
 
 	pressButtonB: function() {
@@ -268,6 +259,7 @@ module.exports = {
 
 	upButtonB: function() {
 		buttonBDown = false;
+		this.releaseTractorBeam();
 	},
 
 	xDown: function () {
