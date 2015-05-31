@@ -3,23 +3,6 @@ var properties = require('../properties');
 
 
 /**
- * A private var description
- *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
- * Prevent fatal collisions by setting this value to false in properties
- *
- * @property fatalCollisions
- * @type {boolean}
- */
-var fatalCollisions = properties.fatalCollisions;
-
-/**
  * Player description
  * calls init
  *
@@ -27,7 +10,7 @@ var fatalCollisions = properties.fatalCollisions;
  * @class Player
  * @constructor
  */
-var Player = function(collisions) {
+function Player(collisions) {
 	/**
 	 * The Collisions Object
 	 *
@@ -45,9 +28,7 @@ var Player = function(collisions) {
 	this.sprite = game.make.sprite(game.world.centerX, 300);
 
 	this.init();
-
-	return this.sprite;
-};
+}
 
 var p = Player.prototype;
 
@@ -58,7 +39,7 @@ var p = Player.prototype;
  */
 p.init = function() {
 
-	game.physics.p2.enable(this.sprite, false);
+	game.physics.p2.enable(this.sprite, properties.debugPhysics);
 
 	this.body = this.sprite.body;
 
@@ -79,18 +60,13 @@ p.init = function() {
 
 	this.body.clearShapes();
 	this.body.addRectangle(-10,-17, 0,-2);
-	this.body.collideWorldBounds = false;
+	this.body.collideWorldBounds = properties.collideWorldBounds;
+	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
-
-	this.body.collides(this.collisions.terrain, this.crash, this);
 };
 
-
-
 p.crash = function() {
-	if (fatalCollisions) {
-		console.log('die!');
-	}
+	return "moo moo land";
 };
 
 

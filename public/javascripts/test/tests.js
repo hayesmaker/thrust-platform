@@ -1737,7 +1737,7 @@ process.nextTick = function (fun) {
         }
     }
     queue.push(new Item(fun, args));
-    if (!draining) {
+    if (queue.length === 1 && !draining) {
         setTimeout(drainQueue, 0);
     }
 };
@@ -13547,7 +13547,7 @@ var myPrivateVar = 0;
  * @class Physics
  * @constructor
  */
-var Physics = function() {
+function Physics () {
 	/**
 	 * A public var description
 	 *
@@ -13556,7 +13556,7 @@ var Physics = function() {
 	 */
 	this.myPublicVar = 1;
 	this.init();
-};
+}
 
 var p = Physics.prototype;
 

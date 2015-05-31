@@ -1,15 +1,21 @@
 /**
+ * Defines build settings for the thrust-engine
+ *
  * @namespace thrust-engine
  * @module properties
  * @class
  * @static
- * @type {{enableJoypad: boolean}}
+ * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	enableJoypad: false,
+	debugPhysics: false,
+	collideWorldBounds: true,
+	freeOrbLocking: false,
+	enableJoypad: true,
 	fatalCollisions: true,
 	scale: {
-		mode: Phaser.ScaleManager.NO_SCALE
+		mode: Phaser.ScaleManager.SHOW_ALL
 	},
-	drawStats: false
+	drawStats: false,
+	drawMontains: false
 };

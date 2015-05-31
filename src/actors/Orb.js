@@ -16,7 +16,7 @@ var myPrivateVar = 0;
  * @class Orb
  * @constructor
  */
-var Orb = function(collisions) {
+function Orb (collisions) {
 	/**
 	 * A collisions container
 	 *
@@ -39,9 +39,7 @@ var Orb = function(collisions) {
 	this.sprite.anchor.setTo(0.5,0.5);
 
 	this.init();
-
-	return this.sprite;
-};
+}
 
 var p = Orb.prototype;
 
@@ -52,26 +50,27 @@ var p = Orb.prototype;
  */
 p.init = function() {
 
-	game.physics.p2.enable(this.sprite, true);
+	game.physics.p2.enable(this.sprite, properties.debugPhysics);
 
-	//this.body.data.motionState = 1; //for dynamic
-	//this.sprite.body.data.motionState = 2; //for static
-	//this.body.data.motionState = 4; //for kinematic
-	this.sprite.body.static = true;
-
-	this.sprite.body.setCollisionGroup(this.collisions.terrain);
+	//motionState = 1; //for dynamic
+	//motionState = 2; //for static
+	//motionState = 4; //for kinematic
 
 	this.body = this.sprite.body;
 
-	this.body.collides(this.collisions.bullets, this.move, this)
+	this.body.motionState = 2;
 
+	this.body.setCollisionGroup(this.collisions.terrain);
 
+	this.body.collideWorldBounds = properties.collideWorldBounds;
+
+	//this.body.collides(this.collisions.bullets, this.move, this)
 };
 
 p.move = function() {
-	console.log('moveee');
-	this.body.data.motionState = 1; //for dynamic
-	//this.sprite.body.static = false;
+	this.body.motionState = 1;
+	this.body.mass = 0.55;
+	this.body.fixedRotation = true;
 };
 
 

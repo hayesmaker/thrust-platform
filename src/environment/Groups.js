@@ -14,7 +14,7 @@ var myPrivateVar = 0;
  * @class Groups
  * @constructor
  */
-var Groups = function() {
+function Groups () {
 	/**
 	 * A public var description
 	 *
@@ -23,7 +23,7 @@ var Groups = function() {
 	 */
 	this.myPublicVar = 1;
 	this.init();
-};
+}
 
 var p = Groups.prototype;
 

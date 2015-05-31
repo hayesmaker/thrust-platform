@@ -17,7 +17,7 @@ var myPrivateVar = 0;
  * @class Collisions
  * @constructor
  */
-var Collisions = function(collisions) {
+function Collisions (collisions) {
 	/**
 	 * A public var description
 	 *
@@ -26,7 +26,7 @@ var Collisions = function(collisions) {
 	 */
 	this.myPublicVar = 1;
 	this.init();
-};
+}
 
 var p = Collisions.prototype;
 
@@ -41,6 +41,13 @@ p.init = function() {
 	this.bullets = game.physics.p2.createCollisionGroup();
 
 	game.physics.p2.updateBoundsCollisionGroup();
+};
+
+/**
+*
+*/
+p.set = function(sprite, collisionGroups) {
+	sprite.body.collides(collisionGroups);
 };
 
 
