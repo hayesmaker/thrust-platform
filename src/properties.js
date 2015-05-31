@@ -11,7 +11,7 @@ module.exports = {
 	debugPhysics: false,
 	collideWorldBounds: true,
 	freeOrbLocking: false,
-	enableJoypad: false,
+	enableJoypad: true,
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.SHOW_ALL
