@@ -144,7 +144,7 @@ module.exports = {
 		if (cursors.up.isDown || buttonADown){
 			player.body.thrust(400);
 		}
-		if (isXDown || buttonBDown) {
+		if (isXDown || buttonADown) {
 			this.checkDistance();
 		}
 
