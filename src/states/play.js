@@ -226,8 +226,10 @@ module.exports = {
 		}
 		isOrbLocked = true;
 		var maxForce = 200000;
-		orb.move();
+		var diffX = player.sprite.position.x - orb.sprite.position.x;
+		var diffY = player.sprite.position.y - orb.sprite.position.y;
 		game.physics.p2.createRevoluteConstraint(player.sprite, [0, 0], orb.sprite, [diffX,diffY], maxForce);
+		orb.move();
 	},
 
 	render: function() {
