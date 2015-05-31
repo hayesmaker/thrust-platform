@@ -43,12 +43,14 @@ var physics;
 var collisions;
 var groups;
 
+//tractorBeam
 var tractorBeam;
 var beamGfx;
 var tractorBeamTimer;
 var isTractorBeamActive = false;
 var orbLockEnabled = false;
 var isOrbLocked = false;
+var tractorBeamLength = 80;
 
 
 /**
@@ -194,21 +196,23 @@ module.exports = {
 
 	drawTractorBeam: function() {
 		beamGfx.clear();
-		beamGfx.lineStyle(5, 0x00ff00, 0.5);
+		var colour = isOrbLocked? 0xEF5696 : 0x00ff00;
+		var alpha = isOrbLocked? 0.5 : 0.5;
+		beamGfx.lineStyle(5, colour, alpha);
 		beamGfx.moveTo(player.sprite.position.x, player.sprite.position.y);
 		beamGfx.lineTo(orb.sprite.position.x, orb.sprite.position.y);
 	},
 
 	checkDistance: function() {
 		var distance = this.distAtoB(player.sprite.position, orb.sprite.position);
-		if (distance < 100) {
+		if (distance < tractorBeamLength) {
 			this.drawTractorBeam();
 			if (!isTractorBeamActive) {
 				isTractorBeamActive = true;
 				tractorBeamTimer.start();
 				tractorBeamTimer.add(1500, this.enableOrbLock);
 			}
-		} else if (distance >= 100 && distance < 110) {
+		} else if (distance >= tractorBeamLength && distance < tractorBeamLength + 10) {
 			if (orbLockEnabled) {
 				this.lockOrb();
 			}
@@ -224,13 +228,13 @@ module.exports = {
 		if (isOrbLocked) {
 			return;
 		}
-		var maxForce = 10000;
+		var maxForce = 20000;
 		var beamSpr = game.add.sprite(orb.sprite.x, orb.sprite.y);
 		game.physics.p2.enable(beamSpr, properties.debugPhysics);
 		var diffX = player.sprite.position.x - orb.sprite.position.x;
 		var diffY = player.sprite.position.y - orb.sprite.position.y;
 		beamSpr.body.collideWorldBounds = properties.collideWorldBounds;
-		beamSpr.body.mass = 0.1;
+		beamSpr.body.mass = 0.5;
 		beamSpr.body.clearShapes();
 		game.physics.p2.createRevoluteConstraint(beamSpr, [0, 0], orb.sprite, [0,0], maxForce);
 		game.physics.p2.createRevoluteConstraint(beamSpr, [diffX,diffY], player.sprite, [0,0], maxForce);
