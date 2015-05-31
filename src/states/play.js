@@ -10,12 +10,6 @@ var Background = require('../actors/Background');
 
 //privates
 var game = window.game;
-/**
- * Prevent fatal collisions by setting this value to false in properties
- *
- * @property fatalCollisions
- * @type {boolean}
- */
 var fatalCollisions = properties.fatalCollisions;
 var player;
 var orb;
@@ -144,7 +138,7 @@ module.exports = {
 		if (cursors.up.isDown || buttonADown){
 			player.body.thrust(400);
 		}
-		if (isXDown || buttonADown) {
+		if (isXDown) {
 			this.checkDistance();
 		}
 
@@ -152,7 +146,10 @@ module.exports = {
 			this.drawTractorBeam();
 		}
 
-
+		if (buttonBDown) {
+				player.body.thrust(200);
+				this.checkDistance();
+		}
 
 		if (joypad) {
 			if (this.stick.isDown) {
@@ -194,15 +191,6 @@ module.exports = {
 		tractorBeamTimer.stop(true);
 	},
 
-	drawTractorBeam: function() {
-		beamGfx.clear();
-		var colour = isOrbLocked? 0xEF5696 : 0x00ff00;
-		var alpha = isOrbLocked? 0.5 : 0.5;
-		beamGfx.lineStyle(5, colour, alpha);
-		beamGfx.moveTo(player.sprite.position.x, player.sprite.position.y);
-		beamGfx.lineTo(orb.sprite.position.x, orb.sprite.position.y);
-	},
-
 	checkDistance: function() {
 		var distance = this.distAtoB(player.sprite.position, orb.sprite.position);
 		if (distance < tractorBeamLength) {
@@ -221,7 +209,15 @@ module.exports = {
 				this.releaseTractorBeam();
 			}
 		}
+	},
 
+	drawTractorBeam: function() {
+		beamGfx.clear();
+		var colour = isOrbLocked? 0xEF5696 : 0x00ff00;
+		var alpha = isOrbLocked? 0.5 : 0.5;
+		beamGfx.lineStyle(5, colour, alpha);
+		beamGfx.moveTo(player.sprite.position.x, player.sprite.position.y);
+		beamGfx.lineTo(orb.sprite.position.x, orb.sprite.position.y);
 	},
 
 	lockOrb: function() {
@@ -229,19 +225,17 @@ module.exports = {
 			return;
 		}
 		isOrbLocked = true;
-		var maxForce = 20000;
+		var maxForce = 100000;
 		var beamSpr = game.add.sprite(orb.sprite.x, orb.sprite.y);
 		game.physics.p2.enable(beamSpr, properties.debugPhysics);
 		var diffX = player.sprite.position.x - orb.sprite.position.x;
 		var diffY = player.sprite.position.y - orb.sprite.position.y;
 		beamSpr.body.collideWorldBounds = properties.collideWorldBounds;
 		beamSpr.body.mass = 0.5;
-		beamSpr.body.clearShapes();
+	//	beamSpr.body.clearShapes();
 		game.physics.p2.createRevoluteConstraint(beamSpr, [0, 0], orb.sprite, [0,0], maxForce);
 		game.physics.p2.createRevoluteConstraint(beamSpr, [diffX,diffY], player.sprite, [0,0], maxForce);
 		orb.move();
-
-
 	},
 
 	render: function() {
