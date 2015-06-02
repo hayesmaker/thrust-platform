@@ -110,5 +110,6 @@ module.exports = function (grunt) {
 
 	// Default task.
 	grunt.registerTask('default', ['browserify']);
+	grunt.registerTask('add', ['smoothie']);
 
 };

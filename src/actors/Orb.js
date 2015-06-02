@@ -70,7 +70,6 @@ p.init = function() {
 p.move = function() {
 	this.body.motionState = 1;
 	this.body.mass = 1;
-	//this.body.fixedRotation = true;
 };
 
 

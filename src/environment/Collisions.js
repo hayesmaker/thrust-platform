@@ -36,6 +36,10 @@ var p = Collisions.prototype;
  * @method init
  */
 p.init = function() {
+	game.physics.startSystem(Phaser.Physics.P2JS);
+	game.physics.p2.setImpactEvents(true);
+	game.physics.p2.gravity.y = 100;
+
 	this.players = game.physics.p2.createCollisionGroup();
 	this.terrain = game.physics.p2.createCollisionGroup();
 	this.bullets = game.physics.p2.createCollisionGroup();

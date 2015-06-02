@@ -9,13 +9,19 @@
  */
 module.exports = {
 	debugPhysics: false,
-	collideWorldBounds: false,
-	freeOrbLocking: false,
+	collideWorldBounds: true,
 	enableJoypad: true,
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.SHOW_ALL
 	},
 	drawStats: false,
-	drawMontains: false
+	drawMontains: false,
+	gamePlay: {
+		freeOrbLocking: false,
+		autoOrbLocking: true,
+		tractorBeamLength: 80,
+		tractorBeamVariation: 10,
+		lockingDuration: 900
+	}
 };

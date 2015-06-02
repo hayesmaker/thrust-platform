@@ -1,10 +1,10 @@
 var expect = require('chai').expect,
 	sinon = require('sinon'),
-	Physics = require('../../src/environment/Physics');
+	TractorBeam = require('../../src/actors/TractorBeam');
 
-describe("Physics tests", function() {
+describe("TractorBeam tests", function() {
 
-	var myClass, initSpy;
+	var myTractorBeam, initSpy;
 
 	before(function() {
 
@@ -12,16 +12,12 @@ describe("Physics tests", function() {
 
 	beforeEach(function() {
 
-		initSpy = sinon.spy(Physics.prototype, 'init');
-		logSpy = sinon.spy(console, 'log');
-
-		myClass = new Physics();
+		initSpy = sinon.spy(TractorBeam.prototype, 'init');
+		myClass = new TractorBeam();
 	});
 
 	afterEach(function() {
-
-		Physics.prototype.init.restore();
-
+		TractorBeam.prototype.init.restore();
 	});
 
 	after(function() {
