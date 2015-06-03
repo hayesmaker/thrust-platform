@@ -28,7 +28,7 @@ var buttonB;
 var buttonADown = false;
 var buttonBDown = false;
 var isXDown     = false;
-var joypad = properties.enableJoypad || features.isTouchScreen;
+var joypad = properties.enableJoypad;
 
 //modules
 var collisions;
@@ -53,6 +53,11 @@ module.exports = {
 	},
 
 	create: function() {
+
+		if (features.isTouchScreen) {
+			joypad = true;
+		}
+
 		game.world.setBounds(0, 0, 928, 1280);
 
 		groups = new Groups();
