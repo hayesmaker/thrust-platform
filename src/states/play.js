@@ -44,6 +44,10 @@ var groups;
 module.exports = {
 
 	preload: function() {
+		if (features.isTouchScreen) {
+			joypad = true;
+		}
+
 		game.load.image('thrustmap', 'images/thrust-level2.png');
 		game.load.physics('physicsData', 'images/thrust-level2.json');
 		game.load.image('stars', 'images/starfield.png');
@@ -53,11 +57,6 @@ module.exports = {
 	},
 
 	create: function() {
-
-		if (features.isTouchScreen) {
-			joypad = true;
-		}
-
 		game.world.setBounds(0, 0, 928, 1280);
 
 		groups = new Groups();
