@@ -1,5 +1,6 @@
 var Stats = require('Stats');
 var properties = require('../properties');
+var features = require('../utils/features');
 
 /**
  * The boot state
@@ -30,6 +31,10 @@ module.exports = {
 				stats.end();
 			}, 1000 / 60);
 		}
+
+		features.init();
+
+		console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
 
 		game.state.start('play');
 

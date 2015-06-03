@@ -35,7 +35,7 @@ function Orb (collisions) {
 	/**
 	 * @property sprite
 	 */
-	this.sprite = game.make.sprite(300, 670, bmd);
+	this.sprite = game.make.sprite(550, 1200, bmd);
 	this.sprite.anchor.setTo(0.5,0.5);
 
 	this.init();

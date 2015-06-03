@@ -22,7 +22,8 @@
     "phaser-official": "~2.3.0",
     "stats.js": "*",
     "requirejs": "~2.1.17",
-    "lodash": "~3.9.0"
+    "lodash": "~3.9.0",
+    "devicejs": "~0.2.7"
   },
   "install": {
     "path": "src/libs/",

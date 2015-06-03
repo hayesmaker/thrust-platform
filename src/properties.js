@@ -10,7 +10,7 @@
 module.exports = {
 	debugPhysics: false,
 	collideWorldBounds: true,
-	enableJoypad: true,
+	enableJoypad: false,
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.SHOW_ALL

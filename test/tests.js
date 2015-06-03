@@ -1,1 +1,1 @@
-require('./environment/PhysicsSpec');
+//require('./environment/PhysicsSpec');

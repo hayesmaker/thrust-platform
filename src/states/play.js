@@ -7,6 +7,7 @@ var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
+var features = require('../utils/features');
 
 //privates
 var game = window.game;
@@ -27,7 +28,7 @@ var buttonB;
 var buttonADown = false;
 var buttonBDown = false;
 var isXDown     = false;
-var joypad = properties.enableJoypad;
+var joypad = properties.enableJoypad || features.isTouchScreen;
 
 //modules
 var collisions;
@@ -78,11 +79,11 @@ module.exports = {
 			this.stick = pad.addDPad(0, 0, 200, 'dpad');
 			this.stick.alignBottomLeft();
 
-			buttonA = pad.addButton(505, 420, 'dpad', 'button1-up', 'button1-down');
+			buttonA = pad.addButton(515, 330, 'dpad', 'button1-up', 'button1-down');
 			buttonA.onDown.add(this.pressButtonA, this);
 			buttonA.onUp.add(this.upButtonA, this);
 
-			buttonB = pad.addButton(615, 370, 'dpad', 'button2-up', 'button2-down');
+			buttonB = pad.addButton(620, 290, 'dpad', 'button2-up', 'button2-down');
 			buttonB.onDown.add(this.pressButtonB, this);
 			buttonB.onUp.add(this.upButtonB, this);
 		}
@@ -90,7 +91,6 @@ module.exports = {
 		cursors 			 = game.input.keyboard.createCursorKeys();
 		var spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		var xKey	     = game.input.keyboard.addKey(Phaser.Keyboard.X);
-		var cKey       = game.input.keyboard.addKey(Phaser.Keyboard.C);
 		spacePress.onDown.add(player.shoot, player);
 		xKey.onDown.add(this.xDown, this);
 		xKey.onUp.add(this.xUp, this);

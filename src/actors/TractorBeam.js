@@ -23,6 +23,7 @@ function TractorBeam(orb) {
 	this.hasGrabbed = false;
 
 	this.length = properties.gamePlay.tractorBeamLength;
+
 	this.variance = properties.gamePlay.tractorBeamVariation;
 	this.init();
 }
