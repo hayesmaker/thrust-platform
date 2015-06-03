@@ -35,6 +35,7 @@ module.exports = {
 		features.init();
 
 		console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
+		console.warn("TouchScreenDetected:", features.isTouchScreen);
 
 		game.state.start('play');
 
