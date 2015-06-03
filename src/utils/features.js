@@ -12,17 +12,16 @@ else {
 }
 */
 
-var isTouchScreen;
 
-function init () {
-  isTouchScreen = (('ontouchstart' in window)
-      || (navigator.MaxTouchPoints > 0)
-      || (navigator.msMaxTouchPoints > 0));
-  console.log("touchScreen:", isTouchScreen);
-}
+
 
 
 module.exports = {
-  init: init,
-  isTouchScreen: isTouchScreen
+  init: function () {
+    this.isTouchScreen = (('ontouchstart' in window)
+        || (navigator.MaxTouchPoints > 0)
+        || (navigator.msMaxTouchPoints > 0));
+    console.log("touchScreen:", this.isTouchScreen);
+  },
+  isTouchScreen: this.isTouchScreen
 }

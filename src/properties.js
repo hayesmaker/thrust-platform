@@ -17,6 +17,8 @@ module.exports = {
 	},
 	drawStats: false,
 	drawMontains: false,
+	width: 700,
+	height: 500,
 	gamePlay: {
 		freeOrbLocking: false,
 		autoOrbLocking: true,

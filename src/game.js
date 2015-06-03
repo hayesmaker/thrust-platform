@@ -1,6 +1,8 @@
 "use strict";
 
-var game = new Phaser.Game(700,400, Phaser.AUTO);
+var properties = require('./properties');
+
+var game = new Phaser.Game(properties.width,properties.height, Phaser.AUTO);
 window.game = game;
 
 game.state.add('play', require('./states/play'));
