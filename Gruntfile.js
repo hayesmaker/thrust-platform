@@ -92,7 +92,8 @@ module.exports = function (grunt) {
 						},
 						'actors',
 						'environment',
-						'states'
+						'states',
+						'utils'
 					]
 				}
 			}

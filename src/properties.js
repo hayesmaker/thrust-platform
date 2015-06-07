@@ -10,12 +10,12 @@
 module.exports = {
 	debugPhysics: false,
 	collideWorldBounds: true,
-	enableJoypad: false,
+	enableJoypad: true,
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.SHOW_ALL
 	},
-	drawStats: false,
+	drawStats: true,
 	drawMontains: false,
 	width: 700,
 	height: 500,

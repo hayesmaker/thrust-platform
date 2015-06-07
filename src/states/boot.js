@@ -1,6 +1,6 @@
-var Stats = require('Stats');
 var properties = require('../properties');
 var features = require('../utils/features');
+var StatsModule = require('../utils/StatsModule');
 
 /**
  * The boot state
@@ -17,21 +17,7 @@ module.exports = {
 	},
 
 	create: function() {
-		if (properties.drawStats) {
-			window.stats = new Stats();
-			stats.setMode(0);
-			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.left = '0px';
-			stats.domElement.style.top = '0px';
-
-			document.body.appendChild( stats.domElement );
-
-			setInterval(function () {
-				stats.begin();
-				stats.end();
-			}, 1000 / 60);
-		}
-
+		
 		features.init();
 
 		console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");

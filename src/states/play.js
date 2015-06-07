@@ -8,6 +8,7 @@ var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var features = require('../utils/features');
+var StatsModule = require('../utils/StatsModule');
 
 //privates
 var game = window.game;
@@ -33,6 +34,7 @@ var joypad = properties.enableJoypad;
 //modules
 var collisions;
 var groups;
+var stats;
 
 /**
  * The play state - this is where the magic happens
@@ -57,6 +59,9 @@ module.exports = {
 	},
 
 	create: function() {
+		stats = new StatsModule();
+		console.log('StatsModule ::', stats);
+
 		game.world.setBounds(0, 0, 928, 1280);
 
 		groups = new Groups();
@@ -82,14 +87,17 @@ module.exports = {
 			pad = game.plugins.add(Phaser.VirtualJoystick);
 			this.stick = pad.addDPad(0, 0, 200, 'dpad');
 			this.stick.alignBottomLeft();
+			this.stick.scale = 0.7;
 
-			buttonA = pad.addButton(515, 330, 'dpad', 'button1-up', 'button1-down');
+			buttonA = pad.addButton(515, 380, 'dpad', 'button1-up', 'button1-down');
 			buttonA.onDown.add(this.pressButtonA, this);
 			buttonA.onUp.add(this.upButtonA, this);
+			buttonA.scale = 0.7;
 
-			buttonB = pad.addButton(620, 290, 'dpad', 'button2-up', 'button2-down');
+			buttonB = pad.addButton(620, 340, 'dpad', 'button2-up', 'button2-down');
 			buttonB.onDown.add(this.pressButtonB, this);
 			buttonB.onUp.add(this.upButtonB, this);
+			buttonB.scale = 0.7;
 		}
 
 		cursors 			 = game.input.keyboard.createCursorKeys();
@@ -100,6 +108,9 @@ module.exports = {
 		xKey.onUp.add(this.xUp, this);
 	},
 	update: function() {
+		if (properties.drawStats) {
+			stats.start();
+		}
 		if (cursors.left.isDown) {
 			player.body.rotateLeft(100);
 		} else if (cursors.right.isDown) {
@@ -125,6 +136,9 @@ module.exports = {
 					player.body.rotateRight(100);
 				}
 			}
+		}
+		if (properties.drawStats) {
+			stats.end();
 		}
 		//game.world.wrap(player.body, 0, false);
 	},

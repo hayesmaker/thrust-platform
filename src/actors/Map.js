@@ -2,15 +2,6 @@ var properties = require('../properties');
 var game = window.game;
 
 /**
- * A private var description
- *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
  * Map description
  *
  * defines a public variable and calls init - change this constructor to suit your needs.
