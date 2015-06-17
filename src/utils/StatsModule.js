@@ -30,7 +30,7 @@ function StatsModule() {
 		stats = new Stats();
 		stats.setMode(0);
 		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.right = '0px';
+		stats.domElement.style.left = '0px';
 		stats.domElement.style.bottom = '0px';
 		document.body.appendChild( stats.domElement );
 	}
@@ -43,7 +43,6 @@ var p = StatsModule.prototype;
  * @method begin
  */
 p.start = function() {
-	//console.log('stats.begin');
 	stats.begin();
 };
 
@@ -51,7 +50,6 @@ p.start = function() {
  * @method end
  */
 p.end = function() {
-	//console.log('stats.end');
 	stats.end();
 };
 

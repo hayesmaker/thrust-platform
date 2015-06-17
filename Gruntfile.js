@@ -77,6 +77,15 @@ module.exports = function (grunt) {
 			}
 		},
 
+		mocha_phantomjs: {
+			all: ['./public/javascripts/test/*.html'],
+			options: {
+				reporter: 'html',
+				file: './coverage/test.html',
+				growlOnSuccess: false
+			}
+		},
+
 		smoothie: {
 			default_task: {
 				options: {
@@ -103,11 +112,13 @@ module.exports = function (grunt) {
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-smoothie');
+	grunt.loadNpmTasks('grunt-mocha-phantomjs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-mocha-istanbul');
 
 	// Default task.
 	grunt.registerTask('default', ['browserify']);

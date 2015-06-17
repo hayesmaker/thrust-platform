@@ -1,1 +1,3 @@
-//require('./environment/PhysicsSpec');
+
+
+require('./actors/PlayerSpec');

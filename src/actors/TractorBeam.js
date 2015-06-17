@@ -25,6 +25,7 @@ function TractorBeam(orb) {
 	this.length = properties.gamePlay.tractorBeamLength;
 
 	this.variance = properties.gamePlay.tractorBeamVariation;
+
 	this.init();
 }
 
@@ -48,7 +49,6 @@ p.drawBeam = function(posA) {
 		timer.start();
 		timer.add(lockingDuration, this.lock, this);
 	}
-	//console.log('drawBeam', this.hasGrabbed, posA);
 	graphics.clear();
 	var colour = this.hasGrabbed? 0x00ff00 : 0xEF5696;
 	var alpha = this.hasGrabbed? 0.5 : 0.4;
@@ -62,22 +62,20 @@ p.lock = function() {
 };
 
 p.lockingRelease = function() {
-	//this.locked = false;
-	this.isLocking = false;
-	this.hasGrabbed = false;
-	graphics.clear();
-	//timer.reset();
-
-	timer.stop(true);
+	if (!this.isLocked) {
+		this.isLocking = false;
+		this.hasGrabbed = false;
+		graphics.clear();
+		timer.stop(true);
+	}
 };
 
 p.grab = function(player) {
-	//console.log('grabbed');
 	this.hasGrabbed = true;
 	var maxForce = 200000;
-	var diffX = player.sprite.position.x - this.orb.sprite.position.x;
-	var diffY = player.sprite.position.y - this.orb.sprite.position.y;
-	game.physics.p2.createRevoluteConstraint(player.sprite, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
+	var diffX = player.position.x - this.orb.sprite.position.x;
+	var diffY = player.position.y - this.orb.sprite.position.y;
+	game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
 	this.orb.move();
 };
 

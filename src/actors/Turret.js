@@ -17,7 +17,7 @@ var myPrivateVar = 0;
  * @class Turret
  * @constructor
  */
-function Turret(groups, origin, type) {
+function Turret(groups, sprite, type) {
 	/**
 	 * A public var description
 	 *
@@ -25,7 +25,7 @@ function Turret(groups, origin, type) {
 	 * @type {number}
 	 */
 	this.groups = groups;
-	this.origin = origin;
+	this.origin = sprite;
 	this.type = type;
 
 	this.init();
@@ -49,7 +49,7 @@ p.init = function() {
 
 p.shoot = function() {
 	var magnitue = 240;
-	var bullet = game.make.sprite(this.origin.sprite.position.x, this.origin.sprite.position.y, this.bulletBitmap);
+	var bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
 	bullet.anchor.setTo(0.5,0.5);
 	game.physics.p2.enable(bullet);
 	var angle = this.origin.body.rotation + (3 * Math.PI) / 2;

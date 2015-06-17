@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="mocha.css" />
+    <script src="../browserify/phaser.2.3.1-virtual-joystick.js"></script>
     <script src="build.js"></script>
   </head>
   <body>
@@ -13,7 +14,12 @@
     <script>mocha.setup({ ui: 'bdd' })</script>
     <script src="tests.js"></script>
     <script>
-      mocha.run();
+      if (window.mochaPhantomJS) {
+        window.mochaPhantomJS.run();
+      }
+      else {
+        mocha.run();
+      }
     </script>
   </body>
 </html>

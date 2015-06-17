@@ -10,7 +10,4 @@ game.state.add('load', require('./states/load'));
 game.state.add('menu', require('./states/menu'));
 game.state.add('boot', require('./states/boot'));
 
-//game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-//game.scale.setScreenSize();
-
 game.state.start('boot');

@@ -1,42 +1,88 @@
-var game = window.game;
+//var game = window.game;
 var properties = require('../properties');
 var Turret = require('./Turret');
-var utils = require('../environment/utils')
-
+var utils = require('../environment/utils');
 
 /**
  * Player description
  * calls init
  *
- * @param collisions {Collisions} Our collisions container of collisionGroups
- * @param groups {Groups}
+ * @param {Collisions} collisions - Our collisions container of collisionGroups
+ * @param {Groups} groups - Our groups container
  * @class Player
  * @constructor
  */
-function Player(collisions, groups) {
+function Player(x, y, collisions, groups) {
 	/**
-	 * The Collisions Object
+	 * The collisions container
 	 *
 	 * @property collisions
 	 * @type {Collisions}
 	 */
 	this.collisions = collisions;
 
+	/**
+	 * The groups container
+	 *
+	 * @property groups
+	 * @type {Groups}
+	 */
 	this.groups = groups;
 
-	this.tractorBeam = null;
-	/**
-	 * Creates the player sprite which is returned for easy reference by the containing state
-	 *
-	 * @property sprite
-	 * @type {Phaser.Sprite}
+	var bmd = game.make.bitmapData(50,50);
+	bmd.ctx.strokeStyle = '#ffffff';
+	bmd.ctx.lineWidth = 2;
+	bmd.ctx.beginPath();
+	bmd.ctx.lineTo( 20, 40);
+	bmd.ctx.lineTo( 25, 40);
+	bmd.ctx.arc   (  0, 40, 25, 0, game.math.degToRad(180), false);
+	bmd.ctx.lineTo(-20, 40);
+	bmd.ctx.lineTo(  0,  0);
+	bmd.ctx.closePath();
+	bmd.ctx.stroke();
+
+	Phaser.Sprite.call(this, game, x, y, bmd);
+
+
+	/*
+	 var graphics = new Phaser.Graphics(game, 0,0);
+	 graphics.lineStyle(4,0xffffff);
+	 graphics.lineTo(20,40);
+	 graphics.lineTo(25,40);
+	 graphics.arc(0,40,25,game.math.degToRad(0), game.math.degToRad(180), false);
+	 graphics.lineTo(-20,40);
+	 graphics.lineTo(0,0);
+	 this.sprite.addChild(graphics);
+
+	 this.sprite.scale.setTo(0.3,0.3);
+	 this.sprite.pivot.x = 0;
+	 this.sprite.pivot.y = 40;
 	 */
-	this.sprite = game.make.sprite(game.world.centerX, 300);
+
+
+	/**
+	 * A beam actor used by player to colect the orb
+	 *
+	 * @property tractorBeam
+	 * @type {TractorBeam}
+	 */
+	this.tractorBeam = null;
+
 
 	this.init();
 }
 
-var p = Player.prototype;
+var p = Player.prototype = Object.create(Phaser.Sprite.prototype);
+p.constructor = Player;
+
+/**
+ *
+ * @method setTractorBeam
+ * @param tractorBeam
+ */
+p.setTractorBeam = function(tractorBeam) {
+	this.tractorBeam = tractorBeam;
+};
 
 /**
  * Player initialisation
@@ -45,24 +91,7 @@ var p = Player.prototype;
  */
 p.init = function() {
 
-	game.physics.p2.enable(this.sprite, properties.debugPhysics);
-
-	this.body = this.sprite.body;
-
-	var graphics = new Phaser.Graphics(game, 0,0);
-	//graphics.beginFill(0x000000);
-	graphics.lineStyle(4,0xffffff);
-	graphics.lineTo(20,40);
-	graphics.lineTo(25,40);
-	graphics.arc(0,40,25,game.math.degToRad(0), game.math.degToRad(180), false);
-	graphics.lineTo(-20,40);
-	graphics.lineTo(0,0);
-	//graphics.endFill();
-	this.sprite.addChild(graphics);
-
-	this.sprite.scale.setTo(0.3,0.3);
-	this.sprite.pivot.x = 0;
-	this.sprite.pivot.y = 40;
+	game.physics.p2.enable(this, true);
 
 	this.body.clearShapes();
 	this.body.addRectangle(-10,-17, 0,-2);
@@ -70,32 +99,57 @@ p.init = function() {
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
 
-	this.turret = new Turret(this.groups, this, "FORWARDS");
+	this.turret = this.createTurret();
 
 	this.body.collides(this.collisions.terrain, this.crash, this);
 };
 
+/**
+ *
+ *
+ * @method createTurret
+ * @returns {Turret|exports|module.exports}
+ */
+p.createTurret = function() {
+	return new Turret(this.groups, this, "TO_DIRECTION");
+};
+
+/**
+ * When this is called, we'll check the distance of the player to the orb, and depending on distance,
+ * either draw a tractorBeam
+ *
+ * @method checkOrbDistance
+ */
 p.checkOrbDistance = function() {
-	var distance = utils.distAtoB(this.sprite.position, this.tractorBeam.orb.sprite.position);
+	var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
 	if (distance < this.tractorBeam.length) {
-		this.tractorBeam.drawBeam(this.sprite.position);
+		this.tractorBeam.drawBeam(this.position);
 
 	} else if (distance >= this.tractorBeam.length && distance < 90) {
-		//console.log('isLocked: ', this.tractorBeam.isLocked, 'hasGrabbed:', this.tractorBeam.hasGrabbed);
 		if (this.tractorBeam.isLocked && !this.tractorBeam.hasGrabbed) {
 			this.tractorBeam.grab(this);
 		}
 	} else {
 		if (this.tractorBeam.isLocking) {
-			//console.log('releasing...');
 			this.tractorBeam.lockingRelease();
 		}
 	}
 };
+
+/**
+ * Fires the current actor's turret
+ *
+ * @method shoot
+ */
 p.shoot = function() {
 	this.turret.shoot();
-},
+};
 
+/**
+ * Called on collision with terrain, enemy bullet, or some other fatal collision
+ *
+ * @method crash
+ */
 p.crash = function() {
 	if (!properties.fatalCollisions) {
 		return;

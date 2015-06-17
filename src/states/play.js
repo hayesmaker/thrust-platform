@@ -3,38 +3,30 @@ var properties = require('../properties');
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
 var Player = require('../actors/Player');
+var LimpetGun = require('../actors/LimpetGun');
 var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var features = require('../utils/features');
-var StatsModule = require('../utils/StatsModule');
 
-//privates
-var game = window.game;
+//environment
+var collisions;
+var groups;
+
+//actors
 var player;
 var orb;
 var tractorBeam;
-var cursors;
-var ground;
-var actors;
-var terrain;
-var map;
 var background;
+var limpet1;
 
 //controls;
-var pad;
-var buttonA;
-var buttonB;
 var buttonADown = false;
 var buttonBDown = false;
 var isXDown     = false;
-var joypad = properties.enableJoypad;
 
-//modules
-var collisions;
-var groups;
-var stats;
+
 
 /**
  * The play state - this is where the magic happens
@@ -46,79 +38,35 @@ var stats;
 module.exports = {
 
 	preload: function() {
-		if (features.isTouchScreen) {
-			joypad = true;
+		if (game.controls.isJoypadEnabled) {
+			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
 		}
-
 		game.load.image('thrustmap', 'images/thrust-level2.png');
 		game.load.physics('physicsData', 'images/thrust-level2.json');
 		game.load.image('stars', 'images/starfield.png');
-		if (joypad) {
-			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
-		}
 	},
 
 	create: function() {
-		stats = new StatsModule();
-		console.log('StatsModule ::', stats);
-
-		game.world.setBounds(0, 0, 928, 1280);
-
-		groups = new Groups();
-		collisions = new Collisions();
-		background = new Background();
-		player = new Player(collisions, groups);
-		orb = new Orb(collisions);
-		map = new Map(collisions);
-		tractorBeam = new TractorBeam(orb);
-		player.tractorBeam = tractorBeam;
-
-		collisions.set(orb, [collisions.players, collisions.terrain, collisions.bullets]);
-		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets]);
-
-		groups.terrain.add(background.sprite);
-		if (background.mountains) groups.terrain.add(background.mountains);
-		groups.actors.add(player.sprite);
-		groups.actors.add(orb.sprite);
-		game.world.swap(groups.terrain, groups.actors);
-		game.camera.follow(player.sprite);
-
-		if (joypad) {
-			pad = game.plugins.add(Phaser.VirtualJoystick);
-			this.stick = pad.addDPad(0, 0, 200, 'dpad');
-			this.stick.alignBottomLeft();
-			this.stick.scale = 0.7;
-
-			buttonA = pad.addButton(515, 380, 'dpad', 'button1-up', 'button1-down');
-			buttonA.onDown.add(this.pressButtonA, this);
-			buttonA.onUp.add(this.upButtonA, this);
-			buttonA.scale = 0.7;
-
-			buttonB = pad.addButton(620, 340, 'dpad', 'button2-up', 'button2-down');
-			buttonB.onDown.add(this.pressButtonB, this);
-			buttonB.onUp.add(this.upButtonB, this);
-			buttonB.scale = 0.7;
-		}
-
-		cursors 			 = game.input.keyboard.createCursorKeys();
-		var spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		var xKey	     = game.input.keyboard.addKey(Phaser.Keyboard.X);
-		spacePress.onDown.add(player.shoot, player);
-		xKey.onDown.add(this.xDown, this);
-		xKey.onUp.add(this.xUp, this);
+		this.defineWorldBounds();
+		this.createActors();
+		this.createGroupLayering();
+		this.initControls();
 	},
 	update: function() {
-		if (properties.drawStats) {
-			stats.start();
-		}
-		if (cursors.left.isDown) {
+		this.beginStats();
+		this.checkPlayerInput();
+		this.endStats();
+	},
+
+	checkPlayerInput: function(){
+		if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
 			player.body.rotateLeft(100);
-		} else if (cursors.right.isDown) {
+		} else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
 			player.body.rotateRight(100);
 		} else {
 			player.body.setZeroRotation();
 		}
-		if (cursors.up.isDown || buttonADown){
+		if (this.cursors.up.isDown || buttonADown){
 			player.body.thrust(400);
 		}
 		if (!tractorBeam.hasGrabbed) {
@@ -126,21 +74,66 @@ module.exports = {
 				player.checkOrbDistance();
 			}
 		} else {
-			tractorBeam.drawBeam(player.sprite.position);
+			tractorBeam.drawBeam(player.position);
 		}
-		if (joypad) {
-			if (this.stick.isDown) {
-				if (this.stick.direction === Phaser.LEFT) {
-					player.body.rotateLeft(100);
-				} else if (this.stick.direction === Phaser.RIGHT) {
-					player.body.rotateRight(100);
-				}
-			}
+	},
+
+	defineWorldBounds: function() {
+		game.world.setBounds(0, 0, 928, 1280);
+	},
+
+	createActors: function() {
+		groups = new Groups();
+		collisions = new Collisions();
+		background = new Background();
+		player = new Player(game.world.centerX, 300, collisions, groups);
+		orb = new Orb(collisions);
+		tractorBeam = new TractorBeam(orb);
+		player.setTractorBeam(tractorBeam);
+		limpet1 = new LimpetGun(500, 700, 45, collisions, groups);
+		map = new Map(collisions);
+
+		game.camera.follow(player);
+
+		collisions.set(orb, [collisions.players, collisions.terrain, collisions.bullets]);
+		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets]);
+	},
+
+	createGroupLayering: function() {
+		groups.terrain.add(background.sprite);
+		if (background.mountains) groups.terrain.add(background.mountains);
+		groups.actors.add(player);
+		groups.actors.add(orb.sprite);
+		groups.actors.add(limpet1);
+		game.world.swap(groups.terrain, groups.actors);
+	},
+
+	initControls: function() {
+		if (game.controls.isJoypadEnabled) {
+			game.controls.initJoypad();
+			this.stick = game.controls.stick;
+			game.controls.buttonA.onDown.add(this.pressButtonA, this);
+			game.controls.buttonA.onUp.add(this.upButtonA, this);
+			game.controls.buttonB.onDown.add(this.pressButtonB, this);
+			game.controls.buttonB.onUp.add(this.upButtonB, this);
 		}
+
+		this.cursors 	 = game.controls.cursors;
+		game.controls.spacePress.onDown.add(player.shoot, player);
+		game.controls.xKey.onDown.add(this.xDown, this);
+		game.controls.xKey.onUp.add(this.xUp, this);
+	},
+
+	beginStats: function() {
 		if (properties.drawStats) {
-			stats.end();
+			game.stats.start();
 		}
-		//game.world.wrap(player.body, 0, false);
+	},
+
+	endStats: function() {
+		if (properties.drawStats) {
+			game.stats.end();
+		}
 	},
 
 	render: function() {
@@ -166,12 +159,13 @@ module.exports = {
 
 	xDown: function () {
 		isXDown = true;
+		limpet1.shoot();
 	},
 
 	xUp: function() {
 		isXDown = false;
 		if (!properties.gamePlay.autoOrbLocking) {
-			this.releaseTractorBeam();
+			tractorBeam.lockingRelease();
 		}
 	}
 };

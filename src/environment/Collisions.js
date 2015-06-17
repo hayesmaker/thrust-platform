@@ -43,6 +43,7 @@ p.init = function() {
 	this.players = game.physics.p2.createCollisionGroup();
 	this.terrain = game.physics.p2.createCollisionGroup();
 	this.bullets = game.physics.p2.createCollisionGroup();
+	this.enemies = game.physics.p2.createCollisionGroup();
 
 	game.physics.p2.updateBoundsCollisionGroup();
 };
