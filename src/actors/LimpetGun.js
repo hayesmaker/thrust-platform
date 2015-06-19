@@ -9,13 +9,13 @@ var Turret = require('./Turret');
  *
  * @param x
  * @param y
- * @param rotation
+ * @param angleDeg
  * @param collisions
  * @param groups
  * @class LimpetGun
  * @constructor
  */
-function LimpetGun(x, y, rotation, collisions, groups) {
+function LimpetGun(x, y, angleDeg, collisions, groups) {
 
 	this.collisions = collisions;
 
@@ -38,7 +38,7 @@ function LimpetGun(x, y, rotation, collisions, groups) {
 
 	Phaser.Sprite.call(this, game, x, y, bmd);
 
-	this.angle = rotation;
+	this.angle = angleDeg;
 	//this.scale.setTo(0.25, 0.25);
 
 	this.init();

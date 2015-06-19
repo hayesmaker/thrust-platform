@@ -13671,6 +13671,8 @@ var utils = require('../environment/utils');
  * Player description
  * calls init
  *
+ * @param {number} x
+ * @param {number} y
  * @param {Collisions} collisions - Our collisions container of collisionGroups
  * @param {Groups} groups - Our groups container
  * @class Player
@@ -13697,32 +13699,16 @@ function Player(x, y, collisions, groups) {
 	bmd.ctx.strokeStyle = '#ffffff';
 	bmd.ctx.lineWidth = 2;
 	bmd.ctx.beginPath();
-	bmd.ctx.lineTo( 20, 40);
-	bmd.ctx.lineTo( 25, 40);
-	bmd.ctx.arc   (  0, 40, 25, 0, game.math.degToRad(180), false);
-	bmd.ctx.lineTo(-20, 40);
-	bmd.ctx.lineTo(  0,  0);
+	bmd.ctx.moveTo( 15, 0);
+	bmd.ctx.lineTo( 25, 20);
+	bmd.ctx.lineTo( 28, 20);
+	bmd.ctx.arc   ( 15, 20, 10, 0, game.math.degToRad(180), false);
+	bmd.ctx.lineTo(  2, 20);
+	bmd.ctx.lineTo( 15,  0);
 	bmd.ctx.closePath();
 	bmd.ctx.stroke();
 
 	Phaser.Sprite.call(this, game, x, y, bmd);
-
-
-	/*
-	 var graphics = new Phaser.Graphics(game, 0,0);
-	 graphics.lineStyle(4,0xffffff);
-	 graphics.lineTo(20,40);
-	 graphics.lineTo(25,40);
-	 graphics.arc(0,40,25,game.math.degToRad(0), game.math.degToRad(180), false);
-	 graphics.lineTo(-20,40);
-	 graphics.lineTo(0,0);
-	 this.sprite.addChild(graphics);
-
-	 this.sprite.scale.setTo(0.3,0.3);
-	 this.sprite.pivot.x = 0;
-	 this.sprite.pivot.y = 40;
-	 */
-
 
 	/**
 	 * A beam actor used by player to colect the orb
