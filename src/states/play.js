@@ -45,8 +45,8 @@ module.exports = {
 		game.load.image('thrustmap', 'images/thrust-level2.png');
 		game.load.physics('physicsData', 'images/thrust-level2.json');
 		game.load.image('stars', 'images/starfield.png');
-		game.load.image('player', 'images/player_30x37.png');
-		game.load.physics('playerPhysics', 'images/player_30x37.json');
+		game.load.image('player', 'images/player.png');
+		game.load.physics('playerPhysics', 'images/player.json');
 	},
 
 	create: function() {
