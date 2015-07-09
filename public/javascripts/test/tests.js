@@ -13666,6 +13666,7 @@ exports.install = function install(target, now, toFake) {
 var properties = require('../properties');
 var Turret = require('./Turret');
 var utils = require('../environment/utils');
+var ForwardFiring = require('./strategies/ForwardFiring');
 
 /**
  * Player description
@@ -13695,21 +13696,6 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.groups = groups;
 
-	var bmd = game.make.bitmapData(50,50);
-	bmd.ctx.strokeStyle = '#ffffff';
-	bmd.ctx.lineWidth = 2;
-	bmd.ctx.beginPath();
-	bmd.ctx.moveTo( 15, 0);
-	bmd.ctx.lineTo( 25, 20);
-	bmd.ctx.lineTo( 28, 20);
-	bmd.ctx.arc   ( 15, 20, 10, 0, game.math.degToRad(180), false);
-	bmd.ctx.lineTo(  2, 20);
-	bmd.ctx.lineTo( 15,  0);
-	bmd.ctx.closePath();
-	bmd.ctx.stroke();
-
-	Phaser.Sprite.call(this, game, x, y, bmd);
-
 	/**
 	 * A beam actor used by player to colect the orb
 	 *
@@ -13718,6 +13704,7 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.tractorBeam = null;
 
+	Phaser.Sprite.call(this, game, x, y, 'player');
 
 	this.init();
 }
@@ -13741,10 +13728,11 @@ p.setTractorBeam = function(tractorBeam) {
  */
 p.init = function() {
 
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this, properties.debugPhysics);
 
 	this.body.clearShapes();
-	this.body.addRectangle(-10,-17, 0,-2);
+	this.body.loadPolygon('playerPhysics', 'player');
+
 	this.body.collideWorldBounds = properties.collideWorldBounds;
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
@@ -13761,7 +13749,14 @@ p.init = function() {
  * @returns {Turret|exports|module.exports}
  */
 p.createTurret = function() {
-	return new Turret(this.groups, this, "TO_DIRECTION");
+	var bulletBitmap = game.make.bitmapData(5,5);
+	bulletBitmap.ctx.fillStyle = '#ffffff';
+	bulletBitmap.ctx.beginPath();
+	bulletBitmap.ctx.arc(1.0,1.0,2, 0, Math.PI*2, true);
+	bulletBitmap.ctx.closePath();
+	bulletBitmap.ctx.fill();
+
+	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap));
 };
 
 /**
@@ -13791,8 +13786,9 @@ p.checkOrbDistance = function() {
  *
  * @method shoot
  */
-p.shoot = function() {
-	this.turret.shoot();
+p.fire = function() {
+	console.log('player fire', this.turret);
+	this.turret.fire();
 };
 
 /**
@@ -13810,7 +13806,7 @@ p.crash = function() {
 
 module.exports = Player;
 
-},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js":[function(require,module,exports){
+},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js":[function(require,module,exports){
 var properties = require('../properties');
 var game = window.game;
 var graphics;
@@ -13899,14 +13895,13 @@ module.exports = TractorBeam;
 
 },{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js":[function(require,module,exports){
 var game = window.game;
+
 /**
- * A private var description
- *
- * @property myPrivateVar
- * @type {number}
+ * @method _firingStrategy
+ * @type {FiringStrategy}
  * @private
  */
-var myPrivateVar = 0;
+var _firingStrategy;
 
 /**
  * Turret description
@@ -13917,60 +13912,120 @@ var myPrivateVar = 0;
  * @class Turret
  * @constructor
  */
-function Turret(groups, sprite, type) {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
+function Turret(groups, sprite, strategy) {
+
 	this.groups = groups;
 	this.origin = sprite;
-	this.type = type;
 
-	this.init();
+	this.firingStrategy = strategy;
 }
 
 var p = Turret.prototype;
 
 /**
- * Turret initialisation
+ * FiringStrategy initialisation
  *
- * @method init
+ * @method setStrategy
+ * @param {FiringStrategy} firingStrategy
  */
-p.init = function() {
-	this.bulletBitmap = game.make.bitmapData(5,5);
-	this.bulletBitmap.ctx.fillStyle = '#ffffff';
-	this.bulletBitmap.ctx.beginPath();
-	this.bulletBitmap.ctx.arc(1.0,1.0,2, 0, Math.PI*2, true);
-	this.bulletBitmap.ctx.closePath();
-	this.bulletBitmap.ctx.fill();
+p.setStrategy = function(firingStrategy) {
+	_firingStrategy = firingStrategy;
 };
 
-p.shoot = function() {
+p.fire = function() {
+	console.log('Fire!', _firingStrategy);
+	this.firingStrategy.fire();
+};
+
+
+
+module.exports = Turret;
+
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/FiringStrategy.js":[function(require,module,exports){
+/**
+ * FiringStrategy description
+ *
+ * defines a public variable and calls init - change this constructor to suit your needs.
+ * nb. there's no requirement to call an init function
+ *
+ * @class FiringStrategy
+ * @constructor
+ */
+function FiringStrategy(origin, collisions, groups, bulletBmp) {
+	this.origin = origin;
+
+	this.collisions = collisions;
+
+	this.groups = groups;
+
+	this.bulletBitmap = bulletBmp;
+}
+
+var p = FiringStrategy.prototype;
+
+/**
+ * FiringStrategy initialisation
+ *
+ * @method fire
+ */
+p.fire = function() {
+	console.log('Abstract Fire');
+};
+
+
+module.exports = FiringStrategy;
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js":[function(require,module,exports){
+var FiringStrategy = require('./FiringStrategy');
+
+/**
+ * @method bulletEnd
+ * @param bulletBody
+ * @private
+ */
+function bulletEnd(bulletBody) {
+	bulletBody.sprite.kill();
+	this.groups.bullets.remove(bulletBody.sprite);
+}
+
+/**
+ * ForwardsFire description
+ *
+ * defines a public variable and calls init - change this constructor to suit your needs.
+ * nb. there's no requirement to call an init function
+ *
+ * @class ForwardsFire
+ * @constructor
+ */
+function ForwardsFire(origin, collisions, groups, bulletBmp) {
+	FiringStrategy.call(this, origin, collisions, groups, bulletBmp);
+}
+
+var p = ForwardsFire.prototype = Object.create(FiringStrategy.prototype);
+p.constructor = ForwardsFire;
+
+/**
+ * ForwardsFire initialisation
+ *
+ * @method shoot
+ */
+p.fire = function() {
+	console.log('fire');
 	var magnitue = 240;
 	var bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
 	bullet.anchor.setTo(0.5,0.5);
 	game.physics.p2.enable(bullet);
 	var angle = this.origin.body.rotation + (3 * Math.PI) / 2;
 	bullet.body.collidesWorldBounds = false;
-	bullet.body.setCollisionGroup(this.origin.collisions.bullets);
-	bullet.body.collides(this.origin.collisions.terrain, this.destroyBullet, this);
+	bullet.body.setCollisionGroup(this.collisions.bullets);
+	bullet.body.collides(this.collisions.terrain, bulletEnd, this);
 	bullet.body.data.gravityScale = 0;
 	bullet.body.velocity.x = magnitue * Math.cos(angle) + this.origin.body.velocity.x;
 	bullet.body.velocity.y = magnitue * Math.sin(angle) + this.origin.body.velocity.y;
 	this.groups.bullets.add(bullet);
 };
 
-p.detroyBullet = function(bulletBody) {
-	bulletBody.sprite.kill();
-	this.groups.bullets.remove(bulletBody.sprite);
-};
-
-
-module.exports = Turret;
-
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Collisions.js":[function(require,module,exports){
+module.exports = ForwardsFire;
+},{"./FiringStrategy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/FiringStrategy.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Collisions.js":[function(require,module,exports){
 var game = window.game;
 var properties = require('../properties');
 
@@ -14105,6 +14160,7 @@ module.exports = {
 	},
 	drawStats: true,
 	drawMontains: false,
+	drawBackground: false,
 	width: 700,
 	height: 500,
 	gamePlay: {

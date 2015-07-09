@@ -2,6 +2,7 @@
 var properties = require('../properties');
 var Turret = require('./Turret');
 var utils = require('../environment/utils');
+var ForwardFiring = require('./strategies/ForwardFiring');
 
 /**
  * Player description
@@ -31,21 +32,6 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.groups = groups;
 
-	var bmd = game.make.bitmapData(50,50);
-	bmd.ctx.strokeStyle = '#ffffff';
-	bmd.ctx.lineWidth = 2;
-	bmd.ctx.beginPath();
-	bmd.ctx.moveTo( 15, 0);
-	bmd.ctx.lineTo( 25, 20);
-	bmd.ctx.lineTo( 28, 20);
-	bmd.ctx.arc   ( 15, 20, 10, 0, game.math.degToRad(180), false);
-	bmd.ctx.lineTo(  2, 20);
-	bmd.ctx.lineTo( 15,  0);
-	bmd.ctx.closePath();
-	bmd.ctx.stroke();
-
-	Phaser.Sprite.call(this, game, x, y, bmd);
-
 	/**
 	 * A beam actor used by player to colect the orb
 	 *
@@ -54,6 +40,7 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.tractorBeam = null;
 
+	Phaser.Sprite.call(this, game, x, y, 'player');
 
 	this.init();
 }
@@ -77,10 +64,11 @@ p.setTractorBeam = function(tractorBeam) {
  */
 p.init = function() {
 
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this, properties.debugPhysics);
 
 	this.body.clearShapes();
-	this.body.addRectangle(-10,-17, 0,-2);
+	this.body.loadPolygon('playerPhysics', 'player');
+
 	this.body.collideWorldBounds = properties.collideWorldBounds;
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
@@ -97,7 +85,14 @@ p.init = function() {
  * @returns {Turret|exports|module.exports}
  */
 p.createTurret = function() {
-	return new Turret(this.groups, this, "TO_DIRECTION");
+	var bulletBitmap = game.make.bitmapData(5,5);
+	bulletBitmap.ctx.fillStyle = '#ffffff';
+	bulletBitmap.ctx.beginPath();
+	bulletBitmap.ctx.arc(1.0,1.0,2, 0, Math.PI*2, true);
+	bulletBitmap.ctx.closePath();
+	bulletBitmap.ctx.fill();
+
+	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap));
 };
 
 /**
@@ -127,8 +122,9 @@ p.checkOrbDistance = function() {
  *
  * @method shoot
  */
-p.shoot = function() {
-	this.turret.shoot();
+p.fire = function() {
+	console.log('player fire', this.turret);
+	this.turret.fire();
 };
 
 /**

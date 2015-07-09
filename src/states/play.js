@@ -20,6 +20,7 @@ var orb;
 var tractorBeam;
 var background;
 var limpet1;
+var limpet2;
 
 //controls;
 var buttonADown = false;
@@ -44,6 +45,8 @@ module.exports = {
 		game.load.image('thrustmap', 'images/thrust-level2.png');
 		game.load.physics('physicsData', 'images/thrust-level2.json');
 		game.load.image('stars', 'images/starfield.png');
+		game.load.image('player', 'images/player_30x37.png');
+		game.load.physics('playerPhysics', 'images/player_30x37.json');
 	},
 
 	create: function() {
@@ -85,12 +88,15 @@ module.exports = {
 	createActors: function() {
 		groups = new Groups();
 		collisions = new Collisions();
-		background = new Background();
+		if (properties.drawBackground) {
+			background = new Background();
+		}
 		player = new Player(game.world.centerX, 300, collisions, groups);
 		orb = new Orb(collisions);
 		tractorBeam = new TractorBeam(orb);
 		player.setTractorBeam(tractorBeam);
-		limpet1 = new LimpetGun(500, 700, 45, collisions, groups);
+		limpet1 = new LimpetGun(428, 1103, 153, collisions, groups);
+		limpet2 = new LimpetGun(710, 1053, 206, collisions, groups);
 		map = new Map(collisions);
 
 		game.camera.follow(player);
@@ -100,11 +106,16 @@ module.exports = {
 	},
 
 	createGroupLayering: function() {
-		groups.terrain.add(background.sprite);
-		if (background.mountains) groups.terrain.add(background.mountains);
+		if (background) {
+			groups.terrain.add(background.sprite);
+			if (background.mountains) {
+				groups.terrain.add(background.mountains);
+			}
+		}
 		groups.actors.add(player);
 		groups.actors.add(orb.sprite);
 		groups.actors.add(limpet1);
+		groups.actors.add(limpet2);
 		game.world.swap(groups.terrain, groups.actors);
 	},
 
@@ -119,7 +130,7 @@ module.exports = {
 		}
 
 		this.cursors 	 = game.controls.cursors;
-		game.controls.spacePress.onDown.add(player.shoot, player);
+		game.controls.spacePress.onDown.add(player.fire, player);
 		game.controls.xKey.onDown.add(this.xDown, this);
 		game.controls.xKey.onUp.add(this.xUp, this);
 	},
@@ -159,7 +170,7 @@ module.exports = {
 
 	xDown: function () {
 		isXDown = true;
-		limpet1.shoot();
+		//limpet1.fire();
 	},
 
 	xUp: function() {

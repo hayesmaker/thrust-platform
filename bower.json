@@ -2,7 +2,7 @@
   "name": "thrust-engine",
   "version": "0.0.1",
   "authors": [
-    "Andy Hayes <andygoestohollywood@gmail.com>"
+    "@hayes_maker <andygoestohollywood@gmail.com>"
   ],
   "description": "see package.json",
   "main": "public/javascripts/thrust-engine.min.js",

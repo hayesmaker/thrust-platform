@@ -1,6 +1,6 @@
 var properties = require('../properties');
 var Turret = require('./Turret');
-
+var SpreadFiring = require('./strategies/SpreadFiring');
 /**
  * LimpetGun description
  *
@@ -39,7 +39,6 @@ function LimpetGun(x, y, angleDeg, collisions, groups) {
 	Phaser.Sprite.call(this, game, x, y, bmd);
 
 	this.angle = angleDeg;
-	//this.scale.setTo(0.25, 0.25);
 
 	this.init();
 }
@@ -54,7 +53,7 @@ p.constructor = LimpetGun;
  */
 p.init = function() {
 
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this, properties.debugPhysics);
 
 	this.body.clearShapes();
 	this.body.addRectangle(50, 25, 0,0);
@@ -69,11 +68,18 @@ p.init = function() {
 };
 
 p.createTurret = function() {
-	return new Turret(this.groups, this, "RANDOM_DIRECTION");
+	var bulletBitmap = game.make.bitmapData(5,5);
+	bulletBitmap.ctx.fillStyle = '#ffffff';
+	bulletBitmap.ctx.beginPath();
+	bulletBitmap.ctx.arc(3.0,2.0,4, 0, Math.PI*2, true);
+	bulletBitmap.ctx.closePath();
+	bulletBitmap.ctx.fill();
+
+	return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap));
 };
 
-p.shoot = function() {
-	this.turret.shoot();
+p.fire = function() {
+	this.turret.fire();
 };
 
 

@@ -1,0 +1,22 @@
+	{ 
+		
+		"player_30x37": [
+			
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   27, 23  ,  23, 37  ,  8, 37  ,  4, 23  ,  16, 0  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   4, 23  ,  8, 37  ,  0, 28  ,  0, 23  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   30, 29  ,  23, 37  ,  27, 23  ,  30, 23  ]
+				}  
+		]
+		
+	}
