@@ -55,9 +55,11 @@ module.exports = {
 		this.createGroupLayering();
 		this.initControls();
 	},
+
 	update: function() {
 		this.beginStats();
 		this.checkPlayerInput();
+		this.actorsUpdate();
 		this.endStats();
 	},
 
@@ -79,6 +81,14 @@ module.exports = {
 		} else {
 			tractorBeam.drawBeam(player.position);
 		}
+	},
+
+	actorsUpdate: function() {
+		player.update();
+		groups.enemies.forEach(function(enemy) {
+			enemy.update();
+		});
+
 	},
 
 	defineWorldBounds: function() {
@@ -114,8 +124,8 @@ module.exports = {
 		}
 		groups.actors.add(player);
 		groups.actors.add(orb.sprite);
-		groups.actors.add(limpet1);
-		groups.actors.add(limpet2);
+		groups.enemies.add(limpet1);
+		groups.enemies.add(limpet2);
 		game.world.swap(groups.terrain, groups.actors);
 	},
 

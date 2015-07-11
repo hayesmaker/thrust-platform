@@ -17,7 +17,7 @@ module.exports = {
 	},
 	drawStats: true,
 	drawMontains: false,
-	drawBackground: false,
+	drawBackground: true,
 	width: 700,
 	height: 500,
 	gamePlay: {

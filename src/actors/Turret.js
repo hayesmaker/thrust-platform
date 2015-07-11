@@ -37,8 +37,11 @@ p.setStrategy = function(firingStrategy) {
 };
 
 p.fire = function() {
-	console.log('Fire!', _firingStrategy);
 	this.firingStrategy.fire();
+};
+
+p.update = function() {
+	this.firingStrategy.update();
 };
 
 

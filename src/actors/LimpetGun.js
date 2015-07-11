@@ -40,6 +40,8 @@ function LimpetGun(x, y, angleDeg, collisions, groups) {
 
 	this.angle = angleDeg;
 
+	this.fireRate = 10 / 1800;
+
 	this.init();
 }
 
@@ -71,15 +73,22 @@ p.createTurret = function() {
 	var bulletBitmap = game.make.bitmapData(5,5);
 	bulletBitmap.ctx.fillStyle = '#ffffff';
 	bulletBitmap.ctx.beginPath();
-	bulletBitmap.ctx.arc(3.0,2.0,4, 0, Math.PI*2, true);
+	bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI*2, true);
 	bulletBitmap.ctx.closePath();
 	bulletBitmap.ctx.fill();
 
-	return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap));
+	return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
 p.fire = function() {
 	this.turret.fire();
+};
+
+p.update = function() {
+	if (Math.random() < this.fireRate) {
+		this.fire();
+	}
+	this.turret.update();
 };
 
 

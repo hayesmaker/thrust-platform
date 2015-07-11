@@ -75,7 +75,12 @@ p.init = function() {
 
 	this.turret = this.createTurret();
 
-	this.body.collides(this.collisions.terrain, this.crash, this);
+	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain], this.crash, this);
+
+};
+
+p.update = function() {
+	this.turret.update();
 };
 
 /**
@@ -88,11 +93,11 @@ p.createTurret = function() {
 	var bulletBitmap = game.make.bitmapData(5,5);
 	bulletBitmap.ctx.fillStyle = '#ffffff';
 	bulletBitmap.ctx.beginPath();
-	bulletBitmap.ctx.arc(1.0,1.0,2, 0, Math.PI*2, true);
+	bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
 	bulletBitmap.ctx.closePath();
 	bulletBitmap.ctx.fill();
 
-	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap));
+	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
 /**
@@ -123,7 +128,6 @@ p.checkOrbDistance = function() {
  * @method shoot
  */
 p.fire = function() {
-	console.log('player fire', this.turret);
 	this.turret.fire();
 };
 

@@ -34,6 +34,7 @@ var p = Groups.prototype;
  */
 p.init = function() {
 	this.actors = game.add.group();
+	this.enemies = game.add.group();
 	this.terrain = game.add.group();
 	this.bullets = game.add.group();
 };
