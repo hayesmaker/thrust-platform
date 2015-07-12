@@ -26433,7 +26433,7 @@ module.exports = {
 	enableJoypad: false,
 	fatalCollisions: true,
 	scale: {
-		mode: Phaser.ScaleManager.NO_SCALE
+		mode: Phaser.ScaleManager.EXACT_FIT
 	},
 	drawStats: true,
 	drawMontains: false,
