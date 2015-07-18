@@ -64,6 +64,9 @@ module.exports = {
 	},
 
 	checkPlayerInput: function(){
+		if (player.isDead) {
+			return;
+		}
 		if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
 			player.body.rotateLeft(100);
 		} else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {

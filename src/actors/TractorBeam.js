@@ -43,6 +43,10 @@ p.init = function() {
 	timer = game.time.create(false);
 };
 
+/**
+ * @method drawBeam
+ * @param posA
+ */
 p.drawBeam = function(posA) {
 	if (!this.isLocking) {
 		this.isLocking = true;
@@ -57,10 +61,16 @@ p.drawBeam = function(posA) {
 	graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
+/**
+ * @method lock
+ */
 p.lock = function() {
 	this.isLocked = true;
 };
 
+/**
+ * @method lockingRelease
+ */
 p.lockingRelease = function() {
 	if (!this.isLocked) {
 		this.isLocking = false;
@@ -70,6 +80,10 @@ p.lockingRelease = function() {
 	}
 };
 
+/**
+ * @method grab
+ * @param player
+ */
 p.grab = function(player) {
 	this.hasGrabbed = true;
 	var maxForce = 200000;

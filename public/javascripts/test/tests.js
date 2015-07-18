@@ -25906,6 +25906,7 @@ var properties = require('../properties');
 var Turret = require('./Turret');
 var utils = require('../environment/utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
+var ShipParticle = require('./bitmaps/ShipParticle');
 
 /**
  * Player description
@@ -25942,6 +25943,14 @@ function Player(x, y, collisions, groups) {
 	 * @type {TractorBeam}
 	 */
 	this.tractorBeam = null;
+
+	/**
+	 * @property emitter
+	 * @type {Phaser.Emitter}
+	 */
+	this.emitter;
+
+	this.isDead = false;
 
 	Phaser.Sprite.call(this, game, x, y, 'player');
 
@@ -25980,6 +25989,10 @@ p.init = function() {
 
 	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain], this.crash, this);
 
+	this.emitter = game.add.emitter(this.x, this.y, 100);
+	this.emitter.particleClass = ShipParticle;
+	this.emitter.makeParticles();
+	this.emitter.gravity = 200;
 };
 
 p.update = function() {
@@ -25999,7 +26012,6 @@ p.createTurret = function() {
 	bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
 	bulletBitmap.ctx.closePath();
 	bulletBitmap.ctx.fill();
-
 	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
@@ -26014,8 +26026,8 @@ p.checkOrbDistance = function() {
 	if (distance < this.tractorBeam.length) {
 		this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance >= this.tractorBeam.length && distance < 90) {
-		if (this.tractorBeam.isLocked && !this.tractorBeam.hasGrabbed) {
+	} else if (distance >= this.tractorBeam.length && distance < 90 && !this.isDead) {
+		if (this.tractorBeam.isLocked) {
 			this.tractorBeam.grab(this);
 		}
 	} else {
@@ -26041,15 +26053,38 @@ p.fire = function() {
  */
 p.crash = function() {
 	if (!properties.fatalCollisions) {
+		console.log('Hit but no effect');
 		return;
 	}
-	console.log('CRASHED');
+	this.explosion();
+	this.playerDeath();
+};
+
+/**
+ * @method explosion
+ */
+p.explosion = function() {
+	this.emitter.x = this.position.x;
+	this.emitter.y = this.position.y;
+	this.emitter.start(true, 2000, null, 20);
+
+};
+
+/**
+ * @method bulletEnd
+ * @param bullet
+ * @param group
+ */
+p.playerDeath = function() {
+	//group.remove(bullet);
+	this.isDead = true;
+	//this.visible = false;
 };
 
 
 module.exports = Player;
 
-},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js":[function(require,module,exports){
+},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js","./bitmaps/ShipParticle":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/bitmaps/ShipParticle.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js":[function(require,module,exports){
 var properties = require('../properties');
 var game = window.game;
 var graphics;
@@ -26095,6 +26130,10 @@ p.init = function() {
 	timer = game.time.create(false);
 };
 
+/**
+ * @method drawBeam
+ * @param posA
+ */
 p.drawBeam = function(posA) {
 	if (!this.isLocking) {
 		this.isLocking = true;
@@ -26109,10 +26148,16 @@ p.drawBeam = function(posA) {
 	graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
+/**
+ * @method lock
+ */
 p.lock = function() {
 	this.isLocked = true;
 };
 
+/**
+ * @method lockingRelease
+ */
 p.lockingRelease = function() {
 	if (!this.isLocked) {
 		this.isLocking = false;
@@ -26122,6 +26167,10 @@ p.lockingRelease = function() {
 	}
 };
 
+/**
+ * @method grab
+ * @param player
+ */
 p.grab = function(player) {
 	this.hasGrabbed = true;
 	var maxForce = 200000;
@@ -26187,6 +26236,19 @@ p.update = function() {
 
 module.exports = Turret;
 
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/bitmaps/ShipParticle.js":[function(require,module,exports){
+
+
+function ShipParticle (game, x, y) {
+	var bmd = game.add.bitmapData(4,4);
+	bmd.context.fillStyle = "#ffffff";
+	bmd.context.fillRect(0,0,4,4);
+	game.cache.addBitmapData('shipParticle', bmd);
+	Phaser.Particle.call(this, game, x, y, game.cache.getBitmapData('shipParticle'));
+}
+
+var p = ShipParticle.prototype = Object.create(Phaser.Particle.prototype);
+module.exports = p.constructor = ShipParticle;
 },{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/FiringStrategy.js":[function(require,module,exports){
 /**
  * FiringStrategy description
@@ -26433,7 +26495,7 @@ module.exports = {
 	enableJoypad: false,
 	fatalCollisions: true,
 	scale: {
-		mode: Phaser.ScaleManager.EXACT_FIT
+		mode: Phaser.ScaleManager.NO_SCALE
 	},
 	drawStats: true,
 	drawMontains: false,
