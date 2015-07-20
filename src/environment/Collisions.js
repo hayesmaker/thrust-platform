@@ -2,15 +2,6 @@ var game = window.game;
 var properties = require('../properties');
 
 /**
- * A private var description
- *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
  * Collisions description
  * calls init
  *
@@ -18,13 +9,6 @@ var myPrivateVar = 0;
  * @constructor
  */
 function Collisions (collisions) {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
-	this.myPublicVar = 1;
 	this.init();
 }
 
@@ -40,11 +24,12 @@ p.init = function() {
 	game.physics.p2.setImpactEvents(true);
 	game.physics.p2.gravity.y = 100;
 
-	this.players = game.physics.p2.createCollisionGroup();
-	this.terrain = game.physics.p2.createCollisionGroup();
-	this.bullets = game.physics.p2.createCollisionGroup();
-	this.enemyBullets = game.physics.p2.createCollisionGroup();
-	this.enemies = game.physics.p2.createCollisionGroup();
+	this.players 		= game.physics.p2.createCollisionGroup();
+	this.terrain 		= game.physics.p2.createCollisionGroup();
+	this.orb	 		= game.physics.p2.createCollisionGroup();
+	this.bullets		= game.physics.p2.createCollisionGroup();
+	this.enemyBullets 	= game.physics.p2.createCollisionGroup();
+	this.enemies 		= game.physics.p2.createCollisionGroup();
 
 	game.physics.p2.updateBoundsCollisionGroup();
 };

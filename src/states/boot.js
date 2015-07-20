@@ -14,7 +14,7 @@ var userControl;
  */
 module.exports = {
 	preload: function() {
-		game.scale.scaleMode = properties.scale.mode;
+		game.scale.scaleMode = features.isTouchScreen? Phaser.ScaleManager.EXACT_FIT : properties.scale.mode;
 		game.scale.setScreenSize();
 	},
 

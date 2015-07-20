@@ -106,7 +106,7 @@ module.exports = {
 		}
 		player = new Player(game.world.centerX, 300, collisions, groups);
 		orb = new Orb(collisions);
-		tractorBeam = new TractorBeam(orb);
+		tractorBeam = new TractorBeam(orb, player);
 		player.setTractorBeam(tractorBeam);
 		limpet1 = new LimpetGun(428, 1103, 153, collisions, groups);
 		limpet2 = new LimpetGun(710, 1053, 206, collisions, groups);
@@ -114,8 +114,8 @@ module.exports = {
 
 		game.camera.follow(player);
 
-		collisions.set(orb, [collisions.players, collisions.terrain, collisions.bullets]);
-		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets]);
+		collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
+		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
 	},
 
 	createGroupLayering: function() {
@@ -174,7 +174,7 @@ module.exports = {
 
 	pressButtonB: function() {
 		buttonBDown = true;
-		player.shoot();
+		player.fire();
 	},
 
 	upButtonB: function() {

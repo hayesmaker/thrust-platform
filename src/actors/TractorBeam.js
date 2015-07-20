@@ -13,8 +13,10 @@ var lockingDuration = properties.gamePlay.lockingDuration;
  * @class TractorBeam
  * @constructor
  */
-function TractorBeam(orb) {
+function TractorBeam(orb, player) {
 	this.orb = orb;
+
+	this.player = player;
 
 	this.isLocked = false;
 
@@ -25,6 +27,8 @@ function TractorBeam(orb) {
 	this.length = properties.gamePlay.tractorBeamLength;
 
 	this.variance = properties.gamePlay.tractorBeamVariation;
+
+	this.constraint = null;
 
 	this.init();
 }
@@ -61,6 +65,10 @@ p.drawBeam = function(posA) {
 	graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
+p.unlock = function() {
+	this.isLocked = false;
+};
+
 /**
  * @method lock
  */
@@ -89,8 +97,19 @@ p.grab = function(player) {
 	var maxForce = 200000;
 	var diffX = player.position.x - this.orb.sprite.position.x;
 	var diffY = player.position.y - this.orb.sprite.position.y;
-	game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
+	this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
 	this.orb.move();
+	this.orb.setPlayer(this.player);
+};
+
+/**
+ *
+ */
+p.breakLink = function() {
+	this.unlock();
+	this.lockingRelease();
+	this.player = null;
+	game.physics.p2.removeConstraint(this.constraint);
 };
 
 

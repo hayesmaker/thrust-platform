@@ -32,7 +32,7 @@ p.fire = function() {
 	var angle = this.origin.body.rotation + (3 * Math.PI) / 2;
 	bullet.body.collidesWorldBounds = false;
 	bullet.body.setCollisionGroup(this.collisions.bullets);
-	bullet.body.collides(this.collisions.terrain, function() {
+	bullet.body.collides([this.collisions.terrain, this.collisions.enemies], function() {
 		this.bulletEnd(bullet, this.groups.bullets);
 	}, this);
 	bullet.body.data.gravityScale = 0;

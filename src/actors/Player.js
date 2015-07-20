@@ -84,7 +84,7 @@ p.init = function() {
 
 	this.turret = this.createTurret();
 
-	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain], this.crash, this);
+	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
 
 	this.emitter = game.add.emitter(this.x, this.y, 100);
 	this.emitter.particleClass = ShipParticle;
@@ -123,7 +123,7 @@ p.checkOrbDistance = function() {
 	if (distance < this.tractorBeam.length) {
 		this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance >= this.tractorBeam.length && distance < 90 && !this.isDead) {
+	} else if (distance >= this.tractorBeam.length && distance < 90) {
 		if (this.tractorBeam.isLocked) {
 			this.tractorBeam.grab(this);
 		}
@@ -175,7 +175,8 @@ p.explosion = function() {
 p.playerDeath = function() {
 	//group.remove(bullet);
 	this.isDead = true;
-	this.visible = false;
+	//this.visible = false;
+	this.tractorBeam.breakLink();
 };
 
 

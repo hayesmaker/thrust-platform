@@ -25987,7 +25987,7 @@ p.init = function() {
 
 	this.turret = this.createTurret();
 
-	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain], this.crash, this);
+	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
 
 	this.emitter = game.add.emitter(this.x, this.y, 100);
 	this.emitter.particleClass = ShipParticle;
@@ -26026,7 +26026,7 @@ p.checkOrbDistance = function() {
 	if (distance < this.tractorBeam.length) {
 		this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance >= this.tractorBeam.length && distance < 90 && !this.isDead) {
+	} else if (distance >= this.tractorBeam.length && distance < 90) {
 		if (this.tractorBeam.isLocked) {
 			this.tractorBeam.grab(this);
 		}
@@ -26079,6 +26079,7 @@ p.playerDeath = function() {
 	//group.remove(bullet);
 	this.isDead = true;
 	//this.visible = false;
+	this.tractorBeam.breakLink();
 };
 
 
@@ -26100,8 +26101,10 @@ var lockingDuration = properties.gamePlay.lockingDuration;
  * @class TractorBeam
  * @constructor
  */
-function TractorBeam(orb) {
+function TractorBeam(orb, player) {
 	this.orb = orb;
+
+	this.player = player;
 
 	this.isLocked = false;
 
@@ -26112,6 +26115,8 @@ function TractorBeam(orb) {
 	this.length = properties.gamePlay.tractorBeamLength;
 
 	this.variance = properties.gamePlay.tractorBeamVariation;
+
+	this.constraint = null;
 
 	this.init();
 }
@@ -26148,6 +26153,10 @@ p.drawBeam = function(posA) {
 	graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
+p.unlock = function() {
+	this.isLocked = false;
+};
+
 /**
  * @method lock
  */
@@ -26176,8 +26185,19 @@ p.grab = function(player) {
 	var maxForce = 200000;
 	var diffX = player.position.x - this.orb.sprite.position.x;
 	var diffY = player.position.y - this.orb.sprite.position.y;
-	game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
+	this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX,diffY], maxForce);
 	this.orb.move();
+	this.orb.setPlayer(this.player);
+};
+
+/**
+ *
+ */
+p.breakLink = function() {
+	this.unlock();
+	this.lockingRelease();
+	this.player = null;
+	game.physics.p2.removeConstraint(this.constraint);
 };
 
 
@@ -26352,7 +26372,7 @@ p.fire = function() {
 	var angle = this.origin.body.rotation + (3 * Math.PI) / 2;
 	bullet.body.collidesWorldBounds = false;
 	bullet.body.setCollisionGroup(this.collisions.bullets);
-	bullet.body.collides(this.collisions.terrain, function() {
+	bullet.body.collides([this.collisions.terrain, this.collisions.enemies], function() {
 		this.bulletEnd(bullet, this.groups.bullets);
 	}, this);
 	bullet.body.data.gravityScale = 0;
@@ -26367,15 +26387,6 @@ var game = window.game;
 var properties = require('../properties');
 
 /**
- * A private var description
- *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
  * Collisions description
  * calls init
  *
@@ -26383,13 +26394,6 @@ var myPrivateVar = 0;
  * @constructor
  */
 function Collisions (collisions) {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
-	this.myPublicVar = 1;
 	this.init();
 }
 
@@ -26405,11 +26409,12 @@ p.init = function() {
 	game.physics.p2.setImpactEvents(true);
 	game.physics.p2.gravity.y = 100;
 
-	this.players = game.physics.p2.createCollisionGroup();
-	this.terrain = game.physics.p2.createCollisionGroup();
-	this.bullets = game.physics.p2.createCollisionGroup();
-	this.enemyBullets = game.physics.p2.createCollisionGroup();
-	this.enemies = game.physics.p2.createCollisionGroup();
+	this.players 		= game.physics.p2.createCollisionGroup();
+	this.terrain 		= game.physics.p2.createCollisionGroup();
+	this.orb	 		= game.physics.p2.createCollisionGroup();
+	this.bullets		= game.physics.p2.createCollisionGroup();
+	this.enemyBullets 	= game.physics.p2.createCollisionGroup();
+	this.enemies 		= game.physics.p2.createCollisionGroup();
 
 	game.physics.p2.updateBoundsCollisionGroup();
 };

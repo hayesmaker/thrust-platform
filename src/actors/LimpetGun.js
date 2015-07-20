@@ -1,6 +1,7 @@
 var properties = require('../properties');
 var Turret = require('./Turret');
 var SpreadFiring = require('./strategies/SpreadFiring');
+var ShipParticle = require('./bitmaps/ShipParticle');
 /**
  * LimpetGun description
  *
@@ -64,9 +65,18 @@ p.init = function() {
 
 	this.body.setCollisionGroup(this.collisions.enemies);
 
+	this.body.collides(this.collisions.bullets, this.dies, this);
+
 	this.body.motionState = 2;
 
+	this.emitter = game.add.emitter(this.x, this.y, 100);
+	this.emitter.particleClass = ShipParticle;
+	this.emitter.makeParticles();
+	this.emitter.gravity = 200;
+
 	this.turret = this.createTurret();
+
+	this.isDead = false;
 };
 
 p.createTurret = function() {
@@ -85,11 +95,23 @@ p.fire = function() {
 };
 
 p.update = function() {
+	if (this.isDead) {
+		return;
+	}
 	if (Math.random() < this.fireRate) {
 		this.fire();
 	}
 	this.turret.update();
 };
+
+p.dies = function() {
+	this.emitter.x = this.position.x;
+	this.emitter.y = this.position.y;
+	this.emitter.start(true, 2000, null, 20);
+	this.isDead = true;
+	this.visible = false;
+};
+
 
 
 module.exports = LimpetGun;
