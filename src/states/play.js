@@ -58,6 +58,7 @@ module.exports = {
 		this.initControls();
 
 		var jsonStr = game.cache.getJSON('locale');
+		console.log('json loaded ok: ' + jsonStr);
 		alert("json loaded ok: " + jsonStr.toString());
 
 	},
