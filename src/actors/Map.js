@@ -13,7 +13,7 @@ var game = window.game;
 function Map(collisions) {
 	this.collisions = collisions;
 
-	this.sprite = game.add.sprite(0,0, 'thrustmap');
+	this.sprite = game.make.sprite(0,0, 'thrustmap');
 
 	this.init();
 }
@@ -26,7 +26,7 @@ var p = Map.prototype;
  * @method init
  */
 p.init = function() {
-	this.sprite.position.setTo(this.sprite.width/2, 970);
+	this.sprite.position.setTo(this.sprite.width/2, 2000);
 
 	game.physics.p2.enable(this.sprite, properties.debugPhysics);
 

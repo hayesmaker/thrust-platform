@@ -9,6 +9,7 @@ var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var features = require('../utils/features');
+var Camera = require('camera');
 
 //environment
 var collisions;
@@ -33,20 +34,21 @@ var isXDown     = false;
  * The play state - this is where the magic happens
  *
  * @namespace states
- * @module play
- * @type {{create: Function, update: Function}}
+ * @class play
  */
 module.exports = {
 
 	preload: function() {
+    console.warn('game.controls.isJoypadEnabled', game.controls.isJoypadEnabled);
 		if (game.controls.isJoypadEnabled) {
 			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
 		}
-		game.load.image('thrustmap', 'images/thrust-level2.png');
-		game.load.physics('physicsData', 'images/thrust-level2.json');
+		game.load.image('thrustmap', 'images/level_6_x2.png');
+		game.load.physics('physicsData', 'images/level_6.json');
 		game.load.image('stars', 'images/starfield.png');
 		game.load.image('player', 'images/player.png');
 		game.load.physics('playerPhysics', 'images/player.json');
+		game.load.json('locale', 'messages_de.json');
 	},
 
 	create: function() {
@@ -54,6 +56,10 @@ module.exports = {
 		this.createActors();
 		this.createGroupLayering();
 		this.initControls();
+
+		var jsonStr = game.cache.getJSON('locale');
+		alert("json loaded ok: " + jsonStr.toString());
+
 	},
 
 	update: function() {
@@ -63,10 +69,16 @@ module.exports = {
 		this.endStats();
 	},
 
+	render: function() {
+		game.debug.cameraInfo(game.camera, 500, 20);
+	},
+
+
 	checkPlayerInput: function(){
 		if (player.isDead) {
 			return;
 		}
+
 		if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
 			player.body.rotateLeft(100);
 		} else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
@@ -91,15 +103,17 @@ module.exports = {
 		groups.enemies.forEach(function(enemy) {
 			enemy.update();
 		});
-
 	},
 
 	defineWorldBounds: function() {
-		game.world.setBounds(0, 0, 928, 1280);
+    var gameWorld = {width: 3072, height: 4000};
+		game.world.setBounds(0,0, gameWorld.width, gameWorld.height);
+    this.cameraGroup = new Camera(game);
+    //this.cameraGroup.zoomTo(2);
 	},
 
 	createActors: function() {
-		groups = new Groups();
+		groups = new Groups(this.cameraGroup);
 		collisions = new Collisions();
 		if (properties.drawBackground) {
 			background = new Background();
@@ -125,11 +139,14 @@ module.exports = {
 				groups.terrain.add(background.mountains);
 			}
 		}
+    groups.terrain.add(map.sprite);
 		groups.actors.add(player);
 		groups.actors.add(orb.sprite);
 		groups.enemies.add(limpet1);
 		groups.enemies.add(limpet2);
-		game.world.swap(groups.terrain, groups.actors);
+
+    groups.swapTerrain();
+
 	},
 
 	initControls: function() {
@@ -141,8 +158,8 @@ module.exports = {
 			game.controls.buttonB.onDown.add(this.pressButtonB, this);
 			game.controls.buttonB.onUp.add(this.upButtonB, this);
 		}
-
 		this.cursors 	 = game.controls.cursors;
+    console.warn('this.initControls :: this.cursors', this.cursors);
 		game.controls.spacePress.onDown.add(player.fire, player);
 		game.controls.xKey.onDown.add(this.xDown, this);
 		game.controls.xKey.onUp.add(this.xUp, this);
@@ -158,10 +175,6 @@ module.exports = {
 		if (properties.drawStats) {
 			game.stats.end();
 		}
-	},
-
-	render: function() {
-		game.debug.cameraInfo(game.camera, 500, 20);
 	},
 
 	pressButtonA: function() {

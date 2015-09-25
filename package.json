@@ -40,7 +40,8 @@
     }
   },
   "browser": {
-    "Stats": "./src/libs/stats.js/stats.min.js"
+    "Stats": "./src/libs/stats.js/stats.min.js",
+    "camera": "./src/environment/Camera.js"
   },
   "devDependencies": {
     "bower": "^1.4.1",

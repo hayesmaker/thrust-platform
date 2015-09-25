@@ -54,8 +54,9 @@ function Player(x, y, collisions, groups) {
 	this.init();
 }
 
-var p = Player.prototype = Object.create(Phaser.Sprite.prototype);
-p.constructor = Player;
+var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
+	constructor: Player
+});
 
 /**
  *
@@ -82,6 +83,7 @@ p.init = function() {
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
 
+
 	this.turret = this.createTurret();
 
 	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
@@ -90,6 +92,8 @@ p.init = function() {
 	this.emitter.particleClass = ShipParticle;
 	this.emitter.makeParticles();
 	this.emitter.gravity = 200;
+
+	//this.scale.x = this.scale.y = 0.5;
 };
 
 p.update = function() {
@@ -177,6 +181,8 @@ p.playerDeath = function() {
 	this.isDead = true;
 	//this.visible = false;
 	this.tractorBeam.breakLink();
+
+
 };
 
 

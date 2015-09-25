@@ -25957,8 +25957,9 @@ function Player(x, y, collisions, groups) {
 	this.init();
 }
 
-var p = Player.prototype = Object.create(Phaser.Sprite.prototype);
-p.constructor = Player;
+var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
+	constructor: Player
+});
 
 /**
  *
@@ -25985,6 +25986,7 @@ p.init = function() {
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
 
+
 	this.turret = this.createTurret();
 
 	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
@@ -25993,6 +25995,8 @@ p.init = function() {
 	this.emitter.particleClass = ShipParticle;
 	this.emitter.makeParticles();
 	this.emitter.gravity = 200;
+
+	//this.scale.x = this.scale.y = 0.5;
 };
 
 p.update = function() {
@@ -26080,6 +26084,8 @@ p.playerDeath = function() {
 	this.isDead = true;
 	//this.visible = false;
 	this.tractorBeam.breakLink();
+
+
 };
 
 
@@ -26446,7 +26452,7 @@ var myPrivateVar = 0;
  * @class Groups
  * @constructor
  */
-function Groups () {
+function Groups (cameraGroup) {
 	/**
 	 * A public var description
 	 *
@@ -26454,7 +26460,12 @@ function Groups () {
 	 * @type {number}
 	 */
 	this.myPublicVar = 1;
+
+	this.cameraGroup = cameraGroup;
+
 	this.init();
+
+
 }
 
 var p = Groups.prototype;
@@ -26465,10 +26476,22 @@ var p = Groups.prototype;
  * @method init
  */
 p.init = function() {
-	this.actors = game.add.group();
-	this.enemies = game.add.group();
-	this.terrain = game.add.group();
-	this.bullets = game.add.group();
+
+
+	this.actors = game.make.group();
+	this.enemies = game.make.group();
+	this.terrain = game.make.group();
+	this.bullets = game.make.group();
+
+	this.cameraGroup.add(this.actors);
+	this.cameraGroup.add(this.enemies);
+	this.cameraGroup.add(this.terrain);
+	this.cameraGroup.add(this.bullets);
+
+};
+
+p.swapTerrain = function() {
+	this.cameraGroup.swap(this.terrain, this.actors);
 };
 
 
@@ -26500,7 +26523,7 @@ module.exports = {
 	enableJoypad: false,
 	fatalCollisions: true,
 	scale: {
-		mode: Phaser.ScaleManager.EXACT_FIT
+		mode: Phaser.ScaleManager.NO_SCALE
 	},
 	drawStats: true,
 	drawMontains: false,
