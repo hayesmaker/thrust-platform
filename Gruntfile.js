@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		project: {
-			src: 'src/js/app'
+			src: 'src/app'
 			, js: '<%= project.src %>/**.*.js'
 			, dest: 'public/javascripts/build/'
 			, bundle: 'public/javascripts/build/thrust-engine.min.js'
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
 				}
 			},
 			app: {
-				src: ['src/game.js'],
+				src: ['src/app/game.js'],
 				dest: './public/javascripts/browserify/thrust-engine.js',
 				options: {
 					keepAlive: true,
@@ -90,7 +90,7 @@ module.exports = function (grunt) {
 			default_task: {
 				options: {
 					prompt: true,
-					src: "src/",
+					src: "src/app/",
 					test: "test/",
 					moduleTemplate: './node_modules/grunt-smoothie/tasks/flavours/node/CustomType.js',
 					specTemplate: './node_modules/grunt-smoothie/tasks/flavours/node/CustomTypeSpec.js',
@@ -108,6 +108,19 @@ module.exports = function (grunt) {
 			}
 		},
 
+		yuidoc: {
+			compile: {
+				name: '<%= pkg.name %>',
+				description: '<%= pkg.description %>',
+				version: '<%= pkg.version %>',
+				url: '<%= pkg.homepage %>',
+				options: {
+					paths: ['./src/app'],
+					outdir: './public/yuidoc'
+				}
+			}
+		}
+
 	});
 
 	// These plugins provide necessary tasks.
@@ -119,6 +132,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-mocha-istanbul');
+	grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
 	// Default task.
 	grunt.registerTask('default', ['browserify']);

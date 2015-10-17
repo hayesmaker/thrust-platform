@@ -35,8 +35,8 @@
     "Stats": {
       "exports": "Stats"
     },
-    "Phaser" : {
-      "exports" : "Phaser"
+    "Phaser": {
+      "exports": "Phaser"
     }
   },
   "browser": {
@@ -53,6 +53,7 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-yuidoc": "^0.10.0",
     "grunt-mocha-istanbul": "^2.4.0",
     "grunt-mocha-phantomjs": "^0.6.1",
     "grunt-smoothie": "^1.4.0",

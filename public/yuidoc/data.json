@@ -1,0 +1,971 @@
+{
+    "project": {
+        "name": "thrust-engine",
+        "description": "engine for thrusty clone games",
+        "version": "0.0.1",
+        "url": ""
+    },
+    "files": {
+        "src/app/actors/strategies/FiringStrategy.js": {
+            "name": "src/app/actors/strategies/FiringStrategy.js",
+            "modules": {},
+            "classes": {
+                "FiringStrategy": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/strategies/ForwardFiring.js": {
+            "name": "src/app/actors/strategies/ForwardFiring.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/strategies/SpreadFiring.js": {
+            "name": "src/app/actors/strategies/SpreadFiring.js",
+            "modules": {},
+            "classes": {
+                "ForwardsFire": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/Background.js": {
+            "name": "src/app/actors/Background.js",
+            "modules": {},
+            "classes": {
+                "Background": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/LimpetGun.js": {
+            "name": "src/app/actors/LimpetGun.js",
+            "modules": {},
+            "classes": {
+                "LimpetGun": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/Map.js": {
+            "name": "src/app/actors/Map.js",
+            "modules": {},
+            "classes": {
+                "Map": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/Orb.js": {
+            "name": "src/app/actors/Orb.js",
+            "modules": {},
+            "classes": {
+                "Orb": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/Player.js": {
+            "name": "src/app/actors/Player.js",
+            "modules": {},
+            "classes": {
+                "Player": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/TractorBeam.js": {
+            "name": "src/app/actors/TractorBeam.js",
+            "modules": {},
+            "classes": {
+                "TractorBeam": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/Turret.js": {
+            "name": "src/app/actors/Turret.js",
+            "modules": {},
+            "classes": {
+                "Turret": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/environment/Collisions.js": {
+            "name": "src/app/environment/Collisions.js",
+            "modules": {},
+            "classes": {
+                "Collisions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/environment/Groups.js": {
+            "name": "src/app/environment/Groups.js",
+            "modules": {},
+            "classes": {
+                "Groups": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/environment/UserControl.js": {
+            "name": "src/app/environment/UserControl.js",
+            "modules": {},
+            "classes": {
+                "UserControl": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/states/boot.js": {
+            "name": "src/app/states/boot.js",
+            "modules": {
+                "boot": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            }
+        },
+        "src/app/states/load.js": {
+            "name": "src/app/states/load.js",
+            "modules": {
+                "load": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            }
+        },
+        "src/app/states/menu.js": {
+            "name": "src/app/states/menu.js",
+            "modules": {
+                "menu": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            }
+        },
+        "src/app/states/play.js": {
+            "name": "src/app/states/play.js",
+            "modules": {},
+            "classes": {
+                "states.play": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            }
+        },
+        "src/app/utils/StatsModule.js": {
+            "name": "src/app/utils/StatsModule.js",
+            "modules": {},
+            "classes": {
+                "states.StatsModule": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/properties.js": {
+            "name": "src/app/properties.js",
+            "modules": {
+                "properties": 1
+            },
+            "classes": {
+                "thrust-engine.": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "thrust-engine": 1
+            }
+        }
+    },
+    "modules": {
+        "boot": {
+            "name": "boot",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "FiringStrategy": 1,
+                "ForwardsFire": 1,
+                "Background": 1,
+                "LimpetGun": 1,
+                "Map": 1,
+                "Orb": 1,
+                "Player": 1,
+                "TractorBeam": 1,
+                "Turret": 1,
+                "Collisions": 1,
+                "Groups": 1,
+                "UserControl": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            },
+            "tag": "module",
+            "file": "src/app/environment/UserControl.js",
+            "line": 2,
+            "description": "The boot state",
+            "type": "{{create: Function, update: Function}}"
+        },
+        "load": {
+            "name": "load",
+            "submodules": {},
+            "elements": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            },
+            "tag": "module",
+            "file": "src/app/states/load.js",
+            "line": 1,
+            "description": "The load state",
+            "type": "{{create: Function, update: Function}}"
+        },
+        "menu": {
+            "name": "menu",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "states.play": 1,
+                "states.StatsModule": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "states": 1,
+                "thrust-engine": 1
+            },
+            "tag": "module",
+            "file": "src/app/utils/StatsModule.js",
+            "line": 12,
+            "description": "The menu state",
+            "type": "{{create: Function, update: Function}}"
+        },
+        "properties": {
+            "name": "properties",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "thrust-engine.": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/app/properties.js",
+            "line": 1,
+            "description": "Defines build settings for the thrust-engine",
+            "static": 1,
+            "type": "{{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}"
+        }
+    },
+    "classes": {
+        "FiringStrategy": {
+            "name": "FiringStrategy",
+            "shortname": "FiringStrategy",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/strategies/FiringStrategy.js",
+            "line": 1,
+            "description": "FiringStrategy description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "params": [
+                {
+                    "name": "origin",
+                    "description": ""
+                },
+                {
+                    "name": "collisions",
+                    "description": ""
+                },
+                {
+                    "name": "groups",
+                    "description": ""
+                },
+                {
+                    "name": "bulletBmp",
+                    "description": ""
+                },
+                {
+                    "name": "lifeSpan",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1
+        },
+        "ForwardsFire": {
+            "name": "ForwardsFire",
+            "shortname": "ForwardsFire",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/strategies/SpreadFiring.js",
+            "line": 3,
+            "description": "ForwardsFire description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "Background": {
+            "name": "Background",
+            "shortname": "Background",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/Background.js",
+            "line": 10,
+            "description": "Background description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "LimpetGun": {
+            "name": "LimpetGun",
+            "shortname": "LimpetGun",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 5,
+            "description": "LimpetGun description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "params": [
+                {
+                    "name": "x",
+                    "description": ""
+                },
+                {
+                    "name": "y",
+                    "description": ""
+                },
+                {
+                    "name": "angleDeg",
+                    "description": ""
+                },
+                {
+                    "name": "collisions",
+                    "description": ""
+                },
+                {
+                    "name": "groups",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Map": {
+            "name": "Map",
+            "shortname": "Map",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/Map.js",
+            "line": 4,
+            "description": "Map description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "Orb": {
+            "name": "Orb",
+            "shortname": "Orb",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/Orb.js",
+            "line": 4,
+            "description": "Orb description\ncalls init",
+            "is_constructor": 1
+        },
+        "Player": {
+            "name": "Player",
+            "shortname": "Player",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/Player.js",
+            "line": 8,
+            "description": "Player description\ncalls init",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "collisions",
+                    "description": "- Our collisions container of collisionGroups",
+                    "type": "Collisions"
+                },
+                {
+                    "name": "groups",
+                    "description": "- Our groups container",
+                    "type": "Groups"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "TractorBeam": {
+            "name": "TractorBeam",
+            "shortname": "TractorBeam",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 7,
+            "description": "TractorBeam description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "Turret": {
+            "name": "Turret",
+            "shortname": "Turret",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/actors/Turret.js",
+            "line": 10,
+            "description": "Turret description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "Collisions": {
+            "name": "Collisions",
+            "shortname": "Collisions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/environment/Collisions.js",
+            "line": 4,
+            "description": "Collisions description\ncalls init",
+            "is_constructor": 1
+        },
+        "Groups": {
+            "name": "Groups",
+            "shortname": "Groups",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/environment/Groups.js",
+            "line": 10,
+            "description": "Groups description\ncalls init",
+            "is_constructor": 1
+        },
+        "UserControl": {
+            "name": "UserControl",
+            "shortname": "UserControl",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "boot",
+            "file": "src/app/environment/UserControl.js",
+            "line": 2,
+            "description": "UserControl description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "states.play": {
+            "name": "states.play",
+            "shortname": "states.play",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "menu",
+            "namespace": "states",
+            "file": "src/app/states/play.js",
+            "line": 33,
+            "description": "The play state - this is where the magic happens"
+        },
+        "states.StatsModule": {
+            "name": "states.StatsModule",
+            "shortname": "StatsModule",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "menu",
+            "namespace": "states",
+            "file": "src/app/utils/StatsModule.js",
+            "line": 12,
+            "description": "StatsModule description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "is_constructor": 1
+        },
+        "thrust-engine.": {
+            "name": "thrust-engine.",
+            "shortname": "thrust-engine.",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "properties",
+            "namespace": "thrust-engine",
+            "file": "src/app/properties.js",
+            "line": 1,
+            "description": "Defines build settings for the thrust-engine"
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "src/app/actors/strategies/FiringStrategy.js",
+            "line": 29,
+            "description": "FiringStrategy initialisation",
+            "itemtype": "method",
+            "name": "fire",
+            "class": "FiringStrategy"
+        },
+        {
+            "file": "src/app/actors/strategies/FiringStrategy.js",
+            "line": 38,
+            "itemtype": "method",
+            "name": "update",
+            "class": "FiringStrategy"
+        },
+        {
+            "file": "src/app/actors/strategies/FiringStrategy.js",
+            "line": 52,
+            "itemtype": "method",
+            "name": "bulletEnd",
+            "params": [
+                {
+                    "name": "bullet",
+                    "description": ""
+                },
+                {
+                    "name": "group",
+                    "description": ""
+                }
+            ],
+            "class": "FiringStrategy"
+        },
+        {
+            "file": "src/app/actors/strategies/ForwardFiring.js",
+            "line": 21,
+            "description": "ForwardsFire initialisation",
+            "itemtype": "method",
+            "name": "shoot",
+            "class": "ForwardsFire"
+        },
+        {
+            "file": "src/app/actors/strategies/SpreadFiring.js",
+            "line": 19,
+            "description": "SpreadFire initialisation",
+            "itemtype": "method",
+            "name": "shoot",
+            "class": "ForwardsFire"
+        },
+        {
+            "file": "src/app/actors/Background.js",
+            "line": 3,
+            "type": "{Phaser.Graphics}",
+            "class": "Background"
+        },
+        {
+            "file": "src/app/actors/Background.js",
+            "line": 26,
+            "description": "Background initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Background"
+        },
+        {
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 52,
+            "description": "LimpetGun initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "LimpetGun"
+        },
+        {
+            "file": "src/app/actors/Map.js",
+            "line": 23,
+            "description": "Map initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Map"
+        },
+        {
+            "file": "src/app/actors/Orb.js",
+            "line": 12,
+            "description": "A collisions container",
+            "itemtype": "property",
+            "name": "collisions",
+            "type": "{Collisions}",
+            "class": "Orb"
+        },
+        {
+            "file": "src/app/actors/Orb.js",
+            "line": 29,
+            "itemtype": "property",
+            "name": "sprite",
+            "class": "Orb"
+        },
+        {
+            "file": "src/app/actors/Orb.js",
+            "line": 40,
+            "description": "Orb initialisation\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Orb"
+        },
+        {
+            "file": "src/app/actors/Orb.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "move\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
+            "class": "Orb"
+        },
+        {
+            "file": "src/app/actors/Orb.js",
+            "line": 82,
+            "itemtype": "method",
+            "name": "crash",
+            "class": "Orb"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 20,
+            "description": "The collisions container",
+            "itemtype": "property",
+            "name": "collisions",
+            "type": "{Collisions}",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 28,
+            "description": "The groups container",
+            "itemtype": "property",
+            "name": "groups",
+            "type": "{Groups}",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 36,
+            "description": "A beam actor used by player to colect the orb",
+            "itemtype": "property",
+            "name": "tractorBeam",
+            "type": "{TractorBeam}",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 44,
+            "itemtype": "property",
+            "name": "emitter",
+            "type": "{Phaser.Emitter}",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 61,
+            "itemtype": "method",
+            "name": "setTractorBeam",
+            "params": [
+                {
+                    "name": "tractorBeam",
+                    "description": ""
+                }
+            ],
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 70,
+            "description": "Player initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 103,
+            "itemtype": "method",
+            "name": "createTurret",
+            "return": {
+                "description": "",
+                "type": "Turret|exports|module.exports"
+            },
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 119,
+            "description": "When this is called, we'll check the distance of the player to the orb, and depending on distance,\neither draw a tractorBeam",
+            "itemtype": "method",
+            "name": "checkOrbDistance",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 141,
+            "description": "Fires the current actor's turret",
+            "itemtype": "method",
+            "name": "shoot",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 150,
+            "description": "Called on collision with terrain, enemy bullet, or some other fatal collision",
+            "itemtype": "method",
+            "name": "crash",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 164,
+            "itemtype": "method",
+            "name": "explosion",
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 174,
+            "itemtype": "method",
+            "name": "bulletEnd",
+            "params": [
+                {
+                    "name": "bullet",
+                    "description": ""
+                },
+                {
+                    "name": "group",
+                    "description": ""
+                }
+            ],
+            "class": "Player"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 38,
+            "description": "TractorBeam initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 50,
+            "itemtype": "method",
+            "name": "drawBeam",
+            "params": [
+                {
+                    "name": "posA",
+                    "description": ""
+                }
+            ],
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 72,
+            "itemtype": "method",
+            "name": "lock",
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 79,
+            "itemtype": "method",
+            "name": "lockingRelease",
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 91,
+            "itemtype": "method",
+            "name": "grab",
+            "params": [
+                {
+                    "name": "player",
+                    "description": ""
+                }
+            ],
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/TractorBeam.js",
+            "line": 105,
+            "class": "TractorBeam"
+        },
+        {
+            "file": "src/app/actors/Turret.js",
+            "line": 3,
+            "itemtype": "method",
+            "name": "_firingStrategy",
+            "type": "{FiringStrategy}",
+            "access": "private",
+            "tagname": "",
+            "class": "Turret"
+        },
+        {
+            "file": "src/app/actors/Turret.js",
+            "line": 29,
+            "description": "FiringStrategy initialisation",
+            "itemtype": "method",
+            "name": "setStrategy",
+            "params": [
+                {
+                    "name": "firingStrategy",
+                    "description": "",
+                    "type": "FiringStrategy"
+                }
+            ],
+            "class": "Turret"
+        },
+        {
+            "file": "src/app/environment/Collisions.js",
+            "line": 17,
+            "description": "Collisions initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Collisions"
+        },
+        {
+            "file": "src/app/environment/Collisions.js",
+            "line": 37,
+            "class": "Collisions"
+        },
+        {
+            "file": "src/app/environment/Groups.js",
+            "line": 1,
+            "description": "A private var description",
+            "itemtype": "property",
+            "name": "myPrivateVar",
+            "type": "{number}",
+            "access": "private",
+            "tagname": "",
+            "class": "Groups"
+        },
+        {
+            "file": "src/app/environment/Groups.js",
+            "line": 18,
+            "description": "A public var description",
+            "itemtype": "property",
+            "name": "myPublicVar",
+            "type": "{number}",
+            "class": "Groups"
+        },
+        {
+            "file": "src/app/environment/Groups.js",
+            "line": 35,
+            "description": "Groups initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Groups"
+        },
+        {
+            "file": "src/app/environment/UserControl.js",
+            "line": 22,
+            "description": "UserControl initialisation",
+            "itemtype": "method",
+            "name": "init",
+            "class": "UserControl"
+        },
+        {
+            "file": "src/app/utils/StatsModule.js",
+            "line": 3,
+            "description": "A private var description",
+            "itemtype": "property",
+            "name": "stats",
+            "type": "{Stats}",
+            "access": "private",
+            "tagname": "",
+            "class": "states.StatsModule",
+            "module": "menu",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/utils/StatsModule.js",
+            "line": 22,
+            "description": "A public var description",
+            "itemtype": "property",
+            "name": "myPublicVar",
+            "type": "{number}",
+            "class": "states.StatsModule",
+            "module": "menu",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/utils/StatsModule.js",
+            "line": 41,
+            "itemtype": "method",
+            "name": "begin",
+            "class": "states.StatsModule",
+            "module": "menu",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/utils/StatsModule.js",
+            "line": 49,
+            "itemtype": "method",
+            "name": "end",
+            "class": "states.StatsModule",
+            "module": "menu",
+            "namespace": "states"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/app/actors/Player.js:103"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/app/actors/Background.js:3"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/app/actors/TractorBeam.js:105"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/app/environment/Collisions.js:37"
+        }
+    ]
+}

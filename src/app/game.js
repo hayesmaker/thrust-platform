@@ -3,7 +3,7 @@
 var properties = require('./properties');
 
 var game = new Phaser.Game(properties.width,properties.height, Phaser.AUTO);
-window.game = game;
+global.game = game;
 
 game.state.add('play', require('./states/play'));
 game.state.add('load', require('./states/load'));

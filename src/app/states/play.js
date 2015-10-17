@@ -48,14 +48,9 @@ module.exports = {
 		game.load.image('stars', 'images/starfield.png');
 		game.load.image('player', 'images/player.png');
 		game.load.physics('playerPhysics', 'images/player.json');
-		game.load.json('locale', 'messages_de.json');
 	},
 
 	create: function() {
-		var jsonStr = game.cache.getJSON('locale');
-		console.log('json loaded ok: ' + jsonStr);
-		alert("json loaded ok: " + jsonStr.toString());
-
 		this.defineWorldBounds();
 		this.createActors();
 		this.createGroupLayering();
