@@ -25900,7 +25900,7 @@ exports.install = function install(target, now, toFake) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Player.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js":[function(require,module,exports){
 //var game = window.game;
 var properties = require('../properties');
 var Turret = require('./Turret');
@@ -26091,7 +26091,7 @@ p.playerDeath = function() {
 
 module.exports = Player;
 
-},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js","./bitmaps/ShipParticle":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/bitmaps/ShipParticle.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js":[function(require,module,exports){
+},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Turret.js","./bitmaps/ShipParticle":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/bitmaps/ShipParticle.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js":[function(require,module,exports){
 var properties = require('../properties');
 var game = window.game;
 var graphics;
@@ -26211,7 +26211,7 @@ p.breakLink = function() {
 
 module.exports = TractorBeam;
 
-},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Turret.js":[function(require,module,exports){
+},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Turret.js":[function(require,module,exports){
 var game = window.game;
 
 /**
@@ -26262,7 +26262,7 @@ p.update = function() {
 
 module.exports = Turret;
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/bitmaps/ShipParticle.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/bitmaps/ShipParticle.js":[function(require,module,exports){
 
 
 function ShipParticle (game, x, y) {
@@ -26275,7 +26275,7 @@ function ShipParticle (game, x, y) {
 
 var p = ShipParticle.prototype = Object.create(Phaser.Particle.prototype);
 module.exports = p.constructor = ShipParticle;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/FiringStrategy.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/FiringStrategy.js":[function(require,module,exports){
 /**
  * FiringStrategy description
  *
@@ -26343,7 +26343,7 @@ p.bulletEnd = function(bullet, group) {
 
 
 module.exports = FiringStrategy;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/ForwardFiring.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/ForwardFiring.js":[function(require,module,exports){
 var FiringStrategy = require('./FiringStrategy');
 var _ = require('lodash');
 
@@ -26388,7 +26388,7 @@ p.fire = function() {
 };
 
 module.exports = ForwardsFire;
-},{"./FiringStrategy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/strategies/FiringStrategy.js","lodash":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/lodash/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Collisions.js":[function(require,module,exports){
+},{"./FiringStrategy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/FiringStrategy.js","lodash":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/lodash/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js":[function(require,module,exports){
 var game = window.game;
 var properties = require('../properties');
 
@@ -26435,7 +26435,7 @@ p.set = function(sprite, collisionGroups) {
 
 module.exports = Collisions;
 
-},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Groups.js":[function(require,module,exports){
+},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js":[function(require,module,exports){
 /**
  * A private var description
  *
@@ -26496,7 +26496,7 @@ p.swapTerrain = function() {
 
 
 module.exports = Groups;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/utils.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/utils.js":[function(require,module,exports){
 module.exports = {
   distAtoB: function(pointA, pointB) {
 
@@ -26507,7 +26507,7 @@ module.exports = {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/properties.js":[function(require,module,exports){
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js":[function(require,module,exports){
 /**
  * Defines build settings for the thrust-engine
  *
@@ -26518,7 +26518,7 @@ module.exports = {
  * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	debugPhysics: false,
+	debugPhysics: true,
 	collideWorldBounds: true,
 	enableJoypad: false,
 	fatalCollisions: true,
@@ -26547,10 +26547,10 @@ var chai = require('chai'),
 chai.should();
 chai.use(sinonChai);
 
-var Player = require('../../src/actors/Player'),
-	TractorBeam = require('../../src/actors/TractorBeam'),
-	Groups = require('../../src/environment/Groups'),
-	Collisions = require('../../src/environment/Collisions');
+var Player = require('../../src/app/actors/Player'),
+	TractorBeam = require('../../src/app/actors/TractorBeam'),
+	Groups = require('../../src/app/environment/Groups'),
+	Collisions = require('../../src/app/environment/Collisions');
 
 var mocks = require('../helpers/mocks');
 
@@ -26636,7 +26636,7 @@ describe("Player tests", function() {
 
 
 });
-},{"../../src/actors/Player":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/Player.js","../../src/actors/TractorBeam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/actors/TractorBeam.js","../../src/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Collisions.js","../../src/environment/Groups":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/environment/Groups.js","../helpers/mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js","chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js","sinon-chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js":[function(require,module,exports){
+},{"../../src/app/actors/Player":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js","../../src/app/actors/TractorBeam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js","../../src/app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","../../src/app/environment/Groups":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js","../helpers/mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js","chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js","sinon-chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js":[function(require,module,exports){
 var sinon = require('sinon');
 
 module.exports = {

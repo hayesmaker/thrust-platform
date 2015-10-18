@@ -112,6 +112,7 @@ module.exports = {
 	},
 
 	createActors: function() {
+
 		groups = new Groups(this.cameraGroup);
 		collisions = new Collisions();
 		if (properties.drawBackground) {
@@ -129,6 +130,13 @@ module.exports = {
 
 		collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
 		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
+
+		//e2e specific code
+		game.e2e = {
+			player: player,
+			map: map,
+			enemies: [limpet1, limpet2]
+		};
 	},
 
 	createGroupLayering: function() {

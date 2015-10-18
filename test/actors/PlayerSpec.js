@@ -5,10 +5,10 @@ var chai = require('chai'),
 chai.should();
 chai.use(sinonChai);
 
-var Player = require('../../src/actors/Player'),
-	TractorBeam = require('../../src/actors/TractorBeam'),
-	Groups = require('../../src/environment/Groups'),
-	Collisions = require('../../src/environment/Collisions');
+var Player = require('../../src/app/actors/Player'),
+	TractorBeam = require('../../src/app/actors/TractorBeam'),
+	Groups = require('../../src/app/environment/Groups'),
+	Collisions = require('../../src/app/environment/Collisions');
 
 var mocks = require('../helpers/mocks');
 
