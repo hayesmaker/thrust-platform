@@ -26064,6 +26064,15 @@ p.crash = function() {
 	this.playerDeath();
 };
 
+p.rotate = function(val) {
+	console.log('rotate', this.body, val);
+	if (val < 0) {
+		this.body.rotateLeft(Math.abs(val))
+	} else {
+		this.body.rotateRight(val);
+	}
+};
+
 /**
  * @method explosion
  */

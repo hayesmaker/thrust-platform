@@ -79,10 +79,10 @@ module.exports = {
 		}
 
 		if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
-			player.body.rotateLeft(100);
+			player.rotate(-100)
 		} else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
-			player.body.rotateRight(100);
-		} else {
+			player.rotate(100);
+		} else if (!game.e2e.controlOverride) {
 			player.body.setZeroRotation();
 		}
 		if (this.cursors.up.isDown || buttonADown){
@@ -118,7 +118,7 @@ module.exports = {
 		if (properties.drawBackground) {
 			background = new Background();
 		}
-		player = new Player(game.world.centerX, 300, collisions, groups);
+		player = new Player(200, 200, collisions, groups);
 		orb = new Orb(collisions);
 		tractorBeam = new TractorBeam(orb, player);
 		player.setTractorBeam(tractorBeam);
