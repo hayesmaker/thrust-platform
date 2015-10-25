@@ -1,7 +1,28 @@
 # thrust-engine
 
-GOLDEN SAND HOTEL     GREECE                
-AMOUNT IN EUR         100.00                
-ON 14 JUL VISA FX RATE 1.409841              
-INCLUDES NON-STERLING TRANS FEE £2.12       
-BCC 
+A Phaser Game Project - Recreating Thrust
+
+### Features
+- `Phaser` Opensource HTML5 game framework for Canvas & WebGL http://phaser.io/
+- `Phase-2-e` End To End Testing https://www.npmjs.com/package/phase-2-e
+- `Mocha` Unit Testing https://mochajs.org/ with `sinon`, `chai` and `sinon-chai`
+- `Yuidocs` Source code documentation
+- `Node Backend` Powered by Node, Express, Jade
+- `Mobile Friendly` Touch control interface for touch enabled displays
+- `Asset Pipeline` Using `TexturePacker` and `PhysicsEditor` 
+
+## Prerequisistes
+- `Nodemon` 
+
+## Install
+- `npm install -g nodemon`
+- `npm install`
+- `bower intall`
+- `bower-installer`
+
+## Run
+- `npm start`
+
+## Test
+- http://localhost:3099/
+    - Click `Unit Tests` Link

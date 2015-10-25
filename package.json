@@ -34,6 +34,7 @@
   },
   "browser": {
     "Stats": "./src/libs/stats.js/stats.min.js",
+    "mocks": "./src/test/mocks/index.js",
     "camera": "./src/app/environment/Camera.js"
   },
   "devDependencies": {
@@ -56,6 +57,7 @@
     "mocha-phantomjs": "^3.5.3",
     "mochify": "^2.9.0",
     "mochify-istanbul": "^2.2.2",
+    "serve-index": "^1.7.2",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   }

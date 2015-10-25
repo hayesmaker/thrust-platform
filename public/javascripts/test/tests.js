@@ -25909,8 +25909,8 @@ var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 
 /**
- * Player description
- * calls init
+ * Player Ship
+ *
  *
  * @param {number} x
  * @param {number} y
@@ -25950,6 +25950,12 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.emitter;
 
+	/**
+	 * Player has been destroyed
+	 *
+	 * @property isDead
+	 * @type {boolean}
+	 */
 	this.isDead = false;
 
 	Phaser.Sprite.call(this, game, x, y, 'player');
@@ -25976,27 +25982,19 @@ p.setTractorBeam = function(tractorBeam) {
  * @method init
  */
 p.init = function() {
-
 	game.physics.p2.enable(this, properties.debugPhysics);
-
 	this.body.clearShapes();
 	this.body.loadPolygon('playerPhysics', 'player');
-
 	this.body.collideWorldBounds = properties.collideWorldBounds;
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
-
-
 	this.turret = this.createTurret();
-
 	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-
 	this.emitter = game.add.emitter(this.x, this.y, 100);
 	this.emitter.particleClass = ShipParticle;
 	this.emitter.makeParticles();
 	this.emitter.gravity = 200;
 
-	//this.scale.x = this.scale.y = 0.5;
 };
 
 p.update = function() {
@@ -26004,7 +26002,6 @@ p.update = function() {
 };
 
 /**
- *
  *
  * @method createTurret
  * @returns {Turret|exports|module.exports}
@@ -26065,7 +26062,6 @@ p.crash = function() {
 };
 
 p.rotate = function(val) {
-	console.log('rotate', this.body, val);
 	if (val < 0) {
 		this.body.rotateLeft(Math.abs(val))
 	} else {
@@ -26085,13 +26081,9 @@ p.explosion = function() {
 
 /**
  * @method bulletEnd
- * @param bullet
- * @param group
  */
 p.playerDeath = function() {
-	//group.remove(bullet);
 	this.isDead = true;
-	//this.visible = false;
 	this.tractorBeam.breakLink();
 
 
@@ -26536,7 +26528,7 @@ module.exports = {
 	},
 	drawStats: true,
 	drawMontains: false,
-	drawBackground: true,
+	drawBackground: false,
 	width: 700,
 	height: 500,
 	gamePlay: {
@@ -26548,156 +26540,206 @@ module.exports = {
 	}
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/actors/PlayerSpec.js":[function(require,module,exports){
-var chai = require('chai'),
-	expect = chai.expect,
-	sinon = require('sinon'),
-	sinonChai = require("sinon-chai");
+},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/actors/PlayerSpec.js":[function(require,module,exports){
+var sinon = require('sinon');
+var chai = require('chai');
+var sinonChai = require("sinon-chai");
+var expect = chai.expect;
+var mocks = require('mocks');
+
 chai.should();
 chai.use(sinonChai);
 
-var Player = require('../../src/app/actors/Player'),
-	TractorBeam = require('../../src/app/actors/TractorBeam'),
-	Groups = require('../../src/app/environment/Groups'),
-	Collisions = require('../../src/app/environment/Collisions');
-
-var mocks = require('../helpers/mocks');
+var Player = require('../../app/actors/Player');
+var TractorBeam = require('../../app/actors/TractorBeam');
+var Groups = require('../../app/environment/Groups');
+var Collisions = require('../../app/environment/Collisions');
 
 
-describe("Player tests", function() {
+describe("Player tests", function () {
+  var sandbox;
+  var player;
+  var groups;
+  var collisions;
+  var tractorBeam;
+  var x = 500;
+  var y = 300;
 
-	var player, initSpy;
-	var groups, collisions, tractorBeam, turretStub;
+  beforeEach(function () {
+    sandbox = sinon.sandbox.create();
+    groups = sinon.createStubInstance(Groups);
+    collisions = mocks.collisions();
+    tractorBeam = sinon.createStubInstance(TractorBeam);
+    sandbox.stub(Player.prototype, 'createTurret');
+    sandbox.stub(Player.prototype, 'init');
+    sandbox.stub(Phaser.Sprite, 'call');
+    player = new Player(x, y, collisions, groups);
+  });
 
-	window.game = mocks.game;
+  afterEach(function () {
+    sandbox.restore();
+    player =  null;
+  });
 
-	beforeEach(function() {
+  describe("constructor: ", function () {
+    beforeEach(function() {
 
-		initSpy = sinon.spy(Player.prototype, 'init');
-		groups = sinon.createStubInstance(Groups);
-		collisions = sinon.createStubInstance(Collisions);
-		tractorBeam = sinon.createStubInstance(TractorBeam);
-		turretStub = sinon.stub(Player.prototype, 'createTurret');
-		player = new Player(collisions, groups);
-	});
+    });
 
-	afterEach(function() {
-		Player.prototype.init.restore();
-		Player.prototype.createTurret.restore();
-	});
+    afterEach(function() {
 
-	describe("constructor: ", function() {
+    });
 
-		it("this.collisions is set correctly", function() {
-			player.collisions.should.eql(collisions);
-		});
+    it("this.collisions is set correctly", function () {
+      player.collisions.should.eql(collisions);
+    });
 
-		it("this.groups is set correctly", function() {
-			player.groups.should.eql(groups);
-		});
+    it("this.groups is set correctly", function () {
+      player.groups.should.eql(groups);
+    });
 
-		it("tractorBeam default is null", function() {
-			expect(player.tractorBeam).to.be.null;
-		});
+    it("tractorBeam default is null", function () {
+      expect(player.tractorBeam).to.be.null;
+    });
 
-		it("player sprite should be created at correct position", function() {
-			expect(game.make.sprite).to.have.been.calledWith(500, 300);
-		});
+    it("player sprite should be created at correct position", function () {
+      expect(Phaser.Sprite.call).to.have.been.calledWith(player, game, 500, 300);
+    });
 
-		it("player sprite is cached", function() {
-			expect(player.sprite).to.eql(game.make.sprite());
-		});
+    it("init is called", function () {
+      Player.prototype.init.should.be.called;
+    });
+  });
 
-		it("init is called", function() {
-			initSpy.should.be.called;
-		});
-	});
+  describe("init:", function () {
 
-	describe("init:", function() {
+    beforeEach(function() {
+      player.init.restore();
+      player.body = mocks.body;
+      player.position = {
+        x: x,
+        y: y
+      }
+    });
 
-		it("player physics are enabled", function() {
-			expect(game.physics.p2.enable).to.have.been.calledWith(player.sprite);
-		});
+    afterEach(function() {
+      sandbox.stub(player, 'init');
+    });
 
-		it("player physics body is set correctly", function() {
-			player.body.should.eql(player.sprite.body);
-		});
+    it("player physics are enabled", function () {
+      player.init();
+      expect(game.physics.p2.enable).to.have.been.calledWith(player);
+    });
 
-		it("turret creator is called", function() {
-			player.createTurret.should.have.been.called;
-		});
+    it("player physics body is set correctly", function () {
+      player.init();
+      player.body.should.eql(mocks.body);
+    });
 
-		it("player collision with terrain is set correctly", function() {
-			player.body.collides.should.have.been.calledWith(collisions.terrain, player.crash, player);
-		});
-	});
+    it("turret creator is called", function () {
+      player.init();
+      player.createTurret.should.have.been.called;
+    });
 
-	describe("shoot:", function() {
-		it("player shoots from turret", function() {
-			player.turret = {
-				shoot: sinon.stub()
-			};
+    it("player collision with terrain is set correctly", function () {
+      player.init();
+      player.body.collides.should.have.been.calledWith([collisions.enemyBullets, collisions.terrain, collisions.orb], player.crash, player);
+    });
+  });
 
-			player.shoot();
-			player.turret.shoot.should.have.been.called;
-		});
-	});
+  describe("shoot:", function () {
+    it("player shoots from turret", function () {
+      player.turret = {
+        fire: sinon.stub()
+      };
+
+      player.fire();
+      player.turret.fire.should.have.been.called;
+    });
+  });
 
 
 });
-},{"../../src/app/actors/Player":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js","../../src/app/actors/TractorBeam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js","../../src/app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","../../src/app/environment/Groups":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js","../helpers/mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js","chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js","sinon-chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/helpers/mocks.js":[function(require,module,exports){
+},{"../../app/actors/Player":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js","../../app/actors/TractorBeam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js","../../app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","../../app/environment/Groups":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js","chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js","mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js","sinon-chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/environment/collisionsMock.js":[function(require,module,exports){
+var sinon = require('sinon');
+var Collisions = require('../../../app/environment/Collisions');
+
+module.exports = function() {
+
+  var collisions          = sinon.createStubInstance(Collisions);
+  collisions.players      = sinon.createStubInstance(Phaser.Group);
+  collisions.terrain 	    = sinon.createStubInstance(Phaser.Group);
+  collisions.orb	 		    = sinon.createStubInstance(Phaser.Group);
+  collisions.bullets	    = sinon.createStubInstance(Phaser.Group);
+  collisions.enemyBullets = sinon.createStubInstance(Phaser.Group);
+  collisions.enemies 		  = sinon.createStubInstance(Phaser.Group);
+
+  return collisions;
+};
+},{"../../../app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js":[function(require,module,exports){
 var sinon = require('sinon');
 
 module.exports = {
-	/*
-	 this.body.clearShapes();
-	 this.body.addRectangle(-10,-17, 0,-2);
-	 this.body.collideWorldBounds = properties.collideWorldBounds;
-	 this.body.mass = 1;
-	 this.body.setCollisionGroup(this.collisions.players);
-	 this.body.collides(this.collisions.terrain, this.crash, this);
-	 */
-	game: {
 
-		physics: {
-			p2: {
-				enable: sinon.stub()
-			}
-		},
-		world: {
-			centerX: 500
-		},
-		make: {
-			sprite: sinon.stub().
-				returns({
-					addChild: sinon.stub(),
-					body: {
-						clearShapes: sinon.stub(),
-						addRectangle: sinon.stub(),
-						setCollisionGroup: sinon.stub(),
-						collides: sinon.stub()
-					},
-					scale: {
-						setTo: sinon.stub()
-					},
-					pivot: {
-						x: 50,
-						y: 150
-					}
-				})
-		},
+  collisions: require('./environment/collisionsMock'),
 
-		math: {
-			degToRad: sinon.stub().returns(100)
-		}
-	}
+  body: {
+    clearShapes: sinon.stub(),
+    loadPolygon: sinon.stub(),
+    setCollisionGroup: sinon.stub(),
+    collides: sinon.stub(),
+    particleClass: {
 
+    }
+  },
 
+  game: {
+    add: {
+      emitter: sinon.stub().returns({
+        particleClass: null,
+        makeParticles: sinon.stub()
+      })
+    },
+
+    physics: {
+      p2: {
+        enable: sinon.stub()
+      }
+    },
+    world: {
+      centerX: 500
+    },
+    make: {
+      sprite: sinon.stub().
+        returns({
+          addChild: sinon.stub(),
+          body: {
+            clearShapes: sinon.stub(),
+            addRectangle: sinon.stub(),
+            setCollisionGroup: sinon.stub(),
+            collides: sinon.stub()
+          },
+          scale: {
+            setTo: sinon.stub()
+          },
+          pivot: {
+            x: 50,
+            y: 150
+          }
+        })
+    },
+
+    math: {
+      degToRad: sinon.stub().returns(100)
+    }
+  }
 };
 
-},{"sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/tests.js":[function(require,module,exports){
-
+},{"./environment/collisionsMock":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/environment/collisionsMock.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/tests.js":[function(require,module,exports){
+(function (global){
+global.game = require('mocks').game;
 
 require('./actors/PlayerSpec');
 
-},{"./actors/PlayerSpec":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/actors/PlayerSpec.js"}]},{},["/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/test/tests.js"]);
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./actors/PlayerSpec":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/actors/PlayerSpec.js","mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js"}]},{},["/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/tests.js"]);

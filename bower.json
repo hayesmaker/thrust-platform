@@ -1,11 +1,11 @@
 {
   "name": "thrust-engine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     "@hayes_maker <andygoestohollywood@gmail.com>"
   ],
   "description": "see package.json",
-  "main": "public/javascripts/thrust-engine.min.js",
+  "main": "src/app/game.js",
   "keywords": [
     "see",
     "package.json"
@@ -21,7 +21,6 @@
   "dependencies": {
     "phaser-official": "~2.3.0",
     "stats.js": "*",
-    "requirejs": "~2.1.17",
     "lodash": "~3.9.0",
     "devicejs": "~0.2.7"
   },

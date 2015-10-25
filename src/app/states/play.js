@@ -29,7 +29,6 @@ var buttonBDown = false;
 var isXDown     = false;
 
 
-
 /**
  * The play state - this is where the magic happens
  *
@@ -55,10 +54,6 @@ module.exports = {
 		this.createActors();
 		this.createGroupLayering();
 		this.initControls();
-
-
-
-
 	},
 
 	update: function() {
@@ -72,12 +67,10 @@ module.exports = {
 		game.debug.cameraInfo(game.camera, 500, 20);
 	},
 
-
 	checkPlayerInput: function(){
 		if (player.isDead) {
 			return;
 		}
-
 		if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
 			player.rotate(-100)
 		} else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
@@ -165,8 +158,7 @@ module.exports = {
 			game.controls.buttonB.onDown.add(this.pressButtonB, this);
 			game.controls.buttonB.onUp.add(this.upButtonB, this);
 		}
-		this.cursors 	 = game.controls.cursors;
-    console.warn('this.initControls :: this.cursors', this.cursors);
+		this.cursors = game.controls.cursors;
 		game.controls.spacePress.onDown.add(player.fire, player);
 		game.controls.xKey.onDown.add(this.xDown, this);
 		game.controls.xKey.onUp.add(this.xUp, this);

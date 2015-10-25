@@ -71,7 +71,7 @@ module.exports = function (grunt) {
           transform: ['browserify-shim'],
           watch: true,
           postBundleCB: function (err, src, next) {
-            grunt.log.writeln('bundle created successfully at: ' + new Date());
+            grunt.log.writeln('app created successfully at: ' + new Date());
             next(err, src);
           },
           browserifyOptions: {
@@ -87,7 +87,7 @@ module.exports = function (grunt) {
           transform: ['browserify-shim'],
           watch: false,
           postBundleCB: function (err, src, next) {
-            grunt.log.writeln('bundle created successfully at: ' + new Date());
+            grunt.log.writeln('prod build created successfully at: ' + new Date());
             next(err, src);
           },
           browserifyOptions: {
@@ -155,7 +155,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
   // Default task.
-  grunt.registerTask('default', ['browserify:test', 'browserify:app']);
+  grunt.registerTask('default', ['browserify']);
   grunt.registerTask('add', ['smoothie']);
   grunt.registerTask('build', ['browserify:prod', 'uglify']);
 

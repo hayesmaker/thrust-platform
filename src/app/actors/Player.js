@@ -6,8 +6,8 @@ var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 
 /**
- * Player description
- * calls init
+ * Player Ship
+ *
  *
  * @param {number} x
  * @param {number} y
@@ -47,6 +47,12 @@ function Player(x, y, collisions, groups) {
 	 */
 	this.emitter;
 
+	/**
+	 * Player has been destroyed
+	 *
+	 * @property isDead
+	 * @type {boolean}
+	 */
 	this.isDead = false;
 
 	Phaser.Sprite.call(this, game, x, y, 'player');
@@ -73,27 +79,19 @@ p.setTractorBeam = function(tractorBeam) {
  * @method init
  */
 p.init = function() {
-
 	game.physics.p2.enable(this, properties.debugPhysics);
-
 	this.body.clearShapes();
 	this.body.loadPolygon('playerPhysics', 'player');
-
 	this.body.collideWorldBounds = properties.collideWorldBounds;
 	this.body.mass = 1;
 	this.body.setCollisionGroup(this.collisions.players);
-
-
 	this.turret = this.createTurret();
-
 	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-
 	this.emitter = game.add.emitter(this.x, this.y, 100);
 	this.emitter.particleClass = ShipParticle;
 	this.emitter.makeParticles();
 	this.emitter.gravity = 200;
 
-	//this.scale.x = this.scale.y = 0.5;
 };
 
 p.update = function() {
@@ -101,7 +99,6 @@ p.update = function() {
 };
 
 /**
- *
  *
  * @method createTurret
  * @returns {Turret|exports|module.exports}
@@ -162,7 +159,6 @@ p.crash = function() {
 };
 
 p.rotate = function(val) {
-	console.log('rotate', this.body, val);
 	if (val < 0) {
 		this.body.rotateLeft(Math.abs(val))
 	} else {
@@ -182,13 +178,9 @@ p.explosion = function() {
 
 /**
  * @method bulletEnd
- * @param bullet
- * @param group
  */
 p.playerDeath = function() {
-	//group.remove(bullet);
 	this.isDead = true;
-	//this.visible = false;
 	this.tractorBeam.breakLink();
 
 
