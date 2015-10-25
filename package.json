@@ -2,14 +2,10 @@
   "name": "thrust-engine",
   "author": "@hayes_maker",
   "license": "ISC",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "build-test": "browserify ./test/tests.js -o ./public/javascripts/test/tests.js -d --verbose",
-    "build-test-coverage": "browserify -t [ browserify-istanbul --ignore **/bower_components/** ] ./test/tests.js -o ./public/javascripts/test/tests.js -d",
-    "coverage-report": "istanbul report --root coverage html",
-    "cover": "mochify --plugin [ mochify-istanbul --report cobertura ] -r ./public/javascripts/browserify/phaser.js -t [browserify-shim]"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -25,7 +21,7 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0"
   },
-  "description": "engine for thrusty clone games",
+  "description": "js port of thrust, an awesome 8bit game from the 1980s ",
   "main": "app.js",
   "keywords": [
     "thrust",
@@ -34,9 +30,6 @@
   "browserify-shim": {
     "Stats": {
       "exports": "Stats"
-    },
-    "Phaser": {
-      "exports": "Phaser"
     }
   },
   "browser": {
