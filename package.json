@@ -51,6 +51,7 @@
     "grunt-contrib-yuidoc": "^0.10.0",
     "grunt-mocha": "^0.4.13",
     "grunt-mocha-istanbul": "^2.4.0",
+    "grunt-mocha-phantomjs": "^2.0.0",
     "grunt-smoothie": "^1.4.0",
     "istanbul": "^0.3.15",
     "istanbulify": "^0.1.0",

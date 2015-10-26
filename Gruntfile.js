@@ -170,5 +170,6 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['browserify']);
   grunt.registerTask('add', ['smoothie']);
   grunt.registerTask('build', ['browserify:prod', 'uglify']);
+  grunt.registerTask('test', ['mocha']);
 
 };
