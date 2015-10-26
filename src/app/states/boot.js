@@ -31,6 +31,7 @@ module.exports = {
 		game.controls = userControl;
 		game.state.start('play');
 	},
+
 	update: function() {
 
 	}
