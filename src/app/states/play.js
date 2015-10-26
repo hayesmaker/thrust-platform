@@ -40,13 +40,13 @@ module.exports = {
 	preload: function() {
     console.warn('game.controls.isJoypadEnabled', game.controls.isJoypadEnabled);
 		if (game.controls.isJoypadEnabled) {
-			game.load.atlas('dpad', 'images/virtualjoystick/skins/dpad.png', 'images/virtualjoystick/skins/dpad.json');
+			game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
 		}
-		game.load.image('thrustmap', 'images/level_6_x2.png');
-		game.load.physics('physicsData', 'images/level_6.json');
-		game.load.image('stars', 'images/starfield.png');
-		game.load.image('player', 'images/player.png');
-		game.load.physics('playerPhysics', 'images/player.json');
+		game.load.image('thrustmap', 'assets/images/level_6_x2.png');
+		game.load.physics('physicsData', 'assets/images/level_6.json');
+		game.load.image('stars', 'assets/images/starfield.png');
+		game.load.image('player', 'assets/images/player.png');
+		game.load.physics('playerPhysics', 'assets/images/player.json');
 	},
 
 	create: function() {
