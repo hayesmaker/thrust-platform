@@ -14,12 +14,9 @@
     <script>mocha.setup({ ui: 'bdd' })</script>
     <script src="tests.js"></script>
     <script>
-      if (window.mochaPhantomJS) {
-        window.mochaPhantomJS.run();
-      }
-      else {
-        mocha.run();
-      }
+        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+            mocha.run();
+        }
     </script>
   </body>
 </html>

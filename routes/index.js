@@ -10,14 +10,14 @@ router.get('/', function(req, res) {
 
 router.get('/min', function(req, res) {
   res.render('app', {
-    title: 'Thrust',
+    title: 'Thrust Engine',
     engine: 'javascripts/browserify/thrust-engine.min.js'
   });
 });
 
 router.get('/app', function(req, res) {
   res.render('app', {
-    title: 'Thrust',
+    title: 'Thrust Engine',
     engine: 'javascripts/browserify/thrust-engine.js'
   });
 });

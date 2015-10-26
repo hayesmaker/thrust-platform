@@ -5,7 +5,8 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "grunt test"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -48,6 +49,7 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-yuidoc": "^0.10.0",
+    "grunt-mocha": "^0.4.13",
     "grunt-mocha-istanbul": "^2.4.0",
     "grunt-mocha-phantomjs": "^0.6.1",
     "grunt-smoothie": "^1.4.0",
@@ -57,6 +59,7 @@
     "mocha-phantomjs": "^3.5.3",
     "mochify": "^2.9.0",
     "mochify-istanbul": "^2.2.2",
+    "phase-2-e": "^0.1.1",
     "serve-index": "^1.7.2",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"

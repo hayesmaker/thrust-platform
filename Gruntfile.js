@@ -97,12 +97,23 @@ module.exports = function (grunt) {
       }
     },
 
+    mocha: {
+      test: {
+        src: ['./public/javascripts/test/index.html'],
+        options: {
+          run: true,
+          bail: false,
+          reporter: 'Spec'
+        }
+      }
+    },
+
     mocha_phantomjs: {
       all: ['./public/javascripts/test/*.html'],
       options: {
         reporter: 'html',
         file: './coverage/test.html',
-        growlOnSuccess: false
+        growlOnSuccess: true
       }
     },
 
@@ -153,6 +164,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-mocha-istanbul');
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-mocha');
 
   // Default task.
   grunt.registerTask('default', ['browserify']);

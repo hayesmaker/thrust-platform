@@ -22,7 +22,8 @@ A Phaser Game Project - Recreating Thrust
 
 ## Run
 - `npm start`
-
-## Test
 - http://localhost:3099/
-    - Click `Unit Tests` Link
+- Click on `Thrust Engine` To play 
+
+### Testing
+- Click `Unit Tests` Link
