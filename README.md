@@ -1,6 +1,7 @@
 # thrust-engine
 
 A Phaser Game Project - Recreating Thrust
+http://thrust-engine.herokuapp.com/
 
 ### Features
 - `Phaser` Opensource HTML5 game framework for Canvas & WebGL http://phaser.io/
@@ -9,10 +10,10 @@ A Phaser Game Project - Recreating Thrust
 - `Yuidocs` Source code documentation
 - `Node Backend` Powered by Node, Express, Jade
 - `Mobile Friendly` Touch control interface for touch enabled displays
-- `Asset Pipeline` Using `TexturePacker` and `PhysicsEditor` 
+- `Asset Pipeline` Using `TexturePacker` and `PhysicsEditor`
 
 ## Prerequisistes
-- `Nodemon` 
+- `Nodemon`
 
 ## Install
 - `npm install -g nodemon`
@@ -23,7 +24,7 @@ A Phaser Game Project - Recreating Thrust
 ## Run
 - `npm start`
 - http://localhost:3099/
-- Click on `Thrust Engine` To play 
+- Click on `Thrust Engine` To play
 
 ### Testing
 - Click `Unit Tests` Link
