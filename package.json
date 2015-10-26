@@ -20,7 +20,8 @@
     "jade": "~1.9.2",
     "lodash": "^3.9.1",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "serve-index": "^1.7.2"
   },
   "description": "js port of thrust, an awesome 8bit game from the 1980s ",
   "main": "app.js",
@@ -59,7 +60,6 @@
     "mochify": "^2.9.0",
     "mochify-istanbul": "^2.2.2",
     "phase-2-e": "^0.1.1",
-    "serve-index": "^1.7.2",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   }
