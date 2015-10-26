@@ -34,6 +34,11 @@ h1 {
   padding-bottom: 20px;
 }
 
+h1 small {
+  color: lightslategrey;
+  font-size: 12px;
+}
+
 ul {
   margin: 0 0 0 20px;
   padding: 0;
