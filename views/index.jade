@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  h1= title
+  h1 #{title} #[small v.#{version}]
   ul
     li
-      #[a(href="http://thrust-engine.herokuapp.com/app") PLAY HERE ] #[a(href="http://thrust-engine.herokuapp.com/min") #[span (minified)]]
+      #[a(href='http://thrust-engine.herokuapp.com/app') PLAY HERE ] #[a(href='http://thrust-engine.herokuapp.com/min') (minified)]
     li
       a(href='/javascripts/test/')='Unit Tests'
     li
