@@ -1,4 +1,5 @@
 .idea/
 bower_components/
 node_modules/
+browserify/
 npm-debug.log
