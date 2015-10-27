@@ -20,7 +20,7 @@ module.exports = {
 	create: function() {
 		features.init();
 		game.scale.scaleMode = features.isTouchScreen? Phaser.ScaleManager.EXACT_FIT : properties.scale.mode;
-		game.scale.setScreenSize();
+		//game.scale.refresh();
 		game.time.advancedTiming = true;
 		stats = new StatsModule();
 		userControl = new UserControl(features.isTouchScreen || properties.enableJoypad);

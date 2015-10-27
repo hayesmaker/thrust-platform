@@ -8,6 +8,7 @@ module.exports = function (grunt) {
     project: {
       src: 'src/app',
       js: '<%= project.src %>/**.*.js',
+      main: 'main.js',
       dest: './public/javascripts/browserify',
       bundle: '<%= project.dest %>/thrust-engine.js'
     },
@@ -64,7 +65,7 @@ module.exports = function (grunt) {
         }
       },
       app: {
-        src: ['<%= project.src %>/game.js'],
+        src: ['<%= project.src %>/<%= project.main %>'],
         dest: '<%= project.bundle %>',
         options: {
           keepAlive: true,
@@ -80,7 +81,7 @@ module.exports = function (grunt) {
         }
       },
       prod: {
-        src: ['<%= project.src %>/game.js'],
+        src: ['<%= project.src %>/<%= project.main %>'],
         dest: '<%= project.bundle %>',
         options: {
           keepAlive: false,
