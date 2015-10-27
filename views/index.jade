@@ -4,10 +4,10 @@ block content
   h1 #{title} #[small v.#{version}]
   ul
     li
-      #[a(onclick='window.init(); return false;' href='#') PLAY HERE ] #[a(href='/min') (minified)]
+      #[a(onclick='window.init(); return false;' href='/dev') PLAY HERE ] #[a(href='/min') (minified)] #[a(href='/dev') (dev)]
     li
-      a(href='/javascripts/test/')='Unit Tests'
+      a(href='/javascripts/test/' target='blank')='Unit Tests'
     li
-      a(href='https://github.com/hayesmaker/thrust-engine')='Github'
+      a(href='https://github.com/hayesmaker/thrust-engine' target='blank')='Github'
     li
-      a(href='/yuidoc')='Source Documentation'
+      a(href='/yuidoc' target='blank')='Source Documentation'
