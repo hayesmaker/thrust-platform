@@ -19,7 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "phaser-official": "~2.3.0",
+    "phaser-official": "~2.4.4",
     "stats.js": "*",
     "lodash": "~3.9.0",
     "devicejs": "~0.2.7"

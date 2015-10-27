@@ -4,11 +4,9 @@ block content
   h1 #{title} #[small v.#{version}]
   ul
     li
-      #[a(href='http://thrust-engine.herokuapp.com/app') PLAY HERE ] #[a(href='http://thrust-engine.herokuapp.com/min') (minified)]
+      #[a(onclick='window.init(); return false;' href='#') PLAY HERE ] #[a(href='/min') (minified)]
     li
       a(href='/javascripts/test/')='Unit Tests'
-    li
-      a(href='/min')='Play Minified'
     li
       a(href='https://github.com/hayesmaker/thrust-engine')='Github'
     li

@@ -6,7 +6,8 @@ var router = express.Router();
 router.get('/', function(req, res) {
   res.render('index', {
     title: 'Thrust Engine',
-    version: pkg.version
+    version: pkg.version,
+    engine: 'javascripts/browserify/thrust-engine.js'
   });
 });
 
@@ -17,7 +18,7 @@ router.get('/min', function(req, res) {
   });
 });
 
-router.get('/app', function(req, res) {
+router.get('/dev', function(req, res) {
   res.render('app', {
     title: 'Thrust Engine',
     engine: 'javascripts/browserify/thrust-engine.js'
