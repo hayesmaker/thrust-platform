@@ -14,6 +14,7 @@ router.get('/', function(req, res) {
 router.get('/min', function(req, res) {
   res.render('app', {
     title: 'Thrust Engine',
+    version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine.min.js'
   });
 });
@@ -21,6 +22,7 @@ router.get('/min', function(req, res) {
 router.get('/dev', function(req, res) {
   res.render('app', {
     title: 'Thrust Engine',
+    version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine.js'
   });
 });

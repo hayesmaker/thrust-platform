@@ -1,12 +1,10 @@
 extends layout
 
 block content
-  h1 #{title} #[small v.#{version}]
   ul
     li
-      #[a(onclick='window.init(); return false;' href='/dev') Play Thrust ]
-    li
-      #[a(href='/min') (minified)] #[a(href='/dev') (dev)]
+      a(href='/dev')='Play Thrust'
+        |  #[a(href='/min') (minified)] #[a(href='/dev') (dev)]
     li
       a(href='/javascripts/test/' target='blank')='Unit Tests'
     li
