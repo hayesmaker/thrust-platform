@@ -17,7 +17,12 @@ var graphics;
  * @constructor
  */
 function Background() {
-	this.sprite = game.make.tileSprite(0, 0, 928, 600, 'stars');
+	this.sprite = game.make.tileSprite(0, 0, 700, 500, 'stars');
+	//this.sprite2 = game.make.tileSprite(0, 450, game.world.width, 512, 'stars-gradient');
+	//this.sprite3 = game.make.tileSprite(0, 550, 512, 4, 'black-tile');
+	this.sprite.fixedToCamera = true;
+	//this.sprite3.fixedToCamera = true;
+
 	this.init();
 }
 
@@ -48,8 +53,11 @@ p.init = function() {
 		}
 		this.mountains.addChild(graphics);
 	}
+};
 
-
+p.update = function() {
+	this.sprite.tilePosition.set(-game.camera.x * 0.1, -game.camera.y * 0.1);
+	//this.sprite2.tilePosition.x -= game.camera.x;
 };
 
 

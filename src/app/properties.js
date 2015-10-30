@@ -8,14 +8,14 @@
  * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	debugPhysics: true,
+	debugPhysics: false,
 	collideWorldBounds: true,
 	enableJoypad: false,
 	fatalCollisions: true,
 	scale: {
 		mode: Phaser.ScaleManager.NO_SCALE
 	},
-	drawStats: true,
+	drawStats: false,
 	drawMontains: false,
 	drawBackground: true,
 	width: 700,

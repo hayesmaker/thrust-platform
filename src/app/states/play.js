@@ -44,7 +44,9 @@ module.exports = {
 		}
 		game.load.image('thrustmap', 'assets/images/level_6_x2.png');
 		game.load.physics('physicsData', 'assets/images/level_6.json');
+		game.load.image('stars-gradient', 'assets/images/starfield-gradient.png');
 		game.load.image('stars', 'assets/images/starfield.png');
+		game.load.image('black-tile', 'assets/images/black-tile.png');
 		game.load.image('player', 'assets/images/player.png');
 		game.load.physics('playerPhysics', 'assets/images/player.json');
 	},
@@ -64,7 +66,9 @@ module.exports = {
 	},
 
 	render: function() {
-		game.debug.cameraInfo(game.camera, 500, 20);
+    if (properties.drawStats) {
+      game.debug.cameraInfo(game.camera, 500, 20);
+    }
 	},
 
 	checkPlayerInput: function(){
@@ -92,9 +96,17 @@ module.exports = {
 
 	actorsUpdate: function() {
 		player.update();
+    //console.log('player.y', player.y);
 		groups.enemies.forEach(function(enemy) {
 			enemy.update();
 		});
+    if (background) {
+      background.update();
+
+      console.warn('player.y :: ', player.y);
+
+      //background.sprite.alpha
+    }
 	},
 
 	defineWorldBounds: function() {
@@ -111,7 +123,7 @@ module.exports = {
 		if (properties.drawBackground) {
 			background = new Background();
 		}
-		player = new Player(200, 200, collisions, groups);
+		player = new Player(game.width/2, game.height/2, collisions, groups);
 		orb = new Orb(collisions);
 		tractorBeam = new TractorBeam(orb, player);
 		player.setTractorBeam(tractorBeam);
@@ -135,6 +147,8 @@ module.exports = {
 	createGroupLayering: function() {
 		if (background) {
 			groups.terrain.add(background.sprite);
+			//groups.terrain.add(background.sprite2);
+			//groups.terrain.add(background.sprite3);
 			if (background.mountains) {
 				groups.terrain.add(background.mountains);
 			}
