@@ -28,7 +28,6 @@ var buttonADown = false;
 var buttonBDown = false;
 var isXDown     = false;
 
-
 /**
  * The play state - this is where the magic happens
  *
@@ -101,9 +100,9 @@ module.exports = {
 			enemy.update();
 		});
     if (background) {
-      background.update();
+      //background.update();
 
-      console.warn('player.y :: ', player.y);
+      //console.warn('player.y :: ', player.y);
 
       //background.sprite.alpha
     }
