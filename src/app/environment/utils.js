@@ -1,4 +1,12 @@
 module.exports = {
+  /**
+   * Pythagorus ftw
+   *
+   * @method distAtoB
+   * @param pointA
+   * @param pointB
+   * @returns {number}
+   */
   distAtoB: function(pointA, pointB) {
 
     var A = pointB.x - pointA.x;

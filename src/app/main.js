@@ -14,4 +14,3 @@ var init = function() {
 };
 
 global.init = init;
-
