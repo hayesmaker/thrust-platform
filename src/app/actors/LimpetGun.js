@@ -83,6 +83,7 @@ p.createTurret = function() {
 	var bulletBitmap = game.make.bitmapData(5,5);
 	bulletBitmap.ctx.fillStyle = '#ffffff';
 	bulletBitmap.ctx.beginPath();
+	bulletBitmap.ctx.lineWidth = 0.5;
 	bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI*2, true);
 	bulletBitmap.ctx.closePath();
 	bulletBitmap.ctx.fill();

@@ -8,7 +8,7 @@ var properties = require('../properties');
  * @class Orb
  * @constructor
  */
-function Orb (collisions) {
+function Orb (x, y, collisions) {
 	/**
 	 * A collisions container
 	 *
@@ -29,7 +29,7 @@ function Orb (collisions) {
 	/**
 	 * @property sprite
 	 */
-	this.sprite = game.make.sprite(550, 1200, bmd);
+	this.sprite = game.make.sprite(x, y, bmd);
 	this.sprite.anchor.setTo(0.5,0.5);
 
 	this.init();
