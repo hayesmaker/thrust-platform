@@ -13,4 +13,9 @@ var init = function() {
   game.state.start('boot');
 };
 
-global.init = init;
+/**
+ * to ensure fonts are loaded, an invisible element using the font must be placed on the app's page
+ * This will work until Google's WebFontLoader is implemented
+ * @type {Function}
+ */
+window.onload = init;

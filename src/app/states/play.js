@@ -2,6 +2,7 @@
 var properties = require('../properties');
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
+var ui = require('../ui/index');
 var Player = require('../actors/Player');
 var LimpetGun = require('../actors/LimpetGun');
 var Orb = require('../actors/Orb');
@@ -58,19 +59,33 @@ module.exports = {
   },
 
   create: function () {
-    console.log('currentLevel::', level);
     this.defineWorldBounds();
     this.createActors();
+    this.createUi();
     this.createGroupLayering();
+
+    ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
+  },
+
+  missionStart: function() {
+    player.start();
+    _.each(limpetGuns, function(limpet) {
+      limpet.start();
+    });
     this.initControls();
+
   },
 
   update: function () {
-    this.beginStats();
+    if (game.stats) {
+      game.stats.end();
+    }
     this.checkPlayerInput();
     this.actorsUpdate();
     this.checkGameCondition();
-    this.endStats();
+    if (game.stats) {
+      game.stats.end();
+    }
   },
 
   render: function () {
@@ -80,7 +95,8 @@ module.exports = {
   },
 
   checkPlayerInput: function () {
-    if (player.isDead) {
+    if (player.isDead || !this.cursors) {
+
       return;
     }
     if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
@@ -104,25 +120,23 @@ module.exports = {
 
   checkGameCondition: function() {
 
-
-
-
   },
 
   actorsUpdate: function () {
-    player.update();
-    //console.log('player.y', player.y);
-    groups.enemies.forEach(function (enemy) {
-      enemy.update();
-    });
+    if (!player.isDead) {
+      player.update();
+      //console.log('player.y', player.y);
+      groups.enemies.forEach(function (enemy) {
+        enemy.update();
+      });
+    }
     if (background && properties.gamePlay.parallax) {
       background.update();
     }
   },
 
   defineWorldBounds: function () {
-    var gameWorld = {width: 3072, height: 4000};
-    game.world.setBounds(0, 0, gameWorld.width, gameWorld.height);
+    game.world.setBounds(0, 0, level.world.width, level.world.height);
     this.cameraGroup = new Camera(game);
     //this.cameraGroup.zoomTo(2);
   },
@@ -153,6 +167,15 @@ module.exports = {
     };
   },
 
+  createUi: function() {
+    game.controls.initJoypad();
+    ui.init();
+    ui.missionSwipe.init(0, game.height * 0.15, game.width * 0.7, 80, ui.group);
+
+
+
+  },
+
   createLimpet: function(data) {
     var limpet = new LimpetGun(data.rotation, data.x, data.y, collisions, groups);
     limpetGuns.push(limpet);
@@ -169,11 +192,11 @@ module.exports = {
       groups.enemies.add(limpet);
     });
     groups.swapTerrain();
+    game.world.add(ui.group);
   },
 
   initControls: function () {
     if (game.controls.isJoypadEnabled) {
-      game.controls.initJoypad();
       this.stick = game.controls.stick;
       game.controls.buttonA.onDown.add(this.pressButtonA, this);
       game.controls.buttonA.onUp.add(this.upButtonA, this);
@@ -184,18 +207,11 @@ module.exports = {
     game.controls.spacePress.onDown.add(player.fire, player);
     game.controls.xKey.onDown.add(this.xDown, this);
     game.controls.xKey.onUp.add(this.xUp, this);
-  },
 
-  beginStats: function () {
-    if (properties.drawStats) {
-      game.stats.start();
-    }
-  },
-
-  endStats: function () {
-    if (properties.drawStats) {
-      game.stats.end();
-    }
+    player.init();
+    _.each(limpetGuns, function(limpet) {
+      limpet.init();
+    });
   },
 
   pressButtonA: function () {

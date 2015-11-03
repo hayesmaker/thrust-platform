@@ -26624,51 +26624,53 @@ var ShipParticle = require('./bitmaps/ShipParticle');
  * @constructor
  */
 function Player(x, y, collisions, groups) {
-	/**
-	 * The collisions container
-	 *
-	 * @property collisions
-	 * @type {Collisions}
-	 */
-	this.collisions = collisions;
+  /**
+   * The collisions container
+   *
+   * @property collisions
+   * @type {Collisions}
+   */
+  this.collisions = collisions;
 
-	/**
-	 * The groups container
-	 *
-	 * @property groups
-	 * @type {Groups}
-	 */
-	this.groups = groups;
+  /**
+   * The groups container
+   *
+   * @property groups
+   * @type {Groups}
+   */
+  this.groups = groups;
 
-	/**
-	 * A beam actor used by player to colect the orb
-	 *
-	 * @property tractorBeam
-	 * @type {TractorBeam}
-	 */
-	this.tractorBeam = null;
+  /**
+   * A beam actor used by player to colect the orb
+   *
+   * @property tractorBeam
+   * @type {TractorBeam}
+   */
+  this.tractorBeam = null;
 
-	/**
-	 * @property emitter
-	 * @type {Phaser.Emitter}
-	 */
-	this.emitter;
+  /**
+   * @property emitter
+   * @type {Phaser.Emitter}
+   */
+  this.emitter;
 
-	/**
-	 * Player has been destroyed
-	 *
-	 * @property isDead
-	 * @type {boolean}
-	 */
-	this.isDead = false;
+  /**
+   * Player has been destroyed
+   *
+   * @property isDead
+   * @type {boolean}
+   */
+  this.isDead = false;
 
-	Phaser.Sprite.call(this, game, x, y, 'player');
+  Phaser.Sprite.call(this, game, x, y, 'player');
 
-	this.init();
+  this.anchor.setTo(0.5);
+
+  this.init();
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
-	constructor: Player
+  constructor: Player
 });
 
 /**
@@ -26676,8 +26678,8 @@ var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
  * @method setTractorBeam
  * @param tractorBeam
  */
-p.setTractorBeam = function(tractorBeam) {
-	this.tractorBeam = tractorBeam;
+p.setTractorBeam = function (tractorBeam) {
+  this.tractorBeam = tractorBeam;
 };
 
 /**
@@ -26685,24 +26687,39 @@ p.setTractorBeam = function(tractorBeam) {
  *
  * @method init
  */
-p.init = function() {
-	game.physics.p2.enable(this, properties.debugPhysics);
-	this.body.clearShapes();
-	this.body.loadPolygon('playerPhysics', 'player');
-	this.body.collideWorldBounds = properties.collideWorldBounds;
-	this.body.mass = 1;
-	this.body.setCollisionGroup(this.collisions.players);
-	this.turret = this.createTurret();
-	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-	this.emitter = game.add.emitter(this.x, this.y, 100);
-	this.emitter.particleClass = ShipParticle;
-	this.emitter.makeParticles();
-	this.emitter.gravity = 200;
+p.init = function () {
+
+  this.turret = this.createTurret();
+  this.emitter = game.add.emitter(this.x, this.y, 100);
+  this.emitter.particleClass = ShipParticle;
+  this.emitter.makeParticles();
+  this.emitter.gravity = 200;
+
+  //this.start();
+  //this.stop();
 
 };
 
-p.update = function() {
-	this.turret.update();
+p.stop = function() {
+  this.body.removeFromWorld();
+};
+
+p.start = function () {
+  console.log('Player :: start');
+  game.physics.p2.enable(this, properties.debugPhysics);
+  this.body.clearShapes();
+  this.body.loadPolygon('playerPhysics', 'player');
+  this.body.collideWorldBounds = properties.collideWorldBounds;
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
+  this.body.setCollisionGroup(this.collisions.players);
+  this.body.motionState = 1;
+  this.body.mass = 1;
+};
+
+p.update = function () {
+  if (!this.isDead && this.body) {
+    this.turret.update();
+  }
 };
 
 /**
@@ -26710,14 +26727,14 @@ p.update = function() {
  * @method createTurret
  * @returns {Turret|exports|module.exports}
  */
-p.createTurret = function() {
-	var bulletBitmap = game.make.bitmapData(5,5);
-	bulletBitmap.ctx.fillStyle = '#ffffff';
-	bulletBitmap.ctx.beginPath();
-	bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
-	bulletBitmap.ctx.closePath();
-	bulletBitmap.ctx.fill();
-	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
+p.createTurret = function () {
+  var bulletBitmap = game.make.bitmapData(5, 5);
+  bulletBitmap.ctx.fillStyle = '#ffffff';
+  bulletBitmap.ctx.beginPath();
+  bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
+  bulletBitmap.ctx.closePath();
+  bulletBitmap.ctx.fill();
+  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
 /**
@@ -26726,20 +26743,20 @@ p.createTurret = function() {
  *
  * @method checkOrbDistance
  */
-p.checkOrbDistance = function() {
-	var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
-	if (distance < this.tractorBeam.length) {
-		this.tractorBeam.drawBeam(this.position);
+p.checkOrbDistance = function () {
+  var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
+  if (distance < this.tractorBeam.length) {
+    this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance >= this.tractorBeam.length && distance < 90) {
-		if (this.tractorBeam.isLocked) {
-			this.tractorBeam.grab(this);
-		}
-	} else {
-		if (this.tractorBeam.isLocking) {
-			this.tractorBeam.lockingRelease();
-		}
-	}
+  } else if (distance >= this.tractorBeam.length && distance < 90) {
+    if (this.tractorBeam.isLocked) {
+      this.tractorBeam.grab(this);
+    }
+  } else {
+    if (this.tractorBeam.isLocking) {
+      this.tractorBeam.lockingRelease();
+    }
+  }
 };
 
 /**
@@ -26747,8 +26764,8 @@ p.checkOrbDistance = function() {
  *
  * @method shoot
  */
-p.fire = function() {
-	this.turret.fire();
+p.fire = function () {
+  this.turret.fire();
 };
 
 /**
@@ -26756,39 +26773,39 @@ p.fire = function() {
  *
  * @method crash
  */
-p.crash = function() {
-	if (!properties.fatalCollisions) {
-		console.log('Hit but no effect');
-		return;
-	}
-	this.explosion();
-	this.playerDeath();
+p.crash = function () {
+  if (!properties.fatalCollisions) {
+    console.log('Hit but no effect');
+    return;
+  }
+  this.explosion();
+  this.playerDeath();
 };
 
-p.rotate = function(val) {
-	if (val < 0) {
-		this.body.rotateLeft(Math.abs(val))
-	} else {
-		this.body.rotateRight(val);
-	}
+p.rotate = function (val) {
+  if (val < 0) {
+    this.body.rotateLeft(Math.abs(val))
+  } else {
+    this.body.rotateRight(val);
+  }
 };
 
 /**
  * @method explosion
  */
-p.explosion = function() {
-	this.emitter.x = this.position.x;
-	this.emitter.y = this.position.y;
-	this.emitter.start(true, 2000, null, 20);
+p.explosion = function () {
+  this.emitter.x = this.position.x;
+  this.emitter.y = this.position.y;
+  this.emitter.start(true, 2000, null, 20);
 
 };
 
 /**
  * @method bulletEnd
  */
-p.playerDeath = function() {
-	this.isDead = true;
-	this.tractorBeam.breakLink();
+p.playerDeath = function () {
+  this.isDead = true;
+  this.tractorBeam.breakLink();
 
 
 };
@@ -27142,35 +27159,21 @@ module.exports = Collisions;
 
 },{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js":[function(require,module,exports){
 /**
- * A private var description
+ * These groups are registerd to a common camera parent group.
  *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
- * Groups description
+ * This is an attempt to make zooming possible.
+ * But currently in phaser, this effects the physics badly, and camera.follow stops
+ * working properly, so no zooming is done at runtime yet.
+ *
  * calls init
  *
  * @class Groups
  * @constructor
  */
-function Groups (cameraGroup) {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
-	this.myPublicVar = 1;
+function Groups(cameraGroup) {
+  this.cameraGroup = cameraGroup;
 
-	this.cameraGroup = cameraGroup;
-
-	this.init();
-
-
+  this.init();
 }
 
 var p = Groups.prototype;
@@ -27180,29 +27183,37 @@ var p = Groups.prototype;
  *
  * @method init
  */
-p.init = function() {
+p.init = function () {
 
 
-	this.actors = game.make.group();
-	this.enemies = game.make.group();
-	this.terrain = game.make.group();
-	this.bullets = game.make.group();
+  this.actors = game.make.group();
+  this.enemies = game.make.group();
+  this.terrain = game.make.group();
+  this.bullets = game.make.group();
 
-	this.cameraGroup.add(this.actors);
-	this.cameraGroup.add(this.enemies);
-	this.cameraGroup.add(this.terrain);
-	this.cameraGroup.add(this.bullets);
+  this.cameraGroup.add(this.actors);
+  this.cameraGroup.add(this.enemies);
+  this.cameraGroup.add(this.terrain);
+  this.cameraGroup.add(this.bullets);
 
 };
 
-p.swapTerrain = function() {
-	this.cameraGroup.swap(this.terrain, this.actors);
+p.swapTerrain = function () {
+  this.cameraGroup.swap(this.terrain, this.actors);
 };
 
 
 module.exports = Groups;
 },{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/utils.js":[function(require,module,exports){
 module.exports = {
+  /**
+   * Pythagorus ftw
+   *
+   * @method distAtoB
+   * @param pointA
+   * @param pointB
+   * @returns {number}
+   */
   distAtoB: function(pointA, pointB) {
 
     var A = pointB.x - pointA.x;
@@ -27223,25 +27234,41 @@ module.exports = {
  * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	debugPhysics: true,
-	collideWorldBounds: true,
-	enableJoypad: false,
-	fatalCollisions: true,
-	scale: {
-		mode: Phaser.ScaleManager.NO_SCALE
-	},
-	drawStats: true,
-	drawMontains: false,
-	drawBackground: true,
-	width: 700,
-	height: 500,
-	gamePlay: {
-		freeOrbLocking: false,
-		autoOrbLocking: true,
-		tractorBeamLength: 80,
-		tractorBeamVariation: 10,
-		lockingDuration: 900
-	}
+  debugPhysics: false,
+  collideWorldBounds: true,
+  enableJoypad: true,
+  fatalCollisions: true,
+  scale: {
+    mode: Phaser.ScaleManager.NO_SCALE
+  },
+  drawStats: false,
+  drawBackground: true,
+  width: 700,
+  height: 500,
+  gamePlay: {
+    freeOrbLocking: false,
+    autoOrbLocking: true,
+    tractorBeamLength: 80,
+    tractorBeamVariation: 10,
+    lockingDuration: 900,
+    parallax: true
+  },
+  levels: [
+    {
+      mapImgUrl: 'assets/levels/level_6_x2.png',
+      mapImgKey: 'thrustmap',
+      mapDataUrl: 'assets/levels/level_6.json',
+      mapDataKey: 'physicsData',
+      world: {width: 3072, height: 4000},
+      mapPosition: {x: 0, y: 2000},
+      orbPosition: {x: 1000, y: 1000},
+      enemies: [
+        {x: 1200, y: 1200, rotation: 100},
+        {x: 500, y: 500, rotation: 100}
+      ],
+      enemyFireRate: 1000
+    }
+  ]
 };
 
 },{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/actors/PlayerSpec.js":[function(require,module,exports){

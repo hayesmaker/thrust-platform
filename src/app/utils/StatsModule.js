@@ -1,7 +1,7 @@
 var Stats = require('Stats');
 var properties = require('../properties');
 /**
- * A private var description
+ * doob stats
  *
  * @property stats
  * @type {Stats}
@@ -10,30 +10,19 @@ var properties = require('../properties');
 var stats;
 
 /**
- * StatsModule description
- *
- * defines a public variable and calls init - change this constructor to suit your needs.
- * nb. there's no requirement to call an init function
+ * StatsModule Adds A Stats to the dom and expose the start/stop
+ * methods to the game update loop.
  *
  * @class StatsModule
  * @constructor
  */
 function StatsModule() {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
-	if (properties.drawStats) {
-		console.log('statto');
-		stats = new Stats();
-		stats.setMode(0);
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0px';
-		stats.domElement.style.bottom = '0px';
-		document.body.appendChild( stats.domElement );
-	}
+  stats = new Stats();
+  stats.setMode(0);
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.bottom = '0px';
+  document.body.appendChild(stats.domElement);
 }
 
 var p = StatsModule.prototype;
@@ -42,15 +31,15 @@ var p = StatsModule.prototype;
  *
  * @method begin
  */
-p.start = function() {
-	stats.begin();
+p.start = function () {
+  stats.begin();
 };
 
 /**
  * @method end
  */
-p.end = function() {
-	stats.end();
+p.end = function () {
+  stats.end();
 };
 
 
