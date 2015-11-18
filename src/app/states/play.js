@@ -1,4 +1,4 @@
-//imports
+//Dependencies
 var properties = require('../properties');
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
@@ -12,6 +12,7 @@ var TractorBeam = require('../actors/TractorBeam');
 var features = require('../utils/features');
 var Camera = require('camera');
 var _ = require('lodash');
+var particles = require('../environment/particles');
 
 //levels
 var levelManager = require('../data/level-manager');
@@ -32,15 +33,27 @@ var limpetGuns = [];
 var buttonADown = false;
 var buttonBDown = false;
 var isXDown = false;
+
+var inPlay = false;
+
 /**
- * The play state - this is where the magic happens
+ * The play state
  *
+ * @module states
  * @namespace states
- * @module play
+ * @submodule play
+ * @class play
  * @type {Phaser.State}
+ * @static
  */
 module.exports = {
 
+  emitter: null,
+  /**
+   * Preload in game assets
+   *
+   * @method preload
+   */
   preload: function () {
     level = levelManager.currentLevel;
     console.warn('Preloading level:', levelManager.levelIndex + 1, levelManager.currentLevel);
@@ -48,16 +61,28 @@ module.exports = {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
     game.load.image('stars', 'assets/images/starfield.png');
+    game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.loadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
   },
 
+  /**
+   * Load all maps in defined in the levelManager
+   *
+   * @method loadMap Data
+   * @param level
+   */
   loadMapData: function(level) {
     game.load.image(level.mapImgKey, level.mapImgUrl);
     game.load.physics(level.mapDataKey, level.mapDataUrl);
   },
 
+  /**
+   * Setup the game
+   *
+   * @method create
+   */
   create: function () {
     this.defineWorldBounds();
     this.createActors();
@@ -65,38 +90,70 @@ module.exports = {
     this.createGroupLayering();
 
     ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
+
+    var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+    yKey.onUp.add(function() {
+      particles.startSwirl();
+    }, this);
   },
 
+  /**
+   * Start gameplay
+   * * initialise mission start swipe
+   *
+   * @method missionStart
+   */
   missionStart: function() {
-    player.start();
+    inPlay = true;
+    particles.startSwirl();
+    setTimeout(function() {
+      player.start();
+      player.spawn();
+    }, 3000);
     _.each(limpetGuns, function(limpet) {
       limpet.start();
     });
     this.initControls();
+    this.initEnemies();
 
   },
 
+  /**
+   * Gameloop
+   *
+   * @method update
+   */
   update: function () {
     if (game.stats) {
       game.stats.end();
     }
     this.checkPlayerInput();
     this.actorsUpdate();
+    this.uiUpdate();
     this.checkGameCondition();
     if (game.stats) {
       game.stats.end();
     }
   },
 
+  /**
+   * Needed for debug display
+   *
+   * @method render
+   */
   render: function () {
     if (properties.drawStats) {
       game.debug.cameraInfo(game.camera, 500, 20);
     }
   },
 
+  /**
+   * Cursors &/or gamepad
+   *
+   * @method checkPlayerInput
+   */
   checkPlayerInput: function () {
     if (player.isDead || !this.cursors) {
-
       return;
     }
     if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
@@ -107,7 +164,10 @@ module.exports = {
       player.body.setZeroRotation();
     }
     if (this.cursors.up.isDown || buttonADown) {
-      player.body.thrust(400);
+      if (player.fuel >= 0) {
+        player.body.thrust(400);
+        ui.fuel.update(player.fuel--, true);
+      }
     }
     if (!tractorBeam.hasGrabbed) {
       if (isXDown || properties.gamePlay.autoOrbLocking) {
@@ -118,29 +178,58 @@ module.exports = {
     }
   },
 
+  /**
+   * Has the player won, lost etc
+   *
+   * @method checkGameCondition
+   */
   checkGameCondition: function() {
 
   },
 
+  /**
+   * Filter gameloop to actors
+   *
+   * @method actorsUpdate
+   */
   actorsUpdate: function () {
-    if (!player.isDead) {
-      player.update();
-      //console.log('player.y', player.y);
-      groups.enemies.forEach(function (enemy) {
-        enemy.update();
-      });
-    }
+    player.update();
+    groups.enemies.forEach(function (enemy) {
+      enemy.update();
+    });
     if (background && properties.gamePlay.parallax) {
       background.update();
     }
   },
 
+  /**
+   *
+   *
+   * @method uiUpdate
+   */
+  uiUpdate: function() {
+    if (inPlay) {
+
+    }
+  },
+
+  /**
+   * Set game world parameters depending on level size
+   *
+   * @method defineWorldBounds
+   */
   defineWorldBounds: function () {
     game.world.setBounds(0, 0, level.world.width, level.world.height);
     this.cameraGroup = new Camera(game);
     //this.cameraGroup.zoomTo(2);
   },
 
+  /**
+   * create game actors, group and collision initialisation
+   * game.e2e exposes actors to window, allowing actor control in e2e tests.
+   *
+   * @method createActors
+   */
   createActors: function () {
 
     groups = new Groups(this.cameraGroup);
@@ -159,28 +248,65 @@ module.exports = {
     collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
     collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
 
+    particles.create();
+
     //expose key elements to window for e2e testing
     game.e2e = {
       player: player,
       map: map,
       enemies: limpetGuns
     };
+
+
   },
 
+  /**
+   * Creates the user interface and touch controls
+   *
+   * @method createUi
+   */
   createUi: function() {
-    game.controls.initJoypad();
+    if (game.controls.isJoypadEnabled) {
+      game.controls.initJoypad();
+    }
     ui.init();
     ui.missionSwipe.init(0, game.height * 0.15, game.width * 0.7, 80, ui.group);
-
-
-
+    ui.score.init(10, 10, ui.group);
+    ui.score.update(player.score, true);
+    ui.fuel.init(10, 30, ui.group);
+    ui.fuel.update(player.fuel, true);
+    ui.lives.init(10, 50, ui.group);
+    ui.lives.update(player.lives, true);
   },
 
+  /**
+   * Create an enemy
+   *
+   * @method createLimpet
+   * @param data
+   */
   createLimpet: function(data) {
     var limpet = new LimpetGun(data.rotation, data.x, data.y, collisions, groups);
     limpetGuns.push(limpet);
+    limpet.killed.addOnce(this.limpetDestroyed, this);
   },
 
+  /**
+   * Singal handler for when a limpet gun is destroyed, we can update score
+   *
+   * @method limpetDestroyed
+   * @param score
+   */
+  limpetDestroyed: function(score) {
+    player.score += score;
+    ui.score.update(score, false);
+  },
+
+  /**
+   * Layer group z-index
+   *
+   * @method createGroupLayering
+   */
   createGroupLayering: function () {
     if (background) {
       groups.terrain.add(background.sprite);
@@ -195,6 +321,12 @@ module.exports = {
     game.world.add(ui.group);
   },
 
+  /**
+   * Initialises player control
+   * also activates enemy
+   *
+   * @method initControls
+   */
   initControls: function () {
     if (game.controls.isJoypadEnabled) {
       this.stick = game.controls.stick;
@@ -209,33 +341,73 @@ module.exports = {
     game.controls.xKey.onUp.add(this.xUp, this);
 
     player.init();
+  },
+
+  /**
+   * Initialises the limpet guns
+   *
+   * @method initEnemies
+   */
+  initEnemies: function() {
     _.each(limpetGuns, function(limpet) {
       limpet.init();
     });
   },
 
+  /**
+   * Touch control: Press A
+   *
+   * @method pressButtonA
+   */
   pressButtonA: function () {
     buttonADown = true;
   },
 
+  /**
+   * Touch control: Release A
+   *
+   * @method upButtonA
+   */
   upButtonA: function () {
     buttonADown = false;
   },
 
+  /**
+   * Touch control: Press B
+   * * fire
+   *
+   * @method pressButtonB
+   */
   pressButtonB: function () {
     buttonBDown = true;
     player.fire();
   },
 
+  /**
+   * Touch control: Release B
+   *
+   * @method upButtonB
+   */
   upButtonB: function () {
     buttonBDown = false;
   },
 
+  /**
+   * Key control: Press X
+   *
+   * @method xDown
+   */
   xDown: function () {
     isXDown = true;
     //limpet1.fire();
   },
 
+
+  /**
+   * Key control: Release X
+   *
+   * @method xUp
+   */
   xUp: function () {
     isXDown = false;
     if (!properties.gamePlay.autoOrbLocking) {

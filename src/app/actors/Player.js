@@ -4,6 +4,7 @@ var Turret = require('./Turret');
 var utils = require('../environment/utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
+var ui = require('../ui');
 
 /**
  * Player Ship
@@ -53,11 +54,31 @@ function Player(x, y, collisions, groups) {
    * @property isDead
    * @type {boolean}
    */
-  this.isDead = false;
+  this.isDead = true;
+
+  /**
+   * @property fuel
+   * @type {number}
+   */
+  this.fuel = 500;
+
+  /**
+   * @property lives
+   * @type {number}
+   */
+  this.lives = 5;
+
+  /**
+   * @property score
+   * @type {number}
+   */
+  this.score = 0;
 
   Phaser.Sprite.call(this, game, x, y, 'player');
 
   this.anchor.setTo(0.5);
+  this.alpha = 0;
+  this.initialPos = {x: x, y: y};
 
   this.init();
 }
@@ -109,7 +130,20 @@ p.start = function () {
   this.body.mass = 1;
 };
 
+p.spawn = function() {
+  this.position.setTo(this.initialPos.x, this.initialPos.y);
+  this.alpha = 1;
+  this.isDead = false;
+};
+
+p.respawn = function() {
+  this.spawn();
+  ui.lives.update(this.lives--, true);
+
+};
+
 p.update = function () {
+
   if (!this.isDead && this.body) {
     this.turret.update();
   }
@@ -172,7 +206,7 @@ p.crash = function () {
     return;
   }
   this.explosion();
-  this.playerDeath();
+  this.death();
 };
 
 p.rotate = function (val) {
@@ -190,17 +224,15 @@ p.explosion = function () {
   this.emitter.x = this.position.x;
   this.emitter.y = this.position.y;
   this.emitter.start(true, 2000, null, 20);
+  this.tractorBeam.breakLink();
 
 };
 
 /**
  * @method bulletEnd
  */
-p.playerDeath = function () {
+p.death = function () {
   this.isDead = true;
-  this.tractorBeam.breakLink();
-
-
 };
 
 

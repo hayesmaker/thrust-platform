@@ -2,6 +2,17 @@
 
 var properties = require('./properties');
 
+/**
+ * Main game entry point
+ * * called on window.onload to make sure fonts registered to html page are loaded first.
+ * * initilise the Phaser.Game and register game states
+ * * start state: boot.
+ *
+ * @module main
+ * @main
+ * @method init
+ */
+
 var init = function() {
   global.game = new Phaser.Game(properties.width,properties.height, Phaser.AUTO);
 

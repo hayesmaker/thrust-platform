@@ -86,7 +86,7 @@ p.crash = function() {
 	console.warn('Orb :: crash');
 
 	if (this.player) {
-		this.player.playerDeath();
+		this.player.death();
 	}
 };
 

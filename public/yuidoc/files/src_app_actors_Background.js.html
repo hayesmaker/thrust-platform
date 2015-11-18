@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.12</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -116,8 +132,13 @@ var graphics;
  * @class Background
  * @constructor
  */
-function Background() {
-	this.sprite = game.make.tileSprite(0, 0, 928, 600, &#x27;stars&#x27;);
+function Background(x, y) {
+	this.sprite = game.make.tileSprite(x, y, 700, 500, &#x27;stars&#x27;);
+	//this.sprite2 = game.make.tileSprite(0, 450, game.world.width, 512, &#x27;stars-gradient&#x27;);
+	//this.sprite3 = game.make.tileSprite(0, 550, 512, 4, &#x27;black-tile&#x27;);
+	this.sprite.fixedToCamera = true;
+	//this.sprite3.fixedToCamera = true;
+
 	this.init();
 }
 
@@ -130,26 +151,10 @@ var p = Background.prototype;
  */
 p.init = function() {
 	this.stars = this.sprite;
+};
 
-	if (properties.drawMountains) {
-		this.mountains = game.add.sprite(0, 700);
-		graphics = new Phaser.Graphics(game, 0,0);
-		graphics.lineStyle(2, 0xffffff, 0.7);
-		var groundWidth = 2000;
-		var peakW = 200;
-		var peakH = 100;
-		var up = true;
-		var i;
-		for (i = 0; i &lt; groundWidth; i++) {
-			if (i % peakW === 0) {
-				graphics.lineTo( peakW + i, up? -Math.random() * peakH : 0 );
-				up = !up;
-			}
-		}
-		this.mountains.addChild(graphics);
-	}
-
-
+p.update = function() {
+	this.sprite.tilePosition.set(-game.camera.x * 0.1, -game.camera.y * 0.1);
 };
 
 

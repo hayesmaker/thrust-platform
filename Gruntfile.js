@@ -60,7 +60,7 @@ module.exports = function (grunt) {
         src: ['./src/test/tests.js'],
         dest: './public/javascripts/test/tests.js',
         options: {
-          watch: true,
+          watch: false,
           transform: ['browserify-shim']
         }
       },
@@ -68,9 +68,9 @@ module.exports = function (grunt) {
         src: ['<%= project.src %>/<%= project.main %>'],
         dest: '<%= project.bundle %>',
         options: {
-          keepAlive: true,
+          keepAlive: false,
           transform: ['browserify-shim'],
-          watch: true,
+          watch: false,
           postBundleCB: function (err, src, next) {
             grunt.log.writeln('app created successfully at: ' + new Date());
             next(err, src);
@@ -190,7 +190,7 @@ module.exports = function (grunt) {
   // Default task.
   grunt.registerTask('default', ['browserify']);
   grunt.registerTask('add', ['smoothie']);
-  grunt.registerTask('build', ['browserify:prod', 'uglify']);
+  grunt.registerTask('build', ['yuidoc', 'browserify:prod', 'uglify']);
   grunt.registerTask('test', ['mocha']);
 
 };

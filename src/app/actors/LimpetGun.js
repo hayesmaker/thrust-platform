@@ -2,24 +2,49 @@ var properties = require('../properties');
 var Turret = require('./Turret');
 var SpreadFiring = require('./strategies/SpreadFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
+
 /**
- * LimpetGun description
+ * LimpetGun
  *
- * defines a public variable and calls init - change this constructor to suit your needs.
- * nb. there's no requirement to call an init function
+ * The enemy of the game are stationary gun turrets which
+ * fire at random angles (Spread strategy) and at a rate which should increase with difficulty
  *
+ * @module Actors
  * @param x
  * @param y
  * @param angleDeg
  * @param collisions
  * @param groups
  * @class LimpetGun
+ * @namespace actors
  * @constructor
  */
 function LimpetGun(x, y, angleDeg, collisions, groups) {
+  /**
+   * Point value for this enemy
+   *
+   * @property score
+   * @type {number}
+   */
+  this.score = 100;
 
+  /**
+   *
+   * @property collisions
+   */
   this.collisions = collisions;
 
+  /**
+   * Dispatched when this enemy is dispatched
+   *
+   * @property killed
+   * @type {Phaser.Signal}
+   */
+  this.killed = new Phaser.Signal();
+  /**
+   *
+   * @property groups
+   */
   this.groups = groups;
 
   var bmd = game.make.bitmapData(50, 25);
@@ -74,7 +99,7 @@ p.start = function() {
   this.body.rotation = game.math.degToRad(this.angle);
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);
-  this.body.collides(this.collisions.bullets, this.dies, this);
+  this.body.collides(this.collisions.bullets, this.kill, this);
   this.body.motionState = 2;
 };
 
@@ -104,13 +129,15 @@ p.update = function () {
   this.turret.update();
 };
 
-p.dies = function () {
+p.kill = function () {
   this.emitter.x = this.position.x;
   this.emitter.y = this.position.y;
   this.emitter.start(true, 2000, null, 20);
   this.isDead = true;
   this.visible = false;
   this.stop();
+
+  this.killed.dispatch(this.score);
 };
 
 

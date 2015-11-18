@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Player - thrust-engine</title>
+    <title>actors.Player - thrust-engine</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.12</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -94,29 +110,28 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Player Class</h1>
+<h1>actors.Player Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_app_actors_Player.js.html#l8"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:8</code></a>
+            Defined in: <a href="../files/src_app_actors_Player.js.html#l9"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:9</code></a>
         </div>
 
-            Module: <a href="../modules/boot.html">boot</a>
+            Module: <a href="../modules/Actors.html">Actors</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Player description
-calls init</p>
+    <p>Player Ship</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_Player" class="method item">
-    <h3 class="name"><code>Player</code></h3>
+<div id="method_actors.Player" class="method item">
+    <h3 class="name"><code>actors.Player</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -145,7 +160,7 @@ calls init</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l8"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:8</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l9"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:9</code></a>
         </p>
 
 
@@ -278,7 +293,23 @@ calls init</p>
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_fuel">fuel</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_groups">groups</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_isDead">isDead</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_lives">lives</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_score">score</a>
 
                             </li>
                             <li class="index-item property">
@@ -297,16 +328,7 @@ calls init</p>
 <div id="method_bulletEnd" class="method item">
     <h3 class="name"><code>bulletEnd</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>bullet</code>
-                </li>
-                <li class="arg">
-                        <code>group</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
 
 
@@ -318,7 +340,7 @@ calls init</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l174"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:174</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l222"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:222</code></a>
         </p>
 
 
@@ -329,32 +351,6 @@ calls init</p>
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">bullet</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">group</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
 
 
@@ -374,7 +370,7 @@ calls init</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l119"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:119</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l158"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:158</code></a>
         </p>
 
 
@@ -406,7 +402,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l150"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:150</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l189"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:189</code></a>
         </p>
 
 
@@ -428,7 +424,7 @@ either draw a tractorBeam</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Turret.html" class="crosslink">Turret</a> | Exports | module.exports</span>
+            <span class="type">Turret | Exports | module.exports</span>
         </span>
 
 
@@ -440,7 +436,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l103"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:103</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l143"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:143</code></a>
         </p>
 
 
@@ -456,7 +452,7 @@ either draw a tractorBeam</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Turret.html" class="crosslink">Turret</a> | Exports | module.exports</span>:
+                        <span class="type">Turret | Exports | module.exports</span>:
             </div>
         </div>
 
@@ -477,7 +473,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l164"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:164</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l211"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:211</code></a>
         </p>
 
 
@@ -507,7 +503,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l70"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:70</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l97"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:97</code></a>
         </p>
 
 
@@ -544,7 +540,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l61"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:61</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l88"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:88</code></a>
         </p>
 
 
@@ -590,7 +586,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l141"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:141</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l180"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:180</code></a>
         </p>
 
 
@@ -622,7 +618,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l20"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:20</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l21"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:21</code></a>
         </p>
 
 
@@ -647,7 +643,31 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l44"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:44</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l45"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:45</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_fuel" class="property item">
+    <h3 class="name"><code>fuel</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_app_actors_Player.js.html#l59"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:59</code></a>
         </p>
 
 
@@ -671,7 +691,7 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l28"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:28</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l29"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:29</code></a>
         </p>
 
 
@@ -685,9 +705,9 @@ either draw a tractorBeam</p>
 
 
 </div>
-<div id="property_tractorBeam" class="property item">
-    <h3 class="name"><code>tractorBeam</code></h3>
-    <span class="type"><a href="../classes/TractorBeam.html" class="crosslink">TractorBeam</a></span>
+<div id="property_isDead" class="property item">
+    <h3 class="name"><code>isDead</code></h3>
+    <span class="type">Boolean</span>
 
 
 
@@ -696,7 +716,80 @@ either draw a tractorBeam</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_Player.js.html#l36"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:36</code></a>
+        <a href="../files/src_app_actors_Player.js.html#l51"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:51</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Player has been destroyed</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_lives" class="property item">
+    <h3 class="name"><code>lives</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_app_actors_Player.js.html#l65"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:65</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_score" class="property item">
+    <h3 class="name"><code>score</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_app_actors_Player.js.html#l71"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:71</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_tractorBeam" class="property item">
+    <h3 class="name"><code>tractorBeam</code></h3>
+    <span class="type">TractorBeam</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_app_actors_Player.js.html#l37"><code>src&#x2F;app&#x2F;actors&#x2F;Player.js:37</code></a>
         </p>
 
 

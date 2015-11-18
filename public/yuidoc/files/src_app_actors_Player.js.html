@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.12</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -104,10 +120,11 @@ var Turret = require(&#x27;./Turret&#x27;);
 var utils = require(&#x27;../environment/utils&#x27;);
 var ForwardFiring = require(&#x27;./strategies/ForwardFiring&#x27;);
 var ShipParticle = require(&#x27;./bitmaps/ShipParticle&#x27;);
+var ui = require(&#x27;../ui&#x27;);
 
 /**
- * Player description
- * calls init
+ * Player Ship
+ *
  *
  * @param {number} x
  * @param {number} y
@@ -117,45 +134,71 @@ var ShipParticle = require(&#x27;./bitmaps/ShipParticle&#x27;);
  * @constructor
  */
 function Player(x, y, collisions, groups) {
-	/**
-	 * The collisions container
-	 *
-	 * @property collisions
-	 * @type {Collisions}
-	 */
-	this.collisions = collisions;
+  /**
+   * The collisions container
+   *
+   * @property collisions
+   * @type {Collisions}
+   */
+  this.collisions = collisions;
 
-	/**
-	 * The groups container
-	 *
-	 * @property groups
-	 * @type {Groups}
-	 */
-	this.groups = groups;
+  /**
+   * The groups container
+   *
+   * @property groups
+   * @type {Groups}
+   */
+  this.groups = groups;
 
-	/**
-	 * A beam actor used by player to colect the orb
-	 *
-	 * @property tractorBeam
-	 * @type {TractorBeam}
-	 */
-	this.tractorBeam = null;
+  /**
+   * A beam actor used by player to colect the orb
+   *
+   * @property tractorBeam
+   * @type {TractorBeam}
+   */
+  this.tractorBeam = null;
 
-	/**
-	 * @property emitter
-	 * @type {Phaser.Emitter}
-	 */
-	this.emitter;
+  /**
+   * @property emitter
+   * @type {Phaser.Emitter}
+   */
+  this.emitter;
 
-	this.isDead = false;
+  /**
+   * Player has been destroyed
+   *
+   * @property isDead
+   * @type {boolean}
+   */
+  this.isDead = false;
 
-	Phaser.Sprite.call(this, game, x, y, &#x27;player&#x27;);
+  /**
+   * @property fuel
+   * @type {number}
+   */
+  this.fuel = 500;
 
-	this.init();
+  /**
+   * @property lives
+   * @type {number}
+   */
+  this.lives = 5;
+
+  /**
+   * @property score
+   * @type {number}
+   */
+  this.score = 0;
+
+  Phaser.Sprite.call(this, game, x, y, &#x27;player&#x27;);
+
+  this.anchor.setTo(0.5);
+
+  this.init();
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
-	constructor: Player
+  constructor: Player
 });
 
 /**
@@ -163,8 +206,8 @@ var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
  * @method setTractorBeam
  * @param tractorBeam
  */
-p.setTractorBeam = function(tractorBeam) {
-	this.tractorBeam = tractorBeam;
+p.setTractorBeam = function (tractorBeam) {
+  this.tractorBeam = tractorBeam;
 };
 
 /**
@@ -172,48 +215,60 @@ p.setTractorBeam = function(tractorBeam) {
  *
  * @method init
  */
-p.init = function() {
+p.init = function () {
 
-	game.physics.p2.enable(this, properties.debugPhysics);
+  this.turret = this.createTurret();
+  this.emitter = game.add.emitter(this.x, this.y, 100);
+  this.emitter.particleClass = ShipParticle;
+  this.emitter.makeParticles();
+  this.emitter.gravity = 200;
 
-	this.body.clearShapes();
-	this.body.loadPolygon(&#x27;playerPhysics&#x27;, &#x27;player&#x27;);
+  //this.start();
+  //this.stop();
 
-	this.body.collideWorldBounds = properties.collideWorldBounds;
-	this.body.mass = 1;
-	this.body.setCollisionGroup(this.collisions.players);
-
-
-	this.turret = this.createTurret();
-
-	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-
-	this.emitter = game.add.emitter(this.x, this.y, 100);
-	this.emitter.particleClass = ShipParticle;
-	this.emitter.makeParticles();
-	this.emitter.gravity = 200;
-
-	//this.scale.x = this.scale.y = 0.5;
 };
 
-p.update = function() {
-	this.turret.update();
+p.stop = function() {
+  this.body.removeFromWorld();
+};
+
+p.start = function () {
+  console.log(&#x27;Player :: start&#x27;);
+  game.physics.p2.enable(this, properties.debugPhysics);
+  this.body.clearShapes();
+  this.body.loadPolygon(&#x27;playerPhysics&#x27;, &#x27;player&#x27;);
+  this.body.collideWorldBounds = properties.collideWorldBounds;
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
+  this.body.setCollisionGroup(this.collisions.players);
+  this.body.motionState = 1;
+  this.body.mass = 1;
+};
+
+p.respawn = function() {
+  ui.lives.update(this.lives--, true);
+
+};
+
+p.update = function () {
+
+  if (!this.isDead &amp;&amp; this.body) {
+    this.turret.update();
+  }
 };
 
 /**
  *
- *
  * @method createTurret
  * @returns {Turret|exports|module.exports}
  */
-p.createTurret = function() {
-	var bulletBitmap = game.make.bitmapData(5,5);
-	bulletBitmap.ctx.fillStyle = &#x27;#ffffff&#x27;;
-	bulletBitmap.ctx.beginPath();
-	bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
-	bulletBitmap.ctx.closePath();
-	bulletBitmap.ctx.fill();
-	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
+p.createTurret = function () {
+  var bulletBitmap = game.make.bitmapData(5, 5);
+  bulletBitmap.ctx.fillStyle = &#x27;#ffffff&#x27;;
+  bulletBitmap.ctx.beginPath();
+  bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
+  bulletBitmap.ctx.closePath();
+  bulletBitmap.ctx.fill();
+  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
 /**
@@ -222,20 +277,20 @@ p.createTurret = function() {
  *
  * @method checkOrbDistance
  */
-p.checkOrbDistance = function() {
-	var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
-	if (distance &lt; this.tractorBeam.length) {
-		this.tractorBeam.drawBeam(this.position);
+p.checkOrbDistance = function () {
+  var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
+  if (distance &lt; this.tractorBeam.length) {
+    this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance &gt;= this.tractorBeam.length &amp;&amp; distance &lt; 90) {
-		if (this.tractorBeam.isLocked) {
-			this.tractorBeam.grab(this);
-		}
-	} else {
-		if (this.tractorBeam.isLocking) {
-			this.tractorBeam.lockingRelease();
-		}
-	}
+  } else if (distance &gt;= this.tractorBeam.length &amp;&amp; distance &lt; 90) {
+    if (this.tractorBeam.isLocked) {
+      this.tractorBeam.grab(this);
+    }
+  } else {
+    if (this.tractorBeam.isLocking) {
+      this.tractorBeam.lockingRelease();
+    }
+  }
 };
 
 /**
@@ -243,8 +298,8 @@ p.checkOrbDistance = function() {
  *
  * @method shoot
  */
-p.fire = function() {
-	this.turret.fire();
+p.fire = function () {
+  this.turret.fire();
 };
 
 /**
@@ -252,37 +307,39 @@ p.fire = function() {
  *
  * @method crash
  */
-p.crash = function() {
-	if (!properties.fatalCollisions) {
-		console.log(&#x27;Hit but no effect&#x27;);
-		return;
-	}
-	this.explosion();
-	this.playerDeath();
+p.crash = function () {
+  if (!properties.fatalCollisions) {
+    console.log(&#x27;Hit but no effect&#x27;);
+    return;
+  }
+  this.explosion();
+  this.death();
+};
+
+p.rotate = function (val) {
+  if (val &lt; 0) {
+    this.body.rotateLeft(Math.abs(val))
+  } else {
+    this.body.rotateRight(val);
+  }
 };
 
 /**
  * @method explosion
  */
-p.explosion = function() {
-	this.emitter.x = this.position.x;
-	this.emitter.y = this.position.y;
-	this.emitter.start(true, 2000, null, 20);
+p.explosion = function () {
+  this.emitter.x = this.position.x;
+  this.emitter.y = this.position.y;
+  this.emitter.start(true, 2000, null, 20);
+  this.tractorBeam.breakLink();
 
 };
 
 /**
  * @method bulletEnd
- * @param bullet
- * @param group
  */
-p.playerDeath = function() {
-	//group.remove(bullet);
-	this.isDead = true;
-	//this.visible = false;
-	this.tractorBeam.breakLink();
-
-
+p.death = function () {
+  this.isDead = true;
 };
 
 

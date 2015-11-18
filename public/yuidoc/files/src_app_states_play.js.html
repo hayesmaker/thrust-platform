@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.12</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -98,10 +114,11 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//imports
+//Dependencies
 var properties = require(&#x27;../properties&#x27;);
 var Collisions = require(&#x27;../environment/Collisions&#x27;);
 var Groups = require(&#x27;../environment/Groups&#x27;);
+var ui = require(&#x27;../ui/index&#x27;);
 var Player = require(&#x27;../actors/Player&#x27;);
 var LimpetGun = require(&#x27;../actors/LimpetGun&#x27;);
 var Orb = require(&#x27;../actors/Orb&#x27;);
@@ -110,6 +127,12 @@ var Background = require(&#x27;../actors/Background&#x27;);
 var TractorBeam = require(&#x27;../actors/TractorBeam&#x27;);
 var features = require(&#x27;../utils/features&#x27;);
 var Camera = require(&#x27;camera&#x27;);
+var _ = require(&#x27;lodash&#x27;);
+var particles = require(&#x27;../environment/particles&#x27;);
+
+//levels
+var levelManager = require(&#x27;../data/level-manager&#x27;);
+var level;
 
 //environment
 var collisions;
@@ -120,190 +143,412 @@ var player;
 var orb;
 var tractorBeam;
 var background;
-var limpet1;
-var limpet2;
+var limpetGuns = [];
 
 //controls;
 var buttonADown = false;
 var buttonBDown = false;
-var isXDown     = false;
+var isXDown = false;
 
-
+var inPlay = false;
 
 /**
- * The play state - this is where the magic happens
+ * The play state
  *
+ * @module states
  * @namespace states
+ * @submodule play
  * @class play
+ * @type {Phaser.State}
+ * @static
  */
 module.exports = {
 
-	preload: function() {
-    console.warn(&#x27;game.controls.isJoypadEnabled&#x27;, game.controls.isJoypadEnabled);
-		if (game.controls.isJoypadEnabled) {
-			game.load.atlas(&#x27;dpad&#x27;, &#x27;images/virtualjoystick/skins/dpad.png&#x27;, &#x27;images/virtualjoystick/skins/dpad.json&#x27;);
-		}
-		game.load.image(&#x27;thrustmap&#x27;, &#x27;images/level_6_x2.png&#x27;);
-		game.load.physics(&#x27;physicsData&#x27;, &#x27;images/level_6.json&#x27;);
-		game.load.image(&#x27;stars&#x27;, &#x27;images/starfield.png&#x27;);
-		game.load.image(&#x27;player&#x27;, &#x27;images/player.png&#x27;);
-		game.load.physics(&#x27;playerPhysics&#x27;, &#x27;images/player.json&#x27;);
-	},
+  emitter: null,
+  /**
+   * Preload in game assets
+   *
+   * @method preload
+   */
+  preload: function () {
+    level = levelManager.currentLevel;
+    console.warn(&#x27;Preloading level:&#x27;, levelManager.levelIndex + 1, levelManager.currentLevel);
+    if (game.controls.isJoypadEnabled) {
+      game.load.atlas(&#x27;dpad&#x27;, &#x27;assets/images/virtualjoystick/skins/dpad.png&#x27;, &#x27;assets/images/virtualjoystick/skins/dpad.json&#x27;);
+    }
+    game.load.image(&#x27;stars&#x27;, &#x27;assets/images/starfield.png&#x27;);
+    game.load.image(&#x27;smoke_r&#x27;, &#x27;assets/images/smoke_colors.png&#x27;);
+    _.each(levelManager.levels, this.loadMapData, this);
+    game.load.image(&#x27;player&#x27;, &#x27;assets/actors/player.png&#x27;);
+    game.load.physics(&#x27;playerPhysics&#x27;, &#x27;assets/actors/player.json&#x27;);
+  },
 
-	create: function() {
-		this.defineWorldBounds();
-		this.createActors();
-		this.createGroupLayering();
-		this.initControls();
+  /**
+   * Load all maps in defined in the levelManager
+   *
+   * @method loadMap Data
+   * @param level
+   */
+  loadMapData: function(level) {
+    game.load.image(level.mapImgKey, level.mapImgUrl);
+    game.load.physics(level.mapDataKey, level.mapDataUrl);
+  },
 
+  /**
+   * Setup the game
+   *
+   * @method create
+   */
+  create: function () {
+    this.defineWorldBounds();
+    this.createActors();
+    this.createUi();
+    this.createGroupLayering();
 
+    ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
 
+    this.emitter.emit(&#x27;magicSmokeEmitter&#x27;, game.width/2, game.height/2);
+  },
 
-	},
+  /**
+   * Start gameplay
+   * * initialise mission start swipe
+   *
+   * @method missionStart
+   */
+  missionStart: function() {
+    inPlay = true;
+    player.start();
+    _.each(limpetGuns, function(limpet) {
+      limpet.start();
+    });
+    this.initControls();
+    this.initEnemies();
 
-	update: function() {
-		this.beginStats();
-		this.checkPlayerInput();
-		this.actorsUpdate();
-		this.endStats();
-	},
+  },
 
-	render: function() {
-		game.debug.cameraInfo(game.camera, 500, 20);
-	},
+  /**
+   * Gameloop
+   *
+   * @method update
+   */
+  update: function () {
+    if (game.stats) {
+      game.stats.end();
+    }
+    this.checkPlayerInput();
+    this.actorsUpdate();
+    this.uiUpdate();
+    this.checkGameCondition();
+    if (game.stats) {
+      game.stats.end();
+    }
+  },
 
+  /**
+   * Needed for debug display
+   *
+   * @method render
+   */
+  render: function () {
+    if (properties.drawStats) {
+      game.debug.cameraInfo(game.camera, 500, 20);
+    }
+  },
 
-	checkPlayerInput: function(){
-		if (player.isDead) {
-			return;
-		}
+  /**
+   * Cursors &amp;/or gamepad
+   *
+   * @method checkPlayerInput
+   */
+  checkPlayerInput: function () {
+    if (player.isDead || !this.cursors) {
+      return;
+    }
+    if ((this.stick &amp;&amp; this.stick.isDown &amp;&amp; this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
+      player.rotate(-100)
+    } else if ((this.stick &amp;&amp; this.stick.isDown &amp;&amp; this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
+      player.rotate(100);
+    } else if (!game.e2e.controlOverride) {
+      player.body.setZeroRotation();
+    }
+    if (this.cursors.up.isDown || buttonADown) {
+      if (player.fuel &gt;= 0) {
+        player.body.thrust(400);
+        ui.fuel.update(player.fuel--, true);
+      }
+    }
+    if (!tractorBeam.hasGrabbed) {
+      if (isXDown || properties.gamePlay.autoOrbLocking) {
+        player.checkOrbDistance();
+      }
+    } else {
+      tractorBeam.drawBeam(player.position);
+    }
+  },
 
-		if ((this.stick &amp;&amp; this.stick.isDown &amp;&amp; this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
-			player.body.rotateLeft(100);
-		} else if ((this.stick &amp;&amp; this.stick.isDown &amp;&amp; this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
-			player.body.rotateRight(100);
-		} else {
-			player.body.setZeroRotation();
-		}
-		if (this.cursors.up.isDown || buttonADown){
-			player.body.thrust(400);
-		}
-		if (!tractorBeam.hasGrabbed) {
-			if (isXDown || properties.gamePlay.autoOrbLocking) {
-				player.checkOrbDistance();
-			}
-		} else {
-			tractorBeam.drawBeam(player.position);
-		}
-	},
+  /**
+   * Has the player won, lost etc
+   *
+   * @method checkGameCondition
+   */
+  checkGameCondition: function() {
 
-	actorsUpdate: function() {
-		player.update();
-		groups.enemies.forEach(function(enemy) {
-			enemy.update();
-		});
-	},
+  },
 
-	defineWorldBounds: function() {
-    var gameWorld = {width: 3072, height: 4000};
-		game.world.setBounds(0,0, gameWorld.width, gameWorld.height);
+  /**
+   * Filter gameloop to actors
+   *
+   * @method actorsUpdate
+   */
+  actorsUpdate: function () {
+    player.update();
+    groups.enemies.forEach(function (enemy) {
+      enemy.update();
+    });
+    if (background &amp;&amp; properties.gamePlay.parallax) {
+      background.update();
+    }
+  },
+
+  /**
+   *
+   *
+   * @method uiUpdate
+   */
+  uiUpdate: function() {
+    if (inPlay) {
+
+    }
+  },
+
+  /**
+   * Set game world parameters depending on level size
+   *
+   * @method defineWorldBounds
+   */
+  defineWorldBounds: function () {
+    game.world.setBounds(0, 0, level.world.width, level.world.height);
     this.cameraGroup = new Camera(game);
     //this.cameraGroup.zoomTo(2);
-	},
+  },
 
-	createActors: function() {
-		groups = new Groups(this.cameraGroup);
-		collisions = new Collisions();
-		if (properties.drawBackground) {
-			background = new Background();
-		}
-		player = new Player(game.world.centerX, 300, collisions, groups);
-		orb = new Orb(collisions);
-		tractorBeam = new TractorBeam(orb, player);
-		player.setTractorBeam(tractorBeam);
-		limpet1 = new LimpetGun(428, 1103, 153, collisions, groups);
-		limpet2 = new LimpetGun(710, 1053, 206, collisions, groups);
-		map = new Map(collisions);
+  /**
+   * create game actors, group and collision initialisation
+   * game.e2e exposes actors to window, allowing actor control in e2e tests.
+   *
+   * @method createActors
+   */
+  createActors: function () {
 
-		game.camera.follow(player);
+    groups = new Groups(this.cameraGroup);
+    collisions = new Collisions();
+    if (properties.drawBackground) {
+      background = new Background();
+    }
+    player = new Player(game.width / 2, game.height /   2, collisions, groups);
+    orb = new Orb(level.orbPosition.x, level.orbPosition.y, collisions);
+    tractorBeam = new TractorBeam(orb, player);
+    player.setTractorBeam(tractorBeam);
+    _.each(level.enemies, this.createLimpet, this);
+    map = new Map(level.mapPosition.x, level.mapPosition.y, collisions);
+    game.camera.follow(player);
 
-		collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
-		collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
-	},
+    collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
+    collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
 
-	createGroupLayering: function() {
-		if (background) {
-			groups.terrain.add(background.sprite);
-			if (background.mountains) {
-				groups.terrain.add(background.mountains);
-			}
-		}
+    this.magicSmokeEmitter = {
+      _image: &#x27;smoke_r&#x27;,
+      visible: false,
+      lifespan: 2500,
+      emit: {
+        name: &#x27;magicSmoke&#x27;,
+        value: 2,
+        control: [ { x: 0, y: 0 } ]
+      }
+    };
+
+    this.magicSmoke = {
+      image: &#x27;smoke_r&#x27;,
+      lifespan: 3000,
+      rotation: { value: -90.0, delta: 4 },
+      vy: -2,
+      facingAcceleration: { initial: 0.1, value: 0, delta: 0 },
+      scaleX: { value: 1.5, control: [ { x: 0, y: 0 }]},
+      scaleY: { value: 1.5, control: [ { x: 0, y: 0 }]},
+      alpha: 0.5
+    };
+
+    particles.manager.addData(&#x27;magicSmokeEmitter&#x27;, this.magicSmokeEmitter);
+    particles.manager.addData(&#x27;magicSmoke&#x27;, this.magicSmoke);
+
+    this.emitter = particles.manager.createEmitter();
+    this.emitter.addToWorld();
+
+    //expose key elements to window for e2e testing
+    game.e2e = {
+      player: player,
+      map: map,
+      enemies: limpetGuns
+    };
+
+
+  },
+
+  /**
+   * Creates the user interface and touch controls
+   *
+   * @method createUi
+   */
+  createUi: function() {
+    if (game.controls.isJoypadEnabled) {
+      game.controls.initJoypad();
+    }
+    ui.init();
+    ui.missionSwipe.init(0, game.height * 0.15, game.width * 0.7, 80, ui.group);
+    ui.score.init(10, 10, ui.group);
+    ui.score.update(player.score, true);
+    ui.fuel.init(10, 30, ui.group);
+    ui.fuel.update(player.fuel, true);
+    ui.lives.init(10, 50, ui.group);
+    ui.lives.update(player.lives, true);
+  },
+
+  /**
+   * Create an enemy
+   *
+   * @method createLimpet
+   * @param data
+   */
+  createLimpet: function(data) {
+    var limpet = new LimpetGun(data.rotation, data.x, data.y, collisions, groups);
+    limpetGuns.push(limpet);
+    limpet.killed.addOnce(this.limpetDestroyed, this);
+  },
+
+  /**
+   * Singal handler for when a limpet gun is destroyed, we can update score
+   *
+   * @method limpetDestroyed
+   * @param score
+   */
+  limpetDestroyed: function(score) {
+    player.score += score;
+    ui.score.update(score, false);
+  },
+
+  /**
+   * Layer group z-index
+   *
+   * @method createGroupLayering
+   */
+  createGroupLayering: function () {
+    if (background) {
+      groups.terrain.add(background.sprite);
+    }
     groups.terrain.add(map.sprite);
-		groups.actors.add(player);
-		groups.actors.add(orb.sprite);
-		groups.enemies.add(limpet1);
-		groups.enemies.add(limpet2);
-
+    groups.actors.add(player);
+    groups.actors.add(orb.sprite);
+    _.each(limpetGuns, function(limpet) {
+      groups.enemies.add(limpet);
+    });
     groups.swapTerrain();
+    game.world.add(ui.group);
+  },
 
-	},
+  /**
+   * Initialises player control
+   * also activates enemy
+   *
+   * @method initControls
+   */
+  initControls: function () {
+    if (game.controls.isJoypadEnabled) {
+      this.stick = game.controls.stick;
+      game.controls.buttonA.onDown.add(this.pressButtonA, this);
+      game.controls.buttonA.onUp.add(this.upButtonA, this);
+      game.controls.buttonB.onDown.add(this.pressButtonB, this);
+      game.controls.buttonB.onUp.add(this.upButtonB, this);
+    }
+    this.cursors = game.controls.cursors;
+    game.controls.spacePress.onDown.add(player.fire, player);
+    game.controls.xKey.onDown.add(this.xDown, this);
+    game.controls.xKey.onUp.add(this.xUp, this);
 
-	initControls: function() {
-		if (game.controls.isJoypadEnabled) {
-			game.controls.initJoypad();
-			this.stick = game.controls.stick;
-			game.controls.buttonA.onDown.add(this.pressButtonA, this);
-			game.controls.buttonA.onUp.add(this.upButtonA, this);
-			game.controls.buttonB.onDown.add(this.pressButtonB, this);
-			game.controls.buttonB.onUp.add(this.upButtonB, this);
-		}
-		this.cursors 	 = game.controls.cursors;
-    console.warn(&#x27;this.initControls :: this.cursors&#x27;, this.cursors);
-		game.controls.spacePress.onDown.add(player.fire, player);
-		game.controls.xKey.onDown.add(this.xDown, this);
-		game.controls.xKey.onUp.add(this.xUp, this);
-	},
+    player.init();
+  },
 
-	beginStats: function() {
-		if (properties.drawStats) {
-			game.stats.start();
-		}
-	},
+  /**
+   * Initialises the limpet guns
+   *
+   * @method initEnemies
+   */
+  initEnemies: function() {
+    _.each(limpetGuns, function(limpet) {
+      limpet.init();
+    });
+  },
 
-	endStats: function() {
-		if (properties.drawStats) {
-			game.stats.end();
-		}
-	},
+  /**
+   * Touch control: Press A
+   *
+   * @method pressButtonA
+   */
+  pressButtonA: function () {
+    buttonADown = true;
+  },
 
-	pressButtonA: function() {
-		buttonADown = true;
-	},
+  /**
+   * Touch control: Release A
+   *
+   * @method upButtonA
+   */
+  upButtonA: function () {
+    buttonADown = false;
+  },
 
-	upButtonA: function() {
-		buttonADown = false;
-	},
+  /**
+   * Touch control: Press B
+   * * fire
+   *
+   * @method pressButtonB
+   */
+  pressButtonB: function () {
+    buttonBDown = true;
+    player.fire();
+  },
 
-	pressButtonB: function() {
-		buttonBDown = true;
-		player.fire();
-	},
+  /**
+   * Touch control: Release B
+   *
+   * @method upButtonB
+   */
+  upButtonB: function () {
+    buttonBDown = false;
+  },
 
-	upButtonB: function() {
-		buttonBDown = false;
-	},
+  /**
+   * Key control: Press X
+   *
+   * @method xDown
+   */
+  xDown: function () {
+    isXDown = true;
+    //limpet1.fire();
+  },
 
-	xDown: function () {
-		isXDown = true;
-		//limpet1.fire();
-	},
 
-	xUp: function() {
-		isXDown = false;
-		if (!properties.gamePlay.autoOrbLocking) {
-			tractorBeam.lockingRelease();
-		}
-	}
+  /**
+   * Key control: Release X
+   *
+   * @method xUp
+   */
+  xUp: function () {
+    isXDown = false;
+    if (!properties.gamePlay.autoOrbLocking) {
+      tractorBeam.lockingRelease();
+    }
+  }
 };
 
     </pre>

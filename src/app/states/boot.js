@@ -1,25 +1,49 @@
+'use strict';
+
 var properties = require('../properties');
 var features = require('../utils/features');
 var StatsModule = require('../utils/StatsModule');
 var UserControl = require('../environment/UserControl');
 var levelManager = require('../data/level-manager');
-
+var particles = require('../environment/particles');
 var userControl;
+
 /**
  * The boot state
  *
+ * @module states
  * @namespace states
- * @module boot
- * @type {{create: Function, update: Function}}
+ * @submodule boot
+ * @class boot
+ * @type {Phaser.State}
+ * @static
  */
 module.exports = {
+  /**
+   * Preload the title screen
+   *
+   * @method preload
+   */
   preload: function () {
     game.load.image('title', 'assets/images/title.png');
   },
 
+  /**
+   * Initialises key game management systems:
+   * * Features
+   * * Level Manager
+   * * Scaling
+   * * Stats and phaser timing mode
+   * * User control
+   * * Display title splash screen
+   * * Initialise title screen events
+   *
+   * @method create
+   */
   create: function () {
     features.init();
     levelManager.init();
+    particles.init();
     game.scale.scaleMode = features.isTouchScreen ? Phaser.ScaleManager.EXACT_FIT : properties.scale.mode;
     game.time.advancedTiming = true;
     if (properties.stats) {
@@ -40,11 +64,12 @@ module.exports = {
     game.controls.spacePress.onDown.add(this.startGame, this);
   },
 
+  /**
+   * Launch game on correct user input
+   *
+   * @method startGame
+   */
   startGame: function() {
     game.state.start('play');
-  },
-
-  update: function () {
-
   }
 };

@@ -1,8 +1,8 @@
 {
     "project": {
         "name": "thrust-engine",
-        "description": "engine for thrusty clone games",
-        "version": "0.0.1",
+        "description": "js port of thrust, an awesome 8bit game from the 1980s ",
+        "version": "0.0.12",
         "url": ""
     },
     "files": {
@@ -42,18 +42,22 @@
         },
         "src/app/actors/LimpetGun.js": {
             "name": "src/app/actors/LimpetGun.js",
-            "modules": {},
+            "modules": {
+                "Actors": 1
+            },
             "classes": {
-                "LimpetGun": 1
+                "actors.LimpetGun": 1
             },
             "fors": {},
-            "namespaces": {}
+            "namespaces": {
+                "actors": 1
+            }
         },
         "src/app/actors/Map.js": {
             "name": "src/app/actors/Map.js",
             "modules": {},
             "classes": {
-                "Map": 1
+                "actors.Map": 1
             },
             "fors": {},
             "namespaces": {}
@@ -62,7 +66,7 @@
             "name": "src/app/actors/Orb.js",
             "modules": {},
             "classes": {
-                "Orb": 1
+                "actors.Orb": 1
             },
             "fors": {},
             "namespaces": {}
@@ -71,7 +75,7 @@
             "name": "src/app/actors/Player.js",
             "modules": {},
             "classes": {
-                "Player": 1
+                "actors.Player": 1
             },
             "fors": {},
             "namespaces": {}
@@ -80,7 +84,7 @@
             "name": "src/app/actors/TractorBeam.js",
             "modules": {},
             "classes": {
-                "TractorBeam": 1
+                "actors.TractorBeam": 1
             },
             "fors": {},
             "namespaces": {}
@@ -89,8 +93,28 @@
             "name": "src/app/actors/Turret.js",
             "modules": {},
             "classes": {
-                "Turret": 1
+                "actors.Turret": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/actors/beamFilter.js": {
+            "name": "src/app/actors/beamFilter.js",
+            "modules": {
+                "filters": 1
+            },
+            "classes": {
+                "beamFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/data/level-manager.js": {
+            "name": "src/app/data/level-manager.js",
+            "modules": {
+                "level-manager": 1
+            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -121,12 +145,28 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/app/environment/particles.js": {
+            "name": "src/app/environment/particles.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/environment/utils.js": {
+            "name": "src/app/environment/utils.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/app/states/boot.js": {
             "name": "src/app/states/boot.js",
             "modules": {
                 "boot": 1
             },
-            "classes": {},
+            "classes": {
+                "states.boot": 1
+            },
             "fors": {},
             "namespaces": {
                 "states": 1
@@ -156,7 +196,9 @@
         },
         "src/app/states/play.js": {
             "name": "src/app/states/play.js",
-            "modules": {},
+            "modules": {
+                "play": 1
+            },
             "classes": {
                 "states.play": 1
             },
@@ -165,12 +207,57 @@
                 "states": 1
             }
         },
+        "src/app/ui/fuel.js": {
+            "name": "src/app/ui/fuel.js",
+            "modules": {},
+            "classes": {
+                "states.fuel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/ui/lives.js": {
+            "name": "src/app/ui/lives.js",
+            "modules": {},
+            "classes": {
+                "lives": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/ui/mission-swipe.js": {
+            "name": "src/app/ui/mission-swipe.js",
+            "modules": {
+                "mission-swipe": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/ui/score.js": {
+            "name": "src/app/ui/score.js",
+            "modules": {},
+            "classes": {
+                "score": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/app/utils/StatsModule.js": {
             "name": "src/app/utils/StatsModule.js",
             "modules": {},
             "classes": {
-                "states.StatsModule": 1
+                "StatsModule": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/app/main.js": {
+            "name": "src/app/main.js",
+            "modules": {
+                "main": 1
+            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -189,33 +276,119 @@
         }
     },
     "modules": {
-        "boot": {
-            "name": "boot",
+        "Actors": {
+            "name": "Actors",
             "submodules": {},
             "elements": {},
             "classes": {
                 "FiringStrategy": 1,
                 "ForwardsFire": 1,
                 "Background": 1,
-                "LimpetGun": 1,
-                "Map": 1,
-                "Orb": 1,
-                "Player": 1,
-                "TractorBeam": 1,
-                "Turret": 1,
+                "actors.LimpetGun": 1,
+                "actors.Map": 1,
+                "actors.Orb": 1,
+                "actors.Player": 1,
+                "actors.TractorBeam": 1,
+                "actors.Turret": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "actors": 1
+            },
+            "tag": "module",
+            "file": "src/app/actors/Turret.js",
+            "line": 10,
+            "description": "LimpetGun\n\nThe enemy of the game are stationary gun turrets which\nfire at random angles (Spread strategy) and at a rate which should increase with difficulty",
+            "params": [
+                {
+                    "name": "x",
+                    "description": ""
+                },
+                {
+                    "name": "y",
+                    "description": ""
+                },
+                {
+                    "name": "angleDeg",
+                    "description": ""
+                },
+                {
+                    "name": "collisions",
+                    "description": ""
+                },
+                {
+                    "name": "groups",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1
+        },
+        "filters": {
+            "name": "filters",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "beamFilter": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/app/actors/beamFilter.js",
+            "line": 1,
+            "type": "{{filter: null, fragmentSrc: string[], init: Function, start: Function, end: Function, update: Function}}"
+        },
+        "level-manager": {
+            "name": "level-manager",
+            "submodules": {},
+            "elements": {},
+            "classes": {
                 "Collisions": 1,
                 "Groups": 1,
                 "UserControl": 1
             },
             "fors": {},
-            "namespaces": {
-                "states": 1
-            },
+            "namespaces": {},
             "tag": "module",
             "file": "src/app/environment/UserControl.js",
             "line": 2,
+            "description": "Want to know what time it is? you came to wrong place... Want to know what level it is?\nThis is what you want! :)",
+            "type": "{{}}"
+        },
+        "states": {
+            "name": "states",
+            "submodules": {
+                "boot": 1,
+                "play": 1
+            },
+            "elements": {},
+            "classes": {
+                "states.boot": 1,
+                "states.play": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "states": 1
+            },
+            "file": "src/app/states/play.js",
+            "line": 39
+        },
+        "boot": {
+            "name": "boot",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "states.boot": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "states",
+            "namespace": "states",
+            "file": "src/app/states/boot.js",
+            "line": 11,
             "description": "The boot state",
-            "type": "{{create: Function, update: Function}}"
+            "type": "{Phaser.State}",
+            "static": 1
         },
         "load": {
             "name": "load",
@@ -236,20 +409,127 @@
             "name": "menu",
             "submodules": {},
             "elements": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/app/states/menu.js",
+            "line": 1,
+            "description": "The menu state",
+            "type": "{{create: Function, update: Function}}"
+        },
+        "play": {
+            "name": "play",
+            "submodules": {},
+            "elements": {},
             "classes": {
-                "states.play": 1,
-                "states.StatsModule": 1
+                "states.play": 1
             },
             "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "states",
+            "namespace": "states",
+            "file": "src/app/states/play.js",
+            "line": 39,
+            "description": "The play state",
+            "type": "{Phaser.State}",
+            "static": 1
+        },
+        "ui": {
+            "name": "ui",
+            "submodules": {
+                "undefined": 1,
+                "fuel": 1,
+                "lives": 1,
+                "socre": 1
+            },
+            "elements": {},
+            "classes": {
+                "score": 1,
+                "states.fuel": 1,
+                "lives": 1,
+                "StatsModule": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "file": "src/app/utils/StatsModule.js",
+            "line": 12
+        },
+        "fuel": {
+            "name": "fuel",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "states.fuel": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ui",
+            "namespace": "",
+            "description": "Manages the fuel display",
+            "file": "src/app/ui/fuel.js",
+            "line": 1
+        },
+        "lives": {
+            "name": "lives",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "lives": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ui",
+            "namespace": "",
+            "description": "Manages the lives display",
+            "file": "src/app/ui/lives.js",
+            "line": 1
+        },
+        "mission-swipe": {
+            "name": "mission-swipe",
+            "submodules": {},
+            "elements": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/app/ui/mission-swipe.js",
+            "line": 4,
+            "type": "{{}}"
+        },
+        "socre": {
+            "name": "socre",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "score": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "ui",
+            "namespace": "",
+            "description": "Manages the score display",
+            "file": "src/app/ui/score.js",
+            "line": 1
+        },
+        "main": {
+            "name": "main",
+            "submodules": {},
+            "elements": {},
+            "classes": {},
+            "fors": {},
             "namespaces": {
-                "states": 1,
                 "thrust-engine": 1
             },
             "tag": "module",
-            "file": "src/app/utils/StatsModule.js",
-            "line": 12,
-            "description": "The menu state",
-            "type": "{{create: Function, update: Function}}"
+            "file": "src/app/main.js",
+            "line": 5,
+            "description": "Main game entry point\n* called on window.onload to make sure fonts registered to html page are loaded first.\n* initilise the Phaser.Game and register game states\n* start state: boot.",
+            "itemtype": "method"
         },
         "properties": {
             "name": "properties",
@@ -277,7 +557,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
             "file": "src/app/actors/strategies/FiringStrategy.js",
             "line": 1,
             "description": "FiringStrategy description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
@@ -313,7 +593,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
             "file": "src/app/actors/strategies/SpreadFiring.js",
             "line": 3,
             "description": "ForwardsFire description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
@@ -327,24 +607,25 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
             "file": "src/app/actors/Background.js",
             "line": 10,
             "description": "Background description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
             "is_constructor": 1
         },
-        "LimpetGun": {
-            "name": "LimpetGun",
-            "shortname": "LimpetGun",
+        "actors.LimpetGun": {
+            "name": "actors.LimpetGun",
+            "shortname": "actors.LimpetGun",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/LimpetGun.js",
-            "line": 5,
-            "description": "LimpetGun description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "line": 6,
+            "description": "LimpetGun\n\nThe enemy of the game are stationary gun turrets which\nfire at random angles (Spread strategy) and at a rate which should increase with difficulty",
             "params": [
                 {
                     "name": "x",
@@ -366,49 +647,51 @@
                     "name": "groups",
                     "description": ""
                 }
-            ],
-            "is_constructor": 1
+            ]
         },
-        "Map": {
-            "name": "Map",
+        "actors.Map": {
+            "name": "actors.Map",
             "shortname": "Map",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/Map.js",
             "line": 4,
             "description": "Map description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
             "is_constructor": 1
         },
-        "Orb": {
-            "name": "Orb",
+        "actors.Orb": {
+            "name": "actors.Orb",
             "shortname": "Orb",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/Orb.js",
             "line": 4,
             "description": "Orb description\ncalls init",
             "is_constructor": 1
         },
-        "Player": {
-            "name": "Player",
+        "actors.Player": {
+            "name": "actors.Player",
             "shortname": "Player",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/Player.js",
-            "line": 8,
-            "description": "Player description\ncalls init",
+            "line": 9,
+            "description": "Player Ship",
             "params": [
                 {
                     "name": "x",
@@ -433,33 +716,48 @@
             ],
             "is_constructor": 1
         },
-        "TractorBeam": {
-            "name": "TractorBeam",
+        "actors.TractorBeam": {
+            "name": "actors.TractorBeam",
             "shortname": "TractorBeam",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/TractorBeam.js",
             "line": 7,
             "description": "TractorBeam description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
             "is_constructor": 1
         },
-        "Turret": {
-            "name": "Turret",
+        "actors.Turret": {
+            "name": "actors.Turret",
             "shortname": "Turret",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "Actors",
+            "namespace": "actors",
             "file": "src/app/actors/Turret.js",
             "line": 10,
             "description": "Turret description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
             "is_constructor": 1
+        },
+        "beamFilter": {
+            "name": "beamFilter",
+            "shortname": "beamFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "filters",
+            "namespace": "",
+            "file": "src/app/actors/beamFilter.js",
+            "line": 1
         },
         "Collisions": {
             "name": "Collisions",
@@ -469,7 +767,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "level-manager",
+            "namespace": "",
             "file": "src/app/environment/Collisions.js",
             "line": 4,
             "description": "Collisions description\ncalls init",
@@ -483,10 +782,11 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "level-manager",
+            "namespace": "",
             "file": "src/app/environment/Groups.js",
-            "line": 10,
-            "description": "Groups description\ncalls init",
+            "line": 1,
+            "description": "These groups are registerd to a common camera parent group.\n\nThis is an attempt to make zooming possible.\nBut currently in phaser, this effects the physics badly, and camera.follow stops\nworking properly, so no zooming is done at runtime yet.\n\ncalls init",
             "is_constructor": 1
         },
         "UserControl": {
@@ -497,11 +797,27 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "boot",
+            "module": "level-manager",
+            "namespace": "",
             "file": "src/app/environment/UserControl.js",
             "line": 2,
             "description": "UserControl description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
             "is_constructor": 1
+        },
+        "states.boot": {
+            "name": "states.boot",
+            "shortname": "states.boot",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "states",
+            "submodule": "boot",
+            "namespace": "states",
+            "file": "src/app/states/boot.js",
+            "line": 11,
+            "description": "The boot state"
         },
         "states.play": {
             "name": "states.play",
@@ -511,25 +827,77 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "menu",
+            "module": "states",
+            "submodule": "play",
             "namespace": "states",
             "file": "src/app/states/play.js",
-            "line": 33,
-            "description": "The play state - this is where the magic happens"
+            "line": 39,
+            "description": "The play state"
         },
-        "states.StatsModule": {
-            "name": "states.StatsModule",
+        "states.fuel": {
+            "name": "states.fuel",
+            "shortname": "fuel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ui",
+            "namespace": "states",
+            "file": "src/app/ui/fuel.js",
+            "line": 1,
+            "description": "Manages the fuel display",
+            "submodule": "fuel",
+            "static": 1,
+            "type": "{Object}"
+        },
+        "lives": {
+            "name": "lives",
+            "shortname": "lives",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ui",
+            "namespace": "",
+            "file": "src/app/ui/lives.js",
+            "line": 1,
+            "description": "Manages the lives display",
+            "submodule": "lives",
+            "static": 1,
+            "type": "{Object}"
+        },
+        "score": {
+            "name": "score",
+            "shortname": "score",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ui",
+            "namespace": "",
+            "file": "src/app/ui/score.js",
+            "line": 1,
+            "description": "Manages the score display",
+            "submodule": "socre",
+            "static": 1,
+            "type": "{Object}"
+        },
+        "StatsModule": {
+            "name": "StatsModule",
             "shortname": "StatsModule",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "menu",
-            "namespace": "states",
+            "module": "ui",
+            "namespace": "",
             "file": "src/app/utils/StatsModule.js",
             "line": 12,
-            "description": "StatsModule description\n\ndefines a public variable and calls init - change this constructor to suit your needs.\nnb. there's no requirement to call an init function",
+            "description": "StatsModule Adds A Stats to the dom and expose the start/stop\nmethods to the game update loop.",
             "is_constructor": 1
         },
         "thrust-engine.": {
@@ -605,7 +973,7 @@
         },
         {
             "file": "src/app/actors/Background.js",
-            "line": 26,
+            "line": 31,
             "description": "Background initialisation",
             "itemtype": "method",
             "name": "init",
@@ -613,19 +981,63 @@
         },
         {
             "file": "src/app/actors/LimpetGun.js",
-            "line": 52,
+            "line": 23,
+            "description": "Point value for this enemy",
+            "itemtype": "property",
+            "name": "score",
+            "type": "{number}",
+            "class": "actors.LimpetGun",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 31,
+            "itemtype": "property",
+            "name": "collisions",
+            "class": "actors.LimpetGun",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 37,
+            "description": "Dispatched when this enemy is dispatched",
+            "itemtype": "property",
+            "name": "killed",
+            "type": "{Phaser.Signal}",
+            "class": "actors.LimpetGun",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 44,
+            "itemtype": "property",
+            "name": "groups",
+            "class": "actors.LimpetGun",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/LimpetGun.js",
+            "line": 80,
             "description": "LimpetGun initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "LimpetGun"
+            "class": "actors.LimpetGun",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Map.js",
-            "line": 23,
+            "line": 26,
             "description": "Map initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "Map"
+            "class": "actors.Map",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Orb.js",
@@ -634,14 +1046,18 @@
             "itemtype": "property",
             "name": "collisions",
             "type": "{Collisions}",
-            "class": "Orb"
+            "class": "actors.Orb",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Orb.js",
             "line": 29,
             "itemtype": "property",
             "name": "sprite",
-            "class": "Orb"
+            "class": "actors.Orb",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Orb.js",
@@ -649,60 +1065,115 @@
             "description": "Orb initialisation\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
             "itemtype": "method",
             "name": "init",
-            "class": "Orb"
+            "class": "actors.Orb",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Orb.js",
             "line": 71,
             "itemtype": "method",
             "name": "move\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
-            "class": "Orb"
+            "class": "actors.Orb",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Orb.js",
             "line": 82,
             "itemtype": "method",
             "name": "crash",
-            "class": "Orb"
+            "class": "actors.Orb",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 20,
+            "line": 21,
             "description": "The collisions container",
             "itemtype": "property",
             "name": "collisions",
             "type": "{Collisions}",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 28,
+            "line": 29,
             "description": "The groups container",
             "itemtype": "property",
             "name": "groups",
             "type": "{Groups}",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 36,
+            "line": 37,
             "description": "A beam actor used by player to colect the orb",
             "itemtype": "property",
             "name": "tractorBeam",
             "type": "{TractorBeam}",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 44,
+            "line": 45,
             "itemtype": "property",
             "name": "emitter",
             "type": "{Phaser.Emitter}",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 61,
+            "line": 51,
+            "description": "Player has been destroyed",
+            "itemtype": "property",
+            "name": "isDead",
+            "type": "{boolean}",
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 59,
+            "itemtype": "property",
+            "name": "fuel",
+            "type": "{number}",
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 65,
+            "itemtype": "property",
+            "name": "lives",
+            "type": "{number}",
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 71,
+            "itemtype": "property",
+            "name": "score",
+            "type": "{number}",
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/Player.js",
+            "line": 88,
             "itemtype": "method",
             "name": "setTractorBeam",
             "params": [
@@ -711,74 +1182,80 @@
                     "description": ""
                 }
             ],
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 70,
+            "line": 97,
             "description": "Player initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 103,
+            "line": 143,
             "itemtype": "method",
             "name": "createTurret",
             "return": {
                 "description": "",
                 "type": "Turret|exports|module.exports"
             },
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 119,
+            "line": 158,
             "description": "When this is called, we'll check the distance of the player to the orb, and depending on distance,\neither draw a tractorBeam",
             "itemtype": "method",
             "name": "checkOrbDistance",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 141,
+            "line": 180,
             "description": "Fires the current actor's turret",
             "itemtype": "method",
             "name": "shoot",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 150,
+            "line": 189,
             "description": "Called on collision with terrain, enemy bullet, or some other fatal collision",
             "itemtype": "method",
             "name": "crash",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 164,
+            "line": 211,
             "itemtype": "method",
             "name": "explosion",
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 174,
+            "line": 222,
             "itemtype": "method",
             "name": "bulletEnd",
-            "params": [
-                {
-                    "name": "bullet",
-                    "description": ""
-                },
-                {
-                    "name": "group",
-                    "description": ""
-                }
-            ],
-            "class": "Player"
+            "class": "actors.Player",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
@@ -786,7 +1263,9 @@
             "description": "TractorBeam initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
@@ -799,21 +1278,27 @@
                     "description": ""
                 }
             ],
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
             "line": 72,
             "itemtype": "method",
             "name": "lock",
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
             "line": 79,
             "itemtype": "method",
             "name": "lockingRelease",
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
@@ -826,12 +1311,16 @@
                     "description": ""
                 }
             ],
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/TractorBeam.js",
             "line": 105,
-            "class": "TractorBeam"
+            "class": "actors.TractorBeam",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Turret.js",
@@ -841,7 +1330,9 @@
             "type": "{FiringStrategy}",
             "access": "private",
             "tagname": "",
-            "class": "Turret"
+            "class": "actors.Turret",
+            "module": "Actors",
+            "namespace": "actors"
         },
         {
             "file": "src/app/actors/Turret.js",
@@ -856,7 +1347,90 @@
                     "type": "FiringStrategy"
                 }
             ],
-            "class": "Turret"
+            "class": "actors.Turret",
+            "module": "Actors",
+            "namespace": "actors"
+        },
+        {
+            "file": "src/app/actors/beamFilter.js",
+            "line": 7,
+            "itemtype": "property",
+            "name": "filter",
+            "type": "{Phaser.Filter}",
+            "class": "beamFilter",
+            "module": "filters"
+        },
+        {
+            "file": "src/app/actors/beamFilter.js",
+            "line": 15,
+            "itemtype": "method",
+            "name": "init",
+            "class": "beamFilter",
+            "module": "filters"
+        },
+        {
+            "file": "src/app/actors/beamFilter.js",
+            "line": 45,
+            "itemtype": "method",
+            "name": "start",
+            "class": "beamFilter",
+            "module": "filters"
+        },
+        {
+            "file": "src/app/actors/beamFilter.js",
+            "line": 55,
+            "itemtype": "method",
+            "name": "end",
+            "class": "beamFilter",
+            "module": "filters"
+        },
+        {
+            "file": "src/app/data/level-manager.js",
+            "line": 12,
+            "itemtype": "property",
+            "name": "levels",
+            "type": "{[]}",
+            "class": "Collisions",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/data/level-manager.js",
+            "line": 18,
+            "itemtype": "property",
+            "name": "levelIndex",
+            "type": "{Number}",
+            "class": "Collisions",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/data/level-manager.js",
+            "line": 24,
+            "itemtype": "property",
+            "name": "currentLevel",
+            "type": "null",
+            "class": "Collisions",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/data/level-manager.js",
+            "line": 31,
+            "description": "Inits the level manager to make\nlevels available to the current level property.",
+            "itemtype": "method",
+            "name": "init",
+            "class": "Collisions",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/data/level-manager.js",
+            "line": 41,
+            "description": "Gets the next level configuration\nand updates the currentLevel index.\nIf you're on the last level, the levelIndex is reset to 0.",
+            "itemtype": "property",
+            "name": "nextLevel",
+            "return": {
+                "description": "}"
+            },
+            "class": "Collisions",
+            "module": "level-manager"
         },
         {
             "file": "src/app/environment/Collisions.js",
@@ -864,40 +1438,23 @@
             "description": "Collisions initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "Collisions"
+            "class": "Collisions",
+            "module": "level-manager"
         },
         {
             "file": "src/app/environment/Collisions.js",
             "line": 37,
-            "class": "Collisions"
+            "class": "Collisions",
+            "module": "level-manager"
         },
         {
             "file": "src/app/environment/Groups.js",
-            "line": 1,
-            "description": "A private var description",
-            "itemtype": "property",
-            "name": "myPrivateVar",
-            "type": "{number}",
-            "access": "private",
-            "tagname": "",
-            "class": "Groups"
-        },
-        {
-            "file": "src/app/environment/Groups.js",
-            "line": 18,
-            "description": "A public var description",
-            "itemtype": "property",
-            "name": "myPublicVar",
-            "type": "{number}",
-            "class": "Groups"
-        },
-        {
-            "file": "src/app/environment/Groups.js",
-            "line": 35,
+            "line": 21,
             "description": "Groups initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "Groups"
+            "class": "Groups",
+            "module": "level-manager"
         },
         {
             "file": "src/app/environment/UserControl.js",
@@ -905,55 +1462,543 @@
             "description": "UserControl initialisation",
             "itemtype": "method",
             "name": "init",
-            "class": "UserControl"
+            "class": "UserControl",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/environment/particles.js",
+            "line": 2,
+            "itemtype": "property",
+            "name": "manager",
+            "class": "states.boot",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/environment/particles.js",
+            "line": 7,
+            "itemtype": "method",
+            "name": "init",
+            "class": "states.boot",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/environment/utils.js",
+            "line": 2,
+            "description": "Pythagorus ftw",
+            "itemtype": "method",
+            "name": "distAtoB",
+            "params": [
+                {
+                    "name": "pointA",
+                    "description": ""
+                },
+                {
+                    "name": "pointB",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "states.boot",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/states/boot.js",
+            "line": 22,
+            "description": "Preload the title screen",
+            "itemtype": "method",
+            "name": "preload",
+            "class": "states.boot",
+            "module": "states",
+            "submodule": "boot",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/boot.js",
+            "line": 31,
+            "description": "Initialises key game management systems:\n* Features\n* Level Manager\n* Scaling\n* Stats and phaser timing mode\n* User control\n* Display title splash screen\n* Initialise title screen events",
+            "itemtype": "method",
+            "name": "create",
+            "class": "states.boot",
+            "module": "states",
+            "submodule": "boot",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/boot.js",
+            "line": 67,
+            "description": "Launch game on correct user input",
+            "itemtype": "method",
+            "name": "startGame",
+            "class": "states.boot",
+            "module": "states",
+            "submodule": "boot",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 52,
+            "description": "Preload in game assets",
+            "itemtype": "method",
+            "name": "preload",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 70,
+            "description": "Load all maps in defined in the levelManager",
+            "itemtype": "method",
+            "name": "loadMap Data",
+            "params": [
+                {
+                    "name": "level",
+                    "description": ""
+                }
+            ],
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 81,
+            "description": "Setup the game",
+            "itemtype": "method",
+            "name": "create",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 97,
+            "description": "Start gameplay\n* initialise mission start swipe",
+            "itemtype": "method",
+            "name": "missionStart",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 114,
+            "description": "Gameloop",
+            "itemtype": "method",
+            "name": "update",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 132,
+            "description": "Needed for debug display",
+            "itemtype": "method",
+            "name": "render",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 143,
+            "description": "Cursors &/or gamepad",
+            "itemtype": "method",
+            "name": "checkPlayerInput",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 174,
+            "description": "Has the player won, lost etc",
+            "itemtype": "method",
+            "name": "checkGameCondition",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 183,
+            "description": "Filter gameloop to actors",
+            "itemtype": "method",
+            "name": "actorsUpdate",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 198,
+            "itemtype": "method",
+            "name": "uiUpdate",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 209,
+            "description": "Set game world parameters depending on level size",
+            "itemtype": "method",
+            "name": "defineWorldBounds",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 220,
+            "description": "create game actors, group and collision initialisation\ngame.e2e exposes actors to window, allowing actor control in e2e tests.",
+            "itemtype": "method",
+            "name": "createActors",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 282,
+            "description": "Creates the user interface and touch controls",
+            "itemtype": "method",
+            "name": "createUi",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 301,
+            "description": "Create an enemy",
+            "itemtype": "method",
+            "name": "createLimpet",
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 313,
+            "description": "Singal handler for when a limpet gun is destroyed, we can update score",
+            "itemtype": "method",
+            "name": "limpetDestroyed",
+            "params": [
+                {
+                    "name": "score",
+                    "description": ""
+                }
+            ],
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 324,
+            "description": "Layer group z-index",
+            "itemtype": "method",
+            "name": "createGroupLayering",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 343,
+            "description": "Initialises player control\nalso activates enemy",
+            "itemtype": "method",
+            "name": "initControls",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 365,
+            "description": "Initialises the limpet guns",
+            "itemtype": "method",
+            "name": "initEnemies",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 376,
+            "description": "Touch control: Press A",
+            "itemtype": "method",
+            "name": "pressButtonA",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 385,
+            "description": "Touch control: Release A",
+            "itemtype": "method",
+            "name": "upButtonA",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 394,
+            "description": "Touch control: Press B\n* fire",
+            "itemtype": "method",
+            "name": "pressButtonB",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 405,
+            "description": "Touch control: Release B",
+            "itemtype": "method",
+            "name": "upButtonB",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 414,
+            "description": "Key control: Press X",
+            "itemtype": "method",
+            "name": "xDown",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/states/play.js",
+            "line": 425,
+            "description": "Key control: Release X",
+            "itemtype": "method",
+            "name": "xUp",
+            "class": "states.play",
+            "module": "states",
+            "submodule": "play",
+            "namespace": "states"
+        },
+        {
+            "file": "src/app/ui/fuel.js",
+            "line": 12,
+            "itemtype": "property",
+            "name": "group",
+            "type": "{Phaser.Group}",
+            "class": "states.fuel",
+            "module": "ui",
+            "submodule": "fuel"
+        },
+        {
+            "file": "src/app/ui/lives.js",
+            "line": 12,
+            "description": "the ui display group",
+            "itemtype": "property",
+            "name": "group",
+            "type": "{Phaser.Group}",
+            "class": "lives",
+            "module": "ui",
+            "submodule": "lives"
+        },
+        {
+            "file": "src/app/ui/lives.js",
+            "line": 20,
+            "itemtype": "property",
+            "name": "textField",
+            "type": "{Phaser.Text}",
+            "class": "lives",
+            "module": "ui",
+            "submodule": "lives"
+        },
+        {
+            "file": "src/app/ui/lives.js",
+            "line": 26,
+            "description": "The value represented in the textfield display",
+            "itemtype": "property",
+            "name": "currentAmount",
+            "type": "{Number}",
+            "class": "lives",
+            "module": "ui",
+            "submodule": "lives"
+        },
+        {
+            "file": "src/app/ui/lives.js",
+            "line": 34,
+            "description": "create label and textfield",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "x",
+                    "description": ""
+                },
+                {
+                    "name": "y",
+                    "description": ""
+                },
+                {
+                    "name": "group",
+                    "description": ""
+                }
+            ],
+            "class": "lives",
+            "module": "ui",
+            "submodule": "lives"
+        },
+        {
+            "file": "src/app/ui/lives.js",
+            "line": 54,
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "the amount to update the textfield by",
+                    "type": "Number"
+                },
+                {
+                    "name": "shouldReset",
+                    "description": "if true, set the label to the value (val) otherwise add val the to the currentAmount",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "lives",
+            "module": "ui",
+            "submodule": "lives"
+        },
+        {
+            "file": "src/app/ui/mission-swipe.js",
+            "line": 10,
+            "itemtype": "property",
+            "name": "swipe",
+            "type": "{Phaser.Sprite}",
+            "class": "score",
+            "module": "mission-swipe"
+        },
+        {
+            "file": "src/app/ui/mission-swipe.js",
+            "line": 16,
+            "itemtype": "property",
+            "name": "swipeTl",
+            "type": "{TimelineLite}",
+            "class": "score",
+            "module": "mission-swipe"
+        },
+        {
+            "file": "src/app/ui/mission-swipe.js",
+            "line": 22,
+            "itemtype": "property",
+            "name": "group",
+            "type": "{Phaser.Group}",
+            "class": "score",
+            "module": "mission-swipe"
+        },
+        {
+            "file": "src/app/ui/mission-swipe.js",
+            "line": 36,
+            "itemtype": "method",
+            "name": "init",
+            "class": "score",
+            "module": "mission-swipe"
+        },
+        {
+            "file": "src/app/ui/score.js",
+            "line": 12,
+            "itemtype": "property",
+            "name": "group",
+            "type": "{Phaser.Group}",
+            "class": "score",
+            "module": "ui",
+            "submodule": "socre"
         },
         {
             "file": "src/app/utils/StatsModule.js",
             "line": 3,
-            "description": "A private var description",
+            "description": "doob stats",
             "itemtype": "property",
             "name": "stats",
             "type": "{Stats}",
             "access": "private",
             "tagname": "",
-            "class": "states.StatsModule",
-            "module": "menu",
-            "namespace": "states"
+            "class": "StatsModule",
+            "module": "ui"
         },
         {
             "file": "src/app/utils/StatsModule.js",
-            "line": 22,
-            "description": "A public var description",
-            "itemtype": "property",
-            "name": "myPublicVar",
-            "type": "{number}",
-            "class": "states.StatsModule",
-            "module": "menu",
-            "namespace": "states"
-        },
-        {
-            "file": "src/app/utils/StatsModule.js",
-            "line": 41,
+            "line": 30,
             "itemtype": "method",
             "name": "begin",
-            "class": "states.StatsModule",
-            "module": "menu",
-            "namespace": "states"
+            "class": "StatsModule",
+            "module": "ui"
         },
         {
             "file": "src/app/utils/StatsModule.js",
-            "line": 49,
+            "line": 38,
             "itemtype": "method",
             "name": "end",
-            "class": "states.StatsModule",
-            "module": "menu",
-            "namespace": "states"
+            "class": "StatsModule",
+            "module": "ui"
+        },
+        {
+            "file": "src/app/main.js",
+            "line": 27,
+            "description": "to ensure fonts are loaded, an invisible element using the font must be placed on the app's page\nThis will work until Google's WebFontLoader is implemented",
+            "type": "{Function}",
+            "class": "thrust-engine.",
+            "module": "main"
         }
     ],
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/app/actors/Player.js:103"
+            "line": " src/app/actors/Player.js:143"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/app/data/level-manager.js:41"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/app/environment/utils.js:2"
         },
         {
             "message": "Missing item type",
@@ -966,6 +2011,10 @@
         {
             "message": "Missing item type",
             "line": " src/app/environment/Collisions.js:37"
+        },
+        {
+            "message": "Missing item type\nto ensure fonts are loaded, an invisible element using the font must be placed on the app's page\nThis will work until Google's WebFontLoader is implemented",
+            "line": " src/app/main.js:27"
         }
     ]
 }
