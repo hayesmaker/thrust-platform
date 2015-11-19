@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/index.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -1546,7 +1546,7 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","ieee754":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","is-array":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/is-array/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js":[function(require,module,exports){
+},{"base64-js":2,"ieee754":3,"is-array":4}],2:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -1672,7 +1672,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js":[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -1758,7 +1758,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/node_modules/is-array/index.js":[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 /**
  * isArray
@@ -1793,7 +1793,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/inherits/inherits_browser.js":[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1818,7 +1818,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1911,14 +1911,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/util/support/isBufferBrowser.js":[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/util/util.js":[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2508,10 +2508,10 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/util/support/isBufferBrowser.js","_process":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/process/browser.js","inherits":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/inherits/inherits_browser.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js":[function(require,module,exports){
+},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
 module.exports = require('./lib/chai');
 
-},{"./lib/chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai.js":[function(require,module,exports){
+},{"./lib/chai":10}],10:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -2606,7 +2606,7 @@ exports.use(should);
 var assert = require('./chai/interface/assert');
 exports.use(assert);
 
-},{"./chai/assertion":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/assertion.js","./chai/config":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js","./chai/core/assertions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/core/assertions.js","./chai/interface/assert":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/assert.js","./chai/interface/expect":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/expect.js","./chai/interface/should":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/should.js","./chai/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/index.js","assertion-error":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/assertion-error/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/assertion.js":[function(require,module,exports){
+},{"./chai/assertion":11,"./chai/config":12,"./chai/core/assertions":13,"./chai/interface/assert":14,"./chai/interface/expect":15,"./chai/interface/should":16,"./chai/utils":29,"assertion-error":38}],11:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -2739,7 +2739,7 @@ module.exports = function (_chai, util) {
   });
 };
 
-},{"./config":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js":[function(require,module,exports){
+},{"./config":12}],12:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -2796,7 +2796,7 @@ module.exports = {
 
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/core/assertions.js":[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -4399,7 +4399,7 @@ module.exports = function (chai, _) {
 
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/assert.js":[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5664,7 +5664,7 @@ module.exports = function (chai, util) {
   ('Throw', 'throws');
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/expect.js":[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5699,7 +5699,7 @@ module.exports = function (chai, util) {
   };
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/interface/should.js":[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5799,7 +5799,7 @@ module.exports = function (chai, util) {
   chai.Should = loadShould;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addChainableMethod.js":[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * Chai - addChainingMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5912,7 +5912,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   });
 };
 
-},{"../config":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js","./flag":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js","./transferFlags":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/transferFlags.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addMethod.js":[function(require,module,exports){
+},{"../config":12,"./flag":20,"./transferFlags":36}],18:[function(require,module,exports){
 /*!
  * Chai - addMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5957,7 +5957,7 @@ module.exports = function (ctx, name, method) {
   };
 };
 
-},{"../config":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js","./flag":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addProperty.js":[function(require,module,exports){
+},{"../config":12,"./flag":20}],19:[function(require,module,exports){
 /*!
  * Chai - addProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -5999,7 +5999,7 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js":[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6033,7 +6033,7 @@ module.exports = function (obj, key, value) {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getActual.js":[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*!
  * Chai - getActual utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6053,7 +6053,7 @@ module.exports = function (obj, args) {
   return args.length > 4 ? args[4] : obj._obj;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getEnumerableProperties.js":[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*!
  * Chai - getEnumerableProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6080,7 +6080,7 @@ module.exports = function getEnumerableProperties(object) {
   return result;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getMessage.js":[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*!
  * Chai - message composition utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6132,7 +6132,7 @@ module.exports = function (obj, args) {
   return flagMsg ? flagMsg + ': ' + msg : msg;
 };
 
-},{"./flag":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js","./getActual":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getActual.js","./inspect":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/inspect.js","./objDisplay":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/objDisplay.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getName.js":[function(require,module,exports){
+},{"./flag":20,"./getActual":21,"./inspect":30,"./objDisplay":31}],24:[function(require,module,exports){
 /*!
  * Chai - getName utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6154,7 +6154,7 @@ module.exports = function (func) {
   return match && match[1] ? match[1] : "";
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getPathInfo.js":[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*!
  * Chai - getPathInfo utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6266,7 +6266,7 @@ function _getPathValue (parsed, obj, index) {
   return res;
 }
 
-},{"./hasProperty":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/hasProperty.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getPathValue.js":[function(require,module,exports){
+},{"./hasProperty":28}],26:[function(require,module,exports){
 /*!
  * Chai - getPathValue utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6310,7 +6310,7 @@ module.exports = function(path, obj) {
   return info.value;
 }; 
 
-},{"./getPathInfo":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getPathInfo.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getProperties.js":[function(require,module,exports){
+},{"./getPathInfo":25}],27:[function(require,module,exports){
 /*!
  * Chai - getProperties utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6347,7 +6347,7 @@ module.exports = function getProperties(object) {
   return result;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/hasProperty.js":[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*!
  * Chai - hasProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6412,7 +6412,7 @@ module.exports = function hasProperty(name, obj) {
   return name in obj;
 };
 
-},{"./type":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/type.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/index.js":[function(require,module,exports){
+},{"./type":37}],29:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -6540,7 +6540,7 @@ exports.addChainableMethod = require('./addChainableMethod');
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
 
-},{"./addChainableMethod":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addChainableMethod.js","./addMethod":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addMethod.js","./addProperty":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/addProperty.js","./flag":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js","./getActual":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getActual.js","./getMessage":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getMessage.js","./getName":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getName.js","./getPathInfo":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getPathInfo.js","./getPathValue":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getPathValue.js","./hasProperty":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/hasProperty.js","./inspect":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/inspect.js","./objDisplay":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/objDisplay.js","./overwriteChainableMethod":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteChainableMethod.js","./overwriteMethod":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteMethod.js","./overwriteProperty":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteProperty.js","./test":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/test.js","./transferFlags":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/transferFlags.js","./type":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/type.js","deep-eql":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/inspect.js":[function(require,module,exports){
+},{"./addChainableMethod":17,"./addMethod":18,"./addProperty":19,"./flag":20,"./getActual":21,"./getMessage":23,"./getName":24,"./getPathInfo":25,"./getPathValue":26,"./hasProperty":28,"./inspect":30,"./objDisplay":31,"./overwriteChainableMethod":32,"./overwriteMethod":33,"./overwriteProperty":34,"./test":35,"./transferFlags":36,"./type":37,"deep-eql":39}],30:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -6875,7 +6875,7 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-},{"./getEnumerableProperties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getEnumerableProperties.js","./getName":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getName.js","./getProperties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/getProperties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/objDisplay.js":[function(require,module,exports){
+},{"./getEnumerableProperties":22,"./getName":24,"./getProperties":27}],31:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6926,7 +6926,7 @@ module.exports = function (obj) {
   }
 };
 
-},{"../config":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/config.js","./inspect":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/inspect.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteChainableMethod.js":[function(require,module,exports){
+},{"../config":12,"./inspect":30}],32:[function(require,module,exports){
 /*!
  * Chai - overwriteChainableMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -6981,7 +6981,7 @@ module.exports = function (ctx, name, method, chainingBehavior) {
   };
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteMethod.js":[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*!
  * Chai - overwriteMethod utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7034,7 +7034,7 @@ module.exports = function (ctx, name, method) {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/overwriteProperty.js":[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*!
  * Chai - overwriteProperty utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7090,7 +7090,7 @@ module.exports = function (ctx, name, getter) {
   });
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/test.js":[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*!
  * Chai - test utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7118,7 +7118,7 @@ module.exports = function (obj, args) {
   return negate ? !expr : expr;
 };
 
-},{"./flag":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/flag.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/transferFlags.js":[function(require,module,exports){
+},{"./flag":20}],36:[function(require,module,exports){
 /*!
  * Chai - transferFlags utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7164,7 +7164,7 @@ module.exports = function (assertion, object, includeAll) {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/lib/chai/utils/type.js":[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /*!
  * Chai - type utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -7211,7 +7211,7 @@ module.exports = function (obj) {
   return typeof obj;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/assertion-error/index.js":[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -7323,10 +7323,10 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/index.js":[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = require('./lib/eql');
 
-},{"./lib/eql":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/lib/eql.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/lib/eql.js":[function(require,module,exports){
+},{"./lib/eql":40}],40:[function(require,module,exports){
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -7585,10 +7585,10 @@ function objectEqual(a, b, m) {
   return true;
 }
 
-},{"buffer":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/buffer/index.js","type-detect":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/node_modules/type-detect/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/node_modules/type-detect/index.js":[function(require,module,exports){
+},{"buffer":1,"type-detect":41}],41:[function(require,module,exports){
 module.exports = require('./lib/type');
 
-},{"./lib/type":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/node_modules/type-detect/lib/type.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/node_modules/deep-eql/node_modules/type-detect/lib/type.js":[function(require,module,exports){
+},{"./lib/type":42}],42:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -7732,7 +7732,7 @@ Library.prototype.test = function (obj, type) {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/lodash/index.js":[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -20087,7 +20087,7 @@ Library.prototype.test = function (obj, type) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js":[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (sinonChai) {
     "use strict";
 
@@ -20220,7 +20220,7 @@ Library.prototype.test = function (obj, type) {
     exceptionalSinonMethod("thrown", "threw", "thrown %1");
 }));
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js":[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /**
  * Sinon core utilities. For internal use only.
  *
@@ -20269,7 +20269,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     return sinonModule;
 }());
 
-},{"./sinon/assert":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/assert.js","./sinon/behavior":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/behavior.js","./sinon/call":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/call.js","./sinon/collection":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/collection.js","./sinon/extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./sinon/format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./sinon/log_error":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/log_error.js","./sinon/match":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/match.js","./sinon/mock":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/mock.js","./sinon/sandbox":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/sandbox.js","./sinon/spy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/spy.js","./sinon/stub":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/stub.js","./sinon/test":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/test.js","./sinon/test_case":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/test_case.js","./sinon/times_in_words":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/times_in_words.js","./sinon/typeOf":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/typeOf.js","./sinon/util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./sinon/walk":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/walk.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/assert.js":[function(require,module,exports){
+},{"./sinon/assert":46,"./sinon/behavior":47,"./sinon/call":48,"./sinon/collection":49,"./sinon/extend":50,"./sinon/format":51,"./sinon/log_error":52,"./sinon/match":53,"./sinon/mock":54,"./sinon/sandbox":55,"./sinon/spy":56,"./sinon/stub":57,"./sinon/test":58,"./sinon/test_case":59,"./sinon/times_in_words":60,"./sinon/typeOf":61,"./sinon/util/core":62,"./sinon/walk":69}],46:[function(require,module,exports){
 (function (global){
 /**
  * @depend times_in_words.js
@@ -20499,7 +20499,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./match":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/match.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/behavior.js":[function(require,module,exports){
+},{"./format":51,"./match":53,"./util/core":62}],47:[function(require,module,exports){
 (function (process){
 /**
  * @depend util/core.js
@@ -20874,7 +20874,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
 ));
 
 }).call(this,require('_process'))
-},{"./extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","_process":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/process/browser.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/call.js":[function(require,module,exports){
+},{"./extend":50,"./util/core":62,"_process":6}],48:[function(require,module,exports){
 /**
   * @depend util/core.js
   * @depend match.js
@@ -21111,7 +21111,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./match":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/match.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/collection.js":[function(require,module,exports){
+},{"./format":51,"./match":53,"./util/core":62}],49:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend spy.js
@@ -21286,7 +21286,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./mock":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/mock.js","./spy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/spy.js","./stub":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/stub.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js":[function(require,module,exports){
+},{"./mock":54,"./spy":56,"./stub":57,"./util/core":62}],50:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -21399,7 +21399,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js":[function(require,module,exports){
+},{"./util/core":62}],51:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -21495,7 +21495,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof formatio === "object" && formatio // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","formatio":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/formatio/lib/formatio.js","util":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/browserify/node_modules/util/util.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/log_error.js":[function(require,module,exports){
+},{"./util/core":62,"formatio":70,"util":8}],52:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -21581,7 +21581,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/match.js":[function(require,module,exports){
+},{"./util/core":62}],53:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend typeOf.js
@@ -21844,7 +21844,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./typeOf":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/typeOf.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/mock.js":[function(require,module,exports){
+},{"./typeOf":61,"./util/core":62}],54:[function(require,module,exports){
 /**
  * @depend times_in_words.js
  * @depend util/core.js
@@ -22337,7 +22337,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./call":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/call.js","./extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./match":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/match.js","./spy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/spy.js","./stub":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/stub.js","./times_in_words":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/times_in_words.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/sandbox.js":[function(require,module,exports){
+},{"./call":48,"./extend":50,"./format":51,"./match":53,"./spy":56,"./stub":57,"./times_in_words":60,"./util/core":62}],55:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend extend.js
@@ -22509,7 +22509,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./collection":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/collection.js","./extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./util/fake_server_with_clock":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_server_with_clock.js","./util/fake_timers":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_timers.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/spy.js":[function(require,module,exports){
+},{"./collection":49,"./extend":50,"./util/core":62,"./util/fake_server_with_clock":65,"./util/fake_timers":66}],56:[function(require,module,exports){
 /**
   * @depend times_in_words.js
   * @depend util/core.js
@@ -22974,7 +22974,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./call":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/call.js","./extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./times_in_words":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/times_in_words.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/stub.js":[function(require,module,exports){
+},{"./call":48,"./extend":50,"./format":51,"./times_in_words":60,"./util/core":62}],57:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend extend.js
@@ -23176,7 +23176,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./behavior":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/behavior.js","./extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","./spy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/spy.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/test.js":[function(require,module,exports){
+},{"./behavior":47,"./extend":50,"./spy":56,"./util/core":62}],58:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend sandbox.js
@@ -23278,7 +23278,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     }
 }(typeof sinon === "object" && sinon || null)); // eslint-disable-line no-undef
 
-},{"./sandbox":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/sandbox.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/test_case.js":[function(require,module,exports){
+},{"./sandbox":55,"./util/core":62}],59:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend test.js
@@ -23386,7 +23386,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./test":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/test.js","./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/times_in_words.js":[function(require,module,exports){
+},{"./test":58,"./util/core":62}],60:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -23437,7 +23437,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/typeOf.js":[function(require,module,exports){
+},{"./util/core":62}],61:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -23492,7 +23492,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js":[function(require,module,exports){
+},{"./util/core":62}],62:[function(require,module,exports){
 /**
  * @depend ../../sinon.js
  */
@@ -23895,7 +23895,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/event.js":[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /**
  * Minimal Event interface implementation
  *
@@ -24008,7 +24008,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_server.js":[function(require,module,exports){
+},{"./core":62}],64:[function(require,module,exports){
 /**
  * @depend fake_xdomain_request.js
  * @depend fake_xml_http_request.js
@@ -24257,7 +24257,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"../format":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/format.js","./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./fake_xdomain_request":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_xdomain_request.js","./fake_xml_http_request":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_xml_http_request.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_server_with_clock.js":[function(require,module,exports){
+},{"../format":51,"./core":62,"./fake_xdomain_request":67,"./fake_xml_http_request":68}],65:[function(require,module,exports){
 /**
  * @depend fake_server.js
  * @depend fake_timers.js
@@ -24360,7 +24360,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./fake_server":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_server.js","./fake_timers":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_timers.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_timers.js":[function(require,module,exports){
+},{"./core":62,"./fake_server":64,"./fake_timers":66}],66:[function(require,module,exports){
 /**
  * Fake timer API
  * setTimeout
@@ -24435,7 +24435,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","lolex":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/lolex/src/lolex.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_xdomain_request.js":[function(require,module,exports){
+},{"./core":62,"lolex":71}],67:[function(require,module,exports){
 (function (global){
 /**
  * @depend core.js
@@ -24662,7 +24662,7 @@ if (typeof sinon === "undefined") {
 })(typeof global !== "undefined" ? global : self);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","../log_error":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/log_error.js","./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./event":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/event.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/fake_xml_http_request.js":[function(require,module,exports){
+},{"../extend":50,"../log_error":52,"./core":62,"./event":63}],68:[function(require,module,exports){
 (function (global){
 /**
  * @depend core.js
@@ -25382,7 +25382,7 @@ if (typeof sinon === "undefined") {
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../extend":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/extend.js","../log_error":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/log_error.js","./core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js","./event":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/event.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/walk.js":[function(require,module,exports){
+},{"../extend":50,"../log_error":52,"./core":62,"./event":63}],69:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -25463,7 +25463,7 @@ if (typeof sinon === "undefined") {
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon/util/core.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/formatio/lib/formatio.js":[function(require,module,exports){
+},{"./util/core":62}],70:[function(require,module,exports){
 (function (global){
 ((typeof define === "function" && define.amd && function (m) {
     define("formatio", ["samsam"], m);
@@ -25680,7 +25680,7 @@ if (typeof sinon === "undefined") {
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"samsam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/samsam/lib/samsam.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/lolex/src/lolex.js":[function(require,module,exports){
+},{"samsam":72}],71:[function(require,module,exports){
 (function (global){
 /*global global, window*/
 /**
@@ -26203,7 +26203,7 @@ if (typeof sinon === "undefined") {
 }(global || this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/node_modules/samsam/lib/samsam.js":[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 ((typeof define === "function" && define.amd && function (m) { define("samsam", m); }) ||
  (typeof module === "object" &&
       function (m) { module.exports = m(); }) || // Node
@@ -26604,13 +26604,14 @@ if (typeof sinon === "undefined") {
     };
 });
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js":[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 //var game = window.game;
 var properties = require('../properties');
 var Turret = require('./Turret');
 var utils = require('../environment/utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
+var ui = require('../ui');
 
 /**
  * Player Ship
@@ -26624,51 +26625,73 @@ var ShipParticle = require('./bitmaps/ShipParticle');
  * @constructor
  */
 function Player(x, y, collisions, groups) {
-	/**
-	 * The collisions container
-	 *
-	 * @property collisions
-	 * @type {Collisions}
-	 */
-	this.collisions = collisions;
+  /**
+   * The collisions container
+   *
+   * @property collisions
+   * @type {Collisions}
+   */
+  this.collisions = collisions;
 
-	/**
-	 * The groups container
-	 *
-	 * @property groups
-	 * @type {Groups}
-	 */
-	this.groups = groups;
+  /**
+   * The groups container
+   *
+   * @property groups
+   * @type {Groups}
+   */
+  this.groups = groups;
 
-	/**
-	 * A beam actor used by player to colect the orb
-	 *
-	 * @property tractorBeam
-	 * @type {TractorBeam}
-	 */
-	this.tractorBeam = null;
+  /**
+   * A beam actor used by player to colect the orb
+   *
+   * @property tractorBeam
+   * @type {TractorBeam}
+   */
+  this.tractorBeam = null;
 
-	/**
-	 * @property emitter
-	 * @type {Phaser.Emitter}
-	 */
-	this.emitter;
+  /**
+   * @property emitter
+   * @type {Phaser.Emitter}
+   */
+  this.emitter;
 
-	/**
-	 * Player has been destroyed
-	 *
-	 * @property isDead
-	 * @type {boolean}
-	 */
-	this.isDead = false;
+  /**
+   * Player has been destroyed
+   *
+   * @property isDead
+   * @type {boolean}
+   */
+  this.isDead = true;
 
-	Phaser.Sprite.call(this, game, x, y, 'player');
+  /**
+   * @property fuel
+   * @type {number}
+   */
+  this.fuel = 500;
 
-	this.init();
+  /**
+   * @property lives
+   * @type {number}
+   */
+  this.lives = 5;
+
+  /**
+   * @property score
+   * @type {number}
+   */
+  this.score = 0;
+
+  Phaser.Sprite.call(this, game, x, y, 'player');
+
+  this.anchor.setTo(0.5);
+  this.alpha = 0;
+  this.initialPos = {x: x, y: y};
+
+  this.init();
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
-	constructor: Player
+  constructor: Player
 });
 
 /**
@@ -26676,8 +26699,8 @@ var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
  * @method setTractorBeam
  * @param tractorBeam
  */
-p.setTractorBeam = function(tractorBeam) {
-	this.tractorBeam = tractorBeam;
+p.setTractorBeam = function (tractorBeam) {
+  this.tractorBeam = tractorBeam;
 };
 
 /**
@@ -26685,24 +26708,52 @@ p.setTractorBeam = function(tractorBeam) {
  *
  * @method init
  */
-p.init = function() {
-	game.physics.p2.enable(this, properties.debugPhysics);
-	this.body.clearShapes();
-	this.body.loadPolygon('playerPhysics', 'player');
-	this.body.collideWorldBounds = properties.collideWorldBounds;
-	this.body.mass = 1;
-	this.body.setCollisionGroup(this.collisions.players);
-	this.turret = this.createTurret();
-	this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-	this.emitter = game.add.emitter(this.x, this.y, 100);
-	this.emitter.particleClass = ShipParticle;
-	this.emitter.makeParticles();
-	this.emitter.gravity = 200;
+p.init = function () {
+
+  this.turret = this.createTurret();
+  this.emitter = game.add.emitter(this.x, this.y, 100);
+  this.emitter.particleClass = ShipParticle;
+  this.emitter.makeParticles();
+  this.emitter.gravity = 200;
+
+  //this.start();
+  //this.stop();
 
 };
 
-p.update = function() {
-	this.turret.update();
+p.stop = function() {
+  this.body.removeFromWorld();
+};
+
+p.start = function () {
+  console.log('Player :: start');
+  game.physics.p2.enable(this, properties.debugPhysics);
+  this.body.clearShapes();
+  this.body.loadPolygon('playerPhysics', 'player');
+  this.body.collideWorldBounds = properties.collideWorldBounds;
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
+  this.body.setCollisionGroup(this.collisions.players);
+  this.body.motionState = 1;
+  this.body.mass = 1;
+};
+
+p.spawn = function() {
+  this.position.setTo(this.initialPos.x, this.initialPos.y);
+  this.alpha = 1;
+  this.isDead = false;
+};
+
+p.respawn = function() {
+  this.spawn();
+  ui.lives.update(this.lives--, true);
+
+};
+
+p.update = function () {
+
+  if (!this.isDead && this.body) {
+    this.turret.update();
+  }
 };
 
 /**
@@ -26710,14 +26761,14 @@ p.update = function() {
  * @method createTurret
  * @returns {Turret|exports|module.exports}
  */
-p.createTurret = function() {
-	var bulletBitmap = game.make.bitmapData(5,5);
-	bulletBitmap.ctx.fillStyle = '#ffffff';
-	bulletBitmap.ctx.beginPath();
-	bulletBitmap.ctx.arc(1.5,1.5,3, 0, Math.PI*2, true);
-	bulletBitmap.ctx.closePath();
-	bulletBitmap.ctx.fill();
-	return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
+p.createTurret = function () {
+  var bulletBitmap = game.make.bitmapData(5, 5);
+  bulletBitmap.ctx.fillStyle = '#ffffff';
+  bulletBitmap.ctx.beginPath();
+  bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
+  bulletBitmap.ctx.closePath();
+  bulletBitmap.ctx.fill();
+  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
 /**
@@ -26726,20 +26777,20 @@ p.createTurret = function() {
  *
  * @method checkOrbDistance
  */
-p.checkOrbDistance = function() {
-	var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
-	if (distance < this.tractorBeam.length) {
-		this.tractorBeam.drawBeam(this.position);
+p.checkOrbDistance = function () {
+  var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
+  if (distance < this.tractorBeam.length) {
+    this.tractorBeam.drawBeam(this.position);
 
-	} else if (distance >= this.tractorBeam.length && distance < 90) {
-		if (this.tractorBeam.isLocked) {
-			this.tractorBeam.grab(this);
-		}
-	} else {
-		if (this.tractorBeam.isLocking) {
-			this.tractorBeam.lockingRelease();
-		}
-	}
+  } else if (distance >= this.tractorBeam.length && distance < 90) {
+    if (this.tractorBeam.isLocked) {
+      this.tractorBeam.grab(this);
+    }
+  } else {
+    if (this.tractorBeam.isLocking) {
+      this.tractorBeam.lockingRelease();
+    }
+  }
 };
 
 /**
@@ -26747,8 +26798,8 @@ p.checkOrbDistance = function() {
  *
  * @method shoot
  */
-p.fire = function() {
-	this.turret.fire();
+p.fire = function () {
+  this.turret.fire();
 };
 
 /**
@@ -26756,47 +26807,45 @@ p.fire = function() {
  *
  * @method crash
  */
-p.crash = function() {
-	if (!properties.fatalCollisions) {
-		console.log('Hit but no effect');
-		return;
-	}
-	this.explosion();
-	this.playerDeath();
+p.crash = function () {
+  if (!properties.fatalCollisions) {
+    console.log('Hit but no effect');
+    return;
+  }
+  this.explosion();
+  this.death();
 };
 
-p.rotate = function(val) {
-	if (val < 0) {
-		this.body.rotateLeft(Math.abs(val))
-	} else {
-		this.body.rotateRight(val);
-	}
+p.rotate = function (val) {
+  if (val < 0) {
+    this.body.rotateLeft(Math.abs(val))
+  } else {
+    this.body.rotateRight(val);
+  }
 };
 
 /**
  * @method explosion
  */
-p.explosion = function() {
-	this.emitter.x = this.position.x;
-	this.emitter.y = this.position.y;
-	this.emitter.start(true, 2000, null, 20);
+p.explosion = function () {
+  this.emitter.x = this.position.x;
+  this.emitter.y = this.position.y;
+  this.emitter.start(true, 2000, null, 20);
+  this.tractorBeam.breakLink();
 
 };
 
 /**
  * @method bulletEnd
  */
-p.playerDeath = function() {
-	this.isDead = true;
-	this.tractorBeam.breakLink();
-
-
+p.death = function () {
+  this.isDead = true;
 };
 
 
 module.exports = Player;
 
-},{"../environment/utils":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/utils.js","../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js","./Turret":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Turret.js","./bitmaps/ShipParticle":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/bitmaps/ShipParticle.js","./strategies/ForwardFiring":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/ForwardFiring.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js":[function(require,module,exports){
+},{"../environment/utils":82,"../properties":83,"../ui":85,"./Turret":75,"./bitmaps/ShipParticle":76,"./strategies/ForwardFiring":78}],74:[function(require,module,exports){
 var properties = require('../properties');
 var game = window.game;
 var graphics;
@@ -26916,7 +26965,7 @@ p.breakLink = function() {
 
 module.exports = TractorBeam;
 
-},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Turret.js":[function(require,module,exports){
+},{"../properties":83}],75:[function(require,module,exports){
 var game = window.game;
 
 /**
@@ -26967,20 +27016,19 @@ p.update = function() {
 
 module.exports = Turret;
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/bitmaps/ShipParticle.js":[function(require,module,exports){
-
+},{}],76:[function(require,module,exports){
 
 function ShipParticle (game, x, y) {
-	var bmd = game.add.bitmapData(4,4);
+	var bmd = game.add.bitmapData(3,3);
 	bmd.context.fillStyle = "#ffffff";
-	bmd.context.fillRect(0,0,4,4);
+	bmd.context.fillRect(0,0,3,3);
 	game.cache.addBitmapData('shipParticle', bmd);
 	Phaser.Particle.call(this, game, x, y, game.cache.getBitmapData('shipParticle'));
 }
 
 var p = ShipParticle.prototype = Object.create(Phaser.Particle.prototype);
 module.exports = p.constructor = ShipParticle;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/FiringStrategy.js":[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /**
  * FiringStrategy description
  *
@@ -27048,7 +27096,7 @@ p.bulletEnd = function(bullet, group) {
 
 
 module.exports = FiringStrategy;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/ForwardFiring.js":[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 var FiringStrategy = require('./FiringStrategy');
 var _ = require('lodash');
 
@@ -27093,7 +27141,69 @@ p.fire = function() {
 };
 
 module.exports = ForwardsFire;
-},{"./FiringStrategy":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/strategies/FiringStrategy.js","lodash":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/lodash/index.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js":[function(require,module,exports){
+},{"./FiringStrategy":77,"lodash":43}],79:[function(require,module,exports){
+var properties = require('../properties');
+
+/**
+ * Want to know what time it is? you came to wrong place... Want to know what level it is?
+ * This is what you want! :)
+ *
+ * @module level-manager
+ * @type {{}}
+ */
+var self = module.exports = {
+
+  /**
+   * @property levels
+   * @type {[]}
+   */
+  levels: properties.levels,
+
+  /**
+   * @property levelIndex
+   * @type {Number}
+   */
+  levelIndex: 0,
+
+  /**
+   *
+   * @property currentLevel
+   * @type null
+   */
+  currentLevel: null,
+
+  /**
+   * Inits the level manager to make
+   * levels available to the current level property.
+   *
+   * @method init
+   */
+  init: function() {
+    this.currentLevel = this.levels[this.levelIndex];
+  },
+
+  /**
+   * Gets the next level configuration
+   * and updates the currentLevel index.
+   * If you're on the last level, the levelIndex is reset to 0.
+   *
+   * @method nextLevel
+   * @property nextLevel
+   * @returns {{}}
+   */
+  nextLevel: function() {
+    if (levels.length - 1 === this.levelIndex) {
+      alert('all levels finished');
+      this.levelIndex = 0;
+    } else {
+      this.levelIndex++;
+    }
+    return this.currentLevel;
+  }
+
+
+};
+},{"../properties":83}],80:[function(require,module,exports){
 var game = window.game;
 var properties = require('../properties');
 
@@ -27140,37 +27250,23 @@ p.set = function(sprite, collisionGroups) {
 
 module.exports = Collisions;
 
-},{"../properties":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js":[function(require,module,exports){
+},{"../properties":83}],81:[function(require,module,exports){
 /**
- * A private var description
+ * These groups are registerd to a common camera parent group.
  *
- * @property myPrivateVar
- * @type {number}
- * @private
- */
-var myPrivateVar = 0;
-
-/**
- * Groups description
+ * This is an attempt to make zooming possible.
+ * But currently in phaser, this effects the physics badly, and camera.follow stops
+ * working properly, so no zooming is done at runtime yet.
+ *
  * calls init
  *
  * @class Groups
  * @constructor
  */
-function Groups (cameraGroup) {
-	/**
-	 * A public var description
-	 *
-	 * @property myPublicVar
-	 * @type {number}
-	 */
-	this.myPublicVar = 1;
+function Groups(cameraGroup) {
+  this.cameraGroup = cameraGroup;
 
-	this.cameraGroup = cameraGroup;
-
-	this.init();
-
-
+  this.init();
 }
 
 var p = Groups.prototype;
@@ -27180,29 +27276,37 @@ var p = Groups.prototype;
  *
  * @method init
  */
-p.init = function() {
+p.init = function () {
 
 
-	this.actors = game.make.group();
-	this.enemies = game.make.group();
-	this.terrain = game.make.group();
-	this.bullets = game.make.group();
+  this.actors = game.make.group();
+  this.enemies = game.make.group();
+  this.terrain = game.make.group();
+  this.bullets = game.make.group();
 
-	this.cameraGroup.add(this.actors);
-	this.cameraGroup.add(this.enemies);
-	this.cameraGroup.add(this.terrain);
-	this.cameraGroup.add(this.bullets);
+  this.cameraGroup.add(this.actors);
+  this.cameraGroup.add(this.enemies);
+  this.cameraGroup.add(this.terrain);
+  this.cameraGroup.add(this.bullets);
 
 };
 
-p.swapTerrain = function() {
-	this.cameraGroup.swap(this.terrain, this.actors);
+p.swapTerrain = function () {
+  this.cameraGroup.swap(this.terrain, this.actors);
 };
 
 
 module.exports = Groups;
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/utils.js":[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 module.exports = {
+  /**
+   * Pythagorus ftw
+   *
+   * @method distAtoB
+   * @param pointA
+   * @param pointB
+   * @returns {number}
+   */
   distAtoB: function(pointA, pointB) {
 
     var A = pointB.x - pointA.x;
@@ -27212,7 +27316,7 @@ module.exports = {
   }
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/properties.js":[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 /**
  * Defines build settings for the thrust-engine
  *
@@ -27223,28 +27327,331 @@ module.exports = {
  * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
  */
 module.exports = {
-	debugPhysics: true,
-	collideWorldBounds: true,
-	enableJoypad: false,
-	fatalCollisions: true,
-	scale: {
-		mode: Phaser.ScaleManager.NO_SCALE
-	},
-	drawStats: true,
-	drawMontains: false,
-	drawBackground: true,
-	width: 700,
-	height: 500,
-	gamePlay: {
-		freeOrbLocking: false,
-		autoOrbLocking: true,
-		tractorBeamLength: 80,
-		tractorBeamVariation: 10,
-		lockingDuration: 900
-	}
+  debugPhysics: false,
+  collideWorldBounds: true,
+  enableJoypad: false,
+  fatalCollisions: true,
+  scale: {
+    mode: Phaser.ScaleManager.NO_SCALE
+  },
+  stats: true,
+  drawBackground: true,
+  width: 700,
+  height: 500,
+  gamePlay: {
+    freeOrbLocking: false,
+    autoOrbLocking: true,
+    tractorBeamLength: 80,
+    tractorBeamVariation: 10,
+    lockingDuration: 900,
+    parallax: true
+  },
+  levels: [
+    {
+      mapImgUrl: 'assets/levels/level_6_x2.png',
+      mapImgKey: 'thrustmap',
+      mapDataUrl: 'assets/levels/level_6.json',
+      mapDataKey: 'physicsData',
+      world: {width: 3072, height: 4000},
+      mapPosition: {x: 0, y: 2000},
+      orbPosition: {x: 1000, y: 1000},
+      enemies: [
+        {x: 1200, y: 1200, rotation: 100},
+        {x: 500, y: 500, rotation: 100}
+      ],
+      enemyFireRate: 1000
+    }
+  ]
 };
 
-},{}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/actors/PlayerSpec.js":[function(require,module,exports){
+},{}],84:[function(require,module,exports){
+/**
+ * Manages the fuel display
+ *
+ * @class fuel
+ * @module ui
+ * @submodule fuel
+ * @static
+ * @type {Object}
+ */
+module.exports = {
+
+  /**
+   * @property group
+   * @type {Phaser.Group}
+   */
+  group: null,
+
+  fuelTf: null,
+
+  currentFuel: 0,
+
+  init: function(x, y, group) {
+
+    this.group = group;
+
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
+    var fuelLabel = game.add.text(x + 5, y + 5, "Fuel:", style, this.group);
+
+    style.align = 'right';
+    this.fuelTf = game.add.text(x + 5 + fuelLabel.width + 5, y + 5, "999999", style, this.group);
+
+  },
+
+  update: function(fuel, shouldReset) {
+    if (shouldReset) {
+      this.currentFuel = fuel;
+    } else {
+      this.currentFuel += fuel;
+    }
+    this.fuelTf.text = this.currentFuel.toString();
+  }
+
+
+};
+},{}],85:[function(require,module,exports){
+module.exports = {
+
+  init: function() {
+    this.group = game.make.group();
+  },
+
+  missionSwipe: require('./mission-swipe'),
+
+  score: require('./score'),
+
+  fuel: require('./fuel'),
+
+  lives: require('./lives')
+
+};
+},{"./fuel":84,"./lives":86,"./mission-swipe":87,"./score":88}],86:[function(require,module,exports){
+/**
+ * Manages the lives display
+ *
+ * @class lives
+ * @module ui
+ * @submodule lives
+ * @static
+ * @type {Object}
+ */
+module.exports = {
+
+  /**
+   * the ui display group
+   *
+   * @property group
+   * @type {Phaser.Group}
+   */
+  group: null,
+
+  /**
+   * @property textField
+   * @type {Phaser.Text}
+   */
+  textfield: null,
+
+  /**
+   * The value represented in the textfield display
+   *
+   * @property currentAmount
+   * @type {Number}
+   */
+  currentAmount: 0,
+
+  /**
+   * create label and textfield
+   *
+   * @method init
+   * @param x
+   * @param y
+   * @param group
+   */
+  init: function(x, y, group) {
+
+    this.group = group;
+
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: 'left' };
+    var label = game.add.text(x + 5, y + 5, "Ships:", style, this.group);
+
+    style.align = 'right';
+    this.textfield = game.add.text(x + 5 + label.width + 5, y + 5, "5", style, this.group);
+
+  },
+
+  /**
+   * @method update
+   * @param val {Number} the amount to update the textfield by
+   * @param shouldReset {Boolean} if true, set the label to the value (val) otherwise add val the to the currentAmount
+   */
+  update: function(val, shouldReset) {
+    if (shouldReset) {
+      this.currentAmount = val;
+    } else {
+      this.currentAmount += val;
+    }
+    this.textfield.text = this.currentAmount.toString();
+  }
+
+
+};
+},{}],87:[function(require,module,exports){
+var _ = require('lodash');
+var levelManager = require('../data/level-manager');
+
+/**
+ * @module mission-swipe
+ * @type {{}}
+ */
+module.exports = {
+
+  /**
+   * @property swipe
+   * @type {Phaser.Sprite}
+   */
+  swipe: null,
+
+  /**
+   * @property swipeTl
+   * @type {TimelineLite}
+   */
+  swipeTl: null,
+
+  /**
+   * @property group
+   * @type {Phaser.Group}
+   */
+  group: null,
+
+  fullW: 0,
+
+  fullH: 0,
+
+  callback: function() {},
+
+  cbContext: null,
+
+  /**
+   * @method init
+   */
+  init: function(x, y, fullWidth, fullHeight, group) {
+    var style;
+    this.fullW = fullWidth;
+    this.fullH = fullHeight;
+
+    this.group = group;
+
+    var bmd = game.make.bitmapData(1, 1);
+    bmd.rect(0,0,1,1, "rgba(255, 0, 0, 0.7)");
+    this.swipe = game.add.sprite(x, y, bmd);
+    this.swipe.anchor.setTo(0);
+    this.swipe.width = 5;
+    this.swipe.height = 5;
+
+    this.group.add(this.swipe);
+    this.group.fixedToCamera = true;
+
+    style = { font: "24px thrust_regular", fill: "#ffffff", align: "left" };
+    this.title = game.add.text(x + 5, y + 5, "Mission 1", style, this.group);
+    style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
+    this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, "Recover the orb", style, this.group);
+
+    this.hideSwipe();
+
+    this.tl = new TimelineLite({delay: 1, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
+    this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));
+    this.tl.add(TweenMax.to(this.swipe, 0.2, {height: this.fullH, ease: Quad.easeOut} ));
+    this.tl.add(TweenMax.to(this.swipe, 0.4, {width: this.fullW, ease: Quad.easeOut} ));
+    this.tl.add(TweenMax.to(this.title, 0.25, {alpha: 1, ease: Quad.easeOut} ));
+    this.tl.add(TweenMax.to(this.desc, 0.25, {alpha: 1, ease: Quad.easeOut} ));
+    this.tl.add(TweenMax.to(this, 1.2));
+    this.tl.pause();
+  },
+
+  hideSwipe: function() {
+    this.title.alpha = 0;
+    this.title.visible = false;
+    this.desc.alpha = 0;
+    this.desc.visibe = false;
+    this.swipe.visible = false;
+    this.swipe.alpha = 0;
+  },
+
+  showSwipe: function() {
+    this.title.visible = true;
+    this.desc.visibe = true;
+    this.swipe.visible = true;
+  },
+
+
+  missionStartSwipeIn: function(callback, context) {
+    this.callback = callback;
+    this.cbContext = context;
+    this.showSwipe();
+    this.tl.play();
+  },
+
+  missionStartSwipeOut: function() {
+    this.tl.reverse();
+  },
+
+  missionReady: function() {
+    this.hideSwipe();
+    this.callback.call(this.cbContext);
+  }
+
+
+
+
+
+
+};
+},{"../data/level-manager":79,"lodash":43}],88:[function(require,module,exports){
+/**
+ * Manages the score display
+ *
+ * @class score
+ * @module ui
+ * @submodule socre
+ * @static
+ * @type {Object}
+ */
+module.exports = {
+
+  /**
+   * @property group
+   * @type {Phaser.Group}
+   */
+  group: null,
+
+  scoreTf: null,
+
+  currentScore: 0,
+
+  init: function(x, y, group) {
+
+    this.group = group;
+
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
+    var scoreLabel = game.add.text(x + 5, y + 5, "Score:", style, this.group);
+
+    style.align = 'right';
+    this.scoreTf = game.add.text(x + 5 + scoreLabel.width + 5, y + 5, "999999", style, this.group);
+
+  },
+
+  update: function(score, shouldReset) {
+    if (shouldReset) {
+      this.currentScore = score;
+    } else {
+      this.currentScore += score;
+    }
+    this.scoreTf.text = this.currentScore.toString();
+  }
+
+
+};
+},{}],89:[function(require,module,exports){
 var sinon = require('sinon');
 var chai = require('chai');
 var sinonChai = require("sinon-chai");
@@ -27364,7 +27771,7 @@ describe("Player tests", function () {
 
 
 });
-},{"../../app/actors/Player":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/Player.js","../../app/actors/TractorBeam":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/actors/TractorBeam.js","../../app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","../../app/environment/Groups":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Groups.js","chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/chai/index.js","mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js","sinon-chai":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon-chai/lib/sinon-chai.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/environment/collisionsMock.js":[function(require,module,exports){
+},{"../../app/actors/Player":73,"../../app/actors/TractorBeam":74,"../../app/environment/Collisions":80,"../../app/environment/Groups":81,"chai":9,"mocks":91,"sinon":45,"sinon-chai":44}],90:[function(require,module,exports){
 var sinon = require('sinon');
 var Collisions = require('../../../app/environment/Collisions');
 
@@ -27380,7 +27787,7 @@ module.exports = function() {
 
   return collisions;
 };
-},{"../../../app/environment/Collisions":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/app/environment/Collisions.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js":[function(require,module,exports){
+},{"../../../app/environment/Collisions":80,"sinon":45}],91:[function(require,module,exports){
 var sinon = require('sinon');
 
 module.exports = {
@@ -27439,11 +27846,11 @@ module.exports = {
   }
 };
 
-},{"./environment/collisionsMock":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/environment/collisionsMock.js","sinon":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/node_modules/sinon/lib/sinon.js"}],"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/tests.js":[function(require,module,exports){
+},{"./environment/collisionsMock":90,"sinon":45}],92:[function(require,module,exports){
 (function (global){
 global.game = require('mocks').game;
 
 require('./actors/PlayerSpec');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./actors/PlayerSpec":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/actors/PlayerSpec.js","mocks":"/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/mocks/index.js"}]},{},["/Users/hayesmaker/Workspace/hayesmaker/thrust-engine/src/test/tests.js"]);
+},{"./actors/PlayerSpec":89,"mocks":91}]},{},[92]);

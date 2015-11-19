@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Turret - thrust-engine</title>
+    <title>main - thrust-engine</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.13</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -94,181 +110,34 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Turret Class</h1>
-<div class="box meta">
+<h1>main Module</h1>
+<div class="box clearfix meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_app_actors_Turret.js.html#l10"><code>src&#x2F;app&#x2F;actors&#x2F;Turret.js:10</code></a>
+            Defined in: <a href="../files/src_app_main.js.html#l5"><code>src&#x2F;app&#x2F;main.js:5</code></a>
         </div>
-
-            Module: <a href="../modules/boot.html">boot</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Turret description</p>
-<p>defines a public variable and calls init - change this constructor to suit your needs.
-nb. there's no requirement to call an init function</p>
+    <p>Main game entry point</p>
+<ul>
+<li>called on window.onload to make sure fonts registered to html page are loaded first.</li>
+<li>initilise the Phaser.Game and register game states</li>
+<li>start state: boot.</li>
+</ul>
 
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_Turret" class="method item">
-    <h3 class="name"><code>Turret</code></h3>
 
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_app_actors_Turret.js.html#l10"><code>src&#x2F;app&#x2F;actors&#x2F;Turret.js:10</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
     </div>
 
 
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                            <li class="index-item method private">
-                                <a href="#method__firingStrategy">_firingStrategy</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setStrategy">setStrategy</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method__firingStrategy" class="method item private">
-    <h3 class="name"><code>_firingStrategy</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_app_actors_Turret.js.html#l3"><code>src&#x2F;app&#x2F;actors&#x2F;Turret.js:3</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-<div id="method_setStrategy" class="method item">
-    <h3 class="name"><code>setStrategy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>firingStrategy</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_app_actors_Turret.js.html#l29"><code>src&#x2F;app&#x2F;actors&#x2F;Turret.js:29</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>FiringStrategy initialisation</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">firingStrategy</code>
-                        <span class="type"><a href="../classes/FiringStrategy.html" class="crosslink">FiringStrategy</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-            </div>
-
-
-
+    <div class="yui3-u-1-2">
     </div>
 </div>
                     </div>

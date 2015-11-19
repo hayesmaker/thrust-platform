@@ -10,7 +10,10 @@ var game = window.game;
  * @class Map
  * @constructor
  */
-function Map(collisions) {
+function Map(x, y, collisions) {
+	this.originX = x;
+	this.originY = y;
+
 	this.collisions = collisions;
 
 	this.sprite = game.make.sprite(0,0, 'thrustmap');
@@ -26,7 +29,7 @@ var p = Map.prototype;
  * @method init
  */
 p.init = function() {
-	this.sprite.position.setTo(this.sprite.width/2, 2000);
+	this.sprite.position.setTo(this.originX + this.sprite.width/2, this.originY);
 
 	game.physics.p2.enable(this.sprite, properties.debugPhysics);
 

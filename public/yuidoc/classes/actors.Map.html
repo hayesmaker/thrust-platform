@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>LimpetGun - thrust-engine</title>
+    <title>actors.Map - thrust-engine</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.1</em>
+            <em>API Docs for: 0.0.13</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,29 +38,45 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actors.LimpetGun.html">actors.LimpetGun</a></li>
+                                <li><a href="../classes/actors.Map.html">actors.Map</a></li>
+                                <li><a href="../classes/actors.Orb.html">actors.Orb</a></li>
+                                <li><a href="../classes/actors.Player.html">actors.Player</a></li>
+                                <li><a href="../classes/actors.TractorBeam.html">actors.TractorBeam</a></li>
+                                <li><a href="../classes/actors.Turret.html">actors.Turret</a></li>
                                 <li><a href="../classes/Background.html">Background</a></li>
+                                <li><a href="../classes/beamFilter.html">beamFilter</a></li>
                                 <li><a href="../classes/Collisions.html">Collisions</a></li>
                                 <li><a href="../classes/FiringStrategy.html">FiringStrategy</a></li>
                                 <li><a href="../classes/ForwardsFire.html">ForwardsFire</a></li>
                                 <li><a href="../classes/Groups.html">Groups</a></li>
-                                <li><a href="../classes/LimpetGun.html">LimpetGun</a></li>
-                                <li><a href="../classes/Map.html">Map</a></li>
-                                <li><a href="../classes/Orb.html">Orb</a></li>
-                                <li><a href="../classes/Player.html">Player</a></li>
+                                <li><a href="../classes/lives.html">lives</a></li>
+                                <li><a href="../classes/score.html">score</a></li>
+                                <li><a href="../classes/states.boot.html">states.boot</a></li>
+                                <li><a href="../classes/states.fuel.html">states.fuel</a></li>
                                 <li><a href="../classes/states.play.html">states.play</a></li>
-                                <li><a href="../classes/states.StatsModule.html">states.StatsModule</a></li>
+                                <li><a href="../classes/StatsModule.html">StatsModule</a></li>
                                 <li><a href="../classes/thrust-engine..html">thrust-engine.</a></li>
-                                <li><a href="../classes/TractorBeam.html">TractorBeam</a></li>
-                                <li><a href="../classes/Turret.html">Turret</a></li>
                                 <li><a href="../classes/UserControl.html">UserControl</a></li>
                             </ul>
                 
                 
                             <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Actors.html">Actors</a></li>
                                 <li><a href="../modules/boot.html">boot</a></li>
+                                <li><a href="../modules/filters.html">filters</a></li>
+                                <li><a href="../modules/fuel.html">fuel</a></li>
+                                <li><a href="../modules/level-manager.html">level-manager</a></li>
+                                <li><a href="../modules/lives.html">lives</a></li>
                                 <li><a href="../modules/load.html">load</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
                                 <li><a href="../modules/menu.html">menu</a></li>
+                                <li><a href="../modules/mission-swipe.html">mission-swipe</a></li>
+                                <li><a href="../modules/play.html">play</a></li>
                                 <li><a href="../modules/properties.html">properties</a></li>
+                                <li><a href="../modules/socre.html">socre</a></li>
+                                <li><a href="../modules/states.html">states</a></li>
+                                <li><a href="../modules/ui.html">ui</a></li>
                             </ul>
                         </div>
                     </div>
@@ -94,21 +110,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>LimpetGun Class</h1>
+<h1>actors.Map Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_app_actors_LimpetGun.js.html#l5"><code>src&#x2F;app&#x2F;actors&#x2F;LimpetGun.js:5</code></a>
+            Defined in: <a href="../files/src_app_actors_Map.js.html#l4"><code>src&#x2F;app&#x2F;actors&#x2F;Map.js:4</code></a>
         </div>
 
-            Module: <a href="../modules/boot.html">boot</a>
+            Module: <a href="../modules/Actors.html">Actors</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>LimpetGun description</p>
+    <p>Map description</p>
 <p>defines a public variable and calls init - change this constructor to suit your needs.
 nb. there's no requirement to call an init function</p>
 
@@ -116,28 +132,10 @@ nb. there's no requirement to call an init function</p>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_LimpetGun" class="method item">
-    <h3 class="name"><code>LimpetGun</code></h3>
+<div id="method_actors.Map" class="method item">
+    <h3 class="name"><code>actors.Map</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-                <li class="arg">
-                        <code>angleDeg</code>
-                </li>
-                <li class="arg">
-                        <code>collisions</code>
-                </li>
-                <li class="arg">
-                        <code>groups</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
 
 
@@ -149,7 +147,7 @@ nb. there's no requirement to call an init function</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_LimpetGun.js.html#l5"><code>src&#x2F;app&#x2F;actors&#x2F;LimpetGun.js:5</code></a>
+        <a href="../files/src_app_actors_Map.js.html#l4"><code>src&#x2F;app&#x2F;actors&#x2F;Map.js:4</code></a>
         </p>
 
 
@@ -160,62 +158,6 @@ nb. there's no requirement to call an init function</p>
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">angleDeg</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">collisions</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">groups</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
 
 
@@ -266,7 +208,7 @@ nb. there's no requirement to call an init function</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_app_actors_LimpetGun.js.html#l52"><code>src&#x2F;app&#x2F;actors&#x2F;LimpetGun.js:52</code></a>
+        <a href="../files/src_app_actors_Map.js.html#l26"><code>src&#x2F;app&#x2F;actors&#x2F;Map.js:26</code></a>
         </p>
 
 
@@ -274,7 +216,7 @@ nb. there's no requirement to call an init function</p>
     </div>
 
     <div class="description">
-        <p>LimpetGun initialisation</p>
+        <p>Map initialisation</p>
 
     </div>
 

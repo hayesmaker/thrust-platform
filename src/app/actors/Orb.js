@@ -8,7 +8,7 @@ var properties = require('../properties');
  * @class Orb
  * @constructor
  */
-function Orb (collisions) {
+function Orb (x, y, collisions) {
 	/**
 	 * A collisions container
 	 *
@@ -29,8 +29,10 @@ function Orb (collisions) {
 	/**
 	 * @property sprite
 	 */
-	this.sprite = game.make.sprite(550, 1200, bmd);
+	this.sprite = game.make.sprite(x, y, bmd);
 	this.sprite.anchor.setTo(0.5,0.5);
+
+	this.initialPosition = {x: x, y: y};
 
 	this.init();
 }
@@ -77,6 +79,9 @@ p.setPlayer = function(player) {
 p.move = function() {
 	this.body.motionState = 1;
 	this.body.mass = 1;
+	this.body.velocity = 0;
+	this.body.angularVelocity = 0;
+	this.body.angle = 0;
 };
 
 /**
@@ -86,8 +91,13 @@ p.crash = function() {
 	console.warn('Orb :: crash');
 
 	if (this.player) {
-		this.player.playerDeath();
+		this.player.death();
 	}
+};
+
+p.respawn = function() {
+	this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
+	this.body.motionState = 2;
 };
 
 
