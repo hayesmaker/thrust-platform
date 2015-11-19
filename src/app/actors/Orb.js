@@ -32,6 +32,8 @@ function Orb (x, y, collisions) {
 	this.sprite = game.make.sprite(x, y, bmd);
 	this.sprite.anchor.setTo(0.5,0.5);
 
+	this.initialPosition = {x: x, y: y};
+
 	this.init();
 }
 
@@ -77,6 +79,9 @@ p.setPlayer = function(player) {
 p.move = function() {
 	this.body.motionState = 1;
 	this.body.mass = 1;
+	this.body.velocity = 0;
+	this.body.angularVelocity = 0;
+	this.body.angle = 0;
 };
 
 /**
@@ -88,6 +93,11 @@ p.crash = function() {
 	if (this.player) {
 		this.player.death();
 	}
+};
+
+p.respawn = function() {
+	this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
+	this.body.motionState = 2;
 };
 
 

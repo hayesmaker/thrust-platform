@@ -105,11 +105,8 @@ module.exports = {
    */
   missionStart: function() {
     inPlay = true;
-    particles.startSwirl();
-    setTimeout(function() {
-      player.start();
-      player.spawn();
-    }, 3000);
+
+    player.start();
     _.each(limpetGuns, function(limpet) {
       limpet.start();
     });

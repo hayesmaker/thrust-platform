@@ -5,6 +5,7 @@ var utils = require('../environment/utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
+var particles = require('../environment/particles');
 
 /**
  * Player Ship
@@ -126,24 +127,40 @@ p.start = function () {
   this.body.collideWorldBounds = properties.collideWorldBounds;
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
-  this.body.motionState = 1;
+  this.body.motionState = 2;
   this.body.mass = 1;
+  this.respawn();
 };
 
 p.spawn = function() {
-  this.position.setTo(this.initialPos.x, this.initialPos.y);
+  this.body.motionState = 1;
   this.alpha = 1;
   this.isDead = false;
 };
 
-p.respawn = function() {
-  this.spawn();
-  ui.lives.update(this.lives--, true);
+p.respawn = function(removeLife) {
+  var self = this;
+  this.body.reset(this.initialPos.x, this.initialPos.y);
+  this.body.motionState = 2;
+  this.alpha = 0;
+  this.body.angle = 0;
+  if (removeLife === true) {
+    this.lives--;
+  }
+  ui.lives.update(this.lives, true);
+  if (this.fuel < 500) {
+    this.fuel = 500;
+  }
+  ui.fuel.update(this.fuel, true);
+  this.tractorBeam.orb.respawn();
+  particles.startSwirl();
+  setTimeout(function() {
+    self.spawn();
+  }, 2500);
 
 };
 
 p.update = function () {
-
   if (!this.isDead && this.body) {
     this.turret.update();
   }
@@ -232,7 +249,22 @@ p.explosion = function () {
  * @method bulletEnd
  */
 p.death = function () {
+  if (this.isDead) {
+    return;
+  }
+  var self = this;
   this.isDead = true;
+  setTimeout(function() {
+    self.checkRespawn();
+  }, 5000);
+};
+
+p.checkRespawn = function() {
+  if (this.lives === 0) {
+    console.warn('GAME OVER');
+  } else {
+    this.respawn(true);
+  }
 };
 
 

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.12</em>
+            <em>API Docs for: 0.0.13</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -121,6 +121,7 @@ var utils = require(&#x27;../environment/utils&#x27;);
 var ForwardFiring = require(&#x27;./strategies/ForwardFiring&#x27;);
 var ShipParticle = require(&#x27;./bitmaps/ShipParticle&#x27;);
 var ui = require(&#x27;../ui&#x27;);
+var particles = require(&#x27;../environment/particles&#x27;);
 
 /**
  * Player Ship
@@ -170,7 +171,7 @@ function Player(x, y, collisions, groups) {
    * @property isDead
    * @type {boolean}
    */
-  this.isDead = false;
+  this.isDead = true;
 
   /**
    * @property fuel
@@ -193,6 +194,8 @@ function Player(x, y, collisions, groups) {
   Phaser.Sprite.call(this, game, x, y, &#x27;player&#x27;);
 
   this.anchor.setTo(0.5);
+  this.alpha = 0;
+  this.initialPos = {x: x, y: y};
 
   this.init();
 }
@@ -240,17 +243,40 @@ p.start = function () {
   this.body.collideWorldBounds = properties.collideWorldBounds;
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
-  this.body.motionState = 1;
+  this.body.motionState = 2;
   this.body.mass = 1;
+  this.respawn();
 };
 
-p.respawn = function() {
-  ui.lives.update(this.lives--, true);
+p.spawn = function() {
+  this.body.motionState = 1;
+  this.alpha = 1;
+  this.isDead = false;
+};
+
+p.respawn = function(removeLife) {
+  var self = this;
+  this.body.reset(this.initialPos.x, this.initialPos.y);
+  this.body.motionState = 2;
+  this.alpha = 0;
+  this.body.angle = 0;
+  if (removeLife === true) {
+    this.lives--;
+  }
+  ui.lives.update(this.lives, true);
+  if (this.fuel &lt; 500) {
+    this.fuel = 500;
+  }
+  ui.fuel.update(this.fuel, true);
+  this.tractorBeam.orb.respawn();
+  particles.startSwirl();
+  setTimeout(function() {
+    self.spawn();
+  }, 2500);
 
 };
 
 p.update = function () {
-
   if (!this.isDead &amp;&amp; this.body) {
     this.turret.update();
   }
@@ -339,7 +365,22 @@ p.explosion = function () {
  * @method bulletEnd
  */
 p.death = function () {
+  if (this.isDead) {
+    return;
+  }
+  var self = this;
   this.isDead = true;
+  setTimeout(function() {
+    self.checkRespawn();
+  }, 5000);
+};
+
+p.checkRespawn = function() {
+  if (this.lives === 0) {
+    console.warn(&#x27;GAME OVER&#x27;);
+  } else {
+    this.respawn(true);
+  }
 };
 
 

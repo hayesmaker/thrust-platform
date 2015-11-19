@@ -2,7 +2,7 @@
     "project": {
         "name": "thrust-engine",
         "description": "js port of thrust, an awesome 8bit game from the 1980s ",
-        "version": "0.0.12",
+        "version": "0.0.13",
         "url": ""
     },
     "files": {
@@ -690,7 +690,7 @@
             "module": "Actors",
             "namespace": "actors",
             "file": "src/app/actors/Player.js",
-            "line": 9,
+            "line": 10,
             "description": "Player Ship",
             "params": [
                 {
@@ -1061,7 +1061,7 @@
         },
         {
             "file": "src/app/actors/Orb.js",
-            "line": 40,
+            "line": 42,
             "description": "Orb initialisation\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
             "itemtype": "method",
             "name": "init",
@@ -1071,7 +1071,7 @@
         },
         {
             "file": "src/app/actors/Orb.js",
-            "line": 71,
+            "line": 73,
             "itemtype": "method",
             "name": "move\nmotionState = 1; //for dynamic\nmotionState = 2; //for static\nmotionState = 4; //for kinematic",
             "class": "actors.Orb",
@@ -1080,7 +1080,7 @@
         },
         {
             "file": "src/app/actors/Orb.js",
-            "line": 82,
+            "line": 87,
             "itemtype": "method",
             "name": "crash",
             "class": "actors.Orb",
@@ -1089,7 +1089,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 21,
+            "line": 22,
             "description": "The collisions container",
             "itemtype": "property",
             "name": "collisions",
@@ -1100,7 +1100,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 29,
+            "line": 30,
             "description": "The groups container",
             "itemtype": "property",
             "name": "groups",
@@ -1111,7 +1111,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 37,
+            "line": 38,
             "description": "A beam actor used by player to colect the orb",
             "itemtype": "property",
             "name": "tractorBeam",
@@ -1122,7 +1122,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 45,
+            "line": 46,
             "itemtype": "property",
             "name": "emitter",
             "type": "{Phaser.Emitter}",
@@ -1132,7 +1132,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 51,
+            "line": 52,
             "description": "Player has been destroyed",
             "itemtype": "property",
             "name": "isDead",
@@ -1143,7 +1143,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 59,
+            "line": 60,
             "itemtype": "property",
             "name": "fuel",
             "type": "{number}",
@@ -1153,7 +1153,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 65,
+            "line": 66,
             "itemtype": "property",
             "name": "lives",
             "type": "{number}",
@@ -1163,7 +1163,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 71,
+            "line": 72,
             "itemtype": "property",
             "name": "score",
             "type": "{number}",
@@ -1173,7 +1173,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 88,
+            "line": 91,
             "itemtype": "method",
             "name": "setTractorBeam",
             "params": [
@@ -1188,7 +1188,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 97,
+            "line": 100,
             "description": "Player initialisation",
             "itemtype": "method",
             "name": "init",
@@ -1198,7 +1198,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 143,
+            "line": 169,
             "itemtype": "method",
             "name": "createTurret",
             "return": {
@@ -1211,7 +1211,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 158,
+            "line": 184,
             "description": "When this is called, we'll check the distance of the player to the orb, and depending on distance,\neither draw a tractorBeam",
             "itemtype": "method",
             "name": "checkOrbDistance",
@@ -1221,7 +1221,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 180,
+            "line": 206,
             "description": "Fires the current actor's turret",
             "itemtype": "method",
             "name": "shoot",
@@ -1231,7 +1231,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 189,
+            "line": 215,
             "description": "Called on collision with terrain, enemy bullet, or some other fatal collision",
             "itemtype": "method",
             "name": "crash",
@@ -1241,7 +1241,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 211,
+            "line": 237,
             "itemtype": "method",
             "name": "explosion",
             "class": "actors.Player",
@@ -1250,7 +1250,7 @@
         },
         {
             "file": "src/app/actors/Player.js",
-            "line": 222,
+            "line": 248,
             "itemtype": "method",
             "name": "bulletEnd",
             "class": "actors.Player",
@@ -1467,7 +1467,7 @@
         },
         {
             "file": "src/app/environment/particles.js",
-            "line": 2,
+            "line": 5,
             "itemtype": "property",
             "name": "manager",
             "class": "states.boot",
@@ -1475,7 +1475,15 @@
         },
         {
             "file": "src/app/environment/particles.js",
-            "line": 7,
+            "line": 10,
+            "itemtype": "property",
+            "name": "emitter",
+            "class": "states.boot",
+            "module": "level-manager"
+        },
+        {
+            "file": "src/app/environment/particles.js",
+            "line": 15,
             "itemtype": "method",
             "name": "init",
             "class": "states.boot",
@@ -1578,7 +1586,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 97,
+            "line": 100,
             "description": "Start gameplay\n* initialise mission start swipe",
             "itemtype": "method",
             "name": "missionStart",
@@ -1589,7 +1597,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 114,
+            "line": 118,
             "description": "Gameloop",
             "itemtype": "method",
             "name": "update",
@@ -1600,7 +1608,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 132,
+            "line": 136,
             "description": "Needed for debug display",
             "itemtype": "method",
             "name": "render",
@@ -1611,7 +1619,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 143,
+            "line": 147,
             "description": "Cursors &/or gamepad",
             "itemtype": "method",
             "name": "checkPlayerInput",
@@ -1622,7 +1630,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 174,
+            "line": 178,
             "description": "Has the player won, lost etc",
             "itemtype": "method",
             "name": "checkGameCondition",
@@ -1633,7 +1641,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 183,
+            "line": 187,
             "description": "Filter gameloop to actors",
             "itemtype": "method",
             "name": "actorsUpdate",
@@ -1644,7 +1652,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 198,
+            "line": 202,
             "itemtype": "method",
             "name": "uiUpdate",
             "class": "states.play",
@@ -1654,7 +1662,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 209,
+            "line": 213,
             "description": "Set game world parameters depending on level size",
             "itemtype": "method",
             "name": "defineWorldBounds",
@@ -1665,7 +1673,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 220,
+            "line": 224,
             "description": "create game actors, group and collision initialisation\ngame.e2e exposes actors to window, allowing actor control in e2e tests.",
             "itemtype": "method",
             "name": "createActors",
@@ -1676,7 +1684,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 282,
+            "line": 260,
             "description": "Creates the user interface and touch controls",
             "itemtype": "method",
             "name": "createUi",
@@ -1687,7 +1695,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 301,
+            "line": 279,
             "description": "Create an enemy",
             "itemtype": "method",
             "name": "createLimpet",
@@ -1704,7 +1712,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 313,
+            "line": 291,
             "description": "Singal handler for when a limpet gun is destroyed, we can update score",
             "itemtype": "method",
             "name": "limpetDestroyed",
@@ -1721,7 +1729,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 324,
+            "line": 302,
             "description": "Layer group z-index",
             "itemtype": "method",
             "name": "createGroupLayering",
@@ -1732,7 +1740,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 343,
+            "line": 321,
             "description": "Initialises player control\nalso activates enemy",
             "itemtype": "method",
             "name": "initControls",
@@ -1743,7 +1751,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 365,
+            "line": 343,
             "description": "Initialises the limpet guns",
             "itemtype": "method",
             "name": "initEnemies",
@@ -1754,7 +1762,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 376,
+            "line": 354,
             "description": "Touch control: Press A",
             "itemtype": "method",
             "name": "pressButtonA",
@@ -1765,7 +1773,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 385,
+            "line": 363,
             "description": "Touch control: Release A",
             "itemtype": "method",
             "name": "upButtonA",
@@ -1776,7 +1784,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 394,
+            "line": 372,
             "description": "Touch control: Press B\n* fire",
             "itemtype": "method",
             "name": "pressButtonB",
@@ -1787,7 +1795,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 405,
+            "line": 383,
             "description": "Touch control: Release B",
             "itemtype": "method",
             "name": "upButtonB",
@@ -1798,7 +1806,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 414,
+            "line": 392,
             "description": "Key control: Press X",
             "itemtype": "method",
             "name": "xDown",
@@ -1809,7 +1817,7 @@
         },
         {
             "file": "src/app/states/play.js",
-            "line": 425,
+            "line": 403,
             "description": "Key control: Release X",
             "itemtype": "method",
             "name": "xUp",
@@ -1990,7 +1998,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/app/actors/Player.js:143"
+            "line": " src/app/actors/Player.js:169"
         },
         {
             "message": "replacing incorrect tag: returns with return",

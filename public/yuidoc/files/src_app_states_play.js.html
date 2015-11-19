@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="thrust-engine" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.12</em>
+            <em>API Docs for: 0.0.13</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -207,7 +207,10 @@ module.exports = {
 
     ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
 
-    this.emitter.emit(&#x27;magicSmokeEmitter&#x27;, game.width/2, game.height/2);
+    var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+    yKey.onUp.add(function() {
+      particles.startSwirl();
+    }, this);
   },
 
   /**
@@ -218,6 +221,7 @@ module.exports = {
    */
   missionStart: function() {
     inPlay = true;
+
     player.start();
     _.each(limpetGuns, function(limpet) {
       limpet.start();
@@ -357,33 +361,7 @@ module.exports = {
     collisions.set(orb.sprite, [collisions.players, collisions.terrain, collisions.enemyBullets]);
     collisions.set(map, [collisions.players, collisions.terrain, collisions.bullets, collisions.orb]);
 
-    this.magicSmokeEmitter = {
-      _image: &#x27;smoke_r&#x27;,
-      visible: false,
-      lifespan: 2500,
-      emit: {
-        name: &#x27;magicSmoke&#x27;,
-        value: 2,
-        control: [ { x: 0, y: 0 } ]
-      }
-    };
-
-    this.magicSmoke = {
-      image: &#x27;smoke_r&#x27;,
-      lifespan: 3000,
-      rotation: { value: -90.0, delta: 4 },
-      vy: -2,
-      facingAcceleration: { initial: 0.1, value: 0, delta: 0 },
-      scaleX: { value: 1.5, control: [ { x: 0, y: 0 }]},
-      scaleY: { value: 1.5, control: [ { x: 0, y: 0 }]},
-      alpha: 0.5
-    };
-
-    particles.manager.addData(&#x27;magicSmokeEmitter&#x27;, this.magicSmokeEmitter);
-    particles.manager.addData(&#x27;magicSmoke&#x27;, this.magicSmoke);
-
-    this.emitter = particles.manager.createEmitter();
-    this.emitter.addToWorld();
+    particles.create();
 
     //expose key elements to window for e2e testing
     game.e2e = {
