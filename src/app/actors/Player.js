@@ -20,6 +20,18 @@ var particles = require('../environment/particles');
  */
 function Player(x, y, collisions, groups) {
   /**
+   * @property inGameArea
+   * @type {boolean}
+   */
+  this.inGameArea = false;
+  /**
+   * Dispatched when player has lost all lives
+   *
+   * @property livesLost
+   * @type {Phaser.Signal}
+   */
+  this.livesLost = new Phaser.Signal();
+  /**
    * The collisions container
    *
    * @property collisions
@@ -133,6 +145,7 @@ p.start = function () {
 };
 
 p.spawn = function() {
+  this.inGameArea = true;
   this.body.motionState = 1;
   this.alpha = 1;
   this.isDead = false;
@@ -153,7 +166,7 @@ p.respawn = function(removeLife) {
   }
   ui.fuel.update(this.fuel, true);
   this.tractorBeam.orb.respawn();
-  particles.startSwirl();
+  particles.startSwirl(this.body.x, this.body.y);
   setTimeout(function() {
     self.spawn();
   }, 2500);
@@ -261,7 +274,7 @@ p.death = function () {
 
 p.checkRespawn = function() {
   if (this.lives === 0) {
-    console.warn('GAME OVER');
+    this.livesLost.dispatch(this.score);
   } else {
     this.respawn(true);
   }

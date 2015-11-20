@@ -21,7 +21,7 @@ module.exports = {
 
   create: function() {
     this.group = game.add.group();
-    this.group.fixedToCamera = true;
+    this.group.fixedToCamera = false;
 
     this.magicSmokeEmitter = {
       _image: 'smoke_r',
@@ -52,8 +52,8 @@ module.exports = {
     this.emitter.addToWorld(this.group);
   },
 
-  startSwirl: function() {
-    this.emitter.emit('magicSmokeEmitter', game.width/2 - 100, game.height/2 + 100);
+  startSwirl: function(x, y) {
+    this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
   }
 
 };
