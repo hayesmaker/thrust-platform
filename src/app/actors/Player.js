@@ -73,7 +73,7 @@ function Player(x, y, collisions, groups) {
    * @property fuel
    * @type {number}
    */
-  this.fuel = 500;
+  this.fuel = 25000;
 
   /**
    * @property lives
@@ -274,6 +274,7 @@ p.death = function () {
 
 p.checkRespawn = function() {
   if (this.lives === 0) {
+    alert('game over! refresh');
     this.livesLost.dispatch(this.score);
   } else {
     this.respawn(true);
