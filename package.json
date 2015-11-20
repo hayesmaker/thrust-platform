@@ -8,7 +8,7 @@
     "start": "node ./bin/www",
     "test": "grunt test",
     "deploy": "git push heroku master",
-    "postinstall": "browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -t browserify-shim -d"
+    "postinstall": "mkdir public/javascripts/browserify && browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -t browserify-shim -d"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
