@@ -26612,6 +26612,7 @@ var utils = require('../environment/utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
+var particles = require('../environment/particles');
 
 /**
  * Player Ship
@@ -26625,6 +26626,18 @@ var ui = require('../ui');
  * @constructor
  */
 function Player(x, y, collisions, groups) {
+  /**
+   * @property inGameArea
+   * @type {boolean}
+   */
+  this.inGameArea = false;
+  /**
+   * Dispatched when player has lost all lives
+   *
+   * @property livesLost
+   * @type {Phaser.Signal}
+   */
+  this.livesLost = new Phaser.Signal();
   /**
    * The collisions container
    *
@@ -26733,24 +26746,41 @@ p.start = function () {
   this.body.collideWorldBounds = properties.collideWorldBounds;
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
-  this.body.motionState = 1;
+  this.body.motionState = 2;
   this.body.mass = 1;
+  this.respawn();
 };
 
 p.spawn = function() {
-  this.position.setTo(this.initialPos.x, this.initialPos.y);
+  this.inGameArea = true;
+  this.body.motionState = 1;
   this.alpha = 1;
   this.isDead = false;
 };
 
-p.respawn = function() {
-  this.spawn();
-  ui.lives.update(this.lives--, true);
+p.respawn = function(removeLife) {
+  var self = this;
+  this.body.reset(this.initialPos.x, this.initialPos.y);
+  this.body.motionState = 2;
+  this.alpha = 0;
+  this.body.angle = 0;
+  if (removeLife === true) {
+    this.lives--;
+  }
+  ui.lives.update(this.lives, true);
+  if (this.fuel < 500) {
+    this.fuel = 500;
+  }
+  ui.fuel.update(this.fuel, true);
+  this.tractorBeam.orb.respawn();
+  particles.startSwirl(this.body.x, this.body.y);
+  setTimeout(function() {
+    self.spawn();
+  }, 2500);
 
 };
 
 p.update = function () {
-
   if (!this.isDead && this.body) {
     this.turret.update();
   }
@@ -26839,13 +26869,28 @@ p.explosion = function () {
  * @method bulletEnd
  */
 p.death = function () {
+  if (this.isDead) {
+    return;
+  }
+  var self = this;
   this.isDead = true;
+  setTimeout(function() {
+    self.checkRespawn();
+  }, 5000);
+};
+
+p.checkRespawn = function() {
+  if (this.lives === 0) {
+    this.livesLost.dispatch(this.score);
+  } else {
+    this.respawn(true);
+  }
 };
 
 
 module.exports = Player;
 
-},{"../environment/utils":82,"../properties":83,"../ui":85,"./Turret":75,"./bitmaps/ShipParticle":76,"./strategies/ForwardFiring":78}],74:[function(require,module,exports){
+},{"../environment/particles":82,"../environment/utils":83,"../properties":84,"../ui":86,"./Turret":75,"./bitmaps/ShipParticle":76,"./strategies/ForwardFiring":78}],74:[function(require,module,exports){
 var properties = require('../properties');
 var game = window.game;
 var graphics;
@@ -26965,7 +27010,7 @@ p.breakLink = function() {
 
 module.exports = TractorBeam;
 
-},{"../properties":83}],75:[function(require,module,exports){
+},{"../properties":84}],75:[function(require,module,exports){
 var game = window.game;
 
 /**
@@ -27203,7 +27248,7 @@ var self = module.exports = {
 
 
 };
-},{"../properties":83}],80:[function(require,module,exports){
+},{"../properties":84}],80:[function(require,module,exports){
 var game = window.game;
 var properties = require('../properties');
 
@@ -27250,7 +27295,7 @@ p.set = function(sprite, collisionGroups) {
 
 module.exports = Collisions;
 
-},{"../properties":83}],81:[function(require,module,exports){
+},{"../properties":84}],81:[function(require,module,exports){
 /**
  * These groups are registerd to a common camera parent group.
  *
@@ -27298,6 +27343,66 @@ p.swapTerrain = function () {
 
 module.exports = Groups;
 },{}],82:[function(require,module,exports){
+var ui = require('../ui');
+
+module.exports = {
+  group: null,
+  /**
+   * @property manager
+   */
+  manager: null,
+
+  /**
+   * @property emitter
+   */
+  emitter: null,
+
+  /**
+   * @method init
+   */
+  init: function() {
+    this.manager = game.plugins.add(Phaser.ParticleStorm);
+  },
+
+  create: function() {
+    this.group = game.add.group();
+    this.group.fixedToCamera = false;
+
+    this.magicSmokeEmitter = {
+      _image: 'smoke_r',
+      visible: false,
+      lifespan: 2500,
+      emit: {
+        name: 'magicSmoke',
+        value: 2,
+        control: [ { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 } ]
+      }
+    };
+
+    this.magicSmoke = {
+      image: 'smoke_r',
+      lifespan: 3000,
+      rotation: { value: -90.0, delta: 4 },
+      vy: -2,
+      facingAcceleration: { initial: 0.1, value: 0, delta: 0 },
+      scaleX: { value: 1.5, control: [ { x: 0, y: 0 }, { x: 0.5, y: 1 }, { x: 1, y: 0 } ] },
+      scaleY: { value: 1.5, control: [ { x: 0, y: 0 }, { x: 0.5, y: 1 }, { x: 1, y: 0 } ] },
+      alpha: 0.5
+    };
+
+    this.manager.addData('magicSmokeEmitter', this.magicSmokeEmitter);
+    this.manager.addData('magicSmoke', this.magicSmoke);
+
+    this.emitter = this.manager.createEmitter();
+    this.emitter.addToWorld(this.group);
+  },
+
+  startSwirl: function(x, y) {
+    this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
+  }
+
+};
+},{"../ui":86}],83:[function(require,module,exports){
 module.exports = {
   /**
    * Pythagorus ftw
@@ -27316,7 +27421,7 @@ module.exports = {
   }
 };
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /**
  * Defines build settings for the thrust-engine
  *
@@ -27364,7 +27469,7 @@ module.exports = {
   ]
 };
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 /**
  * Manages the fuel display
  *
@@ -27409,7 +27514,7 @@ module.exports = {
 
 
 };
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports = {
 
   init: function() {
@@ -27425,7 +27530,7 @@ module.exports = {
   lives: require('./lives')
 
 };
-},{"./fuel":84,"./lives":86,"./mission-swipe":87,"./score":88}],86:[function(require,module,exports){
+},{"./fuel":85,"./lives":87,"./mission-swipe":88,"./score":89}],87:[function(require,module,exports){
 /**
  * Manages the lives display
  *
@@ -27495,7 +27600,7 @@ module.exports = {
 
 
 };
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 var _ = require('lodash');
 var levelManager = require('../data/level-manager');
 
@@ -27606,7 +27711,7 @@ module.exports = {
 
 
 };
-},{"../data/level-manager":79,"lodash":43}],88:[function(require,module,exports){
+},{"../data/level-manager":79,"lodash":43}],89:[function(require,module,exports){
 /**
  * Manages the score display
  *
@@ -27651,7 +27756,7 @@ module.exports = {
 
 
 };
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 var sinon = require('sinon');
 var chai = require('chai');
 var sinonChai = require("sinon-chai");
@@ -27771,7 +27876,7 @@ describe("Player tests", function () {
 
 
 });
-},{"../../app/actors/Player":73,"../../app/actors/TractorBeam":74,"../../app/environment/Collisions":80,"../../app/environment/Groups":81,"chai":9,"mocks":91,"sinon":45,"sinon-chai":44}],90:[function(require,module,exports){
+},{"../../app/actors/Player":73,"../../app/actors/TractorBeam":74,"../../app/environment/Collisions":80,"../../app/environment/Groups":81,"chai":9,"mocks":92,"sinon":45,"sinon-chai":44}],91:[function(require,module,exports){
 var sinon = require('sinon');
 var Collisions = require('../../../app/environment/Collisions');
 
@@ -27787,7 +27892,7 @@ module.exports = function() {
 
   return collisions;
 };
-},{"../../../app/environment/Collisions":80,"sinon":45}],91:[function(require,module,exports){
+},{"../../../app/environment/Collisions":80,"sinon":45}],92:[function(require,module,exports){
 var sinon = require('sinon');
 
 module.exports = {
@@ -27846,11 +27951,11 @@ module.exports = {
   }
 };
 
-},{"./environment/collisionsMock":90,"sinon":45}],92:[function(require,module,exports){
+},{"./environment/collisionsMock":91,"sinon":45}],93:[function(require,module,exports){
 (function (global){
 global.game = require('mocks').game;
 
 require('./actors/PlayerSpec');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./actors/PlayerSpec":89,"mocks":91}]},{},[92]);
+},{"./actors/PlayerSpec":90,"mocks":92}]},{},[93]);

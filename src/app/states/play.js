@@ -182,6 +182,36 @@ module.exports = {
    */
   checkGameCondition: function() {
 
+    this.checkPlayerLocation();
+
+
+  },
+
+  checkPlayerLocation: function() {
+
+    if (!player.isDead) {
+      if (player.body.y < 250 && player.inGameArea) {
+
+        player.inGameArea = false;
+        //player.warp();
+        console.log('checkPlayerLocation :: isUnder ', player.body.y);
+      }
+    }
+
+
+
+  },
+
+  /**
+   * Game Over Signal handler
+   *
+   * @method gameOver
+   * @param score
+   */
+  gameOver: function(score) {
+
+    console.warn('GAME OVER score:', score);
+
   },
 
   /**
@@ -234,7 +264,8 @@ module.exports = {
     if (properties.drawBackground) {
       background = new Background();
     }
-    player = new Player(game.width / 2, game.height /   2, collisions, groups);
+    player = new Player(game.width / 2, game.height / 2, collisions, groups);
+    player.livesLost.add(this.gameOver, this);
     orb = new Orb(level.orbPosition.x, level.orbPosition.y, collisions);
     tractorBeam = new TractorBeam(orb, player);
     player.setTractorBeam(tractorBeam);
