@@ -8,7 +8,11 @@
     "start": "node ./bin/www",
     "test": "grunt test",
     "deploy": "git push heroku master",
-    "postinstall": "mkdir public/javascripts/browserify && browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -t browserify-shim -d"
+    "postinstall": "npm run build",
+    "prebuild": "mkdir -p public/javascripts/browserify",
+    "build": "browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -t browserify-shim -d",
+    "postbuild": "uglifyjs public/javascripts/browserify/thrust-engine.js -o public/javascripts/browserify/thrust-engine.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8 && echo 'Build completed'",
+    "clean": "rm .git/hooks/pre-push"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -23,9 +27,10 @@
     "lodash": "^3.9.1",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
-    "serve-index": "^1.7.2"
+    "serve-index": "^1.7.2",
+    "uglify-js": "^2.6.1"
   },
-  "description": "js port of thrust, an awesome 8bit game from the 1980s ",
+  "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Engine: A Canvas based HTML5 game engine for making games similar to Thrust",
   "main": "app.js",
   "keywords": [
     "thrust",
