@@ -14,7 +14,19 @@ module.exports = {
     }
   },
 
+  newGame: require('./game/index'),
+
   game: {
+    controls: {
+      isJoypadEnabled: true
+    },
+
+    load: {
+      atlas: sinon.stub(),
+      image: sinon.stub(),
+      physics: sinon.stub()
+    },
+
     add: {
       emitter: sinon.stub().returns({
         particleClass: null,

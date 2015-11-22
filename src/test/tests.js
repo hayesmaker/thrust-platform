@@ -1,3 +1,3 @@
-global.game = require('mocks').game;
+global.game = require('mocks').newGame();
 
-require('./actors/PlayerSpec');
+require('./states/play-spec');
