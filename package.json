@@ -11,7 +11,7 @@
     "postinstall": "npm run build",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
-    "postbuild": "npm run uglify && npm run yuidoc",
+    "postbuild": "npm run uglify",
     "clean": "rm .git/hooks/pre-push",
     "browserify:test": "echo 'browserify:test' && browserify -p proxyquireify/plugin -e src/test/tests.js -o public/javascripts/test/tests.js -d",
     "browserify:app": "echo 'browserify:app' && browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -d",
@@ -19,7 +19,7 @@
     "uglify": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine.js -o public/javascripts/browserify/thrust-engine.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
     "build:quick": "npm run browserify:test && npm run browserify:app",
     "build:test": "npm run build:quick && npm test",
-    "yuidoc": "echo 'Compiling source documentation' && yuidoc ./src/app -o ./public/yuidoc"
+    "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -41,7 +41,8 @@
     "serve-index": "^1.7.2",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
-    "uglify-js": "^2.6.1"
+    "uglify-js": "^2.6.1",
+    "yuidocjs": "^0.9.0"
   },
   "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Engine: A Canvas based HTML5 game engine for making games similar to Thrust",
   "main": "app.js",
