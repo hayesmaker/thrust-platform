@@ -31,7 +31,7 @@ var p = StatsModule.prototype;
  *
  * @method begin
  */
-p.start = function () {
+p.begin = function () {
   stats.begin();
 };
 
