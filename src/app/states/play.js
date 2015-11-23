@@ -1,6 +1,6 @@
 'use strict';
 
-var properties = require('../properties');
+var properties = require('../properties');//stubbed
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
 var ui = require('../ui/index');
@@ -14,7 +14,7 @@ var features = require('../utils/features');
 var Camera = require('camera');
 var _ = require('lodash');
 var particles = require('../environment/particles');
-var levelManager = require('../data/level-manager');
+var levelManager = require('../data/level-manager');//stubbed
 
 /**
  * The play state
@@ -59,12 +59,12 @@ module.exports = {
    * @method preload
    */
   preload: function () {
-
-    console.log('properties:', properties);
     if (game.controls.isJoypadEnabled) {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
-    game.load.image('stars', 'assets/images/starfield.png');
+    if (properties.drawBackground) {
+      game.load.image('stars', 'assets/images/starfield.png');
+    }
     game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
@@ -94,31 +94,13 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-
-    ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
-
+    this.startLevelIntro();
+    /*
     var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
     yKey.onUp.add(function() {
       particles.startSwirl();
     }, this);
-  },
-
-  /**
-   * Start gameplay
-   * * initialise mission start swipe
-   *
-   * @method missionStart
-   */
-  missionStart: function() {
-    this.inPlay = true;
-
-    this.player.start();
-    _.each(this.limpetGuns, function(limpet) {
-      limpet.start();
-    });
-    this.initControls();
-    this.initEnemies();
-
+    */
   },
 
   /**
@@ -128,7 +110,7 @@ module.exports = {
    */
   update: function () {
     if (game.stats) {
-      game.stats.end();
+      game.stats.begin();
     }
     this.checkPlayerInput();
     this.actorsUpdate();
@@ -149,6 +131,32 @@ module.exports = {
       game.debug.cameraInfo(game.camera, 500, 20);
     }
   },
+
+  /**
+   * @method startLevelIntro
+   */
+  startLevelIntro: function() {
+    ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
+  },
+
+  /**
+   * Start gameplay
+   * * initialise mission start swipe
+   *
+   * @method missionStart
+   */
+  missionStart: function() {
+    this.inPlay = true;
+
+    this.player.start();
+    _.each(this.limpetGuns, function(limpet) {
+      limpet.start();
+    });
+    this.initControls();
+    this.initEnemies();
+
+  },
+
 
   /**
    * Return early if not in play
@@ -192,14 +200,10 @@ module.exports = {
    * @method checkGameCondition
    */
   checkGameCondition: function() {
-
     this.checkPlayerLocation();
-
-
   },
 
   checkPlayerLocation: function() {
-
     if (!this.player.isDead) {
       if (this.player.body.y < 250 && this.player.inGameArea) {
 
@@ -208,9 +212,6 @@ module.exports = {
         console.log('checkPlayerLocation :: isUnder ', this.player.body.y);
       }
     }
-
-
-
   },
 
   /**

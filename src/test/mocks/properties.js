@@ -21,9 +21,9 @@ module.exports = {
   levels: [
     {
       mapImgUrl: 'assets/levels/level_6_x2.png',
-      mapImgKey: 'thrustmap',
+      mapImgKey: 'mapImage',
       mapDataUrl: 'assets/levels/level_6.json',
-      mapDataKey: 'physicsData',
+      mapDataKey: 'mapPhysics',
       world: {width: 3072, height: 4000},
       mapPosition: {x: 0, y: 2000},
       orbPosition: {x: 1000, y: 1000},

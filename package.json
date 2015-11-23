@@ -2,7 +2,7 @@
   "name": "thrust-engine",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "scripts": {
     "test": "mocha-phantomjs ./public/javascripts/test/index.html",
@@ -11,13 +11,15 @@
     "postinstall": "npm run build",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
-    "postbuild": "npm run uglify",
+    "postbuild": "npm run uglify && npm run yuidoc",
     "clean": "rm .git/hooks/pre-push",
     "browserify:test": "echo 'browserify:test' && browserify -p proxyquireify/plugin -e src/test/tests.js -o public/javascripts/test/tests.js -d",
     "browserify:app": "echo 'browserify:app' && browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -d",
     "heroku": "echo 'Deploying to heroku master' && git push heroku master",
-    "uglify": "uglifyjs public/javascripts/browserify/thrust-engine.js -o public/javascripts/browserify/thrust-engine.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8 && echo 'Build completed'",
-    "build:quick": "npm run browserify:test && npm run browserify:app"
+    "uglify": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine.js -o public/javascripts/browserify/thrust-engine.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
+    "build:quick": "npm run browserify:test && npm run browserify:app",
+    "build:test": "npm run build:quick && npm test",
+    "yuidoc": "echo 'Compiling source documentation' && yuidoc ./src/app -o ./public/yuidoc"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -75,7 +77,6 @@
     "istanbulify": "^0.1.0",
     "mocha": "^2.2.5",
     "mocha-phantomjs": "^4.0.1",
-    "mochify": "^2.14.2",
     "mochify-istanbul": "^2.2.2",
     "phase-2-e": "^0.1.1",
     "sinon": "^1.14.1",

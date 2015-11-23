@@ -7,7 +7,7 @@ var properties = require('../properties');
  * @module level-manager
  * @type {{}}
  */
-var self = module.exports = {
+module.exports = {
 
   /**
    * @property levels
