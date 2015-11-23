@@ -59,6 +59,8 @@ module.exports = {
    * @method preload
    */
   preload: function () {
+
+    console.log('properties:', properties);
     if (game.controls.isJoypadEnabled) {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
