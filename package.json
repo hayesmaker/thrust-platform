@@ -11,7 +11,7 @@
     "postinstall": "npm run build",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
-    "postbuild": "npm run uglify",
+    "postbuild": "npm run uglify && npm run yuidoc",
     "clean": "rm .git/hooks/pre-push",
     "browserify:test": "echo 'browserify:test' && browserify -p proxyquireify/plugin -e src/test/tests.js -o public/javascripts/test/tests.js -d",
     "browserify:app": "echo 'browserify:app' && browserify -e src/app/main.js -o public/javascripts/browserify/thrust-engine.js -d",
