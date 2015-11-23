@@ -8,7 +8,7 @@
     "test": "mocha-phantomjs ./public/javascripts/test/index.html",
     "start": "node ./bin/www",
     "deploy": "npm run heroku",
-    "postinstall": "npm run buil  d",
+    "postinstall": "npm run build",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
     "postbuild": "npm run uglify && npm run yuidoc",
