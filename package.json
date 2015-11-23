@@ -51,11 +51,10 @@
   },
   "browserify-shim": {},
   "browser": {
-    "phaser": "./public/javascripts/vendor/phaser2.4.4.js",
     "Stats": "./src/libs/stats.js/stats.min.js",
-    "mocks": "./src/test/mocks/index.js",
     "camera": "./src/app/environment/Camera.js",
-    "states": "./src/app/states/index.js"
+    "states": "./src/app/states/index.js",
+    "mocks": "./src/test/mocks/index.js"
   },
   "devDependencies": {
     "bower": "^1.4.1",

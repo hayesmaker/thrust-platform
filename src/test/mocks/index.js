@@ -1,6 +1,7 @@
 var sinon = require('sinon');
 
 module.exports = {
+  stubs: require('./stubs'),
 
   collisions: require('./environment/collisionsMock'),
 

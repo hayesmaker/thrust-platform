@@ -1,6 +1,9 @@
 # thrust-engine
 
-A Phaser Game Project - Recreating Thrust
+[![Build Status](https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master)](https://travis-ci.org/hayesmaker/thrust-engine)
+
+Game engine for creating thrust-a-likes...  Physics blasters which require brains.
+
 http://thrust-engine.herokuapp.com/
 
 ### Features
@@ -13,10 +16,9 @@ http://thrust-engine.herokuapp.com/
 - `Asset Pipeline` Using `TexturePacker` and `PhysicsEditor`
 
 ## Prerequisistes
-- `Nodemon`
+- `node` & `npm`
 
 ## Install
-- `npm install -g nodemon`
 - `npm install`
 - `bower intall`
 - `bower-installer`
@@ -24,7 +26,7 @@ http://thrust-engine.herokuapp.com/
 ## Run
 - `npm start`
 - http://localhost:3099/
-- Click on `Thrust Engine` To play
 
-### Testing
-- Click `Unit Tests` Link
+## Tests
+- `npm test`
+
