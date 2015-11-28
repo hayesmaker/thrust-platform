@@ -271,7 +271,6 @@ module.exports = {
    * @method createActors
    */
   createActors: function () {
-
     this.groups = new Groups(this.cameraGroup);
     this.collisions = new Collisions();
     if (properties.drawBackground) {
