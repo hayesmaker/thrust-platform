@@ -67,7 +67,7 @@ describe("Phaser load state tests", function() {
 
     it('all level map physics data should be loaded', function() {
       state.preload();
-      expect(game.load.physics).to.have.been.calledWith('mapPhysics', 'assets/levels/level_6.json');
+      expect(game.load.physics).to.have.been.calledWith('mapPhysics-map', 'assets/levels/level_6.json');
     });
   });
 

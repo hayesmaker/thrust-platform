@@ -46,7 +46,6 @@ module.exports = {
    * @param levelData {Object} defines a map key and url, and the physics data key and url
    */
   preloadMapData: function (levelData) {
-    console.warn('load :: physics data [cacheKey %s]', levelData.mapDataKey);
     game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
   },
@@ -87,7 +86,6 @@ module.exports = {
   },
 
   scaleMapData: function (levelPhysics, level) {
-    console.log('load :: scaleMapData :: [levelPhysics : level]', levelPhysics, level);
     _.each(levelPhysics[level.mapDataKey], function (node) {
       _.each(node.shape, function (value, n) {
         node.shape[n] = value * level.mapScale;
