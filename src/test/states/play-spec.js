@@ -12,68 +12,12 @@ var play = proxyquire('../../app/states/play', mocks.stubs);
 chai.should();
 chai.use(sinonChai);
 
-describe("Phaser Play State Tests", function() {
+describe("Phaser play state tests", function() {
 
-  describe('state.preload', function() {
-
-    beforeEach(function() {
-      sinon.stub(game.load, 'atlas');
-      sinon.stub(game.load, 'image');
-      sinon.stub(game.load, 'physics');
-    });
-
-    afterEach(function() {
-      game.load.atlas.restore();
-      game.load.image.restore();
-      game.load.physics.restore();
-    });
-
-    it('if joypad is enabled, load the virtual joystick assets', function() {
-      game.controls.isJoypadEnabled = true;
-      play.preload();
-      expect(game.load.atlas).to.have.been.calledWith('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
-    });
-
-    it('if joypad is not enabled, do not load the virtual joystick assets', function() {
-      game.controls.isJoypadEnabled = false;
-      play.preload();
-      expect(game.load.atlas).not.to.have.been.called;
-    });
-
-    it('if background is enabled, load the starfield asset', function() {
-      play.preload();
-      expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/starfield.png');
-    });
-
-    it('smoke particle image should be loaded', function() {
-      play.preload();
-      expect(game.load.image).to.have.been.calledWith('smoke_r', 'assets/images/smoke_colors.png');
-    });
-
-    it('player ship image should be loaded', function() {
-      play.preload();
-      expect(game.load.image).to.have.been.calledWith('player', 'assets/actors/player.png');
-    });
-
-    it('player phyics data should be loaded', function() {
-      play.preload();
-      expect(game.load.physics).to.have.been.calledWith('playerPhysics', 'assets/actors/player.json');
-    });
-
-    it('all level map images should be loaded', function() {
-      play.preload();
-      expect(game.load.image).to.have.been.calledWith('mapImage', 'assets/levels/level_6_x2.png');
-    });
-
-    it('all level map physics data should be loaded', function() {
-      play.preload();
-      expect(game.load.physics).to.have.been.calledWith('mapPhysics', 'assets/levels/level_6.json');
-    });
-  });
-
-  describe('state.create', function() {
+  describe('play.create', function() {
 
     beforeEach(function() {
+      sinon.stub(play, 'setLevel');
       sinon.stub(play, 'defineWorldBounds');
       sinon.stub(play, 'createActors');
       sinon.stub(play, 'createUi');
@@ -82,11 +26,17 @@ describe("Phaser Play State Tests", function() {
     });
 
     afterEach(function() {
+      play.setLevel.restore();
       play.defineWorldBounds.restore();
       play.createActors.restore();
       play.createUi.restore();
       play.createGroupLayering.restore();
       play.startLevelIntro.restore();
+    });
+
+    it('should set current level', function() {
+      play.create();
+      expect(play.setLevel).to.have.been.calledOnce;
     });
 
     it('should define world bounds', function() {
@@ -118,7 +68,7 @@ describe("Phaser Play State Tests", function() {
 
   });
 
-  describe('state.update', function() {
+  describe('play.update', function() {
 
     beforeEach(function() {
       sinon.stub(game.stats, 'begin');

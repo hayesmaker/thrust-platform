@@ -59,9 +59,9 @@ module.exports = {
     var spr = game.add.sprite(0,0, 'title');
     spr.inputEnabled = true;
     spr.useHandCursor = true;
-    spr.events.onInputDown.add(this.startGame, this);
+    spr.events.onInputDown.add(this.startLoad, this);
 
-    game.controls.spacePress.onDown.add(this.startGame, this);
+    game.controls.spacePress.onDown.add(this.startLoad, this);
   },
 
   /**
@@ -69,7 +69,7 @@ module.exports = {
    *
    * @method startGame
    */
-  startGame: function() {
-    game.state.start('play');
+  startLoad: function() {
+    game.state.start('load', false, false);
   }
 };

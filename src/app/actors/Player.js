@@ -115,7 +115,7 @@ p.setTractorBeam = function (tractorBeam) {
  * @method init
  */
 p.init = function () {
-
+  this.alive = false;
   this.turret = this.createTurret();
   this.emitter = game.add.emitter(this.x, this.y, 100);
   this.emitter.particleClass = ShipParticle;
@@ -149,6 +149,7 @@ p.spawn = function() {
   this.body.motionState = 1;
   this.alpha = 1;
   this.isDead = false;
+  this.alive = true;
 };
 
 p.respawn = function(removeLife) {
@@ -202,11 +203,11 @@ p.createTurret = function () {
  */
 p.checkOrbDistance = function () {
   var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
-  if (distance < this.tractorBeam.length) {
+  if (distance < this.tractorBeam.length && this.alive) {
     this.tractorBeam.drawBeam(this.position);
 
   } else if (distance >= this.tractorBeam.length && distance < 90) {
-    if (this.tractorBeam.isLocked) {
+    if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
     }
   } else {
@@ -267,6 +268,7 @@ p.death = function () {
   }
   var self = this;
   this.isDead = true;
+  this.alive = false;
   setTimeout(function() {
     self.checkRespawn();
   }, 5000);

@@ -8,33 +8,33 @@ var properties = require('../properties');
  * @class Orb
  * @constructor
  */
-function Orb (x, y, collisions) {
-	/**
-	 * A collisions container
-	 *
-	 * @property collisions
-	 * @type {Collisions}
-	 */
-	this.collisions = collisions;
+function Orb(x, y, collisions) {
+  /**
+   * A collisions container
+   *
+   * @property collisions
+   * @type {Collisions}
+   */
+  this.collisions = collisions;
 
-	this.player = null;
+  this.player = null;
 
-	var bmd = game.make.bitmapData(22,22);
-	bmd.ctx.strokeStyle = '#999999';
-	bmd.ctx.lineWidth = 2;
-	bmd.ctx.beginPath();
-	bmd.ctx.arc(11, 11, 10, 0, Math.PI*2, true);
-	bmd.ctx.closePath();
-	bmd.ctx.stroke();
-	/**
-	 * @property sprite
-	 */
-	this.sprite = game.make.sprite(x, y, bmd);
-	this.sprite.anchor.setTo(0.5,0.5);
+  var bmd = game.make.bitmapData(22, 22);
+  bmd.ctx.strokeStyle = '#999999';
+  bmd.ctx.lineWidth = 2;
+  bmd.ctx.beginPath();
+  bmd.ctx.arc(11, 11, 10, 0, Math.PI * 2, true);
+  bmd.ctx.closePath();
+  bmd.ctx.stroke();
+  /**
+   * @property sprite
+   */
+  this.sprite = game.make.sprite(x, y, bmd);
+  this.sprite.anchor.setTo(0.5, 0.5);
 
-	this.initialPosition = {x: x, y: y};
+  this.initialPosition = {x: x, y: y};
 
-	this.init();
+  this.init();
 }
 
 var p = Orb.prototype;
@@ -47,27 +47,27 @@ var p = Orb.prototype;
  *
  * @method init
  */
-p.init = function() {
+p.init = function () {
 
-	game.physics.p2.enable(this.sprite, true);
+  game.physics.p2.enable(this.sprite, properties.debugPhysics);
 
-	this.body = this.sprite.body;
+  this.body = this.sprite.body;
 
-	this.body.setCircle(10,0,0);
+  this.body.setCircle(10, 0, 0);
 
-	this.body.motionState = 2;
+  this.body.motionState = 2;
 
-	this.body.setCollisionGroup(this.collisions.orb);
+  this.body.setCollisionGroup(this.collisions.orb);
 
-	this.body.collideWorldBounds = properties.collideWorldBounds;
+  this.body.collideWorldBounds = properties.collideWorldBounds;
 
-	this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
+  this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
 
-	//this.body.collides(this.collisions.bullets, this.move, this)
+  //this.body.collides(this.collisions.bullets, this.move, this)
 };
 
-p.setPlayer = function(player) {
-	this.player = player;
+p.setPlayer = function (player) {
+  this.player = player;
 };
 
 /**
@@ -76,28 +76,28 @@ p.setPlayer = function(player) {
  * motionState = 2; //for static
  * motionState = 4; //for kinematic
  */
-p.move = function() {
-	this.body.motionState = 1;
-	this.body.mass = 1;
-	this.body.velocity = 0;
-	this.body.angularVelocity = 0;
-	this.body.angle = 0;
+p.move = function () {
+  this.body.motionState = 1;
+  this.body.mass = 1;
+  this.body.velocity = 0;
+  this.body.angularVelocity = 0;
+  this.body.angle = 0;
 };
 
 /**
  * @method crash
  */
-p.crash = function() {
-	console.warn('Orb :: crash');
+p.crash = function () {
+  console.warn('Orb :: crash');
 
-	if (this.player) {
-		this.player.death();
-	}
+  if (this.player) {
+    this.player.death();
+  }
 };
 
-p.respawn = function() {
-	this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
-	this.body.motionState = 2;
+p.respawn = function () {
+  this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
+  this.body.motionState = 2;
 };
 
 

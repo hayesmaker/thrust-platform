@@ -54,42 +54,12 @@ module.exports = {
   emitter: null,
 
   /**
-   * Preload in game assets
-   *
-   * @method preload
-   */
-  preload: function () {
-    if (game.controls.isJoypadEnabled) {
-      game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
-    }
-    if (properties.drawBackground) {
-      game.load.image('stars', 'assets/images/starfield.png');
-    }
-    game.load.image('smoke_r', 'assets/images/smoke_colors.png');
-    _.each(levelManager.levels, this.preloadMapData, this);
-    game.load.image('player', 'assets/actors/player.png');
-    game.load.physics('playerPhysics', 'assets/actors/player.json');
-  },
-
-  /**
-   * Load all maps in defined in the levelManager
-   *
-   * @method loadMap Data
-   * @param levelData {Object} defines a map key and url, and the physics data key and url
-   */
-  preloadMapData: function(levelData) {
-    game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
-    game.load.physics(levelData.mapDataKey, levelData.mapDataUrl);
-  },
-
-  /**
    * Setup the game
    *
    * @method create
    */
   create: function () {
-    this.level = levelManager.currentLevel;
-
+    this.setLevel();
     this.defineWorldBounds();
     this.createActors();
     this.createUi();
@@ -130,6 +100,10 @@ module.exports = {
     if (properties.drawStats) {
       game.debug.cameraInfo(game.camera, 500, 20);
     }
+  },
+
+  setLevel: function() {
+    this.level = levelManager.currentLevel;
   },
 
   /**
@@ -276,7 +250,7 @@ module.exports = {
     if (properties.drawBackground) {
       this.background = new Background();
     }
-    this.player = new Player(game.width / 2, game.height / 2, this.collisions, this.groups);
+    this.player = new Player(game.width / 2 + this.level.startPosition.x, game.height / 2 + this.level.startPosition.y, this.collisions, this.groups);
     this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.tractorBeam = new TractorBeam(this.orb, this.player);
@@ -320,7 +294,7 @@ module.exports = {
    * @param data
    */
   createLimpet: function(data) {
-    var limpet = new LimpetGun(data.rotation, data.x, data.y, this.collisions, this.groups);
+    var limpet = new LimpetGun(data.x, data.y, data.rotation, this.collisions, this.groups);
     limpet.killed.addOnce(this.limpetDestroyed, this);
     this.limpetGuns.push(limpet);
   },

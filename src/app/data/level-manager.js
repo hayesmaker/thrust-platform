@@ -22,9 +22,9 @@ module.exports = {
   levelIndex: 0,
 
   /**
-   *
+   * @todo make levels a data type
    * @property currentLevel
-   * @type null
+   * @type {Object}
    */
   currentLevel: null,
 
