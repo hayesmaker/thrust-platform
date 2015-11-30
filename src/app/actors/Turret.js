@@ -1,5 +1,3 @@
-var game = window.game;
-
 /**
  * @method _firingStrategy
  * @type {FiringStrategy}
@@ -42,6 +40,12 @@ p.fire = function() {
 
 p.update = function() {
 	this.firingStrategy.update();
+};
+
+p.destroy = function() {
+	this.firingStrategy = null;
+	this.groups = null;
+	this.origin = null;
 };
 
 

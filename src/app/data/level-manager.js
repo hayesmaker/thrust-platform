@@ -48,12 +48,13 @@ module.exports = {
    * @returns {{}}
    */
   nextLevel: function() {
-    if (levels.length - 1 === this.levelIndex) {
+    if (this.levels.length - 1 === this.levelIndex) {
       alert('all levels finished');
       this.levelIndex = 0;
     } else {
       this.levelIndex++;
     }
+    this.currentLevel = this.levels[this.levelIndex];
     return this.currentLevel;
   }
 

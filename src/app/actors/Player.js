@@ -1,4 +1,5 @@
-//var game = window.game;
+'use strict';
+
 var properties = require('../properties');
 var Turret = require('./Turret');
 var utils = require('../environment/utils');
@@ -6,19 +7,18 @@ var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
 var particles = require('../environment/particles');
+var levelManager = require('../data/level-manager');
 
 /**
- * Player Ship
+ * A user controlled controlled spaceship
  *
- *
- * @param {number} x
- * @param {number} y
+ * @class Player
  * @param {Collisions} collisions - Our collisions container of collisionGroups
  * @param {Groups} groups - Our groups container
- * @class Player
+ * @extends {Phaser.Sprite}
  * @constructor
  */
-function Player(x, y, collisions, groups) {
+function Player(collisions, groups) {
   /**
    * @property inGameArea
    * @type {boolean}
@@ -63,7 +63,9 @@ function Player(x, y, collisions, groups) {
 
   /**
    * Player has been destroyed
+   * - Use this.alive instead
    *
+   * @deprecated
    * @property isDead
    * @type {boolean}
    */
@@ -87,11 +89,18 @@ function Player(x, y, collisions, groups) {
    */
   this.score = 0;
 
-  Phaser.Sprite.call(this, game, x, y, 'player');
+  /**
+   * @property initialPos
+   * @type {Phaser.Point}
+   */
+  this.initialPos = new Phaser.Point();
+
+  this.setStartPosition();
+
+  Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'player');
 
   this.anchor.setTo(0.5);
   this.alpha = 0;
-  this.initialPos = {x: x, y: y};
 
   this.init();
 }
@@ -99,6 +108,14 @@ function Player(x, y, collisions, groups) {
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
   constructor: Player
 });
+
+/**
+ * @method setStartPosition
+ */
+p.setStartPosition = function() {
+  this.initialPos.x = game.width / 2 + levelManager.currentLevel.startPosition.x;
+  this.initialPos.y = game.height / 2 + levelManager.currentLevel.startPosition.y;
+};
 
 /**
  *
@@ -122,21 +139,29 @@ p.init = function () {
   this.emitter.makeParticles();
   this.emitter.gravity = 200;
 
-  //this.start();
-  //this.stop();
-
 };
 
+/**
+ *
+ */
+/*
 p.stop = function() {
   this.body.removeFromWorld();
 };
+*/
+p.reset = function() {
+  this.setStartPosition();
+  this.respawn();
+};
 
+/**
+ * @method start
+ */
 p.start = function () {
   console.log('Player :: start');
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
-  this.body.collideWorldBounds = properties.collideWorldBounds;
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
   this.body.motionState = 2;
@@ -144,6 +169,9 @@ p.start = function () {
   this.respawn();
 };
 
+/**
+ * @method spawn
+ */
 p.spawn = function() {
   this.inGameArea = true;
   this.body.motionState = 1;
@@ -152,30 +180,41 @@ p.spawn = function() {
   this.alive = true;
 };
 
-p.respawn = function(removeLife) {
+/**
+ * Called when a player needs to materialise.
+ * Either at mission start, or after a death.
+ *
+ * @method respawn
+ * @param removeShip {Boolean}
+ */
+p.respawn = function(removeShip) {
   var self = this;
+  console.warn('player :: respawn :: this.initialPos', this.initialPos);
   this.body.reset(this.initialPos.x, this.initialPos.y);
   this.body.motionState = 2;
   this.alpha = 0;
   this.body.angle = 0;
-  if (removeLife === true) {
+  if (removeShip === true) {
     this.lives--;
   }
   ui.lives.update(this.lives, true);
-  if (this.fuel < 500) {
-    this.fuel = 500;
-  }
   ui.fuel.update(this.fuel, true);
   this.tractorBeam.orb.respawn();
   particles.startSwirl(this.body.x, this.body.y);
   setTimeout(function() {
     self.spawn();
   }, 2500);
-
 };
 
+/**
+ * Player Update Loop
+ * Called from Play.State
+ *
+ *
+ * @method update
+ */
 p.update = function () {
-  if (!this.isDead && this.body) {
+  if (this.alive && this.body) {
     this.turret.update();
   }
 };
@@ -240,6 +279,12 @@ p.crash = function () {
   this.death();
 };
 
+/**
+ * Rotates the player body by a positive degree rotation or a negative degree rotation
+ *
+ * @method rotate
+ * @param val
+ */
 p.rotate = function (val) {
   if (val < 0) {
     this.body.rotateLeft(Math.abs(val))
@@ -249,6 +294,8 @@ p.rotate = function (val) {
 };
 
 /**
+ * Called when the player collides with something.
+ *
  * @method explosion
  */
 p.explosion = function () {
@@ -260,26 +307,32 @@ p.explosion = function () {
 };
 
 /**
- * @method bulletEnd
+ * Called when the player is killed
+ *
+ * @method death
  */
 p.death = function () {
-  if (this.isDead) {
+  if (!this.alive) {
     return;
   }
   var self = this;
   this.isDead = true;
   this.alive = false;
   setTimeout(function() {
-    self.checkRespawn();
+    self.checkRespawn(true);
   }, 5000);
 };
 
-p.checkRespawn = function() {
+/**
+ * @method dispatch game over if player lives are lost
+ * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
+ */
+p.checkRespawn = function(removeShip) {
   if (this.lives === 0) {
     alert('game over! refresh');
     this.livesLost.dispatch(this.score);
   } else {
-    this.respawn(true);
+    this.respawn(removeShip);
   }
 };
 

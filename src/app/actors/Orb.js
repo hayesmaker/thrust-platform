@@ -91,8 +91,10 @@ p.crash = function () {
   console.warn('Orb :: crash');
 
   if (this.player) {
-    this.player.death();
+    this.player.crash();
   }
+
+  this.body.motionState = 1;
 };
 
 p.respawn = function () {

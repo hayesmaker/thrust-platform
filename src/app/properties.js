@@ -9,13 +9,14 @@
  */
 module.exports = {
   debugPhysics: false,
+  debugPositions: false,
   collideWorldBounds: true,
   enableJoypad: false,
   fatalCollisions: true,
   scale: {
     mode: Phaser.ScaleManager.NO_SCALE
   },
-  stats: true,
+  stats: false,
   drawBackground: true,
   width: 700,
   height: 500,
@@ -30,6 +31,20 @@ module.exports = {
   mapSuffix: '-map',
   levels: [
     {
+      mapImgUrl: 'assets/levels/level_6_x2.png',
+      mapImgKey: 'thrustmapImage',
+      mapDataUrl: 'assets/levels/level_6.json',
+      mapDataKey: 'thrustmap',
+      world: {width: 3072, height: 4000},
+      startPosition: {x: 0, y: 0},
+      mapPosition: {x: 0, y: 500},
+      orbPosition: {x: 1000, y: 1000},
+      enemies: [
+        {x: 400, y: 700, rotation: 0}
+      ],
+      enemyFireRate: 1000
+    },
+    {
       mapImgUrl: 'assets/levels/level-1.png',
       mapImgKey: 'level-1',
       mapDataUrl: 'assets/levels/level-1.json',
@@ -41,21 +56,6 @@ module.exports = {
       orbPosition: {x: 950, y: 1100},
       enemies: [
         {x: 705, y: 1110, rotation: 30}
-      ],
-      enemyFireRate: 1000
-    },
-    {
-      mapImgUrl: 'assets/levels/level_6_x2.png',
-      mapImgKey: 'thrustmapImage',
-      mapDataUrl: 'assets/levels/level_6.json',
-      mapDataKey: 'thrustmap',
-      world: {width: 3072, height: 4000},
-      startPosition: {x: 0, y: 0},
-      mapPosition: {x: 0, y: 2000},
-      orbPosition: {x: 1000, y: 1000},
-      enemies: [
-        {x: 1200, y: 1200, rotation: 100},
-        {x: 500, y: 500, rotation: 100}
       ],
       enemyFireRate: 1000
     }

@@ -91,6 +91,9 @@ p.init = function () {
   this.turret = this.createTurret();
 };
 
+/**
+ * @method start
+ */
 p.start = function() {
   this.isDead = false;
   game.physics.p2.enable(this, properties.debugPhysics);
@@ -99,12 +102,15 @@ p.start = function() {
   this.body.rotation = game.math.degToRad(this.angle);
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);
-  this.body.collides(this.collisions.bullets, this.kill, this);
+  this.body.collides(this.collisions.bullets, this.explode, this);
   this.body.motionState = 2;
 };
 
-p.stop = function() {
-  this.body.removeFromWorld();
+/**
+ * @method removeFromGroup
+ */
+p.removeFromGroup = function() {
+  this.groups.enemies.remove(this);
 };
 
 p.createTurret = function () {
@@ -119,8 +125,11 @@ p.createTurret = function () {
   return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 350));
 };
 
+/**
+ * @method update
+ */
 p.update = function () {
-  if (this.isDead) {
+  if (!this.alive || this.isDead) {
     return;
   }
   if (Math.random() < this.fireRate) {
@@ -129,14 +138,17 @@ p.update = function () {
   this.turret.update();
 };
 
-p.kill = function () {
+p.explode = function () {
+  this.kill();
   this.emitter.x = this.position.x;
   this.emitter.y = this.position.y;
   this.emitter.start(true, 2000, null, 20);
   this.isDead = true;
-  this.visible = false;
-  this.stop();
-
+  this.body.removeFromWorld();
+  this.body.destroy();
+  this.removeFromGroup();
+  this.turret.destroy();
+  this.turret = null;
   this.killed.dispatch(this.score);
 };
 

@@ -21,9 +21,8 @@ module.exports = {
    */
   preload: function () {
     var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
-    this.loadProgressTxt = game.add.text(0, 0, '0.00%', style);
+    this.loadProgressTxt = game.add.text(0, 0, '0%', style);
 
-    game.load.onLoadStart.add(this.loadStart, this);
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
 
@@ -51,19 +50,16 @@ module.exports = {
   },
 
   /**
-   * Start the game when assets have preloaded
+   * SignalHandler for loaded files.
+   * - Updates the loader progress
+   * - Checks if a loaded file was some level map Physics data.
+   * If so, and if the level has a 'mapScale' property, then apply that scale to the Physics data.
    *
-   * @method create
+   * @property fileComplete
+   * @param progress
+   * @param cacheKey
    */
-  create: function () {
-
-  },
-
-  loadStart: function () {
-    this.loadProgressTxt.text = '0%';
-  },
-
-  fileComplete: function (progress, cacheKey, success, totalLoaded, totalFiles) {
+  fileComplete: function (progress, cacheKey) {
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
     if (this.isLevelData(cacheKey)) {
@@ -75,34 +71,55 @@ module.exports = {
     }
   },
 
+  /**
+   * Checks the physics data in the game cache, and ensures it's a level map. (It uses the mapSuffix in the
+   * json object to tell).
+   *
+   * @method isLevelData
+   * @param cacheKey
+   * @returns {boolean|*|Object|any}
+   */
   isLevelData: function (cacheKey) {
     return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS)
   },
 
+  /**
+   * Takes a phaser cache key, and returns a level, based on that key and the level's mapDataKey value.
+   * Required to know what scale should be applied to the level's physics data
+   *
+   * @method getLevelByCacheKey
+   * @param cacheKey
+   * @returns {*}
+   */
   getLevelByCacheKey: function (cacheKey) {
     return _.find(properties.levels, function (levelData) {
       return levelData.mapDataKey + properties.mapSuffix === cacheKey;
     }, this);
   },
 
-  scaleMapData: function (levelPhysics, level) {
-    _.each(levelPhysics[level.mapDataKey], function (node) {
+  /**
+   * Take's a Phaser Physics data and scales it by level.mapScale
+   *
+   * @method scaleMapData
+   * @param physicsData
+   * @param level
+   */
+  scaleMapData: function (physicsData, level) {
+    _.each(physicsData[level.mapDataKey], function (node) {
       _.each(node.shape, function (value, n) {
         node.shape[n] = value * level.mapScale;
       });
     });
   },
 
-  loadComplete: function () {
-    game.state.start('play', true, false);
-  },
-
   /**
-   * Preloader info assets can be updated here
+   * When everything has loaded start the game.
+   * Don't clear the cache.
    *
-   * @method update
+   * @method loadComplete
    */
-  update: function () {
-
+  loadComplete: function () {
+    this.loadProgressTxt.destroy();
+    game.state.start('play', true, false);
   }
 };

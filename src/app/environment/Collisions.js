@@ -9,6 +9,7 @@ var properties = require('../properties');
  * @constructor
  */
 function Collisions (collisions) {
+	this.startSystem();
 	this.init();
 }
 
@@ -20,10 +21,6 @@ var p = Collisions.prototype;
  * @method init
  */
 p.init = function() {
-	game.physics.startSystem(Phaser.Physics.P2JS);
-	game.physics.p2.setImpactEvents(true);
-	game.physics.p2.gravity.y = 100;
-
 	this.players 		= game.physics.p2.createCollisionGroup();
 	this.terrain 		= game.physics.p2.createCollisionGroup();
 	this.orb	 		= game.physics.p2.createCollisionGroup();
@@ -32,6 +29,12 @@ p.init = function() {
 	this.enemies 		= game.physics.p2.createCollisionGroup();
 
 	game.physics.p2.updateBoundsCollisionGroup();
+};
+
+p.startSystem = function() {
+	game.physics.startSystem(Phaser.Physics.P2JS);
+	game.physics.p2.setImpactEvents(true);
+	game.physics.p2.gravity.y = 100;
 };
 
 /**

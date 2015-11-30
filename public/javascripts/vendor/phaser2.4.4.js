@@ -28158,6 +28158,8 @@ Phaser.Camera.prototype = {
     * @method Phaser.Camera#setBoundsToWorld
     */
     setBoundsToWorld: function () {
+        console.warn('setBoundsToWorld', this.bounds, this.game.world.bounds)
+
 
         if (this.bounds)
         {

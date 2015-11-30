@@ -73,6 +73,13 @@ module.exports = {
     */
   },
 
+  nextLevel: function() {
+    this.limpetGuns = [];
+    this.groups.enemies.removeAll(true);
+    levelManager.nextLevel();
+    game.state.restart();
+  },
+
   /**
    * Gameloop
    *
@@ -97,8 +104,9 @@ module.exports = {
    * @method render
    */
   render: function () {
-    if (properties.drawStats) {
-      game.debug.cameraInfo(game.camera, 500, 20);
+    if (properties.debugPositions) {
+      game.debug.cameraInfo(game.camera, 400, 32);
+      game.debug.spriteCoords(this.player, 32, 450);
     }
   },
 
@@ -128,7 +136,6 @@ module.exports = {
     });
     this.initControls();
     this.initEnemies();
-
   },
 
 
@@ -177,16 +184,23 @@ module.exports = {
     this.checkPlayerLocation();
   },
 
+  /**
+   *
+   *
+   * @method checkPlayerLocation
+   */
   checkPlayerLocation: function() {
-    if (!this.player.isDead) {
-      if (this.player.body.y < 250 && this.player.inGameArea) {
-
+    if (this.player.alive) {
+      if (this.player.y < 200 && this.player.inGameArea) {
+        console.log('checkPlayerLocation :: isUnder ', this.player.y);
         this.player.inGameArea = false;
-        //player.warp();
-        console.log('checkPlayerLocation :: isUnder ', this.player.body.y);
+        this.nextLevel();
       }
     }
   },
+
+
+
 
   /**
    * Game Over Signal handler
@@ -207,6 +221,9 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
+
+    console.log('this.group.enemies length', this.groups.enemies.length);
+
     this.groups.enemies.forEach(function (enemy) {
       enemy.update();
     });
@@ -233,9 +250,8 @@ module.exports = {
    * @method defineWorldBounds
    */
   defineWorldBounds: function () {
+    console.warn('play :: defineWorldBounds :: this.level.world', this.level);
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
-    this.cameraGroup = new Camera(game);
-    //this.cameraGroup.zoomTo(2);
   },
 
   /**
@@ -245,18 +261,19 @@ module.exports = {
    * @method createActors
    */
   createActors: function () {
-    this.groups = new Groups(this.cameraGroup);
+    this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
       this.background = new Background();
     }
-    this.player = new Player(game.width / 2 + this.level.startPosition.x, game.height / 2 + this.level.startPosition.y, this.collisions, this.groups);
+    this.player = new Player(this.collisions, this.groups);
     this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
+    this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player);
     this.player.setTractorBeam(this.tractorBeam);
     _.each(this.level.enemies, this.createLimpet, this);
-    this.map = new Map(this.level.mapPosition.x, this.level.mapPosition.y, this.collisions);
+    this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.terrain, this.collisions.bullets, this.collisions.orb]);
@@ -266,6 +283,39 @@ module.exports = {
       map: this.map,
       enemies: this.limpetGuns
     };
+  },
+
+  /**
+   * Sets actors to their mission start positions
+   *
+   * @deprecated
+   * @method resetActors
+   */
+  resetActors: function() {
+    this.player.reset();
+    this.enemiesReset();
+    this.map.reset();
+    /*
+    game.camera.follow(this.player);
+    game.physics.p2.reset();
+    */
+    //player
+      //orb
+      //tractorBeam
+    //this.limpets
+    //map
+  },
+
+  /**
+   * @method enemiesReset
+   */
+  enemiesReset: function() {
+    this.groups.enemies.removeAll(true);
+    this.limpetGuns = [];
+    _.each(this.level.enemies, this.createLimpet, this);
+    _.each(this.limpetGuns, function(limpet) {
+      this.groups.enemies.add(limpet);
+    }, this);
   },
 
   /**
@@ -316,9 +366,8 @@ module.exports = {
    */
   createGroupLayering: function () {
     if (this.background) {
-      this.groups.terrain.add(this.background.sprite);
+      this.groups.background.add(this.background.sprite);
     }
-    this.groups.terrain.add(this.map.sprite);
     this.groups.actors.add(this.player);
     this.groups.actors.add(this.orb.sprite);
     _.each(this.limpetGuns, function(limpet) {

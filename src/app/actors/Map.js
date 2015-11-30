@@ -7,21 +7,15 @@ var levelManager = require('../data/level-manager');
  * Contains the map sprite and applies the physics generated from PhysicsEditor data to it.
  *
  * @class Map
- * @param x {Number}
- * @param y {Number}
  * @param collisions {Collisions}
+ * @param groups {Groups}
  * @constructor
  */
-function Map(x, y, collisions) {
-	this.originX = x;
-	this.originY = y;
+function Map(collisions, groups) {
 	this.collisions = collisions;
-  this.level = levelManager.currentLevel;
-	this.sprite = game.make.sprite(0,0, levelManager.currentLevel.mapImgKey);
-  if (this.level.hasOwnProperty('mapScale')) {
-    this.sprite.scale.setTo(this.level.mapScale);
-  }
-  this.sprite.position.setTo(this.originX + game.world.width/2, this.originY + this.level.world.height - this.sprite.height);
+  this.groups = groups;
+  this.setOrigin();
+	this.makeMap();
 	this.init();
 }
 
@@ -33,13 +27,63 @@ var p = Map.prototype;
  * @method init
  */
 p.init = function() {
-  var level = this.level;
-	game.physics.p2.enable(this.sprite, properties.debugPhysics);
-	this.body = this.sprite.body;
-	this.body.static = true;
-	this.body.clearShapes();
-	this.body.loadPolygon(level.mapDataKey + properties.mapSuffix, level.mapDataKey);
-	this.body.setCollisionGroup(this.collisions.terrain);
+  this.setPhysicsData();
+
+};
+
+/**
+ * @method setOrigin
+ */
+p.setOrigin = function() {
+  var level = levelManager.currentLevel;
+  this.origin = new Phaser.Point(level.mapPosition.x, level.mapPosition.y);
+};
+
+/**
+ * Starts a new level at the current level index
+ *
+ * @method reset
+ */
+p.reset = function() {
+  this.sprite.destroy();
+  this.setOrigin();
+  this.makeMap();
+  this.setPhysicsData();
+};
+
+/**
+ * @method setPhsycsData
+ */
+p.setPhysicsData = function() {
+  var level = levelManager.currentLevel;
+  game.physics.p2.enable(this.sprite, properties.debugPhysics);
+  this.body = this.sprite.body;
+  this.body.static = true;
+  this.body.clearShapes();
+  this.body.loadPolygon(this.levelCacheKey(), level.mapDataKey);
+  this.body.setCollisionGroup(this.collisions.terrain);
+};
+
+/**
+ * @method makeMap
+ */
+p.makeMap = function() {
+  var level = levelManager.currentLevel;
+  this.sprite = game.make.sprite(0,0, level.mapImgKey);
+  if (level.hasOwnProperty('mapScale')) {
+    this.sprite.scale.setTo(level.mapScale);
+  }
+  this.sprite.position.setTo(this.origin.x + game.world.width/2, this.origin.y + level.world.height - this.sprite.height);
+  this.groups.terrain.add(this.sprite);
+};
+
+/**
+ * @method levelCacheKey
+ * @returns {String}
+ */
+p.levelCacheKey = function() {
+  var level = levelManager.currentLevel;
+  return level.mapDataKey + properties.mapSuffix
 };
 
 module.exports = Map;
