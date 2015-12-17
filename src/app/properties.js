@@ -31,20 +31,6 @@ module.exports = {
   mapSuffix: '-map',
   levels: [
     {
-      mapImgUrl: 'assets/levels/level_6_x2.png',
-      mapImgKey: 'thrustmapImage',
-      mapDataUrl: 'assets/levels/level_6.json',
-      mapDataKey: 'thrustmap',
-      world: {width: 3072, height: 4000},
-      startPosition: {x: 0, y: 0},
-      mapPosition: {x: 0, y: 500},
-      orbPosition: {x: 1000, y: 1000},
-      enemies: [
-        {x: 400, y: 700, rotation: 0}
-      ],
-      enemyFireRate: 1000
-    },
-    {
       mapImgUrl: 'assets/levels/level-1.png',
       mapImgKey: 'level-1',
       mapDataUrl: 'assets/levels/level-1.json',
@@ -55,8 +41,42 @@ module.exports = {
       mapPosition: {x: 0, y: 140},
       orbPosition: {x: 950, y: 1100},
       enemies: [
-        {x: 705, y: 1110, rotation: 30}
+        {
+          x: 705,
+          y: 1110,
+          rotation: 30
+        }
       ],
+      enemyFireRate: 1000
+    },
+    {
+      mapImgUrl: 'assets/levels/level-2.png',
+      mapImgKey: 'level-2',
+      mapDataUrl: 'assets/levels/level-2.json',
+      mapDataKey: 'level-2',
+      mapScale: 2,
+      world: {width: 1536, height: 1250},
+      startPosition: {x: 250, y: 650},
+      mapPosition: {x: 0, y: 140},
+      orbPosition: {x: 950, y: 1100},
+      enemies: [
+        {
+          x: 705,
+          y: 1110,
+          rotation: 30
+        }
+      ],
+      enemyFireRate: 1000
+    },
+    {
+      mapImgUrl: 'assets/levels/level_6_x2.png',
+      mapImgKey: 'thrustmapImage',
+      mapDataUrl: 'assets/levels/level_6.json',
+      mapDataKey: 'thrustmap',
+      world: {width: 3072, height: 4000},
+      startPosition: {x: 0, y: 0},
+      mapPosition: {x: 0, y: 500},
+      orbPosition: {x: 1000, y: 1000},
       enemyFireRate: 1000
     }
   ]
