@@ -1,22 +1,36 @@
-	{ 
-		
-		"player": [
-			
-				{
-					"density": 2, "friction": 0, "bounce": 0, 
-					"filter": { "categoryBits": 1, "maskBits": 65535 },
-					"shape": [   25, 25  ,  19, 31  ,  6, 31  ,  4, 19  ,  12, 0  ]
-				}  ,
-				{
-					"density": 2, "friction": 0, "bounce": 0, 
-					"filter": { "categoryBits": 1, "maskBits": 65535 },
-					"shape": [   4, 19  ,  6, 31  ,  0, 24  ,  0, 19  ]
-				}  ,
-				{
-					"density": 2, "friction": 0, "bounce": 0, 
-					"filter": { "categoryBits": 1, "maskBits": 65535 },
-					"shape": [   25, 19  ,  25, 25  ,  22, 19  ]
-				}  
-		]
-		
-	}
+{ 
+    
+    "player": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   8, 18  ,  19, 33  ,  17, 34  ,  1, 25  ,  1, 19  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   8, 39  ,  1, 25  ,  17, 34  ,  14, 40  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   19, 33  ,  29, 18  ,  36, 21  ,  35, 26  ,  27, 40  ,  21, 39  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   36, 21  ,  29, 18  ,  34, 18  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   19, 33  ,  8, 18  ,  8, 15  ,  20, 1  ,  22, 2  ,  29, 18  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   20, 1  ,  8, 15  ,  14, 3  ,  16, 1  ]
+        }
+    ]
+}

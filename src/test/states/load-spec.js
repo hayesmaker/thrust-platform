@@ -5,10 +5,8 @@ var chai = require('chai');
 var sinonChai = require("sinon-chai");
 var expect = chai.expect;
 var mocks = require('mocks');
-
 var proxyquire = require('proxyquireify')(require);
 var state = proxyquire('../../app/states/load', mocks.stubs);
-
 chai.should();
 chai.use(sinonChai);
 
@@ -51,6 +49,12 @@ describe("Phaser load state tests", function() {
     });
 
     it('player ship image should be loaded', function() {
+      /*
+       mapImgUrl: 'assets/levels/level_6_x2.png',
+       mapImgKey: 'mapImage',
+       mapDataUrl: 'assets/levels/level_6.json',
+       mapDataKey: 'mapPhysics',
+       */
       state.preload();
       expect(game.load.image).to.have.been.calledWith('player', 'assets/actors/player.png');
     });

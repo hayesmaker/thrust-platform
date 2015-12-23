@@ -37,8 +37,8 @@ module.exports = {
       mapDataKey: 'moo',
       mapScale: 2,
       world: {width: 1536, height: 1250},
-      startPosition: {x: 250, y: 650},
       mapPosition: {x: 0, y: 140},
+      startPosition: {x: 250, y: 650},
       orbPosition: {x: 950, y: 1100},
       enemies: [
         {
@@ -56,8 +56,8 @@ module.exports = {
       mapDataKey: 'level-2',
       mapScale: 2,
       world: {width: 1536, height: 1250},
-      startPosition: {x: 250, y: 650},
       mapPosition: {x: 0, y: 140},
+      startPosition: {x: 250, y: 650},
       orbPosition: {x: 950, y: 1100},
       enemies: [
         {
@@ -74,8 +74,8 @@ module.exports = {
       mapDataUrl: 'assets/levels/level_6.json',
       mapDataKey: 'thrustmap',
       world: {width: 3072, height: 4000},
-      startPosition: {x: 0, y: 0},
       mapPosition: {x: 0, y: 500},
+      startPosition: {x: 0, y: 0},
       orbPosition: {x: 1000, y: 1000},
       enemyFireRate: 1000
     }

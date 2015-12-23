@@ -66,14 +66,14 @@ module.exports = {
     this.createGroupLayering();
     this.startLevelIntro();
     /*
-    var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
-    yKey.onUp.add(function() {
-      particles.startSwirl();
-    }, this);
-    */
+     var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+     yKey.onUp.add(function() {
+     particles.startSwirl();
+     }, this);
+     */
   },
 
-  nextLevel: function() {
+  nextLevel: function () {
     this.limpetGuns = [];
     this.groups.enemies.removeAll(true);
     levelManager.nextLevel();
@@ -110,14 +110,14 @@ module.exports = {
     }
   },
 
-  setLevel: function() {
+  setLevel: function () {
     this.level = levelManager.currentLevel;
   },
 
   /**
    * @method startLevelIntro
    */
-  startLevelIntro: function() {
+  startLevelIntro: function () {
     ui.missionSwipe.missionStartSwipeIn(this.missionStart, this);
   },
 
@@ -127,11 +127,11 @@ module.exports = {
    *
    * @method missionStart
    */
-  missionStart: function() {
+  missionStart: function () {
     this.inPlay = true;
 
     this.player.start();
-    _.each(this.limpetGuns, function(limpet) {
+    _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
     this.initControls();
@@ -180,7 +180,7 @@ module.exports = {
    *
    * @method checkGameCondition
    */
-  checkGameCondition: function() {
+  checkGameCondition: function () {
     this.checkPlayerLocation();
   },
 
@@ -189,7 +189,7 @@ module.exports = {
    *
    * @method checkPlayerLocation
    */
-  checkPlayerLocation: function() {
+  checkPlayerLocation: function () {
     if (this.player.alive) {
       if (this.player.y < 200 && this.player.inGameArea) {
         console.log('checkPlayerLocation :: isUnder ', this.player.y);
@@ -200,18 +200,14 @@ module.exports = {
   },
 
 
-
-
   /**
    * Game Over Signal handler
    *
    * @method gameOver
    * @param score
    */
-  gameOver: function(score) {
-
+  gameOver: function (score) {
     console.warn('GAME OVER score:', score);
-
   },
 
   /**
@@ -221,9 +217,6 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
-
-    console.log('this.group.enemies length', this.groups.enemies.length);
-
     this.groups.enemies.forEach(function (enemy) {
       enemy.update();
     });
@@ -237,7 +230,7 @@ module.exports = {
    *
    * @method uiUpdate
    */
-  uiUpdate: function() {
+  uiUpdate: function () {
     if (this.inPlay) {
       ui.fuel.update(this.player.fuel, true);
       ui.score.update(this.player.score, true);
@@ -291,17 +284,17 @@ module.exports = {
    * @deprecated
    * @method resetActors
    */
-  resetActors: function() {
+  resetActors: function () {
     this.player.reset();
     this.enemiesReset();
     this.map.reset();
     /*
-    game.camera.follow(this.player);
-    game.physics.p2.reset();
-    */
+     game.camera.follow(this.player);
+     game.physics.p2.reset();
+     */
     //player
-      //orb
-      //tractorBeam
+    //orb
+    //tractorBeam
     //this.limpets
     //map
   },
@@ -309,11 +302,11 @@ module.exports = {
   /**
    * @method enemiesReset
    */
-  enemiesReset: function() {
+  enemiesReset: function () {
     this.groups.enemies.removeAll(true);
     this.limpetGuns = [];
     _.each(this.level.enemies, this.createLimpet, this);
-    _.each(this.limpetGuns, function(limpet) {
+    _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
   },
@@ -323,7 +316,7 @@ module.exports = {
    *
    * @method createUi
    */
-  createUi: function() {
+  createUi: function () {
     if (game.controls.isJoypadEnabled) {
       game.controls.initJoypad();
     }
@@ -343,7 +336,7 @@ module.exports = {
    * @method createLimpet
    * @param data
    */
-  createLimpet: function(data) {
+  createLimpet: function (data) {
     var limpet = new LimpetGun(data.x, data.y, data.rotation, this.collisions, this.groups);
     limpet.killed.addOnce(this.limpetDestroyed, this);
     this.limpetGuns.push(limpet);
@@ -355,7 +348,7 @@ module.exports = {
    * @method limpetDestroyed
    * @param score
    */
-  limpetDestroyed: function(score) {
+  limpetDestroyed: function (score) {
     this.player.score += score;
   },
 
@@ -370,7 +363,7 @@ module.exports = {
     }
     this.groups.actors.add(this.player);
     this.groups.actors.add(this.orb.sprite);
-    _.each(this.limpetGuns, function(limpet) {
+    _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
     this.groups.swapTerrain();
@@ -404,8 +397,8 @@ module.exports = {
    *
    * @method initEnemies
    */
-  initEnemies: function() {
-    _.each(this.limpetGuns, function(limpet) {
+  initEnemies: function () {
+    _.each(this.limpetGuns, function (limpet) {
       limpet.init();
     });
   },

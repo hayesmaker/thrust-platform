@@ -34,8 +34,8 @@ module.exports = {
     }
     game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.preloadMapData, this);
-    game.load.image('player', 'assets/actors/player_02.png');
-    game.load.physics('playerPhysics', 'assets/actors/player_02.json');
+    game.load.image('player', 'assets/actors/player.png');
+    game.load.physics('playerPhysics', 'assets/actors/player.json');
   },
 
   /**
