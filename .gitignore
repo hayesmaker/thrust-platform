@@ -5,3 +5,4 @@ browserify/
 npm-debug.log
 yuidoc/
 tests.js
+test/e2e/nightwatch/reports/
