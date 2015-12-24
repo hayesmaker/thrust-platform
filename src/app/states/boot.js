@@ -21,6 +21,7 @@ var userControl;
 module.exports = {
   /**
    * Preload the title screen
+   * Initialise the e2e hooks object
    *
    * @method preload
    */
@@ -53,14 +54,13 @@ module.exports = {
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
     console.warn("TouchScreenDetected:", features.isTouchScreen);
     console.warn("ScaleMode:", game.scale.scaleMode);
-
     game.controls = userControl;
-
     var spr = game.add.sprite(0,0, 'title');
     spr.inputEnabled = true;
     spr.useHandCursor = true;
     spr.events.onInputDown.add(this.startLoad, this);
-
+    game.e2e = {};
+    game.e2e.boot = this;
     game.controls.spacePress.onDown.add(this.startLoad, this);
   },
 

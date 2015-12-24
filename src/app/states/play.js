@@ -271,11 +271,9 @@ module.exports = {
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.terrain, this.collisions.bullets, this.collisions.orb]);
     particles.create();
-    game.e2e = {
-      player: this.player,
-      map: this.map,
-      enemies: this.limpetGuns
-    };
+    game.e2e.player = this.player;
+    game.e2e.map = this.map;
+    game.e2e.enemies = this.limpetGuns;
   },
 
   /**
