@@ -4,4 +4,4 @@ node_js:
 addons:
   sauce_connect: true
 script:
-  ./test/e2e/nightwatch/nightwatch --env integration
+  cd test/e2e/nightwatch && nightwatch --env integration
