@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "pretest": "npm start",
-    "test": "npm run mocha && npm run nightwatch",
+    "test": "npm run mocha",
     "start": "pm2 start ./bin/www",
     "deploy": "npm run heroku",
     "postinstall": "npm run build",
