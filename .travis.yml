@@ -2,4 +2,6 @@ language: node_js
 node_js:
   - "0.12"
 addons:
-  sauce_connect: true
+  sauce_connect:
+    username: "hayesmaker"
+    access_key: "e8d3698a-caba-43c9-963c-99e5032b7a86"
