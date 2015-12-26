@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "pretest": "npm start",
-    "test": "mocha-phantomjs ./public/javascripts/test/index.html",
-    "posttest": "npm run nightwatch",
+    "test": "npm run mocha && npm run nightwatch",
     "start": "pm2 start ./bin/www",
     "deploy": "npm run heroku",
     "postinstall": "npm run build",
@@ -22,7 +21,8 @@
     "build:quick": "npm run browserify:test && npm run browserify:app",
     "build:test": "npm run build:quick && npm test",
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
-    "nightwatch": "echo 'Attempting to launch nightwatch tests' && cd test/e2e/nightwatch && nightwatch --env integration"
+    "nightwatch": "echo 'Attempting to launch nightwatch end to end tests' && cd test/e2e/nightwatch && nightwatch --env integration",
+    "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
