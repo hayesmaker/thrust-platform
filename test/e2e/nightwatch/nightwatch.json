@@ -4,6 +4,11 @@
   "custom_commands_path" : ["../../../node_modules/phase-2-e/lib/custom-commands/", "./custom-commands"],
   "custom_assertions_path" : ["../../../node_modules/phase-2-e/lib/custom-assertions/", "./custom-assertions"],
   "page_objects_path" : "./page-objects/",
+  "type" : "mocha",
+  "options" : {
+    "ui" : "tdd",
+    "reporter" : "list"
+  },
 
   "selenium" : {
     "start_process" : false,

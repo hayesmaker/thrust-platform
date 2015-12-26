@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "0.12"
+notifications:
+  email:
+    - andygoestohollywood@gmail.com
 addons:
   sauce_connect:
     username: "hayesmaker"
