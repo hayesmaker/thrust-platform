@@ -14,8 +14,6 @@ var levelManager = require('../data/level-manager');
 function Map(collisions, groups) {
 	this.collisions = collisions;
   this.groups = groups;
-  this.setOrigin();
-	this.makeMap();
 	this.init();
 }
 
@@ -27,6 +25,8 @@ var p = Map.prototype;
  * @method init
  */
 p.init = function() {
+  this.setOrigin();
+  this.makeMap();
   this.setPhysicsData();
 
 };
@@ -40,15 +40,16 @@ p.setOrigin = function() {
 };
 
 /**
- * Starts a new level at the current level index
- *
- * @method reset
+ * @method makeMap
  */
-p.reset = function() {
-  this.sprite.destroy();
-  this.setOrigin();
-  this.makeMap();
-  this.setPhysicsData();
+p.makeMap = function() {
+  var level = levelManager.currentLevel;
+  this.sprite = game.make.sprite(0,0, level.mapImgKey);
+  if (level.hasOwnProperty('mapScale')) {
+    this.sprite.scale.setTo(level.mapScale);
+  }
+  this.sprite.position.setTo(this.origin.x + game.world.width/2, this.origin.y + level.world.height - this.sprite.height);
+  this.groups.terrain.add(this.sprite);
 };
 
 /**
@@ -65,16 +66,15 @@ p.setPhysicsData = function() {
 };
 
 /**
- * @method makeMap
+ * Starts a new level at the current level index
+ *
+ * @method reset
  */
-p.makeMap = function() {
-  var level = levelManager.currentLevel;
-  this.sprite = game.make.sprite(0,0, level.mapImgKey);
-  if (level.hasOwnProperty('mapScale')) {
-    this.sprite.scale.setTo(level.mapScale);
-  }
-  this.sprite.position.setTo(this.origin.x + game.world.width/2, this.origin.y + level.world.height - this.sprite.height);
-  this.groups.terrain.add(this.sprite);
+p.reset = function() {
+  this.sprite.destroy();
+  this.setOrigin();
+  this.makeMap();
+  this.setPhysicsData();
 };
 
 /**

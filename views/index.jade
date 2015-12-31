@@ -1,25 +1,26 @@
 extends layout
 block content
   include header
-  img(src='https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master')
-  p
-  h4="Play"
-  ul
-    li
-      a(href='/dev')='Play Thrust'
-      |  #[a(href='/min') (minified)] #[a(href='/dev') (dev)]
-  h4="Test"
-  ul
-    li
-      a(href='/javascripts/test/' target='blank')='Unit tests'
-    li
-      a(href='https://saucelabs.com/beta/dashboard/tests' target='blank')='End to end tests'
-      |  #[a(href='https://saucelabs.com/beta/tests/b64289ef76704820a56ee3efe8716b73/metadata') (Public example)]
-    li
-      a(href='https://travis-ci.org/hayesmaker/thrust-engine' target='blank')='Travis CI'
-  h4="Source code & documentation"
-  ul
-    li
-      a(href='/yuidoc' target='blank')='Source docs'
-    li
-      a(href='https://github.com/hayesmaker/thrust-engine' target='blank')='Github'
+  #content
+    img(src='https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master')
+    p
+    h4="Play"
+    ul
+      li
+        a(href='/dev')='Play Thrust'
+        |  #[a(href='/min') (minified)] #[a(href='/dev') (dev)]
+    h4="Test"
+    ul
+      li
+        a(href='/javascripts/test/' target='blank')='Unit tests'
+      li
+        a(href='https://saucelabs.com/beta/dashboard/tests' target='blank')='End to end tests'
+        |  #[a(href='https://saucelabs.com/beta/tests/b64289ef76704820a56ee3efe8716b73/metadata') (Public example)]
+      li
+        a(href='https://travis-ci.org/hayesmaker/thrust-engine' target='blank')='Travis CI'
+    h4="Source code & documentation"
+    ul
+      li
+        a(href='/yuidoc' target='blank')='Source docs'
+      li
+        a(href='https://github.com/hayesmaker/thrust-engine' target='blank')='Github'

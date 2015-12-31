@@ -39,6 +39,10 @@ h1 small {
   font-size: 12px;
 }
 
+#content {
+  padding-left: 20px;
+}
+
 ul {
   margin: 0 0 0 20px;
   padding: 0;
