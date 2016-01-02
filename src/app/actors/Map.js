@@ -83,7 +83,7 @@ p.reset = function() {
  */
 p.levelCacheKey = function() {
   var level = levelManager.currentLevel;
-  return level.mapDataKey + properties.mapSuffix
+  return level.mapDataKey + properties.mapSuffix;
 };
 
 module.exports = Map;

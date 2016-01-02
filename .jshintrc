@@ -1,5 +1,25 @@
 {
+  "node": true,
+  "browserify": true,
+  "globals": {
+    "game": true,
+    "Phaser": false,
+    "alert": false,
+    "TweenMax": true,
+    "Quad": true
+  },
+  "eqeqeq": true,
+  "nocomma": true,
+  "boss": true,
   "curly": true,
   "eqeqeq": true,
-  "nocomma": true
+  "eqnull": true,
+  "expr": true,
+  "immed": true,
+  "noarg": true,
+  "quotmark": "single",
+  "smarttabs": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
 }
