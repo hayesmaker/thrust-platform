@@ -6,6 +6,7 @@
     "Phaser": false,
     "alert": false,
     "TweenMax": true,
+    "TimelineLite": true,
     "Quad": true
   },
   "eqeqeq": true,
@@ -17,7 +18,6 @@
   "expr": true,
   "immed": true,
   "noarg": true,
-  "quotmark": "single",
   "smarttabs": true,
   "trailing": true,
   "undef": true,

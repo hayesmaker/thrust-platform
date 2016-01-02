@@ -1,5 +1,7 @@
+'use strict';
+
 var Stats = require('Stats');
-var properties = require('../properties');
+
 /**
  * doob stats
  *

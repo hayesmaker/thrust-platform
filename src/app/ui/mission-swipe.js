@@ -1,5 +1,4 @@
-var _ = require('lodash');
-var levelManager = require('../data/level-manager');
+'use strict';
 
 /**
  * @module mission-swipe

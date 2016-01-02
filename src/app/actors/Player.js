@@ -287,7 +287,7 @@ p.crash = function () {
  */
 p.rotate = function (val) {
   if (val < 0) {
-    this.body.rotateLeft(Math.abs(val))
+    this.body.rotateLeft(Math.abs(val));
   } else {
     this.body.rotateRight(val);
   }

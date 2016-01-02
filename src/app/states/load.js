@@ -80,7 +80,7 @@ module.exports = {
    * @returns {boolean|*|Object|any}
    */
   isLevelData: function (cacheKey) {
-    return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS)
+    return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
   },
 
   /**

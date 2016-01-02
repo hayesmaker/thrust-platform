@@ -1,13 +1,6 @@
 'use strict';
 
 /**
- *
- *
- * @type {Phaser.Graphics}
- */
-var graphics;
-
-/**
  * Background description
  *
  * defines a public variable and calls init - change this constructor to suit your needs.

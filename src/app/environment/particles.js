@@ -1,5 +1,3 @@
-var ui = require('../ui');
-
 module.exports = {
   group: null,
   /**
@@ -19,10 +17,15 @@ module.exports = {
     this.manager = game.plugins.add(Phaser.ParticleStorm);
   },
 
+  /**
+   * creates the magic smoke particle emitter
+   * and adds to the game world.
+   *
+   * @method create
+   */
   create: function() {
     this.group = game.add.group();
     this.group.fixedToCamera = false;
-
     this.magicSmokeEmitter = {
       _image: 'smoke_r',
       visible: false,
@@ -33,7 +36,6 @@ module.exports = {
         control: [ { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 } ]
       }
     };
-
     this.magicSmoke = {
       image: 'smoke_r',
       lifespan: 3000,
@@ -44,14 +46,20 @@ module.exports = {
       scaleY: { value: 1.5, control: [ { x: 0, y: 0 }, { x: 0.5, y: 1 }, { x: 1, y: 0 } ] },
       alpha: 0.5
     };
-
     this.manager.addData('magicSmokeEmitter', this.magicSmokeEmitter);
     this.manager.addData('magicSmoke', this.magicSmoke);
-
     this.emitter = this.manager.createEmitter();
     this.emitter.addToWorld(this.group);
   },
 
+  /**
+   * Starts a magic smoke particle swirl animation
+   * at the specified xy coords.
+   *
+   * @method startSwirl
+   * @param x
+   * @param y
+   */
   startSwirl: function(x, y) {
     this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
   }

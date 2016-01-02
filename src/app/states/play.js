@@ -10,8 +10,6 @@ var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
-var features = require('../utils/features');
-var Camera = require('camera');
 var _ = require('lodash');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');//stubbed
@@ -174,7 +172,7 @@ module.exports = {
 
     if (!this.player.isDead) {
       if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
-        this.player.rotate(-100)
+        this.player.rotate(-100);
       } else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
         this.player.rotate(100);
       } else if (!game.e2e.controlOverride) {
