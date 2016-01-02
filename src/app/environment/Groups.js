@@ -1,7 +1,7 @@
 /**
- * These groups are registerd to a common camera parent group.
+ * These groups were registerd to a common camera parent group.
  *
- * This is an attempt to make zooming possible.
+ * This was an attempt to make zooming possible.
  * But currently in phaser, this effects the physics badly, and camera.follow stops
  * working properly, so no zooming is done at runtime yet.
  *
@@ -10,9 +10,7 @@
  * @class Groups
  * @constructor
  */
-function Groups(cameraGroup) {
-  this.cameraGroup = cameraGroup;
-
+function Groups() {
   this.init();
 }
 

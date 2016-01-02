@@ -13,13 +13,13 @@ module.exports = {
    * @property levels
    * @type {[]}
    */
-  levels: properties.levels,
+  levels: properties.levels.data,
 
   /**
    * @property levelIndex
    * @type {Number}
    */
-  levelIndex: 0,
+  levelIndex: properties.levels.startLevel - 1,
 
   /**
    * @todo make levels a data type

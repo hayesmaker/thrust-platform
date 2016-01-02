@@ -73,13 +73,6 @@ module.exports = {
      */
   },
 
-  nextLevel: function () {
-    this.limpetGuns = [];
-    this.groups.enemies.removeAll(true);
-    levelManager.nextLevel();
-    game.state.restart();
-  },
-
   /**
    * Gameloop
    *
@@ -110,8 +103,29 @@ module.exports = {
     }
   },
 
+  /**
+   * Called first thing in state.create
+   * to set the level to the current level defined in levelManager.
+   * When next level is called, the data is moved along and the setLevel is called
+   * as part of the state restart.
+   *
+   * @method setLevel
+   */
   setLevel: function () {
     this.level = levelManager.currentLevel;
+  },
+
+  /**
+   * Moves level data to the next level, and restarts
+   * the game state
+   *
+   * @method nextLevel
+   */
+  nextLevel: function () {
+    this.limpetGuns = [];
+    this.groups.enemies.removeAll(true);
+    levelManager.nextLevel();
+    game.state.restart();
   },
 
   /**
@@ -199,7 +213,6 @@ module.exports = {
     }
   },
 
-
   /**
    * Game Over Signal handler
    *
@@ -274,39 +287,6 @@ module.exports = {
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
-  },
-
-  /**
-   * Sets actors to their mission start positions
-   *
-   * @deprecated
-   * @method resetActors
-   */
-  resetActors: function () {
-    this.player.reset();
-    this.enemiesReset();
-    this.map.reset();
-    /*
-     game.camera.follow(this.player);
-     game.physics.p2.reset();
-     */
-    //player
-    //orb
-    //tractorBeam
-    //this.limpets
-    //map
-  },
-
-  /**
-   * @method enemiesReset
-   */
-  enemiesReset: function () {
-    this.groups.enemies.removeAll(true);
-    this.limpetGuns = [];
-    _.each(this.level.enemies, this.createLimpet, this);
-    _.each(this.limpetGuns, function (limpet) {
-      this.groups.enemies.add(limpet);
-    }, this);
   },
 
   /**
@@ -449,7 +429,6 @@ module.exports = {
     //limpet1.fire();
   },
 
-
   /**
    * Key control: Release X
    *
@@ -460,5 +439,36 @@ module.exports = {
     if (!properties.gamePlay.autoOrbLocking) {
       this.tractorBeam.lockingRelease();
     }
-  }
+  },
+
+  /**
+   * Sets actors to their mission start positions
+   * If state restart becomes unusable, resetActors must be used & improved
+   *
+   * @deprecated
+   * @method resetActors
+   */
+  resetActors: function () {
+    this.player.reset();
+    this.enemiesReset();
+    this.map.reset();
+  },
+
+  /**
+   * Enemies reset method.. replaced by using state restart
+   * between levels.
+   * If state restart becomes unusable, resetActors must be used & improved
+   *
+   * @deprecated
+   * @method enemiesReset
+   *
+   */
+  enemiesReset: function () {
+    this.groups.enemies.removeAll(true);
+    this.limpetGuns = [];
+    _.each(this.level.enemies, this.createLimpet, this);
+    _.each(this.limpetGuns, function (limpet) {
+      this.groups.enemies.add(limpet);
+    }, this);
+  },
 };

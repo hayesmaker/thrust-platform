@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "pretest": "npm start",
-    "test": "npm run mocha",
+    "test": "npm run jshint && npm run mocha",
     "start": "pm2 start ./bin/www",
     "deploy": "npm run heroku",
     "postinstall": "npm run build",
@@ -23,7 +23,8 @@
     "build:test": "npm run browserify:app && npm run browserify:test && npm test",
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting to launch nightwatch end to end tests' && cd test/e2e/nightwatch && nightwatch --env integration",
-    "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html"
+    "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html",
+    "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
@@ -85,6 +86,8 @@
     "grunt-smoothie": "^1.4.0",
     "istanbul": "^0.3.15",
     "istanbulify": "^0.1.0",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
     "mocha": "^2.2.5",
     "mocha-phantomjs": "^4.0.1",
     "mochify-istanbul": "^2.2.2"
