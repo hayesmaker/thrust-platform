@@ -18,8 +18,9 @@ module.exports = {
     lockingDuration: 900,
     parallax: true
   },
-  levels: [
-    {
+  levels: {
+    startingLevel: 1,
+    data: [{
       mapImgUrl: 'assets/levels/level_6_x2.png',
       mapImgKey: 'mapImage',
       mapDataUrl: 'assets/levels/level_6.json',
@@ -32,6 +33,7 @@ module.exports = {
         {x: 500, y: 500, rotation: 100}
       ],
       enemyFireRate: 1000
-    }
-  ]
+    }]
+  }
+
 };

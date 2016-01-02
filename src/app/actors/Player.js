@@ -235,6 +235,49 @@ p.createTurret = function () {
 };
 
 /**
+ * @method checkPlayerControl
+ * @param stick
+ * @param cursors
+ * @param buttonAPressed
+ */
+p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
+  if (!this.alive) {
+    return;
+  }
+  this.checkRotate(stick, cursors);
+  this.checkThrust(cursors, buttonAPressed);
+};
+
+/**
+ * @method checkRotate
+ * @param stick
+ * @param cursors
+ */
+p.checkRotate = function(stick, cursors) {
+  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors.left.isDown) {
+    this.rotate(-100);
+  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors.right.isDown) {
+    this.rotate(100);
+  } else if (!game.e2e.controlOverride) {
+    this.body.setZeroRotation();
+  }
+};
+
+/**
+ * @method checkThrust
+ * @param cursors
+ * @param buttonAPressed
+ */
+p.checkThrust = function(cursors, buttonAPressed) {
+  if (cursors.up.isDown || buttonAPressed) {
+    if (this.fuel >= 0) {
+      this.body.thrust(400);
+      this.fuel--;
+    }
+  }
+};
+
+/**
  * When this is called, we'll check the distance of the player to the orb, and depending on distance,
  * either draw a tractorBeam
  *

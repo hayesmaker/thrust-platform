@@ -150,7 +150,6 @@ module.exports = {
     this.initEnemies();
   },
 
-
   /**
    * Return early if not in play
    * Cursors &/or gamepad
@@ -161,30 +160,8 @@ module.exports = {
     if (!this.inPlay || !this.cursors) {
       return;
     }
-
-    if (!this.tractorBeam.hasGrabbed) {
-      if (this.isXDown || properties.gamePlay.autoOrbLocking) {
-        this.player.checkOrbDistance();
-      }
-    } else {
-      this.tractorBeam.drawBeam(this.player.position);
-    }
-
-    if (!this.player.isDead) {
-      if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT) || this.cursors.left.isDown) {
-        this.player.rotate(-100);
-      } else if ((this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT) || this.cursors.right.isDown) {
-        this.player.rotate(100);
-      } else if (!game.e2e.controlOverride) {
-        this.player.body.setZeroRotation();
-      }
-      if (this.cursors.up.isDown || this.buttonADown) {
-        if (this.player.fuel >= 0) {
-          this.player.body.thrust(400);
-          this.player.fuel--;
-        }
-      }
-    }
+    this.tractorBeam.checkDistance(this.isXDown);
+    this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
   },
 
   /**

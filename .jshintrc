@@ -9,6 +9,7 @@
     "TimelineLite": true,
     "Quad": true
   },
+  "maxcomplexity": 6,
   "eqeqeq": true,
   "nocomma": true,
   "boss": true,
