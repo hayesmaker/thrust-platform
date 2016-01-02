@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('lodash');
 var properties = require('../properties');//stubbed
 var levelManager = require('../data/level-manager');//stubbed
@@ -90,9 +92,10 @@ module.exports = {
    * @method getLevelByCacheKey
    * @param cacheKey
    * @returns {*}
+   * @todo test this
    */
   getLevelByCacheKey: function (cacheKey) {
-    return _.find(properties.levels, function (levelData) {
+    return _.find(properties.levels.data, function (levelData) {
       return levelData.mapDataKey + properties.mapSuffix === cacheKey;
     }, this);
   },

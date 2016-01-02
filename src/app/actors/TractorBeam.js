@@ -20,6 +20,8 @@ function TractorBeam(orb, player) {
 
   this.player = player;
 
+  console.log('this.player', this.player);
+
   this.isLocked = false;
 
   this.isLocking = false;
@@ -51,15 +53,17 @@ p.init = function () {
 
 /**
  * @method checkDistance
+ * @param player
  * @param isXDown {Boolean} if x button is pressed for manual locking mode
  */
-p.checkDistance = function(isXDown) {
+p.checkDistance = function(player, isXDown) {
   if (!this.hasGrabbed) {
     if (isXDown || properties.gamePlay.autoOrbLocking) {
-      this.player.checkOrbDistance();
+      //console.log('TractorBeam checkDistance :: this.player', player);
+      player.checkOrbDistance();
     }
   } else {
-    this.drawBeam(this.player.position);
+    this.drawBeam(player.position);
   }
 };
 

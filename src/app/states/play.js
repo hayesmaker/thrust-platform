@@ -160,8 +160,18 @@ module.exports = {
     if (!this.inPlay || !this.cursors) {
       return;
     }
-    this.tractorBeam.checkDistance(this.isXDown);
+    /*
+     if (!this.tractorBeam.hasGrabbed) {
+     if (this.isXDown || properties.gamePlay.autoOrbLocking) {
+     this.player.checkOrbDistance();
+     }
+     } else {
+     this.tractorBeam.drawBeam(this.player.position);
+     }
+     */
     this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
+    this.tractorBeam.checkDistance(this.player, this.isXDown);
+
   },
 
   /**
@@ -445,5 +455,5 @@ module.exports = {
     _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
-  },
+  }
 };
