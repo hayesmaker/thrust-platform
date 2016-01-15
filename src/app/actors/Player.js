@@ -56,20 +56,16 @@ function Player(collisions, groups) {
   this.tractorBeam = null;
 
   /**
-   * @property emitter
+   * @property explodeEmitter
    * @type {Phaser.Emitter}
    */
-  this.emitter;
+  this.explodeEmitter;
 
   /**
-   * Player has been destroyed
-   * - Use this.alive instead
-   *
-   * @deprecated
-   * @property isDead
-   * @type {boolean}
+   * @property thrustEmitter
+   * @type {Phaser.Emitter}
    */
-  this.isDead = true;
+  this.thrustEmitter;
 
   /**
    * @property fuel
@@ -134,10 +130,16 @@ p.setTractorBeam = function (tractorBeam) {
 p.init = function () {
   this.alive = false;
   this.turret = this.createTurret();
-  this.emitter = game.add.emitter(this.x, this.y, 100);
-  this.emitter.particleClass = ShipParticle;
-  this.emitter.makeParticles();
-  this.emitter.gravity = 200;
+  this.explodeEmitter = game.add.emitter(this.x, this.y, 100);
+  this.explodeEmitter.particleClass = ShipParticle;
+  this.explodeEmitter.makeParticles();
+  this.explodeEmitter.gravity = 200;
+
+  this.thrustEmitter = game.add.emitter(this.x, this.y, 0);
+  this.thrustEmitter.particleClass = ShipParticle;
+  this.thrustEmitter.minRotation = 0;
+  this.thrustEmitter.maxRotation = 0;
+  this.thrustEmitter.makeParticles();
 
 };
 
@@ -167,6 +169,8 @@ p.start = function () {
   this.body.motionState = 2;
   this.body.mass = 1;
   this.respawn();
+
+  console.log('Player. dimensions: sprite, body :: ', this.width, this.height);
 };
 
 /**
@@ -176,7 +180,6 @@ p.spawn = function() {
   this.inGameArea = true;
   this.body.motionState = 1;
   this.alpha = 1;
-  this.isDead = false;
   this.alive = true;
 };
 
@@ -216,11 +219,11 @@ p.respawn = function(removeShip) {
 p.update = function () {
   if (this.alive && this.body) {
     this.turret.update();
+    this.exhaustUpdate();
   }
 };
 
 /**
- *
  * @method createTurret
  * @returns {Turret|exports|module.exports}
  */
@@ -245,7 +248,7 @@ p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
     return;
   }
   this.checkRotate(stick, cursors);
-  this.checkThrust(cursors, buttonAPressed);
+  this.checkThrust(buttonAPressed, cursors);
 };
 
 /**
@@ -265,15 +268,18 @@ p.checkRotate = function(stick, cursors) {
 
 /**
  * @method checkThrust
- * @param cursors
  * @param buttonAPressed
+ * @param cursors
  */
-p.checkThrust = function(cursors, buttonAPressed) {
+p.checkThrust = function(buttonAPressed, cursors) {
   if (cursors.up.isDown || buttonAPressed) {
     if (this.fuel >= 0) {
+      this.thrustStart();
       this.body.thrust(400);
       this.fuel--;
     }
+  } else {
+    this.cutEngine();
   }
 };
 
@@ -287,7 +293,6 @@ p.checkOrbDistance = function () {
   var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
   if (distance < this.tractorBeam.length && this.alive) {
     this.tractorBeam.drawBeam(this.position);
-
   } else if (distance >= this.tractorBeam.length && distance < 90) {
     if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
@@ -342,11 +347,45 @@ p.rotate = function (val) {
  * @method explosion
  */
 p.explosion = function () {
-  this.emitter.x = this.position.x;
-  this.emitter.y = this.position.y;
-  this.emitter.start(true, 2000, null, 20);
+  this.explodeEmitter.x = this.position.x;
+  this.explodeEmitter.y = this.position.y;
+  this.explodeEmitter.start(true, 2000, null, 1);
+  this.cutEngine();
   this.tractorBeam.breakLink();
+};
 
+p.thrustStart = function() {
+  if (!this.thrustEmitter.on) {
+    console.warn('smoke on');
+    this.thrustEmitter.start(false, 200, 1, 1, 1);
+  }
+};
+
+p.exhaustUpdate = function() {
+  /*
+   x = cx + r * cos(a)
+   y = cy + r * sin(a)
+   */
+
+  var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
+  var r = (this.width / 2) - speed / 60;
+  var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
+  this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
+  this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
+
+
+  //this.thrustEmitter.angle = this.rotation - Math.PI;
+  //this.thrustEmitter.pivot.x = 0.5;
+  //this.thrustEmitter.pivot.y = 0.5;
+  //this.thrustEmitter.particleAnchor.x = 0;
+  //this.thrustEmitter.particleAnchor.y = 0;
+  //this.thrustEmitter.rotation = this.body.rotation + Math.PI;
+  //this.thrustEmitter.particleAnchor, this.thrustEmitter.pivot
+};
+
+p.cutEngine = function() {
+  this.exhaustUpdate();
+  this.thrustEmitter.on = false;
 };
 
 /**
@@ -359,7 +398,6 @@ p.death = function () {
     return;
   }
   var self = this;
-  this.isDead = true;
   this.alive = false;
   setTimeout(function() {
     self.checkRespawn(true);

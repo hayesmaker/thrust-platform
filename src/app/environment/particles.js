@@ -1,3 +1,12 @@
+'use strict';
+/**
+ * Manager for particle effects,
+ * currently houses the swirl effect uses when the player jumps into a level
+ *
+ * @class particles
+ * @type {{group: null, manager: null, emitter: null, init: Function, create: Function, startSwirl: Function}}
+ * @static
+ */
 module.exports = {
   group: null,
   /**

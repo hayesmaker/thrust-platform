@@ -62,7 +62,12 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    this.startLevelIntro();
+    if (!properties.gamePlay.skipIntro) {
+      this.startLevelIntro();
+    } else {
+      this.missionStart();
+    }
+
     /*
      var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
      yKey.onUp.add(function() {

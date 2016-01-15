@@ -5,7 +5,7 @@
  * @module properties
  * @class
  * @static
- * @type {{enableJoypad: boolean, fatalCollisions: boolean, scale: {mode: number}, drawStats: boolean}}
+ * @type {Object}
  */
 module.exports = {
   debugPhysics: false,
@@ -21,6 +21,7 @@ module.exports = {
   width: 700,
   height: 500,
   gamePlay: {
+    skipIntro: true,
     freeOrbLocking: false,
     autoOrbLocking: true,
     tractorBeamLength: 80,

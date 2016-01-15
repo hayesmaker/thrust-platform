@@ -24,7 +24,7 @@ p.constructor = ForwardsFire;
  * @method shoot
  */
 p.fire = function() {
-	var magnitue = 240;
+	var magnitude = 240;
 	var bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
 	bullet.lifeSpan = this.lifeSpan;
 	bullet.anchor.setTo(0.5,0.5);
@@ -36,8 +36,8 @@ p.fire = function() {
 		this.bulletEnd(bullet, this.groups.bullets);
 	}, this);
 	bullet.body.data.gravityScale = 0;
-	bullet.body.velocity.x = magnitue * Math.cos(angle) + this.origin.body.velocity.x;
-	bullet.body.velocity.y = magnitue * Math.sin(angle) + this.origin.body.velocity.y;
+	bullet.body.velocity.x = magnitude * Math.cos(angle) + this.origin.body.velocity.x;
+	bullet.body.velocity.y = magnitude * Math.sin(angle) + this.origin.body.velocity.y;
 	this.groups.bullets.add(bullet);
 };
 
