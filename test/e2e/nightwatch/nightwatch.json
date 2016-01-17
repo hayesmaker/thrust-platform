@@ -14,8 +14,8 @@
     "start_process" : false,
     "server_path" : "",
     "log_path" : "",
-    "host" : "",
-    "port" : "",
+    "host" : "hub.browserstack.com",
+    "port" : "80",
     "cli_args" : {
       "webdriver.chrome.driver" : "",
       "webdriver.ie.driver" : ""
@@ -48,6 +48,27 @@
         "acceptSslCerts": true
       }
     },
+
+    "browserstack": {
+      "launch_url" : "http://hub.browserstack.com",
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.browserstack.com",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.local" : true,
+        "browserstack.user": "hayesmaker",
+        "browserstack.key": "mGXYzlhd8dZGAIvdzusW",
+        "browserstack.debug": true
+      }
+    },
+
 
     "integration": {
       "access_key" : "${SAUCE_ACCESS_KEY}",

@@ -24,7 +24,8 @@
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting to launch nightwatch end to end tests' && cd test/e2e/nightwatch && nightwatch --env integration",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html",
-    "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish"
+    "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
+    "e2e": "echo 'Attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch  -c nightwatch.json -e browserstack && cd ../../.."
   },
   "dependencies": {
     "body-parser": "~1.12.0",

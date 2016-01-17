@@ -10,9 +10,11 @@ Inspired by BBC Micro and Commodore 64 game "Thrust" by Jeremy Smith.
 https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ### Features
+- `Browserstack` http://www.browserstack.com - Have been kind enough to support this open source project. https://www.browserstack.com/
+- `Nightwatch` Really simple Selenium based End to end tests http://nightwatchjs.org/
+- `Phase-2-e` Plugin for Nightwatch to support end to end testing canvas based HTML5 https://www.npmjs.com/package/phase-2-e
 - `Phaser` Opensource HTML5 game framework for Canvas & WebGL http://phaser.io/
-- `Nightwatch & Phase-2-e` End To End Testing https://www.npmjs.com/package/phase-2-e
-- `Mocha` Unit Testing https://mochajs.org/ with `sinon`, `chai` and `sinon-chai`
+- `Mocha` Unit Testing https://mochajs.org/ with `sinon`, `chai` and `sinon-chai` bdd style unit testing
 - `Yuidocs` Source code documentation
 - `Node` Backend: Node, Express, Jade
 - `Mobile Friendly` Touch control interface for touch enabled displays
