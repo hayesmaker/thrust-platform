@@ -69,7 +69,7 @@
         "os_version": "Yosemite",
         "resolution": "1024x768",
         "browserstack.user": "${BROWSERSTACK_USER}",
-        "browserstack.key": "${BROWSERSTACK_KEY}"
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}"
       }
     },
 
