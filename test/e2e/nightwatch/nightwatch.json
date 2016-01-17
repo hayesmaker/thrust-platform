@@ -63,8 +63,8 @@
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.local" : true,
-        "browserstack.user": "hayesmaker",
-        "browserstack.key": "mGXYzlhd8dZGAIvdzusW",
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.debug": true
       }
     },
