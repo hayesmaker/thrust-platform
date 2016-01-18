@@ -16,5 +16,5 @@ before_script:
   - curl https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip > BrowserStackLocal-linux.zip
   - unzip -o BrowserStackLocal-linux.zip
   - chmod 755 BrowserStackLocal
-  - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
+  - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
   - sleep 10
