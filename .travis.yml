@@ -17,4 +17,5 @@ before_script:
   - unzip -o BrowserStackLocal-linux.zip
   - chmod 755 BrowserStackLocal
   - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
-  - sleep 10
+  - sleep 4
+  - npm start
