@@ -5,8 +5,9 @@ notifications:
   email:
   - andygoestohollywood@gmail.com
 env:
+- TEST_SUITE=units
+- TEST_SUITE=e2e
   global:
-  - NODE_ENV=TRAVIS
   - PORT=4000
   - BS_AUTOMATE_PROJECT="$TRAVIS_REPO_SLUG"
   - BS_AUTOMATE_BUILD="Travis build No. $TRAVIS_BUILD_NUMBER for $TRAVIS_REPO_SLUG"

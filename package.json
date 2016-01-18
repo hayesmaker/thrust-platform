@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "pretest": "npm config set travis_build && echo 'Starting tests: NODE_ENV=${NODE_ENV}' && npm run jshint",
-    "test": "npm run mocha && npm run travis",
+    "test": "npm run test:$TEST_SUITE",
+    "test:units": "npm run mocha",
+    "test:e2e": "npm run travis",
     "start": "pm2 start ./bin/www",
     "deploy": "npm run heroku",
     "postinstall": "npm run build",

@@ -8,7 +8,7 @@ Game engine for creating thrust-a-likes...  Physics blasters which require brain
 
 http://thrust-engine.herokuapp.com/
 
-Inspired by BBC Micro and Commodore 64 game "Thrust" by Jeremy Smith.  
+Inspired and heavily copied from BBC Micro and Commodore 64 game "Thrust" by Jeremy Smith.  
 https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ### Features
@@ -36,4 +36,3 @@ https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ## Tests
 - `npm test`
-
