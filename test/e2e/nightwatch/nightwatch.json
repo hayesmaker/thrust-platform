@@ -70,7 +70,7 @@
         "resolution": "1024x768",
         "browserstack.local": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
-        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}"
       }
     },
 
