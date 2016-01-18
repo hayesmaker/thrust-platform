@@ -1,7 +1,7 @@
 # thrust-engine
-![Build Status](https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master)
-![Testing](https://img.shields.io/badge/e2e-phase--2--e-green.svg)
+[![Build Status](https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master)]
 (https://travis-ci.org/hayesmaker/thrust-engine)
+![Phase-2-e](https://img.shields.io/badge/e2e-phase--2--e-green.svg)
 
 Game engine for creating thrust-a-likes...  Physics blasters which require brains.
 
