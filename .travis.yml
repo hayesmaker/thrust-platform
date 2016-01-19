@@ -5,8 +5,6 @@ notifications:
   email:
   - andygoestohollywood@gmail.com
 env:
-  - TEST_SUITE=units
-  - TEST_SUITE=e2e
   global:
   - PORT=4000
   - BS_AUTOMATE_PROJECT="$TRAVIS_REPO_SLUG"
