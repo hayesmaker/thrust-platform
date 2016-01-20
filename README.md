@@ -32,7 +32,7 @@ https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ## Run
 - `npm start`
-- http://localhost:3099/
+- Load the launcher: http://localhost:4000
 
 ## Tests
 - `npm test`

@@ -33,7 +33,8 @@
     "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
     "e2e:setup": "echo 'Starting Browserstack Local' && ./bin/BrowserStackLocal ${BROWSERSTACK_ACCESS_KEY}",
     "e2e:local": "echo 'Attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e browserstack && cd ../../..",
-    "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../.."
+    "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../..",
+    "changelog": "github_changelog_generator"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
