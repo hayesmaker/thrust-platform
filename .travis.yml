@@ -20,8 +20,6 @@ before_script:
 - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
 - sleep 4
 - npm start
-after_success:
-- npm version patch
 deploy:
   provider: heroku
   api_key:
