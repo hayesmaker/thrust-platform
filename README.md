@@ -36,3 +36,6 @@ https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ## Tests
 - `npm test`
+
+## Changelog
+- See [CHANGELOG](CHANGELOG.md)

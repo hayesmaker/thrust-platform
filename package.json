@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "deploy": "npm version patch",
+    "deploy:skipTests": "npm run heroku",
     "preversion": "npm run test:units",
     "version": "git add -A",
     "postversion": "git push && git push --tags",
@@ -14,7 +15,6 @@
     "test:units": "npm run mocha",
     "test:e2e": "npm run e2e:travis",
     "start": "pm2 start ./bin/www",
-    "deploy:skipTests": "npm run heroku",
     "postinstall": "npm run build",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
