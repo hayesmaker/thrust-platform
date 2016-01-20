@@ -19,3 +19,6 @@ before_script:
   - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
   - sleep 4
   - npm start
+deploy:
+  - npm version patch
+  - npm run deploy
