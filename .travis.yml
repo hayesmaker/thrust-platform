@@ -1,7 +1,6 @@
 language: node_js
 node_js:
 - '0.12'
-- '4.2.2'
 notifications:
   email:
   - andygoestohollywood@gmail.com
@@ -13,13 +12,17 @@ env:
   - secure: DxGESrn37c6lqbtOqa5AQ92urpRENubC5OXGScpSQuNysEbfMMd2SQYP69iM33bl368K12MaGNCuCDFbRer2n1fheNdon9TmkDSM/L5HQ4yqyx85wikKYlgXxgRT9sItJxlYHZ/SCyh8/aIGmmiAQCy+0c1o+WBbmSIFd9E9A2ifmXKlLJpe1XQzttc7K5uNj9p+INMWKbFIXCu93YrEO3rntHGqiT8OrVSYZinM0uvIqTMlYD5J81OK4oECy8H3CGG1efEldQLGEb6yKD2RuN3wJqHehTK2kRxEnUqZHP5+eJ44KzJGeAmyo+ZXVrLnthJ4EhKWPIfLHwxHZP5kTGqPXU9tOlcUOv5IfSpMH/s1dD4DVXqP5U3u8Jd04XYhWhY5dmb70GEhkWdNG7T/ZCfnXaRotIOmGxy8JLiJqsqnULSE9EcQ8MaZzYPAxgRnGv26Vj0tFn1K1kQCuBvXcwxN+rzkrPqBJJjqtmMHPQksIrT+oQoiCd2bytnvEv9EIdPk/SFqNwpDonlZy5eRphgZGUnhrQ25NU5fzyKtKkU77gcefL3cj8yuP3G5S4ctBiKb3Gbrf3Fv8BAj/T1tHaPyL3aHcWDpxrOMqNeZ0k4F6NeHuL8sq4A01nPx3DBksfBJcmidj5I09eaeaI/Jn3zza/OgFWBVvJ6BBvGZeDM=
   - secure: Bn1kG90abIbMULFcTtPGpjyzRSJ45FoBbmbLVbkjEqwXx+6Gu43Q0qUr1+xLUAbcjBbOs9eCFq9LzBOaLiRrwl49n393JZPeL82zq3Ywtx0uOGowj4pj0uNOHpBOBp155Wst9jq8wJwWjKI64i9xrewHJ0xYCvybERWnae7bErrEdg9k/eH62LrkuwtjZwO3X/uOyPzqYtGjHOCnv0g/JvjdVmgUiIyzYf0VGBVqy5IMHLquzqCnFwxqWj4x65MFUMZ9QpqAx5HmSB65IVLYBPJynVCcwL9tMeH6eG3bp1pGThFfecY9Z90s4mD3uvZO3KxOnj9JDT0buQhjUwyZQfQBIBRRaW1It55vEfdPwQnQImLbYProfZ5QW5kG78cFiQa14m8bVfKeoU1ufCD8HTsNzzOtktG91IVbskkmKfj/AHRwGrMSCSmuVZ+XCLeoxGkFXHfNN/RCOlNwHUDplGotCn+MNdb+nb/KcjVYfwwd6MrIicYXPIqn4SRi+nzeFREDjcutI95YsTvqpeOUMNmceo92MhOapzGUQp7Mh0UuRjDipmXJBeKzgeCN/0Krbbe8RFNYXbEoZAgzfHJ0PhWaEe/8GGvIWWrd391vM44Apw9gwt1d/Fet/ZtzHO5X+ejRdPHvlmZ7W8KQzl05eKVJNnolbMQHMK5CvlBNqqQ=
 before_script:
-  - echo 'Starting Browserstack Local'
-  - curl https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip > BrowserStackLocal-linux.zip
-  - unzip -o BrowserStackLocal-linux.zip
-  - chmod 755 BrowserStackLocal
-  - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
-  - sleep 4
-  - npm start
+- echo 'Starting Browserstack Local'
+- curl https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
+  > BrowserStackLocal-linux.zip
+- unzip -o BrowserStackLocal-linux.zip
+- chmod 755 BrowserStackLocal
+- ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
+- sleep 4
+- npm start
+after_success:
+- npm version patch
 deploy:
-  - npm version patch
-  - npm run deploy
+  provider: heroku
+  api_key:
+    secure: pZzuEwMmx/gPQkEcMM3whOvwaMMXfajI/kJLAKqmgDIi8mvls40syZpnc1n8rEM6MtnEep2o/DDtQyLgMAvoaJZiWJWeMpniYj3qbqTOPt7rN82qaqy6lb1X59Z7xfUkunHnqfHz4SolON/K8Su6EtGxDAdwlZHLWkSgVebhkAGVqF2IaSjFAixYlwmC3oAxhDIJpDu8M+WusTH+zzl4748MgeqQY55rYQj/zP49KXw1G2T8/Tk1+I/S/MvahHrukhsghCcUJGKMCgxaxUVHBpcpAqGazkFPuq1B+JVu4Qv4nMp7uTLnQiZgTi5qjOX2vh5iq/3ZW68+abwppApgITZ+G/0eBYTQHdGxRNKtF6yXJy9gTc25XTASo56aBtuXyu52ItiuVbdEwkDMnMIgQULp9kP1T/TKMJ1PsbhhbANc/Z4m0o7y1G5uU/T6K5MPScJe7X35kihH25SQ35nrFwBzVeJNxFo20ZceGcEfnewq9sVAfRqQhOm22wRtywI0SjPVYULqRt5RXOV+kF/Iri/mijPGE5dFFZSeqVg8g8D3fNOL5GDZmf/P9GsHsEty7We8R1COcRhZjoiVCvniScUIVXecXBg0P02u9/GBzzuJosjECfec+J5ONuAj4TJdNe6Vz8CIzwt0DoJh5ZQifm9GqL4jcs4Pw+xbiq/W1Zc=
