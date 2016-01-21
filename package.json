@@ -5,7 +5,7 @@
   "version": "0.1.4",
   "private": true,
   "scripts": {
-    "deploy": "npm version patch && npm build",
+    "deploy": "npm version patch && npm run build",
     "deploy:skipTests": "npm run heroku",
     "preversion": "npm run test:units",
     "version": "git add -A",
