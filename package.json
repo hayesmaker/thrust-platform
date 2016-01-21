@@ -2,7 +2,7 @@
   "name": "thrust-engine",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "deploy": "npm version patch && npm build",
