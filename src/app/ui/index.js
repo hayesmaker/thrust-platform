@@ -2,6 +2,7 @@ module.exports = {
 
   init: function() {
     this.group = game.make.group();
+    this.interstitial.init(this.group);
   },
 
   missionSwipe: require('./mission-swipe'),
@@ -10,6 +11,8 @@ module.exports = {
 
   fuel: require('./fuel'),
 
-  lives: require('./lives')
+  lives: require('./lives'),
+
+  interstitial: require('./interstitial')
 
 };

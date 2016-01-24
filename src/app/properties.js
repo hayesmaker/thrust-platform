@@ -21,7 +21,7 @@ module.exports = {
   width: 700,
   height: 500,
   gamePlay: {
-    skipIntro: true,
+    skipIntro: false,
     freeOrbLocking: false,
     autoOrbLocking: true,
     tractorBeamLength: 80,
@@ -50,7 +50,7 @@ module.exports = {
             rotation: 30
           }
         ],
-        enemyFireRate: 1000
+        enemyFireRate: 500
       },
       {
         mapImgUrl: 'assets/levels/level-2.png',

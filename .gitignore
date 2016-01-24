@@ -1,3 +1,5 @@
+./BrowserStackLocal
+./BrowserStackLocal-linux.zip
 .idea/
 bower_components/
 node_modules/

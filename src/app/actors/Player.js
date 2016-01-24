@@ -130,7 +130,7 @@ p.setTractorBeam = function (tractorBeam) {
 p.init = function () {
   this.alive = false;
   this.turret = this.createTurret();
-  this.explodeEmitter = game.add.emitter(this.x, this.y, 100);
+  this.explodeEmitter = game.add.emitter(this.x, this.y, 10);
   this.explodeEmitter.particleClass = ShipParticle;
   this.explodeEmitter.makeParticles();
   this.explodeEmitter.gravity = 200;
@@ -144,13 +144,10 @@ p.init = function () {
 };
 
 /**
+ * Reset player physics & position with a warp effect
  *
+ * @method reset
  */
-/*
-p.stop = function() {
-  this.body.removeFromWorld();
-};
-*/
 p.reset = function() {
   this.setStartPosition();
   this.respawn();
@@ -159,7 +156,7 @@ p.reset = function() {
 /**
  * @method start
  */
-p.start = function () {
+p.start = function (completeCallback, context) {
   console.log('Player :: start');
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
@@ -168,9 +165,21 @@ p.start = function () {
   this.body.setCollisionGroup(this.collisions.players);
   this.body.motionState = 2;
   this.body.mass = 1;
-  this.respawn();
+  this.respawn(completeCallback, context);
+};
 
-  console.log('Player. dimensions: sprite, body :: ', this.width, this.height);
+/**
+ * @method stop
+ */
+p.stop = function() {
+  this.body.setZeroVelocity();
+  this.body.setZeroDamping();
+  this.body.setZeroForce();
+  this.body.setZeroRotation();
+  this.body.motionState = 2;
+  //this.body.velocity = 0;
+  //this.body.angularVelocity = 0;
+  //this.body.angle = 0;
 };
 
 /**
@@ -179,8 +188,9 @@ p.start = function () {
 p.spawn = function() {
   this.inGameArea = true;
   this.body.motionState = 1;
-  this.alpha = 1;
+  this.alpha = 0;
   this.alive = true;
+  TweenMax.to(this, 0.4, {alpha: 1, ease: Quad.easeOut} );
 };
 
 /**
@@ -188,33 +198,38 @@ p.spawn = function() {
  * Either at mission start, or after a death.
  *
  * @method respawn
+ * @param completeCallback
+ * @param thisArg
  * @param removeShip {Boolean}
  */
-p.respawn = function(removeShip) {
+p.respawn = function(completeCallback, thisArg, removeShip) {
   var self = this;
   console.warn('player :: respawn :: this.initialPos', this.initialPos);
   this.body.reset(this.initialPos.x, this.initialPos.y);
   this.body.motionState = 2;
-  this.alpha = 0;
   this.body.angle = 0;
+  this.alpha = 0;
   if (removeShip === true) {
     this.lives--;
   }
   ui.lives.update(this.lives, true);
   ui.fuel.update(this.fuel, true);
   this.tractorBeam.orb.respawn();
-  particles.startSwirl(this.body.x, this.body.y);
+  particles.playerTeleport(this.body.x, this.body.y);
   setTimeout(function() {
+    if (completeCallback) {
+      completeCallback.call(thisArg);
+    }
     self.spawn();
   }, 2500);
 };
 
-/**
+/**§
  * Player Update Loop
  * Called from Play.State
  *
  *
- * @method update
+ * @method update§
  */
 p.update = function () {
   if (this.alive && this.body) {
@@ -244,7 +259,7 @@ p.createTurret = function () {
  * @param buttonAPressed
  */
 p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
-  if (!this.alive) {
+  if (!this.alive || !this.inGameArea) {
     return;
   }
   this.checkRotate(stick, cursors);
@@ -274,7 +289,9 @@ p.checkRotate = function(stick, cursors) {
 p.checkThrust = function(buttonAPressed, cursors) {
   if (cursors.up.isDown || buttonAPressed) {
     if (this.fuel >= 0) {
-      this.thrustStart();
+      if (this.fuel % 5 === 0) {
+        this.thrustStart();
+      }
       this.body.thrust(400);
       this.fuel--;
     }
@@ -349,18 +366,23 @@ p.rotate = function (val) {
 p.explosion = function () {
   this.explodeEmitter.x = this.position.x;
   this.explodeEmitter.y = this.position.y;
-  this.explodeEmitter.start(true, 2000, null, 1);
+  this.explodeEmitter.start(true, 500, null, 1);
   this.cutEngine();
   this.tractorBeam.breakLink();
 };
 
+/**
+ * @method thrustStart
+ */
 p.thrustStart = function() {
   if (!this.thrustEmitter.on) {
-    console.warn('smoke on');
     this.thrustEmitter.start(false, 200, 1, 1, 1);
   }
 };
 
+/**
+ * @method exhaustUpdate
+ */
 p.exhaustUpdate = function() {
   /*
    x = cx + r * cos(a)
@@ -383,6 +405,9 @@ p.exhaustUpdate = function() {
   //this.thrustEmitter.particleAnchor, this.thrustEmitter.pivot
 };
 
+/**
+ * @method cutEngine
+ */
 p.cutEngine = function() {
   this.exhaustUpdate();
   this.thrustEmitter.on = false;
@@ -400,7 +425,7 @@ p.death = function () {
   var self = this;
   this.alive = false;
   setTimeout(function() {
-    self.checkRespawn(true);
+    self.checkRespawn(null, null, true);
   }, 5000);
 };
 

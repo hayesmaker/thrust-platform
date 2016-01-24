@@ -17,23 +17,13 @@ var lockingDuration = properties.gamePlay.lockingDuration;
  */
 function TractorBeam(orb, player) {
   this.orb = orb;
-
   this.player = player;
-
-  console.log('this.player', this.player);
-
   this.isLocked = false;
-
   this.isLocking = false;
-
   this.hasGrabbed = false;
-
   this.length = properties.gamePlay.tractorBeamLength;
-
   this.variance = properties.gamePlay.tractorBeamVariation;
-
   this.constraint = null;
-
   this.init();
 }
 
@@ -59,7 +49,6 @@ p.init = function () {
 p.checkDistance = function(player, isXDown) {
   if (!this.hasGrabbed) {
     if (isXDown || properties.gamePlay.autoOrbLocking) {
-      //console.log('TractorBeam checkDistance :: this.player', player);
       player.checkOrbDistance();
     }
   } else {
@@ -119,11 +108,11 @@ p.grab = function (player) {
   var diffY = player.position.y - this.orb.sprite.position.y;
   this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX, diffY], maxForce);
   this.orb.move();
-  this.orb.setPlayer(this.player);
+  //this.orb.setPlayer(this.player);
 };
 
 /**
- *
+ * @method breakLink
  */
 p.breakLink = function () {
   this.unlock();

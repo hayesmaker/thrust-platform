@@ -139,21 +139,31 @@ module.exports = {
   },
 
   /**
-   * Start gameplay
    * * initialise mission start swipe
    *
    * @method missionStart
    */
   missionStart: function () {
-    this.inPlay = true;
+    //this.inPlay = true;
+    this.player.start(this.playerWarpComplete, this);
+    //this.initEnemies();
+  },
 
-    this.player.start();
+  /**
+   * Activate player control
+   * Activate enemyies
+   *
+   * @method playerWarpComplete
+   */
+  playerWarpComplete: function() {
+    this.inPlay = true;
+    this.initControls();
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
-    this.initControls();
-    this.initEnemies();
   },
+
+
 
   /**
    * Return early if not in play
@@ -197,10 +207,25 @@ module.exports = {
     if (this.player.alive) {
       if (this.player.y < 200 && this.player.inGameArea) {
         console.log('checkPlayerLocation :: isUnder ', this.player.y);
+        this.inPlay = false;
         this.player.inGameArea = false;
-        this.nextLevel();
+        this.player.stop();
+        this.orb.stop();
+
+        particles.playerTeleport(this.player.x, this.player.y);
+
+
+        //particles.playerTeleport;
+        //particles.orbTeleport;
       }
     }
+  },
+
+  levelInterstitialStart: function() {
+
+
+
+
   },
 
   /**
@@ -274,6 +299,7 @@ module.exports = {
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.terrain, this.collisions.bullets, this.collisions.orb]);
     particles.create();
+    this.initEnemies();
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
