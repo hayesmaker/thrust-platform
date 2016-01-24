@@ -12,6 +12,20 @@ module.exports = {
     this.text2.anchor.setTo(0.5);
   },
 
+  levelComplete: function() {
+    this.group.visible = true;
+    this.text0.text = "Level Complete";
+    this.text1.text = "Prepare for Next Level";
+    this.text2.text = "Get Ready";
+  },
+
+  clear: function() {
+    this.group.visible = false;
+    this.text0.text = "";
+    this.text1.text = "";
+    this.text2.text = "";
+  }
+
 
 
 

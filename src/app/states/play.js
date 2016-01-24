@@ -125,6 +125,7 @@ module.exports = {
    * @method nextLevel
    */
   nextLevel: function () {
+    ui.interstitial.clear();
     this.limpetGuns = [];
     this.groups.enemies.removeAll(true);
     levelManager.nextLevel();
@@ -211,21 +212,32 @@ module.exports = {
         this.player.inGameArea = false;
         this.player.stop();
         this.orb.stop();
-
-        particles.playerTeleport(this.player.x, this.player.y);
-
-
+        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.removePlayers, this));
+        if (this.tractorBeam.hasGrabbed) {
+          particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
+        }
         //particles.playerTeleport;
         //particles.orbTeleport;
       }
     }
   },
 
+  /**
+   * @method removePlayers
+   */
+  removePlayers: function() {
+    this.player.tweenOutAndRemove(this.tractorBeam.hasGrabbed);
+    game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
+  },
+
+  /**
+   * @method levelInterstitialStart
+   */
   levelInterstitialStart: function() {
+    ui.interstitial.levelComplete();
+    game.time.events.add(4000, _.bind(this.nextLevel, this));
 
-
-
-
+    //game.time.events.add(this.nextLevel, 4000);
   },
 
   /**

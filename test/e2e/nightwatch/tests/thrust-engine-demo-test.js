@@ -20,7 +20,6 @@ module.exports = {
    * @param client
    */
   'Phaser Game Boots Test' : function (client) {
-
     var thrustEngine = client.page.thrustEngine();
     thrustEngine.navigate()
       .waitForElementVisible('body', 1000)
@@ -81,8 +80,7 @@ module.exports = {
       .playerRotate(100, 200)
       .pause(500)
       .playerThrust(500, 400)
-      .pause(5000)
-      .assert.playerIsDead()
+      .pause(3000)
       .end();
   }
 };

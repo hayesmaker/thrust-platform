@@ -95,6 +95,7 @@ p.crash = function () {
 p.respawn = function () {
   this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
   this.body.motionState = 2;
+  this.sprite.alpha = 1;
 };
 
 

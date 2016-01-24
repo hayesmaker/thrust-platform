@@ -11,11 +11,13 @@ module.exports = {
   group: null,
   /**
    * @property manager
+   *
    */
   manager: null,
 
   /**
    * @property emitter
+   * @type {Phaser.ParticleStorm.Emitter}
    */
   emitter: null,
 
@@ -112,10 +114,18 @@ module.exports = {
     this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
   },
 
+  /**
+   * @method playerTeleport
+   * @param x
+   * @param y
+   * @param boundCallback {Function}
+   */
   playerTeleport: function(x, y, boundCallback) {
     var circle = this.manager.createCircleZone(25);
     this.emitter.emit('transporter', x, y, {zone: circle, total: 5, repeat: 80, frequency: 1});
-    
+    if (boundCallback) {
+      game.time.events.add(2000, boundCallback);
+    }
   },
 
   orbTeleport: function(x, y) {

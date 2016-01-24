@@ -117,7 +117,6 @@ p.grab = function (player) {
 p.breakLink = function () {
   this.unlock();
   this.lockingRelease();
-  this.player = null;
   game.physics.p2.removeConstraint(this.constraint);
 };
 

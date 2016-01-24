@@ -177,9 +177,19 @@ p.stop = function() {
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
-  //this.body.velocity = 0;
-  //this.body.angularVelocity = 0;
-  //this.body.angle = 0;
+};
+
+/**
+ * Remove ship after warping out
+ *
+ * @method tweenOutAndRemove
+ */
+p.tweenOutAndRemove = function(removeWithOrb) {
+  TweenMax.to(this, 0.4, {alpha: 0, ease: Quad.easeOut} );
+  if (removeWithOrb) {
+    this.tractorBeam.breakLink();
+    TweenMax.to(this.tractorBeam.orb.sprite, 0.4, {alpha: 0, ease: Quad.easeOut});
+  }
 };
 
 /**
@@ -206,6 +216,10 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   var self = this;
   console.warn('player :: respawn :: this.initialPos', this.initialPos);
   this.body.reset(this.initialPos.x, this.initialPos.y);
+  this.body.setZeroVelocity();
+  this.body.setZeroDamping();
+  this.body.setZeroForce();
+  this.body.setZeroRotation();
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
