@@ -187,7 +187,6 @@ p.stop = function() {
 p.tweenOutAndRemove = function(removeWithOrb) {
   TweenMax.to(this, 0.4, {alpha: 0, ease: Quad.easeOut} );
   if (removeWithOrb) {
-    this.tractorBeam.breakLink();
     TweenMax.to(this.tractorBeam.orb.sprite, 0.4, {alpha: 0, ease: Quad.easeOut});
   }
 };

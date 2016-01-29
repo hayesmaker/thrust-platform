@@ -214,6 +214,7 @@ module.exports = {
         this.orb.stop();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.removePlayers, this));
         if (this.tractorBeam.hasGrabbed) {
+          this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
         }
         //particles.playerTeleport;
@@ -226,7 +227,7 @@ module.exports = {
    * @method removePlayers
    */
   removePlayers: function() {
-    this.player.tweenOutAndRemove(this.tractorBeam.hasGrabbed);
+    this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
 
