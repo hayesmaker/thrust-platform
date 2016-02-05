@@ -70,7 +70,8 @@
         "resolution": "1024x768",
         "browserstack.local": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
-        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}"
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
+        "browserstack.debug": true
       }
     },
 
@@ -92,14 +93,9 @@
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.debug": true
       }
-    },
-
-
-    "integration": {
-      "access_key" : "${SAUCE_ACCESS_KEY}",
-      "username" : "${SAUCE_USERNAME}",
-      "selenium_port"  : 80,
-      "selenium_host"  : "ondemand.saucelabs.com"
     }
+
+
+
   }
 }

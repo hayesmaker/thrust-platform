@@ -45,7 +45,7 @@ module.exports = {
    *
    * @method nextLevel
    * @property nextLevel
-   * @returns {{}}
+   * @return {Number}
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {

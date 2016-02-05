@@ -23,6 +23,7 @@ describe("Phaser play state tests", function() {
       sinon.stub(play, 'createUi');
       sinon.stub(play, 'createGroupLayering');
       sinon.stub(play, 'startLevelIntro');
+      sinon.stub(play, 'missionStart');
     });
 
     afterEach(function() {
@@ -32,6 +33,7 @@ describe("Phaser play state tests", function() {
       play.createUi.restore();
       play.createGroupLayering.restore();
       play.startLevelIntro.restore();
+      play.missionStart.restore();
     });
 
     it('should set current level', function() {
@@ -59,7 +61,8 @@ describe("Phaser play state tests", function() {
       expect(play.createGroupLayering).to.have.been.calledOnce;
     });
 
-    it('should start the level intro', function() {
+    it('if not in dev mode should start the level intro', function() {
+      //properties.dev.skipIntro
       play.create();
       expect(play.startLevelIntro).to.have.been.calledOnce;
     });

@@ -1,4 +1,4 @@
-var properties = require('../properties');
+var properties = require('../properties-mock');
 
 module.exports = {
   levels: properties.levels,

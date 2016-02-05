@@ -49,12 +49,6 @@ describe("Phaser load state tests", function() {
     });
 
     it('player ship image should be loaded', function() {
-      /*
-       mapImgUrl: 'assets/levels/level_6_x2.png',
-       mapImgKey: 'mapImage',
-       mapDataUrl: 'assets/levels/level_6.json',
-       mapDataKey: 'mapPhysics',
-       */
       state.preload();
       expect(game.load.image).to.have.been.calledWith('player', 'assets/actors/player.png');
     });
@@ -73,6 +67,17 @@ describe("Phaser load state tests", function() {
       state.preload();
       expect(game.load.physics).to.have.been.calledWith('mapPhysics-map', 'assets/levels/level_6.json');
     });
+
+    it('fuel cell image should be loaded', function() {
+      state.preload();
+      expect(game.load.image).to.have.been.calledWith('fuelImage', 'assets/actors/fuel.png');
+    });
+
+    it('fuel physics data should be loaded', function() {
+      state.preload();
+      expect(game.load.physics).to.have.been.calledWith('fuelPhysics', 'assets/actors/fuel.json');
+    });
+
   });
 
   describe('state.create', function() {

@@ -9,19 +9,24 @@
  */
 module.exports = {
   debugPhysics: false,
-  debugPositions: false,
+  debugPositions: true,
   collideWorldBounds: true,
   enableJoypad: false,
   fatalCollisions: true,
-  scale: {
-    mode: Phaser.ScaleManager.NO_SCALE
-  },
   stats: false,
   drawBackground: true,
   width: 700,
   height: 500,
+  scale: {
+    web: Phaser.ScaleManager.NO_SCALE,
+    device: Phaser.ScaleManager.SHOW_ALL
+  },
+  dev: {
+    mode: false,
+    skipIntro: true,
+    skipSplashScreen: false
+  },
   gamePlay: {
-    skipIntro: false,
     freeOrbLocking: false,
     autoOrbLocking: true,
     tractorBeamLength: 80,
@@ -31,9 +36,14 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 1,
+    startLevel: 5,
     data: [
       {
+        missionSwipe: {
+          title: 'Mission 1',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level-1.png',
         mapImgKey: 'level-1',
         mapDataUrl: 'assets/levels/level-1.json',
@@ -50,9 +60,20 @@ module.exports = {
             rotation: 30
           }
         ],
+        fuels: [
+          {
+            x: 550,
+            y: 1055
+          }
+        ],
         enemyFireRate: 500
       },
       {
+        missionSwipe: {
+          title: 'Mission 2',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level-2.png',
         mapImgKey: 'level-2',
         mapDataUrl: 'assets/levels/level-2.json',
@@ -74,9 +95,20 @@ module.exports = {
             rotation: 207
           }
         ],
+        fuels: [
+          {
+            x: 820,
+            y: 1625
+          }
+        ],
         enemyFireRate: 1000
       },
       {
+        missionSwipe: {
+          title: 'Mission 3',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level-3.png',
         mapImgKey: 'level-3',
         mapDataUrl: 'assets/levels/level-3.json',
@@ -88,7 +120,7 @@ module.exports = {
         orbPosition: {x: 730, y: 1620},
         enemies: [
           {
-            x: 675,
+            x: 700,
             y: 1295,
             rotation: 152
           },
@@ -98,9 +130,40 @@ module.exports = {
             rotation: 207
           }
         ],
+        fuels: [
+          {
+            x: 912,
+            y: 827
+          },
+          {
+            x: 1370,
+            y: 1523
+          },
+          {
+            x: 1440,
+            y: 1523
+          },
+          {
+            x: 1510,
+            y: 1523
+          },
+          {
+            x: 1080,
+            y: 1860
+          },
+          {
+            x: 745,
+            y: 2050
+          }
+        ],
         enemyFireRate: 1000
       },
       {
+        missionSwipe: {
+          title: 'Mission 4',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level-4.png',
         mapImgKey: 'level-4',
         mapDataUrl: 'assets/levels/level-4.json',
@@ -122,9 +185,20 @@ module.exports = {
             rotation: 207
           }
         ],
+        fuels: [
+          {
+            x: 1170,
+            y: 1311
+          }
+        ],
         enemyFireRate: 1000
       },
       {
+        missionSwipe: {
+          title: 'Mission 5',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level-5.png',
         mapImgKey: 'level-5',
         mapDataUrl: 'assets/levels/level-5.json',
@@ -146,9 +220,53 @@ module.exports = {
             rotation: 207
           }
         ],
+        fuels: [
+          {
+            x: 1150,
+            y: 802
+          },
+          {
+            x: 1102,
+            y: 1135
+          },
+          {
+            x: 1174,
+            y: 1135
+          },
+          {
+            x: 1223,
+            y: 1522
+          },
+          {
+            x: 970,
+            y: 1860
+          },
+          {
+            x: 1050,
+            y: 2000
+          },
+          {
+            x: 1200,
+            y: 2005
+          },
+          {
+            x: 1200,
+            y: 2005
+          },
+          {
+            x: 1200,
+            y: 2005
+          }
+        ],
         enemyFireRate: 1000
       },
+
       {
+        missionSwipe: {
+          title: 'Mission 6',
+          desc: 'Recover the orb',
+          color: "rgba(255, 0, 0, 0.7)"
+        },
         mapImgUrl: 'assets/levels/level_6_x2.png',
         mapImgKey: 'thrustmapImage',
         mapDataUrl: 'assets/levels/level_6.json',

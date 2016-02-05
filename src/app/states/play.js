@@ -1,10 +1,11 @@
 'use strict';
 
-var properties = require('../properties');//stubbed
+var properties = require('../properties');
 var Collisions = require('../environment/Collisions');
 var Groups = require('../environment/Groups');
 var ui = require('../ui/index');
 var Player = require('../actors/Player');
+var Fuel = require('../actors/Fuel');
 var LimpetGun = require('../actors/LimpetGun');
 var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
@@ -12,7 +13,7 @@ var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');
 var particles = require('../environment/particles');
-var levelManager = require('../data/level-manager');//stubbed
+var levelManager = require('../data/level-manager');
 
 /**
  * The play state
@@ -38,10 +39,11 @@ module.exports = {
    */
   groups: null,
   /**
-   * @player
+   * @property player
    */
   player: null,
   orb: null,
+  fuels: [],
   tractorBeam: null,
   background: null,
   limpetGuns: [],
@@ -50,6 +52,8 @@ module.exports = {
   isXDown: false,
   inPlay: false,
   emitter: null,
+  crossHair: null,
+  crossHairSpeed: 15,
 
   /**
    * Setup the game
@@ -62,18 +66,18 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    if (!properties.gamePlay.skipIntro) {
+    if (!properties.dev.skipIntro) {
       this.startLevelIntro();
-    } else {
+    } else if (!properties.dev.mode) {
       this.missionStart();
+    } else {
+      this.initialiseDevMode();
     }
 
     /*
-     var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
-     yKey.onUp.add(function() {
-     particles.startSwirl();
-     }, this);
-     */
+       var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+       yKey.onUp.add(function() {}, this);
+    */
   },
 
   /**
@@ -89,6 +93,11 @@ module.exports = {
     this.actorsUpdate();
     this.uiUpdate();
     this.checkGameCondition();
+
+    if (this.isDevMode) {
+      this.devModeUpdate();
+    }
+
     if (game.stats) {
       game.stats.end();
     }
@@ -102,7 +111,11 @@ module.exports = {
   render: function () {
     if (properties.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
-      game.debug.spriteCoords(this.player, 32, 450);
+      if (this.isDevMode) {
+        game.debugspriteCoords(this.crossHair, 32, 450);
+      } else {
+        game.debug.spriteCoords(this.player, 32, 450);
+      }
     }
   },
 
@@ -164,6 +177,51 @@ module.exports = {
     });
   },
 
+  /**
+   * @method devModeUpdate
+   */
+  devModeUpdate: function() {
+    var slow = function(thisArg) {
+      thisArg.crossHairSpeed = 5;
+    };
+    var fast = function(thisArg) {
+      thisArg.crossHairSpeed = 15;
+    };
+    var point = new Phaser.Point();
+    this.checkUp(slow, fast, point);
+    this.checkDown(slow, fast, point);
+    this.checkLeft(slow, fast, point);
+    this.checkRight(slow, fast, point);
+    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease:Power0.easeNone});
+  },
+
+  checkUp: function(slow, fast, point) {
+    if (this.cursors.up.isDown) {
+      this.cursors.up.shiftKey? slow(this) : fast(this);
+      point.y = this.crossHair.y - this.crossHairSpeed;
+    }
+  },
+
+  checkDown: function(slow, fast, point) {
+    if (this.cursors.down.isDown) {
+      this.cursors.down.shiftKey? slow(this) : fast(this);
+      point.x = this.crossHair.x + this.crossHairSpeed;
+    }
+  },
+
+  checkRight: function(slow, fast, point) {
+    if (this.cursors.right.isDown) {
+      this.cursors.right.shiftKey? slow(this) : fast(this);
+      point.x = this.crossHair.x + this.crossHairSpeed;
+    }
+  },
+
+  checkLeft: function(slow, fast, point) {
+    if (this.cursors.left.isDown) {
+      this.cursors.right.shiftKey? slow(this) : fast(this);
+      point.x = this.crossHair.x - this.crossHairSpeed;
+    }
+  },
 
 
   /**
@@ -307,6 +365,7 @@ module.exports = {
     this.tractorBeam = new TractorBeam(this.orb, this.player);
     this.player.setTractorBeam(this.tractorBeam);
     _.each(this.level.enemies, this.createLimpet, this);
+    _.each(this.level.fuels, this.createFuel, this);
     this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
@@ -350,6 +409,17 @@ module.exports = {
   },
 
   /**
+   * Create a fuel collectible
+   *
+   * @method createFuel
+   * @param data
+   */
+  createFuel: function(data) {
+    var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
+    this.fuels.push(fuel);
+  },
+
+  /**
    * Singal handler for when a limpet gun is destroyed, we can update score
    *
    * @method limpetDestroyed
@@ -373,8 +443,24 @@ module.exports = {
     _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
+    _.each(this.fuels, function(fuel) {
+      this.groups.fuels.add(fuel);
+    }, this);
     this.groups.swapTerrain();
     game.world.add(ui.group);
+  },
+
+  initialiseDevMode: function() {
+    this.isDevMode = true;
+    this.cursors = game.controls.cursors;
+    this.crossHair = new Phaser.Sprite(game, game.width/2, game.height/2, 'crossHair');
+
+    //game.controls.shiftPress.onDown.add(this.player.fire, this.player);
+
+    this.crossHair.anchor.setTo(0.5);
+    game.world.add(this.crossHair);
+    game.camera.follow(this.crossHair);
+
   },
 
   /**

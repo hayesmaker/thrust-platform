@@ -19,6 +19,16 @@ module.exports = {
   /**
    * Preload all in game assets
    *
+   * it('fuel cell image should be loaded', function() {
+      state.preload();
+      expect(game.load.image).to.have.been.calledWith('fuelImage', 'assets/actors/fuel.png');
+    });
+
+   it('fuel physics data should be loaded', function() {
+      state.preload();
+      expect(game.load.physics).to.have.been.calledWith('fuelPhysics', 'assets/actors/fuel.json');
+    });
+   *
    * @method preload
    */
   preload: function () {
@@ -34,10 +44,15 @@ module.exports = {
     if (properties.drawBackground) {
       game.load.image('stars', 'assets/images/starfield.png');
     }
+    if (properties.dev.mode) {
+      game.load.image('crossHair', 'assets/images/cross-hair.png');
+    }
     game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
+    game.load.image('fuelImage', 'assets/actors/fuel.png');
+    game.load.physics('fuelPhysics', 'assets/actors/fuel.json');
   },
 
   /**
@@ -79,7 +94,7 @@ module.exports = {
    *
    * @method isLevelData
    * @param cacheKey
-   * @returns {boolean|*|Object|any}
+   * @return {boolean|*|Object|any}
    */
   isLevelData: function (cacheKey) {
     return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
@@ -91,7 +106,7 @@ module.exports = {
    *
    * @method getLevelByCacheKey
    * @param cacheKey
-   * @returns {*}
+   * @return {*}
    * @todo test this
    */
   getLevelByCacheKey: function (cacheKey) {

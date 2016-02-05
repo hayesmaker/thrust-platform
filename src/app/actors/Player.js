@@ -20,18 +20,6 @@ var levelManager = require('../data/level-manager');
  */
 function Player(collisions, groups) {
   /**
-   * @property inGameArea
-   * @type {boolean}
-   */
-  this.inGameArea = false;
-  /**
-   * Dispatched when player has lost all lives
-   *
-   * @property livesLost
-   * @type {Phaser.Signal}
-   */
-  this.livesLost = new Phaser.Signal();
-  /**
    * The collisions container
    *
    * @property collisions
@@ -48,6 +36,18 @@ function Player(collisions, groups) {
   this.groups = groups;
 
   /**
+   * @property inGameArea
+   * @type {boolean}
+   */
+  this.inGameArea = false;
+  /**
+   * Dispatched when player has lost all lives
+   *
+   * @property livesLost
+   * @type {Phaser.Signal}
+   */
+  this.livesLost = new Phaser.Signal();
+  /**
    * A beam actor used by player to colect the orb
    *
    * @property tractorBeam
@@ -59,13 +59,13 @@ function Player(collisions, groups) {
    * @property explodeEmitter
    * @type {Phaser.Emitter}
    */
-  this.explodeEmitter;
+  this.explodeEmitter = null;
 
   /**
    * @property thrustEmitter
    * @type {Phaser.Emitter}
    */
-  this.thrustEmitter;
+  this.thrustEmitter = null;
 
   /**
    * @property fuel
@@ -91,7 +91,7 @@ function Player(collisions, groups) {
    */
   this.initialPos = new Phaser.Point();
 
-  this.setStartPosition();
+  this.setStartPosition(game.width / 2 + levelManager.currentLevel.startPosition.x, game.height / 2 + levelManager.currentLevel.startPosition.y);
 
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'player');
 
@@ -104,16 +104,19 @@ function Player(collisions, groups) {
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
   constructor: Player
 });
+module.exports = Player;
 
 /**
+ * Sets the actor's initial position as a cached value
+ *
  * @method setStartPosition
  */
-p.setStartPosition = function() {
-  this.initialPos.x = game.width / 2 + levelManager.currentLevel.startPosition.x;
-  this.initialPos.y = game.height / 2 + levelManager.currentLevel.startPosition.y;
+p.setStartPosition = function(x, y) {
+  this.initialPos.setTo(x, y);
 };
 
 /**
+ * Cache the TractorBeam actor as a property of this Player for easier access
  *
  * @method setTractorBeam
  * @param tractorBeam
@@ -140,7 +143,6 @@ p.init = function () {
   this.thrustEmitter.minRotation = 0;
   this.thrustEmitter.maxRotation = 0;
   this.thrustEmitter.makeParticles();
-
 };
 
 /**
@@ -228,13 +230,12 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   ui.lives.update(this.lives, true);
   ui.fuel.update(this.fuel, true);
   this.tractorBeam.orb.respawn();
-  particles.playerTeleport(this.body.x, this.body.y);
-  setTimeout(function() {
+  particles.playerTeleport(this.body.x, this.body.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
     }
     self.spawn();
-  }, 2500);
+  });
 };
 
 /**§
@@ -253,7 +254,7 @@ p.update = function () {
 
 /**
  * @method createTurret
- * @returns {Turret|exports|module.exports}
+ * @return {Turret|exports|module.exports}
  */
 p.createTurret = function () {
   var bulletBitmap = game.make.bitmapData(5, 5);
@@ -286,9 +287,9 @@ p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
  */
 p.checkRotate = function(stick, cursors) {
   if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors.left.isDown) {
-    this.rotate(-100);
+    this.rotate(-90);
   } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors.right.isDown) {
-    this.rotate(100);
+    this.rotate(90);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();
   }
@@ -394,28 +395,19 @@ p.thrustStart = function() {
 };
 
 /**
+ * Maths
+ * ```
+ * x = cx + r * cos(a)
+ * y = cy + r * sin(a)
+ * ```
  * @method exhaustUpdate
  */
 p.exhaustUpdate = function() {
-  /*
-   x = cx + r * cos(a)
-   y = cy + r * sin(a)
-   */
-
   var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
   var r = (this.width / 2) - speed / 60;
   var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
   this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
   this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
-
-
-  //this.thrustEmitter.angle = this.rotation - Math.PI;
-  //this.thrustEmitter.pivot.x = 0.5;
-  //this.thrustEmitter.pivot.y = 0.5;
-  //this.thrustEmitter.particleAnchor.x = 0;
-  //this.thrustEmitter.particleAnchor.y = 0;
-  //this.thrustEmitter.rotation = this.body.rotation + Math.PI;
-  //this.thrustEmitter.particleAnchor, this.thrustEmitter.pivot
 };
 
 /**
@@ -446,14 +438,11 @@ p.death = function () {
  * @method dispatch game over if player lives are lost
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
-p.checkRespawn = function(removeShip) {
+p.checkRespawn = function(callback, context, removeShip) {
   if (this.lives === 0) {
     alert('game over! refresh');
     this.livesLost.dispatch(this.score);
   } else {
-    this.respawn(removeShip);
+    this.respawn(callback, context, removeShip);
   }
 };
-
-
-module.exports = Player;

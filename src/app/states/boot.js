@@ -45,7 +45,7 @@ module.exports = {
     features.init();
     levelManager.init();
     particles.init();
-    game.scale.scaleMode = features.isTouchScreen ? Phaser.ScaleManager.EXACT_FIT : properties.scale.mode;
+    game.scale.scaleMode = features.isTouchScreen ? properties.scale.device : properties.scale.web;
     game.time.advancedTiming = true;
     if (properties.stats) {
       game.stats = new StatsModule();
@@ -55,13 +55,19 @@ module.exports = {
     console.warn("TouchScreenDetected:", features.isTouchScreen);
     console.warn("ScaleMode:", game.scale.scaleMode);
     game.controls = userControl;
-    var spr = game.add.sprite(0,0, 'title');
-    spr.inputEnabled = true;
-    spr.useHandCursor = true;
-    spr.events.onInputDown.add(this.startLoad, this);
+
     game.e2e = {};
-    game.e2e.boot = this;
-    game.controls.spacePress.onDown.add(this.startLoad, this);
+
+    if (properties.dev.skipSplashScreen) {
+      this.startLoad();
+    } else {
+      var spr = game.add.sprite(0,0, 'title');
+      spr.inputEnabled = true;
+      spr.useHandCursor = true;
+      spr.events.onInputDown.add(this.startLoad, this);
+      game.e2e.boot = this;
+      game.controls.spacePress.onDown.add(this.startLoad, this);
+    }
   },
 
   /**

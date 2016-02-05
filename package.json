@@ -26,7 +26,7 @@
     "uglify": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine.js -o public/javascripts/browserify/thrust-engine.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
     "build:app": "npm run browserify:app",
     "build:quick": "npm run browserify:app",
-    "build:test": "npm run browserify:app && npm run browserify:test && npm test",
+    "build:test": "npm run browserify:app && npm run browserify:test && npm run test:units",
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting Local Nightwatch test sweep' && cd test/e2e/nightwatch && nightwatch && cd ../../..",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html",

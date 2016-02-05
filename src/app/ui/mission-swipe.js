@@ -1,8 +1,13 @@
 'use strict';
 
+var levelManager = require('../data/level-manager');
+
 /**
- * @module mission-swipe
+ * The swipe mission title info on level start
+ *
+ * @class mission-swipe
  * @type {{}}
+ * @static
  */
 module.exports = {
 
@@ -39,26 +44,21 @@ module.exports = {
     var style;
     this.fullW = fullWidth;
     this.fullH = fullHeight;
-
     this.group = group;
-
+    var level = levelManager.currentLevel;
     var bmd = game.make.bitmapData(1, 1);
-    bmd.rect(0,0,1,1, "rgba(255, 0, 0, 0.7)");
+    bmd.rect(0,0,1,1, level.missionSwipe.color);
     this.swipe = game.add.sprite(x, y, bmd);
     this.swipe.anchor.setTo(0);
     this.swipe.width = 5;
     this.swipe.height = 5;
-
     this.group.add(this.swipe);
     this.group.fixedToCamera = true;
-
     style = { font: "24px thrust_regular", fill: "#ffffff", align: "left" };
-    this.title = game.add.text(x + 5, y + 5, "Mission 1", style, this.group);
+    this.title = game.add.text(x + 5, y + 5, level.missionSwipe.title, style, this.group);
     style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
-    this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, "Recover the orb", style, this.group);
-
+    this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, level.missionSwipe.desc, style, this.group);
     this.hideSwipe();
-
     this.tl = new TimelineLite({delay: 1, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
     this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.swipe, 0.2, {height: this.fullH, ease: Quad.easeOut} ));

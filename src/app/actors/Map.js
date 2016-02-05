@@ -79,7 +79,7 @@ p.reset = function() {
 
 /**
  * @method levelCacheKey
- * @returns {String}
+ * @return {String}
  */
 p.levelCacheKey = function() {
   var level = levelManager.currentLevel;

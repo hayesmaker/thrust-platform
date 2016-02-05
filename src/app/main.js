@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var properties = require('./properties');
 
@@ -26,7 +26,7 @@ var init = function() {
 
 /**
  * to ensure fonts are loaded, an invisible element using the font must be placed on the app's page
- * This will work until Google's WebFontLoader is implemented
- * @type {Function}
+ * This will work fine... In the future we could implement Google's WebFontLoader
+ * @method
  */
 window.onload = init;
