@@ -10,18 +10,6 @@
     "reporter" : "list"
   },
 
-  "selenium" : {
-    "start_process" : false,
-    "server_path" : "",
-    "log_path" : "",
-    "host" : "hub.browserstack.com",
-    "port" : "80",
-    "cli_args" : {
-      "webdriver.chrome.driver" : "",
-      "webdriver.ie.driver" : ""
-    }
-  },
-
   "test_settings" : {
     "default" : {
       "launch_url" : "",
@@ -39,15 +27,7 @@
         "handlesAlerts": true,
         "unexpectedAlertBehaviour": "accept"
       }
-    },
-
-    "chrome" : {
-      "desiredCapabilities": {
-        "browserName": "chrome",
-        "javascriptEnabled": true,
-        "acceptSslCerts": true
-      }
-    },
+    }
 
     "travis": {
       "launch_url" : "http://hub.browserstack.com",
@@ -61,9 +41,9 @@
       "desiredCapabilities": {
         "build": "${BS_AUTOMATE_BUILD}",
         "project": "${BS_AUTOMATE_PROJECT}",
-        "browserName": "Safari",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
+        "browserName": "Safari",
         "browser_version": "8.0",
         "os": "OS X",
         "os_version": "Yosemite",
@@ -90,7 +70,7 @@
         "acceptSslCerts": true,
         "browserstack.local" : true,
         "browserstack.user": "${BROWSERSTACK_USER}",
-        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
         "browserstack.debug": true
       }
     }
