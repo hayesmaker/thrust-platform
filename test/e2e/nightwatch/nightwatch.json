@@ -11,6 +11,7 @@
   },
 
   "test_settings" : {
+
     "default" : {
       "launch_url" : "",
       "selenium_port"  : 4444,
@@ -27,7 +28,7 @@
         "handlesAlerts": true,
         "unexpectedAlertBehaviour": "accept"
       }
-    }
+    },
 
     "travis": {
       "launch_url" : "http://hub.browserstack.com",
@@ -74,8 +75,6 @@
         "browserstack.debug": true
       }
     }
-
-
 
   }
 }
