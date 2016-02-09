@@ -2,7 +2,6 @@
 
 var properties = require('../properties');
 var features = require('../utils/features');
-var StatsModule = require('../utils/StatsModule');
 var UserControl = require('../environment/UserControl');
 var levelManager = require('../data/level-manager');
 var particles = require('../environment/particles');
@@ -34,7 +33,7 @@ module.exports = {
    * * Features
    * * Level Manager
    * * Scaling
-   * * Stats and phaser timing mode
+   * * phaser timing mode
    * * User control
    * * Display title splash screen
    * * Initialise title screen events
@@ -47,9 +46,6 @@ module.exports = {
     particles.init();
     game.scale.scaleMode = features.isTouchScreen ? properties.scale.device : properties.scale.web;
     game.time.advancedTiming = true;
-    if (properties.stats) {
-      game.stats = new StatsModule();
-    }
     userControl = new UserControl(features.isTouchScreen || properties.enableJoypad);
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
     console.warn("TouchScreenDetected:", features.isTouchScreen);

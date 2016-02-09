@@ -21,12 +21,43 @@ module.exports = {
    */
   emitter: null,
 
+  noRefuel: true,
+
   /**
    * @method init
    */
   init: function() {
     this.manager = game.plugins.add(Phaser.ParticleStorm);
   },
+
+  /*
+   function create() {
+
+     manager = this.game.plugins.add(Phaser.ParticleStorm);
+
+     var data = {
+       lifespan: 4000,
+       image: '4x4',
+       vy: { min: 1, max: 2 },
+       alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
+     };
+
+     manager.addData('basic', data);
+
+     emitter = manager.createEmitter();
+
+     //  Create three Gravity Wells on the Emitter.
+     var well1 = emitter.createGravityWell(200, 100, 1);
+     var well2 = emitter.createGravityWell(300, 300, 1);
+     var well2 = emitter.createGravityWell(600, 400, 1);
+
+     circle = manager.createCircleZone(32);
+     emitter.addToWorld();
+     emitter.emit('basic', 0, 0, { zone: circle, total: 10, repeat: -1, frequency: 20 });
+     game.add.image(432, 487, 'logo');
+
+   }
+   */
 
   /**
    * creates the magic smoke particle emitter
@@ -63,7 +94,6 @@ module.exports = {
     transporterParticle.ctx.beginPath();
     transporterParticle.ctx.fillRect(0,0,2,2);
     transporterParticle.ctx.closePath();
-    //transporterParticle.ctx.fill();
 
     var transporterOrbParticle = game.make.bitmapData(2, 2);
     transporterOrbParticle.ctx.fillStyle = '#0000ff';
@@ -73,33 +103,45 @@ module.exports = {
 
     game.cache.addBitmapData('transportParticle', transporterParticle);
     game.cache.addBitmapData('transportOrbParticle', transporterOrbParticle);
-    //game.add.sprite(x, y, game.cache.getBitmapData(key));
-    /*
-     var data = {
-     image: '4x4'
-     };
 
-     manager.addData('basic', data);
-
-     //  Creates a Circle zone with a radius of 150px
-
-
-     emitter = manager.createEmitter();
-
-     emitter.addToWorld();
-
-     emitter.emit('basic', 400, 260, { zone: circle, total: 4, repeat: -1, frequency: 20 });
-
-     game.add.image(432, 487, 'logo');
-     */
-
+    var fuelEmitterData = {
+      lifespan: 3000,
+      image: game.cache.getBitmapData('transportParticle'),
+      vy: { min: 1, max: 2 },
+      alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
+    };
 
     this.manager.addData('magicSmokeEmitter', this.magicSmokeEmitter);
     this.manager.addData('magicSmoke', this.magicSmoke);
     this.manager.addData('transporter', {image: game.cache.getBitmapData('transportParticle')});
     this.manager.addData('transporterOrb', {image: game.cache.getBitmapData('transportOrbParticle')});
+    this.manager.addData('fuelEmitter', fuelEmitterData);
     this.emitter = this.manager.createEmitter();
     this.emitter.addToWorld(this.group);
+  },
+
+  /**
+   *
+   * @param start
+   * @param target
+   */
+  startRefuel: function(start, target) {
+    this.noRefuel = false;
+    this.target = target;
+    this.well1 = this.emitter.createGravityWell(target.x, target.y, 1);
+    var circle = this.manager.createCircleZone(32);
+    this.emitter.emit('fuelEmitter', start.x, start.y, { zone: circle, total: 5, repeat: -1, frequency: 10 });
+    this.refuelEmitterEvent = this.emitter.timerEvent;
+  },
+
+  updateFuelTarget: function(target) {
+    this.well1.position.x = target.x;
+    this.well1.position.y = target.y;
+  },
+
+  stopRefuel: function() {
+    this.noRefuel = true;
+    game.time.events.remove(this.refuelEmitterEvent);
   },
 
   /**
@@ -113,6 +155,8 @@ module.exports = {
   startSwirl: function(x, y) {
     this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
   },
+
+
 
   /**
    * @method playerTeleport

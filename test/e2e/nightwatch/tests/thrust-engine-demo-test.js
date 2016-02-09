@@ -50,9 +50,9 @@ module.exports = {
    */
   'E2E Actors are avaialable to test' : function (client) {
     client
-      .waitForActors(5000)
+      .waitForActors(10000)
       .beginDemo()
-      .waitForState('play', 5000)
+      .waitForState('play', 10000)
       .assert.currentState('play')
       .waitForPlayerSpawn(20000)
   },

@@ -14,6 +14,7 @@ var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
+var utils = require('../utils');
 
 /**
  * The play state
@@ -21,26 +22,15 @@ var levelManager = require('../data/level-manager');
  * @module states
  * @namespace states
  * @submodule play
+ * @property play.level
  * @class play
  * @type {Phaser.State}
  * @static
  */
 module.exports = {
-  /**
-   * @property level
-   */
   level: null,
-  /**
-   * @property collisions
-   */
   collisions: null,
-  /**
-   * @property groups
-   */
   groups: null,
-  /**
-   * @property player
-   */
   player: null,
   orb: null,
   fuels: [],
@@ -66,6 +56,14 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
+    this.initPlayState();
+  },
+
+  /**
+   *
+   * @method initPlayState
+   */
+  initPlayState: function() {
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -73,11 +71,6 @@ module.exports = {
     } else {
       this.initialiseDevMode();
     }
-
-    /*
-       var yKey = game.input.keyboard.addKey(Phaser.Keyboard.Y);
-       yKey.onUp.add(function() {}, this);
-    */
   },
 
   /**
@@ -86,9 +79,6 @@ module.exports = {
    * @method update
    */
   update: function () {
-    if (game.stats) {
-      game.stats.begin();
-    }
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
@@ -96,10 +86,6 @@ module.exports = {
 
     if (this.isDevMode) {
       this.devModeUpdate();
-    }
-
-    if (game.stats) {
-      game.stats.end();
     }
   },
 
@@ -234,15 +220,6 @@ module.exports = {
     if (!this.inPlay || !this.cursors) {
       return;
     }
-    /*
-     if (!this.tractorBeam.hasGrabbed) {
-     if (this.isXDown || properties.gamePlay.autoOrbLocking) {
-     this.player.checkOrbDistance();
-     }
-     } else {
-     this.tractorBeam.drawBeam(this.player.position);
-     }
-     */
     this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
     this.tractorBeam.checkDistance(this.player, this.isXDown);
 
@@ -264,8 +241,7 @@ module.exports = {
    */
   checkPlayerLocation: function () {
     if (this.player.alive) {
-      if (this.player.y < 200 && this.player.inGameArea) {
-        console.log('checkPlayerLocation :: isUnder ', this.player.y);
+      if (this.player.y < 100 && this.player.inGameArea) {
         this.inPlay = false;
         this.player.inGameArea = false;
         this.player.stop();
@@ -275,8 +251,6 @@ module.exports = {
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
         }
-        //particles.playerTeleport;
-        //particles.orbTeleport;
       }
     }
   },
@@ -295,8 +269,6 @@ module.exports = {
   levelInterstitialStart: function() {
     ui.interstitial.levelComplete();
     game.time.events.add(4000, _.bind(this.nextLevel, this));
-
-    //game.time.events.add(this.nextLevel, 4000);
   },
 
   /**
@@ -316,12 +288,27 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
+    this.checkForFuelDistance();
     this.groups.enemies.forEach(function (enemy) {
       enemy.update();
     });
     if (this.background && properties.gamePlay.parallax) {
       this.background.update();
     }
+  },
+
+
+  checkForFuelDistance: function() {
+    _.each(this.fuels, function(fuel) {
+      var dist = utils.distAtoB(this.player.position, fuel.position);
+      if (dist < 60) {
+        fuel.tint = 0xff00ff;
+        if (particles.noRefuel) {
+          particles.startRefuel(fuel.position, this.player.position);
+        }
+        particles.updateFuelTarget(this.player.position);
+      }
+    }, this);
   },
 
   /**
@@ -450,17 +437,16 @@ module.exports = {
     game.world.add(ui.group);
   },
 
+  /**
+   * @method initialiseDevMode
+   */
   initialiseDevMode: function() {
     this.isDevMode = true;
     this.cursors = game.controls.cursors;
     this.crossHair = new Phaser.Sprite(game, game.width/2, game.height/2, 'crossHair');
-
-    //game.controls.shiftPress.onDown.add(this.player.fire, this.player);
-
     this.crossHair.anchor.setTo(0.5);
     game.world.add(this.crossHair);
     game.camera.follow(this.crossHair);
-
   },
 
   /**
@@ -481,7 +467,6 @@ module.exports = {
     game.controls.spacePress.onDown.add(this.player.fire, this.player);
     game.controls.xKey.onDown.add(this.xDown, this);
     game.controls.xKey.onUp.add(this.xUp, this);
-
     this.player.init();
   },
 

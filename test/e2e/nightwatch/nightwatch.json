@@ -74,6 +74,52 @@
         "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
         "browserstack.debug": true
       }
+    },
+
+    "browserstack:ipad": {
+      "launch_url" : "http://hub.browserstack.com",
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.browserstack.com",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "reports/screenshots"
+      },
+      "desiredCapabilities": {
+        "device": "iPad Air 2",
+        "os": "ios",
+        "browser": "iPad",
+        "deviceOrientation": "landscape",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.local" : true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
+        "browserstack.debug": true
+      }
+    },
+
+    "browserstack:iPhone6SPlus": {
+      "launch_url" : "http://hub.browserstack.com",
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.browserstack.com",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "reports/screenshots"
+      },
+      "desiredCapabilities": {
+        "device": "iPhone 6S Plus",
+        "os": "ios",
+        "browser": "iPhone",
+        "deviceOrientation": "landscape",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.local" : true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_ACCESS_KEY}",
+        "browserstack.debug": true
+      }
     }
 
   }

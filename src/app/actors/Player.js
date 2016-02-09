@@ -2,7 +2,7 @@
 
 var properties = require('../properties');
 var Turret = require('./Turret');
-var utils = require('../environment/utils');
+var utils = require('../utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
