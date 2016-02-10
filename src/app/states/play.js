@@ -300,14 +300,7 @@ module.exports = {
 
   checkForFuelDistance: function() {
     _.each(this.fuels, function(fuel) {
-      var dist = utils.distAtoB(this.player.position, fuel.position);
-      if (dist < 60) {
-        fuel.tint = 0xff00ff;
-        if (particles.noRefuel) {
-          particles.startRefuel(fuel.position, this.player.position);
-        }
-        particles.updateFuelTarget(this.player.position);
-      }
+      fuel.update();
     }, this);
   },
 
@@ -345,6 +338,7 @@ module.exports = {
     if (properties.drawBackground) {
       this.background = new Background();
     }
+    particles.create();
     this.player = new Player(this.collisions, this.groups);
     this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
@@ -357,7 +351,6 @@ module.exports = {
     game.camera.follow(this.player);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.terrain, this.collisions.bullets, this.collisions.orb]);
-    particles.create();
     this.initEnemies();
     game.e2e.player = this.player;
     game.e2e.map = this.map;
@@ -403,6 +396,7 @@ module.exports = {
    */
   createFuel: function(data) {
     var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
+    fuel.player = this.player;
     this.fuels.push(fuel);
   },
 
@@ -539,36 +533,5 @@ module.exports = {
     if (!properties.gamePlay.autoOrbLocking) {
       this.tractorBeam.lockingRelease();
     }
-  },
-
-  /**
-   * Sets actors to their mission start positions
-   * If state restart becomes unusable, resetActors must be used & improved
-   *
-   * @deprecated
-   * @method resetActors
-   */
-  resetActors: function () {
-    this.player.reset();
-    this.enemiesReset();
-    this.map.reset();
-  },
-
-  /**
-   * Enemies reset method.. replaced by using state restart
-   * between levels.
-   * If state restart becomes unusable, resetActors must be used & improved
-   *
-   * @deprecated
-   * @method enemiesReset
-   *
-   */
-  enemiesReset: function () {
-    this.groups.enemies.removeAll(true);
-    this.limpetGuns = [];
-    _.each(this.level.enemies, this.createLimpet, this);
-    _.each(this.limpetGuns, function (limpet) {
-      this.groups.enemies.add(limpet);
-    }, this);
   }
 };

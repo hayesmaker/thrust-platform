@@ -104,44 +104,13 @@ module.exports = {
     game.cache.addBitmapData('transportParticle', transporterParticle);
     game.cache.addBitmapData('transportOrbParticle', transporterOrbParticle);
 
-    var fuelEmitterData = {
-      lifespan: 3000,
-      image: game.cache.getBitmapData('transportParticle'),
-      vy: { min: 1, max: 2 },
-      alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
-    };
-
     this.manager.addData('magicSmokeEmitter', this.magicSmokeEmitter);
     this.manager.addData('magicSmoke', this.magicSmoke);
     this.manager.addData('transporter', {image: game.cache.getBitmapData('transportParticle')});
     this.manager.addData('transporterOrb', {image: game.cache.getBitmapData('transportOrbParticle')});
-    this.manager.addData('fuelEmitter', fuelEmitterData);
+
     this.emitter = this.manager.createEmitter();
     this.emitter.addToWorld(this.group);
-  },
-
-  /**
-   *
-   * @param start
-   * @param target
-   */
-  startRefuel: function(start, target) {
-    this.noRefuel = false;
-    this.target = target;
-    this.well1 = this.emitter.createGravityWell(target.x, target.y, 1);
-    var circle = this.manager.createCircleZone(32);
-    this.emitter.emit('fuelEmitter', start.x, start.y, { zone: circle, total: 5, repeat: -1, frequency: 10 });
-    this.refuelEmitterEvent = this.emitter.timerEvent;
-  },
-
-  updateFuelTarget: function(target) {
-    this.well1.position.x = target.x;
-    this.well1.position.y = target.y;
-  },
-
-  stopRefuel: function() {
-    this.noRefuel = true;
-    game.time.events.remove(this.refuelEmitterEvent);
   },
 
   /**

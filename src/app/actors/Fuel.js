@@ -1,8 +1,9 @@
 var PhysicsActor = require('./PhysicsActor');
+var ParticleSystem = require('./ParticleSystem');
+var utils = require('../utils');
 
 /**
- * p2 Physics Enabled Phaser.Sprite
- * - Tailored to use the thrust-engine collisions / groups systems.
+ * Fuel Sprite - PhysicsActor enabled fuel cell sprite
  *
  * @class Fuel
  * @param {Collisions} collisions - Our collisions container of collisionGroups.
@@ -23,9 +24,44 @@ var p = Fuel.prototype = Object.create(PhysicsActor.prototype, {
 module.exports = Fuel;
 
 /**
+ * @property player
+ * @type {Player}
+ */
+p.player = null;
+
+/**
+ * @property particles
+ * @type {null}
+ */
+p.particles = null;
+
+/**
  * @method init
  */
 p.init = function() {
   console.log('Fuel :: init ::', this);
+  this.createParticles();
+};
 
+p.update = function() {
+  this.checkPlayerVicinity();
+};
+
+p.createParticles = function() {
+  this.particles = new ParticleSystem();
+  this.particles.init(this.position);
+};
+
+p.checkPlayerVicinity = function() {
+  var dist = utils.distAtoB(this.player.position, this.position);
+  if (dist < 80) {
+    if (!this.particles.isEmitting) {
+      this.particles.start(this.position, this.player.position);
+    }
+    this.particles.update();
+  } else {
+    if (this.particles.isEmitting) {
+      this.particles.stop();
+    }
+  }
 };
