@@ -13,13 +13,6 @@ p.isEmitting = false;
 
 p.init = function(source) {
   this.manager = particles.manager;
-  var fuelEmitterData = {
-    lifespan: 1750,
-    image: game.cache.getBitmapData('transportParticle'),
-    vy: { min: 1, max: 2 },
-    alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
-  };
-  this.manager.addData('fuelEmitter', fuelEmitterData);
   this.emitter = this.manager.createEmitter();
   this.well = this.emitter.createGravityWell(source.x, source.y, 1);
   this.circle = this.manager.createCircleZone(20);

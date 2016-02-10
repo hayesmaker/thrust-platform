@@ -30,35 +30,6 @@ module.exports = {
     this.manager = game.plugins.add(Phaser.ParticleStorm);
   },
 
-  /*
-   function create() {
-
-     manager = this.game.plugins.add(Phaser.ParticleStorm);
-
-     var data = {
-       lifespan: 4000,
-       image: '4x4',
-       vy: { min: 1, max: 2 },
-       alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
-     };
-
-     manager.addData('basic', data);
-
-     emitter = manager.createEmitter();
-
-     //  Create three Gravity Wells on the Emitter.
-     var well1 = emitter.createGravityWell(200, 100, 1);
-     var well2 = emitter.createGravityWell(300, 300, 1);
-     var well2 = emitter.createGravityWell(600, 400, 1);
-
-     circle = manager.createCircleZone(32);
-     emitter.addToWorld();
-     emitter.emit('basic', 0, 0, { zone: circle, total: 10, repeat: -1, frequency: 20 });
-     game.add.image(432, 487, 'logo');
-
-   }
-   */
-
   /**
    * creates the magic smoke particle emitter
    * and adds to the game world.
@@ -68,25 +39,12 @@ module.exports = {
   create: function() {
     this.group = game.add.group();
     this.group.fixedToCamera = false;
-    this.magicSmokeEmitter = {
-      _image: 'smoke_r',
-      visible: false,
-      lifespan: 2500,
-      emit: {
-        name: 'magicSmoke',
-        value: 2,
-        control: [ { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 0 } ]
-      }
-    };
-    this.magicSmoke = {
-      image: 'smoke_r',
-      lifespan: 3000,
-      rotation: { value: -90.0, delta: 4 },
-      vy: -2,
-      facingAcceleration: { initial: 0.1, value: 0, delta: 0 },
-      scaleX: { value: 1.5, control: [ { x: 0, y: 0 }, { x: 0.5, y: 1 }, { x: 1, y: 0 } ] },
-      scaleY: { value: 1.5, control: [ { x: 0, y: 0 }, { x: 0.5, y: 1 }, { x: 1, y: 0 } ] },
-      alpha: 0.5
+
+    var fuelEmitterData = {
+      lifespan: 1750,
+      image: game.cache.getBitmapData('transportParticle'),
+      vy: { min: 1, max: 2 },
+      alpha: { initial: 0, value: 1, control: [ { x: 0, y: 1 }, { x: 1, y: 0 } ] }
     };
 
     var transporterParticle = game.make.bitmapData(2, 2);
@@ -104,28 +62,13 @@ module.exports = {
     game.cache.addBitmapData('transportParticle', transporterParticle);
     game.cache.addBitmapData('transportOrbParticle', transporterOrbParticle);
 
-    this.manager.addData('magicSmokeEmitter', this.magicSmokeEmitter);
-    this.manager.addData('magicSmoke', this.magicSmoke);
+    this.manager.addData('fuelEmitter', fuelEmitterData);
     this.manager.addData('transporter', {image: game.cache.getBitmapData('transportParticle')});
     this.manager.addData('transporterOrb', {image: game.cache.getBitmapData('transportOrbParticle')});
 
     this.emitter = this.manager.createEmitter();
     this.emitter.addToWorld(this.group);
   },
-
-  /**
-   * Starts a magic smoke particle swirl animation
-   * at the specified xy coords.
-   *
-   * @method startSwirl
-   * @param x
-   * @param y
-   */
-  startSwirl: function(x, y) {
-    this.emitter.emit('magicSmokeEmitter', x - 100, y + 100);
-  },
-
-
 
   /**
    * @method playerTeleport
