@@ -14,7 +14,6 @@ var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
-var utils = require('../utils');
 
 /**
  * The play state
