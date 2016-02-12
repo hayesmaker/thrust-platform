@@ -36,7 +36,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 5,
+    startLevel: 1,
     data: [
       {
         missionSwipe: {
