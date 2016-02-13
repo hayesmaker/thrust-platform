@@ -3,9 +3,9 @@ var FuelParticlesSystem = require('./FuelParticlesSystem');
 var utils = require('../utils');
 
 /**
- * Fuel Sprite - PhysicsActor enabled fuel cell sprite
+ * PowerStation Sprite - PhysicsActor enabled power station sprite
  *
- * @class Fuel
+ * @class PowerStation
  * @param {Collisions} collisions - Our collisions container of collisionGroups.
  * @param {Groups} groups - Our groups container.
  * @param {String} imageCacheKey - Sprite image key.
@@ -14,20 +14,14 @@ var utils = require('../utils');
  * @extends {Phaser.Sprite}
  * @constructor
  */
-function Fuel (collisions, groups, imageCacheKey, x, y) {
+function PowerStation (collisions, groups, imageCacheKey, x, y) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
 }
 
-var p = Fuel.prototype = Object.create(PhysicsActor.prototype, {
-  constructor: Fuel
+var p = PowerStation.prototype = Object.create(PhysicsActor.prototype, {
+  constructor: PowerStation
 });
-module.exports = Fuel;
-
-/**
- * @property player
- * @type {Player}
- */
-p.player = null;
+module.exports = PowerStation;
 
 /**
  * @property particles
@@ -44,24 +38,10 @@ p.init = function() {
 };
 
 p.update = function() {
-  this.checkPlayerVicinity();
+  //this.checkPlayerVicinity();
 };
 
 p.createParticles = function() {
-  this.particles = new FuelParticlesSystem();
-  this.particles.init(this.position);
-};
-
-p.checkPlayerVicinity = function() {
-  var dist = utils.distAtoB(this.player.position, this.position);
-  if (dist < 80) {
-    if (!this.particles.isEmitting) {
-      this.particles.start(this.position, this.player.position);
-    }
-    this.particles.update();
-  } else {
-    if (this.particles.isEmitting) {
-      this.particles.stop();
-    }
-  }
+  //this.particles = new FuelParticlesSystem();
+  //this.particles.init(this.position);
 };

@@ -55,14 +55,14 @@ p.init = function() {
 
 /**
  *
- *
  * @method initPhysics
+ * @param physicsDataKey {String} eg 'playerPhysics'
+ * @param physicsDataObjKey {String} eg 'player'
  */
 p.initPhysics = function(physicsDataKey, physicsDataObjKey) {
   console.log('Actor :: initPhysics');
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
-  //this.body.loadPolygon('playerPhysics', 'player');
   this.body.loadPolygon(physicsDataKey, physicsDataObjKey);
   this.body.motionState = 2;
   this.body.mass = 1;

@@ -22,9 +22,9 @@ module.exports = {
     device: Phaser.ScaleManager.SHOW_ALL
   },
   dev: {
-    mode: false,
+    mode: true,
     skipIntro: true,
-    skipSplashScreen: false
+    skipSplashScreen: true
   },
   gamePlay: {
     freeOrbLocking: false,
@@ -66,7 +66,11 @@ module.exports = {
             y: 1055
           }
         ],
-        enemyFireRate: 500
+        enemyFireRate: 500,
+        powerStation: {
+          x: 1100,
+          y: 1040
+        }
       },
       {
         missionSwipe: {
