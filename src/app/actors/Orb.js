@@ -10,11 +10,11 @@ var properties = require('../properties');
 function Orb(x, y, collisions) {
   this.collisions = collisions;
   this.player = null;
-  var bmd = game.make.bitmapData(22, 22);
+  var bmd = game.make.bitmapData(30, 30);
   bmd.ctx.strokeStyle = '#999999';
   bmd.ctx.lineWidth = 2;
   bmd.ctx.beginPath();
-  bmd.ctx.arc(11, 11, 10, 0, Math.PI * 2, true);
+  bmd.ctx.arc(15, 15, 13, 0, Math.PI * 2, true);
   bmd.ctx.closePath();
   bmd.ctx.stroke();
   this.sprite = game.make.sprite(x, y, bmd);
@@ -34,9 +34,9 @@ var p = Orb.prototype;
  * @method init
  */
 p.init = function () {
-  game.physics.p2.enable(this.sprite, properties.debugPhysics);
+  game.physics.p2.enable(this.sprite, false);
   this.body = this.sprite.body;
-  this.body.setCircle(10, 0, 0);
+  this.body.setCircle(13, 0, 0);
   this.body.motionState = 2;
   this.body.setCollisionGroup(this.collisions.orb);
   this.body.collideWorldBounds = properties.collideWorldBounds;

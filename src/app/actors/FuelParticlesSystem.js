@@ -24,7 +24,7 @@ p.init = function(source) {
 };
 
 /**
- *
+ * @method start
  * @param origin
  * @param target
  */
@@ -34,12 +34,18 @@ p.start = function(origin, target) {
   this.refuelEmitterEvent = this.emitter.timerEvent;
 };
 
+/**
+ * @method update
+ */
 p.update = function() {
   ParticleSystem.prototype.update.call(this);
   this.well.position.x = this.target.x;
   this.well.position.y = this.target.y;
 };
 
+/**
+ * @method stop
+ */
 p.stop = function() {
   ParticleSystem.prototype.stop.call(this);
   game.time.events.remove(this.refuelEmitterEvent);

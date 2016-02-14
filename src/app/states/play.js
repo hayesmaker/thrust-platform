@@ -15,6 +15,7 @@ var _ = require('lodash');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
 var PowerStation = require('../actors/PowerStation');
+var PhysicsActor = require('../actors/PhysicsActor');
 
 /**
  * The play state
@@ -297,7 +298,9 @@ module.exports = {
     }
   },
 
-
+  /**
+   * @method checkForFuelDistance
+   */
   checkForFuelDistance: function() {
     _.each(this.fuels, function(fuel) {
       fuel.update();
@@ -348,6 +351,7 @@ module.exports = {
     _.each(this.level.enemies, this.createLimpet, this);
     _.each(this.level.fuels, this.createFuel, this);
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
+    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
     this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
@@ -429,6 +433,7 @@ module.exports = {
       this.groups.fuels.add(fuel);
     }, this);
     this.groups.actors.add(this.powerStation);
+    this.groups.actors.add(this.orbHolder);
     this.groups.swapTerrain();
     game.world.add(ui.group);
   },

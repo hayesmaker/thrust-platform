@@ -5,17 +5,17 @@
         {
             "density": 2, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },
-            "shape": [   8, 16  ,  0, 37  ,  0, 0  ,  8, 0  ]
+            "shape": [   14, 20  ,  0, 58  ,  0, 0  ,  13, 0  ]
         } ,
         {
             "density": 2, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },
-            "shape": [   70, 0  ,  70, 37  ,  62, 17  ,  62, 1  ]
+            "shape": [   110, 0  ,  110, 58  ,  96, 21  ,  97, 0  ]
         } ,
         {
             "density": 2, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },
-            "shape": [   8, 16  ,  26, 0  ,  44, 0  ,  62, 17  ,  70, 37  ,  0, 37  ]
+            "shape": [   0, 58  ,  14, 20  ,  33, 4  ,  67, 0  ,  84, 8  ,  96, 21  ,  110, 58  ]
         }
     ]
 }

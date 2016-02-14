@@ -8,7 +8,7 @@
  * @type {Object}
  */
 module.exports = {
-  debugPhysics: false,
+  debugPhysics: true,
   debugPositions: true,
   collideWorldBounds: true,
   enableJoypad: false,
@@ -49,10 +49,23 @@ module.exports = {
         mapDataUrl: 'assets/levels/level-1.json',
         mapDataKey: 'moo',
         mapScale: 2,
-        world: {width: 1536, height: 1250},
-        mapPosition: {x: 0, y: 140},
-        startPosition: {x: 250, y: 650},
-        orbPosition: {x: 950, y: 1100},
+        world: {
+          width: 1536,
+          height: 1250
+        },
+        mapPosition: {
+          x: 0,
+          y: 140
+        },
+        startPosition: {
+          x: 250,
+          y: 650
+        },
+        orbPosition: {x: 915, y: 1100},
+        orbHolder: {
+          x: 915,
+          y: 1130
+        },
         enemies: [
           {
             x: 705,
