@@ -1,4 +1,15 @@
 Copyright (c) 2015, Hayesmaker Media Ltd
+
+### Assets and Level Data 
+- this includes everything inside [public/assets](public/assets) folder and [properties.js](src/app/properties.js)
+```
+Creative Commons Licence
+You may use the level data and assets, but not for commericial use.  
+And any modifications must include an attributation to Hayesmaker Media Ltd.
+```
+[Creative Commons Licence](http://creativecommons.org/licenses/by-nc-nd/3.0/)
+
+###Engine Source Code
 ```
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
