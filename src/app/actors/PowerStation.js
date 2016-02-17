@@ -1,6 +1,4 @@
 var PhysicsActor = require('./PhysicsActor');
-var FuelParticlesSystem = require('./FuelParticlesSystem');
-var utils = require('../utils');
 
 /**
  * PowerStation Sprite - PhysicsActor enabled power station sprite

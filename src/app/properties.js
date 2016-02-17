@@ -32,7 +32,7 @@ module.exports = {
     autoOrbLocking: true,
     tractorBeamLength: 80,
     tractorBeamVariation: 10,
-    lockingDuration: 900, 
+    lockingDuration: 900,
     parallax: true
   },
   mapSuffix: '-map',
