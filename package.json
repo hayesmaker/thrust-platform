@@ -34,7 +34,7 @@
     "e2e:setup": "echo 'Starting Browserstack Local' && ./bin/BrowserStackLocal ${BROWSERSTACK_ACCESS_KEY}",
     "e2e:local": "echo 'Attempting Local Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -e browserstack && cd ../../..",
     "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../..",
-    "e2e": "npm run nightwatch",
+    "e2e": "echo 'Ensure selenium server is running' && npm run nightwatch",
     "changelog": "github_changelog_generator"
   },
   "dependencies": {
