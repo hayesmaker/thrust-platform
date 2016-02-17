@@ -1,5 +1,7 @@
 /**
- * Defines build settings for the thrust-engine
+ * > Defines some build settings and the level data
+ * required for a game of Thrust.
+ * > add levels by increasing the levels Array with more level objects
  *
  * @namespace thrust-engine
  * @module properties
@@ -8,8 +10,8 @@
  * @type {Object}
  */
 module.exports = {
-  debugPhysics: true,
-  debugPositions: true,
+  debugPhysics: false,
+  debugPositions: false,
   collideWorldBounds: true,
   enableJoypad: false,
   fatalCollisions: true,
@@ -23,8 +25,8 @@ module.exports = {
   },
   dev: {
     mode: false,
-    skipIntro: false,
-    skipSplashScreen: false
+    skipIntro: true,
+    skipSplashScreen: true
   },
   gamePlay: {
     freeOrbLocking: false,
@@ -44,45 +46,53 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(255, 0, 0, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-1.png',
-        mapImgKey: 'level-1',
-        mapDataUrl: 'assets/levels/level-1.json',
-        mapDataKey: 'moo',
+        mapImgUrl: 'assets/levels/thrust-level2.png',
+        mapImgKey: 'level2map',
+        mapDataUrl: 'assets/levels/thrust-level2.json',
+        mapDataKey: 'thrustmap',
         mapScale: 2,
         world: {
-          width: 1536,
-          height: 1250
+          width: 1856,
+          height: 2000
         },
         mapPosition: {
           x: 0,
-          y: 140
+          y: 660
         },
         startPosition: {
           x: 250,
-          y: 650
+          y: 300
         },
-        orbPosition: {x: 915, y: 1100},
+        orbPosition: {
+          x: 930,
+          y: 1895
+        },
         orbHolder: {
-          x: 915,
-          y: 1130
+          x: 930,
+          y: 1930
         },
         enemies: [
           {
-            x: 705,
-            y: 1110,
-            rotation: 30
+            x: 880,
+            y: 1620,
+            rotation: 150
+          },
+          {
+            x: 1455,
+            y: 1550,
+            rotation: 210
           }
         ],
         fuels: [
           {
-            x: 550,
-            y: 1055
+            x: 1178,
+            y: 1930
           }
         ],
         enemyFireRate: 500,
         powerStation: {
-          x: 1100,
-          y: 1040
+          x: 660,
+          y: 875
         }
       }
     ]
