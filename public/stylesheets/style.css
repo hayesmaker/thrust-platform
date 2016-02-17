@@ -50,3 +50,15 @@ ul {
   list-style-type: square;
   line-height: 150%;
 }
+
+div.lists {
+  width: 50%;
+  display: inline-block;
+}
+
+div.screenshot {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  border: 1px solid darkgray;
+}
