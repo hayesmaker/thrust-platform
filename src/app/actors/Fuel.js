@@ -1,5 +1,5 @@
 var PhysicsActor = require('./PhysicsActor');
-var ParticleSystem = require('./ParticleSystem');
+var FuelParticlesSystem = require('./FuelParticlesSystem');
 var utils = require('../utils');
 
 /**
@@ -48,7 +48,7 @@ p.update = function() {
 };
 
 p.createParticles = function() {
-  this.particles = new ParticleSystem();
+  this.particles = new FuelParticlesSystem();
   this.particles.init(this.position);
 };
 

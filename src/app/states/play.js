@@ -14,6 +14,8 @@ var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
+var PowerStation = require('../actors/PowerStation');
+var PhysicsActor = require('../actors/PhysicsActor');
 
 /**
  * The play state
@@ -97,7 +99,7 @@ module.exports = {
     if (properties.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
       if (this.isDevMode) {
-        game.debugspriteCoords(this.crossHair, 32, 450);
+        game.debug.spriteCoords(this.crossHair, 32, 450);
       } else {
         game.debug.spriteCoords(this.player, 32, 450);
       }
@@ -172,7 +174,7 @@ module.exports = {
     var fast = function(thisArg) {
       thisArg.crossHairSpeed = 15;
     };
-    var point = new Phaser.Point();
+    var point = new Phaser.Point(this.crossHair.x, this.crossHair.y);
     this.checkUp(slow, fast, point);
     this.checkDown(slow, fast, point);
     this.checkLeft(slow, fast, point);
@@ -190,7 +192,7 @@ module.exports = {
   checkDown: function(slow, fast, point) {
     if (this.cursors.down.isDown) {
       this.cursors.down.shiftKey? slow(this) : fast(this);
-      point.x = this.crossHair.x + this.crossHairSpeed;
+      point.y = this.crossHair.y + this.crossHairSpeed;
     }
   },
 
@@ -296,7 +298,9 @@ module.exports = {
     }
   },
 
-
+  /**
+   * @method checkForFuelDistance
+   */
   checkForFuelDistance: function() {
     _.each(this.fuels, function(fuel) {
       fuel.update();
@@ -346,6 +350,8 @@ module.exports = {
     this.player.setTractorBeam(this.tractorBeam);
     _.each(this.level.enemies, this.createLimpet, this);
     _.each(this.level.fuels, this.createFuel, this);
+    this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
+    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
     this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
@@ -426,6 +432,8 @@ module.exports = {
     _.each(this.fuels, function(fuel) {
       this.groups.fuels.add(fuel);
     }, this);
+    this.groups.actors.add(this.powerStation);
+    this.groups.actors.add(this.orbHolder);
     this.groups.swapTerrain();
     game.world.add(ui.group);
   },
