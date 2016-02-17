@@ -25,8 +25,8 @@ module.exports = {
   },
   dev: {
     mode: false,
-    skipIntro: true,
-    skipSplashScreen: true
+    skipIntro: false,
+    skipSplashScreen: false
   },
   gamePlay: {
     freeOrbLocking: false,
@@ -42,9 +42,9 @@ module.exports = {
     data: [
       {
         missionSwipe: {
-          title: 'Mission 1',
+          title: 'Mission 2',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(0, 255, 0, 0.7)"
         },
         mapImgUrl: 'assets/levels/thrust-level2.png',
         mapImgKey: 'level2map',
