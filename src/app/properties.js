@@ -1,13 +1,12 @@
 /**
- * > Defines some build settings and the level data
- * required for a game of Thrust.
- * > add levels by increasing the levels Array with more level objects
+ * ## Defines essential build settings required for a "Thrust" game.
+ * > Add levels by increasing the `levels` Array with more level objects
  *
  * @namespace thrust-engine
  * @module properties
  * @class
- * @static
  * @type {Object}
+ * @static
  */
 module.exports = {
   debugPhysics: false,
