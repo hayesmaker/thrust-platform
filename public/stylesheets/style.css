@@ -52,11 +52,12 @@ ul {
 }
 
 div.lists {
-  width: 50%;
+  max-width: 40%;
   display: inline-block;
 }
 
 div.screenshot {
+  max-width: 50%;
   display: inline-block;
   position: absolute;
   right: 20px;

@@ -16,8 +16,8 @@ module.exports = {
   fatalCollisions: true,
   stats: false,
   drawBackground: true,
-  width: 700,
-  height: 500,
+  width: 800,
+  height: 600,
   scale: {
     web: Phaser.ScaleManager.NO_SCALE,
     device: Phaser.ScaleManager.SHOW_ALL

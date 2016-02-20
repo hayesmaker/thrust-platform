@@ -20,6 +20,10 @@ before_script:
 - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
 - sleep 4
 - npm start
+after_script:
+- echo 'Cleaning Browserstack Local'
+- rm BrowserStackLocal
+- rm BrowserStackLocal-linux.zip
 deploy:
   provider: heroku
   api_key:

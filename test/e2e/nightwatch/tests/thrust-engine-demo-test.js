@@ -8,7 +8,7 @@ module.exports = {
    * @param browser
    */
   before: function(browser){
-    browser.resizeWindow(700, 500);
+    browser.resizeWindow(800, 600);
   },
 
   /**
