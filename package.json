@@ -1,5 +1,5 @@
 {
-  "name": "thrust-engine",
+  "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
   "version": "0.2.1",
@@ -61,7 +61,7 @@
     "uglify-js": "^2.6.1",
     "yuidocjs": "^0.9.0"
   },
-  "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Engine: A Canvas based HTML5 game engine for making games similar to Thrust",
+  "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
   "main": "app.js",
   "keywords": [
     "thrust",
