@@ -1,5 +1,5 @@
 # thrust-platform
-[![Build Status](https://travis-ci.org/hayesmaker/thrust-engine.svg?branch=master)]
+[![Build Status](https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master)]
 (https://travis-ci.org/hayesmaker/thrust-engine)
 [![Phase-2-e](https://img.shields.io/badge/e2e-phase--2--e-green.svg)]
 (https://github.com/hayesmaker/phase-2-e)
