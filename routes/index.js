@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {
-    title: 'Thrust Engine',
+    title: pkg.title,
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine.js'
   });
