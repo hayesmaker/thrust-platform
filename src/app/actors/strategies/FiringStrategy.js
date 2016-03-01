@@ -13,15 +13,15 @@
  * @constructor
  */
 function FiringStrategy(origin, collisions, groups, bulletBmp, lifeSpan) {
-	this.origin = origin;
+  this.origin = origin;
 
-	this.collisions = collisions;
+  this.collisions = collisions;
 
-	this.groups = groups;
+  this.groups = groups;
 
-	this.bulletBitmap = bulletBmp;
+  this.bulletBitmap = bulletBmp;
 
-	this.lifeSpan = lifeSpan;
+  this.lifeSpan = lifeSpan;
 }
 
 var p = FiringStrategy.prototype;
@@ -31,22 +31,20 @@ var p = FiringStrategy.prototype;
  *
  * @method fire
  */
-p.fire = function() {
+p.fire = function () {
 
 };
 
 /**
  * @method update
  */
-p.update = function() {
-	var updateBullet = function(bullet)
-	{
-		if (--bullet.lifeSpan === 0)
-		{
-			this.bulletEnd(bullet, this.groups.bullets);
-		}
-	};
-	this.groups.bullets.forEach(updateBullet, this);
+p.update = function () {
+  var updateBullet = function (bullet) {
+    if (--bullet.lifeSpan === 0) {
+      this.bulletEnd(bullet, this.groups.bullets);
+    }
+  }.bind(this);
+  this.groups.bullets.forEach(updateBullet, this);
 };
 
 /**
@@ -54,13 +52,12 @@ p.update = function() {
  * @param bullet
  * @param group
  */
-p.bulletEnd = function(bullet, group) {
-	if (bullet) {
-		group.remove(bullet);
-		bullet.body.destroy();
-		bullet.body = null;
-		bullet.destroy();
-	}
+p.bulletEnd = function (bullet, group) {
+  if (bullet) {
+    bullet.kill();
+    group.remove(bullet);
+    bullet.body.destroy();
+  }
 };
 
 

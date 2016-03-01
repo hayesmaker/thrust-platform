@@ -9,7 +9,7 @@
  * @static
  */
 module.exports = {
-  debugPhysics: false,
+  debugPhysics: true,
   debugPositions: false,
   collideWorldBounds: true,
   enableJoypad: false,

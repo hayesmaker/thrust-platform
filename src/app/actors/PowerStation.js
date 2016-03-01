@@ -35,8 +35,30 @@ p.init = function() {
   this.createParticles();
 };
 
+/**
+ *
+ * @method initCollisions
+ */
+p.initCollisions = function() {
+  console.log('PowerStation :: initCollisions', this.collisions.bullets);
+  this.body.collides(this.collisions.bullets, this.log, this);
+
+  //this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
+  //this.body.setCollisionGroup(this.collisions.players);
+};
+
+p.crash = function() {
+  console.log('crash hit');
+};
+
+p.log = function() {
+  console.log('hit bullet');
+};
+
+
 p.update = function() {
   //this.checkPlayerVicinity();
+
 };
 
 p.createParticles = function() {

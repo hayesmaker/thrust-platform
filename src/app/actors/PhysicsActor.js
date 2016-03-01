@@ -64,18 +64,7 @@ p.initPhysics = function(physicsDataKey, physicsDataObjKey) {
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon(physicsDataKey, physicsDataObjKey);
-  this.body.motionState = 2;
-  this.body.mass = 1;
-};
-
-/**
- *
- *
- * @method initCollisions
- */
-p.initCollisions = function() {
-  //this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-  //this.body.setCollisionGroup(this.collisions.players);
+  this.body.static = true;
 };
 
 /**
@@ -84,7 +73,7 @@ p.initCollisions = function() {
  * @method start
  */
 p.start = function() {
-  this.body.motionState = 1;
+  //this.body.motionState = 1;
 };
 
 /**
@@ -93,9 +82,9 @@ p.start = function() {
  * @method stop
  */
 p.stop = function() {
+  console.log('PhysicsActor :: stop');
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
   this.body.setZeroRotation();
-  this.body.motionState = 2;
 };
