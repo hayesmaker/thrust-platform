@@ -1,5 +1,7 @@
 'use strict';
 
+var properties = require('../properties');
+
 /**
  * Background description
  *
@@ -10,7 +12,7 @@
  * @constructor
  */
 function Background(x, y) {
-  this.sprite = game.make.tileSprite(x, y, 700, 500, 'stars');
+  this.sprite = game.make.tileSprite(x, y, properties.width, properties.height, 'stars');
   this.sprite.fixedToCamera = true;
   this.init();
 }

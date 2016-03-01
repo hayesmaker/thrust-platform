@@ -159,9 +159,14 @@ module.exports = {
   playerWarpComplete: function() {
     this.inPlay = true;
     this.initControls();
+    this.initActorsStart();
+  },
+
+  initActorsStart: function() {
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
+
   },
 
   /**
@@ -351,11 +356,26 @@ module.exports = {
     _.each(this.level.enemies, this.createLimpet, this);
     _.each(this.level.fuels, this.createFuel, this);
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
+    this.powerStation.initPhysics('powerStationPhysics', 'power-station');
+
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
+    this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
+
     this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
+
+    this.powerStation.body.setCollisionGroup(this.collisions.terrain);
+    this.orbHolder.body.setCollisionGroup(this.collisions.terrain);
+
+    this.powerStation.initCollisions();
+
+    this.collisions.set(this.orbHolder, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
+    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.terrain, this.collisions.bullets, this.collisions.orb]);
+
+
+
     this.initEnemies();
     game.e2e.player = this.player;
     game.e2e.map = this.map;
