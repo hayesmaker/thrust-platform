@@ -1,10 +1,10 @@
 #!/bin/bash
 
 set -o errexit #Exit on error
-echo Test Sweep env: $npm_config_production
+echo Test Sweep env: $NODE_ENV
 npm run mocha
 
-if [[ $npm_config_production == "production" ]]; then
+if [[ $NODE_ENV == "production" ]]; then
   echo "Production build: Launch browserstack tests"
   npm run e2e:travis
 else
