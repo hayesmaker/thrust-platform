@@ -10,9 +10,4 @@ else
   echo "Non production build"
 
 fi
-curl --proto =http,https --header 'Authorization: token $THRUST_DEV_TOKEN' \
-     --header 'Accept: application/vnd.github.v3.raw' \
-     --remote-name \
-     --location $THRUST_DEV_FILE
-
-npm run build
+curl $THRUST_ASSETS_PACK
