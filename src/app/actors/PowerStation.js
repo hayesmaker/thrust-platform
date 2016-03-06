@@ -19,6 +19,7 @@ function PowerStation (collisions, groups, imageCacheKey, x, y) {
 var p = PowerStation.prototype = Object.create(PhysicsActor.prototype, {
   constructor: PowerStation
 });
+
 module.exports = PowerStation;
 
 /**
@@ -26,6 +27,12 @@ module.exports = PowerStation;
  * @type {null}
  */
 p.particles = null;
+
+/**
+ *
+ * @type {boolean}
+ */
+p.isHit = false;
 
 /**
  * @method init
@@ -41,10 +48,7 @@ p.init = function() {
  */
 p.initCollisions = function() {
   console.log('PowerStation :: initCollisions', this.collisions.bullets);
-  this.body.collides(this.collisions.bullets, this.log, this);
-
-  //this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
-  //this.body.setCollisionGroup(this.collisions.players);
+  this.body.collides(this.collisions.bullets, this.hit, this);
 };
 
 p.crash = function() {
@@ -57,8 +61,12 @@ p.log = function() {
 
 
 p.update = function() {
-  //this.checkPlayerVicinity();
 
+};
+
+p.hit = function() {
+  console.log('hit');
+  this.tint = 0xfffff9;
 };
 
 p.createParticles = function() {

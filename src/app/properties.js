@@ -9,7 +9,7 @@
  * @static
  */
 module.exports = {
-  debugPhysics: true,
+  debugPhysics: false,
   debugPositions: false,
   collideWorldBounds: true,
   enableJoypad: false,
@@ -17,7 +17,7 @@ module.exports = {
   stats: false,
   drawBackground: true,
   width: 800,
-  height: 600,
+  height: 500,
   scale: {
     web: Phaser.ScaleManager.NO_SCALE,
     device: Phaser.ScaleManager.SHOW_ALL

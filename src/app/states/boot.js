@@ -61,6 +61,8 @@ module.exports = {
       spr.inputEnabled = true;
       spr.useHandCursor = true;
       spr.events.onInputDown.add(this.startLoad, this);
+      spr.width = properties.width;
+      spr.height = properties.height;
       game.e2e.boot = this;
       game.controls.spacePress.onDown.add(this.startLoad, this);
     }
