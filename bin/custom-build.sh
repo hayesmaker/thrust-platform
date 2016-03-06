@@ -5,7 +5,7 @@ echo Custom Build env: $NODE_ENV
 
 if [[ $NODE_ENV == "production" ]]; then
   echo "Production build - Bundling full game assets"
-  curl $THRUST_ASSETS_PACK
+  curl -O $THRUST_ASSETS_PACK
   tar -xzf assets.tar.gz
 else
   echo "Non production build - Bundling demo assets"
