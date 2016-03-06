@@ -17,7 +17,7 @@
     "test:units": "npm run mocha",
     "test:e2e": "npm run e2e:travis",
     "start": "pm2 start ./bin/www",
-    "postinstall": "npm run build",
+    "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:test && npm run browserify:app",
     "postbuild": "npm run uglify && npm run yuidoc",
