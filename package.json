@@ -38,7 +38,8 @@
     "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../..",
     "e2e": "echo 'Ensure selenium server is running' && npm run nightwatch",
     "changelog": "github_changelog_generator",
-    "tweet:deploy": "node ./bin/tweet-deploy"
+    "tweet:deploy": "node ./bin/tweet-deploy",
+    "assets": "./bin/assets.sh"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
