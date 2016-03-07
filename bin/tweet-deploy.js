@@ -10,7 +10,7 @@ var client = new Twitter({
 var url = 'http://thrust-platform.herokuapp.com';
 
 var status = function() {
-  return 'New Thrust release (v' + process.env.npm_package_version +') 1980s game Thrust in the browser, or phones and tablets #HTML5 ' + url;
+  return '#HTML5 Thrust beta update: (v' + process.env.npm_package_version +')' + url;
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){
