@@ -10,7 +10,7 @@ var client = new Twitter({
 var url = 'http://thrust-platform.herokuapp.com';
 
 var status = function() {
-  return '#HTML5 Thrust beta update: (v' + process.env.npm_package_version +')' + url;
+  return '#HTML5 Thrust beta update: (v' + process.env.npm_package_version +') successfully deployed at: ' + url;
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){
