@@ -15,7 +15,7 @@ module.exports = {
   fatalCollisions: true,
   stats: false,
   drawBackground: true,
-  width: 700,
+  width: 800,
   height: 500,
   scale: {
     web: Phaser.ScaleManager.NO_SCALE,
@@ -23,7 +23,7 @@ module.exports = {
   },
   dev: {
     mode: false,
-    skipIntro: false,
+    skipIntro: true,
     skipSplashScreen: true
   },
   gamePlay: {
@@ -36,7 +36,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 2,
+    startLevel: 3,
     data: [
       {
         missionSwipe: {
@@ -99,7 +99,11 @@ module.exports = {
         world: {width: 1536, height: 1800},
         mapPosition: {x: 0, y: 400},
         startPosition: {x: 250, y: 0},
-        orbPosition: {x: 730, y: 1620},
+        orbPosition: {x: 730, y: 1595},
+        orbHolder: {
+          x: 730,
+          y: 1625
+        },
         enemies: [
           {
             x: 675,
@@ -118,7 +122,11 @@ module.exports = {
             y: 1625
           }
         ],
-        enemyFireRate: 1000
+        enemyFireRate: 1000,
+        powerStation: {
+          x: 600,
+            y: 715
+        }
       },
       {
         missionSwipe: {
@@ -134,17 +142,36 @@ module.exports = {
         world: {width: 1920, height: 3000},
         mapPosition: {x: 0, y: 500},
         startPosition: {x: 250, y: 0},
-        orbPosition: {x: 730, y: 1620},
+        orbPosition: {x: 408, y: 2480},
+        orbHolder: {
+          x: 408,
+          y: 2515
+        },
         enemies: [
           {
-            x: 700,
-            y: 1295,
+            x: 1030,
+            y: 1460,
+            rotation: 155
+          },
+          {
+            x: 1635,
+            y: 1515,
+            rotation: 327
+          },
+          {
+            x: 550,
+            y: 1748,
+            rotation: 150
+          },
+          {
+            x: 357,
+            y: 1938,
             rotation: 152
           },
           {
-            x: 1055,
-            y: 1200,
-            rotation: 207
+            x: 600,
+            y: 2100,
+            rotation: 327
           }
         ],
         fuels: [
@@ -173,7 +200,11 @@ module.exports = {
             y: 2050
           }
         ],
-        enemyFireRate: 1000
+        enemyFireRate: 1000,
+        powerStation: {
+          x: 1440,
+          y: 960
+        }
       },
       {
         missionSwipe: {
@@ -190,6 +221,10 @@ module.exports = {
         mapPosition: {x: 0, y: 600},
         startPosition: {x: 250, y: 0},
         orbPosition: {x: 730, y: 1620},
+        orbHolder: {
+          x: 730,
+          y: 1650
+        },
         enemies: [
           {
             x: 675,
@@ -208,6 +243,10 @@ module.exports = {
             y: 1311
           }
         ],
+        powerStation: {
+          x: 1100,
+          y: 1040
+        },
         enemyFireRate: 1000
       },
       {
@@ -225,6 +264,10 @@ module.exports = {
         mapPosition: {x: 0, y: 600},
         startPosition: {x: 250, y: 0},
         orbPosition: {x: 730, y: 1620},
+        orbHolder: {
+          x: 730,
+          y: 1650
+        },
         enemies: [
           {
             x: 675,
@@ -275,6 +318,10 @@ module.exports = {
             y: 2005
           }
         ],
+        powerStation: {
+          x: 1100,
+          y: 1040
+        },
         enemyFireRate: 1000
       },
 
@@ -292,7 +339,15 @@ module.exports = {
         mapPosition: {x: 0, y: 500},
         startPosition: {x: 0, y: 0},
         orbPosition: {x: 1000, y: 1000},
-        enemyFireRate: 1000
+        orbHolder: {
+          x: 1000,
+          y: 1030
+        },
+        enemyFireRate: 1000,
+        powerStation: {
+          x: 1100,
+          y: 1040
+        }
       }
     ]
 
