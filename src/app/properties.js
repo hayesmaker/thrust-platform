@@ -23,7 +23,7 @@ module.exports = {
   },
   dev: {
     mode: false,
-    skipIntro: true,
+    skipIntro: false,
     skipSplashScreen: true
   },
   gamePlay: {
@@ -36,7 +36,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 3,
+    startLevel: 6,
     data: [
       {
         missionSwipe: {
@@ -79,7 +79,7 @@ module.exports = {
             y: 1055
           }
         ],
-        enemyFireRate: 500,
+        enemyFireRate: 400,
         powerStation: {
           x: 1100,
           y: 1040
@@ -122,7 +122,7 @@ module.exports = {
             y: 1625
           }
         ],
-        enemyFireRate: 1000,
+        enemyFireRate: 500,
         powerStation: {
           x: 600,
             y: 715
@@ -200,7 +200,7 @@ module.exports = {
             y: 2050
           }
         ],
-        enemyFireRate: 1000,
+        enemyFireRate: 600,
         powerStation: {
           x: 1440,
           y: 960
@@ -220,21 +220,46 @@ module.exports = {
         world: {width: 1726, height: 2466},
         mapPosition: {x: 0, y: 600},
         startPosition: {x: 250, y: 0},
-        orbPosition: {x: 730, y: 1620},
+        orbPosition: {x: 984, y: 2015},
         orbHolder: {
-          x: 730,
-          y: 1650
+          x: 984,
+          y: 2053
         },
         enemies: [
           {
-            x: 675,
-            y: 1295,
+            x: 495,
+            y: 600,
             rotation: 152
           },
           {
-            x: 1055,
-            y: 1200,
-            rotation: 207
+            x: 357,
+            y: 770,
+            rotation: 28
+          },
+          {
+            x: 330,
+            y: 885,
+            rotation: 152
+          },
+          {
+            x: 700,
+            y: 934,
+            rotation: 205
+          },
+          {
+            x: 595,
+            y: 1155,
+            rotation: 28
+          },
+          {
+            x: 1375,
+            y: 1885,
+            rotation: 330
+          },
+          {
+            x: 910,
+            y: 1700,
+            rotation: 152
           }
         ],
         fuels: [
@@ -244,10 +269,10 @@ module.exports = {
           }
         ],
         powerStation: {
-          x: 1100,
-          y: 1040
+          x: 326,
+          y: 1072
         },
-        enemyFireRate: 1000
+        enemyFireRate: 700
       },
       {
         missionSwipe: {
@@ -263,22 +288,58 @@ module.exports = {
         world: {width: 1920, height: 2810},
         mapPosition: {x: 0, y: 600},
         startPosition: {x: 250, y: 0},
-        orbPosition: {x: 730, y: 1620},
+        orbPosition: {x: 1560, y: 2400},
         orbHolder: {
-          x: 730,
-          y: 1650
+          x: 1560,
+          y: 2438
         },
         enemies: [
           {
-            x: 675,
-            y: 1295,
+            x: 1126,
+            y: 1020,
             rotation: 152
           },
           {
-            x: 1055,
-            y: 1200,
+            x: 1487,
+            y: 975,
             rotation: 207
+          },
+          {
+            x: 1630,
+            y: 1380,
+            rotation: 208
+          },
+          {
+            x: 355,
+            y: 1945,
+            rotation: 28
+          },
+          {
+            x: 1230,
+            y: 1695,
+            rotation: 210
+          },
+          {
+            x: 1388,
+            y: 1788,
+            rotation: 210
+          },
+          {
+            x: 1146,
+            y: 1966,
+            rotation: 28
+          },
+          {
+            x: 1148,
+            y: 2378,
+            rotation: 28
+          },
+          {
+            x: 1606,
+            y: 2174,
+            rotation: 205
           }
+
         ],
         fuels: [
           {
@@ -299,54 +360,103 @@ module.exports = {
           },
           {
             x: 970,
-            y: 1860
+            y: 1858
           },
           {
-            x: 1050,
-            y: 2000
+            x: 1040,
+            y: 1858
           },
           {
-            x: 1200,
-            y: 2005
-          },
-          {
-            x: 1200,
-            y: 2005
-          },
-          {
-            x: 1200,
-            y: 2005
+            x: 1270,
+            y: 1977
           }
         ],
         powerStation: {
-          x: 1100,
-          y: 1040
+          x: 1290,
+          y: 1140
         },
-        enemyFireRate: 1000
+        enemyFireRate: 800
       },
-
       {
         missionSwipe: {
           title: 'Mission 6',
           desc: 'Recover the orb',
           color: "rgba(255, 0, 0, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level_6_x2.png',
-        mapImgKey: 'thrustmapImage',
-        mapDataUrl: 'assets/levels/level_6.json',
-        mapDataKey: 'thrustmap',
-        world: {width: 3072, height: 4000},
-        mapPosition: {x: 0, y: 500},
+        mapImgUrl: 'assets/levels/level-6.png',
+        mapImgKey: 'level-6',
+        mapDataUrl: 'assets/levels/level-6.json',
+        mapDataKey: 'level-6',
+        mapScale: 2,
+        world: {width: 2306, height: 2500},
+        mapPosition: {x: 0, y: 1000},
         startPosition: {x: 0, y: 0},
-        orbPosition: {x: 1000, y: 1000},
+        orbPosition: {x: 1755, y: 2345},
+        enemies: [
+          {
+            x: 1032,
+            y: 900,
+            rotation: 210
+          },
+          {
+            x: 955,
+            y: 1208,
+            rotation: 150
+          },
+          {
+            x: 1395,
+            y: 1305,
+            rotation: 210
+          },
+          {
+            x: 1080,
+            y: 1497,
+            rotation: 332
+          },
+          {
+            x: 1105,
+            y: 1740,
+            rotation: 210
+          },
+          {
+            x: 1133,
+            y: 1854,
+            rotation: 332
+          },
+          {
+            x: 645,
+            y: 2219,
+            rotation: 155
+          },
+          {
+            x: 910,
+            y: 2212,
+            rotation: 210
+          },
+          {
+            x: 1706,
+            y: 2166,
+            rotation: 152
+          },
+          {
+            x: 1848,
+            y: 2284,
+            rotation: 332
+          },
+          {
+            x: 2000,
+            y: 2210,
+            rotation: 332
+          }
+        ],
         orbHolder: {
-          x: 1000,
-          y: 1030
+          x: 1755,
+          y: 2380
         },
-        enemyFireRate: 1000,
+        enemyFireRate: 1200,
         powerStation: {
-          x: 1100,
-          y: 1040
+          x: 1870,
+          y: 2470
         }
       }
     ]
