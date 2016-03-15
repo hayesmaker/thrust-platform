@@ -23,14 +23,13 @@ var p = Groups.prototype;
  */
 p.init = function () {
   this.background = game.add.group();
-
   this.actors = game.add.group();
   this.fuels = game.add.group();
   this.enemies = game.add.group();
   this.terrain = game.add.group();
   this.bullets = game.add.group();
 
-
+  console.log('new Groups :: init ; game.groups', game);
   /*
   this.cameraGroup.add(this.background);
   this.cameraGroup.add(this.actors);
@@ -39,6 +38,7 @@ p.init = function () {
   this.cameraGroup.add(this.bullets);
   */
 };
+
 
 p.swapTerrain = function () {
   game.world.swap(this.terrain, this.actors);

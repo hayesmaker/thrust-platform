@@ -16,7 +16,6 @@ module.exports = {
     this.group.visible = true;
     this.text0.text = "Level Complete";
     this.text1.text = "Prepare for Next Level";
-    this.text2.text = "Get Ready";
   },
 
   clear: function() {

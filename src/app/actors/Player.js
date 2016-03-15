@@ -91,13 +91,12 @@ function Player(collisions, groups) {
    */
   this.initialPos = new Phaser.Point();
 
+  console.log('new Player');
+
   this.setStartPosition(game.width / 2 + levelManager.currentLevel.startPosition.x, game.height / 2 + levelManager.currentLevel.startPosition.y);
-
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'player');
-
   this.anchor.setTo(0.5);
   this.alpha = 0;
-
   this.init();
 }
 

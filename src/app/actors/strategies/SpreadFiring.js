@@ -1,4 +1,5 @@
 var FiringStrategy = require('./FiringStrategy');
+var properties = require('../../properties');
 
 /**
  * ForwardsFire description
@@ -23,21 +24,18 @@ p.constructor = SpreadFiring;
  */
 p.fire = function() {
 	var magnitue = 240;
-	var bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
-	bullet.anchor.setTo(0.5,0.5);
-	bullet.lifeSpan = this.lifeSpan;
-	game.physics.p2.enable(bullet);
-
+	this.bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
+	this.bullet.anchor.setTo(0.5,0.5);
+	this.bullet.lifespan = 1000;
+	game.physics.p2.enable(this.bullet, properties.debugPhysics);
 	var angle = this.origin.body.rotation + Math.PI + Math.random()*Math.PI;
-	bullet.body.collidesWorldBounds = false;
-	bullet.body.setCollisionGroup(this.collisions.enemyBullets);
-	bullet.body.collides([this.collisions.terrain, this.collisions.players], function() {
-		this.bulletEnd(bullet, this.groups.bullets);
-	}, this);
-	bullet.body.data.gravityScale = 0;
-	bullet.body.velocity.x = magnitue * Math.cos(angle) + this.origin.body.velocity.x;
-	bullet.body.velocity.y = magnitue * Math.sin(angle) + this.origin.body.velocity.y;
-	this.groups.bullets.add(bullet);
+	this.bullet.body.collidesWorldBounds = false;
+	this.bullet.body.setCollisionGroup(this.collisions.enemyBullets);
+	this.groups.bullets.add(this.bullet);
+	this.bullet.body.collides([this.collisions.terrain, this.collisions.players],this.bulletEnd, this);
+	this.bullet.body.data.gravityScale = 0;
+	this.bullet.body.velocity.x = magnitue * Math.cos(angle) + this.origin.body.velocity.x;
+	this.bullet.body.velocity.y = magnitue * Math.sin(angle) + this.origin.body.velocity.y;
 };
 
 module.exports = SpreadFiring;

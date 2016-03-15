@@ -1,5 +1,5 @@
 /**
- * @method _firingStrategy
+ * @prporty _firingStrategy
  * @type {FiringStrategy}
  * @private
  */
@@ -12,14 +12,15 @@ var _firingStrategy;
  * nb. there's no requirement to call an init function
  *
  * @class Turret
+ * @param groups
+ * @param sprite
+ * @param strategy
  * @constructor
  */
 function Turret(groups, sprite, strategy) {
-
-	this.groups = groups;
-	this.origin = sprite;
-
-	this.firingStrategy = strategy;
+  this.groups = groups;
+  this.origin = sprite;
+  this.firingStrategy = strategy;
 }
 
 var p = Turret.prototype;
@@ -30,24 +31,23 @@ var p = Turret.prototype;
  * @method setStrategy
  * @param {FiringStrategy} firingStrategy
  */
-p.setStrategy = function(firingStrategy) {
-	_firingStrategy = firingStrategy;
+p.setStrategy = function (firingStrategy) {
+  _firingStrategy = firingStrategy;
 };
 
-p.fire = function() {
-	this.firingStrategy.fire();
+p.fire = function () {
+  this.firingStrategy.fire();
 };
 
-p.update = function() {
-	this.firingStrategy.update();
+p.update = function () {
+  //this.firingStrategy.update();
 };
 
-p.destroy = function() {
-	this.firingStrategy = null;
-	this.groups = null;
-	this.origin = null;
+p.destroy = function () {
+  this.firingStrategy = null;
+  this.groups = null;
+  this.origin = null;
 };
-
 
 
 module.exports = Turret;

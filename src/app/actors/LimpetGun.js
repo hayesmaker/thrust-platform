@@ -9,15 +9,15 @@ var ShipParticle = require('./bitmaps/ShipParticle');
  * The enemy of the game are stationary gun turrets which
  * fire at random angles (Spread strategy) and at a rate which should increase with difficulty
  *
- * @module Actors
+ * @class LimpetGun
+ * @namespace actors
+ * @constructor
  * @param x
  * @param y
  * @param angleDeg
  * @param collisions
  * @param groups
- * @class LimpetGun
- * @namespace actors
- * @constructor
+ * @extends {Phaser.Sprite}
  */
 function LimpetGun(x, y, angleDeg, collisions, groups) {
   /**
@@ -61,16 +61,11 @@ function LimpetGun(x, y, angleDeg, collisions, groups) {
   bmd.ctx.arc(25, 15, 12, 0, Math.PI, true);
   bmd.ctx.closePath();
   bmd.ctx.stroke();
-
   Phaser.Sprite.call(this, game, x, y, bmd);
-
   this.anchor.setTo(0.5);
   this.angle = angleDeg;
-
-  this.isDead = true;
-
   this.fireRate = 10 / 1800;
-
+  this.alive = false;
   this.init();
 }
 
@@ -87,7 +82,6 @@ p.init = function () {
   this.emitter.particleClass = ShipParticle;
   this.emitter.makeParticles();
   this.emitter.gravity = 200;
-
   this.turret = this.createTurret();
 };
 
@@ -95,7 +89,7 @@ p.init = function () {
  * @method start
  */
 p.start = function() {
-  this.isDead = false;
+  this.alive = true;
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
   this.body.addRectangle(50, 25, 0, 0);
@@ -129,7 +123,7 @@ p.createTurret = function () {
  * @method update
  */
 p.update = function () {
-  if (!this.alive || this.isDead) {
+  if (!this.alive) {
     return;
   }
   if (Math.random() < this.fireRate) {
@@ -142,8 +136,7 @@ p.explode = function () {
   this.kill();
   this.emitter.x = this.position.x;
   this.emitter.y = this.position.y;
-  this.emitter.start(true, 2000, null, 20);
-  this.isDead = true;
+  this.emitter.start(true, 1000, null, 5);
   this.body.removeFromWorld();
   this.body.destroy();
   this.removeFromGroup();

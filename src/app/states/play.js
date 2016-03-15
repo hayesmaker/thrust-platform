@@ -20,7 +20,6 @@ var PhysicsActor = require('../actors/PhysicsActor');
 /**
  * The play state
  *
- * @module states
  * @namespace states
  * @submodule play
  * @property play.level
@@ -127,7 +126,12 @@ module.exports = {
   nextLevel: function () {
     ui.interstitial.clear();
     this.limpetGuns = [];
+    this.fuels = [];
+    this.groups.background.removeAll(true);
+    this.groups.actors.removeAll(true);
+    this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
+    this.groups.terrain.removeAll(true);
     levelManager.nextLevel();
     game.state.restart();
   },
@@ -166,55 +170,7 @@ module.exports = {
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
-
   },
-
-  /**
-   * @method devModeUpdate
-   */
-  devModeUpdate: function() {
-    var slow = function(thisArg) {
-      thisArg.crossHairSpeed = 5;
-    };
-    var fast = function(thisArg) {
-      thisArg.crossHairSpeed = 15;
-    };
-    var point = new Phaser.Point(this.crossHair.x, this.crossHair.y);
-    this.checkUp(slow, fast, point);
-    this.checkDown(slow, fast, point);
-    this.checkLeft(slow, fast, point);
-    this.checkRight(slow, fast, point);
-    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease:Power0.easeNone});
-  },
-
-  checkUp: function(slow, fast, point) {
-    if (this.cursors.up.isDown) {
-      this.cursors.up.shiftKey? slow(this) : fast(this);
-      point.y = this.crossHair.y - this.crossHairSpeed;
-    }
-  },
-
-  checkDown: function(slow, fast, point) {
-    if (this.cursors.down.isDown) {
-      this.cursors.down.shiftKey? slow(this) : fast(this);
-      point.y = this.crossHair.y + this.crossHairSpeed;
-    }
-  },
-
-  checkRight: function(slow, fast, point) {
-    if (this.cursors.right.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
-      point.x = this.crossHair.x + this.crossHairSpeed;
-    }
-  },
-
-  checkLeft: function(slow, fast, point) {
-    if (this.cursors.left.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
-      point.x = this.crossHair.x - this.crossHairSpeed;
-    }
-  },
-
 
   /**
    * Return early if not in play
@@ -295,7 +251,7 @@ module.exports = {
   actorsUpdate: function () {
     this.player.update();
     this.checkForFuelDistance();
-    this.groups.enemies.forEach(function (enemy) {
+    this.groups.enemies.forEachAlive(function (enemy) {
       enemy.update();
     });
     if (this.background && properties.gamePlay.parallax) {
@@ -486,7 +442,6 @@ module.exports = {
     game.controls.spacePress.onDown.add(this.player.fire, this.player);
     game.controls.xKey.onDown.add(this.xDown, this);
     game.controls.xKey.onUp.add(this.xUp, this);
-    this.player.init();
   },
 
   /**
@@ -558,5 +513,78 @@ module.exports = {
     if (!properties.gamePlay.autoOrbLocking) {
       this.tractorBeam.lockingRelease();
     }
-  }
+  },
+
+  /**
+   * ### DEVELOPMENT MODE
+   *
+   * @method devModeUpdate
+   */
+  devModeUpdate: function() {
+    var slow = function(thisArg) {
+      thisArg.crossHairSpeed = 5;
+    };
+    var fast = function(thisArg) {
+      thisArg.crossHairSpeed = 15;
+    };
+    var point = new Phaser.Point(this.crossHair.x, this.crossHair.y);
+    this.checkUp(slow, fast, point);
+    this.checkDown(slow, fast, point);
+    this.checkLeft(slow, fast, point);
+    this.checkRight(slow, fast, point);
+    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease:Power0.easeNone});
+  },
+
+  /**
+   * @method checkUp
+   * @param slow
+   * @param fast
+   * @param point
+   */
+  checkUp: function(slow, fast, point) {
+    if (this.cursors.up.isDown) {
+      this.cursors.up.shiftKey? slow(this) : fast(this);
+      point.y = this.crossHair.y - this.crossHairSpeed;
+    }
+  },
+
+  /**
+   * @method checkDown
+   * @param slow
+   * @param fast
+   * @param point
+   */
+  checkDown: function(slow, fast, point) {
+    if (this.cursors.down.isDown) {
+      this.cursors.down.shiftKey? slow(this) : fast(this);
+      point.y = this.crossHair.y + this.crossHairSpeed;
+    }
+  },
+
+  /**
+   * @method checkRight
+   * @param slow
+   * @param fast
+   * @param point
+   */
+  checkRight: function(slow, fast, point) {
+    if (this.cursors.right.isDown) {
+      this.cursors.right.shiftKey? slow(this) : fast(this);
+      point.x = this.crossHair.x + this.crossHairSpeed;
+    }
+  },
+
+  /**
+   * @method checkLeft
+   * @param slow
+   * @param fast
+   * @param point
+   */
+  checkLeft: function(slow, fast, point) {
+    if (this.cursors.left.isDown) {
+      this.cursors.right.shiftKey? slow(this) : fast(this);
+      point.x = this.crossHair.x - this.crossHairSpeed;
+    }
+  },
+
 };
