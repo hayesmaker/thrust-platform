@@ -116,7 +116,7 @@ p.createTurret = function () {
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
 
-  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 350));
+  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
 };
 
 /**

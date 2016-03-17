@@ -8,7 +8,7 @@
  * @type {Object}
  */
 module.exports = {
-  debugPhysics: true,
+  debugPhysics: false,
   debugPositions: false,
   collideWorldBounds: true,
   enableJoypad: false,
@@ -24,7 +24,7 @@ module.exports = {
   dev: {
     mode: false,
     skipIntro: false,
-    skipSplashScreen: true
+    skipSplashScreen: false
   },
   gamePlay: {
     freeOrbLocking: false,
@@ -392,6 +392,63 @@ module.exports = {
         mapPosition: {x: 0, y: 1000},
         startPosition: {x: 0, y: 0},
         orbPosition: {x: 1755, y: 2345},
+        enemies: [
+          {
+            x: 1032,
+            y: 900,
+            rotation: 210
+          },
+          {
+            x: 955,
+            y: 1208,
+            rotation: 150
+          },
+          {
+            x: 1395,
+            y: 1305,
+            rotation: 210
+          },
+          {
+            x: 1080,
+            y: 1497,
+            rotation: 332
+          },
+          {
+            x: 1105,
+            y: 1740,
+            rotation: 210
+          },
+          {
+            x: 1133,
+            y: 1854,
+            rotation: 332
+          },
+          {
+            x: 645,
+            y: 2219,
+            rotation: 155
+          },
+          {
+            x: 910,
+            y: 2212,
+            rotation: 210
+          },
+          {
+            x: 1702,
+            y: 2176,
+            rotation: 150
+          },
+          {
+            x: 1848,
+            y: 2284,
+            rotation: 332
+          },
+          {
+            x: 910,
+            y: 2212,
+            rotation: 210
+          }
+        ],
         orbHolder: {
           x: 1755,
           y: 2380

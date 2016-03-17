@@ -262,7 +262,7 @@ p.createTurret = function () {
   bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 350));
+  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
 };
 
 /**
@@ -435,6 +435,8 @@ p.death = function () {
 
 /**
  * @method dispatch game over if player lives are lost
+ * @param callback
+ * @param context
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
 p.checkRespawn = function(callback, context, removeShip) {
