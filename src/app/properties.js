@@ -42,55 +42,43 @@ module.exports = {
         missionSwipe: {
           title: 'Mission 2',
           desc: 'Recover the orb',
-          color: "rgba(0, 255, 0, 0.7)"
+          color: "rgba(255, 0, 0, 0.7)"
         },
-        mapImgUrl: 'assets/levels/thrust-level2.png',
-        mapImgKey: 'level2map',
-        mapDataUrl: 'assets/levels/thrust-level2.json',
-        mapDataKey: 'thrustmap',
+        mapImgUrl: 'assets/levels/level-2.png',
+        mapImgKey: 'level-2',
+        mapDataUrl: 'assets/levels/level-2.json',
+        mapDataKey: 'level-2',
         mapScale: 2,
-        world: {
-          width: 1856,
-          height: 2000
-        },
-        mapPosition: {
-          x: 0,
-          y: 660
-        },
-        startPosition: {
-          x: 250,
-          y: 300
-        },
-        orbPosition: {
-          x: 930,
-          y: 1895
-        },
+        world: {width: 1536, height: 1800},
+        mapPosition: {x: 0, y: 400},
+        startPosition: {x: 250, y: 0},
+        orbPosition: {x: 730, y: 1595},
         orbHolder: {
-          x: 930,
-          y: 1930
+          x: 730,
+          y: 1625
         },
         enemies: [
           {
-            x: 880,
-            y: 1620,
-            rotation: 150
+            x: 675,
+            y: 1295,
+            rotation: 152
           },
           {
-            x: 1455,
-            y: 1550,
-            rotation: 210
+            x: 1055,
+            y: 1200,
+            rotation: 207
           }
         ],
         fuels: [
           {
-            x: 1178,
-            y: 1930
+            x: 820,
+            y: 1625
           }
         ],
         enemyFireRate: 500,
         powerStation: {
-          x: 660,
-          y: 875
+          x: 600,
+          y: 715
         }
       }
     ]
