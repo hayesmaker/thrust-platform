@@ -1,5 +1,14 @@
 # Change Log
 
+## [v0.3.3](https://github.com/hayesmaker/thrust-platform/tree/v0.3.3) (2016-03-17)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.2...v0.3.3)
+
+## [v0.3.2](https://github.com/hayesmaker/thrust-platform/tree/v0.3.2) (2016-03-07)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.1...v0.3.2)
+
+## [v0.3.1](https://github.com/hayesmaker/thrust-platform/tree/v0.3.1) (2016-03-06)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.0...v0.3.1)
+
 ## [v0.3.0](https://github.com/hayesmaker/thrust-platform/tree/v0.3.0) (2016-03-06)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.2.1...v0.3.0)
 
@@ -43,8 +52,8 @@
 
 ## [v0.0.17](https://github.com/hayesmaker/thrust-platform/tree/v0.0.17) (2015-11-29)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.0.16...v0.0.17)
--[[=pp
-              |## [v0.0.16](https://github.com/hayesmaker/thrust-platform/tree/v0.0.16) (2015-11-23)
+
+## [v0.0.16](https://github.com/hayesmaker/thrust-platform/tree/v0.0.16) (2015-11-23)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.0.14...v0.0.16)
 
 ## [v0.0.14](https://github.com/hayesmaker/thrust-platform/tree/v0.0.14) (2015-11-20)
