@@ -67,7 +67,7 @@
     "yuidocjs": "^0.9.0"
   },
   "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
-  "main": "app.js",
+  "main": "bin/www",
   "keywords": [
     "thrust",
     "phaser"
