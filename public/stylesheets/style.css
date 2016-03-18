@@ -43,6 +43,10 @@ h1 small {
   padding-left: 20px;
 }
 
+#review {
+  padding-left: 20px;
+}
+
 ul {
   margin: 0 0 0 20px;
   padding: 0;
@@ -62,4 +66,9 @@ div.screenshot {
   position: absolute;
   right: 20px;
   border: 1px solid darkgray;
+}
+
+.readable {
+  padding: 20px;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
