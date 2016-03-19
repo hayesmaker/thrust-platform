@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.3.4](https://github.com/hayesmaker/thrust-platform/tree/v0.3.4) (2016-03-18)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.3...v0.3.4)
+
 ## [v0.3.3](https://github.com/hayesmaker/thrust-platform/tree/v0.3.3) (2016-03-17)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.2...v0.3.3)
 
