@@ -315,17 +315,16 @@ module.exports = {
     this.powerStation.initPhysics('powerStationPhysics', 'power-station');
 
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
-    this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
+    //this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
 
     this.map = new Map(this.collisions, this.groups);
     game.camera.follow(this.player);
 
     this.powerStation.body.setCollisionGroup(this.collisions.terrain);
-    this.orbHolder.body.setCollisionGroup(this.collisions.terrain);
+    //this.orbHolder.body.setCollisionGroup(this.collisions.terrain);
 
     this.powerStation.initCollisions();
 
-    this.collisions.set(this.orbHolder, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
     this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
