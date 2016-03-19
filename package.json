@@ -2,10 +2,10 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "private": true,
   "scripts": {
-    "deploy": "npm version patch && npm run build",
+    "deploy": "npm run build && npm version patch",
     "deploy:minor": "npm version minor && npm run build ",
     "deploy:major": "npm version major && npm run build",
     "deploy:skipTests": "npm run heroku",
