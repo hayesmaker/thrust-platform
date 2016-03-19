@@ -345,7 +345,7 @@ module.exports = {
       game.controls.initJoypad();
     }
     ui.init();
-    ui.missionSwipe.init(0, game.height * 0.15, game.width * 0.7, 80, ui.group);
+    ui.missionSwipe.init(0, game.height * 0.8, game.width * 0.5, 80, ui.group);
     ui.score.init(10, 10, ui.group);
     ui.score.update(this.player.score, true);
     ui.fuel.init(10, 30, ui.group);

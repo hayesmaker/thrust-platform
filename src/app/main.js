@@ -2,6 +2,14 @@
 
 var properties = require('./properties');
 
+var bestFitScale = function() {
+  if (properties.scale.bestFit) {
+    console.log('best fit scale mode activated');
+    properties.width = window.innerWidth;
+    properties.height = window.innerHeight;
+  }
+};
+
 /**
  * ## Game entry point
  * > called on window.onload to make sure fonts registered to html page are loaded first.
@@ -16,8 +24,8 @@ var properties = require('./properties');
  * @namespace window.onload
  */
 window.onload = function() {
+  bestFitScale();
   global.game = new Phaser.Game(properties.width,properties.height, Phaser.AUTO);
-
   game.state.add('play', require('./states/play'));
   game.state.add('load', require('./states/load'));
   game.state.add('menu', require('./states/menu'));

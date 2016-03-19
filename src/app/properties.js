@@ -18,8 +18,9 @@ module.exports = {
   width: 800,
   height: 500,
   scale: {
-    web: Phaser.ScaleManager.EXACT_FIT,
-    device: Phaser.ScaleManager.EXACT_FIT
+    bestFit: true,
+    web: Phaser.ScaleManager.NO_SCALE,
+    device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
     mode: false,
@@ -380,7 +381,7 @@ module.exports = {
       {
         missionSwipe: {
           title: 'Mission 6',
-          desc: 'Recover the orb',
+          desc: 'You know what you\'re doing by now',
           color: "rgba(246, 0, 255, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-6.png',
