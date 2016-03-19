@@ -18,8 +18,8 @@ module.exports = {
   width: 800,
   height: 500,
   scale: {
-    web: Phaser.ScaleManager.NO_SCALE,
-    device: Phaser.ScaleManager.SHOW_ALL
+    web: Phaser.ScaleManager.EXACT_FIT,
+    device: Phaser.ScaleManager.EXACT_FIT
   },
   dev: {
     mode: false,
