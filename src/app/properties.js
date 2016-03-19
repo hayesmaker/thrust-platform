@@ -60,7 +60,7 @@ module.exports = {
         },
         startPosition: {
           x: 0,
-          y: 300
+          y: -50
         },
         orbPosition: {x: 915, y: 852},
         orbHolder: {
@@ -99,7 +99,7 @@ module.exports = {
         mapScale: 2,
         world: {width: 1536, height: 2000},
         mapPosition: {x: 0, y: 600},
-        startPosition: {x: 250, y: 100},
+        startPosition: {x: 0, y: 0},
         powerStation: {
           x: 600,
           y: 825

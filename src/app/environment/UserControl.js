@@ -39,10 +39,10 @@ p.initJoypad = function() {
 	this.stick.alignBottomLeft();
 	this.stick.scale = 0.8;
 
-	this.buttonA = this.pad.addButton(525, 420, 'dpad', 'button1-up', 'button1-down');
+	this.buttonA = this.pad.addButton(game.width * 0.8, game.height * 0.8, 'dpad', 'button1-up', 'button1-down');
 	this.buttonA.scale = 0.8;
 
-	this.buttonB = this.pad.addButton(630, 390, 'dpad', 'button2-up', 'button2-down');
+	this.buttonB = this.pad.addButton(game.width * 0.9, game.height * 0.7, 'dpad', 'button2-up', 'button2-down');
 	this.buttonB.scale = 0.8;
 };
 
