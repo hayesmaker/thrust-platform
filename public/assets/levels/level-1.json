@@ -1,5 +1,5 @@
 {
-    "moo": [
+    "level-1": [
         {
             "density": 2, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },

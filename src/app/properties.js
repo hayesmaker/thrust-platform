@@ -47,92 +47,92 @@ module.exports = {
         mapImgUrl: 'assets/levels/level-1.png',
         mapImgKey: 'level-1',
         mapDataUrl: 'assets/levels/level-1.json',
-        mapDataKey: 'moo',
+        mapDataKey: 'level-1',
         mapScale: 2,
         world: {
           width: 1536,
-          height: 1250
+          height: 1000
         },
         mapPosition: {
           x: 0,
-          y: 140
+          y: 150
         },
         startPosition: {
-          x: 250,
-          y: 650
+          x: 0,
+          y: 300
         },
-        orbPosition: {x: 915, y: 1100},
+        orbPosition: {x: 915, y: 852},
         orbHolder: {
           x: 915,
-          y: 1130
+          y: 890
         },
         enemies: [
           {
             x: 705,
-            y: 1110,
+            y: 869,
             rotation: 30
           }
         ],
         fuels: [
           {
             x: 550,
-            y: 1055
+            y: 816
           }
         ],
         enemyFireRate: 400,
         powerStation: {
           x: 1100,
-          y: 1040
+          y: 800
         }
       },
       {
         missionSwipe: {
           title: 'Mission 2',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(62, 217, 42, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-2.png',
         mapImgKey: 'level-2',
         mapDataUrl: 'assets/levels/level-2.json',
         mapDataKey: 'level-2',
         mapScale: 2,
-        world: {width: 1536, height: 1800},
-        mapPosition: {x: 0, y: 400},
-        startPosition: {x: 250, y: 0},
-        orbPosition: {x: 730, y: 1595},
+        world: {width: 1536, height: 2000},
+        mapPosition: {x: 0, y: 600},
+        startPosition: {x: 250, y: 100},
+        powerStation: {
+          x: 600,
+          y: 825
+        },
+        orbPosition: {x: 730, y: 1700},
         orbHolder: {
           x: 730,
-          y: 1625
+          y: 1738
         },
         enemies: [
           {
             x: 675,
-            y: 1295,
+            y: 1405,
             rotation: 152
           },
           {
             x: 1055,
-            y: 1200,
+            y: 1310,
             rotation: 207
           }
         ],
         fuels: [
           {
             x: 820,
-            y: 1625
+            y: 1735
           }
         ],
-        enemyFireRate: 500,
-        powerStation: {
-          x: 600,
-            y: 715
-        }
+        enemyFireRate: 500
       },
       {
         missionSwipe: {
           title: 'Mission 3',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(29, 192, 222, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-3.png',
         mapImgKey: 'level-3',
@@ -140,145 +140,145 @@ module.exports = {
         mapDataKey: 'level-3',
         mapScale: 2,
         world: {width: 1920, height: 3000},
-        mapPosition: {x: 0, y: 500},
+        mapPosition: {x: 0, y: 600},
         startPosition: {x: 250, y: 0},
-        orbPosition: {x: 408, y: 2480},
+        powerStation: {
+          x: 1440,
+          y: 700
+        },
+        orbPosition: {x: 408, y: 2220},
         orbHolder: {
           x: 408,
-          y: 2515
+          y: 2255
         },
         enemies: [
           {
             x: 1030,
-            y: 1460,
+            y: 1200,
             rotation: 155
           },
           {
             x: 1635,
-            y: 1515,
+            y: 1255,
             rotation: 327
           },
           {
             x: 550,
-            y: 1748,
+            y: 1488,
             rotation: 150
           },
           {
             x: 357,
-            y: 1938,
+            y: 1678,
             rotation: 152
           },
           {
             x: 600,
-            y: 2100,
+            y: 1840,
             rotation: 327
           }
         ],
         fuels: [
           {
             x: 912,
-            y: 827
+            y: 569
           },
           {
             x: 1370,
-            y: 1523
+            y: 1265
           },
           {
             x: 1440,
-            y: 1523
+            y: 1265
           },
           {
             x: 1510,
-            y: 1523
+            y: 1265
           },
           {
             x: 1080,
-            y: 1860
+            y: 1602
           },
           {
             x: 745,
-            y: 2050
+            y: 1791
           }
         ],
-        enemyFireRate: 600,
-        powerStation: {
-          x: 1440,
-          y: 960
-        }
+        enemyFireRate: 600
       },
       {
         missionSwipe: {
           title: 'Mission 4',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(148, 24, 206, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-4.png',
         mapImgKey: 'level-4',
         mapDataUrl: 'assets/levels/level-4.json',
         mapDataKey: 'level-4',
         mapScale: 2,
-        world: {width: 1726, height: 2466},
-        mapPosition: {x: 0, y: 600},
-        startPosition: {x: 250, y: 0},
-        orbPosition: {x: 984, y: 2015},
+        world: {width: 1726, height: 3000},
+        mapPosition: {x: 0, y: 1000},
+        startPosition: {x: 250, y: 200},
+        powerStation: {
+          x: 326,
+          y: 1612
+        },
+        orbPosition: {x: 984, y: 2553},
         orbHolder: {
           x: 984,
-          y: 2053
+          y: 2593
         },
         enemies: [
           {
             x: 495,
-            y: 600,
+            y: 1138,
             rotation: 152
           },
           {
             x: 357,
-            y: 770,
+            y: 1310,
             rotation: 28
           },
           {
             x: 330,
-            y: 885,
+            y: 1425,
             rotation: 152
           },
           {
             x: 700,
-            y: 934,
+            y: 1472,
             rotation: 205
           },
           {
             x: 595,
-            y: 1155,
+            y: 1695,
             rotation: 28
           },
           {
             x: 1375,
-            y: 1885,
-            rotation: 330
+            y: 2420,
+            rotation: 332
           },
           {
             x: 910,
-            y: 1700,
+            y: 2238,
             rotation: 152
           }
         ],
         fuels: [
           {
             x: 1170,
-            y: 1311
+            y: 1850
           }
         ],
-        powerStation: {
-          x: 326,
-          y: 1072
-        },
         enemyFireRate: 700
       },
       {
         missionSwipe: {
           title: 'Mission 5',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(156, 77, 0, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-5.png',
         mapImgKey: 'level-5',
@@ -286,9 +286,13 @@ module.exports = {
         mapDataKey: 'level-5',
         mapScale: 2,
         world: {width: 1920, height: 2810},
-        mapPosition: {x: 0, y: 600},
+        mapPosition: {x: 0, y: 1185},
         startPosition: {x: 250, y: 0},
         orbPosition: {x: 1560, y: 2400},
+        powerStation: {
+          x: 1290,
+          y: 1140
+        },
         orbHolder: {
           x: 1560,
           y: 2438
@@ -371,32 +375,36 @@ module.exports = {
             y: 1977
           }
         ],
-        powerStation: {
-          x: 1290,
-          y: 1140
-        },
         enemyFireRate: 800
       },
       {
         missionSwipe: {
           title: 'Mission 6',
           desc: 'Recover the orb',
-          color: "rgba(255, 0, 0, 0.7)"
+          color: "rgba(246, 0, 255, 0.7)"
         },
         mapImgUrl: 'assets/levels/level-6.png',
         mapImgKey: 'level-6',
         mapDataUrl: 'assets/levels/level-6.json',
         mapDataKey: 'level-6',
         mapScale: 2,
-        world: {width: 2306, height: 2500},
-        mapPosition: {x: 0, y: 1000},
+        world: {width: 2306, height: 2700},
+        mapPosition: {x: 0, y: 960},
         startPosition: {x: 0, y: 0},
+        powerStation: {
+          x: 1870,
+          y: 2474
+        },
         orbPosition: {x: 1755, y: 2345},
+        orbHolder: {
+          x: 1755,
+          y: 2384
+        },
         enemies: [
           {
             x: 1032,
             y: 900,
-            rotation: 210
+            rotation: 208
           },
           {
             x: 955,
@@ -410,17 +418,17 @@ module.exports = {
           },
           {
             x: 1080,
-            y: 1497,
+            y: 1500,
             rotation: 332
           },
           {
             x: 1105,
-            y: 1740,
+            y: 1741,
             rotation: 210
           },
           {
             x: 1133,
-            y: 1854,
+            y: 1856,
             rotation: 332
           },
           {
@@ -435,29 +443,21 @@ module.exports = {
           },
           {
             x: 1702,
-            y: 2176,
-            rotation: 150
+            y: 2169,
+            rotation: 153
           },
           {
             x: 1848,
-            y: 2284,
+            y: 2289,
             rotation: 332
           },
           {
-            x: 910,
-            y: 2212,
-            rotation: 210
+            x: 1990,
+            y: 2219,
+            rotation: 332
           }
         ],
-        orbHolder: {
-          x: 1755,
-          y: 2380
-        },
-        enemyFireRate: 1200,
-        powerStation: {
-          x: 1870,
-          y: 2470
-        }
+        enemyFireRate: 1200
       }
     ]
 
