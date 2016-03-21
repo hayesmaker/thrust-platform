@@ -4,24 +4,30 @@ var properties = require('../properties');
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
  * This is what you want! :)
  *
- * @module level-manager
- * @type {{}}
+ * @class level-manager
+ * @type {Object}
  */
 module.exports = {
 
   /**
+   * Caches all the game's levels from `properties.js`
+   *
    * @property levels
-   * @type {[]}
+   * @type {Array}
    */
   levels: properties.levels.data,
 
   /**
+   * Starting level index
+   *
    * @property levelIndex
    * @type {Number}
    */
   levelIndex: properties.levels.startLevel - 1,
 
   /**
+   * Current level data
+   *
    * @todo make levels a data type
    * @property currentLevel
    * @type {Object}
@@ -29,8 +35,7 @@ module.exports = {
   currentLevel: null,
 
   /**
-   * Inits the level manager to make
-   * levels available to the current level property.
+   * Initialise the level manager.
    *
    * @method init
    */
@@ -45,7 +50,7 @@ module.exports = {
    *
    * @method nextLevel
    * @property nextLevel
-   * @return {Number}
+   * @return {Object}
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {

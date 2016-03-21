@@ -16,6 +16,7 @@ var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
 var PowerStation = require('../actors/PowerStation');
 var PhysicsActor = require('../actors/PhysicsActor');
+var gameState = require('../data/game-state');
 
 /**
  * The play state
@@ -241,6 +242,8 @@ module.exports = {
    */
   gameOver: function (score) {
     console.warn('GAME OVER score:', score);
+    alert('game over! refresh');
+    gameState.initialise();
   },
 
   /**
@@ -275,8 +278,8 @@ module.exports = {
    */
   uiUpdate: function () {
     if (this.inPlay) {
-      ui.fuel.update(this.player.fuel, true);
-      ui.score.update(this.player.score, true);
+      ui.fuel.update(gameState.fuel, true);
+      ui.score.update(gameState.score, true);
     }
   },
 
@@ -345,7 +348,7 @@ module.exports = {
       game.controls.initJoypad();
     }
     ui.init();
-    ui.missionSwipe.init(0, game.height * 0.35, game.width * 0.5, 80, ui.group);
+    ui.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, ui.group);
     ui.score.init(10, 10, ui.group);
     ui.score.update(this.player.score, true);
     ui.fuel.init(10, 30, ui.group);
@@ -385,7 +388,7 @@ module.exports = {
    * @param score
    */
   limpetDestroyed: function (score) {
-    this.player.score += score;
+    gameState.score += score;
   },
 
   /**

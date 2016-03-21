@@ -8,6 +8,7 @@ var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
 var particles = require('../environment/particles');
 var levelManager = require('../data/level-manager');
+var gameState = require('../data/game-state');
 
 /**
  * A user controlled controlled spaceship
@@ -71,19 +72,19 @@ function Player(collisions, groups) {
    * @property fuel
    * @type {number}
    */
-  this.fuel = 25000;
+  this.fuel = gameState.fuel;
 
   /**
    * @property lives
    * @type {number}
    */
-  this.lives = 5;
+  this.lives = gameState.lives;
 
   /**
    * @property score
    * @type {number}
    */
-  this.score = 0;
+  this.score = gameState.score;
 
   /**
    * @property initialPos
@@ -224,7 +225,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   this.body.angle = 0;
   this.alpha = 0;
   if (removeShip === true) {
-    this.lives--;
+    this.lives = gameState.lives--;
   }
   ui.lives.update(this.lives, true);
   ui.fuel.update(this.fuel, true);
@@ -306,7 +307,7 @@ p.checkThrust = function(buttonAPressed, cursors) {
         this.thrustStart();
       }
       this.body.thrust(400);
-      this.fuel--;
+      this.fuel = gameState.fuel--;
     }
   } else {
     this.cutEngine();
@@ -441,7 +442,6 @@ p.death = function () {
  */
 p.checkRespawn = function(callback, context, removeShip) {
   if (this.lives === 0) {
-    alert('game over! refresh');
     this.livesLost.dispatch(this.score);
   } else {
     this.respawn(callback, context, removeShip);

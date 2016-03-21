@@ -4,7 +4,6 @@ var properties = require('./properties');
 
 var bestFitScale = function() {
   if (properties.scale.bestFit) {
-    console.log('best fit scale mode activated');
     properties.width = window.innerWidth;
     properties.height = window.innerHeight;
   }
