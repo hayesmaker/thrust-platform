@@ -1,12 +1,12 @@
 # thrust-platform
 [![Build Status](https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master)]
-(https://travis-ci.org/hayesmaker/thrust-engine)
+(https://travis-ci.org/hayesmaker/thrust-platform)
 [![Phase-2-e](https://img.shields.io/badge/e2e-phase--2--e-green.svg)]
 (https://github.com/hayesmaker/phase-2-e)
 
 Game engine for creating thrust-a-likes...  Physics blasters which require brains.
 
-http://thrust-engine.herokuapp.com/
+http://thrust-platform.herokuapp.com/
 
 Inspired and heavily copied from BBC Micro and Commodore 64 game "Thrust" by Jeremy Smith.  
 https://en.wikipedia.org/wiki/Thrust_(video_game).
