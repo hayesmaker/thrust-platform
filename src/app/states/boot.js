@@ -45,7 +45,9 @@ module.exports = {
     levelManager.init();
     particles.init();
     game.scale.scaleMode = features.isTouchScreen ? properties.scale.device : properties.scale.web;
-    game.time.advancedTiming = true;
+    if (properties.dev.stats) {
+      game.time.advancedTiming = true;
+    }
     userControl = new UserControl(features.isTouchScreen || properties.enableJoypad);
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
     console.warn("TouchScreenDetected:", features.isTouchScreen);
