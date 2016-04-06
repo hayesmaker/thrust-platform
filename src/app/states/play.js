@@ -96,7 +96,10 @@ module.exports = {
    * @method render
    */
   render: function () {
-    if (properties.debugPositions) {
+    if (properties.dev.stats) {
+      game.debug.text(game.time.fps || '--', 2, 14, "#0000ff");
+    }
+    if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
       if (this.isDevMode) {
         game.debug.spriteCoords(this.crossHair, 32, 450);
