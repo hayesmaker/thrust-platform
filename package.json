@@ -32,7 +32,7 @@
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting Local Nightwatch test sweep' && cd test/e2e/nightwatch && nightwatch && cd ../../..",
-    "mocha": "echo 'Attempting to run mocha bdd style unit tests' && mocha-phantomjs ./public/javascripts/test/index.html",
+    "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
     "e2e:setup": "echo 'Starting Browserstack Local' && ./bin/BrowserStackLocal ${BROWSERSTACK_ACCESS_KEY}",
     "e2e:local": "echo 'Attempting Local Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -e browserstack && cd ../../..",
@@ -95,7 +95,8 @@
     "jshint": "^2.8.0",
     "jshint-stylish": "^2.1.0",
     "mocha": "^2.2.5",
-    "mocha-phantomjs": "^4.0.1",
-    "mochify-istanbul": "^2.2.2"
+    "mocha-phantomjs-core": "^2.0.1",
+    "mochify-istanbul": "^2.2.2",
+    "phantomjs": "^2.1.3"
   }
 }

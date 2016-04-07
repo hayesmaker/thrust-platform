@@ -23,7 +23,7 @@ router.get('/dev', function(req, res) {
   res.render('app', {
     title: pkg.name,
     version: pkg.version,
-    engine: 'javascripts/browserify/thrust-engine-auto.js'
+    engine: 'javascripts/browserify/thrust-engine-canvas.js'
   });
 });
 

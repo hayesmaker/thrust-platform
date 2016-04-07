@@ -41,6 +41,7 @@ module.exports = {
    * @method create
    */
   create: function () {
+    console.log('boot :: create');
     features.init();
     levelManager.init();
     particles.init();
