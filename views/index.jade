@@ -9,8 +9,14 @@ block content
         h4="Play"
         ul
           li
-            a(href='/min' target='blank')='Play Thrust'
-            |  #[a(href='/min' target='blank') (minified)] #[a(href='/dev' target='blank') (dev)]
+            a(href='/min' target='self')='Play Thrust 2016'
+            |  #[a(href='/min' target='self') (canvas minified)]
+          li
+            a(href='/canvas' target='self')='Canvas'
+          li
+            a(href='/webgl' target='self')='WebGL'
+          li
+            a(href='/auto' target='self')='Auto'
         h4="Test"
         ul
           li

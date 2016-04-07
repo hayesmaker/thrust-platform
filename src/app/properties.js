@@ -9,13 +9,24 @@
  */
 module.exports = {
   collideWorldBounds: true,
-  enableJoypad: false,
+  enableTouchPad: false,
+  enableJoyPad: false,
+  /**
+   * @deprecated
+   */
   fatalCollisions: true,
+  /**
+   * @deprecated
+   */
   drawBackground: true,
   width: 800,
   height: 500,
   scale: {
+    /**
+     * @deprecated
+     */
     bestFit: true,
+    hires: true,
     web: Phaser.ScaleManager.NO_SCALE,
     device: Phaser.ScaleManager.NO_SCALE
   },
