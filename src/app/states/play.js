@@ -97,7 +97,7 @@ module.exports = {
    */
   render: function () {
     if (properties.dev.stats) {
-      game.debug.text(game.time.fps || '--', 2, 14, "#0000ff");
+      game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);

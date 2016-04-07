@@ -40,6 +40,10 @@ module.exports = {
    * @method init
    */
   init: function() {
+    var customLevel = game.net.getQueryString('level');
+    if (customLevel) {
+      this.levelIndex = customLevel - 1;
+    }
     this.currentLevel = this.levels[this.levelIndex];
   },
 
