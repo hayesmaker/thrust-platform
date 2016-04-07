@@ -1,4 +1,5 @@
 var properties = require('../properties');
+var _ = require('lodash');
 
 /**
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
@@ -19,11 +20,13 @@ module.exports = {
 
   /**
    * Starting level index
+   * > Overridden from QueryString with `level=1`
    *
    * @property levelIndex
    * @type {Number}
+   * @default null
    */
-  levelIndex: properties.levels.startLevel - 1,
+  levelIndex: null,
 
   /**
    * Current level data
@@ -40,11 +43,14 @@ module.exports = {
    * @method init
    */
   init: function() {
-    var customLevel = game.net.getQueryString('level');
-    if (customLevel) {
+    var customLevel = parseInt(game.net.getQueryString('level'), 10);
+    if (_.isEmpty(customLevel)) {
+      this.levelIndex = properties.levels.startLevel - 1;
+    } else {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
+    console.log('level-manager :: init=', this.levelIndex, this.currentLevel);
   },
 
   /**
