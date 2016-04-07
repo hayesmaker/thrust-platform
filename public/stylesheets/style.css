@@ -60,7 +60,7 @@ ul {
 }
 
 div.lists {
-    max-width: 40%;
+    width: 100%;
     display: inline-block;
 }
 
