@@ -18,7 +18,7 @@ var TweenLite = global.TweenLite;
  * @extends {PhysicsActor}
  * @constructor
  */
-function Fuel (collisions, groups, imageCacheKey, x, y) {
+function Fuel(collisions, groups, imageCacheKey, x, y) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
   this.health = 250;
 }
@@ -46,12 +46,12 @@ p.particles = null;
  * @property refuelAmount
  * @type {number}
  */
-p.refuelAmount= 1;
+p.refuelAmount = 1;
 
 /**
  * @method init
  */
-p.init = function() {
+p.init = function () {
   this.createParticles();
   this.initCustomPhysics(true);
   this.fuelPadding = {
@@ -66,7 +66,7 @@ p.init = function() {
 /**
  * @method explode
  */
-p.explode = function() {
+p.explode = function () {
   if (!this.player.alive) {
     return;
   }
@@ -79,14 +79,14 @@ p.explode = function() {
 /**
  * @method update
  */
-p.update = function() {
+p.update = function () {
   this.checkPlayerVicinity();
 };
 
 /**
  * @method createParticles
  */
-p.createParticles = function() {
+p.createParticles = function () {
   this.particles = new FuelParticlesSystem();
   this.particles.init(this.position);
 };
@@ -96,13 +96,13 @@ p.createParticles = function() {
  *
  * @method kill
  */
-p.kill = function() {
+p.kill = function () {
   this.alive = false;
   gameState.score += gameState.SCORES.FUEL;
-  TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete:_.bind(this.cleanUp, this)});
+  TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete: _.bind(this.cleanUp, this)});
 };
 
-p.cleanUp = function() {
+p.cleanUp = function () {
   Phaser.Sprite.prototype.kill.call(this);
   this.body.removeFromWorld();
   this.body.destroy();
@@ -114,15 +114,15 @@ p.cleanUp = function() {
  *
  * @method checkPlayerVicinity
  */
-p.checkPlayerVicinity = function() {
+p.checkPlayerVicinity = function () {
   var dist = utils.distAtoB(this.player.position, this.position);
   if (this.alive && this.player.alive && dist < 80) {
     if (!this.particles.isEmitting) {
       this.particles.start(this.position, this.player.position);
-      TweenMax.to(this, 0.5, {tint:0xfffffe, tintAmount:1});
+      TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
     }
     this.particles.update();
-    gameState.fuel+=this.refuelAmount;
+    gameState.fuel += this.refuelAmount;
     this.damage(1);
   } else {
     if (this.particles.isEmitting) {
