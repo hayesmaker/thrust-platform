@@ -70,11 +70,9 @@ p.explode = function() {
     return;
   }
   console.log('explode');
-  particles.explode(this.x, this.y);
+  particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;
-  Phaser.Sprite.prototype.kill.call(this);
-  this.body.removeFromWorld();
-  this.body.destroy();
+  this.cleanUp();
 };
 
 /**
@@ -84,6 +82,9 @@ p.update = function() {
   this.checkPlayerVicinity();
 };
 
+/**
+ * @method createParticles
+ */
 p.createParticles = function() {
   this.particles = new FuelParticlesSystem();
   this.particles.init(this.position);
@@ -97,18 +98,13 @@ p.createParticles = function() {
 p.kill = function() {
   this.alive = false;
   gameState.score += gameState.SCORES.FUEL;
-  TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete:_.bind(this.onFadeComplete, this)});
+  TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete:_.bind(this.cleanUp, this)});
 };
 
-/**
- * When Fuel is killed or destroyed it is removed from the game
- *
- * @method onFadeComplete
- */
-p.onFadeComplete = function() {
-  console.log('onFadeComplete', this.alive);
-  particles.explode(this.x, this.y);
+p.cleanUp = function() {
   Phaser.Sprite.prototype.kill.call(this);
+  this.body.removeFromWorld();
+  this.body.destroy();
 };
 
 /**
