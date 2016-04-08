@@ -44,7 +44,6 @@ module.exports = {
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode);
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
-    game.state.add('menu', require('./menu'));
     game.state.add('boot', require('./boot'));
     game.state.start('boot');
   }

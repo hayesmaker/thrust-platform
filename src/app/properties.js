@@ -35,8 +35,8 @@ module.exports = {
     debugPositions: false,
     stats: true,
     mode: false,
-    skipIntro: true,
-    skipSplashScreen: true
+    skipIntro: false,
+    skipSplashScreen: false
   },
   gamePlay: {
     freeOrbLocking: false,
