@@ -4,6 +4,7 @@ var utils = require('../utils');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
 var particles = require('../environment/particles');
+var TweenLite = global.TweenLite;
 
 /**
  * Fuel Sprite - PhysicsActor enabled fuel cell sprite

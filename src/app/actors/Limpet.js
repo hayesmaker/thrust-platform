@@ -1,7 +1,6 @@
 var PhysicsActor = require('./PhysicsActor');
 var Turret = require('./Turret');
 var gameState = require('../data/game-state');
-var _ = require('lodash');
 var particles = require('../environment/particles');
 var SpreadFiring = require('./strategies/SpreadFiring');
 
@@ -79,21 +78,14 @@ p.createTurret = function () {
   bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
-
   return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
 };
 
 p.explode = function () {
   particles.explode(this.x, this.y);
   this.kill();
-  //this.emitter.x = this.position.x;
-  //this.emitter.y = this.position.y;
-  //this.emitter.start(true, 1000, null, 5);
   this.body.removeFromWorld();
   this.body.destroy();
-  //this.removeFromGroup();
-  //this.turret.destroy();
-  //this.turret = null;
   gameState.score+=gameState.SCORES.LIMPET;
 };
 
