@@ -54,6 +54,20 @@ p.init = function() {
 };
 
 /**
+ * Initialises this physics actor in p2
+ * the caller of this method is now responsible for the physics shape required.
+ * As by default no shape is added.
+ * 
+ * @method initCustomPhysics
+ * @param [isStatic] {Boolean} if movable object, pass false or leave blank;
+ */
+p.initCustomPhysics = function(isStatic) {
+  game.physics.p2.enable(this, properties.dev.debugPhysics);
+  this.body.clearShapes();
+  this.body.static = isStatic || false;
+};
+
+/**
  *
  * @method initPhysics
  * @param physicsDataKey {String} eg 'playerPhysics'
@@ -61,7 +75,7 @@ p.init = function() {
  */
 p.initPhysics = function(physicsDataKey, physicsDataObjKey) {
   console.log('Actor :: initPhysics');
-  game.physics.p2.enable(this, properties.debugPhysics);
+  game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon(physicsDataKey, physicsDataObjKey);
   this.body.static = true;

@@ -2,9 +2,11 @@ var properties = require('../properties');
 var Turret = require('./Turret');
 var SpreadFiring = require('./strategies/SpreadFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
+var gameState = require('../data/game-state');
 
 /**
  * LimpetGun
+ * //todo make PhysicsActor
  *
  * The enemy of the game are stationary gun turrets which
  * fire at random angles (Spread strategy) and at a rate which should increase with difficulty
@@ -26,7 +28,7 @@ function LimpetGun(x, y, angleDeg, collisions, groups) {
    * @property score
    * @type {number}
    */
-  this.score = 100;
+  this.score = gameState.SCORES.LIMPET;
 
   /**
    *
@@ -90,7 +92,7 @@ p.init = function () {
  */
 p.start = function() {
   this.alive = true;
-  game.physics.p2.enable(this, properties.debugPhysics);
+  game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.addRectangle(50, 25, 0, 0);
   this.body.rotation = game.math.degToRad(this.angle);

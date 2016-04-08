@@ -84,11 +84,11 @@ module.exports = {
     };
     
     var explodeEmitterData = {
-      lifespan: { min: 2000, max: 3000 },
+      lifespan: { min: 1000, max: 2000 },
       image: game.cache.getBitmapData('explodeParticle'),
-      scale: { min: 1, max: 2 },
+      scale: { min: 0.5, max: 2 },
       rotation: { delta: 3 },
-      velocity: { radial: { arcStart: -30, arcEnd: 30 }, initial: { min: 3, max: 6 } }
+      velocity: { radial: { arcStart: -30, arcEnd: 20 }, initial: { min: 3, max: 6 } }
     }; 
 
     this.manager.addData('explode', explodeEmitterData);
@@ -123,7 +123,7 @@ module.exports = {
 
   explode: function(x, y) {
     this.emitter.force.y = 0.1;
-    this.emitter.emit('explode', x, y, { total: 32 });
+    this.emitter.emit('explode', x, y, { total: 25 });
   }
 
 };

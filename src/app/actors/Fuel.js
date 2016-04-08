@@ -52,6 +52,29 @@ p.refuelAmount= 1;
  */
 p.init = function() {
   this.createParticles();
+  this.initCustomPhysics(true);
+  this.fuelPadding = {
+    x: 6.5,
+    y: 5
+  };
+  this.body.addRectangle(this.width - this.fuelPadding.x * 2, this.height - this.fuelPadding.y, 1, this.fuelPadding.y);
+  this.body.setCollisionGroup(this.collisions.fuels);
+  this.body.collides([this.collisions.players, this.collisions.bullets], this.explode, this);
+};
+
+/**
+ * @method explode
+ */
+p.explode = function() {
+  if (!this.player.alive) {
+    return;
+  }
+  console.log('explode');
+  particles.explode(this.x, this.y);
+  gameState.score += gameState.SCORES.FUEL;
+  Phaser.Sprite.prototype.kill.call(this);
+  this.body.removeFromWorld();
+  this.body.destroy();
 };
 
 /**
@@ -86,7 +109,6 @@ p.onFadeComplete = function() {
   console.log('onFadeComplete', this.alive);
   particles.explode(this.x, this.y);
   Phaser.Sprite.prototype.kill.call(this);
-
 };
 
 /**

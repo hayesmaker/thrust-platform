@@ -331,6 +331,7 @@ module.exports = {
 
     this.powerStation.initCollisions();
 
+    //this.collisions.set(this.collisions.fuels, [this.collisions.bullets, this.collisions.players]);
     this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);

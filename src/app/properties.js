@@ -31,12 +31,12 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: false,
+    debugPhysics: true,
     debugPositions: false,
     stats: true,
     mode: false,
-    skipIntro: false,
-    skipSplashScreen: false
+    skipIntro: true,
+    skipSplashScreen: true
   },
   gamePlay: {
     freeOrbLocking: false,
