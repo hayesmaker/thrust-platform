@@ -13,7 +13,7 @@ function ForwardsFire(origin, collisions, groups, bulletBmp, lifespan) {
   console.log('new ForwardFire :: origin, lifespan', origin, lifespan);
   FiringStrategy.call(this, origin, collisions, groups, bulletBmp, lifespan);
   this.setCollisionGroup(this.collisions.bullets);
-  this.setCollidesWith([this.collisions.terrain, this.collisions.enemies]);
+  this.setCollidesWith([this.collisions.terrain, this.collisions.enemies, this.collisions.fuels]);
 }
 
 var p = ForwardsFire.prototype = Object.create(FiringStrategy.prototype);

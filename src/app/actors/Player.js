@@ -163,7 +163,7 @@ p.start = function (completeCallback, context) {
   game.physics.p2.enable(this, properties.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
-  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb], this.crash, this);
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
   this.body.motionState = 2;
   this.body.mass = 1;
