@@ -6,7 +6,7 @@ var Groups = require('../environment/Groups');
 var ui = require('../ui/index');
 var Player = require('../actors/Player');
 var Fuel = require('../actors/Fuel');
-var LimpetGun = require('../actors/LimpetGun');
+var Limpet = require('../actors/Limpet');
 var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
 var Background = require('../actors/Background');
@@ -368,8 +368,7 @@ module.exports = {
    * @param data
    */
   createLimpet: function (data) {
-    var limpet = new LimpetGun(data.x, data.y, data.rotation, this.collisions, this.groups);
-    limpet.killed.addOnce(this.limpetDestroyed, this);
+    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);
     this.limpetGuns.push(limpet);
   },
 
@@ -383,16 +382,6 @@ module.exports = {
     var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
     fuel.player = this.player;
     this.fuels.push(fuel);
-  },
-
-  /**
-   * Singal handler for when a limpet gun is destroyed, we can update score
-   *
-   * @method limpetDestroyed
-   * @param score
-   */
-  limpetDestroyed: function (score) {
-    gameState.score += score;
   },
 
   /**
