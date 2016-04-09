@@ -3,6 +3,7 @@ module.exports = {
   init: function() {
     this.group = game.make.group();
     this.interstitial.init(this.group);
+    this.countdown.init(this.group);
   },
 
   missionSwipe: require('./mission-swipe'),
@@ -13,6 +14,8 @@ module.exports = {
 
   lives: require('./lives'),
 
-  interstitial: require('./interstitial')
+  interstitial: require('./interstitial'),
+  
+  countdown: require('./countdown')
 
 };

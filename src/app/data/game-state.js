@@ -39,19 +39,62 @@ module.exports = {
    * @type {number}
    */
   PLAYER_BULLET_DURATION: 2000,
-  
+
+  /**
+   * The amount of fuel a fuel cell can refuel the player
+   * before it is removed
+   * 
+   * @property FUEL_AMOUNT
+   * @type {Number}
+   */
   FUEL_AMOUNT: 300,
-  
+
+  /**
+   * @deprecated
+   * @method initialise
+   */
   initialise: function() {
     this.score = 5;
     this.fuel = 10000;
     this.lives = 5;
   },
-  
+
+  /**
+   * @method levelReset
+   */
+  restart: function() {
+    this.planetDestroyed = false
+    this.orbRecovered = false;
+  },
+
+  /**
+   * @property planetDestroyed
+   * @type {boolean}
+   */
+  planetDestroyed: false,
+
+  /**
+   * @property orbRecovered
+   * @type {boolean}
+   */
+  orbRecovered: false,
+
+  /**
+   * @property score
+   * @type {number}
+   */
   score: 0,
-  
+
+  /**
+   * @property fuel
+   * @type {number}
+   */
   fuel: 10000,
-  
+
+  /**
+   * @property lives
+   * @type {number}
+   */
   lives: 5
   
 };

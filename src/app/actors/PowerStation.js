@@ -36,10 +36,10 @@ module.exports = PowerStation;
 p.particles = null;
 
 /**
- *
- * @type {boolean}
+ * @property destructionSequenceActivated
+ * @type {Phaser.Signal}
  */
-p.isHit = false;
+p.destructionSequenceActivated = new Phaser.Signal();
 
 /**
  * @method init
@@ -48,15 +48,13 @@ p.init = function() {
   this.createParticles();
 };
 
+/**
+ * @method kill
+ */
 p.kill = function() {
   Phaser.Sprite.prototype.kill.call(this);
-  particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
-  game.time.events.add(100, function() {
-    particleManager.explode(this.x, this.y + this.height/2);
-  }, this);
-  game.time.events.add(200, function() {
-    particleManager.explode(this.x + this.width/2, this.y + this.height/2);
-  }, this);
+  this.destructionSequenceActivated.dispatch();
+  this.explode();
 };
 
 /**
@@ -68,10 +66,6 @@ p.initCollisions = function() {
   this.body.collides(this.collisions.bullets, this.hit, this);
 };
 
-p.crash = function() {
-  console.log('crash hit');
-};
-
 /**
  * @method update
  */
@@ -81,12 +75,31 @@ p.update = function() {
   }
 };
 
+/**
+ * @method hit
+ */
 p.hit = function() {
   console.log('PowerStation :: hit', this.health);
   this.damage(80);
 };
 
+/**
+ * @method createParticles
+ */
 p.createParticles = function() {
   //this.particles = new FuelParticlesSystem();
   //this.particles.init(this.position);
+};
+
+/**
+ * @method explode
+ */
+p.explode = function() {
+  particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
+  game.time.events.add(Math.random()*500, function() {
+    particleManager.explode(this.x, this.y + this.height/2);
+  }, this);
+  game.time.events.add(Math.random()*500, function() {
+    particleManager.explode(this.x + this.width/2, this.y + this.height/2);
+  }, this);
 };

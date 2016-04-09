@@ -131,6 +131,7 @@ module.exports = {
    */
   nextLevel: function () {
     ui.interstitial.clear();
+    ui.countdown.clear();
     this.limpetGuns = [];
     this.fuels = [];
     this.groups.background.removeAll(true);
@@ -139,6 +140,7 @@ module.exports = {
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
     levelManager.nextLevel();
+    gameState.restart();
     game.state.restart();
   },
 
@@ -214,8 +216,10 @@ module.exports = {
         this.player.inGameArea = false;
         this.player.stop();
         this.orb.stop();
+        ui.countdown.stop();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.removePlayers, this));
         if (this.tractorBeam.hasGrabbed) {
+          gameState.orbRecovered = true;
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
         }
@@ -322,6 +326,7 @@ module.exports = {
     _.each(this.level.fuels, this.createFuel, this);
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
     this.powerStation.initPhysics('powerStationPhysics', 'power-station');
+    this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
 
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
     //this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
@@ -344,6 +349,19 @@ module.exports = {
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
   },
+
+  /**
+   * @method startDestructionSequence
+   */
+  startDestructionSequence: function() {
+    ui.countdown.start();
+  },
+
+  countdownComplete: function() {
+    //alert('planet fucked');
+  },
+
+
 
   /**
    * Creates the user interface and touch controls
