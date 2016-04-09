@@ -4,7 +4,7 @@ var properties = require('../properties');
 var features = require('../utils/features');
 var UserControl = require('../environment/UserControl');
 var levelManager = require('../data/level-manager');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var userControl;
 
 /**

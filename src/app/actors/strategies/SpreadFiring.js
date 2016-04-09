@@ -1,5 +1,4 @@
 var FiringStrategy = require('./FiringStrategy');
-var properties = require('../../properties');
 
 /**
  * SpreadFiring - Defines a Firing strategy for a Turret, where

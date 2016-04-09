@@ -6,7 +6,7 @@ var utils = require('../utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 

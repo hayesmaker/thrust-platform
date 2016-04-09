@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @prporty _firingStrategy
  * @type {FiringStrategy}

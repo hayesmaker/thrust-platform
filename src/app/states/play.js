@@ -12,7 +12,7 @@ var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var PowerStation = require('../actors/PowerStation');
 var PhysicsActor = require('../actors/PhysicsActor');
@@ -52,6 +52,7 @@ module.exports = {
    * @method create
    */
   create: function () {
+    console.log('play :: create');
     this.setLevel();
     this.defineWorldBounds();
     this.createActors();
@@ -65,6 +66,7 @@ module.exports = {
    * @method initPlayState
    */
   initPlayState: function() {
+    console.log('play :: initPlayState');
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {

@@ -1,9 +1,11 @@
+'use strict';
+
 var PhysicsActor = require('./PhysicsActor');
-var FuelParticlesSystem = require('./FuelParticlesSystem');
+var FuelParticlesSystem = require('../environment/particles/FuelParticlesSystem');
 var utils = require('../utils');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var TweenLite = global.TweenLite;
 
 /**
@@ -54,13 +56,7 @@ p.refuelAmount = 1;
 p.init = function () {
   this.createParticles();
   this.initCustomPhysics(true);
-  this.fuelPadding = {
-    x: 6.5,
-    y: 5
-  };
-  this.body.addRectangle(this.width - this.fuelPadding.x * 2, this.height - this.fuelPadding.y, 1, this.fuelPadding.y);
-  this.body.setCollisionGroup(this.collisions.fuels);
-  this.body.collides([this.collisions.players, this.collisions.bullets], this.explode, this);
+  this.setPhysicsShape();
 };
 
 /**
@@ -73,7 +69,7 @@ p.explode = function () {
   console.log('explode');
   particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;
-  this.cleanUp();
+  this.cleanup();
 };
 
 /**
@@ -92,6 +88,21 @@ p.createParticles = function () {
 };
 
 /**
+ * Sets the collision box and initialises collision detection
+ *
+ * @method setPhysicsShape
+ */
+p.setPhysicsShape = function() {
+  this.fuelPadding = {
+    x: 6.5,
+    y: 5
+  };
+  this.body.addRectangle(this.width - this.fuelPadding.x * 2, this.height - this.fuelPadding.y, 1, this.fuelPadding.y);
+  this.body.setCollisionGroup(this.collisions.fuels);
+  this.body.collides([this.collisions.players, this.collisions.bullets], this.explode, this);
+};
+
+/**
  * Destroys this Fuel game object
  *
  * @method kill
@@ -102,7 +113,10 @@ p.kill = function () {
   TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete: _.bind(this.cleanUp, this)});
 };
 
-p.cleanUp = function () {
+/**
+ * @method cleanup
+ */
+p.cleanup = function () {
   Phaser.Sprite.prototype.kill.call(this);
   this.body.removeFromWorld();
   this.body.destroy();

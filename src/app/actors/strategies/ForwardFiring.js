@@ -1,3 +1,5 @@
+'use strict';
+
 var FiringStrategy = require('./FiringStrategy');
 var _ = require('lodash');
 

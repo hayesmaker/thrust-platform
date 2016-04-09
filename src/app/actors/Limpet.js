@@ -1,7 +1,9 @@
+'use strict';
+
 var PhysicsActor = require('./PhysicsActor');
 var Turret = require('./Turret');
 var gameState = require('../data/game-state');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var SpreadFiring = require('./strategies/SpreadFiring');
 
 /**
@@ -30,7 +32,7 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   bmd.ctx.lineTo(5, 15);
   bmd.ctx.arc(25, 15, 12, 0, Math.PI, true);
   bmd.ctx.closePath();
-  bmd.ctx.stroke();
+  bmd.ctx.stroke(); 
 
   PhysicsActor.call(this, collisions, groups, bmd, x, y);
 

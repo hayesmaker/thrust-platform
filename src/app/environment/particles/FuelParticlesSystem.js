@@ -1,7 +1,15 @@
-var particles = require('../environment/particles');
+var particles = require('./manager');
 var ParticleSystem = require('./ParticleSystem');
 
-
+/**
+ * Creates a new emitter on the particle system
+ * This one is used by the fuel cells and emit a stream of particles
+ * towards the player while refuelling.
+ * 
+ * @class FuelParticlesSystem
+ * @extends ParticleSystem
+ * @constructor
+ */
 function FuelParticlesSystem() {
 
 }
