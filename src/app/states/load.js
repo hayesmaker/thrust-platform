@@ -47,7 +47,6 @@ module.exports = {
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
-    game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
