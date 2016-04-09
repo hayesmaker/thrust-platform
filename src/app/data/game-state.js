@@ -63,7 +63,7 @@ module.exports = {
    * @method levelReset
    */
   restart: function() {
-    this.planetDestroyed = false
+    this.planetDestroyed = false;
     this.orbRecovered = false;
   },
 
