@@ -1,3 +1,5 @@
+'use strict';
+
 var properties = require('../properties');
 
 /**
@@ -14,6 +16,7 @@ var properties = require('../properties');
  * @constructor
  */
 function PhysicsActor(collisions, groups, imageCacheKey, x, y) {
+  console.log('PhysicsActor :: constructor :', this);
   /**
    * The collisions container
    *
@@ -38,20 +41,12 @@ function PhysicsActor(collisions, groups, imageCacheKey, x, y) {
 
   Phaser.Sprite.call(this, game, this.initalPosition.x, this.initalPosition.y, imageCacheKey);
   this.anchor.setTo(0.5);
-  this.init();
 }
 
 var p = PhysicsActor.prototype = Object.create(Phaser.Sprite.prototype, {
   constructor: PhysicsActor
 });
 module.exports = PhysicsActor;
-
-/**
- * @method init
- */
-p.init = function() {
-  console.log('PhysicsActor :: init ::', this);
-};
 
 /**
  * Initialises this physics actor in p2

@@ -6,7 +6,7 @@ var utils = require('../utils');
 var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var ui = require('../ui');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 
@@ -246,8 +246,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
  * @method update§
  */
 p.update = function () {
-  if (this.alive && this.body) {
-    this.turret.update();
+  if (this.alive ) {
     this.exhaustUpdate();
   }
 };
@@ -263,7 +262,7 @@ p.createTurret = function () {
   bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
+  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, gameState.PLAYER_BULLET_DURATION));
 };
 
 /**

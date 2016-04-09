@@ -1,3 +1,5 @@
+'use strict';
+
 var properties = require('../properties');
 var game = window.game;
 var levelManager = require('../data/level-manager');

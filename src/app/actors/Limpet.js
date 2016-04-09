@@ -1,7 +1,9 @@
+'use strict';
+
 var PhysicsActor = require('./PhysicsActor');
 var Turret = require('./Turret');
 var gameState = require('../data/game-state');
-var particles = require('../environment/particles');
+var particles = require('../environment/particles/manager');
 var SpreadFiring = require('./strategies/SpreadFiring');
 
 /**
@@ -30,12 +32,12 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   bmd.ctx.lineTo(5, 15);
   bmd.ctx.arc(25, 15, 12, 0, Math.PI, true);
   bmd.ctx.closePath();
-  bmd.ctx.stroke();
+  bmd.ctx.stroke(); 
 
   PhysicsActor.call(this, collisions, groups, bmd, x, y);
 
   this.angle = angleDeg;
-  this.fireRate = 1 / 180;
+  this.fireRate = 1 / 200;
   this.alive = false;
   this.turret = this.createTurret();
 
@@ -53,6 +55,8 @@ var p = Limpet.prototype = Object.create(PhysicsActor.prototype, {
 
 module.exports = Limpet;
 
+p.hasPower = false;
+
 /**
  * @method start
  */
@@ -60,16 +64,35 @@ p.start = function() {
   this.alive = true;
 };
 
+/**
+ * @method setPower
+ * @param powerStationHealth
+ */
+p.setPower = function(powerStationHealth) {
+  this.hasPower = powerStationHealth >= gameState.POWER_STATION_HEALTH;
+};
+
+/**
+ * @method update
+ */
 p.update = function () {
   if (!this.alive) {
     return;
   }
-  if (Math.random() < this.fireRate) {
-    this.turret.fire();
+  if (!this.hasPower) {
+    this.alpha = 0.6;
+  } else {
+    this.alpha = 1;
+    if (Math.random() < this.fireRate) {
+      this.turret.fire();
+    }
   }
-  this.turret.update();
 };
 
+/**
+ * @method createTurret
+ * @returns {Turret}
+ */
 p.createTurret = function () {
   var bulletBitmap = game.make.bitmapData(5, 5);
   bulletBitmap.ctx.fillStyle = '#ffffff';
@@ -78,9 +101,12 @@ p.createTurret = function () {
   bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
+  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, gameState.ENEMY_BULLET_DURATION));
 };
 
+/**
+ * @method explode
+ */
 p.explode = function () {
   particles.explode(this.x, this.y);
   this.kill();

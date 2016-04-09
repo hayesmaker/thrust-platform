@@ -1,5 +1,4 @@
 var FiringStrategy = require('./FiringStrategy');
-var properties = require('../../properties');
 
 /**
  * SpreadFiring - Defines a Firing strategy for a Turret, where
@@ -32,15 +31,3 @@ p.fire = function () {
 };
 
 module.exports = SpreadFiring;
-
-/*
- this.bullet = game.make.sprite(this.origin.position.x, this.origin.position.y, this.bulletBitmap);
- this.bullet.anchor.setTo(0.5,0.5);
- this.bullet.lifespan = 1000;
- game.physics.p2.enable(this.bullet, properties.debugPhysics);
- var angle = this.origin.body.rotation + Math.PI + Math.random()*Math.PI;
- this.bullet.body.collidesWorldBounds = false;
- this.bullet.body.setCollisionGroup(this.collisions.enemyBullets);
- this.groups.bullets.add(this.bullet);
- this.bullet.body.collides([this.collisions.terrain, this.collisions.players],this.bulletEnd, this);
- */

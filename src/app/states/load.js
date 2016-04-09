@@ -1,8 +1,8 @@
 'use strict';
 
 var _ = require('lodash');
-var properties = require('../properties');//stubbed
-var levelManager = require('../data/level-manager');//stubbed
+var properties = require('../properties');
+var levelManager = require('../data/level-manager');
 
 /**
  * The load state - Loads in game assets
@@ -34,10 +34,8 @@ module.exports = {
   preload: function () {
     var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
     this.loadProgressTxt = game.add.text(0, 0, '0%', style);
-
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
-
     if (game.controls.isJoypadEnabled) {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
@@ -47,12 +45,10 @@ module.exports = {
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
-    game.load.image('smoke_r', 'assets/images/smoke_colors.png');
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
     game.load.image('fuelImage', 'assets/actors/fuel.png');
-    game.load.physics('fuelPhysics', 'assets/actors/fuel.json');
     game.load.image('powerStationImage', 'assets/actors/power-station.png');
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');

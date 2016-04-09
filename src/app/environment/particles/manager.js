@@ -3,7 +3,8 @@
  * Manager for particle effects,
  * currently houses the swirl effect uses when the player jumps into a level
  *
- * @class particles
+ * @class manager
+ * @namespace environment.particles
  * @type {{group: null, manager: null, emitter: null, init: Function, create: Function, startSwirl: Function}}
  * @static
  */
@@ -20,8 +21,6 @@ module.exports = {
    * @type {Phaser.ParticleStorm.Emitter}
    */
   emitter: null,
-
-  noRefuel: true,
 
   /**
    * @method init
@@ -74,7 +73,7 @@ module.exports = {
       image: game.cache.getBitmapData('fuelParticle'),
       vy: { min: 0, max: 0 },
       alpha: {
-        initial: 0,
+        initial: 0.5,
         value: 0.5,
         control: [
           { x: 0, y: 1 },

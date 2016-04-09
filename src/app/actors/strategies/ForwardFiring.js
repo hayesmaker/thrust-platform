@@ -1,9 +1,11 @@
+'use strict';
+
 var FiringStrategy = require('./FiringStrategy');
 var _ = require('lodash');
 
 /**
  * ForwardsFire
- *
+ * The main firing strategy of Player
  *
  * @class ForwardsFire
  * @extends {FiringStrategy}
@@ -22,7 +24,7 @@ p.constructor = ForwardsFire;
 /**
  * ForwardsFire initialisation
  *
- * @method fore
+ * @method fire
  */
 p.fire = function () {
   console.log('ForwardFire :: fire : lifespan=', this.lifespan);

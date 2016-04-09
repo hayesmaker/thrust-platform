@@ -1,4 +1,4 @@
-var particles = require('../environment/particles');
+var particles = require('./manager');
 
 
 function ParticleSystem() {
