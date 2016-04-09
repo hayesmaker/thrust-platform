@@ -43,11 +43,6 @@ describe("Phaser load state tests", function() {
       expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/starfield.png');
     });
 
-    it('smoke particle image should be loaded', function() {
-      state.preload();
-      expect(game.load.image).to.have.been.calledWith('smoke_r', 'assets/images/smoke_colors.png');
-    });
-
     it('player ship image should be loaded', function() {
       state.preload();
       expect(game.load.image).to.have.been.calledWith('player', 'assets/actors/player.png');
@@ -71,11 +66,6 @@ describe("Phaser load state tests", function() {
     it('fuel cell image should be loaded', function() {
       state.preload();
       expect(game.load.image).to.have.been.calledWith('fuelImage', 'assets/actors/fuel.png');
-    });
-
-    it('fuel physics data should be loaded', function() {
-      state.preload();
-      expect(game.load.physics).to.have.been.calledWith('fuelPhysics', 'assets/actors/fuel.json');
     });
 
   });
