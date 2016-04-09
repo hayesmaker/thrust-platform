@@ -2,6 +2,7 @@
 
 var PhysicsActor = require('./PhysicsActor');
 var gameState = require('../data/game-state');
+var particleManager = require('../environment/particles/manager');
 
 
 
@@ -44,8 +45,18 @@ p.isHit = false;
  * @method init
  */
 p.init = function() {
-  console.log('Fuel :: init ::', this);
   this.createParticles();
+};
+
+p.kill = function() {
+  Phaser.Sprite.prototype.kill.call(this);
+  particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
+  game.time.events.add(100, function() {
+    particleManager.explode(this.x, this.y + this.height/2);
+  }, this);
+  game.time.events.add(200, function() {
+    particleManager.explode(this.x + this.width/2, this.y + this.height/2);
+  }, this);
 };
 
 /**
@@ -61,21 +72,18 @@ p.crash = function() {
   console.log('crash hit');
 };
 
-p.log = function() {
-  console.log('hit bullet');
-};
-
-
+/**
+ * @method update
+ */
 p.update = function() {
-  if (this.health < gameState.POWER_STATION_HEALTH) {
+  if (this.alive && this.health < gameState.POWER_STATION_HEALTH) {
     this.health+=1;
   }
 };
 
 p.hit = function() {
-  console.warn('PowerStation :: hit : health=', this.health);
-  this.tint = 0xfffff9;
-  this.damage(75);
+  console.log('PowerStation :: hit', this.health);
+  this.damage(80);
 };
 
 p.createParticles = function() {

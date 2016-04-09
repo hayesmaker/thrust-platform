@@ -12,10 +12,11 @@ module.exports = {
 
   /**
    * @property SCORES
+   * @type {object}
    */
   SCORES: {
     FUEL: 100,
-    LIMPET: 200,
+    LIMPET: 750,
     PLANET_BUSTER: 1000,
     ORB_RECOVERED: 750,
     LIMPETS_DESTROYED: 500
@@ -27,9 +28,19 @@ module.exports = {
    */
   POWER_STATION_HEALTH: 1000,
 
+  /**
+   * @property ENEMY_BULLET_DURATION
+   * @type {number}
+   */
   ENEMY_BULLET_DURATION: 2000,
 
+  /**
+   * @property PLAYER_BULLET_DURATION
+   * @type {number}
+   */
   PLAYER_BULLET_DURATION: 2000,
+  
+  FUEL_AMOUNT: 300,
   
   initialise: function() {
     this.score = 5;

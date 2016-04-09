@@ -73,7 +73,7 @@ module.exports = {
       image: game.cache.getBitmapData('fuelParticle'),
       vy: { min: 0, max: 0 },
       alpha: {
-        initial: 0,
+        initial: 0.5,
         value: 0.5,
         control: [
           { x: 0, y: 1 },
