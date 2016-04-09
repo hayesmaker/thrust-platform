@@ -5,6 +5,7 @@ var features = require('../utils/features');
 var UserControl = require('../environment/UserControl');
 var levelManager = require('../data/level-manager');
 var particles = require('../environment/particles/manager');
+var gameState = require('../data/game-state');
 var userControl;
 
 /**
@@ -45,6 +46,7 @@ module.exports = {
     features.init();
     levelManager.init();
     particles.init();
+    gameState.init();
     game.scale.scaleMode = features.isTouchScreen ? properties.scale.device : properties.scale.web;
     if (properties.dev.stats) {
       game.time.advancedTiming = true;

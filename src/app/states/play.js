@@ -45,6 +45,7 @@ module.exports = {
   emitter: null,
   crossHair: null,
   crossHairSpeed: 15,
+  menuMode: false,
 
   /**
    * Setup the game
@@ -58,14 +59,14 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    this.initPlayState();
+    this.initialiseState();
   },
 
   /**
    *
    * @method initPlayState
    */
-  initPlayState: function() {
+  initPlayState: function () {
     console.log('play :: initPlayState');
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
@@ -73,6 +74,53 @@ module.exports = {
       this.missionStart();
     } else {
       this.initialiseDevMode();
+    }
+  },
+
+  /**
+   * @property initialiseState
+   */
+  initialiseState: function () {
+    console.log('initialiseState :: ', gameState.currentState);
+    if (gameState.currentState === gameState.PLAY_STATES.MENU) {
+      this.initMenuState();
+    } else if (gameState.currentState === gameState.PLAY_STATES.PLAY) {
+      this.initPlayState();
+    }
+  },
+
+  /**
+   * @method initHighScoreTable
+   */
+  initHighScoreState: function () {
+    ui.highScoreTable.init(ui.group);
+  },
+
+  /**
+   * @method initMenuState
+   */
+  initMenuState: function () {
+    this.menuMode = true;
+    ui.menu.init(ui.group);
+    ui.menu.itemSelected.add(this.menuItemSelected, this);
+    ui.menu.enable();
+  },
+
+  /**
+   * @method menuItemSelected
+   * @param item {Object}
+   */
+  menuItemSelected: function (item) {
+    switch (item.text.text) {
+      case "PLAY THRUST" :
+        this.menuMode = false;
+        ui.menu.disable();
+        gameState.currentState = gameState.PLAY;
+        this.initPlayState();
+        break;
+      default :
+        console.log(item.text.text + ' not implemented');
+        break;
     }
   },
 
@@ -86,7 +134,9 @@ module.exports = {
     this.actorsUpdate();
     this.uiUpdate();
     this.checkGameCondition();
-
+    if (this.menuMode && game.controls.isJoypadEnabled) {
+      ui.menu.update();
+    }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
@@ -168,13 +218,13 @@ module.exports = {
    *
    * @method playerWarpComplete
    */
-  playerWarpComplete: function() {
+  playerWarpComplete: function () {
     this.inPlay = true;
     this.initControls();
     this.initActorsStart();
   },
 
-  initActorsStart: function() {
+  initActorsStart: function () {
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
@@ -230,7 +280,7 @@ module.exports = {
   /**
    * @method removePlayers
    */
-  removePlayers: function() {
+  removePlayers: function () {
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -238,7 +288,7 @@ module.exports = {
   /**
    * @method levelInterstitialStart
    */
-  levelInterstitialStart: function() {
+  levelInterstitialStart: function () {
     ui.interstitial.levelComplete();
     game.time.events.add(4000, _.bind(this.nextLevel, this));
   },
@@ -251,8 +301,9 @@ module.exports = {
    */
   gameOver: function (score) {
     console.warn('GAME OVER score:', score);
-    alert('game over! refresh');
-    gameState.initialise();
+    gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
+    this.initMenuState();
+    ui.countdown.stop();
   },
 
   /**
@@ -276,8 +327,8 @@ module.exports = {
   /**
    * @method checkForFuelDistance
    */
-  checkForFuelDistance: function() {
-    _.each(this.fuels, function(fuel) {
+  checkForFuelDistance: function () {
+    _.each(this.fuels, function (fuel) {
       fuel.update();
     }, this);
   },
@@ -288,10 +339,9 @@ module.exports = {
    * @method uiUpdate
    */
   uiUpdate: function () {
-    if (this.inPlay) {
-      ui.fuel.update(gameState.fuel, true);
-      ui.score.update(gameState.score, true);
-    }
+    ui.fuel.update(gameState.fuel, true);
+    ui.score.update(gameState.score, true);
+    ui.lives.update(gameState.lives, true);
   },
 
   /**
@@ -320,7 +370,7 @@ module.exports = {
     this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
-    this.tractorBeam = new TractorBeam(this.orb, this.player);
+    this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
     _.each(this.level.enemies, this.createLimpet, this);
     _.each(this.level.fuels, this.createFuel, this);
@@ -353,14 +403,13 @@ module.exports = {
   /**
    * @method startDestructionSequence
    */
-  startDestructionSequence: function() {
+  startDestructionSequence: function () {
     ui.countdown.start();
   },
 
-  countdownComplete: function() {
+  countdownComplete: function () {
     //alert('planet fucked');
   },
-
 
 
   /**
@@ -399,7 +448,7 @@ module.exports = {
    * @method createFuel
    * @param data
    */
-  createFuel: function(data) {
+  createFuel: function (data) {
     var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
     fuel.player = this.player;
     this.fuels.push(fuel);
@@ -419,7 +468,7 @@ module.exports = {
     _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
-    _.each(this.fuels, function(fuel) {
+    _.each(this.fuels, function (fuel) {
       this.groups.fuels.add(fuel);
     }, this);
     this.groups.actors.add(this.powerStation);
@@ -431,10 +480,10 @@ module.exports = {
   /**
    * @method initialiseDevMode
    */
-  initialiseDevMode: function() {
+  initialiseDevMode: function () {
     this.isDevMode = true;
     this.cursors = game.controls.cursors;
-    this.crossHair = new Phaser.Sprite(game, game.width/2, game.height/2, 'crossHair');
+    this.crossHair = new Phaser.Sprite(game, game.width / 2, game.height / 2, 'crossHair');
     this.crossHair.anchor.setTo(0.5);
     game.world.add(this.crossHair);
     game.camera.follow(this.crossHair);
@@ -536,11 +585,11 @@ module.exports = {
    *
    * @method devModeUpdate
    */
-  devModeUpdate: function() {
-    var slow = function(thisArg) {
+  devModeUpdate: function () {
+    var slow = function (thisArg) {
       thisArg.crossHairSpeed = 5;
     };
-    var fast = function(thisArg) {
+    var fast = function (thisArg) {
       thisArg.crossHairSpeed = 15;
     };
     var point = new Phaser.Point(this.crossHair.x, this.crossHair.y);
@@ -548,7 +597,7 @@ module.exports = {
     this.checkDown(slow, fast, point);
     this.checkLeft(slow, fast, point);
     this.checkRight(slow, fast, point);
-    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease:Power0.easeNone});
+    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease: Power0.easeNone});
   },
 
   /**
@@ -557,9 +606,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkUp: function(slow, fast, point) {
+  checkUp: function (slow, fast, point) {
     if (this.cursors.up.isDown) {
-      this.cursors.up.shiftKey? slow(this) : fast(this);
+      this.cursors.up.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y - this.crossHairSpeed;
     }
   },
@@ -570,9 +619,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkDown: function(slow, fast, point) {
+  checkDown: function (slow, fast, point) {
     if (this.cursors.down.isDown) {
-      this.cursors.down.shiftKey? slow(this) : fast(this);
+      this.cursors.down.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y + this.crossHairSpeed;
     }
   },
@@ -583,9 +632,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkRight: function(slow, fast, point) {
+  checkRight: function (slow, fast, point) {
     if (this.cursors.right.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
+      this.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x + this.crossHairSpeed;
     }
   },
@@ -596,9 +645,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkLeft: function(slow, fast, point) {
+  checkLeft: function (slow, fast, point) {
     if (this.cursors.left.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
+      this.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
   },

@@ -8,7 +8,7 @@ var properties = require('../properties');
  * @class TractorBeam
  * @constructor
  */
-function TractorBeam(orb, player) {
+function TractorBeam(orb, player, groups) {
   this.orb = orb;
   this.player = player;
   this.groups = groups;
@@ -53,14 +53,17 @@ p.checkDistance = function(player, isXDown) {
 };
 
 /**
+ * //todo this timer.add might be a memory leak
+ * //todo restart existing timer each time, not adding new signals
+ *
  * @method drawBeam
  * @param posA
  */
 p.drawBeam = function (posA) {
   if (!this.isLocking) {
     this.isLocking = true;
-    timer.add(this.lockingDuration, this.lock, this);
-    timer.start();
+    this.timer.add(this.lockingDuration, this.lock, this);
+    this.timer.start();
   }
   this.graphics.clear();
   var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
