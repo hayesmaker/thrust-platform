@@ -16,6 +16,9 @@ module.exports = {
 
   interstitial: require('./interstitial'),
   
-  countdown: require('./countdown')
+  countdown: require('./countdown'),
 
+  highScoreTable: require('./high-score-table'),
+
+  menu: require('./menu')
 };
