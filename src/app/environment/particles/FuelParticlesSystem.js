@@ -38,7 +38,15 @@ p.init = function(source) {
  */
 p.start = function(origin, target) {
   ParticleSystem.prototype.start.call(this, origin, target);
-  this.emitter.emit('fuelEmitter', this.origin.x, this.origin.y, { zone: this.circle, total: 4, repeat: -1, frequency: 4 });
+  this.emitter.emit('fuelEmitter', 
+    this.origin.x, 
+    this.origin.y, 
+    { 
+      zone: this.circle, 
+      total: 4, 
+      repeat: -1, 
+      frequency: 4 
+    });
   this.refuelEmitterEvent = this.emitter.timerEvent;
 };
 

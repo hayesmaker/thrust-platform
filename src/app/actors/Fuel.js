@@ -23,6 +23,7 @@ var TweenLite = global.TweenLite;
 function Fuel(collisions, groups, imageCacheKey, x, y) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
   this.health = 250;
+  this.init();
 }
 
 var p = Fuel.prototype = Object.create(PhysicsActor.prototype, {
@@ -103,14 +104,22 @@ p.setPhysicsShape = function() {
 };
 
 /**
- * Destroys this Fuel game object
+ * Starts the kill tween animation
+ * This is called by phaser magic when
+ * - this.health == 0
+ * - after taking this.damage(x)
  *
  * @method kill
  */
 p.kill = function () {
   this.alive = false;
   gameState.score += gameState.SCORES.FUEL;
-  TweenLite.to(this, 0.3, {alpha: 0, ease: Quad.easeOut, onComplete: _.bind(this.cleanUp, this)});
+  TweenLite.to(this, 0.3, {
+    alpha: 0,
+    ease: Quad.easeOut,
+    onComplete: _.bind(this.cleanup, this
+    )
+  });
 };
 
 /**

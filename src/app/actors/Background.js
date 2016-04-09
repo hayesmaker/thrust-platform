@@ -14,19 +14,9 @@ var properties = require('../properties');
 function Background(x, y) {
   this.sprite = game.make.tileSprite(x, y, properties.width, properties.height, 'stars');
   this.sprite.fixedToCamera = true;
-  this.init();
 }
 
 var p = Background.prototype;
-
-/**
- * Background initialisation
- *
- * @method init
- */
-p.init = function () {
-  this.stars = this.sprite;
-};
 
 /**
  * Parallax scrolling the starfield background
@@ -34,7 +24,7 @@ p.init = function () {
  * @method update
  */
 p.update = function () {
-  this.sprite.tilePosition.set(-game.camera.x * 0.1, -game.camera.y * 0.1);
+  this.sprite.tilePosition.set(-game.camera.x * 0.2, -game.camera.y * 0.2);
 };
 
 
