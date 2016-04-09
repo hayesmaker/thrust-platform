@@ -258,8 +258,10 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
+    this.powerStation.update();
     this.checkForFuelDistance();
     this.groups.enemies.forEachAlive(function (enemy) {
+      enemy.setPower(this.powerStation.health);
       enemy.update();
     });
     if (this.background && properties.gamePlay.parallax) {
@@ -294,7 +296,6 @@ module.exports = {
    * @method defineWorldBounds
    */
   defineWorldBounds: function () {
-    console.warn('play :: defineWorldBounds :: this.level.world', this.level);
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
   },
 

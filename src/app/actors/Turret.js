@@ -37,14 +37,16 @@ p.setStrategy = function (firingStrategy) {
   _firingStrategy = firingStrategy;
 };
 
+/**
+ * @method fire
+ */
 p.fire = function () {
   this.firingStrategy.fire();
 };
 
-p.update = function () {
-  //this.firingStrategy.update();
-};
-
+/**
+ * @method destroy
+ */
 p.destroy = function () {
   this.firingStrategy = null;
   this.groups = null;

@@ -1,6 +1,9 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
+var gameState = require('../data/game-state');
+
+
 
 /**
  * PowerStation Sprite - PhysicsActor enabled power station sprite
@@ -16,6 +19,7 @@ var PhysicsActor = require('./PhysicsActor');
  */
 function PowerStation (collisions, groups, imageCacheKey, x, y) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
+  this.health = gameState.POWER_STATION_HEALTH;
 }
 
 var p = PowerStation.prototype = Object.create(PhysicsActor.prototype, {
@@ -63,12 +67,15 @@ p.log = function() {
 
 
 p.update = function() {
-
+  if (this.health < gameState.POWER_STATION_HEALTH) {
+    this.health+=1;
+  }
 };
 
 p.hit = function() {
-  console.log('hit');
+  console.warn('PowerStation :: hit : health=', this.health);
   this.tint = 0xfffff9;
+  this.damage(50);
 };
 
 p.createParticles = function() {

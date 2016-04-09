@@ -18,6 +18,12 @@ module.exports = {
     ORB_RECOVERED: 750,
     LIMPETS_DESTROYED: 500
   },
+
+  /**
+   * @property POWER_STATION_HEALTH
+   * @type {number}
+   */
+  POWER_STATION_HEALTH: 1000,
   
   initialise: function() {
     this.score = 5;
