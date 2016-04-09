@@ -37,7 +37,7 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   PhysicsActor.call(this, collisions, groups, bmd, x, y);
 
   this.angle = angleDeg;
-  this.fireRate = 1 / 180;
+  this.fireRate = 1 / 200;
   this.alive = false;
   this.turret = this.createTurret();
 

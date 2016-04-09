@@ -75,7 +75,7 @@ p.update = function() {
 p.hit = function() {
   console.warn('PowerStation :: hit : health=', this.health);
   this.tint = 0xfffff9;
-  this.damage(60);
+  this.damage(75);
 };
 
 p.createParticles = function() {
