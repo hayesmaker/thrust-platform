@@ -263,7 +263,7 @@ module.exports = {
     this.groups.enemies.forEachAlive(function (enemy) {
       enemy.setPower(this.powerStation.health);
       enemy.update();
-    });
+    }, this);
     if (this.background && properties.gamePlay.parallax) {
       this.background.update();
     }

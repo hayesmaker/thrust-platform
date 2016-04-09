@@ -101,7 +101,7 @@ p.createTurret = function () {
   bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, 1200));
+  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, gameState.ENEMY_BULLET_DURATION));
 };
 
 /**
