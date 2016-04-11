@@ -68,6 +68,7 @@ module.exports = {
    */
   initPlayState: function () {
     console.log('play :: initPlayState');
+    ui.showUser();
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -83,7 +84,7 @@ module.exports = {
   initialiseState: function () {
     console.log('initialiseState :: ', gameState.currentState);
     if (gameState.currentState === gameState.PLAY_STATES.MENU) {
-      this.initMenuState();
+      this.initHighScoreState();
     } else if (gameState.currentState === gameState.PLAY_STATES.PLAY) {
       this.initPlayState();
     }
@@ -93,6 +94,7 @@ module.exports = {
    * @method initHighScoreTable
    */
   initHighScoreState: function () {
+    ui.hideUser();
     ui.highScoreTable.init(ui.group);
   },
 
@@ -423,12 +425,12 @@ module.exports = {
     }
     ui.init();
     ui.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, ui.group);
-    ui.score.init(10, 10, ui.group);
-    ui.score.update(this.player.score, true);
-    ui.fuel.init(10, 30, ui.group);
-    ui.fuel.update(this.player.fuel, true);
-    ui.lives.init(10, 50, ui.group);
-    ui.lives.update(this.player.lives, true);
+    ui.score.init(10, 10, ui.scoreGroup);
+    ui.score.update(gameState.score, true);
+    ui.fuel.init(10, 30, ui.scoreGroup);
+    ui.fuel.update(gameState.fuel, true);
+    ui.lives.init(10, 50, ui.scoreGroup);
+    ui.lives.update(gameState.lives, true);
   },
 
   /**
@@ -436,6 +438,7 @@ module.exports = {
    *
    * @method createLimpet
    * @param data
+   * 
    */
   createLimpet: function (data) {
     var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);

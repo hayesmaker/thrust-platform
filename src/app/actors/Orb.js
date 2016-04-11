@@ -11,7 +11,7 @@ function Orb(x, y, collisions) {
   this.collisions = collisions;
   this.player = null;
   var bmd = game.make.bitmapData(30, 30);
-  bmd.ctx.strokeStyle = '#999999';
+  bmd.ctx.strokeStyle = '#ffffff';
   bmd.ctx.lineWidth = 2;
   bmd.ctx.beginPath();
   bmd.ctx.arc(15, 15, 13, 0, Math.PI * 2, true);

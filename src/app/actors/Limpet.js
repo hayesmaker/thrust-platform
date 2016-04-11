@@ -35,7 +35,6 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   bmd.ctx.stroke(); 
 
   PhysicsActor.call(this, collisions, groups, bmd, x, y);
-
   this.angle = angleDeg;
   this.fireRate = 1 / 200;
   this.alive = false;
@@ -83,6 +82,10 @@ p.update = function () {
     this.alpha = 0.6;
   } else {
     this.alpha = 1;
+    /*
+     todo investicate
+     todo possible SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
+     */
     if (Math.random() < this.fireRate) {
       this.turret.fire();
     }

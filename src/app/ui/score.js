@@ -40,7 +40,7 @@ module.exports = {
     style.align = 'right';
     this.scoreTf = game.add.text(x + 5 + scoreLabel.width + 5, y + 5, "999999", style, this.group);
   },
-
+  
   /**
    * @method update
    * @param score
