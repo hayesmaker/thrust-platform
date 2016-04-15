@@ -43,4 +43,13 @@ router.get('/webgl', function(req, res) {
   });
 });
 
+router.get('/auto', function(req, res) {
+  res.render('app', {
+    title: pkg.name,
+    version: pkg.version,
+    engine: 'javascripts/browserify/thrust-engine-auto.js'
+  });
+});
+
+
 module.exports = router;

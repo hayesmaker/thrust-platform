@@ -12,3 +12,6 @@ else
   echo "Non production build - Bundling demo assets"
 fi
 npm run build
+
+#  copy and paste for local level
+#  curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz

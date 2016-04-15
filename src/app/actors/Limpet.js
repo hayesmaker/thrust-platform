@@ -83,8 +83,8 @@ p.update = function () {
   } else {
     this.alpha = 1;
     /*
-     todo investicate
-     todo possible SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
+     todo investigate
+     todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
      */
     if (Math.random() < this.fireRate) {
       this.turret.fire();

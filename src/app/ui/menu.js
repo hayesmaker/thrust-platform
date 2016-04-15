@@ -1,4 +1,6 @@
 var _ = require('lodash');
+var stateScreen = require('./state-screen-manager');
+var gameStates = require('../data/game-state');
 
 module.exports = {
 
@@ -18,7 +20,7 @@ module.exports = {
 
   init: function (group) {
     this.items = [];
-    this.group = game.add.group(group);
+    this.group = stateScreen.init(group, gameStates.PLAY_STATES.MENU);
     this.itemSelected = new Phaser.Signal();
     _.each(['PLAY THRUST', 'HIGH-SCORES', 'OPTIONS'], _.bind(this.menuItem, this));
   },
@@ -49,7 +51,7 @@ module.exports = {
   },
 
   enable: function () {
-    this.group.visible = true;
+    stateScreen.enable(this.group);
     this.selectedIndex = 0;
     this.selectItem(this.selectedIndex);
     game.controls.cursors.up.onDown.add(this.upPressed, this);
@@ -58,12 +60,10 @@ module.exports = {
     if (game.controls.stick) {
       game.controls.buttonB.onDown.add(this.spacePressed, this);
     }
-
-
   },
 
   disable: function () {
-    this.group.destroy(true);
+    stateScreen.disable(this.group);
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
     game.controls.cursors.down.onDown.remove(this.downPressed, this);
     game.controls.spacePress.onDown.remove(this.spacePressed, this);

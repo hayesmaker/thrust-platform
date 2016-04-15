@@ -1,3 +1,5 @@
+var gameState = require('../data/game-state');
+
 module.exports = {
 
   init: function() {
@@ -5,6 +7,18 @@ module.exports = {
     this.scoreGroup = game.add.group(this.group);
     this.interstitial.init(this.group);
     this.countdown.init(this.group);
+    this.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, this.group);
+    this.score.init(10, 10, this.scoreGroup);
+    this.score.update(gameState.score, true);
+    this.fuel.init(10, 30, this.scoreGroup);
+    this.fuel.update(gameState.fuel, true);
+    this.lives.init(10, 50, this.scoreGroup);
+    this.lives.update(gameState.lives, true);
+
+    /*
+    this.menu.init(this.group);
+    this.highScoreTable.init(this.group);
+    */
   },
   
   hideUser: function() {

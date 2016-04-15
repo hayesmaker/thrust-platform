@@ -46,6 +46,10 @@ module.exports = {
   crossHair: null,
   crossHairSpeed: 15,
   menuMode: false,
+  cameraPos: {
+    x: 0,
+    y: 0
+  },
 
   /**
    * Setup the game
@@ -59,14 +63,14 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    this.initialiseState();
+    this.playGame();
   },
 
   /**
    *
-   * @method initPlayState
+   * @method playGame
    */
-  initPlayState: function () {
+  playGame: function () {
     console.log('play :: initPlayState');
     ui.showUser();
     if (!properties.dev.skipIntro) {
@@ -79,31 +83,32 @@ module.exports = {
   },
 
   /**
-   * @property initialiseState
+   * @property showState
    */
-  initialiseState: function () {
+  showState: function () {
     console.log('initialiseState :: ', gameState.currentState);
     if (gameState.currentState === gameState.PLAY_STATES.MENU) {
-      this.initHighScoreState();
+      this.showMenu();
     } else if (gameState.currentState === gameState.PLAY_STATES.PLAY) {
-      this.initPlayState();
+      this.playGame();
+    } else if (gameState.currentState === gameState.PLAY_STATES.GAME_OVER) {
+      this.showHighScores();
     }
   },
 
   /**
-   * @method initHighScoreTable
+   * @method showHighScores
    */
-  initHighScoreState: function () {
+  showHighScores: function () {
     ui.hideUser();
-    ui.highScoreTable.init(ui.group);
+
   },
 
   /**
-   * @method initMenuState
+   * @method showMenu
    */
-  initMenuState: function () {
+  showMenu: function () {
     this.menuMode = true;
-    ui.menu.init(ui.group);
     ui.menu.itemSelected.add(this.menuItemSelected, this);
     ui.menu.enable();
   },
@@ -117,8 +122,9 @@ module.exports = {
       case "PLAY THRUST" :
         this.menuMode = false;
         ui.menu.disable();
-        gameState.currentState = gameState.PLAY;
-        this.initPlayState();
+        ui.menu.itemSelected.remove(this.menuItemSelected, this);
+        gameState.currentState = gameState.PLAY_STATES.PLAY;
+        this.playGame();
         break;
       default :
         console.log(item.text.text + ' not implemented');
@@ -126,6 +132,18 @@ module.exports = {
     }
   },
 
+  /**
+   * @method updateCamera
+   */
+  updateCamera: function () {
+    // change this value to alter the amount of damping, lower values = smoother camera movement
+    var lerp = 0.05;
+    this.cameraPos.x += (this.player.x - this.cameraPos.x) * lerp;
+    this.cameraPos.y += (this.player.y - this.cameraPos.y) * lerp;
+    game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
+    //this.bg.tilePosition.set(this.game.camera.x * -0.5, game.camera.y * -0.5);
+    //this.bgnear.tilePosition.set(this.game.camera.x * -1, this.game.camera.y * -1);
+  },
   /**
    * Gameloop
    *
@@ -136,6 +154,7 @@ module.exports = {
     this.actorsUpdate();
     this.uiUpdate();
     this.checkGameCondition();
+    this.updateCamera();
     if (this.menuMode && game.controls.isJoypadEnabled) {
       ui.menu.update();
     }
@@ -304,8 +323,8 @@ module.exports = {
   gameOver: function (score) {
     console.warn('GAME OVER score:', score);
     gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
-    this.initMenuState();
     ui.countdown.stop();
+    this.initialiseState();
   },
 
   /**
@@ -379,24 +398,15 @@ module.exports = {
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
     this.powerStation.initPhysics('powerStationPhysics', 'power-station');
     this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
-
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
-    //this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
-
     this.map = new Map(this.collisions, this.groups);
-    game.camera.follow(this.player);
-
+    this.cameraPos.x = this.player.x;
+    this.cameraPos.y = this.player.y;
     this.powerStation.body.setCollisionGroup(this.collisions.terrain);
-    //this.orbHolder.body.setCollisionGroup(this.collisions.terrain);
-
     this.powerStation.initCollisions();
-
-    //this.collisions.set(this.collisions.fuels, [this.collisions.bullets, this.collisions.players]);
-    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
+    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
-
-    //this.initEnemies();
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
@@ -424,13 +434,6 @@ module.exports = {
       game.controls.initJoypad();
     }
     ui.init();
-    ui.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, ui.group);
-    ui.score.init(10, 10, ui.scoreGroup);
-    ui.score.update(gameState.score, true);
-    ui.fuel.init(10, 30, ui.scoreGroup);
-    ui.fuel.update(gameState.fuel, true);
-    ui.lives.init(10, 50, ui.scoreGroup);
-    ui.lives.update(gameState.lives, true);
   },
 
   /**
