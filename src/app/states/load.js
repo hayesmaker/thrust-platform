@@ -53,9 +53,6 @@ module.exports = {
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
-
-    game.load.script('filterX', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/BlurX.js');
-    game.load.script('filterY', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/BlurY.js');
   },
   
   /**
