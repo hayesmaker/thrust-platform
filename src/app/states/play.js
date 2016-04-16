@@ -97,11 +97,11 @@ module.exports = {
     vignette.amount = 0.5;
     vignette.alpha = 1;
 
-    //this.filmgrain.color = 0.7;
-    //this.filmgrain.amount = 0.2;
-    //this.filmgrain.luminance = 0.8;
+    this.filmgrain.color = 0.7;
+    this.filmgrain.amount = 0.2;
+    this.filmgrain.luminance = 0.8;
 
-    game.world.filters = [scanlineFilter, vignette];
+    game.world.filters = [this.filmgrain, scanlineFilter, vignette];
     
     // Assumes the first canvas tag in the document is the 2D game, but
     // obviously we could supply a specific canvas element here.
@@ -204,9 +204,9 @@ module.exports = {
     if (this.isDevMode) {
       this.devModeUpdate();
     }
-    //this.filmgrain.update();
-    //this.texture.loadContentsOf(this.source);
-    //this.glcanvas.draw(this.texture).vignette(0.56, 0.55).update();
+    this.filmgrain.update();
+    this.texture.loadContentsOf(this.source);
+    this.glcanvas.draw(this.texture).vignette(0.56, 0.55).update();
 
   },
 
