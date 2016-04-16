@@ -205,9 +205,6 @@ module.exports = {
       this.devModeUpdate();
     }
     this.filmgrain.update();
-    this.texture.loadContentsOf(this.source);
-    this.glcanvas.draw(this.texture).vignette(0.56, 0.55).update();
-
   },
 
   /**
