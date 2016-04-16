@@ -35,10 +35,10 @@ module.exports = {
    */
   init: function(x, y, group) {
     this.group = group;
-    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
-    var scoreLabel = game.add.text(x + 5, y + 5, "Score:", style, this.group);
-    style.align = 'right';
-    this.scoreTf = game.add.text(x + 5 + scoreLabel.width + 5, y + 5, "999999", style, this.group);
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "center" };
+    var scoreLabel = game.add.text(x, y + 5, "Score:", style, this.group);
+    style.align = 'center';
+    this.scoreTf = game.add.text(x + scoreLabel.width + 5, y + 5, "999999", style, this.group);
   },
   
   /**

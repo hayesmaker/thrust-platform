@@ -40,7 +40,7 @@ module.exports = {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
     if (properties.drawBackground) {
-      game.load.image('stars', 'assets/images/starfield.png');
+      game.load.image('stars', 'assets/images/space.jpg');
     }
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
@@ -53,8 +53,11 @@ module.exports = {
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
-  },
 
+    game.load.script('filterX', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/BlurX.js');
+    game.load.script('filterY', 'https://cdn.rawgit.com/photonstorm/phaser/master/filters/BlurY.js');
+  },
+  
   /**
    * Load all maps in defined in the levelManager
    *

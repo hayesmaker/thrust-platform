@@ -50,6 +50,10 @@ module.exports = {
     x: 0,
     y: 0
   },
+  glcanvas:null,
+  texture:null,
+  source: null,
+  srcctx: null,
 
   /**
    * Setup the game
@@ -57,6 +61,9 @@ module.exports = {
    * @method create
    */
   create: function () {
+    //var glcanvas, source, srcctx, texture, w, h, hw, hh, w75;
+
+    // Try to create a WebGL canvas (will fail if WebGL isn't supported)
     console.log('play :: create');
     this.setLevel();
     this.defineWorldBounds();
@@ -64,6 +71,52 @@ module.exports = {
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
+    //WebGL arcade style CRT scanline Filter
+    var fragmentSrc = [
+      "precision mediump float;",
+      // Incoming texture coordinates.
+      'varying vec2 vTextureCoord;',
+      // Incoming vertex color
+      'varying vec4 vColor;',
+      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
+      'uniform sampler2D uSampler;',
+
+      "uniform vec2      resolution;",
+      "uniform float     time;",
+      "uniform vec2      mouse;",
+
+      "void main( void ) {",
+      // colorRGBA = (y % 2) * texel(u,v);
+      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
+      "}"
+    ];
+    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
+    var vignette = game.add.filter('Vignette');
+    this.filmgrain = game.add.filter('FilmGrain');
+    vignette.size = 0.6;
+    vignette.amount = 0.5;
+    vignette.alpha = 1;
+
+    //this.filmgrain.color = 0.7;
+    //this.filmgrain.amount = 0.2;
+    //this.filmgrain.luminance = 0.8;
+
+    game.world.filters = [scanlineFilter, vignette];
+    
+    // Assumes the first canvas tag in the document is the 2D game, but
+    // obviously we could supply a specific canvas element here.
+    /*
+    this.source = document.getElementsByTagName('canvas')[0];
+    this.srcctx = this.source.getContext('2d');
+    // This tells glfx what to use as a source image
+    this.texture = this.glcanvas.texture(this.source);
+    this.source.parentNode.insertBefore(this.glcanvas, this.source);
+    this.source.style.display = 'none';
+    this.glcanvas.className = this.source.className;
+    this.glcanvas.id = this.source.id;
+    this.source.id = 'old_' + this.source.id;
+    */
+
   },
 
   /**
@@ -151,6 +204,10 @@ module.exports = {
     if (this.isDevMode) {
       this.devModeUpdate();
     }
+    //this.filmgrain.update();
+    //this.texture.loadContentsOf(this.source);
+    //this.glcanvas.draw(this.texture).vignette(0.56, 0.55).update();
+
   },
 
   /**

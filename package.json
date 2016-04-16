@@ -30,6 +30,7 @@
     "build:app": "npm run browserify:canvas",
     "build:quick": "npm run browserify:canvas",
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",
+    "build:webgl": "npm run browserify:webgl",
     "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting Local Nightwatch test sweep' && cd test/e2e/nightwatch && nightwatch && cd ../../..",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",

@@ -43,11 +43,10 @@ module.exports = {
 
     this.group = group;
 
-    var style = { font: "12px thrust_regular", fill: "#ffffff", align: 'left' };
-    var label = game.add.text(x + 5, y + 5, "Ships:", style, this.group);
-
-    style.align = 'right';
-    this.textfield = game.add.text(x + 5 + label.width + 5, y + 5, "5", style, this.group);
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: 'center' };
+    var label = game.add.text(x, y + 5, "Ships:", style, this.group);
+    style.align = 'center';
+    this.textfield = game.add.text(x + label.width + 5, y + 5, "5", style, this.group);
 
   },
 
