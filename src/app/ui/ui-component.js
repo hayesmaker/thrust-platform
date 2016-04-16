@@ -28,24 +28,51 @@ p.group = null;
  */
 p.name = "";
 
-p.show = function() {
+/**
+ * @property isRendered
+ * @type {boolean}
+ */
+p.isRendered = false;
+
+p.render = function () {
+  this.isRendered = true;
+};
+
+p.remove = function () {
+  this.isRendered = false;
+  this.group.removeAll();
+};
+
+p.enable = function () {
+  console.log('abstract ui-component enable');
+};
+
+p.disable = function () {
+  console.log('abstract ui-component disable');
+};
+
+p.show = function () {
   this.group.visible = true;
+  this.enable();
 };
 
-p.hide = function() {
+p.hide = function () {
   this.group.visible = false;
+  this.disable();
 };
 
-p.createDisplay = function() {
-
+p.showAndAdd = function () {
+  if (!this.isRendered) {
+    this.render();
+    this.show();
+  }
 };
 
-p.showAndAdd = function() {
-
-};
-
-p.hideAndRemove = function() {
-
+p.hideAndRemove = function () {
+  if (this.isRendered) {
+    this.remove();
+    this.hide();
+  }
 };
 
 

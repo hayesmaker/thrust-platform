@@ -63,7 +63,7 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    this.playGame();
+    this.showCurrentScreenByState(gameState.currentState);
   },
 
   /**
@@ -83,17 +83,20 @@ module.exports = {
   },
 
   /**
-   * @property showState
+   * @property showCurrentScreenByState
+   * @param state {String} name of gameState and also name of screen to show
    */
-  showState: function () {
-    console.log('initialiseState :: ', gameState.currentState);
-    if (gameState.currentState === gameState.PLAY_STATES.MENU) {
-      this.showMenu();
-    } else if (gameState.currentState === gameState.PLAY_STATES.PLAY) {
+  showCurrentScreenByState: function (state) {
+    if (state === gameState.PLAY_STATES.PLAY) {
       this.playGame();
-    } else if (gameState.currentState === gameState.PLAY_STATES.GAME_OVER) {
-      this.showHighScores();
     }
+    if (state === gameState.PLAY_STATES.MENU) {
+      this.menuMode = true;
+    } else {
+      this.menuMode = false;
+    }
+    ui.showScreen(state);
+    gameState.currentState = state;
   },
 
   /**
@@ -105,26 +108,13 @@ module.exports = {
   },
 
   /**
-   * @method showMenu
-   */
-  showMenu: function () {
-    this.menuMode = true;
-    ui.menu.itemSelected.add(this.menuItemSelected, this);
-    ui.menu.enable();
-  },
-
-  /**
    * @method menuItemSelected
    * @param item {Object}
    */
   menuItemSelected: function (item) {
     switch (item.text.text) {
       case "PLAY THRUST" :
-        this.menuMode = false;
-        ui.menu.disable();
-        ui.menu.itemSelected.remove(this.menuItemSelected, this);
-        gameState.currentState = gameState.PLAY_STATES.PLAY;
-        this.playGame();
+        this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       default :
         console.log(item.text.text + ' not implemented');
@@ -324,7 +314,7 @@ module.exports = {
     console.warn('GAME OVER score:', score);
     gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
     ui.countdown.stop();
-    this.initialiseState();
+    //this.initialiseState();
   },
 
   /**
@@ -433,7 +423,7 @@ module.exports = {
     if (game.controls.isJoypadEnabled) {
       game.controls.initJoypad();
     }
-    ui.init();
+    ui.init(this.menuItemSelected, this);
   },
 
   /**
