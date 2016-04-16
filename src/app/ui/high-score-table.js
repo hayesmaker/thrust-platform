@@ -73,7 +73,7 @@ module.exports = {
       title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
       scores: {font: '10px thrust_regular', fill: '#ffffff', align: 'left'},
       subtitle: {font: '12px thrust_regular', fill: '#ffffff', align: 'left'}
-    }
+    };
   },
 
   initSignals: function () {
