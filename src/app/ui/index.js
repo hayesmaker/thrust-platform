@@ -9,23 +9,23 @@ module.exports = {
   init: function(menuSelectedCallback, playState) {
     manager.init();
     this.group = game.make.group();
-    
     this.scoreGroup = game.add.group(this.group);
     this.interstitial.init(this.group);
     this.countdown.init(this.group);
     this.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, this.group);
-    this.score.init(game.width/2, 10, this.scoreGroup);
+    this.score.init(0, 10, this.scoreGroup);
     this.score.update(gameState.score, true);
-    this.fuel.init(game.width/2, 30, this.scoreGroup);
+    this.fuel.init(0, 30, this.scoreGroup);
     this.fuel.update(gameState.fuel, true);
-    this.lives.init(game.width/2, 50, this.scoreGroup);
+    this.lives.init(0, 50, this.scoreGroup);
     this.lives.update(gameState.lives, true);
-
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     
+    this.scoreGroup.x = game.width/2 - this.scoreGroup.width/2;
+    
     /*
-    this.menu.init(this.group);
-    this.highScoreTable.init(this.group);
+      this.menu.init(this.group);
+      this.highScoreTable.init(this.group);
     */
   },
   
