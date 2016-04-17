@@ -50,10 +50,6 @@ module.exports = {
     x: 0,
     y: 0
   },
-  glcanvas:null,
-  texture:null,
-  source: null,
-  srcctx: null,
 
   /**
    * Setup the game
@@ -61,10 +57,6 @@ module.exports = {
    * @method create
    */
   create: function () {
-    //var glcanvas, source, srcctx, texture, w, h, hw, hh, w75;
-
-    // Try to create a WebGL canvas (will fail if WebGL isn't supported)
-    console.log('play :: create');
     this.setLevel();
     this.defineWorldBounds();
     this.createActors();
@@ -72,51 +64,46 @@ module.exports = {
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
     //WebGL arcade style CRT scanline Filter
-    var fragmentSrc = [
-      "precision mediump float;",
-      // Incoming texture coordinates.
-      'varying vec2 vTextureCoord;',
-      // Incoming vertex color
-      'varying vec4 vColor;',
-      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
-      'uniform sampler2D uSampler;',
+    this.postProcessing();
+  },
 
-      "uniform vec2      resolution;",
-      "uniform float     time;",
-      "uniform vec2      mouse;",
+  /**
+   * Gameloop
+   *
+   * @method update
+   */
+  update: function () {
+    this.checkPlayerInput();
+    this.actorsUpdate();
+    this.uiUpdate();
+    this.checkGameCondition();
+    this.updateCamera();
+    if (this.menuMode && game.controls.isJoypadEnabled) {
+      ui.menu.update();
+    }
+    if (this.isDevMode) {
+      this.devModeUpdate();
+    }
+    this.updatePostProcessing();
+  },
 
-      "void main( void ) {",
-      // colorRGBA = (y % 2) * texel(u,v);
-      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
-      "}"
-    ];
-    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
-    var vignette = game.add.filter('Vignette');
-    this.filmgrain = game.add.filter('FilmGrain');
-    vignette.size = 0.6;
-    vignette.amount = 0.5;
-    vignette.alpha = 1;
-
-    this.filmgrain.color = 0.7;
-    this.filmgrain.amount = 0.2;
-    this.filmgrain.luminance = 0.8;
-
-    game.world.filters = [this.filmgrain, scanlineFilter, vignette];
-    
-    // Assumes the first canvas tag in the document is the 2D game, but
-    // obviously we could supply a specific canvas element here.
-    /*
-    this.source = document.getElementsByTagName('canvas')[0];
-    this.srcctx = this.source.getContext('2d');
-    // This tells glfx what to use as a source image
-    this.texture = this.glcanvas.texture(this.source);
-    this.source.parentNode.insertBefore(this.glcanvas, this.source);
-    this.source.style.display = 'none';
-    this.glcanvas.className = this.source.className;
-    this.glcanvas.id = this.source.id;
-    this.source.id = 'old_' + this.source.id;
-    */
-
+  /**
+   * Needed for debug display
+   *
+   * @method render
+   */
+  render: function () {
+    if (properties.dev.stats) {
+      game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
+    }
+    if (properties.dev.debugPositions) {
+      game.debug.cameraInfo(game.camera, 400, 32);
+      if (this.isDevMode) {
+        game.debug.spriteCoords(this.crossHair, 32, 450);
+      } else {
+        game.debug.spriteCoords(this.player, 32, 450);
+      }
+    }
   },
 
   /**
@@ -124,7 +111,6 @@ module.exports = {
    * @method playGame
    */
   playGame: function () {
-    console.log('play :: initPlayState');
     ui.showUser();
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
@@ -186,44 +172,6 @@ module.exports = {
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
     //this.bg.tilePosition.set(this.game.camera.x * -0.5, game.camera.y * -0.5);
     //this.bgnear.tilePosition.set(this.game.camera.x * -1, this.game.camera.y * -1);
-  },
-  /**
-   * Gameloop
-   *
-   * @method update
-   */
-  update: function () {
-    this.checkPlayerInput();
-    this.actorsUpdate();
-    this.uiUpdate();
-    this.checkGameCondition();
-    this.updateCamera();
-    if (this.menuMode && game.controls.isJoypadEnabled) {
-      ui.menu.update();
-    }
-    if (this.isDevMode) {
-      this.devModeUpdate();
-    }
-    this.filmgrain.update();
-  },
-
-  /**
-   * Needed for debug display
-   *
-   * @method render
-   */
-  render: function () {
-    if (properties.dev.stats) {
-      game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
-    }
-    if (properties.dev.debugPositions) {
-      game.debug.cameraInfo(game.camera, 400, 32);
-      if (this.isDevMode) {
-        game.debug.spriteCoords(this.crossHair, 32, 450);
-      } else {
-        game.debug.spriteCoords(this.player, 32, 450);
-      }
-    }
   },
 
   /**
@@ -364,8 +312,8 @@ module.exports = {
    * @method gameOver
    * @param score
    */
-  gameOver: function (score) {
-    console.warn('GAME OVER score:', score);
+  gameOver: function () {
+    console.warn('GAME OVER score:', gameState.score);
     gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
     ui.countdown.stop();
     //this.initialiseState();
@@ -701,5 +649,42 @@ module.exports = {
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
   },
+
+  /**
+   * @method postProcessing
+   */
+  postProcessing: function() {
+    var fragmentSrc = [
+      "precision mediump float;",
+      // Incoming texture coordinates.
+      'varying vec2 vTextureCoord;',
+      // Incoming vertex color
+      'varying vec4 vColor;',
+      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
+      'uniform sampler2D uSampler;',
+
+      "void main( void ) {",
+      // colorRGBA = (y % 2) * texel(u,v);
+      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
+      "}"
+    ];
+    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
+    var vignette = game.add.filter('Vignette');
+    this.filmgrain = game.add.filter('FilmGrain');
+    vignette.size = 0.6;
+    vignette.amount = 0.5;
+    vignette.alpha = 1;
+    this.filmgrain.color = 0.1;
+    this.filmgrain.amount = 0.2;
+    this.filmgrain.luminance = 0.8;
+    game.world.filters = [this.filmgrain, scanlineFilter, vignette];
+  },
+
+  /**
+   * @method updatePostProcessing
+   */
+  updatePostProcessing: function(){
+    this.filmgrain.update();
+  }
 
 };

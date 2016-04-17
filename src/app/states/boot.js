@@ -69,7 +69,7 @@ module.exports = {
     vignette.amount = 0.5;
     vignette.alpha = 1;
 
-    this.filmgrain.color = 0.78;
+    this.filmgrain.color = 0.1;
     this.filmgrain.amount = 0.4;
     this.filmgrain.luminance = 0.8;
 

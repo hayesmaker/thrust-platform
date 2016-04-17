@@ -69,24 +69,6 @@ function Player(collisions, groups) {
   this.thrustEmitter = null;
 
   /**
-   * @property fuel
-   * @type {number}
-   */
-  this.fuel = gameState.fuel;
-
-  /**
-   * @property lives
-   * @type {number}
-   */
-  this.lives = gameState.lives;
-
-  /**
-   * @property score
-   * @type {number}
-   */
-  this.score = gameState.score;
-
-  /**
    * @property initialPos
    * @type {Phaser.Point}
    */
@@ -225,10 +207,8 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   this.body.angle = 0;
   this.alpha = 0;
   if (removeShip === true) {
-    this.lives = gameState.lives--;
+    gameState.lives--;
   }
-  ui.lives.update(this.lives, true);
-  ui.fuel.update(this.fuel, true);
   this.tractorBeam.orb.respawn();
   particles.playerTeleport(this.body.x, this.body.y, function() {
     if (completeCallback) {
@@ -301,12 +281,12 @@ p.checkRotate = function(stick, cursors) {
  */
 p.checkThrust = function(buttonAPressed, cursors) {
   if (cursors.up.isDown || buttonAPressed) {
-    if (this.fuel >= 0) {
-      if (this.fuel % 5 === 0) {
+    if (gameState.fuel >= 0) {
+      if (gameState.fuel % 5 === 0) {
         this.thrustStart();
       }
       this.body.thrust(400);
-      this.fuel = gameState.fuel--;
+      gameState.fuel--;
     }
   } else {
     this.cutEngine();
@@ -440,8 +420,8 @@ p.death = function () {
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
 p.checkRespawn = function(callback, context, removeShip) {
-  if (this.lives === 0) {
-    this.livesLost.dispatch(this.score);
+  if (gameState.lives === 0) {
+    this.livesLost.dispatch();
   } else {
     this.respawn(callback, context, removeShip);
   }
