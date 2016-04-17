@@ -53,8 +53,8 @@ module.exports = {
       .waitForActors(10000)
       .beginDemo()
       .waitForState('play', 10000)
-      .assert.currentState('play')
-      .waitForPlayerSpawn(20000)
+      .assert.currentState('play');
+      //.waitForPlayerSpawn(20000)
   },
 
 

@@ -23,11 +23,11 @@ module.exports = {
 
     this.group = group;
 
-    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
-    var fuelLabel = game.add.text(x + 5, y + 5, "Fuel:", style, this.group);
-
-    style.align = 'right';
-    this.fuelTf = game.add.text(x + 5 + fuelLabel.width + 5, y + 5, "999999", style, this.group);
+    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "center" };
+    var fuelLabel = game.add.text(x, y + 5, "Fuel:", style, this.group);
+    
+    style.align = 'center';
+    this.fuelTf = game.add.text(x + fuelLabel.width + 5, y + 5, "999999", style, this.group);
 
   },
 

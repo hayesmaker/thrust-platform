@@ -40,7 +40,7 @@ module.exports = {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
     if (properties.drawBackground) {
-      game.load.image('stars', 'assets/images/starfield.png');
+      game.load.image('stars', 'assets/images/space.jpg');
     }
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
@@ -54,7 +54,7 @@ module.exports = {
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
   },
-
+  
   /**
    * Load all maps in defined in the levelManager
    *

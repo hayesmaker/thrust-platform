@@ -1,29 +1,26 @@
 'use strict';
 
 var properties = require('../properties');
-var game = window.game;
-var graphics;
-var timer;
-var lockingDuration = properties.gamePlay.lockingDuration;
 
 /**
  * TractorBeam description
  *
- * defines a public variable and calls init - change this constructor to suit your needs.
- * nb. there's no requirement to call an init function
- *
  * @class TractorBeam
  * @constructor
  */
-function TractorBeam(orb, player) {
+function TractorBeam(orb, player, groups) {
   this.orb = orb;
   this.player = player;
+  this.groups = groups;
   this.isLocked = false;
   this.isLocking = false;
   this.hasGrabbed = false;
   this.length = properties.gamePlay.tractorBeamLength;
   this.variance = properties.gamePlay.tractorBeamVariation;
+  this.lockingDuration = properties.gamePlay.lockingDuration;
   this.constraint = null;
+  this.graphics = null;
+  this.timer = null;
   this.init();
 }
 
@@ -35,10 +32,9 @@ var p = TractorBeam.prototype;
  * @method init
  */
 p.init = function () {
-  graphics = new Phaser.Graphics(game, 0, 0);
-  this.sprite = game.add.sprite(0, 0);
-  this.sprite.addChild(graphics);
-  timer = game.time.create(false);
+  this.graphics = game.make.graphics();
+  this.groups.actors.add(this.graphics);
+  this.timer = game.time.create(false);
 };
 
 /**
@@ -57,21 +53,24 @@ p.checkDistance = function(player, isXDown) {
 };
 
 /**
+ * //todo this timer.add might be a memory leak
+ * //todo restart existing timer each time, not adding new signals
+ *
  * @method drawBeam
  * @param posA
  */
 p.drawBeam = function (posA) {
   if (!this.isLocking) {
     this.isLocking = true;
-    timer.start();
-    timer.add(lockingDuration, this.lock, this);
+    this.timer.add(this.lockingDuration, this.lock, this);
+    this.timer.start();
   }
-  graphics.clear();
+  this.graphics.clear();
   var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
   var alpha = this.hasGrabbed ? 0.5 : 0.4;
-  graphics.lineStyle(5, colour, alpha);
-  graphics.moveTo(posA.x, posA.y);
-  graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
+  this.graphics.lineStyle(5, colour, alpha);
+  this.graphics.moveTo(posA.x, posA.y);
+  this.graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
 p.unlock = function () {
@@ -92,8 +91,8 @@ p.lockingRelease = function () {
   if (!this.isLocked) {
     this.isLocking = false;
     this.hasGrabbed = false;
-    graphics.clear();
-    timer.stop(true);
+    this.graphics.clear();
+    this.timer.stop(true);
   }
 };
 

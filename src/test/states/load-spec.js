@@ -40,7 +40,7 @@ describe("Phaser load state tests", function() {
 
     it('if background is enabled, load the starfield asset', function() {
       state.preload();
-      expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/starfield.png');
+      expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/space.jpg');
     });
 
     it('player ship image should be loaded', function() {

@@ -45,6 +45,11 @@ module.exports = {
   emitter: null,
   crossHair: null,
   crossHairSpeed: 15,
+  menuMode: false,
+  cameraPos: {
+    x: 0,
+    y: 0
+  },
 
   /**
    * Setup the game
@@ -52,28 +57,14 @@ module.exports = {
    * @method create
    */
   create: function () {
-    console.log('play :: create');
     this.setLevel();
     this.defineWorldBounds();
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    this.initPlayState();
-  },
-
-  /**
-   *
-   * @method initPlayState
-   */
-  initPlayState: function() {
-    console.log('play :: initPlayState');
-    if (!properties.dev.skipIntro) {
-      this.startLevelIntro();
-    } else if (!properties.dev.mode) {
-      this.missionStart();
-    } else {
-      this.initialiseDevMode();
-    }
+    this.showCurrentScreenByState(gameState.currentState);
+    //WebGL arcade style CRT scanline Filter
+    this.postProcessing();
   },
 
   /**
@@ -86,10 +77,14 @@ module.exports = {
     this.actorsUpdate();
     this.uiUpdate();
     this.checkGameCondition();
-
+    this.updateCamera();
+    if (this.menuMode && game.controls.isJoypadEnabled) {
+      ui.menu.update();
+    }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
+    this.updatePostProcessing();
   },
 
   /**
@@ -109,6 +104,74 @@ module.exports = {
         game.debug.spriteCoords(this.player, 32, 450);
       }
     }
+  },
+
+  /**
+   *
+   * @method playGame
+   */
+  playGame: function () {
+    ui.showUser();
+    if (!properties.dev.skipIntro) {
+      this.startLevelIntro();
+    } else if (!properties.dev.mode) {
+      this.missionStart();
+    } else {
+      this.initialiseDevMode();
+    }
+  },
+
+  /**
+   * @property showCurrentScreenByState
+   * @param state {String} name of gameState and also name of screen to show
+   */
+  showCurrentScreenByState: function (state) {
+    if (state === gameState.PLAY_STATES.PLAY) {
+      this.playGame();
+    }
+    if (state === gameState.PLAY_STATES.MENU) {
+      this.menuMode = true;
+    } else {
+      this.menuMode = false;
+    }
+    ui.showScreen(state);
+    gameState.currentState = state;
+  },
+
+  /**
+   * @method showHighScores
+   */
+  showHighScores: function () {
+    ui.hideUser();
+
+  },
+
+  /**
+   * @method menuItemSelected
+   * @param item {Object}
+   */
+  menuItemSelected: function (item) {
+    switch (item.text.text) {
+      case "PLAY THRUST" :
+        this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
+        break;
+      default :
+        console.log(item.text.text + ' not implemented');
+        break;
+    }
+  },
+
+  /**
+   * @method updateCamera
+   */
+  updateCamera: function () {
+    // change this value to alter the amount of damping, lower values = smoother camera movement
+    var lerp = 0.05;
+    this.cameraPos.x += (this.player.x - this.cameraPos.x) * lerp;
+    this.cameraPos.y += (this.player.y - this.cameraPos.y) * lerp;
+    game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
+    //this.bg.tilePosition.set(this.game.camera.x * -0.5, game.camera.y * -0.5);
+    //this.bgnear.tilePosition.set(this.game.camera.x * -1, this.game.camera.y * -1);
   },
 
   /**
@@ -168,13 +231,13 @@ module.exports = {
    *
    * @method playerWarpComplete
    */
-  playerWarpComplete: function() {
+  playerWarpComplete: function () {
     this.inPlay = true;
     this.initControls();
     this.initActorsStart();
   },
 
-  initActorsStart: function() {
+  initActorsStart: function () {
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
@@ -230,7 +293,7 @@ module.exports = {
   /**
    * @method removePlayers
    */
-  removePlayers: function() {
+  removePlayers: function () {
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -238,7 +301,7 @@ module.exports = {
   /**
    * @method levelInterstitialStart
    */
-  levelInterstitialStart: function() {
+  levelInterstitialStart: function () {
     ui.interstitial.levelComplete();
     game.time.events.add(4000, _.bind(this.nextLevel, this));
   },
@@ -249,10 +312,11 @@ module.exports = {
    * @method gameOver
    * @param score
    */
-  gameOver: function (score) {
-    console.warn('GAME OVER score:', score);
-    alert('game over! refresh');
-    gameState.initialise();
+  gameOver: function () {
+    console.warn('GAME OVER score:', gameState.score);
+    gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
+    ui.countdown.stop();
+    //this.initialiseState();
   },
 
   /**
@@ -276,8 +340,8 @@ module.exports = {
   /**
    * @method checkForFuelDistance
    */
-  checkForFuelDistance: function() {
-    _.each(this.fuels, function(fuel) {
+  checkForFuelDistance: function () {
+    _.each(this.fuels, function (fuel) {
       fuel.update();
     }, this);
   },
@@ -288,10 +352,9 @@ module.exports = {
    * @method uiUpdate
    */
   uiUpdate: function () {
-    if (this.inPlay) {
-      ui.fuel.update(gameState.fuel, true);
-      ui.score.update(gameState.score, true);
-    }
+    ui.fuel.update(gameState.fuel, true);
+    ui.score.update(gameState.score, true);
+    ui.lives.update(gameState.lives, true);
   },
 
   /**
@@ -320,31 +383,22 @@ module.exports = {
     this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
-    this.tractorBeam = new TractorBeam(this.orb, this.player);
+    this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
     _.each(this.level.enemies, this.createLimpet, this);
     _.each(this.level.fuels, this.createFuel, this);
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
     this.powerStation.initPhysics('powerStationPhysics', 'power-station');
     this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
-
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
-    //this.orbHolder.initPhysics('orbHolderPhysics', 'orb-holder');
-
     this.map = new Map(this.collisions, this.groups);
-    game.camera.follow(this.player);
-
+    this.cameraPos.x = this.player.x;
+    this.cameraPos.y = this.player.y;
     this.powerStation.body.setCollisionGroup(this.collisions.terrain);
-    //this.orbHolder.body.setCollisionGroup(this.collisions.terrain);
-
     this.powerStation.initCollisions();
-
-    //this.collisions.set(this.collisions.fuels, [this.collisions.bullets, this.collisions.players]);
-    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.bullets, this.collisions.orb]);
+    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
     this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
-
-    //this.initEnemies();
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
@@ -353,14 +407,13 @@ module.exports = {
   /**
    * @method startDestructionSequence
    */
-  startDestructionSequence: function() {
+  startDestructionSequence: function () {
     ui.countdown.start();
   },
 
-  countdownComplete: function() {
+  countdownComplete: function () {
     //alert('planet fucked');
   },
-
 
 
   /**
@@ -372,14 +425,7 @@ module.exports = {
     if (game.controls.isJoypadEnabled) {
       game.controls.initJoypad();
     }
-    ui.init();
-    ui.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, ui.group);
-    ui.score.init(10, 10, ui.group);
-    ui.score.update(this.player.score, true);
-    ui.fuel.init(10, 30, ui.group);
-    ui.fuel.update(this.player.fuel, true);
-    ui.lives.init(10, 50, ui.group);
-    ui.lives.update(this.player.lives, true);
+    ui.init(this.menuItemSelected, this);
   },
 
   /**
@@ -387,6 +433,7 @@ module.exports = {
    *
    * @method createLimpet
    * @param data
+   * 
    */
   createLimpet: function (data) {
     var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);
@@ -399,7 +446,7 @@ module.exports = {
    * @method createFuel
    * @param data
    */
-  createFuel: function(data) {
+  createFuel: function (data) {
     var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
     fuel.player = this.player;
     this.fuels.push(fuel);
@@ -419,7 +466,7 @@ module.exports = {
     _.each(this.limpetGuns, function (limpet) {
       this.groups.enemies.add(limpet);
     }, this);
-    _.each(this.fuels, function(fuel) {
+    _.each(this.fuels, function (fuel) {
       this.groups.fuels.add(fuel);
     }, this);
     this.groups.actors.add(this.powerStation);
@@ -431,10 +478,10 @@ module.exports = {
   /**
    * @method initialiseDevMode
    */
-  initialiseDevMode: function() {
+  initialiseDevMode: function () {
     this.isDevMode = true;
     this.cursors = game.controls.cursors;
-    this.crossHair = new Phaser.Sprite(game, game.width/2, game.height/2, 'crossHair');
+    this.crossHair = new Phaser.Sprite(game, game.width / 2, game.height / 2, 'crossHair');
     this.crossHair.anchor.setTo(0.5);
     game.world.add(this.crossHair);
     game.camera.follow(this.crossHair);
@@ -536,11 +583,11 @@ module.exports = {
    *
    * @method devModeUpdate
    */
-  devModeUpdate: function() {
-    var slow = function(thisArg) {
+  devModeUpdate: function () {
+    var slow = function (thisArg) {
       thisArg.crossHairSpeed = 5;
     };
-    var fast = function(thisArg) {
+    var fast = function (thisArg) {
       thisArg.crossHairSpeed = 15;
     };
     var point = new Phaser.Point(this.crossHair.x, this.crossHair.y);
@@ -548,7 +595,7 @@ module.exports = {
     this.checkDown(slow, fast, point);
     this.checkLeft(slow, fast, point);
     this.checkRight(slow, fast, point);
-    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease:Power0.easeNone});
+    TweenMax.to(this.crossHair, 0.1, {x: point.x, y: point.y, ease: Power0.easeNone});
   },
 
   /**
@@ -557,9 +604,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkUp: function(slow, fast, point) {
+  checkUp: function (slow, fast, point) {
     if (this.cursors.up.isDown) {
-      this.cursors.up.shiftKey? slow(this) : fast(this);
+      this.cursors.up.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y - this.crossHairSpeed;
     }
   },
@@ -570,9 +617,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkDown: function(slow, fast, point) {
+  checkDown: function (slow, fast, point) {
     if (this.cursors.down.isDown) {
-      this.cursors.down.shiftKey? slow(this) : fast(this);
+      this.cursors.down.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y + this.crossHairSpeed;
     }
   },
@@ -583,9 +630,9 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkRight: function(slow, fast, point) {
+  checkRight: function (slow, fast, point) {
     if (this.cursors.right.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
+      this.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x + this.crossHairSpeed;
     }
   },
@@ -596,11 +643,48 @@ module.exports = {
    * @param fast
    * @param point
    */
-  checkLeft: function(slow, fast, point) {
+  checkLeft: function (slow, fast, point) {
     if (this.cursors.left.isDown) {
-      this.cursors.right.shiftKey? slow(this) : fast(this);
+      this.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
   },
+
+  /**
+   * @method postProcessing
+   */
+  postProcessing: function() {
+    var fragmentSrc = [
+      "precision mediump float;",
+      // Incoming texture coordinates.
+      'varying vec2 vTextureCoord;',
+      // Incoming vertex color
+      'varying vec4 vColor;',
+      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
+      'uniform sampler2D uSampler;',
+
+      "void main( void ) {",
+      // colorRGBA = (y % 2) * texel(u,v);
+      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
+      "}"
+    ];
+    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
+    var vignette = game.add.filter('Vignette');
+    this.filmgrain = game.add.filter('FilmGrain');
+    vignette.size = 0.6;
+    vignette.amount = 0.5;
+    vignette.alpha = 1;
+    this.filmgrain.color = 0.1;
+    this.filmgrain.amount = 0.2;
+    this.filmgrain.luminance = 0.8;
+    game.world.filters = [this.filmgrain, scanlineFilter, vignette];
+  },
+
+  /**
+   * @method updatePostProcessing
+   */
+  updatePostProcessing: function(){
+    this.filmgrain.update();
+  }
 
 };
