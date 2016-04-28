@@ -8,6 +8,7 @@ var ShipParticle = require('./bitmaps/ShipParticle');
 var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
+var _ = require('lodash');
 
 /**
  * A user controlled controlled spaceship
@@ -407,9 +408,7 @@ p.death = function () {
   }
   var self = this;
   this.alive = false;
-  setTimeout(function() {
-    self.checkRespawn(null, null, true);
-  }, 5000);
+  game.time.events.add(3000, _.bind(self.checkRespawn, this));
 };
 
 /**
@@ -419,7 +418,8 @@ p.death = function () {
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
 p.checkRespawn = function(callback, context, removeShip) {
-  if (gameState.lives === 0) {
+  if (--gameState.lives < 0) {
+    gameState.lives = 0;
     this.livesLost.dispatch();
   } else {
     this.respawn(callback, context, removeShip);

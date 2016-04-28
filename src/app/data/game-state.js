@@ -1,18 +1,21 @@
- /**
-  *
-  * keeps a record of current game state data
-  * defines score and bonuses
-  *
-  * @class game-state
-  * @static
-  *
- * @type {{PLAY_STATES: {MENU: string, TRANSITION: string, GAME_OVER: string}, currentState: string, highScoreTable: *[], SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, restart: module.exports.restart, planetDestroyed: boolean, orbRecovered: boolean, score: number, fuel: number, lives: number}}
+var _ = require('lodash');
+
+/**
+ *
+ * keeps a record of current game state data
+ * defines score and bonuses
+ *
+ * @class game-state
+ * @static
+ *
+ * @type {{PLAY_STATES: {MENU: string, PLAY: string, HIGH_SCORES: string, TRANSITION: string, GAME_OVER: string}, currentState: null, highScoreTable: *[], SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, restart: module.exports.restart, planetDestroyed: boolean, orbRecovered: boolean, score: number, fuel: number, lives: number}}
  */
 module.exports = {
 
   PLAY_STATES: {
     MENU: "MENU",
     PLAY: "PLAY",
+    HIGH_SCORES: "HIGH_SCORES",
     TRANSITION: "TRANSITION",
     GAME_OVER: "GAME_OVER"
   },
@@ -58,6 +61,12 @@ module.exports = {
     }
   ],
 
+  getScoreIndex: function() {
+    return _.findIndex(this.highScoreTable, function(data) {
+      return this.score > data.score;
+    }.bind(this));
+  },
+  
   /**
    * @property SCORES
    * @type {object}
@@ -91,7 +100,7 @@ module.exports = {
   /**
    * The amount of fuel a fuel cell can refuel the player
    * before it is removed
-   * 
+   *
    * @property FUEL_AMOUNT
    * @type {Number}
    */
@@ -101,9 +110,9 @@ module.exports = {
    * @deprecated
    * @method init
    */
-  init: function() {
+  init: function () {
     this.currentState = this.PLAY_STATES.MENU;
-    this.score = 5;
+    this.score = 3000;
     this.fuel = 7000;
     this.lives = 1;
     console.log('gameState :: initialise', this.currentState);
@@ -112,7 +121,7 @@ module.exports = {
   /**
    * @method levelReset
    */
-  restart: function() {
+  restart: function () {
     this.currentState = this.PLAY_STATES.PLAY;
     this.planetDestroyed = false;
     this.orbRecovered = false;
@@ -147,5 +156,5 @@ module.exports = {
    * @type {number}
    */
   lives: 5
-  
+
 };
