@@ -7,14 +7,14 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'http://thrust-platform.herokuapp.com';
+var url = 'http://www.thrust2016.com';
 
 var status = function() {
-  return '#HTML5 Thrust beta update: (v' + process.env.npm_package_version +') successfully deployed at: ' + url;
+  return '#HTML5 Thrust 2016 (beta) update: v' + process.env.npm_package_version +' live now at: ' + url;
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){
   if (!error) {
-    console.log('Tweeted status:', status());
+    console.log('Tweeted:' + tweet + ' status: ', status());
   }
-});
+}); 
