@@ -126,7 +126,9 @@ module.exports = {
    * @param state {String} name of gameState and also name of screen to show
    */
   showCurrentScreenByState: function (state) {
+    ui.hideUser();
     if (state === gameState.PLAY_STATES.PLAY) {
+      ui.showUser();
       this.playGame();
     }
     if (state === gameState.PLAY_STATES.MENU) {
@@ -135,15 +137,6 @@ module.exports = {
       this.menuMode = false;
     }
     ui.showScreen(state);
-    gameState.currentState = state;
-  },
-
-  /**
-   * @method showHighScores
-   */
-  showHighScores: function () {
-    ui.hideUser();
-
   },
 
   /**
@@ -154,6 +147,9 @@ module.exports = {
     switch (item.text.text) {
       case "PLAY THRUST" :
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
+        break;
+      case "HIGH-SCORES":
+        this.showCurrentScreenByState(gameState.PLAY_STATES.HIGH_SCORES);
         break;
       default :
         console.log(item.text.text + ' not implemented');
@@ -314,8 +310,11 @@ module.exports = {
    */
   gameOver: function () {
     console.warn('GAME OVER score:', gameState.score);
-    gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
     ui.countdown.stop();
+    gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
+    ui.showScreen(gameState.currentState);
+    ui.highscores.insertNewScore();
+    ui.hideUser();
     //this.initialiseState();
   },
 

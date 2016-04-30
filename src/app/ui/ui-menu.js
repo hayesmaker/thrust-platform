@@ -76,6 +76,7 @@ p.stickDownPressed = false;
 p.render = function () {
   UIComponent.prototype.render.call(this);
   console.log('ui-menu :: render');
+  this.items = [];
   _.each(
     [
       'PLAY THRUST',
@@ -144,6 +145,7 @@ p.menuItem = function (label, index) {
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
   this.items[index].graphic.visible = true;
+  console.log('this.items[index]', this.items[index].graphic);
 };
 
 /**
@@ -158,8 +160,8 @@ p.deselectItem = function (item) {
  * @method enable
  */
 p.enable = function () {
-  console.log('ui-menu :: enable');
   this.selectedIndex = 0;
+  console.log('ui-menu :: enable', this.selectedIndex);
   this.selectItemByIndex(this.selectedIndex);
   game.controls.cursors.up.onDown.add(this.upPressed, this);
   game.controls.cursors.down.onDown.add(this.downPressed, this);

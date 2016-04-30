@@ -1,5 +1,6 @@
 var gameState = require('../data/game-state');
 var UIMenu = require('./ui-menu');
+var UIHighScores = require('./ui-high-scores');
 var manager = require('./manager');
 
 
@@ -20,16 +21,12 @@ module.exports = {
     this.lives.init(0, 50, this.scoreGroup);
     this.lives.update(gameState.lives, true);
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
-    
+    this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.scoreGroup.x = game.width/2 - this.scoreGroup.width/2;
-    
-    /*
-      this.menu.init(this.group);
-      this.highScoreTable.init(this.group);
-    */
   },
   
   showScreen: function(name) {
+    gameState.currentState = name;
     manager.showScreen(name);
   },
   
@@ -51,7 +48,5 @@ module.exports = {
 
   interstitial: require('./interstitial'),
   
-  countdown: require('./countdown'),
-
-  highScoreTable: require('./high-score-table')
+  countdown: require('./countdown')
 };

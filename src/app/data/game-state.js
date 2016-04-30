@@ -1,22 +1,31 @@
- /**
-  *
-  * keeps a record of current game state data
-  * defines score and bonuses
-  *
-  * @class game-state
-  * @static
-  *
- * @type {{PLAY_STATES: {MENU: string, TRANSITION: string, GAME_OVER: string}, currentState: string, highScoreTable: *[], SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, restart: module.exports.restart, planetDestroyed: boolean, orbRecovered: boolean, score: number, fuel: number, lives: number}}
+var _ = require('lodash');
+
+/**
+ *
+ * keeps a record of current game state data
+ * defines score and bonuses
+ *
+ * @class game-state
+ * @static
  */
 module.exports = {
 
+  /**
+   * @property PLAY_STATES
+   * @type {Object}
+   */
   PLAY_STATES: {
     MENU: "MENU",
     PLAY: "PLAY",
+    HIGH_SCORES: "HIGH_SCORES",
     TRANSITION: "TRANSITION",
     GAME_OVER: "GAME_OVER"
   },
 
+  /**
+   * @property currentState
+   * @type {String}
+   */
   currentState: null,
 
   /**
@@ -29,35 +38,73 @@ module.exports = {
       score: 100000
     },
     {
-      name: "Andy",
+      name: "Joe",
       score: 50000
     },
     {
-      name: "Andy",
+      name: "Malcolm",
       score: 10000
     },
     {
-      name: "Andy",
+      name: "Rodney",
       score: 5000
     },
     {
-      name: "Andy",
+      name: "Simon",
       score: 4000
     },
     {
-      name: "Andy",
+      name: "Christopher",
       score: 3000
     },
     {
-      name: "Andy",
+      name: "Bilbo",
       score: 2000
     },
     {
-      name: "Andy",
+      name: "Baggins",
       score: 1000
     }
   ],
 
+  /**
+   * 
+   */
+  getScoreIndex: function() {
+    return _.findIndex(this.highScoreTable, function(data) {
+      return this.score > data.score;
+    }.bind(this));
+  },
+
+  /**
+   * 
+   * @param scoreIndex
+   */
+  insertNewHighScore: function(scoreIndex) {
+    this.highScoreTable.splice(scoreIndex, 0, {
+      dirty: true,
+      name: "",
+      score: this.score
+    });
+    this.highScoreTable.pop();
+    console.log('gameState :: insertNewHighScore :: ', this.highScoreTable);
+  },
+
+  /**
+   * @param name
+   */
+  newScoreEntered: function(name) {
+    _.each(this.highScoreTable, function(data) {
+      if (data.dirty) {
+        data.name = name;
+        data.dirty = false;
+      }
+    });
+    console.log('gameState :: newScoreEntered :: ', this.highScoreTable);
+  },
+
+
+  
   /**
    * @property SCORES
    * @type {object}
@@ -91,7 +138,7 @@ module.exports = {
   /**
    * The amount of fuel a fuel cell can refuel the player
    * before it is removed
-   * 
+   *
    * @property FUEL_AMOUNT
    * @type {Number}
    */
@@ -101,18 +148,18 @@ module.exports = {
    * @deprecated
    * @method init
    */
-  init: function() {
+  init: function () {
     this.currentState = this.PLAY_STATES.MENU;
-    this.score = 5;
-    this.fuel = 7000;
-    this.lives = 1;
+    this.score = 0;
+    this.fuel = 5000;
+    this.lives = 5;
     console.log('gameState :: initialise', this.currentState);
   },
 
   /**
    * @method levelReset
    */
-  restart: function() {
+  restart: function () {
     this.currentState = this.PLAY_STATES.PLAY;
     this.planetDestroyed = false;
     this.orbRecovered = false;
@@ -147,5 +194,5 @@ module.exports = {
    * @type {number}
    */
   lives: 5
-  
+
 };
