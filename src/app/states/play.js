@@ -261,6 +261,7 @@ module.exports = {
    */
   checkGameCondition: function () {
     this.checkPlayerLocation();
+    this.checkGameOver();
   },
 
   /**
@@ -276,9 +277,9 @@ module.exports = {
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
-        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.removePlayers, this));
+        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
-          gameState.orbRecovered = true;
+          gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
         }
@@ -287,9 +288,18 @@ module.exports = {
   },
 
   /**
-   * @method removePlayers
+   * @method checkGameOver
    */
-  removePlayers: function () {
+  checkGameOver: function() {
+    if (gameState.lives < 0) {
+      game.time.events.add(3000, _.bind(this.gameOver, this));
+      gameState.lives = 5; //initial value
+    }
+  },
+  /**
+   * @method levelTransition
+   */
+  levelTransition: function () {
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -353,7 +363,7 @@ module.exports = {
   uiUpdate: function () {
     ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
-    ui.lives.update(gameState.lives, true);
+    ui.lives.update(Math.max(gameState.lives, 0), true);
   },
 
   /**
@@ -379,7 +389,6 @@ module.exports = {
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
-    this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
@@ -408,10 +417,14 @@ module.exports = {
    */
   startDestructionSequence: function () {
     ui.countdown.start();
+    gameState.bonuses.planetBuster = true;
   },
 
+  /**
+   * @method countdownComplete
+   */
   countdownComplete: function () {
-    //alert('planet fucked');
+    //do planet destruction anims
   },
 
 

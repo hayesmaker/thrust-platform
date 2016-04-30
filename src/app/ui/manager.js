@@ -11,7 +11,8 @@ module.exports = {
   screens: null,
 
 
-  init: function() {
+  init: function(ui) {
+    this.ui = ui;
     this.screens = [];
   },
   
@@ -28,6 +29,11 @@ module.exports = {
         screen.hideAndRemove();
       }
     });
+    if (name === "HIGH_SCORES") {
+      this.ui.fade.tweenIn();
+    } else {
+      this.ui.fade.tweenOut();
+    }
     
   }
   

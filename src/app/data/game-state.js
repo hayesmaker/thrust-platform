@@ -152,7 +152,7 @@ module.exports = {
     this.currentState = this.PLAY_STATES.MENU;
     this.score = 0;
     this.fuel = 5000;
-    this.lives = 5;
+    this.lives = 2;
     console.log('gameState :: initialise', this.currentState);
   },
 
@@ -166,16 +166,16 @@ module.exports = {
   },
 
   /**
-   * @property planetDestroyed
-   * @type {boolean}
+   * Set to true when a condition is satisfied
+   * This can be used in a level interstitial to add any bonuses
+   * and check mission completion.
+   *
+   * @property bonuses
    */
-  planetDestroyed: false,
-
-  /**
-   * @property orbRecovered
-   * @type {boolean}
-   */
-  orbRecovered: false,
+  bonuses: {
+    planetBuster: false,
+    orbRecovered: false
+  },
 
   /**
    * @property score

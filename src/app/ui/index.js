@@ -8,9 +8,10 @@ var manager = require('./manager');
 module.exports = {
 
   init: function(menuSelectedCallback, playState) {
-    manager.init();
+    manager.init(this);
     this.group = game.make.group();
     this.scoreGroup = game.add.group(this.group);
+    this.fade.init(this.group);
     this.interstitial.init(this.group);
     this.countdown.init(this.group);
     this.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, this.group);
@@ -37,6 +38,8 @@ module.exports = {
   showUser: function() {
     this.scoreGroup.visible = true;
   },
+
+  fade: require('./fade'),
 
   missionSwipe: require('./mission-swipe'),
 

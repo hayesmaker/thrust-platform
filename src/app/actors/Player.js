@@ -419,8 +419,8 @@ p.death = function () {
  */
 p.checkRespawn = function(callback, context, removeShip) {
   if (--gameState.lives < 0) {
-    gameState.lives = 0;
-    this.livesLost.dispatch();
+    gameState.lives = -1;
+    //this.livesLost.dispatch();
   } else {
     this.respawn(callback, context, removeShip);
   }
