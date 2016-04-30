@@ -310,8 +310,11 @@ module.exports = {
    */
   gameOver: function () {
     console.warn('GAME OVER score:', gameState.score);
-    gameState.currentState = gameState.PLAY_STATES.GAME_OVER;
     ui.countdown.stop();
+    gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
+    ui.showScreen(gameState.currentState);
+    ui.highscores.insertNewScore();
+    ui.hideUser();
     //this.initialiseState();
   },
 

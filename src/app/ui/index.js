@@ -23,11 +23,6 @@ module.exports = {
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.scoreGroup.x = game.width/2 - this.scoreGroup.width/2;
-    
-    /*
-      this.menu.init(this.group);
-      this.highScoreTable.init(this.group);
-    */
   },
   
   showScreen: function(name) {

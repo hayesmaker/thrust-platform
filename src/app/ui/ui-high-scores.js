@@ -21,6 +21,8 @@ module.exports = UIHighScores;
 function UIHighScores(group, name, playState) {
   UIComponent.call(this, group, name);
   this.playState = playState;
+  _.bindAll(this, 'keyboardOnPress');
+  _.bindAll(this, 'swallowBackspace');
 }
 
 p.items = [];
@@ -35,17 +37,17 @@ p.selectedIndex = 0;
 p.itemSelected = null;
 p.layoutRect = null;
 p.fullLayout = false;
+p.newScoreName = "";
 
 p.render = function() {
   UIComponent.prototype.render.call(this);
+  this.items = [];
   this.initSignals();
   this.initLayout();
   this.createDisplay();
   this.centerDisplay();
   this.drawLines();
-  //this.drawGameOver();
   this.drawPressFire();
-  this.insertHighScore();
 };
 
 p.initLayout = function () {
@@ -98,7 +100,7 @@ p.createDisplay = function () {
   rect.endFill();
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
-  //this.gameOverSubTitle();
+  this.createSubtitles();
 };
 
 p.centerDisplay = function() {
@@ -128,55 +130,62 @@ p.addHighScore = function (highscore, index) {
   this.maxY = y;
 };
 
-p.insertHighScore = function() {
-  var scoreIndex = gameState.getScoreIndex();
-  var currentScoreItem = this.items[scoreIndex];
-  console.log('insertHighScore :: scoreIndex=', scoreIndex);
-  this.cursor = game.add.text(this.layoutRect.x + 20, this.layoutRect.y + 20, "_", this.styles.scores, this.group);
-  this.cursor.x = currentScoreItem.name.x;
-  this.cursor.y = currentScoreItem.name.y;
-  var pushedScores = _.slice(this.items, scoreIndex);
-  _.each(pushedScores, function(scoreItem, index) {
-    //scoreItem.number.y += scoreItem.yOffset;
-    var yOffset = scoreItem.number.height + 5; //<--//todo link to offset in addHighScore
-    scoreItem.name.y += yOffset;
-    scoreItem.score.y += yOffset;
-    if (index === pushedScores.length - 1) {
-      //this.group.remove(scoreItem.name);
-      //this.items.splice(this.items.length - 1, 1);
-    }
+p.renderHighScores = function() {
+  _.each(gameState.highScoreTable, function(highScore, index) {
+    this.items[index].name.text = highScore.name;
+    this.items[index].score.text = highScore.score;
   }.bind(this));
+  
 };
 
-p.drawGameOver = function() {
-  var style = this.styles.subtitle;
-  var subTitle = game.add.text(this.layoutRect.halfWidth, 0, "GAME OVER", style, this.group);
-  subTitle.y = this.layoutRect.height - this.layoutRect.height * 0.15;
-  subTitle.anchor.setTo(0.5);
+p.insertNewScore = function() {
+  var scoreIndex = gameState.getScoreIndex();
+  console.log('scoreIndex:', scoreIndex);
+  if (scoreIndex >= 0) {
+    var currentScoreItem = this.items[scoreIndex];
+    console.log('insertNewScore :: scoreIndex=', scoreIndex);
+    this.cursor = game.add.text(this.layoutRect.x + 20, this.layoutRect.y + 20, "_", this.styles.scores, this.group);
+    this.cursor.x = currentScoreItem.name.x;
+    this.cursor.y = currentScoreItem.name.y;
+    gameState.insertNewHighScore(scoreIndex);
+    this.renderHighScores();
+    this.newHighScoreSubTitle();
+    //only if desktop
+    this.enableKeyboardEntry();
+  } else {
+    this.gameOverSubTitle();
+  }
 };
 
 p.drawPressFire = function () {
-  var subTitle = game.add.text(this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
-  subTitle.anchor.setTo(0.5);
-  subTitle.y =  this.layoutRect.height - this.layoutRect.height * 0.075;
+  this.subTitle3.visible = true;
+};
+
+p.createSubtitles = function() {
+  var style = this.styles.subtitle;
+  this.subTitle1 = game.add.text(this.layoutRect.halfWidth, this.layoutRect.height * 0.75, "", style, this.group);
+  this.subTitle1.anchor.setTo(0.5);
+  this.subTitle2 = game.add.text(this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
+  this.subTitle2.anchor.setTo(0.5);
+  this.subTitle3 = game.add.text(this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
+  this.subTitle3.anchor.setTo(0.5);
+  this.subTitle3.y =  this.layoutRect.height - this.layoutRect.height * 0.075;
+  this.subTitle1.visible = false;
+  this.subTitle2.visible = false;
+  this.subTitle3.visible = false;
 };
 
 p.newHighScoreSubTitle = function () {
-  var style = this.styles.subtitle;
-  var subTitle = game.add.text(this.layoutRect.halfWidth, - this.group.y + this.padding*2 , "CONGRATULATIONS, YOU RANK 4TH", style, this.group);
-  subTitle.anchor.setTo(0.5);
-  var subTitle2 = game.add.text(this.layoutRect.halfWidth, subTitle.y + subTitle.height + 10, "ENTER YOUR NAME PILOT", style, this.group);
-  subTitle2.anchor.setTo(0.5);
+  this.subTitle1.visible = this.subTitle2.visible = true;
+  this.subTitle1.text = "NEW HIGH SCORE";
+  this.subTitle2.text =  "ENTER YOUR NAME PILOT";
 };
 
 p.gameOverSubTitle = function () {
-  var style = this.styles.subtitle;
-  var subTitle2 = game.add.text(this.layoutRect.halfWidth, 0, "YOUR SCORE WAS " + gameState.score, style, this.group);
-  subTitle2.y = this.layoutRect.height * 0.7;
-  subTitle2.anchor.setTo(0.5);
-  var subTitle3 = game.add.text(this.layoutRect.halfWidth,0, "YOU REACHED LEVEL " + parseInt(levelManager.levelIndex + 1, 10), style, this.group);
-  subTitle3.y = subTitle2.y + subTitle2.height + this.layoutRect.height * 0.01;
-  subTitle3.anchor.setTo(0.5);
+  this.subTitle1.visible = this.subTitle2.visible = true;
+  this.subTitle1.text = "GAME OVER";
+  this.subTitle2.text = "YOU REACHED LEVEL " + parseInt(levelManager.levelIndex + 1, 10);
+  this.subTitle3.visible = true;
 };
 
 p.enable = function() {
@@ -198,4 +207,68 @@ p.disable = function() {
  */
 p.spacePressed = function () {
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
+};
+
+/**
+ * @method enableKeyboardEntry
+ */
+p.enableKeyboardEntry = function() {
+  this.disable();
+  window.addEventListener('keydown', this.swallowBackspace);
+  window.addEventListener('keypress', this.keyboardOnPress);
+};
+
+/**
+ * @method disableKeyboardEntry
+ */
+p.disableKeyboardEntry = function() {
+  window.removeEventListener('keydown', this.swallowBackspace);
+  window.removeEventListener('keypress', this.keyboardOnPress);
+  this.enable();
+};
+
+/**
+ * @method swallowBackspace
+ * @param e
+ */
+p.swallowBackspace = function(e) {
+  if (e.keyCode === 8) {
+    e.preventDefault();
+    if (this.newScoreName.length) {
+      this.newScoreName = this.newScoreName.substring(0, this.newScoreName.length-1);
+      this.renderScoreInput(this.newScoreName);
+    }
+  }
+};
+
+/**
+ * @method keyboardOnPress
+ * @param e
+ */
+p.keyboardOnPress = function(e) {
+  var char = String.fromCharCode(e.keyCode);
+  if (e.keyCode === 8) {
+    this.swallowBackspace(e);
+  }
+  if (e.keyCode === 13) {
+    this.disableKeyboardEntry();
+    this.group.remove(this.cursor);
+    this.cursor.text = "";
+    this.cursor = null;
+    gameState.newScoreEntered(this.newScoreName);
+    this.newScoreName = "";
+    this.renderHighScores();
+    this.gameOverSubTitle();
+  } else {
+    this.newScoreName = this.newScoreName + char;
+    this.renderScoreInput(this.newScoreName);
+  }
+};
+
+/**
+ * @method renderScoreInput
+ * @param str
+ */
+p.renderScoreInput = function(str) {
+  this.cursor.text = str + "_";
 };
