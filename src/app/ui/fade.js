@@ -1,4 +1,4 @@
-
+var TweenLite = global.TweenLite;
 
 module.exports = {
   

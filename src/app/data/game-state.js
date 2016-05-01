@@ -127,6 +127,15 @@ module.exports = {
   },
 
   /**
+   * @method getScoreByValueId
+   * @param valueId
+   * @returns {*}
+   */
+  getScoreByValueId: function(valueId) {
+    return this.SCORES[valueId];
+  },
+
+  /**
    * @property POWER_STATION_HEALTH
    * @type {number}
    */

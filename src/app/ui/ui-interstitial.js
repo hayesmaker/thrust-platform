@@ -1,7 +1,7 @@
 var UIComponent = require('./ui-component');
 var _ = require('lodash');
 var gameState = require('../data/game-state');
-var TweenMax = global.TweenMax;
+var TweenLite = global.TweenLite;
 var TimelineLite = global.TimelineLite;
 var Quad = global.Quad;
 
@@ -12,7 +12,7 @@ var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
 module.exports = UIInterstial;
 
 /**
- *
+ * @class UIInterstial
  * @param group
  * @param name
  * @param playState
@@ -30,11 +30,17 @@ function UIInterstial(group, name, playState) {
 p.onExitComplete = new Phaser.Signal();
 
 /**
- *
+ * @property preventAutoEnable
  * @type {boolean}
  */
 p.preventAutoEnable = true;
 
+/**
+ * Data provider for this ui component
+ * 
+ * @property fields
+ * @type {*[]}
+ */
 p.fields = [
   {
     successLabel: "Mission Complete",
@@ -46,14 +52,14 @@ p.fields = [
   {
     successLabel: "Orb Recovered",
     failLabel: "Orb Not Recovered",
-    valueId: "orb_recovered",
+    valueId: "ORB_RECOVERED",
     yPos: 0.4,
     style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
   },
   {
     successLabel: "Planet Destroyed",
     failLabel: "",
-    valueId: "planet_buster",
+    valueId: "PLANET_BUSTER",
     yPos: 0.45,
     style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
   },
@@ -73,25 +79,42 @@ p.fields = [
   }
 ];
 
+/**
+ * @method render
+ */
 p.render = function() {
   UIComponent.prototype.render.call(this);
   var x = game.width/2;
-  _.each(this.fields, function(field) {
-    field.tf = game.add.text(x, game.height * field.yPos, field.successLabel, field.style, this.group);
+  _.each(this.fields, function(field, index) {
+    var label = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
+    if (gameState.bonuses.planetBuster) {
+      if (index === 2 || index === 3) {
+        label = field.successLabel;
+      }
+    } else {
+      if (index === 2) {
+        label = field.failLabel;
+      }
+    }
+    field.tf = game.add.text(x, game.height * field.yPos, label, field.style, this.group);
     field.tf.alpha = 0;
     if (field.center) {
       field.tf.anchor.setTo(0.5, 0);
     } else {
       field.tf.x = field.tf.x - 200;
     }
-    if (field.valueId) {
-      field.valueTf = game.add.text(x + 150, game.height * field.yPos, "1000", field.style, this.group);
+    if (field.valueId && label === field.successLabel) {
+      var score = gameState.getScoreByValueId(field.valueId);
+      field.valueTf = game.add.text(x + 150, game.height * field.yPos, score, field.style, this.group);
       field.valueTf.alpha = 0;
     }
   }.bind(this));
-  this.levelExit();
+  this.transitionEnter();
 };
 
+/**
+ * @method enable
+ */
 p.enable = function() {
   game.controls.spacePress.onDown.add(this.spacePressed, this);
   if (game.controls.stick) {
@@ -99,6 +122,9 @@ p.enable = function() {
   }
 };
 
+/**
+ * @method disable
+ */
 p.disable = function() {
   game.controls.spacePress.onDown.remove(this.spacePressed, this);
   if (game.controls.stick) {
@@ -110,33 +136,21 @@ p.disable = function() {
  * @method spacePressed
  */
 p.spacePressed = function () {
-  console.log('ui-interstitial :: space pressed');
-  //this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
   this.disable();
-  this.levelEnter();
+  this.transitionExit();
 };
 
-
-p.initLayout = function() {
-  if (game.width > 1000) {
-    this.titleStyle = {font: "16px thrust_regular", fill: "#ffffff", align: "left" };
-    this.style = { font: "14px thrust_regular", fill: "#ffffff", align: "left" };
-    this.styleBlue = { font: "14px thrust_regular", fill: "#00ffff", align: "left" };
-    this.styleGreen = { font: "14px thrust_regular", fill: "#00ff00", align: "left" };
-  } else {
-    this.titleStyle = {font: "14px thrust_regular", fill: "#ffffff", align: "left" };
-    this.style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
-    this.styleBlue = { font: "12px thrust_regular", fill: "#00ffff", align: "left" };
-    this.styleGreen = { font: "12px thrust_regular", fill: "#00ff00", align: "left" };
-  }
-};
-
-p.levelExit = function() {
-   this.tl = new TimelineLite({delay: 0.5, onComplete: this.timelineComplete, callbackScope: this});
+/**
+ * Tweens the ui component elements into view
+ * 
+ * @method transitionEnter
+ */
+p.transitionEnter = function() {
+   this.tl = new TimelineLite({delay: 0.25, onComplete: this.transitionEnterComplete, callbackScope: this});
    _.each(this.fields, function(field) {
      this.tl.add(TweenLite.to(field.tf, 0.2, {alpha: 1, ease:Quad.easeIn}));
    }.bind(this));
-    this.tl.add(TweenLite.to(this, 1.2));
+    this.tl.add(TweenLite.to(this, 0.5));
    _.each(this.fields, function(field) {
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
@@ -144,8 +158,13 @@ p.levelExit = function() {
    }.bind(this));
 };
 
-p.levelEnter = function() {
-  this.tl = new TimelineLite({delay: 0, onComplete: this.levelExitComplete, callbackScope: this});
+/**
+ * Tweens the ui component elements out of view
+ * 
+ * @method transitionExit
+ */
+p.transitionExit = function() {
+  this.tl = new TimelineLite({delay: 0, onComplete: this.transitionExitComplete, callbackScope: this});
   _.each(this.fields, function(field) {
     this.tl.add(TweenLite.to(field.tf, 0.2, {y: -100, ease:Quad.easeIn}));
     if (field.valueTf) {
@@ -155,18 +174,17 @@ p.levelEnter = function() {
   this.onExitComplete.dispatch();
 };
 
-p.timelineComplete = function() {
+/**
+ * @method transitionEnterComplete
+ */
+p.transitionEnterComplete = function() {
   this.enable();
 };
 
-p.levelExitComplete = function() {
+/**
+ * @method transitionExitComplete
+ */
+p.transitionExitComplete = function() {
+  this.group.removeAll();
   this.playState.nextLevel();
-};
-
-p.clear = function() {
-  this.group.visible = false;
-  this.text0.text = "";
-  this.text1.text = "";
-  this.text2.text = "";
-  this.text3.text = "";
 };
