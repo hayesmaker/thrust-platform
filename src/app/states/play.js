@@ -161,16 +161,14 @@ module.exports = {
   },
 
   /**
+   * Change the lerp value to alter the amount of damping, lower values = smoother camera movement
    * @method updateCamera
    */
   updateCamera: function () {
-    // change this value to alter the amount of damping, lower values = smoother camera movement
     var lerp = 0.05;
     this.cameraPos.x += (this.player.x - this.cameraPos.x) * lerp;
     this.cameraPos.y += (this.player.y - this.cameraPos.y) * lerp;
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
-    //this.bg.tilePosition.set(this.game.camera.x * -0.5, game.camera.y * -0.5);
-    //this.bgnear.tilePosition.set(this.game.camera.x * -1, this.game.camera.y * -1);
   },
 
   /**

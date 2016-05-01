@@ -135,7 +135,7 @@ p.render = function() {
   _.each(this.fields, function(field, index) {
     var label = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
     label = this.createLabels(x, field, index, label);
-    this.createValues(x, field, index, label);
+    this.createValues(x, field, label);
   }.bind(this));
   this.transitionEnter();
 };
