@@ -80,6 +80,53 @@ p.fields = [
 ];
 
 /**
+ * @method createLabels
+ * @param x
+ * @param field
+ * @param index
+ * @param label
+ */
+p.createLabels = function(x, field, index, label) {
+  if (gameState.bonuses.planetBuster) {
+    if (index === 2 || index === 3) {
+      label = field.successLabel;
+    }
+  } else {
+    if (index === 2) {
+      label = field.failLabel;
+    }
+  }
+  field.tf = game.add.text(x, game.height * field.yPos, label, field.style, this.group);
+  field.tf.alpha = 0;
+  return label;
+};
+
+/**
+ * @method createValues
+ * @param x
+ * @param field
+ * @param label
+ */
+p.createValues = function(x, field, label) {
+  if (field.center) {
+    field.tf.anchor.setTo(0.5, 0);
+  } else {
+    field.tf.x = field.tf.x - 200;
+  }
+  if (field.valueId) {
+    if (label === field.successLabel) {
+      field.score = gameState.getScoreByValueId(field.valueId);
+    } else {
+      field.score = 0;
+    }
+    if (label.length) {
+      field.valueTf = game.add.text(x + 150, game.height * field.yPos, field.score, field.style, this.group);
+      field.valueTf.alpha = 0;
+    }
+  }
+};
+
+/**
  * @method render
  */
 p.render = function() {
@@ -87,33 +134,8 @@ p.render = function() {
   var x = game.width/2;
   _.each(this.fields, function(field, index) {
     var label = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
-    if (gameState.bonuses.planetBuster) {
-      if (index === 2 || index === 3) {
-        label = field.successLabel;
-      }
-    } else {
-      if (index === 2) {
-        label = field.failLabel;
-      }
-    }
-    field.tf = game.add.text(x, game.height * field.yPos, label, field.style, this.group);
-    field.tf.alpha = 0;
-    if (field.center) {
-      field.tf.anchor.setTo(0.5, 0);
-    } else {
-      field.tf.x = field.tf.x - 200;
-    }
-    if (field.valueId) {
-      if (label === field.successLabel) {
-        field.score = gameState.getScoreByValueId(field.valueId);
-      } else {
-        field.score = 0;
-      }
-      if (label.length) {
-        field.valueTf = game.add.text(x + 150, game.height * field.yPos, field.score, field.style, this.group);
-        field.valueTf.alpha = 0;
-      }
-    }
+    label = this.createLabels(x, field, index, label);
+    this.createValues(x, field, index, label);
   }.bind(this));
   this.transitionEnter();
 };
