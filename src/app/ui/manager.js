@@ -29,7 +29,7 @@ module.exports = {
         screen.hideAndRemove();
       }
     });
-    if (name === "HIGH_SCORES") {
+    if (name === "HIGH_SCORES" || name === 'INTERSTITIAL') {
       this.ui.fade.tweenIn();
     } else {
       this.ui.fade.tweenOut();

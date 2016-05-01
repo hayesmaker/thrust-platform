@@ -29,6 +29,15 @@ p.group = null;
 p.name = "";
 
 /**
+ * Prevents this ui component being enabled automatically when shown.
+ * 
+ * @property preventAutoEnable
+ * @type {boolean}
+ * @default false
+ */
+p.preventAutoEnable = false;
+
+/**
  * @property isRendered
  * @type {boolean}
  */
@@ -53,7 +62,9 @@ p.disable = function () {
 
 p.show = function () {
   this.group.visible = true;
-  this.enable();
+  if (!this.preventAutoEnable) {
+    this.enable();
+  }
 };
 
 p.hide = function () {

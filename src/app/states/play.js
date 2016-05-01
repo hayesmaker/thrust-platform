@@ -126,17 +126,19 @@ module.exports = {
    * @param state {String} name of gameState and also name of screen to show
    */
   showCurrentScreenByState: function (state) {
-    ui.hideUser();
+    console.warn('showCurrentScreenByState', state);
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
-    }
-    if (state === gameState.PLAY_STATES.MENU) {
-      this.menuMode = true;
     } else {
-      this.menuMode = false;
+      ui.hideUser();
     }
+    this.menuMode = state === gameState.PLAY_STATES.MENU;
     ui.showScreen(state);
+    if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
+      ui.highscores.insertNewScore();
+      gameState.shouldEnterHighScore = false;
+    }
   },
 
   /**
@@ -146,6 +148,7 @@ module.exports = {
   menuItemSelected: function (item) {
     switch (item.text.text) {
       case "PLAY THRUST" :
+        gameState.newPlayer();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "HIGH-SCORES":
@@ -186,11 +189,11 @@ module.exports = {
    * Moves level data to the next level, and restarts
    * the game state
    *
-   * @method nextLevel
+   * @method restartPlayState
    */
-  nextLevel: function () {
-    ui.interstitial.clear();
+  restartPlayState: function () {
     ui.countdown.clear();
+    ui.destroy();
     this.limpetGuns = [];
     this.fuels = [];
     this.groups.background.removeAll(true);
@@ -198,9 +201,16 @@ module.exports = {
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
-    levelManager.nextLevel();
-    gameState.restart();
+    gameState.nextLevel();
     game.state.restart();
+  },
+
+  /**
+   * @method nextLevel
+   */
+  nextLevel: function() {
+    gameState.currentState = gameState.PLAY_STATES.PLAY;
+    this.restartPlayState();
   },
 
   /**
@@ -216,9 +226,8 @@ module.exports = {
    * @method missionStart
    */
   missionStart: function () {
-    //this.inPlay = true;
+    gameState.isGameOver = false;
     this.player.start(this.playerWarpComplete, this);
-    //this.initEnemies();
   },
 
   /**
@@ -272,8 +281,8 @@ module.exports = {
   checkPlayerLocation: function () {
     if (this.player.alive) {
       if (this.player.y < 100 && this.player.inGameArea) {
-        this.inPlay = false;
         this.player.inGameArea = false;
+        this.inPlay = false;
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
@@ -291,9 +300,9 @@ module.exports = {
    * @method checkGameOver
    */
   checkGameOver: function() {
-    if (gameState.lives < 0) {
+    if (gameState.lives < 0 && !gameState.isGameOver) {
+      gameState.isGameOver = true;
       game.time.events.add(3000, _.bind(this.gameOver, this));
-      gameState.lives = 5; //initial value
     }
   },
   /**
@@ -308,8 +317,12 @@ module.exports = {
    * @method levelInterstitialStart
    */
   levelInterstitialStart: function () {
-    ui.interstitial.levelComplete();
-    game.time.events.add(4000, _.bind(this.nextLevel, this));
+    console.log('play :: levelInterstitialStart');
+    gameState.currentState = gameState.PLAY_STATES.INTERSTITIAL;
+    ui.showScreen(gameState.currentState);
+    ui.hideUser();
+    //ui.interstitial.levelExit();
+    //game.time.events.add(4000, _.bind(this.nextLevel, this));
   },
 
   /**
@@ -322,9 +335,11 @@ module.exports = {
     console.warn('GAME OVER score:', gameState.score);
     ui.countdown.stop();
     gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
-    ui.showScreen(gameState.currentState);
-    ui.highscores.insertNewScore();
-    ui.hideUser();
+    if (gameState.isGameOver) {
+      gameState.newGame();
+      gameState.doHighScoreCheck();
+    }
+    this.restartPlayState();
     //this.initialiseState();
   },
 

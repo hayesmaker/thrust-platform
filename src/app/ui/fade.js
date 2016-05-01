@@ -18,7 +18,7 @@ module.exports = {
 
   tweenIn: function() {
     this.group.visible = true;
-    TweenLite.to(this.fader, 0.3, {alpha: 0.7, ease: Quad.easeIn});
+    TweenLite.to(this.fader, 0.3, {alpha: 0.6, ease: Quad.easeIn});
   },
 
   tweenOut: function() {
