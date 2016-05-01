@@ -11,9 +11,9 @@ module.exports = {
   init: function(menuSelectedCallback, playState) {
     manager.init(this);
     this.group = game.make.group();
+    this.fade.init(this.group);
     this.scoreGroup = game.add.group(this.group);
     this.scoreGroup.x = 10;
-    this.fade.init(this.group);
     this.countdown.init(this.group);
     this.missionSwipe.init(0, game.height * 0.2, game.width * 0.5, 80, this.group);
     this.score.init(0, 10, this.scoreGroup);

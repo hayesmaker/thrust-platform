@@ -320,7 +320,7 @@ module.exports = {
     console.log('play :: levelInterstitialStart');
     gameState.currentState = gameState.PLAY_STATES.INTERSTITIAL;
     ui.showScreen(gameState.currentState);
-    ui.hideUser();
+    //ui.hideUser();
     //ui.interstitial.levelExit();
     //game.time.events.add(4000, _.bind(this.nextLevel, this));
   },

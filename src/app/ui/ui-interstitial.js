@@ -103,10 +103,16 @@ p.render = function() {
     } else {
       field.tf.x = field.tf.x - 200;
     }
-    if (field.valueId && label === field.successLabel) {
-      var score = gameState.getScoreByValueId(field.valueId);
-      field.valueTf = game.add.text(x + 150, game.height * field.yPos, score, field.style, this.group);
-      field.valueTf.alpha = 0;
+    if (field.valueId) {
+      if (label === field.successLabel) {
+        field.score = gameState.getScoreByValueId(field.valueId);
+      } else {
+        field.score = 0;
+      }
+      if (label.length) {
+        field.valueTf = game.add.text(x + 150, game.height * field.yPos, field.score, field.style, this.group);
+        field.valueTf.alpha = 0;
+      }
     }
   }.bind(this));
   this.transitionEnter();
@@ -154,6 +160,10 @@ p.transitionEnter = function() {
    _.each(this.fields, function(field) {
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
+       if (field.score > 0) {
+         var newScore = gameState.score + field.score;
+         this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score"}));
+       }
      }
    }.bind(this));
 };
