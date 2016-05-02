@@ -71,7 +71,7 @@ p.initCollisions = function() {
  */
 p.update = function() {
   if (this.alive && this.health < gameState.POWER_STATION_HEALTH) {
-    this.health+=1;
+    this.health+=0.5;
   }
 };
 
@@ -80,7 +80,7 @@ p.update = function() {
  */
 p.hit = function() {
   console.log('PowerStation :: hit', this.health);
-  this.damage(80);
+  this.damage(85);
 };
 
 /**
