@@ -13,7 +13,6 @@ function UserControl(enableJoypad) {
 
   this.initKeys();
   //this.initJoypad();
-
   this.isJoypadEnabled = enableJoypad;
 }
 
@@ -32,12 +31,12 @@ p.initKeys = function () {
 
 p.initJoypad = function () {
   this.pad = game.plugins.add(Phaser.VirtualJoystick);
-  this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
-  this.stick.alignBottomLeft();
+  this.stick = this.pad.addDPad(game.width * 0.15, game.height*0.8, 200, 'dpad');
+  //this.stick.alignBottomLeft();
   this.stick.scale = 0.8;
-  this.buttonA = this.pad.addButton(game.width * 0.8, game.height * 0.8, 'dpad', 'button1-up', 'button1-down');
+  this.buttonA = this.pad.addButton(game.width * 0.78, game.height * 0.85, 'dpad', 'button1-up', 'button1-down');
   this.buttonA.scale = 0.8;
-  this.buttonB = this.pad.addButton(game.width * 0.9, game.height * 0.7, 'dpad', 'button2-up', 'button2-down');
+  this.buttonB = this.pad.addButton(game.width * 0.9, game.height * 0.78, 'dpad', 'button2-up', 'button2-down');
   this.buttonB.scale = 0.8;
 };
 

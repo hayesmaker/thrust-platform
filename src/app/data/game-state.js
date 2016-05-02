@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var levelManager = require('./level-manager');
 
 /**
  *
@@ -18,7 +19,7 @@ module.exports = {
     MENU: "MENU",
     PLAY: "PLAY",
     HIGH_SCORES: "HIGH_SCORES",
-    TRANSITION: "TRANSITION",
+    INTERSTITIAL: "INTERSTITIAL",
     GAME_OVER: "GAME_OVER"
   },
 
@@ -103,7 +104,15 @@ module.exports = {
     console.log('gameState :: newScoreEntered :: ', this.highScoreTable);
   },
 
-
+  /**
+   * If high score state is entered when this is true
+   * then insert high score is called.
+   * 
+   * @property shouldEnterHighScore
+   * @type {boolean}
+   * @default false
+   */
+  shouldEnterHighScore: false,
   
   /**
    * @property SCORES
@@ -115,6 +124,15 @@ module.exports = {
     PLANET_BUSTER: 1000,
     ORB_RECOVERED: 750,
     LIMPETS_DESTROYED: 500
+  },
+
+  /**
+   * @method getScoreByValueId
+   * @param valueId
+   * @returns {*}
+   */
+  getScoreByValueId: function(valueId) {
+    return this.SCORES[valueId];
   },
 
   /**
@@ -150,32 +168,53 @@ module.exports = {
    */
   init: function () {
     this.currentState = this.PLAY_STATES.MENU;
+    this.newPlayer();
+    this.newGame();
+    console.log('gameState :: initialise', this.currentState);
+  },
+  
+  levelStart: function() {
+    this.bonuses.planetBuster = false;
+    this.bonuses.orbRecovered = false;
+  },
+  
+  newPlayer: function() {
     this.score = 0;
     this.fuel = 5000;
     this.lives = 5;
-    console.log('gameState :: initialise', this.currentState);
+  },
+
+  newGame: function() {
+    this.levelStart();
+    levelManager.newGame();
+  },
+
+  doHighScoreCheck: function() {
+    this.shouldEnterHighScore = this.getScoreIndex() >= 0;
   },
 
   /**
    * @method levelReset
    */
-  restart: function () {
-    this.currentState = this.PLAY_STATES.PLAY;
-    this.planetDestroyed = false;
-    this.orbRecovered = false;
+  nextLevel: function () {
+    console.log('gameState :: nextLevel : orbRecovered,isGameOver=', this.bonuses.orbRecovered, this.isGameOver);
+    if (this.bonuses.orbRecovered && !this.isGameOver) {
+      this.levelStart();
+      levelManager.nextLevel();
+    }
   },
-
+  
   /**
-   * @property planetDestroyed
-   * @type {boolean}
+   * Set to true when a condition is satisfied
+   * This can be used in a level interstitial to add any bonuses
+   * and check mission completion.
+   *
+   * @property bonuses
    */
-  planetDestroyed: false,
-
-  /**
-   * @property orbRecovered
-   * @type {boolean}
-   */
-  orbRecovered: false,
+  bonuses: {
+    planetBuster: false,
+    orbRecovered: false
+  },
 
   /**
    * @property score
@@ -193,6 +232,11 @@ module.exports = {
    * @property lives
    * @type {number}
    */
-  lives: 5
+  lives: 5,
+
+  /**
+   * @property isGameOver
+   */
+  isGameOver: true
 
 };

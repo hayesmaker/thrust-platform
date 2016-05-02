@@ -126,17 +126,19 @@ module.exports = {
    * @param state {String} name of gameState and also name of screen to show
    */
   showCurrentScreenByState: function (state) {
-    ui.hideUser();
+    console.warn('showCurrentScreenByState', state);
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
-    }
-    if (state === gameState.PLAY_STATES.MENU) {
-      this.menuMode = true;
     } else {
-      this.menuMode = false;
+      ui.hideUser();
     }
+    this.menuMode = state === gameState.PLAY_STATES.MENU;
     ui.showScreen(state);
+    if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
+      ui.highscores.insertNewScore();
+      gameState.shouldEnterHighScore = false;
+    }
   },
 
   /**
@@ -146,6 +148,7 @@ module.exports = {
   menuItemSelected: function (item) {
     switch (item.text.text) {
       case "PLAY THRUST" :
+        gameState.newPlayer();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "HIGH-SCORES":
@@ -158,16 +161,14 @@ module.exports = {
   },
 
   /**
+   * Change the lerp value to alter the amount of damping, lower values = smoother camera movement
    * @method updateCamera
    */
   updateCamera: function () {
-    // change this value to alter the amount of damping, lower values = smoother camera movement
     var lerp = 0.05;
     this.cameraPos.x += (this.player.x - this.cameraPos.x) * lerp;
     this.cameraPos.y += (this.player.y - this.cameraPos.y) * lerp;
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
-    //this.bg.tilePosition.set(this.game.camera.x * -0.5, game.camera.y * -0.5);
-    //this.bgnear.tilePosition.set(this.game.camera.x * -1, this.game.camera.y * -1);
   },
 
   /**
@@ -186,11 +187,11 @@ module.exports = {
    * Moves level data to the next level, and restarts
    * the game state
    *
-   * @method nextLevel
+   * @method restartPlayState
    */
-  nextLevel: function () {
-    ui.interstitial.clear();
+  restartPlayState: function () {
     ui.countdown.clear();
+    ui.destroy();
     this.limpetGuns = [];
     this.fuels = [];
     this.groups.background.removeAll(true);
@@ -198,9 +199,16 @@ module.exports = {
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
-    levelManager.nextLevel();
-    gameState.restart();
+    gameState.nextLevel();
     game.state.restart();
+  },
+
+  /**
+   * @method nextLevel
+   */
+  nextLevel: function() {
+    gameState.currentState = gameState.PLAY_STATES.PLAY;
+    this.restartPlayState();
   },
 
   /**
@@ -216,9 +224,8 @@ module.exports = {
    * @method missionStart
    */
   missionStart: function () {
-    //this.inPlay = true;
+    gameState.isGameOver = false;
     this.player.start(this.playerWarpComplete, this);
-    //this.initEnemies();
   },
 
   /**
@@ -261,6 +268,7 @@ module.exports = {
    */
   checkGameCondition: function () {
     this.checkPlayerLocation();
+    this.checkGameOver();
   },
 
   /**
@@ -271,14 +279,14 @@ module.exports = {
   checkPlayerLocation: function () {
     if (this.player.alive) {
       if (this.player.y < 100 && this.player.inGameArea) {
-        this.inPlay = false;
         this.player.inGameArea = false;
+        this.inPlay = false;
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
-        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.removePlayers, this));
+        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
-          gameState.orbRecovered = true;
+          gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
         }
@@ -287,9 +295,18 @@ module.exports = {
   },
 
   /**
-   * @method removePlayers
+   * @method checkGameOver
    */
-  removePlayers: function () {
+  checkGameOver: function() {
+    if (gameState.lives < 0 && !gameState.isGameOver) {
+      gameState.isGameOver = true;
+      game.time.events.add(3000, _.bind(this.gameOver, this));
+    }
+  },
+  /**
+   * @method levelTransition
+   */
+  levelTransition: function () {
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -298,8 +315,12 @@ module.exports = {
    * @method levelInterstitialStart
    */
   levelInterstitialStart: function () {
-    ui.interstitial.levelComplete();
-    game.time.events.add(4000, _.bind(this.nextLevel, this));
+    console.log('play :: levelInterstitialStart');
+    gameState.currentState = gameState.PLAY_STATES.INTERSTITIAL;
+    ui.showScreen(gameState.currentState);
+    //ui.hideUser();
+    //ui.interstitial.levelExit();
+    //game.time.events.add(4000, _.bind(this.nextLevel, this));
   },
 
   /**
@@ -312,9 +333,11 @@ module.exports = {
     console.warn('GAME OVER score:', gameState.score);
     ui.countdown.stop();
     gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
-    ui.showScreen(gameState.currentState);
-    ui.highscores.insertNewScore();
-    ui.hideUser();
+    if (gameState.isGameOver) {
+      gameState.newGame();
+      gameState.doHighScoreCheck();
+    }
+    this.restartPlayState();
     //this.initialiseState();
   },
 
@@ -353,7 +376,7 @@ module.exports = {
   uiUpdate: function () {
     ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
-    ui.lives.update(gameState.lives, true);
+    ui.lives.update(Math.max(gameState.lives, 0), true);
   },
 
   /**
@@ -379,7 +402,6 @@ module.exports = {
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
-    this.player.livesLost.add(this.gameOver, this);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
@@ -408,10 +430,14 @@ module.exports = {
    */
   startDestructionSequence: function () {
     ui.countdown.start();
+    gameState.bonuses.planetBuster = true;
   },
 
+  /**
+   * @method countdownComplete
+   */
   countdownComplete: function () {
-    //alert('planet fucked');
+    //do planet destruction anims
   },
 
 

@@ -54,7 +54,7 @@ module.exports = {
   },
 
   /**
-   * Gets the next level configuration
+   * Gets the next level configuration  
    * and updates the currentLevel index.
    * If you're on the last level, the levelIndex is reset to 0.
    *
@@ -71,6 +71,11 @@ module.exports = {
     }
     this.currentLevel = this.levels[this.levelIndex];
     return this.currentLevel;
+  },
+  
+  newGame: function() {
+    this.levelIndex = 0;
+    this.currentLevel = this.levels[this.levelIndex];
   }
 
 
