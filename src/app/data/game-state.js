@@ -2,12 +2,12 @@ var _ = require('lodash');
 var levelManager = require('./level-manager');
 
 /**
- *
  * keeps a record of current game state data
  * defines score and bonuses
  *
  * @class game-state
  * @static
+ * @type {{PLAY_STATES: {MENU: string, PLAY: string, HIGH_SCORES: string, INTERSTITIAL: string, GAME_OVER: string}, currentState: null, highScoreTable: *[], getScoreIndex: module.exports.getScoreIndex, insertNewHighScore: module.exports.insertNewHighScore, newScoreEntered: module.exports.newScoreEntered, shouldEnterHighScore: boolean, SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, getScoreByValueId: module.exports.getScoreByValueId, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, levelStart: module.exports.levelStart, newPlayer: module.exports.newPlayer, newGame: module.exports.newGame, doHighScoreCheck: module.exports.doHighScoreCheck, nextLevel: module.exports.nextLevel, bonuses: {planetBuster: boolean, orbRecovered: boolean}, score: number, fuel: number, lives: number, isGameOver: boolean}}
  */
 module.exports = {
 
@@ -163,7 +163,6 @@ module.exports = {
   FUEL_AMOUNT: 300,
 
   /**
-   * @deprecated
    * @method init
    */
   init: function () {
@@ -172,7 +171,10 @@ module.exports = {
     this.newGame();
     console.log('gameState :: initialise', this.currentState);
   },
-  
+
+  /**
+   * @method levelStart
+   */
   levelStart: function() {
     this.bonuses.planetBuster = false;
     this.bonuses.orbRecovered = false;
@@ -181,7 +183,7 @@ module.exports = {
   newPlayer: function() {
     this.score = 0;
     this.fuel = 5000;
-    this.lives = 5;
+    this.lives = 2;
   },
 
   newGame: function() {

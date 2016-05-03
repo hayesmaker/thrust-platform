@@ -253,12 +253,14 @@ module.exports = {
    * @method checkPlayerInput
    */
   checkPlayerInput: function () {
+    if (game.controls.isJoypadEnabled && gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
+      ui.highscores.checkMobileInput(this.buttonBDown);
+    }
     if (!this.inPlay || !this.cursors) {
       return;
     }
     this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
     this.tractorBeam.checkDistance(this.player, this.isXDown);
-
   },
 
   /**
