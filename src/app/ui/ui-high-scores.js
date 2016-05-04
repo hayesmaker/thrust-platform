@@ -88,7 +88,7 @@ p.initSmallLayout = function () {
 p.drawLines = function () {
   var linePadding = this.layoutRect.height * 0.02;
   var y = this.layoutRect.height * 0.075;
-  var line = game.add.graphics(0, y, this.group);
+  var line = game.add.graphics(this.layoutRect.x, y, this.group);
   var xTo = this.layoutRect.width;
   line.lineStyle(this.lineHeight, 0xffffff, 0.5);
   line.moveTo(0, y);
