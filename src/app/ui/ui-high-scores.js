@@ -25,6 +25,7 @@ function UIHighScores(group, name, playState) {
   _.bindAll(this, 'swallowBackspace');
 }
 
+p.highScoreInputEnabled = false;
 p.items = [];
 p.padding = 30;
 p.maxY = 0;
@@ -39,7 +40,16 @@ p.layoutRect = null;
 p.fullLayout = false;
 p.newScoreName = "";
 
-p.render = function() {
+p.mobileCharsIndex = 0;
+p.mobileChars = [
+  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<3", ":)", " ", "END"
+];
+p.mobileCharDirty = false;
+
+/**
+ * @method render
+ */
+p.render = function () {
   UIComponent.prototype.render.call(this);
   this.items = [];
   this.initSignals();
@@ -67,7 +77,7 @@ p.initFullLayout = function () {
 p.initSmallLayout = function () {
   this.padding = 10;
   this.lineHeight = 3;
-  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, window.innerWidth - this.padding*2, window.innerHeight - this.padding*2);
+  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, window.innerWidth - this.padding * 2, window.innerHeight - this.padding * 2);
   this.styles = {
     title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
     scores: {font: '10px thrust_regular', fill: '#ffffff', align: 'left'},
@@ -75,10 +85,10 @@ p.initSmallLayout = function () {
   };
 };
 
-p.drawLines = function() {
+p.drawLines = function () {
   var linePadding = this.layoutRect.height * 0.02;
   var y = this.layoutRect.height * 0.075;
-  var line = game.add.graphics(0, y, this.group);
+  var line = game.add.graphics(this.layoutRect.x, y, this.group);
   var xTo = this.layoutRect.width;
   line.lineStyle(this.lineHeight, 0xffffff, 0.5);
   line.moveTo(0, y);
@@ -103,9 +113,9 @@ p.createDisplay = function () {
   this.createSubtitles();
 };
 
-p.centerDisplay = function() {
-  this.group.x = game.width/2 - this.group.width/2 - this.padding;
-  this.group.y = game.height/2 - this.group.height/2 - this.padding;
+p.centerDisplay = function () {
+  this.group.x = game.width / 2 - this.group.width / 2 - this.padding;
+  this.group.y = game.height / 2 - this.group.height / 2 - this.padding;
 };
 
 p.createTitle = function () {
@@ -118,7 +128,7 @@ p.addHighScore = function (highscore, index) {
   var numberTf = game.add.text(this.layoutRect.x + this.padding, 0, index + 1, this.styles.scores, this.group);
   var nameTf = game.add.text(0, 0, highscore.name, this.styles.scores, this.group);
   var scoreTf = game.add.text(0, 0, highscore.score, this.styles.scores, this.group);
-  var y = this.layoutRect.y + this.layoutRect.height*0.2 + (numberTf.height + 5) * index;
+  var y = this.layoutRect.y + this.layoutRect.height * 0.2 + (numberTf.height + 5) * index;
   numberTf.y = nameTf.y = scoreTf.y = y;
   nameTf.x = numberTf.x + numberTf.width + this.layoutRect.width * 0.02;
   scoreTf.x = this.layoutRect.width - scoreTf.width - this.padding;
@@ -130,15 +140,15 @@ p.addHighScore = function (highscore, index) {
   this.maxY = y;
 };
 
-p.renderHighScores = function() {
-  _.each(gameState.highScoreTable, function(highScore, index) {
+p.renderHighScores = function () {
+  _.each(gameState.highScoreTable, function (highScore, index) {
     this.items[index].name.text = highScore.name;
     this.items[index].score.text = highScore.score;
   }.bind(this));
-  
+
 };
 
-p.insertNewScore = function() {
+p.insertNewScore = function () {
   var scoreIndex = gameState.getScoreIndex();
   console.log('scoreIndex:', scoreIndex);
   if (scoreIndex >= 0) {
@@ -150,7 +160,6 @@ p.insertNewScore = function() {
     gameState.insertNewHighScore(scoreIndex);
     this.renderHighScores();
     this.newHighScoreSubTitle();
-    //only if desktop
     this.enableKeyboardEntry();
   } else {
     this.gameOverSubTitle();
@@ -161,7 +170,7 @@ p.drawPressFire = function () {
   this.subTitle3.visible = true;
 };
 
-p.createSubtitles = function() {
+p.createSubtitles = function () {
   var style = this.styles.subtitle;
   this.subTitle1 = game.add.text(this.layoutRect.halfWidth, this.layoutRect.height * 0.75, "", style, this.group);
   this.subTitle1.anchor.setTo(0.5);
@@ -169,7 +178,7 @@ p.createSubtitles = function() {
   this.subTitle2.anchor.setTo(0.5);
   this.subTitle3 = game.add.text(this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
   this.subTitle3.anchor.setTo(0.5);
-  this.subTitle3.y =  this.layoutRect.height - this.layoutRect.height * 0.075;
+  this.subTitle3.y = this.layoutRect.height - this.layoutRect.height * 0.075;
   this.subTitle1.visible = false;
   this.subTitle2.visible = false;
   this.subTitle3.visible = false;
@@ -178,7 +187,7 @@ p.createSubtitles = function() {
 p.newHighScoreSubTitle = function () {
   this.subTitle1.visible = this.subTitle2.visible = true;
   this.subTitle1.text = "NEW HIGH SCORE";
-  this.subTitle2.text =  "ENTER YOUR NAME PILOT";
+  this.subTitle2.text = "ENTER YOUR NAME PILOT";
 };
 
 p.gameOverSubTitle = function () {
@@ -188,14 +197,87 @@ p.gameOverSubTitle = function () {
   this.subTitle3.visible = true;
 };
 
-p.enable = function() {
+p.checkMobileInput = function () {
+  if (!this.highScoreInputEnabled) {
+    return;
+  }
+  var stick = game.controls.stick;
+  if (stick) {
+    if (stick.isDown) {
+      if (stick.direction === Phaser.UP) {
+        this.stickUpPressed = true;
+        this.stickDownPressed = false;
+      } else if (stick.direction === Phaser.DOWN) {
+        this.stickUpPressed = false;
+        this.stickDownPressed = true;
+      }
+    } else {
+      if (this.stickDownPressed) {
+        this.stickDownPressed = false;
+        this.stepDownMobileChar();
+        this.mobileCharDirty = true;
+      }
+      if (this.stickUpPressed) {
+        this.stickUpPressed = false;
+        this.stepUpMobileChar();
+        this.mobileCharDirty = true;
+      }
+    }
+  }
+  this.renderMobileChar();
+};
+
+p.stepUpMobileChar = function () {
+  if (this.mobileCharsIndex + 1 === this.mobileChars.length) {
+    this.mobileCharsIndex = 0;
+  } else {
+    this.mobileCharsIndex++;
+  }
+};
+
+p.stepDownMobileChar = function () {
+  if (this.mobileCharsIndex === 0) {
+    this.mobileCharsIndex = this.mobileChars.length - 1;
+  } else {
+    this.mobileCharsIndex--;
+  }
+};
+
+p.renderMobileChar = function () {
+  if (this.mobileCharDirty) {
+    console.log('ui-high-scores :: renderMobileChar', this.mobileChars[this.mobileCharsIndex]);
+    this.mobileCharDirty = false;
+    this.char = this.mobileChars[this.mobileCharsIndex];
+    this.renderScoreInput(this.newScoreName + this.char);
+  }
+};
+
+p.assignMobileChar = function () {
+  //end char
+  if (this.char === this.mobileChars[this.mobileChars.length - 1]) {
+    this.commitScore();
+    return;
+  }
+  if (this.newScoreName.length < 13) {
+    console.warn('ui-high-scores :: assignMobileChar', this.char);
+    this.newScoreName = this.newScoreName + this.char;
+    this.mobileCharsIndex = 0;
+    this.char = this.mobileChars[this.mobileCharsIndex];
+    this.renderScoreInput(this.newScoreName + this.char);
+  } else {
+    this.char = this.mobileChars[this.mobileChars.length - 1];
+    this.renderScoreInput(this.newScoreName + this.char);
+  }
+};
+
+p.enable = function () {
   game.controls.spacePress.onDown.add(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
 
-p.disable = function() {
+p.disable = function () {
   game.controls.spacePress.onDown.remove(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
@@ -209,10 +291,27 @@ p.spacePressed = function () {
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
 };
 
+p.upButtonB = function() {
+  this.commitScore();
+};
+
+p.upButtonA = function() {
+  this.assignMobileChar();
+};
+
 /**
  * @method enableKeyboardEntry
  */
-p.enableKeyboardEntry = function() {
+p.enableKeyboardEntry = function () {
+  this.highScoreInputEnabled = true;
+  if (game.controls.stick) {
+    //game.controls.buttonB.onDown.add(this.pressButtonB, this);
+    this.char = this.mobileChars[this.mobileCharsIndex];
+    this.renderScoreInput(this.newScoreName + this.char);
+    game.controls.buttonB.onUp.add(this.upButtonB, this);
+    game.controls.buttonA.onUp.add(this.upButtonA, this);
+
+  }
   this.disable();
   window.addEventListener('keydown', this.swallowBackspace);
   window.addEventListener('keypress', this.keyboardOnPress);
@@ -221,7 +320,13 @@ p.enableKeyboardEntry = function() {
 /**
  * @method disableKeyboardEntry
  */
-p.disableKeyboardEntry = function() {
+p.disableKeyboardEntry = function () {
+  this.highScoreInputEnabled = false;
+  if (game.controls.stick) {
+    //game.controls.buttonB.onDown.add(this.pressButtonB, this);
+    game.controls.buttonB.onUp.remove(this.upButtonB, this);
+    game.controls.buttonA.onUp.remove(this.upButtonA, this);
+  }
   window.removeEventListener('keydown', this.swallowBackspace);
   window.removeEventListener('keypress', this.keyboardOnPress);
   this.enable();
@@ -231,11 +336,11 @@ p.disableKeyboardEntry = function() {
  * @method swallowBackspace
  * @param e
  */
-p.swallowBackspace = function(e) {
+p.swallowBackspace = function (e) {
   if (e.keyCode === 8) {
     e.preventDefault();
     if (this.newScoreName.length) {
-      this.newScoreName = this.newScoreName.substring(0, this.newScoreName.length-1);
+      this.newScoreName = this.newScoreName.substring(0, this.newScoreName.length - 1);
       this.renderScoreInput(this.newScoreName);
     }
   }
@@ -245,20 +350,13 @@ p.swallowBackspace = function(e) {
  * @method keyboardOnPress
  * @param e
  */
-p.keyboardOnPress = function(e) {
+p.keyboardOnPress = function (e) {
   var char = String.fromCharCode(e.keyCode);
   if (e.keyCode === 8) {
     this.swallowBackspace(e);
   }
   if (e.keyCode === 13) {
-    this.disableKeyboardEntry();
-    this.group.remove(this.cursor);
-    this.cursor.text = "";
-    this.cursor = null;
-    gameState.newScoreEntered(this.newScoreName);
-    this.newScoreName = "";
-    this.renderHighScores();
-    this.gameOverSubTitle();
+    this.commitScore();
   } else {
     this.newScoreName = this.newScoreName + char;
     this.renderScoreInput(this.newScoreName);
@@ -269,6 +367,20 @@ p.keyboardOnPress = function(e) {
  * @method renderScoreInput
  * @param str
  */
-p.renderScoreInput = function(str) {
+p.renderScoreInput = function (str) {
   this.cursor.text = str + "_";
+};
+
+/**
+ * @method commitScore
+ */
+p.commitScore = function() {
+  this.disableKeyboardEntry();
+  this.group.remove(this.cursor);
+  this.cursor.text = "";
+  this.cursor = null;
+  gameState.newScoreEntered(this.newScoreName);
+  this.newScoreName = "";
+  this.renderHighScores();
+  this.gameOverSubTitle();
 };

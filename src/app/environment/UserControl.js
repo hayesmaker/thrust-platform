@@ -7,13 +7,11 @@ var game = window.game;
  *
  * @class UserControl
  * @constructor
+ * @param isTouchDevice {Boolean} passed from the boot state.
  */
-function UserControl(enableJoypad) {
-
-
+function UserControl(isTouchDevice) {
   this.initKeys();
-  //this.initJoypad();
-  this.isJoypadEnabled = enableJoypad;
+  this.isJoypadEnabled = isTouchDevice;
 }
 
 var p = UserControl.prototype;
@@ -29,16 +27,19 @@ p.initKeys = function () {
   this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
 };
 
+/**
+ * @method initJoypad
+ */
 p.initJoypad = function () {
   this.pad = game.plugins.add(Phaser.VirtualJoystick);
   this.stick = this.pad.addDPad(game.width * 0.15, game.height*0.8, 200, 'dpad');
-  //this.stick.alignBottomLeft();
-  this.stick.scale = 0.8;
   this.buttonA = this.pad.addButton(game.width * 0.78, game.height * 0.85, 'dpad', 'button1-up', 'button1-down');
-  this.buttonA.scale = 0.8;
-  this.buttonB = this.pad.addButton(game.width * 0.9, game.height * 0.78, 'dpad', 'button2-up', 'button2-down');
-  this.buttonB.scale = 0.8;
+  this.buttonB = this.pad.addButton(game.width * 0.92, game.height * 0.78, 'dpad', 'button2-up', 'button2-down');
+  if (game.width < 1000) {
+    this.stick.scale = 0.75;
+    this.buttonA.scale = 0.8;
+    this.buttonB.scale = 0.8;
+  }
 };
-
 
 module.exports = UserControl;

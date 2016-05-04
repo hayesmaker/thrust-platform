@@ -35,7 +35,7 @@ module.exports = {
     debugPositions: false,
     stats: true,
     mode: false,
-    skipIntro: false,
+    skipIntro: true,
     skipSplashScreen: false
   },
   gamePlay: {
@@ -139,6 +139,84 @@ module.exports = {
           }
         ],
         enemyFireRate: 500
+      },
+      {
+        missionSwipe: {
+          title: 'Mission 3',
+          desc: 'Recover the orb',
+          color: "rgba(29, 192, 222, 0.7)"
+        },
+        mapImgUrl: 'assets/levels/level-3.png',
+        mapImgKey: 'level-3',
+        mapDataUrl: 'assets/levels/level-3.json',
+        mapDataKey: 'level-3',
+        mapScale: 2,
+        world: {width: 1920, height: 3000},
+        mapPosition: {x: 0, y: 600},
+        startPosition: {x: 250, y: 0},
+        powerStation: {
+          x: 1440,
+          y: 700
+        },
+        orbPosition: {x: 408, y: 2220},
+        orbHolder: {
+          x: 408,
+          y: 2255
+        },
+        enemies: [
+          {
+            x: 1030,
+            y: 1200,
+            rotation: 155
+          },
+          {
+            x: 1635,
+            y: 1255,
+            rotation: 327
+          },
+          {
+            x: 550,
+            y: 1488,
+            rotation: 150
+          },
+          {
+            x: 357,
+            y: 1678,
+            rotation: 152
+          },
+          {
+            x: 600,
+            y: 1840,
+            rotation: 327
+          }
+        ],
+        fuels: [
+          {
+            x: 912,
+            y: 569
+          },
+          {
+            x: 1370,
+            y: 1265
+          },
+          {
+            x: 1440,
+            y: 1265
+          },
+          {
+            x: 1510,
+            y: 1265
+          },
+          {
+            x: 1080,
+            y: 1602
+          },
+          {
+            x: 745,
+            y: 1791
+          }
+        ],
+        enemyFireRate: 600
       }
     ]
 

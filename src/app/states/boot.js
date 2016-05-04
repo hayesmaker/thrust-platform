@@ -87,7 +87,6 @@ module.exports = {
     console.warn("TouchScreenDetected:", features.isTouchScreen);
     console.warn("ScaleMode:", game.scale.scaleMode);
     game.controls = userControl;
-
     game.e2e = {};
 
     if (properties.dev.skipSplashScreen) {
@@ -104,6 +103,9 @@ module.exports = {
     }
   },
 
+  /**
+   * @method update
+   */
   update:function() {
     this.filmgrain.update();
   },
