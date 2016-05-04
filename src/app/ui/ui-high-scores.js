@@ -42,10 +42,13 @@ p.newScoreName = "";
 
 p.mobileCharsIndex = 0;
 p.mobileChars = [
-  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "<3", ":)", "END"
+  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<3", ":)", " ", "END"
 ];
 p.mobileCharDirty = false;
 
+/**
+ * @method render
+ */
 p.render = function () {
   UIComponent.prototype.render.call(this);
   this.items = [];
@@ -211,31 +214,16 @@ p.checkMobileInput = function () {
     } else {
       if (this.stickDownPressed) {
         this.stickDownPressed = false;
-        //this.downPressed();
         this.stepDownMobileChar();
         this.mobileCharDirty = true;
       }
       if (this.stickUpPressed) {
         this.stickUpPressed = false;
-        //this.upPressed();
         this.stepUpMobileChar();
         this.mobileCharDirty = true;
       }
     }
   }
-  /*
-  var stick = game.controls.stick;
-  if (stick && stick.isDown) {
-    if (stick.direction === Phaser.UP) {
-      this.stepUpMobileChar();
-      this.mobileCharDirty = true;
-    }
-    if (stick.direction === Phaser.DOWN) {
-      this.stepDownMobileChar();
-      this.mobileCharDirty = true;
-    }
-  }
-  */
   this.renderMobileChar();
 };
 
@@ -265,6 +253,11 @@ p.renderMobileChar = function () {
 };
 
 p.assignMobileChar = function () {
+  //end char
+  if (this.char === this.mobileChars[this.mobileChars.length - 1]) {
+    this.commitScore();
+    return;
+  }
   if (this.newScoreName.length < 13) {
     console.warn('ui-high-scores :: assignMobileChar', this.char);
     this.newScoreName = this.newScoreName + this.char;
