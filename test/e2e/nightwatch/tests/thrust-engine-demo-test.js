@@ -8,7 +8,7 @@ module.exports = {
    * @param browser
    */
   before: function(browser){
-    browser.resizeWindow(800, 600);
+    browser.resizeWindow(1024, 768);
   },
 
   /**
@@ -54,23 +54,21 @@ module.exports = {
       .beginDemo()
       .waitForState('play', 10000)
       .assert.currentState('play')
-      //.waitForPlayerSpawn(20000)
-
       .pause(750)
       .keys([client.Keys.DOWN_ARROW], function() {
-        console.log('key pressed');
+        console.log('down pressed');
       })
       .pause(500)
       .keys([client.Keys.DOWN_ARROW], function() {
-        console.log('key pressed');
+        console.log('down pressed');
       })
       .pause(500)
       .keys([client.Keys.DOWN_ARROW], function() {
-        console.log('key pressed');
+        console.log('down pressed');
       })
       .pause(500)
       .keys([client.Keys.SPACE], function() {
-        console.log('attempt to start game');
+        console.log('space pressed');
       });
   },
 

@@ -1,5 +1,81 @@
 # Change Log
 
+## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
+
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.5.2...HEAD)
+
+**Merged pull requests:**
+
+- Feature/mobile high scores [\#11](https://github.com/hayesmaker/thrust-platform/pull/11) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.5.2](https://github.com/hayesmaker/thrust-platform/tree/v0.5.2) (2016-05-03)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.5.1...v0.5.2)
+
+**Merged pull requests:**
+
+- Feature/level transitions [\#10](https://github.com/hayesmaker/thrust-platform/pull/10) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.5.1](https://github.com/hayesmaker/thrust-platform/tree/v0.5.1) (2016-05-02)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.5.0...v0.5.1)
+
+**Merged pull requests:**
+
+- Feature/high score table [\#9](https://github.com/hayesmaker/thrust-platform/pull/9) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.5.0](https://github.com/hayesmaker/thrust-platform/tree/v0.5.0) (2016-04-30)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.4.2...v0.5.0)
+
+**Merged pull requests:**
+
+- Feature/new ui [\#8](https://github.com/hayesmaker/thrust-platform/pull/8) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.4.2](https://github.com/hayesmaker/thrust-platform/tree/v0.4.2) (2016-04-17)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.4.1...v0.4.2)
+
+## [v0.4.1](https://github.com/hayesmaker/thrust-platform/tree/v0.4.1) (2016-04-16)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.4.0...v0.4.1)
+
+**Merged pull requests:**
+
+- Feature/power station [\#7](https://github.com/hayesmaker/thrust-platform/pull/7) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.4.0](https://github.com/hayesmaker/thrust-platform/tree/v0.4.0) (2016-04-09)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.9...v0.4.0)
+
+**Merged pull requests:**
+
+- Feature/fuel system [\#6](https://github.com/hayesmaker/thrust-platform/pull/6) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.3.9](https://github.com/hayesmaker/thrust-platform/tree/v0.3.9) (2016-04-08)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.8...v0.3.9)
+
+**Merged pull requests:**
+
+- Build/fix/mocha issues [\#5](https://github.com/hayesmaker/thrust-platform/pull/5) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.3.8](https://github.com/hayesmaker/thrust-platform/tree/v0.3.8) (2016-04-07)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/0.3.7...v0.3.8)
+
+**Merged pull requests:**
+
+- Feature/query param builds [\#4](https://github.com/hayesmaker/thrust-platform/pull/4) ([hayesmaker](https://github.com/hayesmaker))
+
+## [0.3.7](https://github.com/hayesmaker/thrust-platform/tree/0.3.7) (2016-04-07)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.7...0.3.7)
+
+## [v0.3.7](https://github.com/hayesmaker/thrust-platform/tree/v0.3.7) (2016-04-07)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.6...v0.3.7)
+
+**Merged pull requests:**
+
+- Profiling/performance test [\#3](https://github.com/hayesmaker/thrust-platform/pull/3) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.3.6](https://github.com/hayesmaker/thrust-platform/tree/v0.3.6) (2016-03-19)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.5...v0.3.6)
+
+## [v0.3.5](https://github.com/hayesmaker/thrust-platform/tree/v0.3.5) (2016-03-19)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.4...v0.3.5)
+
 ## [v0.3.4](https://github.com/hayesmaker/thrust-platform/tree/v0.3.4) (2016-03-18)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.3...v0.3.4)
 
