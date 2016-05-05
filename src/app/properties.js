@@ -35,7 +35,7 @@ module.exports = {
     debugPositions: false,
     stats: true,
     mode: false,
-    skipIntro: true,
+    skipIntro: false,
     skipSplashScreen: false
   },
   gamePlay: {

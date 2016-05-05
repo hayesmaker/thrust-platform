@@ -53,8 +53,25 @@ module.exports = {
       .waitForActors(10000)
       .beginDemo()
       .waitForState('play', 10000)
-      .assert.currentState('play');
+      .assert.currentState('play')
       //.waitForPlayerSpawn(20000)
+
+      .pause(750)
+      .keys([client.Keys.DOWN_ARROW], function() {
+        console.log('key pressed');
+      })
+      .pause(500)
+      .keys([client.Keys.DOWN_ARROW], function() {
+        console.log('key pressed');
+      })
+      .pause(500)
+      .keys([client.Keys.DOWN_ARROW], function() {
+        console.log('key pressed');
+      })
+      .pause(500)
+      .keys([client.Keys.SPACE], function() {
+        console.log('attempt to start game');
+      });
   },
 
 
@@ -70,17 +87,26 @@ module.exports = {
    */
   'Demo Player Control from Tests': function (client) {
     client
-      .pause(600)
-      .playerThrust(400, 500)
-      .pause(1200)
-      .playerThrust(400, 750)
-      .pause(1500)
-      .playerThrust(300, 500)
+      .pause(4000)
+      .playerThrust(400, 1000)
+      .pause(1000)
+      .playerRotate(100, 100)
       .pause(500)
-      .playerRotate(100, 200)
+      .playerThrust(400, 800)
       .pause(500)
-      .playerThrust(500, 400)
-      .pause(3000)
+      .playerRotate(-100, 200)
+      .pause(500)
+      .playerThrust(400, 1000)
+      .keys([client.Keys.SPACE])
+      .keys([client.Keys.SPACE])
+      .keys([client.Keys.SPACE])
+      //.playerThrust(400, 1000)
+      .playerRotate(100, 300)
+      .pause(2000)
+      //.playerRotate(-100, 200)
+      .pause(1000)
+      .playerThrust(400, 600)
+      .pause(6000)
       .end();
   }
 };

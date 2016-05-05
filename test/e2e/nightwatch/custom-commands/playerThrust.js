@@ -47,7 +47,6 @@ PlayerThrust.prototype.command = function(speed, ms, cb) {
     }, 1000 / fps);
 
     setTimeout(function() {
-      //player.body.setZeroRotation();
       clearInterval(frameInterval);
       done();
     }, ms)
