@@ -127,14 +127,16 @@ module.exports = {
    */
   showCurrentScreenByState: function (state) {
     console.warn('showCurrentScreenByState', state);
+    this.menuMode = state === gameState.PLAY_STATES.MENU;
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
     } else {
       ui.hideUser();
     }
-    this.menuMode = state === gameState.PLAY_STATES.MENU;
-    ui.showScreen(state);
+    var shouldFadeBackground =
+      (state === gameState.PLAY_STATES.HIGH_SCORES || state == gameState.PLAY_STATES.INTERSTITIAL);
+    ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
@@ -153,6 +155,9 @@ module.exports = {
         break;
       case "HIGH-SCORES":
         this.showCurrentScreenByState(gameState.PLAY_STATES.HIGH_SCORES);
+        break;
+      case "OPTIONS" :
+        this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
       default :
         console.log(item.text.text + ' not implemented');
@@ -319,17 +324,13 @@ module.exports = {
   levelInterstitialStart: function () {
     console.log('play :: levelInterstitialStart');
     gameState.currentState = gameState.PLAY_STATES.INTERSTITIAL;
-    ui.showScreen(gameState.currentState);
-    //ui.hideUser();
-    //ui.interstitial.levelExit();
-    //game.time.events.add(4000, _.bind(this.nextLevel, this));
+    ui.showScreen(gameState.currentState, true);
   },
 
   /**
    * Game Over Signal handler
    *
    * @method gameOver
-   * @param score
    */
   gameOver: function () {
     console.warn('GAME OVER score:', gameState.score);
@@ -340,7 +341,6 @@ module.exports = {
       gameState.doHighScoreCheck();
     }
     this.restartPlayState();
-    //this.initialiseState();
   },
 
   /**

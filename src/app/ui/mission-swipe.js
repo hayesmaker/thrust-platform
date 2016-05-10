@@ -59,13 +59,13 @@ module.exports = {
     style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
     this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, level.missionSwipe.desc, style, this.group);
     this.hideSwipe();
-    this.tl = new TimelineLite({delay: 1, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
+    this.tl = new TimelineLite({delay: 0.5, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
     this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.swipe, 0.2, {height: this.fullH, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.swipe, 0.4, {width: this.fullW, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.title, 0.25, {alpha: 1, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.desc, 0.25, {alpha: 1, ease: Quad.easeOut} ));
-    this.tl.add(TweenMax.to(this, 1.2));
+    this.tl.add(TweenMax.to(this, 1));
     this.tl.pause();
   },
 

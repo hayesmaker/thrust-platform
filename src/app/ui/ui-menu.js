@@ -18,7 +18,7 @@ module.exports = UIMenu;
  * @constructor
  */
 function UIMenu(group, name, menuSelectedCallback, playState) {
-  UIComponent.call(this, group, name);
+  UIComponent.call(this, group, name, true, true);
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
 }

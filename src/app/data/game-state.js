@@ -20,7 +20,8 @@ module.exports = {
     PLAY: "PLAY",
     HIGH_SCORES: "HIGH_SCORES",
     INTERSTITIAL: "INTERSTITIAL",
-    GAME_OVER: "GAME_OVER"
+    GAME_OVER: "GAME_OVER",
+    OPTIONS: "OPTIONS"
   },
 
   /**

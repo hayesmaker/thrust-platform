@@ -2,6 +2,7 @@ var gameState = require('../data/game-state');
 var UIMenu = require('./ui-menu');
 var UIHighScores = require('./ui-high-scores');
 var UIInterstitial = require('./ui-interstitial');
+var UIOptions = require('./ui-options');
 var manager = require('./manager');
 
 
@@ -26,6 +27,7 @@ module.exports = {
     this.interstitial.onExitComplete.add(this.levelTransitionCompleted, this);
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
+    this.options = new UIOptions(this.group, "OPTIONS", playState);
   },
 
   levelTransitionCompleted: function() {
@@ -33,10 +35,16 @@ module.exports = {
     this.fade.tweenOut();
   },
   
-  showScreen: function(name) {
+  showScreen: function(name, fadeIn) {
     console.log('ui : index :: showScreen', name);
     gameState.currentState = name;
     manager.showScreen(name);
+    if (fadeIn) {
+      this.fade.tweenIn();
+    } else {
+      //doesn't always need to be called
+      this.fade.tweenOut();
+    }
   },
   
   hideUser: function() {

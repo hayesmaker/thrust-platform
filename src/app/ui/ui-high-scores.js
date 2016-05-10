@@ -19,7 +19,7 @@ module.exports = UIHighScores;
  * @constructor
  */
 function UIHighScores(group, name, playState) {
-  UIComponent.call(this, group, name);
+  UIComponent.call(this, group, name, true, true);
   this.playState = playState;
   _.bindAll(this, 'keyboardOnPress');
   _.bindAll(this, 'swallowBackspace');
@@ -39,7 +39,6 @@ p.itemSelected = null;
 p.layoutRect = null;
 p.fullLayout = false;
 p.newScoreName = "";
-
 p.mobileCharsIndex = 0;
 p.mobileChars = [
   "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<3", ":)", " ", "END"
@@ -58,14 +57,6 @@ p.render = function () {
   this.centerDisplay();
   this.drawLines();
   this.drawPressFire();
-};
-
-p.initLayout = function () {
-  if (game.width > 1000) {
-    this.initFullLayout();
-  } else {
-    this.initSmallLayout();
-  }
 };
 
 p.initFullLayout = function () {
