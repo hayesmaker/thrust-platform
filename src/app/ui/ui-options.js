@@ -1,6 +1,9 @@
 var _ = require('lodash');
 var UiComponent = require('./ui-component');
-var UiSwitch = require('./ui-switch');
+var SoundOptions = require('./subscreens/sound-options');
+var DisplayOptions = require('./subscreens/display-options');
+var ControlsOptions = require('./subscreens/controls-options');
+var GeneralOptions = require('./subscreens/general-options');
 var canvas = require('../utils/canvas');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
@@ -37,14 +40,15 @@ function UiOptions(group, name, playState) {
 }
 
 p.render = function() {
+  UiComponent.prototype.render.call(this);
   this.panel.render();
   this.layoutRect = this.panel.layoutRect;
   this.styles = this.panel.styles;
   this.createDisplay();
   this.initSubScreens();
-  this.renderSubScreens();
   this.initEvents();
   this.centerDisplay();
+  this.renderSubScreens();
 };
 
 p.createDisplay = function() {
@@ -57,29 +61,18 @@ p.createDisplay = function() {
 };
 
 p.initSubScreens = function() {
-  _.each(this.subScreenLabels, function(label) {
-    var subScreen = new UiComponent(this.group, label, true, false);
-    subScreen.addAsSubScreen();
-    this.subScreens.push(subScreen);
-  }.bind(this));
+  this.soundOptions = new SoundOptions(this.group, "SOUND_OPTIONS");
+  this.soundOptions.addAsSubScreen();
+  this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS");
+  this.displayOptions.addAsSubScreen();
+  this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS");
+  this.controlsOptions.addAsSubScreen();
+  this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS");
+  this.generalOptions.addAsSubScreen();
 };
 
 p.renderSubScreens = function() {
-  this.soundOptions = manager.getScreenByName("sound");
-  this.displayOptions = manager.getScreenByName('display');
-  this.controlOptions = manager.getScreenByName('controls');
-  this.generalOptions = manager.getScreenByName('general');
-  var switch1 = new UiSwitch(this.soundOptions.group, "Music");
-  this.soundOptions.add(switch1);
-  switch1.group.x = 350;
-  switch1.group.y = 150;
-  var switch2 = new UiSwitch(this.soundOptions.group, "Sound FX");
-  this.soundOptions.add(switch2);
-  switch2.group.x = 350;
-  switch2.group.y = 210;
-  manager.showScreen("sound", true);
-  switch1.switch(true);
-  switch2.switch(true);
+  this.optionsList.selectOption('SOUND');
 };
 
 p.initEvents = function() {
@@ -87,7 +80,7 @@ p.initEvents = function() {
 };
 
 p.itemSelected = function(item) {
-  manager.showScreen(item.id , true);
+  manager.showScreen(item.id + "_OPTIONS" , true);
 };
 
 

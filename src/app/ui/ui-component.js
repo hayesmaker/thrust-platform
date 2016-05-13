@@ -76,7 +76,7 @@ p.hasNewGroup = false;
 
 /**
  * List of display components, which can be cached here
- * and re-rendered on render.
+ * and disposed of properly 
  *
  * @property components
  * @type {Array}
@@ -102,15 +102,19 @@ p.add = function(component) {
 p.render = function () {
   this.isRendered = true;
   console.log('ui-component :: render sub components', this.components, this);
-  _.each(this.components, function(component) {
-    component.render();
-  });
 };
 
 p.remove = function () {
   console.log('ui-component : remove');
   this.isRendered = false;
   this.group.removeAll();
+  this.dispose();
+};
+
+p.dispose = function() {
+  _.each(this.components, function(component) {
+    component.dispose();
+  });
 };
 
 p.enable = function () {
@@ -134,6 +138,7 @@ p.hide = function () {
 };
 
 p.showAndAdd = function () {
+  console.log('showAndAdd :: ', this);
   if (!this.isRendered) {
     this.render();
     this.show();
@@ -141,6 +146,7 @@ p.showAndAdd = function () {
 };
 
 p.hideAndRemove = function () {
+  console.log('hideAndRemove', this);
   if (this.isRendered) {
     this.remove();
     this.hide();

@@ -1,7 +1,7 @@
-var UIComponent = require('./ui-component');
+var UiComponent = require('./ui-component');
 var _ = require('lodash');
 
-var p = UIMenu.prototype = Object.create(UIComponent.prototype, {
+var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
 });
 
@@ -18,7 +18,7 @@ module.exports = UIMenu;
  * @constructor
  */
 function UIMenu(group, name, menuSelectedCallback, playState) {
-  UIComponent.call(this, group, name, true, true);
+  UiComponent.call(this, group, name, true, true);
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
 }
@@ -74,7 +74,7 @@ p.stickDownPressed = false;
  * @method render
  */
 p.render = function () {
-  UIComponent.prototype.render.call(this);
+  UiComponent.prototype.render.call(this);
   console.log('ui-menu :: render');
   this.items = [];
   _.each(

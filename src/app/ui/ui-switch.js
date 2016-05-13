@@ -44,6 +44,7 @@ p.setSkin = function (bmd) {
  * @method render
  */
 p.render = function () {
+  UiComponent.prototype.render.call(this);
   console.log('ui-switch :: render');
   this.createDisplay();
   this.createLabel();
@@ -100,11 +101,22 @@ p.initEvents = function () {
   this.background.events.onInputDown.add(this.mouseDown, this);
 };
 
+p.dispose = function() {
+  this.button.inputEnabled = false;
+  this.background.inputEnabled = false;
+  this.button.input.useHandCursor = false;
+  this.button.events.onInputDown.remove(this.mouseDown, this);
+  this.background.inputEnabled = false;
+  this.background.input.useHandCursor = false;
+  this.background.events.onInputDown.remove(this.mouseDown, this);
+};
+
 /**
  * @method mouseDown
  */
 p.mouseDown = function () {
   this.switch();
+  console.log('ui-switch :: ',this, this.isOn);
 };
 
 /**

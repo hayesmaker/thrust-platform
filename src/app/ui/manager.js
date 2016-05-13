@@ -10,7 +10,7 @@ module.exports = {
    */
   screens: null,
   subScreens: null,
-  
+
   init: function(ui) {
     this.ui = ui;
     this.screens = [];
@@ -30,7 +30,7 @@ module.exports = {
       } else {
         screen.hideAndRemove();
       }
-    });
+    }.bind(this));
   },
 
   addSubScreen: function(subScreen) {
