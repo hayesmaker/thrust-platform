@@ -1,11 +1,9 @@
 //noinspection JSUnresolvedFunction
-var _ = require('lodash');
 var UiComponent = require('./ui-component');
 var SoundOptions = require('./subscreens/sound-options');
 var DisplayOptions = require('./subscreens/display-options');
 var ControlsOptions = require('./subscreens/controls-options');
 var GeneralOptions = require('./subscreens/general-options');
-var canvas = require('../utils/canvas');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
 var manager = require('./manager');

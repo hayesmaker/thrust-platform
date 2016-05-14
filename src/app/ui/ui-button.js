@@ -1,6 +1,5 @@
 module.exports = UiButton;
 
-var _ = require('lodash');
 var canvas = require('../utils/canvas');
 
 //var manager = require('./manager');
@@ -96,6 +95,7 @@ p.drawItem = function() {
 
 p.hideSelectionBackground = function() {
   this.buttonElements.spr.alpha = 0;
+
 };
 
 p.initEvents = function () {

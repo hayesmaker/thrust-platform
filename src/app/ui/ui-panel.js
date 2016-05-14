@@ -1,7 +1,5 @@
 var UiComponent = require('./ui-component');
 var canvas = require('../utils/canvas');
-var _ = require('lodash');
-var manager = require('./manager');
 
 var p = UiPanel.prototype = Object.create(UiComponent.prototype, {
   constructor: UiPanel

@@ -1,11 +1,8 @@
 var UiComponent = require('./ui-component');
 var canvas = require('../utils/canvas');
-var _ = require('lodash');
-var manager = require('./manager');
 var TimelineMax = global.TimelineMax;
 var TweenMax = global.TweenMax;
 var Quad = global.Quad;
-var Linear = global.Linear;
 
 var p = UiSwitch.prototype = Object.create(UiComponent.prototype, {
   constructor: UiSwitch
@@ -30,15 +27,6 @@ function UiSwitch(group, name) {
   UiComponent.call(this, group, name, true, false);
   this.label = this.name;
 }
-
-/**
- * //todo implement skinnable ui switch
- * @method setSkin
- * @param bmd {Phaser.BitmapData}
- */
-p.setSkin = function (bmd) {
-  //this.skinBitmap = bmd;
-};
 
 /**
  * @method render

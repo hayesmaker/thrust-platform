@@ -134,8 +134,10 @@ module.exports = {
     } else {
       ui.hideUser();
     }
-    var shouldFadeBackground =
-      (state === gameState.PLAY_STATES.HIGH_SCORES || state == gameState.PLAY_STATES.INTERSTITIAL);
+    var shouldFadeBackground = (
+      state === gameState.PLAY_STATES.HIGH_SCORES ||
+      state === gameState.PLAY_STATES.INTERSTITIAL
+    );
     ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
@@ -211,7 +213,7 @@ module.exports = {
   /**
    * @method nextLevel
    */
-  nextLevel: function() {
+  nextLevel: function () {
     gameState.currentState = gameState.PLAY_STATES.PLAY;
     this.restartPlayState();
   },
@@ -304,7 +306,7 @@ module.exports = {
   /**
    * @method checkGameOver
    */
-  checkGameOver: function() {
+  checkGameOver: function () {
     if (gameState.lives < 0 && !gameState.isGameOver) {
       gameState.isGameOver = true;
       game.time.events.add(3000, _.bind(this.gameOver, this));
@@ -460,7 +462,7 @@ module.exports = {
    *
    * @method createLimpet
    * @param data
-   * 
+   *
    */
   createLimpet: function (data) {
     var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);
@@ -680,7 +682,7 @@ module.exports = {
   /**
    * @method postProcessing
    */
-  postProcessing: function() {
+  postProcessing: function () {
     var fragmentSrc = [
       "precision mediump float;",
       // Incoming texture coordinates.
@@ -710,7 +712,7 @@ module.exports = {
   /**
    * @method updatePostProcessing
    */
-  updatePostProcessing: function(){
+  updatePostProcessing: function () {
     this.filmgrain.update();
   }
 
