@@ -16,9 +16,15 @@ module.exports = {
     this.screens = [];
     this.subScreens = [];
   },
-  
+
+  //todo only add if doesn't exist in array
   add: function(screen) {
-    this.screens.push(screen);
+
+    var existingScreen = _.find(this.screens, {name: screen.name});
+    if (!existingScreen) {
+      this.screens.push(screen);
+      console.log('manager :: add : this.screens=', this.screens);
+    }
   },
   
   showScreen: function(name, isSubScreen) {
@@ -35,6 +41,11 @@ module.exports = {
 
   addSubScreen: function(subScreen) {
     this.subScreens.push(subScreen);
+    console.log('manager :: addSubScreen : this.screens=', this.subScreens);
+  },
+  
+  clearSubscreens: function() {
+    this.subScreens = [];
   },
 
   getScreenByName: function(name) {

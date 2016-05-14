@@ -1,3 +1,4 @@
+//noinspection JSUnresolvedFunction
 var _ = require('lodash');
 var UiComponent = require('./ui-component');
 var SoundOptions = require('./subscreens/sound-options');
@@ -8,6 +9,8 @@ var canvas = require('../utils/canvas');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
 var manager = require('./manager');
+var UiButton = require('./ui-button');
+var gameState = require('../data/game-state');
 
 var p = UiOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: UiOptions
@@ -23,6 +26,10 @@ p.subScreens = [];
 p.panel = null;
 
 p.group = null;
+
+p.playState = null;
+
+p.components = [];
 
 /**
  *
@@ -49,15 +56,20 @@ p.render = function() {
   this.initEvents();
   this.centerDisplay();
   this.renderSubScreens();
+  this.components = [this.optionsList, this.exitButton, this.soundOptions, this.displayOptions, this.controlsOptions, this.generalOptions];
 };
 
 p.createDisplay = function() {
-  console.log('ui-options :: createDisplay');
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
   this.optionsList.setAutoLayout(UiComponent.HORIZONTAL);
   this.optionsList.render();
   this.optionsList.group.x = this.layoutRect.width/2 - this.optionsList.group.width/2;
   this.optionsList.group.y = this.layoutRect.height * 0.15;
+
+  this.exitButton = new UiButton(this.group, "x");
+  this.exitButton.render();
+  this.exitButton.group.x = 20;
+  this.exitButton.group.y = 20;
 };
 
 p.initSubScreens = function() {
@@ -71,16 +83,28 @@ p.initSubScreens = function() {
   this.generalOptions.addAsSubScreen();
 };
 
+p.dispose = function() {
+  UiComponent.prototype.dispose.call(this);
+  this.optionsList.onItemSelected.remove(this.itemSelected, this);
+  this.exitButton.onItemSelected.remove(this.exit, this);
+  manager.clearSubscreens();
+};
+
 p.renderSubScreens = function() {
   this.optionsList.selectOption('SOUND');
 };
 
 p.initEvents = function() {
   this.optionsList.onItemSelected.add(this.itemSelected, this);
+  this.exitButton.onItemSelected.add(this.exit, this);
 };
 
 p.itemSelected = function(item) {
   manager.showScreen(item.id + "_OPTIONS" , true);
+};
+
+p.exit = function() {
+  this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
 };
 
 

@@ -12,6 +12,8 @@ var UiComponent = require('./ui-component');
 function UIList(group, name, listItems) {
   UiComponent.call(this, group, name, true, false);
   this.listItems = listItems || [];
+  this.listComponents = [];
+  console.log('ui-list :: render : ', this.listItems);
 }
 
 var p = UIList.prototype = Object.create(UiComponent.prototype, {
@@ -120,7 +122,7 @@ p.drawPosition = p.padding + p.margin;
  * @param index
  */
 p.drawItem = function(label, index) {
-  console.log('ui-list :: drawItem', this.layoutType);
+  console.log('ui-list :: drawItem', this.listComponents, this.layoutType);
   var text = game.add.text(0, 0, label, this.style, this.group);
   var x, y;
   if (this.layoutType === UiComponent.HORIZONTAL) {
@@ -164,7 +166,18 @@ p.initEvents = function () {
     component.spr.useHandCursot = true;
     component.spr.events.onInputDown.add(this.componentMouseDown, this, 0, component.id);
   }.bind(this));
+};
 
+p.dispose = function() {
+  UiComponent.prototype.dispose.call(this);
+  console.log('ui-list :: dispose', this, this.listComponents);
+  _.each(this.listComponents, function(component) {
+    component.spr.inputEnabled = false;
+    component.spr.useHandCursot = false;
+    component.spr.events.onInputDown.remove(this.componentMouseDown, this);
+  }.bind(this));
+  this.listComponents = [];
+  console.log('ui0list :: dispose', this.listComponents);
 };
 
 p.componentMouseDown = function(arg1, arg2, id) {
@@ -172,6 +185,7 @@ p.componentMouseDown = function(arg1, arg2, id) {
 };
 
 p.selectOption = function(id) {
+  console.log('selectOption :: id=', id, this.listComponents);
   var component = this.getComponentById(id);
   _.each(this.listComponents, this.deselectComponent);
   this.selectComponent(component);
