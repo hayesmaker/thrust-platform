@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
 var UiSwitch = require('../ui-switch');
+var optionsModel = require('../../data/options-model');
 
 var p = ControlOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: ControlOptions
@@ -36,14 +37,24 @@ p.createDisplay = function() {
   switch1.group.x = 350;
   switch1.group.y = 150;
   switch1.render();
-  
+  switch1.switchedOn.add(this.virtualJoypadOn, this);
+  switch1.switchedOff.add(this.virtualJoypadOff, this);
   switch1.switch(true);
-
   this.components = [switch1];
 };
 
 p.dispose = function(){
   _.each(this.components, function(component) {
-    component.dispose();
+    component.switchOn.removeAll();
+    component.switchOff.removeAll();
   });
+  UiComponent.prototype.dispose.call(this);
+};
+
+p.virtualJoypadOn = function() {
+  optionsModel.controls.virtualJoypad = true;
+};
+
+p.virtualJoypadOff = function() {
+  optionsModel.controls.virtualJoypad = false;
 };

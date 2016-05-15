@@ -2,6 +2,19 @@ var manager = require('./manager');
 var _ = require('lodash');
 
 /**
+ * Base Class for UiComponents, 
+ * - responsible for adding the group for this component's display objects,
+ * - registering itself to the ui-manager
+ * - choosing which layout type (small for small displays or large for desktop or ipad displays)
+ * - rendering display objects
+ * - removing display objects
+ * - cleaning up via dispose
+ * - can hide/show the display objects
+ * - or add remove the display objects completely 
+ * 
+ * //todo register component signals for disposal in dispose method.
+ * //todo maybe implement an events property which can store all this component's signals 
+ * 
  * @class UiComponent
  * @constructor
  * @param group
@@ -115,6 +128,7 @@ p.dispose = function() {
   _.each(this.components, function(component) {
     component.dispose();
   });
+  this.components = [];
 };
 
 p.enable = function () {

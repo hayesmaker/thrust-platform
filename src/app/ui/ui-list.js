@@ -1,23 +1,21 @@
-module.exports = UIList;
+module.exports = UiList;
 
 var _ = require('lodash');
 var canvas = require('../utils/canvas');
-
-//var manager = require('./manager');
 var UiComponent = require('./ui-component');
 /**
- * @property UiComponent
+ * @class UiList
  * @constructor
  */
-function UIList(group, name, listItems) {
+function UiList(group, name, listItems) {
   UiComponent.call(this, group, name, true, false);
   this.listItems = listItems || [];
   this.listComponents = [];
   console.log('ui-list :: render : ', this.listItems);
 }
 
-var p = UIList.prototype = Object.create(UiComponent.prototype, {
-  constructor: UIList
+var p = UiList.prototype = Object.create(UiComponent.prototype, {
+  constructor: UiList
 });
 
 /**

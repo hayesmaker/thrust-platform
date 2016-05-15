@@ -14,6 +14,8 @@ p.backgroundSkin = null;
 p.buttonSkin = null;
 p.selectionSkin = null;
 p.isOn = false;
+p.switchedOn = null;
+p.switchedOff = null;
 
 /**
  * Skinnable Ui switch button
@@ -87,6 +89,9 @@ p.initEvents = function () {
   this.background.inputEnabled = true;
   this.background.input.useHandCursor = true;
   this.background.events.onInputDown.add(this.mouseDown, this);
+  this.switchedOn = new Phaser.Signal();
+  this.switchedOff = new Phaser.Signal();
+  
 };
 
 p.dispose = function() {
@@ -97,6 +102,8 @@ p.dispose = function() {
   this.background.inputEnabled = false;
   this.background.input.useHandCursor = false;
   this.background.events.onInputDown.remove(this.mouseDown, this);
+  this.switchedOn = null;
+  this.switchedOff = null;
 };
 
 /**
@@ -132,9 +139,11 @@ p.switchOn = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0x2f961f, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
+  this.switchedOn.dispatch();
   if (noAnimation) {
     this.tl.progress(1, false);
   }
+  
 };
 
 /**
@@ -154,6 +163,7 @@ p.switchOff = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0xffffff, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
+  this.switchedOff.dispatch();
   if (noAnimation) {
     this.tl.progress(1, false);
   }

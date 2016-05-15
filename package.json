@@ -36,6 +36,7 @@
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
     "e2e:setup": "echo 'Starting Browserstack Local' && ./bin/BrowserStackLocal ${BROWSERSTACK_ACCESS_KEY}",
+    "selenium": "java -jar /usr/local/bin/selenium-server-standalone-2.53.0.jar",
     "e2e:local": "echo 'Attempting Local Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -e browserstack && cd ../../..",
     "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../..",
     "e2e": "echo 'Ensure selenium server is running' && npm run nightwatch",
@@ -83,10 +84,7 @@
   },
   "browserify-shim": {},
   "browser": {
-    "Stats": "./src/libs/stats.js/stats.min.js",
-    "camera": "./src/app/environment/Camera.js",
-    "states": "./src/app/states/index.js",
-    "mocks": "./src/test/mocks/index.js"
+
   },
   "devDependencies": {
     "browserify-istanbul": "^0.2.1",

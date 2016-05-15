@@ -9,6 +9,7 @@ var UiList = require('./ui-list');
 var manager = require('./manager');
 var UiButton = require('./ui-button');
 var gameState = require('../data/game-state');
+var optionsModel = require('../data/options-model');
 
 var p = UiOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: UiOptions
