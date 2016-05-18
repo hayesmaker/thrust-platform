@@ -35,7 +35,7 @@ p.createDisplay = function() {
 
   var resetButton = new UiButton(this.group, "Reset High Scores");
   resetButton.group.x = 200;
-  resetButton.group.y = 400;
+  resetButton.group.y = 300;
   resetButton.render();
   
   this.components = [resetButton];

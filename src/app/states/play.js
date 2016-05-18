@@ -127,7 +127,7 @@ module.exports = {
    */
   showCurrentScreenByState: function (state) {
     console.warn('showCurrentScreenByState', state);
-    this.uiMode = state === gameState.PLAY_STATES.MENU;
+    this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();

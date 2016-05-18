@@ -36,6 +36,13 @@ p.activeOptions = [];
 
 p.numMainOptions = 0;
 
+p.stickUpPressed = false;
+p.stickDownPressed = false;
+p.stickLeftPressed = false;
+p.stickRightPressed = false;
+
+p.isActive = false;
+
 /**
  *
  *
@@ -67,6 +74,7 @@ p.render = function() {
   this.renderSubScreens();
   this.components = [this.optionsList, this.exitButton, this.soundOptions, this.displayOptions, this.controlsOptions, this.generalOptions];
   this.selectActiveOption();
+  this.isActive = true;
 };
 
 p.createDisplay = function() {
@@ -105,7 +113,52 @@ p.initSubScreens = function() {
 };
 
 p.update = function() {
-  
+  if (!this.isActive) {
+    return;
+  }
+  var stick = game.controls.stick;
+  if (stick) {
+    if (stick.isDown) {
+      if (stick.direction === Phaser.UP) {
+        this.stickUpPressed = true;
+        this.stickDownPressed = false;
+        this.stickLeftPressed = false;
+        this.stickRightPressed = false;
+      } else if (stick.direction === Phaser.DOWN) {
+        this.stickUpPressed = false;
+        this.stickDownPressed = true;
+        this.stickLeftPressed = false;
+        this.stickRightPressed = false;
+      } else if (stick.direction === Phaser.LEFT) {
+        this.stickRightPressed = false;
+        this.stickLeftPressed = true;
+        this.stickUpPressed = false;
+        this.stickDownPressed = false;
+      } else if (stick.direction === Phaser.RIGHT) {
+        this.stickUpPressed = false;
+        this.stickDownPressed = false;
+        this.stickLeftPressed = false;
+        this.stickRightPressed = true;
+      }
+    } else {
+      if (this.stickDownPressed) {
+        this.stickDownPressed = false;
+        this.downPressed();
+      }
+      if (this.stickUpPressed) {
+        this.stickUpPressed = false;
+        this.upPressed();
+      }
+      if (this.stickLeftPressed) {
+        this.stickLeftPressed = false;
+        this.leftPressed();
+      }
+      if (this.stickRightPressed) {
+        this.stickRightPressed = false;
+        this.rightPressed();
+      }
+    }
+  }
 };
 
 p.dispose = function() {
@@ -121,6 +174,7 @@ p.dispose = function() {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
   manager.clearSubscreens();
+  this.isActive = false;
 };
 
 p.renderSubScreens = function() {
