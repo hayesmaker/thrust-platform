@@ -43,10 +43,11 @@ p.createDisplay = function() {
   this.components = [switch1];
 };
 
+//todo fix this dispose
 p.dispose = function(){
   _.each(this.components, function(component) {
-    component.switchOn.removeAll();
-    component.switchOff.removeAll();
+    //component.switchOn.removeAll();
+    //component.switchOff.removeAll();
   });
   UiComponent.prototype.dispose.call(this);
 };

@@ -30,13 +30,16 @@ module.exports = {
   showScreen: function(name, isSubScreen) {
     console.log('ui-manager :: showScreen : name, isSubScreen, subscreens, screens', name, isSubScreen, this.subScreens, this.screens);
     var screensCheck = isSubScreen? this.subScreens : this.screens;
+    var activeScreen = null;
     _.each(screensCheck, function(screen) {
       if(screen.name.toLowerCase() === name.toLowerCase()) {
-        screen.showAndAdd();
+        activeScreen = screen;
+        activeScreen.showAndAdd();
       } else {
         screen.hideAndRemove();
       }
     }.bind(this));
+    return activeScreen;
   },
 
   addSubScreen: function(subScreen) {

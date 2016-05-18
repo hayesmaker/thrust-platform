@@ -16,6 +16,7 @@ p.selectionSkin = null;
 p.isOn = false;
 p.switchedOn = null;
 p.switchedOff = null;
+p.gamepadSelector = null;
 
 /**
  * Skinnable Ui switch button
@@ -38,6 +39,7 @@ p.render = function () {
   console.log('ui-switch :: render');
   this.createDisplay();
   this.createLabel();
+  this.drawSelector();
   this.initEvents();
 };
 
@@ -79,6 +81,19 @@ p.createLabel = function() {
   this.label.anchor.setTo(0, 0.5);
   this.label.x = -this.button.x - this.label.width - 10;
   this.label.y = this.backgroundSkin.height / 2 + 2;
+};
+
+p.drawSelector = function() {
+  var w = this.background.width + 10, h = this.background.height + 10;
+  var selector = game.make.bitmapData(w , h);
+  selector.ctx.translate(0.5, 0.5);
+  selector.ctx.beginPath();
+  selector.ctx.strokeStyle =  '#ffffff';
+  selector.ctx.lineWidth = 2;
+  selector.ctx.setLineDash([3,2]);
+  canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
+  var bg = this.background;
+  this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
 };
 
 p.initEvents = function () {
@@ -168,4 +183,18 @@ p.switchOff = function (noAnimation) {
     this.tl.progress(1, false);
   }
 };
+
+p.userSelected = function() {
+  this.gamepadSelector.alpha = 1;
+};
+
+p.userDeselected = function() {
+  this.gamepadSelector.alpha = 0;
+};
+
+p.apiSelect = function() {
+  this.switch();
+};
+
+
 

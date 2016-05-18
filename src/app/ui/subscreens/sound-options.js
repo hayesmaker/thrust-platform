@@ -30,6 +30,7 @@ function SoundOptions(group, name) {
 p.render = function() {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
+  this.renderDefaults();
 };
 
 p.createDisplay = function() {
@@ -39,17 +40,20 @@ p.createDisplay = function() {
   switch1.render();
   switch1.switchedOn.add(this.musicOn, this);
   switch1.switchedOff.add(this.musicOff, this);
-
   var switch2 = new UiSwitch(this.group, "Sound FX");
   switch2.group.x = 350;
   switch2.group.y = 210;
   switch2.render();
-  switch1.switch(true);
-  switch2.switch(true);
   switch2.switchedOn.add(this.soundOn, this);
   switch2.switchedOff.add(this.soundOff, this);
-  
   this.components = [switch1, switch2];
+};
+
+p.renderDefaults = function() {
+
+  
+
+
 };
 
 p.soundOn = function() {
@@ -70,8 +74,8 @@ p.musicOff = function() {
 
 p.dispose = function() {
   _.each(this.components, function(component) {
-    component.switchedOn.removeAll();
-    component.switchedOff.removeAll();
+    //component.switchedOn.removeAll();
+    //component.switchedOff.removeAll();
   });
   UiComponent.prototype.dispose.call(this);
 };

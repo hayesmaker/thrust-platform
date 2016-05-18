@@ -29,6 +29,11 @@ module.exports = {
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
   },
+  
+  update: function() {
+    this.menu.update();
+    this.options.update();
+  },
 
   levelTransitionCompleted: function() {
     console.log('ui : index :: levelTransitionCompleted');

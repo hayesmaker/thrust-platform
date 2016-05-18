@@ -78,8 +78,8 @@ module.exports = {
     this.uiUpdate();
     this.checkGameCondition();
     this.updateCamera();
-    if (this.menuMode && game.controls.isJoypadEnabled) {
-      ui.menu.update();
+    if (this.uiMode && game.controls.isJoypadEnabled) {
+      ui.update();
     }
     if (this.isDevMode) {
       this.devModeUpdate();
@@ -127,7 +127,7 @@ module.exports = {
    */
   showCurrentScreenByState: function (state) {
     console.warn('showCurrentScreenByState', state);
-    this.menuMode = state === gameState.PLAY_STATES.MENU;
+    this.uiMode = state === gameState.PLAY_STATES.MENU;
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();

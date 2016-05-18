@@ -30,7 +30,7 @@ module.exports = {
     if (!cornerRadii) {
       cornerRadii = [radius, radius, radius, radius];
     }
-    ctx.beginPath();
+    
     ctx.moveTo(x + cornerRadii[0], y);
     ctx.lineTo(x + width - cornerRadii[1], y);
     ctx.quadraticCurveTo(x + width, y, x + width, y + cornerRadii[1]);

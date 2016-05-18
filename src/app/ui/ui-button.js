@@ -1,16 +1,21 @@
 module.exports = UiButton;
 
 var canvas = require('../utils/canvas');
-
-//var manager = require('./manager');
 var UiComponent = require('./ui-component');
 /**
- * @property UiComponent
+ * Generic UiButton component
+ * Draws a grpahic, text and a selector sprite
+ * The graphic can change tint if activated.
+ * The selector should be visible when this UiComponent is selected in game to allow for
+ * controlling the Ui via game controls (keys / gamepads)
+ *
+ * @class UiButton
  * @constructor
  */
 function UiButton(group, name) {
   UiComponent.call(this, group, name, true, false);
   this.label = this.name;
+  this.onItemSelected = new Phaser.Signal();
 }
 
 var p = UiButton.prototype = Object.create(UiComponent.prototype, {
@@ -45,7 +50,7 @@ p.rightPressed = false;
  * @property onItemSelected
  * @type {Phaser.Signal}
  */
-p.onItemSelected = new Phaser.Signal();
+p.onItemSelected = null;
 
 /**
  * @property buttonElements
@@ -53,12 +58,16 @@ p.onItemSelected = new Phaser.Signal();
  */
 p.buttonElements = {};
 
+p.gamepadSelector = null;
+
 /**
  * @method render
  */
 p.render = function() {
   this.drawItem();
+  this.drawSelector();
   this.initEvents();
+
 };
 
 /**
@@ -93,16 +102,37 @@ p.drawItem = function() {
   };
 };
 
+p.drawSelector = function() {
+  var w = this.group.width + 10, h = this.group.height + 10;
+  var selector = game.make.bitmapData(w , h);
+  selector.ctx.translate(0.5, 0.5);
+  selector.ctx.beginPath();
+  selector.ctx.strokeStyle =  '#ffffff';
+  selector.ctx.lineWidth = 2;
+  selector.ctx.setLineDash([3,2]);
+  canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
+  var bg = this.buttonElements.spr;
+  this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
+  this.userDeselected();
+};
+
+p.userSelected = function() {
+  this.gamepadSelector.alpha = 1;
+};
+
+p.userDeselected = function() {
+  this.gamepadSelector.alpha = 0;
+};
+
 p.hideSelectionBackground = function() {
   this.buttonElements.spr.alpha = 0;
-
 };
 
 p.initEvents = function () {
   var spr = this.buttonElements.spr;
   spr.inputEnabled = true;
   spr.useHandCursot = true;
-  spr.events.onInputDown.add(this.componentMouseDown, this, 0, spr.id);
+  spr.events.onInputDown.add(this.componentMouseDown, this, 0, this.buttonElements.id);
 };
 
 p.dispose = function() {
@@ -116,8 +146,13 @@ p.componentMouseDown = function(arg1, arg2, id) {
   this.selectOption(id);
 };
 
+p.apiSelect = function() {
+  this.selectOption(this.buttonElements.id);
+};
+
 p.selectOption = function(id) {
-  this.onItemSelected.dispatch(this.buttonElements, id);
+  console.log('ui-button :: selectOption : ', this, id);
+  this.onItemSelected.dispatch(id, this);
 };
 
 p.selectComponent = function() {

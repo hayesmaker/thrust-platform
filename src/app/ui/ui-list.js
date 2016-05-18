@@ -3,6 +3,7 @@ module.exports = UiList;
 var _ = require('lodash');
 var canvas = require('../utils/canvas');
 var UiComponent = require('./ui-component');
+var UiButton = require('./ui-button');
 /**
  * @class UiList
  * @constructor
@@ -37,13 +38,13 @@ p.listItems = [];
  * @property margin
  * @type {number}
  */
-p.margin = 2;
+p.margin = 0;
 
 /**
  * @property padding
  * @type {number}
  */
-p.padding = 10;
+p.padding = 0;
 
 /**
  * Custom Layout for Lists can be achieved
@@ -81,6 +82,12 @@ p.leftPressed = false;
 p.rightPressed = false;
 
 p.onItemSelected = new Phaser.Signal();
+
+/**
+ *
+ * @type {null}
+ */
+p.currentSelectedId = null;
 
 /**
  * @method setAutoLayout;
@@ -121,34 +128,31 @@ p.drawPosition = p.padding + p.margin;
  */
 p.drawItem = function(label, index) {
   console.log('ui-list :: drawItem', this.listComponents, this.layoutType);
-  var text = game.add.text(0, 0, label, this.style, this.group);
+
+  var button = new UiButton(this.group, label);
+  button.render();
+
+  //var text = game.add.text(0, 0, label, this.style, this.group);
   var x, y;
   if (this.layoutType === UiComponent.HORIZONTAL) {
     x = this.drawPosition;
-    this.drawPosition += text.width + this.padding * 2 + this.margin * 2;
+    this.drawPosition += button.group.width + this.padding * 2 + this.margin * 2;
     y = 0;
   } else if (this.layoutType === UiComponent.VERTICAL) {
     x = 0;
     y = this.drawPosition;
-    this.drawPosition += text.height + this.padding * 2 + this.margin * 2;
+    this.drawPosition += button.group.height + this.padding * 2 + this.margin * 2;
   } else {
     x = this.layout[index].x;
     y = this.layout[index].y;
   }
-  text.x = x;
-  text.y = y;
-  x = text.x - this.padding;
-  y = text.y - this.padding;
-  var width = text.width + this.padding * 2;
-  var height = text.height + this.padding * 2;
-  var backgroundSkin = game.make.bitmapData(width, height);
-  backgroundSkin.ctx.fillStyle = 'rgba(225, 225, 225, 0.7)';
-  canvas.drawRoundRect(backgroundSkin.ctx, 0, 0, width, height, 5, true, false);
-  var spr = game.add.sprite(x, y, backgroundSkin, '', this.group);
+  button.group.x = x;
+  button.group.y = y;
+
+
   this.listComponents.push({
     id: label,
-    tf: text,
-    spr: spr
+    button: button
   });
 };
 
@@ -160,9 +164,7 @@ p.hideSelectionBackgrounds = function() {
 
 p.initEvents = function () {
   _.each(this.listComponents, function(component) {
-    component.spr.inputEnabled = true;
-    component.spr.useHandCursot = true;
-    component.spr.events.onInputDown.add(this.componentMouseDown, this, 0, component.id);
+    component.button.onItemSelected.add(this.selectOption, this);
   }.bind(this));
 };
 
@@ -170,9 +172,8 @@ p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
   console.log('ui-list :: dispose', this, this.listComponents);
   _.each(this.listComponents, function(component) {
-    component.spr.inputEnabled = false;
-    component.spr.useHandCursot = false;
-    component.spr.events.onInputDown.remove(this.componentMouseDown, this);
+    component.button.onItemSelected.remove(this.selectOption, this);
+    component.button.dispose();
   }.bind(this));
   this.listComponents = [];
   console.log('ui0list :: dispose', this.listComponents);
@@ -182,24 +183,33 @@ p.componentMouseDown = function(arg1, arg2, id) {
   this.selectOption(id);
 };
 
-p.selectOption = function(id) {
-  console.log('selectOption :: id=', id, this.listComponents);
-  var component = this.getComponentById(id);
-  _.each(this.listComponents, this.deselectComponent);
-  this.selectComponent(component);
-  this.onItemSelected.dispatch(component);
+p.selectOption = function(id, button) {
+  console.log('selectOption :: ', button, id, this.listComponents);
+  if (id !== this.currentSelectedId) {
+    _.each(this.listComponents, this.deselectComponent);
+    if (!button) {
+      button = this.getButtonById(id);
+    }
+    this.selectComponent(button);
+    this.onItemSelected.dispatch(id);
+    this.currentSelectedId = id;
+  }
 };
 
-p.getComponentById = function(id) {
-  return _.find(this.listComponents, function(component) {
+p.getButtonById = function(id) {
+  var listComponent = _.find(this.listComponents, function(component) {
     return component.id === id;
   });
+  console.log('getButtonById id=', id, listComponent);
+  return listComponent.button;
 };
 
-p.selectComponent = function(component) {
-  component.spr.tint = 0x51b33d;
+p.selectComponent = function(button) {
+  //component.spr.tint = 0x51b33d;
+  button.selectComponent();
 };
 
 p.deselectComponent = function(component) {
-  component.spr.tint = 0xffffff;
+  //component.spr.tint = 0xffffff;
+  component.button.deselectComponent();
 };
