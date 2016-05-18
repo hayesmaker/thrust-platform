@@ -27,12 +27,13 @@ function DisplayOptions(group, name) {
   UiComponent.call(this, group, name, true, false);
 }
 
-p.render = function() {
+p.render = function () {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
+  this.renderDefaults();
 };
 
-p.createDisplay = function() {
+p.createDisplay = function () {
   var switch1 = new UiSwitch(this.group, "WebGL");
   switch1.group.x = 350;
   switch1.group.y = 150;
@@ -45,13 +46,23 @@ p.createDisplay = function() {
   switch2.render();
   switch2.switchedOn.add(this.scanlineFilterOn, this);
   switch2.switchedOff.add(this.scanlineFilterOff, this);
-  switch1.switch(true);
-  switch2.switch(true);
+  //switch1.switch(true);
+  //switch2.switch(true);
   this.components = [switch1, switch2];
 };
 
-p.dispose = function() {
-  _.each(this.components, function(component) {
+p.renderDefaults = function () {
+  var filter = optionsModel.getFilterByName('scanlines');
+  if (filter.scanlines) {
+    this.components[1].switch(true);
+  }
+  if (optionsModel.display.webGl) {
+    this.components[0].switch(true);
+  }
+};
+
+p.dispose = function () {
+  _.each(this.components, function (component) {
     //component.switchedOn.removeAll();
     //component.switchedOff.removeAll();
   });

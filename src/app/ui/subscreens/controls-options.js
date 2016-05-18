@@ -27,11 +27,18 @@ function ControlOptions(group, name) {
   UiComponent.call(this, group, name, true, false);
 }
 
+/**
+ *
+ */
 p.render = function() {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
+  this.renderDefaults();
 };
 
+/**
+ *
+ */
 p.createDisplay = function() {
   var switch1 = new UiSwitch(this.group, "Virtual Joypad");
   switch1.group.x = 350;
@@ -43,6 +50,15 @@ p.createDisplay = function() {
   this.components = [switch1];
 };
 
+/**
+ *
+ */
+p.renderDefaults = function() {
+  if (optionsModel.controls.virtualJoypad) {
+    this.components[0].switch(true);
+  }
+};
+
 //todo fix this dispose
 p.dispose = function(){
   _.each(this.components, function(component) {
@@ -52,10 +68,16 @@ p.dispose = function(){
   UiComponent.prototype.dispose.call(this);
 };
 
+/**
+ *
+ */
 p.virtualJoypadOn = function() {
   optionsModel.controls.virtualJoypad = true;
 };
 
+/**
+ *
+ */
 p.virtualJoypadOff = function() {
   optionsModel.controls.virtualJoypad = false;
 };

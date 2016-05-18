@@ -50,10 +50,12 @@ p.createDisplay = function() {
 };
 
 p.renderDefaults = function() {
-
-  
-
-
+  if (optionsModel.sound.soundFx) {
+    this.components[1].switch(true);
+  }
+  if (optionsModel.sound.music) {
+    this.components[0].switch(true);
+  }
 };
 
 p.soundOn = function() {
