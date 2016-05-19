@@ -32,7 +32,7 @@ module.exports = {
    * @returns {Object} returns a filter option object eg: `getFilterByName('scanlines')` returns `{scanlines: false}`
    */
   getFilterByName: function(name) {
-    return _.find(this.display.filters, function(val, index, coll) {
+    return _.find(this.display.filters, function(val) {
       return  !_.isUndefined(val[name]);
     });
   }

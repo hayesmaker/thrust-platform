@@ -1,7 +1,6 @@
 module.exports = UiList;
 
 var _ = require('lodash');
-var canvas = require('../utils/canvas');
 var UiComponent = require('./ui-component');
 var UiButton = require('./ui-button');
 /**

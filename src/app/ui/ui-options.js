@@ -119,27 +119,7 @@ p.update = function() {
   var stick = game.controls.stick;
   if (stick) {
     if (stick.isDown) {
-      if (stick.direction === Phaser.UP) {
-        this.stickUpPressed = true;
-        this.stickDownPressed = false;
-        this.stickLeftPressed = false;
-        this.stickRightPressed = false;
-      } else if (stick.direction === Phaser.DOWN) {
-        this.stickUpPressed = false;
-        this.stickDownPressed = true;
-        this.stickLeftPressed = false;
-        this.stickRightPressed = false;
-      } else if (stick.direction === Phaser.LEFT) {
-        this.stickRightPressed = false;
-        this.stickLeftPressed = true;
-        this.stickUpPressed = false;
-        this.stickDownPressed = false;
-      } else if (stick.direction === Phaser.RIGHT) {
-        this.stickUpPressed = false;
-        this.stickDownPressed = false;
-        this.stickLeftPressed = false;
-        this.stickRightPressed = true;
-      }
+     this.preparePress(stick.direction);
     } else {
       if (this.stickDownPressed) {
         this.stickDownPressed = false;
@@ -161,6 +141,20 @@ p.update = function() {
   }
 };
 
+/**
+ *
+ * @param directionStr
+ */
+p.preparePress = function(directionStr) {
+  this.stickUpPressed = directionStr === Phaser.UP;
+  this.stickDownPressed = directionStr === Phaser.DOWN;
+  this.stickLeftPressed = directionStr === Phaser.LEFT;
+  this.stickRightPressed = directionStr === Phaser.RIGHT;
+};
+
+/**
+ * @method dispose
+ */
 p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
   this.optionsList.onItemSelected.remove(this.itemSelected, this);
@@ -243,7 +237,7 @@ p.spacePressed = function() {
 
 p.pressActiveButton = function() {
   var activeButton = this.activeOptions[this.selectedOptionIndex];
-  activeButton.apiSelect()
+  activeButton.apiSelect();
   
 };
 
@@ -252,7 +246,7 @@ p.itemSelected = function(id) {
   this.activeOptions.splice(this.numMainOptions);
   if (screen) {
     _.each(screen.components, function(component) {
-      this.activeOptions.push(component)
+      this.activeOptions.push(component);
     }.bind(this));
   }
   this.selectActiveOption();
