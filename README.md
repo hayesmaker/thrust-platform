@@ -27,8 +27,6 @@ https://en.wikipedia.org/wiki/Thrust_(video_game).
 
 ## Install
 - `npm install`
-- `bower intall`
-- `bower-installer`
 
 ## Run
 - `npm start`

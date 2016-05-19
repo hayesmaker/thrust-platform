@@ -1,8 +1,7 @@
 module.exports = {
+  canvas: require('./canvas'),
   features: require('./features'),
   /**
-   * Pythagorus ftw
-   *
    * @method distAtoB
    * @param pointA
    * @param pointB

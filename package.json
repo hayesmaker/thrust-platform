@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "deploy": "npm run build && npm version patch",
@@ -36,6 +36,7 @@
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
     "e2e:setup": "echo 'Starting Browserstack Local' && ./bin/BrowserStackLocal ${BROWSERSTACK_ACCESS_KEY}",
+    "selenium": "java -jar /usr/local/bin/selenium-server-standalone-2.53.0.jar",
     "e2e:local": "echo 'Attempting Local Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -e browserstack && cd ../../..",
     "e2e:travis": "echo 'Travis attempting Browserstack test sweep' && cd test/e2e/nightwatch && nightwatch -c nightwatch.json -e travis && cd ../../..",
     "e2e": "echo 'Ensure selenium server is running' && npm run nightwatch",
@@ -57,7 +58,7 @@
     "morgan": "~1.5.1",
     "nightwatch": "^0.8.9",
     "phase-2-e": "^0.1.3",
-    "phaser": "^2.4.6",
+    "phaser": "^2.4.7",
     "pm2": "^0.15.10",
     "proxyquire": "^1.7.3",
     "proxyquire-universal": "^1.0.8",
@@ -89,8 +90,6 @@
     "mocks": "./src/test/mocks/index.js"
   },
   "devDependencies": {
-    "bower": "^1.4.1",
-    "bower-installer": "^1.2.0",
     "browserify-istanbul": "^0.2.1",
     "istanbul": "^0.3.15",
     "istanbulify": "^0.1.0",

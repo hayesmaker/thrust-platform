@@ -19,7 +19,7 @@ module.exports = UIInterstial;
  * @constructor
  */
 function UIInterstial(group, name, playState) {
-  UIComponent.call(this, group, name);
+  UIComponent.call(this, group, name, true, true);
   this.playState = playState;
 }
 
