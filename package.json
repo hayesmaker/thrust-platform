@@ -84,7 +84,10 @@
   },
   "browserify-shim": {},
   "browser": {
-
+    "Stats": "./src/libs/stats.js/stats.min.js",
+    "camera": "./src/app/environment/Camera.js",
+    "states": "./src/app/states/index.js",
+    "mocks": "./src/test/mocks/index.js"
   },
   "devDependencies": {
     "browserify-istanbul": "^0.2.1",
