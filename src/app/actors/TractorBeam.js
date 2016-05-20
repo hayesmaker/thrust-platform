@@ -107,6 +107,7 @@ p.grab = function (player) {
   var diffY = player.position.y - this.orb.sprite.position.y;
   this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX, diffY], maxForce);
   this.orb.move();
+  game.sfx.play('connect1');
   //this.orb.setPlayer(this.player);
 };
 

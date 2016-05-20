@@ -210,6 +210,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
     gameState.lives--;
   }
   this.tractorBeam.orb.respawn();
+  //game.sfx.teleportIn1.play();
   particles.playerTeleport(this.body.x, this.body.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
@@ -321,6 +322,7 @@ p.checkOrbDistance = function () {
  */
 p.fire = function () {
   this.turret.fire();
+  game.sfx.play('zap1');
 };
 
 /**
@@ -333,6 +335,7 @@ p.crash = function () {
     console.log('Hit but no effect');
     return;
   }
+
   this.explosion();
   this.death();
 };
@@ -406,6 +409,7 @@ p.death = function () {
   if (!this.alive) {
     return;
   }
+  game.sfx.play('boom2');
   var self = this;
   this.alive = false;
   game.time.events.add(3000, _.bind(self.checkRespawn, this));

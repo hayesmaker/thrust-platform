@@ -116,6 +116,7 @@ p.explode = function () {
   this.body.removeFromWorld();
   this.body.destroy();
   gameState.score+=gameState.SCORES.LIMPET;
+  game.sfx.play('boom1');
 };
 
 

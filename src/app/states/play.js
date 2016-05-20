@@ -293,6 +293,7 @@ module.exports = {
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
+        game.sfx.play('exit1');
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;

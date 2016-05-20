@@ -1,0 +1,50 @@
+{
+  "resources": [
+    "_dev/audio/result/thrust-sfx.ogg",
+    "_dev/audio/result/thrust-sfx.m4a",
+    "_dev/audio/result/thrust-sfx.mp3",
+    "_dev/audio/result/thrust-sfx.ac3"
+  ],
+  "spritemap": {
+    "boom1": {
+      "start": 0,
+      "end": 1.3457142857142856,
+      "loop": false
+    },
+    "boom2": {
+      "start": 3,
+      "end": 3.842766439909297,
+      "loop": false
+    },
+    "exit1": {
+      "start": 5,
+      "end": 5.936961451247166,
+      "loop": false
+    },
+    "hurt1": {
+      "start": 7,
+      "end": 7.959115646258503,
+      "loop": false
+    },
+    "hurt2": {
+      "start": 9,
+      "end": 9.12310657596372,
+      "loop": false
+    },
+    "planet-death1": {
+      "start": 11,
+      "end": 12.220907029478457,
+      "loop": false
+    },
+    "teleport-in1": {
+      "start": 14,
+      "end": 16.91297052154195,
+      "loop": false
+    },
+    "zap1": {
+      "start": 18,
+      "end": 18.397460317460318,
+      "loop": false
+    }
+  }
+}
