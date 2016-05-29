@@ -16,34 +16,119 @@
       "end": 3.842766439909297,
       "loop": false
     },
-    "exit1": {
+    "boom3": {
       "start": 5,
-      "end": 5.936961451247166,
+      "end": 5.5863038548752835,
+      "loop": false
+    },
+    "connect1": {
+      "start": 7,
+      "end": 7.337981859410431,
+      "loop": false
+    },
+    "connecting1": {
+      "start": 9,
+      "end": 9.715102040816326,
+      "loop": false
+    },
+    "exit1": {
+      "start": 11,
+      "end": 11.936961451247166,
+      "loop": false
+    },
+    "explode1": {
+      "start": 13,
+      "end": 14.015283446712019,
       "loop": false
     },
     "hurt1": {
-      "start": 7,
-      "end": 7.959115646258503,
+      "start": 16,
+      "end": 16.959115646258503,
       "loop": false
     },
     "hurt2": {
-      "start": 9,
-      "end": 9.12310657596372,
+      "start": 18,
+      "end": 18.123106575963718,
+      "loop": false
+    },
+    "hurt3": {
+      "start": 20,
+      "end": 20.122086167800454,
       "loop": false
     },
     "planet-death1": {
-      "start": 11,
-      "end": 12.220907029478457,
+      "start": 22,
+      "end": 23.220907029478457,
+      "loop": false
+    },
+    "planet-dying1": {
+      "start": 25,
+      "end": 30.482063492063492,
+      "loop": true
+    },
+    "select1": {
+      "start": 32,
+      "end": 32.07891156462585,
+      "loop": false
+    },
+    "select2": {
+      "start": 34,
+      "end": 34.18331065759637,
+      "loop": false
+    },
+    "swipe1": {
+      "start": 36,
+      "end": 36.56952380952381,
       "loop": false
     },
     "teleport-in1": {
-      "start": 14,
-      "end": 16.91297052154195,
+      "start": 38,
+      "end": 40.91297052154195,
+      "loop": false
+    },
+    "teleport-in2": {
+      "start": 42,
+      "end": 42.823197278911564,
+      "loop": false
+    },
+    "teleport-in3": {
+      "start": 44,
+      "end": 46.80637188208617,
+      "loop": false
+    },
+    "teleport-in4": {
+      "start": 48,
+      "end": 50.80621315192744,
+      "loop": false
+    },
+    "thrust1": {
+      "start": 52,
+      "end": 52.408684807256236,
+      "loop": true
+    },
+    "thrust2": {
+      "start": 54,
+      "end": 56.691587301587305,
+      "loop": false
+    },
+    "thrust3": {
+      "start": 58,
+      "end": 58.241179138321996,
+      "loop": false
+    },
+    "thrust4": {
+      "start": 60,
+      "end": 60.140839002267576,
       "loop": false
     },
     "zap1": {
-      "start": 18,
-      "end": 18.397460317460318,
+      "start": 62,
+      "end": 62.397460317460315,
+      "loop": false
+    },
+    "zap2": {
+      "start": 64,
+      "end": 64.07984126984127,
       "loop": false
     }
   }

@@ -9,6 +9,7 @@ var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
+var ThrustSound = 'thrust4';
 
 /**
  * A user controlled controlled spaceship
@@ -20,6 +21,10 @@ var _ = require('lodash');
  * @constructor
  */
 function Player(collisions, groups) {
+  
+  this.inPlay = false;
+
+  this.thrustStarted = false;
   /**
    * The collisions container
    *
@@ -81,6 +86,7 @@ function Player(collisions, groups) {
   this.anchor.setTo(0.5);
   this.alpha = 0;
   this.init();
+  this.thrustSfx = game.audiosprite.get('thrust4');
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
@@ -120,7 +126,7 @@ p.init = function () {
   this.explodeEmitter.makeParticles();
   this.explodeEmitter.gravity = 200;
 
-  this.thrustEmitter = game.add.emitter(this.x, this.y, 0);
+  this.thrustEmitter = game.add.emitter(this.x, this.y, 50);
   this.thrustEmitter.particleClass = ShipParticle;
   this.thrustEmitter.minRotation = 0;
   this.thrustEmitter.maxRotation = 0;
@@ -163,6 +169,12 @@ p.stop = function() {
   this.body.motionState = 2;
 };
 
+p.levelExit = function() {
+  this.inPlay = false;
+  this.thrustEmitter.on = false;
+  this.thrustSfx.stop();
+};
+
 /**
  * Remove ship after warping out
  *
@@ -183,6 +195,7 @@ p.spawn = function() {
   this.body.motionState = 1;
   this.alpha = 0;
   this.alive = true;
+  this.inPlay = true;
   TweenMax.to(this, 0.4, {alpha: 1, ease: Quad.easeOut} );
 };
 
@@ -210,7 +223,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
     gameState.lives--;
   }
   this.tractorBeam.orb.respawn();
-  //game.sfx.teleportIn1.play();
+  game.audiosprite.play('teleport-in3');
   particles.playerTeleport(this.body.x, this.body.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
@@ -283,19 +296,27 @@ p.checkRotate = function(stick, cursors) {
 p.checkThrust = function(buttonAPressed, cursors) {
   if (cursors.up.isDown || buttonAPressed) {
     if (gameState.fuel >= 0) {
+      if (!this.thrustStarted) {
+        this.thrustStarted = true;
+        this.thrustSfx.play(ThrustSound, 0, 0.5, true);
+        //flow(lifespan, frequency, quantity, total, immediate)
+        this.thrustEmitter.flow(200, 10, 2, -1, true);
+      }
       if (gameState.fuel % 5 === 0) {
-        this.thrustStart();
+
       }
       this.body.thrust(400);
       gameState.fuel--;
     }
   } else {
-    this.cutEngine();
+    this.thrustStarted = false;
+    this.thrustSfx.stop();
+    this.thrustEmitter.on = false;
   }
 };
 
 /**
- * When this is called, we'll check the distance of the player to the orb, and depending on distance,
+ * When this is called, we'll check the ditance of the player to the orb, and depending on distance,
  * either draw a tractorBeam
  *
  * @method checkOrbDistance
@@ -321,8 +342,10 @@ p.checkOrbDistance = function () {
  * @method shoot
  */
 p.fire = function () {
-  this.turret.fire();
-  game.sfx.play('zap1');
+  if (this.inPlay) {
+    this.turret.fire();
+    game.audiosprite.play('zap1');
+  }
 };
 
 /**
@@ -335,7 +358,6 @@ p.crash = function () {
     console.log('Hit but no effect');
     return;
   }
-
   this.explosion();
   this.death();
 };
@@ -363,17 +385,9 @@ p.explosion = function () {
   this.explodeEmitter.x = this.position.x;
   this.explodeEmitter.y = this.position.y;
   this.explodeEmitter.start(true, 500, null, 1);
-  this.cutEngine();
+  game.audiosprite.play('boom1');
+  this.thrustSfx.stop();
   this.tractorBeam.breakLink();
-};
-
-/**
- * @method thrustStart
- */
-p.thrustStart = function() {
-  if (!this.thrustEmitter.on) {
-    this.thrustEmitter.start(false, 200, 1, 1, 1);
-  }
 };
 
 /**
@@ -386,18 +400,10 @@ p.thrustStart = function() {
  */
 p.exhaustUpdate = function() {
   var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
-  var r = (this.width / 2) - speed / 60;
+  var r = (this.width / 2) - speed / 60; //hardcoded position
   var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
   this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
   this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
-};
-
-/**
- * @method cutEngine
- */
-p.cutEngine = function() {
-  this.exhaustUpdate();
-  this.thrustEmitter.on = false;
 };
 
 /**
@@ -409,10 +415,12 @@ p.death = function () {
   if (!this.alive) {
     return;
   }
-  game.sfx.play('boom2');
-  var self = this;
+  this.thrustSfx.stop();
+  game.audiosprite.play('explode1');
+  this.thrustEmitter.on = false;
+  this.inPlay = false;
   this.alive = false;
-  game.time.events.add(3000, _.bind(self.checkRespawn, this));
+  game.time.events.add(3000, _.bind(this.checkRespawn, this));
 };
 
 /**

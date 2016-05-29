@@ -67,7 +67,7 @@ p.explode = function () {
   if (!this.player.alive) {
     return;
   }
-  game.sfx.play('boom1');
+  game.audiosprite.play('boom1');
   console.log('explode');
   particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;

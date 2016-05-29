@@ -88,6 +88,7 @@ p.update = function () {
      */
     if (Math.random() < this.fireRate) {
       this.turret.fire();
+      game.audiosprite.play('zap2');
     }
   }
 };
@@ -116,7 +117,7 @@ p.explode = function () {
   this.body.removeFromWorld();
   this.body.destroy();
   gameState.score+=gameState.SCORES.LIMPET;
-  game.sfx.play('boom1');
+  game.audiosprite.play('boom3');
 };
 
 

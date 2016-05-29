@@ -1,6 +1,7 @@
 'use strict';
 
 var levelManager = require('../data/level-manager');
+var TimelineMax = global.TimelineMax;
 
 /**
  * The swipe mission title info on level start
@@ -59,8 +60,9 @@ module.exports = {
     style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
     this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, level.missionSwipe.desc, style, this.group);
     this.hideSwipe();
-    this.tl = new TimelineLite({delay: 0.5, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
+    this.tl = new TimelineMax({delay: 0.2, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
     this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));
+    this.tl.addCallback(this.swipeSound);
     this.tl.add(TweenMax.to(this.swipe, 0.2, {height: this.fullH, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.swipe, 0.4, {width: this.fullW, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.title, 0.25, {alpha: 1, ease: Quad.easeOut} ));
@@ -90,6 +92,10 @@ module.exports = {
     this.cbContext = context;
     this.showSwipe();
     this.tl.play();
+  },
+
+  swipeSound: function() {
+    //game.sfx.play('swipe1');
   },
 
   missionStartSwipeOut: function() {

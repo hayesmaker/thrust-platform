@@ -81,7 +81,7 @@ p.update = function() {
 p.hit = function() {
   console.log('PowerStation :: hit', this.health);
   this.damage(85);
-  game.sfx.play('hurt2');
+  game.audiosprite.play('hurt2');
 };
 
 /**
@@ -96,14 +96,14 @@ p.createParticles = function() {
  * @method explode
  */
 p.explode = function() {
-  game.sfx.play('hurt1');
+  game.audiosprite.play('hurt1');
   particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
   game.time.events.add(Math.random()*500, function() {
-    game.sfx.play('hurt1');
+    game.audiosprite.play('hurt1');
     particleManager.explode(this.x, this.y + this.height/2);
   }, this);
   game.time.events.add(Math.random()*500, function() {
-    game.sfx.play('planet-death1');
+    game.audiosprite.play('planet-death1');
     particleManager.explode(this.x + this.width/2, this.y + this.height/2);
   }, this);
 };

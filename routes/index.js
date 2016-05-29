@@ -56,7 +56,7 @@ router.get('/app-loader', function(req, res) {
   res.render('app-loader', {
     title: title + " (auto)",
     version: pkg.version,
-    engine: 'javascripts/browserify/thrust-engine-auto.js'
+    engine: 'javascripts/browserify/thrust-engine-canvas.js'
   });
 });
 
