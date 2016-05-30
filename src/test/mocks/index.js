@@ -23,6 +23,7 @@ module.exports = {
     },
 
     load: {
+      audiosprite: function() {},
       atlas: sinon.stub(),
       image: sinon.stub(),
       physics: sinon.stub()

@@ -11,6 +11,7 @@ module.exports = function () {
       isJoypadEnabled: false
     },
     load: {
+      audiosprite: function() {},
       onLoadStart: require('./signal'),
       onFileComplete: require('./signal'),
       onLoadComplete: require('./signal'),
