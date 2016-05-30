@@ -145,6 +145,7 @@ p.menuItem = function (label, index) {
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
   this.items[index].graphic.visible = true;
+  game.audiosprite.play('select2');
   console.log('this.items[index]', this.items[index].graphic);
 };
 

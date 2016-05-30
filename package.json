@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "scripts": {
     "deploy": "npm run build && npm version patch",
@@ -27,11 +27,11 @@
     "browserify:webgl": "echo 'browserifying webgl build' && browserify --version && browserify -e src/app/main-webgl.js -o public/javascripts/browserify/thrust-engine-webgl.js -d",
     "browserify:main": "echo 'browserifying auto build' && browserify --version && browserify -e src/app/main-auto.js -o public/javascripts/browserify/thrust-engine-auto.js -d",
     "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
-    "build:app": "npm run browserify:canvas",
+    "build:app": "npm run update:audio && npm run browserify:canvas",
     "build:quick": "npm run browserify:canvas",
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",
     "build:webgl": "npm run browserify:webgl",
-    "yuidoc": "echo 'Compiling source documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
+    "yuidoc": "echo 'Compiling source   documentation' && ./node_modules/.bin/yuidoc ./src/app -o ./public/yuidoc",
     "nightwatch": "echo 'Attempting Local Nightwatch test sweep' && cd test/e2e/nightwatch && nightwatch && cd ../../..",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "jshint": "echo 'Static Analysis' && jshint src/app/**/*.js --reporter=node_modules/jshint-stylish",
@@ -43,7 +43,8 @@
     "changelog": "github_changelog_generator",
     "tweet:deploy": "node ./bin/tweet-deploy",
     "assets": "./bin/assets.sh",
-    "heroku": "echo 'Deploying to heroku master' && git push heroku master"
+    "heroku": "echo 'Deploying to heroku master' && git push heroku master",
+    "update:audio": "cp -rf ../thrust-platform-dev/_dev/audio/result/ ./public/assets/audiosprite/"
   },
   "dependencies": {
     "body-parser": "~1.12.0",

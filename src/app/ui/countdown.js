@@ -21,7 +21,7 @@ module.exports = {
 
   currentTime: 10,
   
-  complete: new Phaser.Signal(),
+  complete: null,
 
   init: function(group) {
     this.group = group;
@@ -30,12 +30,16 @@ module.exports = {
     this.timer = game.time.create(false);
     this.timer.loop(1000, this.updateCount, this);
     this.label.visible = false;
+    this.complete = new Phaser.Signal();
   },
 
   updateCount: function() {
     if (this.currentTime > 0) {
+      game.audiosprite.play('select2');
+      game.camera.shake(0.004, 1000);
       this.currentTime--;
     } else {
+      this.complete.dispatch();
       gameState.planetDestroyed = true;
       this.stop();
     }
@@ -47,11 +51,14 @@ module.exports = {
   },
 
   start: function() {
+    game.audiosprite.play('planet-dying1', 0.4, true);
+    game.camera.shake(0.006, 1000);
     this.label.visible = true;
     this.timer.start();
   },
 
   stop: function() {
+    game.audiosprite.stop('planet-dying1');
     this.label.visible = false;
     this.timer.stop();
   },

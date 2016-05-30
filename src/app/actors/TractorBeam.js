@@ -64,6 +64,7 @@ p.drawBeam = function (posA) {
     this.isLocking = true;
     this.timer.add(this.lockingDuration, this.lock, this);
     this.timer.start();
+    game.audiosprite.play('connecting1');
   }
   this.graphics.clear();
   var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
@@ -92,6 +93,7 @@ p.lockingRelease = function () {
     this.isLocking = false;
     this.hasGrabbed = false;
     this.graphics.clear();
+    game.audiosprite.play('hurt3');
     this.timer.stop(true);
   }
 };
@@ -107,6 +109,7 @@ p.grab = function (player) {
   var diffY = player.position.y - this.orb.sprite.position.y;
   this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX, diffY], maxForce);
   this.orb.move();
+  game.audiosprite.play('connect1');
   //this.orb.setPlayer(this.player);
 };
 
@@ -115,6 +118,8 @@ p.grab = function (player) {
  */
 p.breakLink = function () {
   this.unlock();
+  game.audiosprite.stop('connecting1');
+  game.audiosprite.play('hurt3');
   this.lockingRelease();
   game.physics.p2.removeConstraint(this.constraint);
 };

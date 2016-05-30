@@ -293,6 +293,9 @@ module.exports = {
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
+        game.audiosprite.play('teleport-in3');
+        //todo move teleport logic to here:
+        this.player.levelExit();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
@@ -442,6 +445,7 @@ module.exports = {
    */
   countdownComplete: function () {
     //do planet destruction anims
+
   },
 
 
@@ -455,6 +459,7 @@ module.exports = {
       game.controls.initJoypad();
     }
     ui.init(this.menuItemSelected, this);
+    ui.countdown.complete.add(this.countdownComplete, this);
   },
 
   /**

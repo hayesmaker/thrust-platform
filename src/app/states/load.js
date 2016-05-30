@@ -53,8 +53,21 @@ module.exports = {
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
+    this.loadAudio();
   },
-  
+
+  loadAudio: function () {
+
+    game.load.audiosprite(
+      'sfx', [
+        'assets/audiosprite/thrust-sfx.mp3',
+        'assets/audiosprite/thrust-sfx.m4a',
+        'assets/audiosprite/thrust-sfx.ogg'
+      ],
+      'assets/audiosprite/thrust-sfx.json'
+    );
+  },
+
   /**
    * Load all maps in defined in the levelManager
    *
@@ -137,6 +150,40 @@ module.exports = {
    * @method loadComplete
    */
   loadComplete: function () {
+    this.decodeAudio();
+  },
+
+  decodeAudio: function () {
+    console.log('decoding audio');
+
+    var sfx = game.add.audioSprite('sfx');
+    sfx.allowMultiple = true;
+
+    /*
+    var zap1 = game.add.audio('zap1');
+    var hurt1 = game.add.audio('hurt1');
+    var hurt2 = game.add.audio('hurt2');
+    var boom1 = game.add.audio('boom1');
+    var boom2 = game.add.audio('boom2');
+    var exit1 = game.add.audio('exit1');
+    var planetDeath1 = game.add.audio('planetDeath1');
+    var connect1 = game.add.audio('connect1');
+    var teleportIn1 = game.add.audio('teleportIn1');
+    */
+
+    /**
+     *
+     * @type {{zap1: *, hurt1: *, hurt2: *, boom1: *, boom2: *, exit1: *, planetDeath1: *, connect1: *, teleportIn1: *}}
+     */
+    game.sfx = game.audiosprite = sfx;
+    //  Being mp3 files these take time to decode, so we can't play them instantly
+    //  Using setDecodedCallback we can be notified when they're ALL ready for use.
+    //  The audio files could decode in ANY order, we can never be sure which it'll be.
+
+    game.sound.setDecodedCallback('sfx', this.start, this);
+  },
+
+  start: function () {
     this.loadProgressTxt.destroy();
     game.state.start('play', true, false);
   }
