@@ -63,6 +63,10 @@ module.exports = {
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
+
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
+
     //WebGL arcade style CRT scanline Filter
     this.postProcessing();
   },
@@ -135,6 +139,7 @@ module.exports = {
       ui.hideUser();
     }
     var shouldFadeBackground = (
+      state === gameState.PLAY_STATES.COMPLETE ||
       state === gameState.PLAY_STATES.HIGH_SCORES ||
       state === gameState.PLAY_STATES.INTERSTITIAL
     );
