@@ -8,8 +8,8 @@ var _ = require('lodash');
  */
 module.exports = {
   sound: {
-    soundFx: true,
-    music: true
+    soundFx: false,
+    music: false
   },
   display: {
     webGl: false,
