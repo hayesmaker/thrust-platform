@@ -5,6 +5,7 @@ var Turret = require('./Turret');
 var gameState = require('../data/game-state');
 var particles = require('../environment/particles/manager');
 var SpreadFiring = require('./strategies/SpreadFiring');
+var sound = require('../utils/sound');
 
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
@@ -88,7 +89,7 @@ p.update = function () {
      */
     if (Math.random() < this.fireRate) {
       this.turret.fire();
-      game.audiosprite.play('zap2');
+      sound.playSound('zap2');
     }
   }
 };
@@ -117,7 +118,7 @@ p.explode = function () {
   this.body.removeFromWorld();
   this.body.destroy();
   gameState.score+=gameState.SCORES.LIMPET;
-  game.audiosprite.play('boom3');
+  sound.playSound('boom3');
 };
 
 

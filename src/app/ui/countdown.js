@@ -1,4 +1,5 @@
 var gameState = require('../data/game-state');
+var sound = require('../utils/sound');
 
 /**
  * Manages the fuel display
@@ -35,7 +36,7 @@ module.exports = {
 
   updateCount: function() {
     if (this.currentTime > 0) {
-      game.audiosprite.play('select2');
+      sound.playSound('select2');
       game.camera.shake(0.004, 1000);
       this.currentTime--;
     } else {
@@ -51,7 +52,7 @@ module.exports = {
   },
 
   start: function() {
-    game.audiosprite.play('planet-dying1', 0.4, true);
+    sound.playSound('planet-dying1', 0.4, true);
     game.camera.shake(0.006, 1000);
     this.label.visible = true;
     this.timer.start();

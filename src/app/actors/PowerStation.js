@@ -3,6 +3,7 @@
 var PhysicsActor = require('./PhysicsActor');
 var gameState = require('../data/game-state');
 var particleManager = require('../environment/particles/manager');
+var sound = require('../utils/sound');
 
 
 
@@ -81,7 +82,7 @@ p.update = function() {
 p.hit = function() {
   console.log('PowerStation :: hit', this.health);
   this.damage(85);
-  game.audiosprite.play('hurt2');
+  sound.playSound('hurt2');
 };
 
 /**
@@ -96,14 +97,14 @@ p.createParticles = function() {
  * @method explode
  */
 p.explode = function() {
-  game.audiosprite.play('hurt1');
+  sound.playSound('hurt1');
   particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
   game.time.events.add(Math.random()*500, function() {
-    game.audiosprite.play('hurt1');
+    sound.playSound('hurt1');
     particleManager.explode(this.x, this.y + this.height/2);
   }, this);
   game.time.events.add(Math.random()*500, function() {
-    game.audiosprite.play('planet-death1');
+    sound.playSound('planet-death1');
     particleManager.explode(this.x + this.width/2, this.y + this.height/2);
   }, this);
 };

@@ -1,5 +1,6 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
+var sound = require('../utils/sound');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -145,7 +146,7 @@ p.menuItem = function (label, index) {
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
   this.items[index].graphic.visible = true;
-  game.audiosprite.play('select2');
+  sound.playSound('select2');
   console.log('this.items[index]', this.items[index].graphic);
 };
 

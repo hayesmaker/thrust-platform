@@ -7,6 +7,7 @@ var gameState = require('../data/game-state');
 var _ = require('lodash');
 var particles = require('../environment/particles/manager');
 var TweenLite = global.TweenLite;
+var sound = require('../utils/sound');
 
 /**
  * Fuel Sprite - PhysicsActor enabled fuel cell sprite
@@ -67,7 +68,7 @@ p.explode = function () {
   if (!this.player.alive) {
     return;
   }
-  game.audiosprite.play('boom1');
+  sound.playSound('boom1');
   console.log('explode');
   particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;

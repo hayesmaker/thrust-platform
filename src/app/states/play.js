@@ -17,6 +17,7 @@ var levelManager = require('../data/level-manager');
 var PowerStation = require('../actors/PowerStation');
 var PhysicsActor = require('../actors/PhysicsActor');
 var gameState = require('../data/game-state');
+var sound = require('../utils/sound');
 
 /**
  * The play state
@@ -293,7 +294,7 @@ module.exports = {
         this.player.stop();
         this.orb.stop();
         ui.countdown.stop();
-        game.audiosprite.play('teleport-in3');
+        sound.playSound('teleport-in3');
         //todo move teleport logic to here:
         this.player.levelExit();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
