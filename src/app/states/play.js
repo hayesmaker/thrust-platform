@@ -63,12 +63,16 @@ module.exports = {
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
-
-    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
-    this.showCurrentScreenByState(gameState.currentState);
-
     //WebGL arcade style CRT scanline Filter
     this.postProcessing();
+    gameState.levelsCompleted.add(this.levelsCompleted, this);
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
+  },
+
+  levelsCompleted: function() {
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
   },
 
   /**

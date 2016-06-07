@@ -64,7 +64,7 @@ module.exports = {
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {
-      alert('all levels finished');
+      //end of levels.
       this.levelIndex = 0;
     } else {
       this.levelIndex++;
@@ -74,7 +74,8 @@ module.exports = {
   },
   
   newGame: function() {
-    this.levelIndex = 0;
+    //this.levelIndex = 0;
+    console.log('level-manager :: newGame :', this.levelIndex);
     this.currentLevel = this.levels[this.levelIndex];
   }
 

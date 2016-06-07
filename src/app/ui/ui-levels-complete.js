@@ -31,22 +31,25 @@ function UiLevelsComplete(group, name, playState) {
 p.render = function () {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
-  this.renderText();
-  this.renderImage();
   this.enable();
 };
 
 p.createDisplay = function() {
-  this.layoutRect = new Phaser.Rectangle(this.padding,this.padding, window.innerWidth * 0.45, window.innerHeight * 0.9);
   this.styles = {
     title: {font: '24px thrust_regular', fill: '#ffffff', align: 'left'},
     default: {font: '16px thrust_regular', fill: '#ffffff', align: 'left'}
   };
+
+  this.renderImage();
+  /*
   var rect = game.add.graphics(0, 0, this.group);
   rect.beginFill(0x000000, 0.8);
   rect.lineStyle(2, 0xffffff, 1);
   rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
   rect.endFill();
+  */
+
+  this.renderText();
 };
 
 p.renderText = function() {
@@ -81,9 +84,18 @@ p.renderText = function() {
 
 p.renderImage = function() {
   var image = game.add.image(0,0, 'coverImage', '', this.group);
-  image.y = this.paragraph1.y + this.paragraph1.height + 10;
-  image.scale.setTo(0.5);
-  image.x = this.layoutRect.x + this.layoutRect.halfWidth - image.width/2;
+  var scaleX = (game.width - game.width/30) / image.width;
+  image.alpha = 0.75;
+  image.scale.setTo(scaleX);
+  image.x = game.width/2 - image.width/2;
+  image.y = image.x;
+  this.layoutRect = new Phaser.Rectangle(image.x, image.y, image.width, image.height);
+  var rect = game.add.graphics(0, 0, this.group);
+  //rect.beginFill(0x000000, 0.8);
+  rect.lineStyle(2, 0xffffff, 1);
+  rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
+  rect.endFill();
+
 };
 
 p.enable = function () {

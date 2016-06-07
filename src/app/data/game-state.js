@@ -173,6 +173,7 @@ module.exports = {
     this.newPlayer();
     this.newGame();
     console.log('gameState :: initialise', this.currentState);
+    this.levelsCompleted = new Phaser.Signal();
   },
 
   /**
@@ -204,8 +205,14 @@ module.exports = {
   nextLevel: function () {
     console.log('gameState :: nextLevel : orbRecovered,isGameOver=', this.bonuses.orbRecovered, this.isGameOver);
     if (this.bonuses.orbRecovered && !this.isGameOver) {
-      this.levelStart();
-      levelManager.nextLevel();
+      if (levelManager.levels.length - 1 === levelManager.levelIndex) {
+        this.levelsCompleted.dispatch();
+      } else {
+        this.levelStart();
+        levelManager.nextLevel();
+      }
+      
+
     }
   },
   
