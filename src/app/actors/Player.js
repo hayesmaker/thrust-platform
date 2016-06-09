@@ -419,7 +419,7 @@ p.death = function () {
     return;
   }
   this.thrustSfx.stop();
-  sound.play('explode1');
+  sound.playSound('explode1');
   this.thrustEmitter.on = false;
   this.inPlay = false;
   this.alive = false;
