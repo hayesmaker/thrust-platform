@@ -347,7 +347,7 @@ p.checkOrbDistance = function () {
 p.fire = function () {
   if (this.inPlay) {
     this.turret.fire();
-    sound.play('zap1');
+    sound.playSound('zap1');
   }
 };
 
