@@ -65,7 +65,7 @@ p.drawBeam = function (posA) {
     this.isLocking = true;
     this.timer.add(this.lockingDuration, this.lock, this);
     this.timer.start();
-    sound.play('connecting1');
+    sound.playSound('connecting1');
   }
   this.graphics.clear();
   var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
