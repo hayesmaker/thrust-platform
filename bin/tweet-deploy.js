@@ -7,7 +7,7 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'http://www.thrust2016.com';
+var url = 'http://thrust-platform.herokuapp.com';
 
 var status = function() {
   return '#HTML5 Thrust 2016 (beta) update: v' + process.env.npm_package_version +' live now at: ' + url;
