@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.6.2",
+  "version": "0.7.0-beta",
   "private": true,
   "scripts": {
     "deploy": "npm run build && npm version patch",

@@ -63,9 +63,15 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
+    //uncomment to test game complete screen
+    //gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
-    //WebGL arcade style CRT scanline Filter
-    this.postProcessing();
+    gameState.levelsCompleted.add(this.levelsCompleted, this);
+  },
+
+  levelsCompleted: function() {
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
   },
 
   /**
@@ -85,7 +91,11 @@ module.exports = {
     if (this.isDevMode) {
       this.devModeUpdate();
     }
-    this.updatePostProcessing();
+    //this.updatePostProcessing();
+  },
+
+  updatePostProcessing: function() {
+
   },
 
   /**
@@ -136,6 +146,7 @@ module.exports = {
       ui.hideUser();
     }
     var shouldFadeBackground = (
+      state === gameState.PLAY_STATES.COMPLETE ||
       state === gameState.PLAY_STATES.HIGH_SCORES ||
       state === gameState.PLAY_STATES.INTERSTITIAL
     );
@@ -683,43 +694,5 @@ module.exports = {
       this.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
-  },
-
-  /**
-   * @method postProcessing
-   */
-  postProcessing: function () {
-    var fragmentSrc = [
-      "precision mediump float;",
-      // Incoming texture coordinates.
-      'varying vec2 vTextureCoord;',
-      // Incoming vertex color
-      'varying vec4 vColor;',
-      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
-      'uniform sampler2D uSampler;',
-
-      "void main( void ) {",
-      // colorRGBA = (y % 2) * texel(u,v);
-      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
-      "}"
-    ];
-    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
-    var vignette = game.add.filter('Vignette');
-    this.filmgrain = game.add.filter('FilmGrain');
-    vignette.size = 0.6;
-    vignette.amount = 0.5;
-    vignette.alpha = 1;
-    this.filmgrain.color = 0.1;
-    this.filmgrain.amount = 0.2;
-    this.filmgrain.luminance = 0.8;
-    game.world.filters = [this.filmgrain, scanlineFilter, vignette];
-  },
-
-  /**
-   * @method updatePostProcessing
-   */
-  updatePostProcessing: function () {
-    this.filmgrain.update();
   }
-
 };

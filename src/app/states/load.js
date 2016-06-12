@@ -53,6 +53,7 @@ module.exports = {
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
     game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
+    game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     this.loadAudio();
   },
 

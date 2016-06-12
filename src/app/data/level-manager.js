@@ -16,7 +16,7 @@ module.exports = {
    * @property levels
    * @type {Array}
    */
-  levels: properties.levels.data,
+  levels: null,
 
   /**
    * Starting level index
@@ -44,6 +44,7 @@ module.exports = {
    */
   init: function() {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
+    this.levels = properties.levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;
     } else {
@@ -64,7 +65,7 @@ module.exports = {
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {
-      alert('all levels finished');
+      //end of levels.
       this.levelIndex = 0;
     } else {
       this.levelIndex++;
@@ -74,7 +75,8 @@ module.exports = {
   },
   
   newGame: function() {
-    this.levelIndex = 0;
+    //this.levelIndex = 0;
+    console.log('level-manager :: newGame :', this.levelIndex);
     this.currentLevel = this.levels[this.levelIndex];
   }
 

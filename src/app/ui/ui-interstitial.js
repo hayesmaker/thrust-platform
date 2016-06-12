@@ -79,6 +79,12 @@ p.fields = [
   }
 ];
 
+p.scaleFontSize = function(style) {
+  var fontsizeStr = style.split('px')[0];
+  var fontsize = parseInt(fontsizeStr, 10) * gameState.gameScale;
+  return style.replace(fontsizeStr, fontsize);
+};
+
 /**
  * @method createLabels
  * @param x
@@ -87,6 +93,7 @@ p.fields = [
  * @param label
  */
 p.createLabels = function(x, field, index, label) {
+  var fontStyle = this.scaleFontSize(field.style.font);
   if (gameState.bonuses.planetBuster) {
     if (index === 2 || index === 3) {
       label = field.successLabel;
@@ -96,7 +103,11 @@ p.createLabels = function(x, field, index, label) {
       label = field.failLabel;
     }
   }
-  field.tf = game.add.text(x, game.height * field.yPos, label, field.style, this.group);
+  field.tf = game.add.text(x, game.height * field.yPos, label, {
+    font: fontStyle,
+    fill: field.style.fill,
+    align: field.style.align
+  }, this.group);
   field.tf.alpha = 0;
   return label;
 };

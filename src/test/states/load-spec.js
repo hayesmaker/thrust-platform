@@ -5,8 +5,15 @@ var chai = require('chai');
 var sinonChai = require("sinon-chai");
 var expect = chai.expect;
 var mocks = require('mocks');
+
+var stubs = {
+  '../properties': require('../mocks/properties-mock'),
+  '../data/level-manager': require('../mocks/data/level-manager')
+};
+
+
 var proxyquire = require('proxyquireify')(require);
-var state = proxyquire('../../app/states/load', mocks.stubs);
+var state = proxyquire('../../app/states/load', stubs);
 chai.should();
 chai.use(sinonChai);
 

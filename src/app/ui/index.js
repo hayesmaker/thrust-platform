@@ -4,12 +4,14 @@ var UIHighScores = require('./ui-high-scores');
 var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
+var UILevelsComplete = require('./ui-levels-complete');
 
 
 
 module.exports = {
 
   init: function(menuSelectedCallback, playState) {
+    
     manager.init(this);
     this.group = game.make.group();
     this.fade.init(this.group);
@@ -28,6 +30,7 @@ module.exports = {
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
+    this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
   },
   
   update: function() {
