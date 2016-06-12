@@ -64,7 +64,7 @@ p.renderText = function() {
 
   var para1Str = "" +
     "You have successfully recovered all the orbs in the system.\n" +
-    "Look out for more systems to complete in the appstore or online" +
+    "Unlocks are not available in the demo. " +
     "\n\n" +
     "Unlocks:" +
     "\n" +
@@ -74,7 +74,7 @@ p.renderText = function() {
     "\n" +
     "* New ship skin" +
     "\n\n" +
-    "You can now try all the new game modes" +
+    "Download the game now from the vendors page." +
     "\n\n" +
     "Thank you for playing Thrust 2016\n";
 
