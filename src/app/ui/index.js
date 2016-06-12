@@ -11,6 +11,7 @@ var UILevelsComplete = require('./ui-levels-complete');
 module.exports = {
 
   init: function(menuSelectedCallback, playState) {
+    
     manager.init(this);
     this.group = game.make.group();
     this.fade.init(this.group);

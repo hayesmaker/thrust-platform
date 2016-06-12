@@ -166,9 +166,17 @@ module.exports = {
   FUEL_AMOUNT: 300,
 
   /**
+   * 
+   * 
+   * @property gameScale
+   */
+  gameScale: 1,
+
+  /**
    * @method init
    */
   init: function () {
+    this.gameScale = game.width / 1024;
     this.currentState = this.PLAY_STATES.MENU;
     this.newPlayer();
     this.newGame();
