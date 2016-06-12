@@ -16,7 +16,7 @@ module.exports = {
    * @property levels
    * @type {Array}
    */
-  levels: properties.levels.data,
+  levels: null,
 
   /**
    * Starting level index
@@ -44,6 +44,7 @@ module.exports = {
    */
   init: function() {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
+    this.levels = properties.levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;
     } else {

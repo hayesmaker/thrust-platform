@@ -94,6 +94,10 @@ module.exports = {
     //this.updatePostProcessing();
   },
 
+  updatePostProcessing: function() {
+
+  },
+
   /**
    * Needed for debug display
    *
