@@ -1,5 +1,4 @@
 var UiComponent = require('./ui-component');
-var _ = require('lodash');
 var gameState = require('../data/game-state');
 
 var p = UiLevelsComplete.prototype = Object.create(UiComponent.prototype, {
