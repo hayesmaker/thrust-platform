@@ -148,7 +148,7 @@ module.exports = {
    * @property ENEMY_BULLET_DURATION
    * @type {number}
    */
-  ENEMY_BULLET_DURATION: 2000,
+  ENEMY_BULLET_DURATION: 3000,
 
   /**
    * @property PLAYER_BULLET_DURATION
