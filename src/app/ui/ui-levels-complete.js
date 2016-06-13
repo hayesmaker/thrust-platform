@@ -61,10 +61,6 @@ p.renderText = function() {
   this.title.anchor.setTo(0.5);
   this.title.y = this.layoutRect.y + this.layoutRect.height * 0.1;
 
-  var texts = [
-    
-  ];
-  
   var para1Str = "" +
     "You have successfully recovered all the orbs in the system.\n" +
     "Unlocks are not available in the demo. " +
