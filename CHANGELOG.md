@@ -1,8 +1,37 @@
 # Change Log
 
-## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
+## [v0.7.0](https://github.com/hayesmaker/thrust-platform/tree/v0.7.0) (2016-06-13)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.0-beta...v0.7.0)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.5.2...HEAD)
+**Merged pull requests:**
+
+- Feature/game complete screen [\#17](https://github.com/hayesmaker/thrust-platform/pull/17) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.7.0-beta](https://github.com/hayesmaker/thrust-platform/tree/v0.7.0-beta) (2016-06-12)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.6.2...v0.7.0-beta)
+
+**Merged pull requests:**
+
+- sound crash fixes [\#16](https://github.com/hayesmaker/thrust-platform/pull/16) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.6.2](https://github.com/hayesmaker/thrust-platform/tree/v0.6.2) (2016-06-10)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.6.1...v0.6.2)
+
+**Merged pull requests:**
+
+- Fix/player fire sound [\#15](https://github.com/hayesmaker/thrust-platform/pull/15) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/sound fx off [\#14](https://github.com/hayesmaker/thrust-platform/pull/14) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/sound fx [\#13](https://github.com/hayesmaker/thrust-platform/pull/13) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.6.1](https://github.com/hayesmaker/thrust-platform/tree/v0.6.1) (2016-05-30)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.6.0...v0.6.1)
+
+**Merged pull requests:**
+
+- Feature/implement options ui [\#12](https://github.com/hayesmaker/thrust-platform/pull/12) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.6.0](https://github.com/hayesmaker/thrust-platform/tree/v0.6.0) (2016-05-19)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.5.2...v0.6.0)
 
 **Merged pull requests:**
 
