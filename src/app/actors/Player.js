@@ -149,7 +149,7 @@ p.reset = function() {
  */
 p.start = function (completeCallback, context) {
   console.log('Player :: start');
-  game.physics.p2.enable(this, properties.debugPhysics);
+  game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);

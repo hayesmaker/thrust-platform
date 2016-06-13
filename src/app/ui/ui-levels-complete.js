@@ -120,8 +120,6 @@ p.renderImage = function() {
   rect.endFill();
 
   image.mask = mask;
-
-
 };
 
 p.enable = function () {

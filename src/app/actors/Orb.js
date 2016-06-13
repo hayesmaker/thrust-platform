@@ -34,7 +34,7 @@ var p = Orb.prototype;
  * @method init
  */
 p.init = function () {
-  game.physics.p2.enable(this.sprite, false);
+  game.physics.p2.enable(this.sprite, properties.dev.debugPhysics);
   this.body = this.sprite.body;
   this.body.setCircle(13, 0, 0);
   this.body.motionState = 2;

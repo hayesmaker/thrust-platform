@@ -8,9 +8,10 @@ var client = new Twitter({
 });
 
 var url = 'http://thrust-platform.herokuapp.com';
+var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
 
 var status = function() {
-  return '#HTML5 Thrust 2016 (beta) update: v' + process.env.npm_package_version +' live now at: ' + url;
+  return 'Thrust2016 update launched (v' + process.env.npm_package_version +') live now at: ' + url + 'changelog: ' + changelog + ' #indiedev ';
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){

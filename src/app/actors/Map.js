@@ -59,7 +59,7 @@ p.makeMap = function() {
  */
 p.setPhysicsData = function() {
   var level = levelManager.currentLevel;
-  game.physics.p2.enable(this.sprite, properties.debugPhysics);
+  game.physics.p2.enable(this.sprite, properties.dev.debugPhysics);
   this.body = this.sprite.body;
   this.body.static = true;
   this.body.clearShapes();

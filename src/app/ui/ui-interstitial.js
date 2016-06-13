@@ -119,10 +119,11 @@ p.createLabels = function(x, field, index, label) {
  * @param label
  */
 p.createValues = function(x, field, label) {
+  var fontStyle = this.scaleFontSize(field.style.font);
   if (field.center) {
     field.tf.anchor.setTo(0.5, 0);
   } else {
-    field.tf.x = field.tf.x - 200;
+    field.tf.x = field.tf.x - 200 * gameState.gameScale;
   }
   if (field.valueId) {
     if (label === field.successLabel) {
@@ -131,7 +132,11 @@ p.createValues = function(x, field, label) {
       field.score = 0;
     }
     if (label.length) {
-      field.valueTf = game.add.text(x + 150, game.height * field.yPos, field.score, field.style, this.group);
+      field.valueTf = game.add.text(x + 150 * gameState.gameScale, game.height * field.yPos, field.score, {
+        font: fontStyle,
+        fill: field.style.fill,
+        align: field.style.align
+      }, this.group);
       field.valueTf.alpha = 0;
     }
   }

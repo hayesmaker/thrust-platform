@@ -24,7 +24,7 @@ p.constructor = SpreadFiring;
  */
 p.fire = function () {
   FiringStrategy.prototype.fire.call(this);
-  var magnitude = 240;
+  var magnitude = 280;
   var angle = this.origin.body.rotation + Math.PI + Math.random() * Math.PI;
   this.bullet.body.velocity.x = magnitude * Math.cos(angle) + this.origin.body.velocity.x;
   this.bullet.body.velocity.y = magnitude * Math.sin(angle) + this.origin.body.velocity.y;

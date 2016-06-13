@@ -39,12 +39,13 @@ module.exports = {
     skipSplashScreen: false
   },
   gamePlay: {
-    freeOrbLocking: false,
-    autoOrbLocking: true,
-    tractorBeamLength: 80,
+    firingMagnitude: 350,
+    tractorBeamLength: 85,
     tractorBeamVariation: 10,
-    lockingDuration: 900,
-    parallax: true
+    lockingDuration: 800,
+    parallax: true,
+    freeOrbLocking: false,
+    autoOrbLocking: true
   },
   mapSuffix: '-map',
   levels: {
