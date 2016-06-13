@@ -11,7 +11,7 @@ var url = 'http://thrust-platform.herokuapp.com';
 var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
 
 var status = function() {
-  return 'Thrust2016 update launched (v' + process.env.npm_package_version +') live now at: ' + url + 'changelog: ' + changelog + ' #indiedev ';
+  return 'Thrust 2016 update launched (v' + process.env.npm_package_version +') live now at: ' + url + ' changelog: ' + changelog + ' #indiedev ';
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){
