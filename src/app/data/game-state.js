@@ -163,7 +163,7 @@ module.exports = {
    * @property FUEL_AMOUNT
    * @type {Number}
    */
-  FUEL_AMOUNT: 300,
+  FUEL_AMOUNT: 400,
 
   /**
    * 
@@ -195,7 +195,7 @@ module.exports = {
   newPlayer: function() {
     this.score = 0;
     this.fuel = 5000;
-    this.lives = 2;
+    this.lives = 5;
   },
 
   newGame: function() {
