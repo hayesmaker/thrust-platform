@@ -49,7 +49,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 6,
+    startLevel: 3,
     data: [
       {
         missionSwipe: {
@@ -70,6 +70,11 @@ module.exports = {
           x: 0,
           y: 150
         },
+        spawns: [{
+          x: 500,
+          y: 500,
+          orb: false
+        }],
         startPosition: {
           x: 0,
           y: -50
@@ -111,6 +116,11 @@ module.exports = {
         mapScale: 2,
         world: {width: 1536, height: 2000},
         mapPosition: {x: 0, y: 600},
+        spawns: [{
+          x: 500,
+          y: 400,
+          orb: false
+        }],
         startPosition: {x: 0, y: 0},
         powerStation: {
           x: 600,
@@ -152,12 +162,16 @@ module.exports = {
         mapDataUrl: 'assets/levels/level-3.json',
         mapDataKey: 'level-3',
         mapScale: 2,
-        world: {width: 1920, height: 3000},
-        mapPosition: {x: 0, y: 600},
-        startPosition: {x: 250, y: 0},
+        world: {width: 1920, height: 3200},
+        mapPosition: {x: 0, y: 650},
+        spawns: [{
+          x: 600,
+          y: 500,
+          orb: false
+        }],
         powerStation: {
           x: 1440,
-          y: 700
+          y: 950
         },
         orbPosition: {x: 408, y: 2220},
         orbHolder: {

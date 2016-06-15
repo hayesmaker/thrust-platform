@@ -82,7 +82,7 @@ function Player(collisions, groups) {
 
   console.log('new Player');
 
-  this.setStartPosition(game.width / 2 + levelManager.currentLevel.startPosition.x, game.height / 2 + levelManager.currentLevel.startPosition.y);
+  this.setStartPosition(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'player');
   this.anchor.setTo(0.5);
   this.alpha = 0;
