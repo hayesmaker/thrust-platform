@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
+
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.0...HEAD)
+
+**Merged pull requests:**
+
+- Feature/player spawns [\#19](https://github.com/hayesmaker/thrust-platform/pull/19) ([hayesmaker](https://github.com/hayesmaker))
+- player fire fix, and limpet fire duraiton extended [\#18](https://github.com/hayesmaker/thrust-platform/pull/18) ([hayesmaker](https://github.com/hayesmaker))
+
 ## [v0.7.0](https://github.com/hayesmaker/thrust-platform/tree/v0.7.0) (2016-06-13)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.0-beta...v0.7.0)
 
