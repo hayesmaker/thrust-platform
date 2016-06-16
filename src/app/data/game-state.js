@@ -194,7 +194,7 @@ module.exports = {
   
   newPlayer: function() {
     this.score = 0;
-    this.fuel = 5000;
+    this.fuel = 10000;
     this.lives = 5;
   },
 

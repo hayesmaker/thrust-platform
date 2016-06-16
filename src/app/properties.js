@@ -173,62 +173,62 @@ module.exports = {
           x: 1440,
           y: 950
         },
-        orbPosition: {x: 408, y: 2220},
+        orbPosition: {x: 408, y: 2470},
         orbHolder: {
           x: 408,
-          y: 2255
+          y: 2505
         },
         enemies: [
           {
             x: 1030,
-            y: 1200,
+            y: 1450,
             rotation: 155
           },
           {
             x: 1635,
-            y: 1255,
+            y: 1505,
             rotation: 327
           },
           {
             x: 550,
-            y: 1488,
+            y: 1738,
             rotation: 150
           },
           {
             x: 357,
-            y: 1678,
+            y: 1928,
             rotation: 152
           },
           {
             x: 600,
-            y: 1840,
+            y: 2090,
             rotation: 327
           }
         ],
         fuels: [
           {
             x: 912,
-            y: 569
+            y: 819
           },
           {
             x: 1370,
-            y: 1265
+            y: 1515
           },
           {
             x: 1440,
-            y: 1265
+            y: 1515
           },
           {
             x: 1510,
-            y: 1265
+            y: 1515
           },
           {
             x: 1080,
-            y: 1602
+            y: 1852
           },
           {
             x: 745,
-            y: 1791
+            y: 2041
           }
         ],
         enemyFireRate: 600
@@ -246,7 +246,11 @@ module.exports = {
         mapScale: 2,
         world: {width: 1726, height: 3000},
         mapPosition: {x: 0, y: 1000},
-        startPosition: {x: 250, y: 200},
+        spawns: [{
+          x: 500,
+          y: 500,
+          orb: false
+        }],
         powerStation: {
           x: 326,
           y: 1612
@@ -308,6 +312,11 @@ module.exports = {
         mapScale: 2,
         world: {width: 1920, height: 2810},
         mapPosition: {x: 0, y: 1185},
+        spawns: [{
+          x: 500,
+          y: 400,
+          orb: false
+        }],
         startPosition: {x: 250, y: 0},
         orbPosition: {x: 1560, y: 2400},
         powerStation: {
@@ -411,6 +420,11 @@ module.exports = {
         mapScale: 2,
         world: {width: 2306, height: 2700},
         mapPosition: {x: 0, y: 960},
+        spawns: [{
+          x: 400,
+          y: 400,
+          orb: false
+        }],
         startPosition: {x: 0, y: 0},
         powerStation: {
           x: 1870,
