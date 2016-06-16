@@ -127,7 +127,7 @@ p.init = function () {
   this.explodeEmitter.makeParticles();
   this.explodeEmitter.gravity = 200;
 
-  this.thrustEmitter = game.add.emitter(this.x, this.y, 50);
+  this.thrustEmitter = game.add.emitter(this.x, this.y, 10);
   this.thrustEmitter.particleClass = ShipParticle;
   this.thrustEmitter.minRotation = 0;
   this.thrustEmitter.maxRotation = 0;
@@ -172,7 +172,7 @@ p.stop = function() {
 
 p.levelExit = function() {
   this.inPlay = false;
-  this.thrustEmitter.on = false;
+  //this.thrustEmitter.on = false;
   this.thrustSfx.stop();
 };
 
@@ -241,9 +241,9 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
  * @method update§
  */
 p.update = function () {
-  if (this.alive ) {
-    this.exhaustUpdate();
-  }
+  //if (this.alive ) {
+    //this.exhaustUpdate();
+  //}
 };
 
 /**
@@ -303,7 +303,7 @@ p.checkThrust = function(buttonAPressed, cursors) {
           this.thrustSfx.play(ThrustSound, 0, 0.3, true);
         }
         //flow(lifespan, frequency, quantity, total, immediate)
-        this.thrustEmitter.flow(200, 10, 2, -1, true);
+        //this.thrustEmitter.flow(200, 10, 2, -1, true);
       }
       if (gameState.fuel % 5 === 0) {
 
