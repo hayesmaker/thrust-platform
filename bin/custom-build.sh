@@ -13,5 +13,5 @@ else
 fi
 npm run build
 
-#  copy and paste for local level
+#  copy and paste for local levelsd
 #  curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz
