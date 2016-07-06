@@ -8,12 +8,12 @@
  * @type {Object}
  */
 module.exports = {
-  collideWorldBounds: true,
-  enableTouchPad: false,
-  enableJoyPad: false,
   /**
    * @deprecated
    */
+  collideWorldBounds: true,
+  enableTouchPad: false,
+  enableJoyPad: false,
   fatalCollisions: true,
   /**
    * @deprecated
@@ -32,11 +32,11 @@ module.exports = {
   },
   dev: {
     debugPhysics: false,
-    debugPositions: false,
+    debugPositions: true,
     stats: true,
     mode: false,
-    skipIntro: false,
-    skipSplashScreen: false
+    skipIntro: true,
+    skipSplashScreen: true
   },
   gamePlay: {
     firingMagnitude: 350,
@@ -49,7 +49,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 1,
+    startLevel: 3,
     data: [
       {
         missionSwipe: {
@@ -167,6 +167,14 @@ module.exports = {
         spawns: [{
           x: 600,
           y: 500,
+          orb: false
+        }, {
+          x: 1110,
+          y: 1560,
+          orb: true
+        }, {
+          x: 415,
+          y: 2050,
           orb: false
         }],
         powerStation: {
