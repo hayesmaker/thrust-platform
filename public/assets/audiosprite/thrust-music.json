@@ -1,0 +1,15 @@
+{
+  "resources": [
+    "_dev/audio/result/thrust-music.ogg",
+    "_dev/audio/result/thrust-music.m4a",
+    "_dev/audio/result/thrust-music.mp3",
+    "_dev/audio/result/thrust-music.ac3"
+  ],
+  "spritemap": {
+    "thrust-title-theme1": {
+      "start": 0,
+      "end": 84,
+      "loop": true
+    }
+  }
+}

@@ -151,6 +151,16 @@ module.exports = {
       state === gameState.PLAY_STATES.INTERSTITIAL
     );
     ui.showScreen(state, shouldFadeBackground);
+
+    if (state === gameState.PLAY_STATES.MENU && !sound.music) {
+      sound.playMusic("thrust-title-theme1", 1, true);
+      
+    }
+
+    if (state === gameState.PLAY_STATES.PLAY) {
+      sound.stopMusic();
+    }
+
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
