@@ -22,9 +22,23 @@ var sound = require('../utils/sound');
  * @constructor
  */
 function Player(collisions, groups) {
-  
+
+  /**
+   * @property inPlay
+   * @type {boolean}
+   */
   this.inPlay = false;
 
+  /**
+   * @property spawnWithOrb
+   * @type {boolean}
+   */
+  this.spawnWithOrb = false;
+
+  /**
+   * @property thrustStarted
+   * @type {boolean}
+   */
   this.thrustStarted = false;
   /**
    * The collisions container
@@ -80,10 +94,17 @@ function Player(collisions, groups) {
    */
   this.initialPos = new Phaser.Point();
 
+  /**
+   * @property respawnPos
+   * @type {Phaser.Point}
+   */
+  this.respawnPos = new Phaser.Point();
+
   console.log('new Player');
 
   this.setStartPosition(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
-  Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'player');
+  this.respawnPos.copyFrom(this.initialPos);
+  Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'player');
   this.anchor.setTo(0.5);
   this.alpha = 0;
   this.init();
@@ -122,10 +143,10 @@ p.setTractorBeam = function (tractorBeam) {
 p.init = function () {
   this.alive = false;
   this.turret = this.createTurret();
-  this.explodeEmitter = game.add.emitter(this.x, this.y, 10);
+  this.explodeEmitter = game.add.emitter(this.x, this.y, 20);
   this.explodeEmitter.particleClass = ShipParticle;
   this.explodeEmitter.makeParticles();
-  this.explodeEmitter.gravity = 200;
+  this.explodeEmitter.gravity = 10;
 
   this.thrustEmitter = game.add.emitter(this.x, this.y, 10);
   this.thrustEmitter.particleClass = ShipParticle;
@@ -195,9 +216,10 @@ p.spawn = function() {
   this.inGameArea = true;
   this.body.motionState = 1;
   this.alpha = 0;
+  this.visible = true;
   this.alive = true;
   this.inPlay = true;
-  TweenMax.to(this, 0.4, {alpha: 1, ease: Quad.easeOut} );
+  TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut} );
 };
 
 /**
@@ -205,14 +227,14 @@ p.spawn = function() {
  * Either at mission start, or after a death.
  *
  * @method respawn
- * @param completeCallback
- * @param thisArg
- * @param removeShip {Boolean}
+ * @param [completeCallback]
+ * @param [thisArg]
+ * @param [removeShip] {Boolean}
  */
 p.respawn = function(completeCallback, thisArg, removeShip) {
   var self = this;
   console.warn('player :: respawn :: this.initialPos', this.initialPos);
-  this.body.reset(this.initialPos.x, this.initialPos.y);
+  this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
@@ -225,11 +247,15 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   }
   this.tractorBeam.orb.respawn();
   sound.playSound('teleport-in3');
-  particles.playerTeleport(this.body.x, this.body.y, function() {
+  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
     }
     self.spawn();
+    if (self.spawnWithOrb) {
+      self.tractorBeam.orb.respawn(true);
+      self.tractorBeam.lock();
+    }
   });
 };
 
@@ -385,12 +411,45 @@ p.rotate = function (val) {
  * @method explosion
  */
 p.explosion = function () {
-  this.explodeEmitter.x = this.position.x;
-  this.explodeEmitter.y = this.position.y;
-  this.explodeEmitter.start(true, 500, null, 1);
-  sound.playSound('boom1');
-  this.thrustSfx.stop();
-  this.tractorBeam.breakLink();
+  if (this.alive) {
+    var hasOrb = this.tractorBeam.isLocked;
+    console.warn('explosion');
+    this.explodeEmitter.x = this.position.x;
+    this.explodeEmitter.y = this.position.y;
+    this.explodeEmitter.start(true, 1500, null, 40);
+    sound.playSound('boom1');
+    this.thrustSfx.stop();
+    if (hasOrb) {
+      this.tractorBeam.breakLink();
+    }
+    this.visible = false;
+    this.stop();
+    this.setRespawnPosition(this.position, hasOrb);
+  }
+};
+
+/**
+ *
+ *
+ * @method setRespawnPosition
+ * @param position {Phaser.Point}
+ * @param hasOrb {Boolean}
+ */
+p.setRespawnPosition = function(position, hasOrb) {
+  var spawns = levelManager.currentLevel.spawns;
+  var distances = [];
+  var distance;
+  _.each(spawns, function(spawnPosition) {
+    distance = utils.distAtoB(position, spawnPosition);
+    distances.push(distance);
+  });
+  var minDistance = _.min(distances);
+  console.log('setRespawnPosition :: distances / spawns:', distances, spawns);
+  this.respawnPos = spawns[distances.indexOf(minDistance)];
+  if (this.respawnPos.orb && hasOrb) {
+    this.spawnWithOrb = true;
+  }
+  console.log('respawnPos=', this.respawnPos, this.spawnWithOrb);
 };
 
 /**
@@ -423,7 +482,7 @@ p.death = function () {
   this.thrustEmitter.on = false;
   this.inPlay = false;
   this.alive = false;
-  game.time.events.add(3000, _.bind(this.checkRespawn, this));
+  game.time.events.add(2000, _.bind(this.checkRespawn, this));
 };
 
 /**

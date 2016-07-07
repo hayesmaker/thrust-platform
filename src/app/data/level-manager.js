@@ -44,6 +44,7 @@ module.exports = {
    */
   init: function() {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
+    console.log('level-manager ::  init : customLevel= %s', customLevel);
     this.levels = properties.levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;

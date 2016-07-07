@@ -382,9 +382,9 @@ module.exports = {
    * @method checkForFuelDistance
    */
   checkForFuelDistance: function () {
-    _.each(this.fuels, function (fuel) {
+    _.each(this.fuels, _.bind(function (fuel) {
       fuel.update();
-    }, this);
+    }, this));
   },
 
   /**
@@ -425,8 +425,8 @@ module.exports = {
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
-    _.each(this.level.enemies, this.createLimpet, this);
-    _.each(this.level.fuels, this.createFuel, this);
+    _.each(this.level.enemies, _.bind(this.createLimpet, this));
+    _.each(this.level.fuels, _.bind(this.createFuel, this));
     this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
     this.powerStation.initPhysics('powerStationPhysics', 'power-station');
     this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
@@ -509,12 +509,12 @@ module.exports = {
     }
     this.groups.actors.add(this.player);
     this.groups.actors.add(this.orb.sprite);
-    _.each(this.limpetGuns, function (limpet) {
+    _.each(this.limpetGuns, _.bind(function (limpet) {
       this.groups.enemies.add(limpet);
-    }, this);
-    _.each(this.fuels, function (fuel) {
+    }, this));
+    _.each(this.fuels, _.bind(function (fuel) {
       this.groups.fuels.add(fuel);
-    }, this);
+    }, this));
     this.groups.actors.add(this.powerStation);
     this.groups.actors.add(this.orbHolder);
     this.groups.swapTerrain();
