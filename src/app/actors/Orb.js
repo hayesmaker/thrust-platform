@@ -89,11 +89,19 @@ p.crash = function () {
 
 /**
  * Stop the orb and reset location to starting position
+ * Or if Player crashed with orb, and near an orb spawn location, spawn the orb near the player
  *
  * @method respawn
  */
-p.respawn = function () {
-  this.body.reset(this.initialPosition.x, this.initialPosition.y, true, true);
+p.respawn = function (withShip) {
+  var orbSpawnPosition = new Phaser.Point();
+  if (withShip) {
+    orbSpawnPosition.copyFrom(this.player.position);
+    orbSpawnPosition.y = orbSpawnPosition.y + properties.gamePlay.tractorBeamLength;
+  } else {
+    orbSpawnPosition.copyFrom(this.initialPosition);
+  }
+  this.body.reset(orbSpawnPosition.x, orbSpawnPosition.y, true, true);
   this.body.motionState = 2;
   this.sprite.alpha = 1;
 };

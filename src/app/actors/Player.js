@@ -22,9 +22,23 @@ var sound = require('../utils/sound');
  * @constructor
  */
 function Player(collisions, groups) {
-  
+
+  /**
+   * @property inPlay
+   * @type {boolean}
+   */
   this.inPlay = false;
 
+  /**
+   * @property spawnWithOrb
+   * @type {boolean}
+   */
+  this.spawnWithOrb = false;
+
+  /**
+   * @property thrustStarted
+   * @type {boolean}
+   */
   this.thrustStarted = false;
   /**
    * The collisions container
@@ -80,6 +94,10 @@ function Player(collisions, groups) {
    */
   this.initialPos = new Phaser.Point();
 
+  /**
+   * @property respawnPos
+   * @type {Phaser.Point}
+   */
   this.respawnPos = new Phaser.Point();
 
   console.log('new Player');
@@ -209,9 +227,9 @@ p.spawn = function() {
  * Either at mission start, or after a death.
  *
  * @method respawn
- * @param completeCallback
- * @param thisArg
- * @param removeShip {Boolean}
+ * @param [completeCallback]
+ * @param [thisArg]
+ * @param [removeShip] {Boolean}
  */
 p.respawn = function(completeCallback, thisArg, removeShip) {
   var self = this;
@@ -234,6 +252,10 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
       completeCallback.call(thisArg);
     }
     self.spawn();
+    if (self.spawnWithOrb) {
+      self.tractorBeam.orb.respawn(true);
+      self.tractorBeam.lock();
+    }
   });
 };
 
@@ -390,16 +412,19 @@ p.rotate = function (val) {
  */
 p.explosion = function () {
   if (this.alive) {
+    var hasOrb = this.tractorBeam.isLocked;
     console.warn('explosion');
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);
     sound.playSound('boom1');
     this.thrustSfx.stop();
-    this.tractorBeam.breakLink();
+    if (hasOrb) {
+      this.tractorBeam.breakLink();
+    }
     this.visible = false;
     this.stop();
-    this.setRespawnPosition(this.position);
+    this.setRespawnPosition(this.position, hasOrb);
   }
 };
 
@@ -408,8 +433,9 @@ p.explosion = function () {
  *
  * @method setRespawnPosition
  * @param position {Phaser.Point}
+ * @param hasOrb {Boolean}
  */
-p.setRespawnPosition = function(position) {
+p.setRespawnPosition = function(position, hasOrb) {
   var spawns = levelManager.currentLevel.spawns;
   var distances = [];
   var distance;
@@ -417,11 +443,13 @@ p.setRespawnPosition = function(position) {
     distance = utils.distAtoB(position, spawnPosition);
     distances.push(distance);
   });
-
   var minDistance = _.min(distances);
   console.log('setRespawnPosition :: distances / spawns:', distances, spawns);
   this.respawnPos = spawns[distances.indexOf(minDistance)];
-  console.log('respawnPos=', this.respawnPos);
+  if (this.respawnPos.orb && hasOrb) {
+    this.spawnWithOrb = true;
+  }
+  console.log('respawnPos=', this.respawnPos, this.spawnWithOrb);
 };
 
 /**
