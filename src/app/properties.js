@@ -32,11 +32,11 @@ module.exports = {
   },
   dev: {
     debugPhysics: false,
-    debugPositions: true,
+    debugPositions: false,
     stats: true,
-    mode: true,
-    skipIntro: true,
-    skipSplashScreen: true
+    mode: false,
+    skipIntro: false,
+    skipSplashScreen: false
   },
   gamePlay: {
     firingMagnitude: 350,
@@ -49,7 +49,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 6,
+    startLevel: 1,
     data: [
       {
         missionSwipe: {
