@@ -34,7 +34,7 @@ module.exports = {
     debugPhysics: false,
     debugPositions: true,
     stats: true,
-    mode: false,
+    mode: true,
     skipIntro: true,
     skipSplashScreen: true
   },
@@ -49,7 +49,7 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
-    startLevel: 3,
+    startLevel: 6,
     data: [
       {
         missionSwipe: {
@@ -258,6 +258,14 @@ module.exports = {
           x: 500,
           y: 500,
           orb: false
+        }, {
+          x: 773,
+          y: 1157,
+          orb: true
+        }, {
+          x: 1330,
+          y: 1700,
+          orb: false
         }],
         powerStation: {
           x: 326,
@@ -323,6 +331,18 @@ module.exports = {
         spawns: [{
           x: 500,
           y: 400,
+          orb: false
+        }, {
+          x: 1470,
+          y: 1327,
+          orb: true
+        }, {
+          x: 340,
+          y: 1690,
+          orb: true
+        }, {
+          x: 1206,
+          y: 1806,
           orb: false
         }],
         startPosition: {x: 250, y: 0},
@@ -431,6 +451,22 @@ module.exports = {
         spawns: [{
           x: 400,
           y: 400,
+          orb: false
+        }, {
+          x: 1020,
+          y: 1282,
+          orb: true
+        }, {
+          x: 987,
+          y: 1852,
+          orb: true
+        }, {
+          x: 781,
+          y: 2195,
+          orb: true
+        }, {
+          x: 1916,
+          y: 2030,
           orb: false
         }],
         startPosition: {x: 0, y: 0},

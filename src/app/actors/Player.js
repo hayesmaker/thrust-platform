@@ -247,7 +247,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   }
   this.tractorBeam.orb.respawn();
   sound.playSound('teleport-in3');
-  particles.playerTeleport(this.body.x, this.body.y, function() {
+  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
     }
