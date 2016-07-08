@@ -301,6 +301,20 @@ p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
 };
 
 /**
+ * @method checkPlayerControlJoypad
+ */
+p.checkPlayerControlJoypad = function() {
+  if (!this.alive || !this.inGameArea) {
+    return;
+  }
+  this.checkThrust(game.externalJoypad.thrustButton.isDown);
+  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
+    this.fire();
+  }
+  this.checkRotate(null, game.externalJoypad);
+};
+
+/**
  * @method checkRotate
  * @param stick
  * @param cursors
@@ -321,7 +335,7 @@ p.checkRotate = function(stick, cursors) {
  * @param cursors
  */
 p.checkThrust = function(buttonAPressed, cursors) {
-  if (cursors.up.isDown || buttonAPressed) {
+  if (cursors && cursors.up.isDown || buttonAPressed) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;

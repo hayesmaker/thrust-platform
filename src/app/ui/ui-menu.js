@@ -96,6 +96,21 @@ p.render = function () {
  */
 p.update = function () {
   var stick = game.controls.stick;
+  var joypad = game.externalJoypad;
+  if (joypad) {
+    if (joypad.up.isDown) {
+      this.stickUpPressed = true;
+      this.stickDownPressed = false;
+    } else if (joypad.down.isDown) {
+      this.stickUpPressed = false;
+      this.stickDownPressed = true;
+    } else {
+      this.checkPressed();
+    }
+    if (joypad.fireButton.isDown) {
+      this.spacePressed();
+    }
+  }
   if (stick) {
     if (stick.isDown) {
       if (stick.direction === Phaser.UP) {
@@ -106,15 +121,22 @@ p.update = function () {
         this.stickDownPressed = true;
       }
     } else {
-      if (this.stickDownPressed) {
-        this.stickDownPressed = false;
-        this.downPressed();
-      }
-      if (this.stickUpPressed) {
-        this.stickUpPressed = false;
-        this.upPressed();
-      }
+      this.checkPressed();
     }
+  }
+};
+
+/**
+ * @method checkPressed
+ */
+p.checkPressed = function() {
+  if (this.stickDownPressed) {
+    this.stickDownPressed = false;
+    this.downPressed();
+  }
+  if (this.stickUpPressed) {
+    this.stickUpPressed = false;
+    this.upPressed();
   }
 };
 

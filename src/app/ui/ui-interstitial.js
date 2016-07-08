@@ -157,9 +157,24 @@ p.render = function() {
 };
 
 /**
+ * Called by play state only for external joypad support
+ *
+ * @method update
+ */
+p.update = function() {
+  if (!this.enabled) {
+    return;
+  }
+  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
+    this.spacePressed();
+  }
+};
+
+/**
  * @method enable
  */
 p.enable = function() {
+  this.enabled = true;
   game.controls.spacePress.onDown.add(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
@@ -170,6 +185,7 @@ p.enable = function() {
  * @method disable
  */
 p.disable = function() {
+  this.enabled = false;
   game.controls.spacePress.onDown.remove(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);

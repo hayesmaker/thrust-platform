@@ -30,6 +30,7 @@ var sound = require('../utils/sound');
  * @static
  */
 module.exports = {
+  externalGamePadDetected: false,
   level: null,
   collisions: null,
   groups: null,
@@ -288,8 +289,12 @@ module.exports = {
     if (!this.inPlay || !this.cursors) {
       return;
     }
-    this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
     this.tractorBeam.checkDistance(this.player, this.isXDown);
+    if (game.externalJoypad) {
+      this.player.checkPlayerControlJoypad();
+    } else {
+      this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
+    }
   },
 
   /**
@@ -316,7 +321,6 @@ module.exports = {
         this.orb.stop();
         ui.countdown.stop();
         sound.playSound('teleport-in3');
-        //todo move teleport logic to here:
         this.player.levelExit();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
@@ -406,6 +410,9 @@ module.exports = {
     ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
     ui.lives.update(Math.max(gameState.lives, 0), true);
+    if (game.externalJoypad && gameState.currentState === gameState.PLAY_STATES.INTERSTITIAL) {
+      ui.interstitial.update();
+    }
   },
 
   /**
@@ -469,15 +476,14 @@ module.exports = {
     //do planet destruction anims
 
   },
-
-
+  
   /**
    * Creates the user interface and touch controls
    *
    * @method createUi
    */
   createUi: function () {
-    if (game.controls.isJoypadEnabled) {
+    if (game.controls.isJoypadEnabled && !game.externalJoypad) {
       game.controls.initJoypad();
     }
     ui.init(this.menuItemSelected, this);
@@ -545,12 +551,11 @@ module.exports = {
 
   /**
    * Initialises player control
-   * also activates enemy
    *
    * @method initControls
    */
   initControls: function () {
-    if (game.controls.isJoypadEnabled) {
+    if (game.controls.isJoypadEnabled && !game.externalJoypad) {
       this.stick = game.controls.stick;
       game.controls.buttonA.onDown.add(this.pressButtonA, this);
       game.controls.buttonA.onUp.add(this.upButtonA, this);
