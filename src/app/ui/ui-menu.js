@@ -25,6 +25,11 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
 }
 
 /**
+ * @property joypadFireButton
+ * @type {boolean}
+ */
+p.joypadFireButton = true;
+/**
  * @property group
  * @type {Phaser.Group}
  */
@@ -107,11 +112,19 @@ p.update = function () {
     } else {
       this.checkPressed();
     }
-    if (joypad.fireButton.isDown) {
-      this.spacePressed();
-    }
-  }
-  if (stick) {
+    game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
+      if (buttonCode === Phaser.Gamepad.BUTTON_1) {
+        this.joypadFireButton = true;
+      }
+    }.bind(this);
+    game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
+      if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
+        this.joypadFireButton = false;
+        this.spacePressed();
+      }
+    }.bind(this);
+
+  } else if (stick) {
     if (stick.isDown) {
       if (stick.direction === Phaser.UP) {
         this.stickUpPressed = true;

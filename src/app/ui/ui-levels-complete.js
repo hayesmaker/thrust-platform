@@ -35,7 +35,7 @@ p.render = function () {
   this.enable();
 };
 
-p.createDisplay = function() {
+p.createDisplay = function () {
 
   var titleFontSize = Math.floor(24 * this.scale);
   var defaultFontSize = Math.floor(16 * this.scale);
@@ -47,16 +47,16 @@ p.createDisplay = function() {
 
   this.renderImage();
   /*
-  var rect = game.add.graphics(0, 0, this.group);
-  rect.beginFill(0x000000, 0.8);
-  rect.lineStyle(2, 0xffffff, 1);
-  rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
-  rect.endFill();
-  */
+   var rect = game.add.graphics(0, 0, this.group);
+   rect.beginFill(0x000000, 0.8);
+   rect.lineStyle(2, 0xffffff, 1);
+   rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
+   rect.endFill();
+   */
   this.renderText();
 };
 
-p.renderText = function() {
+p.renderText = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "CONGRATULATIONS", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
   this.title.y = this.layoutRect.y + this.layoutRect.height * 0.1;
@@ -89,27 +89,26 @@ p.renderText = function() {
 
   this.pressFire.y = this.layoutRect.y + this.layoutRect.height * 0.9;
 
-  this.title.stroke =  this.paragraph1.stroke = this.pressFire.stroke = '#000000';
+  this.title.stroke = this.paragraph1.stroke = this.pressFire.stroke = '#000000';
   this.title.strokeThickness = this.paragraph1.strokeThickness = this.pressFire.strokeThickness = 6;
   this.title.fill = this.paragraph1.fill = this.pressFire.fill = '#ffffff';
 };
 
-p.renderImage = function() {
-  var image = game.add.image(0,0, 'coverImage', '', this.group);
-  var scaleX = (game.width - game.width/30) / image.width;
+p.renderImage = function () {
+  var image = game.add.image(0, 0, 'coverImage', '', this.group);
+  var scaleX = (game.width - game.width / 30) / image.width;
   image.alpha = 0.5;
   image.scale.setTo(scaleX);
-  image.x = game.width/2 - image.width/2;
-  image.y = image.x;
+  image.x = image.y = game.width / 2 - image.width / 2;
 
   this.layoutRect = new Phaser.Rectangle(
     this.padding,
     this.padding,
-    game.width - this.padding*2,
+    game.width - this.padding * 2,
     game.height - this.padding * 2
   );
 
-  var mask = game.add.graphics(0,0, this.group);
+  var mask = game.add.graphics(0, 0, this.group);
   mask.beginFill(0xff0000, 1);
   mask.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
   mask.endFill();
@@ -123,6 +122,7 @@ p.renderImage = function() {
 };
 
 p.enable = function () {
+  this.enabled = true;
   game.controls.spacePress.onDown.add(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
@@ -130,9 +130,19 @@ p.enable = function () {
 };
 
 p.disable = function () {
+  this.enabled = false;
   game.controls.spacePress.onDown.remove(this.spacePressed, this);
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  }
+};
+
+p.update = function() {
+  if (!this.enabled) {
+    return;
+  }
+  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
+    this.spacePressed();
   }
 };
 

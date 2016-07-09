@@ -88,7 +88,7 @@ module.exports = {
 
     game.input.gamepad.start();
 
-    userControl = new UserControl((features.isTouchScreen || properties.enableJoypad) && !this.externalGamePadDetected);
+    userControl = new UserControl((features.isTouchScreen || properties.enableJoypad) && this.externalGamePadDetected);
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
     console.warn("TouchScreenDetected:", features.isTouchScreen);
     console.warn("ScaleMode:", game.scale.scaleMode);

@@ -24,6 +24,12 @@ var sound = require('../utils/sound');
 function Player(collisions, groups) {
 
   /**
+   * @property joypadFireButton
+   * @type {boolean}
+   * @default true
+   */
+  this.joypadFireButton = true;
+  /**
    * @property inPlay
    * @type {boolean}
    */
@@ -301,17 +307,39 @@ p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
 };
 
 /**
+ * Called by play update method, only when an external joypad
+ * is connected.
+ *
  * @method checkPlayerControlJoypad
  */
 p.checkPlayerControlJoypad = function() {
   if (!this.alive || !this.inGameArea) {
     return;
   }
+  this.checkJoypadFire();
   this.checkThrust(game.externalJoypad.thrustButton.isDown);
-  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
-    this.fire();
-  }
   this.checkRotate(null, game.externalJoypad);
+};
+
+/**
+ * Necessary to check onUpCallback to stop firing constantly when
+ * joypad fire button is pressed down.
+ * Would be nice to find a nicer way to do this.
+ *
+ * @method checkJoypadFire
+ */
+p.checkJoypadFire = function() {
+  game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
+    if (buttonCode === Phaser.Gamepad.BUTTON_1) {
+      this.joypadFireButton = true;
+    }
+  }.bind(this);
+  game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
+    if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
+      this.joypadFireButton = false;
+      this.fire();
+    }
+  }.bind(this);
 };
 
 /**

@@ -86,17 +86,14 @@ module.exports = {
     this.uiUpdate();
     this.checkGameCondition();
     this.updateCamera();
-    if (this.uiMode && game.controls.isJoypadEnabled) {
-      ui.update();
+    if (this.uiMode) {
+      if (game.controls.isJoypadEnabled || game.externalJoypad) {
+        ui.update();
+      }
     }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
-    //this.updatePostProcessing();
-  },
-
-  updatePostProcessing: function() {
-
   },
 
   /**
@@ -283,9 +280,6 @@ module.exports = {
    * @method checkPlayerInput
    */
   checkPlayerInput: function () {
-    if (game.controls.isJoypadEnabled && gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
-      ui.highscores.checkMobileInput(this.buttonBDown);
-    }
     if (!this.inPlay || !this.cursors) {
       return;
     }
@@ -410,8 +404,17 @@ module.exports = {
     ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
     ui.lives.update(Math.max(gameState.lives, 0), true);
-    if (game.externalJoypad && gameState.currentState === gameState.PLAY_STATES.INTERSTITIAL) {
-      ui.interstitial.update();
+
+    if (gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
+      ui.highscores.update();
+    }
+
+    if (game.externalJoypad) {
+      if (gameState.currentState === gameState.PLAY_STATES.INTERSTITIAL) {
+        ui.interstitial.update();
+      } else if (gameState.currentState === gameState.PLAY_STATES.COMPLETE) {
+        ui.levelsComplete.update();
+      }
     }
   },
 

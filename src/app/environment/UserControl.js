@@ -11,6 +11,7 @@ var game = window.game;
  */
 function UserControl(isTouchDevice) {
   this.initKeys();
+  console.log('UserControl :: constructor :: isJoypadEnabled=', isTouchDevice);
   this.isJoypadEnabled = isTouchDevice;
 }
 

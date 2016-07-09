@@ -59,15 +59,15 @@ module.exports = {
     },
     {
       name: "Christopher",
-      score: 3000
+      score: 200
     },
     {
       name: "Bilbo",
-      score: 2000
+      score: 100
     },
     {
       name: "Baggins",
-      score: 1000
+      score: 0
     }
   ],
 
@@ -195,7 +195,7 @@ module.exports = {
   newPlayer: function() {
     this.score = 0;
     this.fuel = 10000;
-    this.lives = 5;
+    this.lives = 1;
   },
 
   newGame: function() {
