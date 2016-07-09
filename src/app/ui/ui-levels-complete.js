@@ -36,23 +36,13 @@ p.render = function () {
 };
 
 p.createDisplay = function () {
-
   var titleFontSize = Math.floor(24 * this.scale);
   var defaultFontSize = Math.floor(16 * this.scale);
-
   this.styles = {
     title: {font: titleFontSize + 'px thrust_regular', fill: '#ffffff', align: 'left'},
     default: {font: defaultFontSize + 'px thrust_regular', fill: '#ffffff', align: 'left'}
   };
-
   this.renderImage();
-  /*
-   var rect = game.add.graphics(0, 0, this.group);
-   rect.beginFill(0x000000, 0.8);
-   rect.lineStyle(2, 0xffffff, 1);
-   rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
-   rect.endFill();
-   */
   this.renderText();
 };
 
@@ -60,23 +50,12 @@ p.renderText = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "CONGRATULATIONS", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
   this.title.y = this.layoutRect.y + this.layoutRect.height * 0.1;
-
   var para1Str = "" +
     "You have successfully recovered all the orbs in the system.\n" +
-    "Unlocks are not available in the demo. " +
+    "Demo Completed. " +
     "\n\n" +
-    "Unlocks:" +
-    "\n" +
-    "* New game mode: Speed run" +
-    "\n" +
-    "* New game mode: Endless mode" +
-    "\n" +
-    "* New ship skin" +
-    "\n\n" +
-    "Download the game now from the vendors page." +
-    "\n\n" +
-    "Thank you for playing Thrust 2016\n";
-
+    "Thank you for playing Thrust 2016\n" +
+    "Download the full game now from the vendors page.";
   this.paragraph1 = game.add.text(this.layoutRect.x + this.padding * 2, 0, para1Str, this.styles.default, this.group);
   this.paragraph1.width = this.layoutRect.width - this.padding * 4;
 
@@ -123,15 +102,19 @@ p.renderImage = function () {
 
 p.enable = function () {
   this.enabled = true;
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
 
 p.disable = function () {
   this.enabled = false;
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
@@ -141,7 +124,7 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
+  if (game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
     this.spacePressed();
   }
 };

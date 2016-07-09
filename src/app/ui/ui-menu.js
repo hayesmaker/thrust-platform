@@ -200,10 +200,12 @@ p.enable = function () {
   this.selectedIndex = 0;
   console.log('ui-menu :: enable', this.selectedIndex);
   this.selectItemByIndex(this.selectedIndex);
-  game.controls.cursors.up.onDown.add(this.upPressed, this);
-  game.controls.cursors.down.onDown.add(this.downPressed, this);
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.add(this.upPressed, this);
+    game.controls.cursors.down.onDown.add(this.downPressed, this);
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
@@ -214,9 +216,11 @@ p.enable = function () {
  */
 p.disable = function () {
   console.log('ui-menu :: disable');
-  game.controls.cursors.up.onDown.remove(this.upPressed, this);
-  game.controls.cursors.down.onDown.remove(this.downPressed, this);
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.remove(this.upPressed, this);
+    game.controls.cursors.down.onDown.remove(this.downPressed, this);
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }

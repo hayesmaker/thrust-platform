@@ -67,30 +67,10 @@ module.exports = {
     if (properties.dev.stats) {
       game.time.advancedTiming = true;
     }
-    this.controller = game.input.gamepad.pad1;
-    this.controller.addCallbacks(this, {
-
-      onDown: function(code) {
-        //alert('code:' + code);
-      },
-
-      onConnect: function() {
-        this.externalGamePadDetected = true;
-        game.externalJoypad = {};
-        game.externalJoypad.fireButton = this.controller.getButton(Phaser.Gamepad.BUTTON_1);
-        game.externalJoypad.thrustButton = this.controller.getButton(Phaser.Gamepad.BUTTON_0);
-        game.externalJoypad.up = this.controller.getButton(Phaser.Gamepad.BUTTON_12);
-        game.externalJoypad.down = this.controller.getButton(Phaser.Gamepad.BUTTON_13);
-        game.externalJoypad.left = this.controller.getButton(Phaser.Gamepad.BUTTON_14);
-        game.externalJoypad.right = this.controller.getButton(Phaser.Gamepad.BUTTON_15);
-      }.bind(this)
-    });
-
-    game.input.gamepad.start();
-
-    userControl = new UserControl((features.isTouchScreen || properties.enableJoypad) && this.externalGamePadDetected);
+    userControl = new UserControl(features);
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
-    console.warn("TouchScreenDetected:", features.isTouchScreen);
+    console.warn("TouchScreenDetected : features=", features);
+    console.warn("ControlMethods:", userControl);
     console.warn("ScaleMode:", game.scale.scaleMode);
     game.controls = userControl;
     game.e2e = {};
@@ -105,7 +85,9 @@ module.exports = {
       spr.width = properties.width;
       spr.height = properties.height;
       game.e2e.boot = this;
-      game.controls.spacePress.onDown.add(this.startLoad, this);
+      if (game.controls.useKeys) {
+        game.controls.spacePress.onDown.add(this.startLoad, this);
+      }
     }
   },
 
@@ -124,7 +106,8 @@ module.exports = {
    *
    * @method startGame
    */
-  startLoad: function() {
+  startLoad: function(spr) {
+    spr.events.onInputDown.remove(this.startLoad, this);
     game.state.start('load', false, false);
   }
 };

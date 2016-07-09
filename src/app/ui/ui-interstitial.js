@@ -165,7 +165,7 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.input.gamepad.pad1.justPressed(Phaser.Gamepad.BUTTON_1)) {
+  if (game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
     this.spacePressed();
   }
 };
@@ -175,8 +175,10 @@ p.update = function() {
  */
 p.enable = function() {
   this.enabled = true;
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
@@ -186,8 +188,10 @@ p.enable = function() {
  */
 p.disable = function() {
   this.enabled = false;
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
 };

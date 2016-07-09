@@ -95,6 +95,7 @@ module.exports = {
   },
 
   /**
+   * @method newScoreEntered
    * @param name
    */
   newScoreEntered: function(name) {

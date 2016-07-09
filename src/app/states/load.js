@@ -36,7 +36,7 @@ module.exports = {
     this.loadProgressTxt = game.add.text(0, 0, '0%', style);
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
-    if (game.controls.isJoypadEnabled) {
+    if (game.controls.useVirtualJoypad) {
       game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     }
     if (properties.drawBackground) {

@@ -294,15 +294,14 @@ p.createTurret = function () {
 
 /**
  * @method checkPlayerControl
- * @param stick
  * @param cursors
  * @param buttonAPressed
  */
-p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
+p.checkPlayerControl = function(cursors, buttonAPressed) {
   if (!this.alive || !this.inGameArea) {
     return;
   }
-  this.checkRotate(stick, cursors);
+  this.checkRotate(game.controls.stick, cursors);
   this.checkThrust(buttonAPressed, cursors);
 };
 
@@ -348,9 +347,9 @@ p.checkJoypadFire = function() {
  * @param cursors
  */
 p.checkRotate = function(stick, cursors) {
-  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors.left.isDown) {
+  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors && cursors.left.isDown) {
     this.rotate(-90);
-  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors.right.isDown) {
+  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors && cursors.right.isDown) {
     this.rotate(90);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();

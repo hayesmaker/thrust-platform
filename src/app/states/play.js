@@ -87,7 +87,7 @@ module.exports = {
     this.checkGameCondition();
     this.updateCamera();
     if (this.uiMode) {
-      if (game.controls.isJoypadEnabled || game.externalJoypad) {
+      if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
         ui.update();
       }
     }
@@ -158,7 +158,7 @@ module.exports = {
     if (state === gameState.PLAY_STATES.PLAY) {
       sound.stopMusic();
     }
-
+    
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
@@ -280,15 +280,15 @@ module.exports = {
    * @method checkPlayerInput
    */
   checkPlayerInput: function () {
-    if (!this.inPlay || !this.cursors) {
+    if (!this.inPlay) {
       return;
     }
     this.tractorBeam.checkDistance(this.player, this.isXDown);
-    if (game.externalJoypad) {
+    if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
-    } else {
-      this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
+      return;
     }
+    this.player.checkPlayerControl(this.cursors, this.buttonADown);
   },
 
   /**
@@ -486,8 +486,8 @@ module.exports = {
    * @method createUi
    */
   createUi: function () {
-    if (game.controls.isJoypadEnabled && !game.externalJoypad) {
-      game.controls.initJoypad();
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
+      game.controls.initVirtualJoypad();
     }
     ui.init(this.menuItemSelected, this);
     ui.countdown.complete.add(this.countdownComplete, this);
@@ -558,17 +558,19 @@ module.exports = {
    * @method initControls
    */
   initControls: function () {
-    if (game.controls.isJoypadEnabled && !game.externalJoypad) {
-      this.stick = game.controls.stick;
+    
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.buttonA.onDown.add(this.pressButtonA, this);
       game.controls.buttonA.onUp.add(this.upButtonA, this);
       game.controls.buttonB.onDown.add(this.pressButtonB, this);
       game.controls.buttonB.onUp.add(this.upButtonB, this);
     }
-    this.cursors = game.controls.cursors;
-    game.controls.spacePress.onDown.add(this.player.fire, this.player);
-    game.controls.xKey.onDown.add(this.xDown, this);
-    game.controls.xKey.onUp.add(this.xUp, this);
+    if (game.controls.useKeys) {
+      this.cursors = game.controls.cursors;
+      game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      game.controls.xKey.onDown.add(this.xDown, this);
+      game.controls.xKey.onUp.add(this.xUp, this);
+    }
   },
 
   /**

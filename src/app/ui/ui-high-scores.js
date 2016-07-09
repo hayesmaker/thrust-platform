@@ -328,9 +328,9 @@ p.assignMobileChar = function () {
  * @method update
  */
 p.update = function() {
-  if (game.controls.isJoypadEnabled) {
+  if (game.controls.useVirtualJoypad) {
     this.checkTouchInput();
-  } else if (game.externalJoypad) {
+  } else if (game.controls.useExternalJoypad) {
     this.checkJoypadInput();
   }
 };
@@ -339,8 +339,10 @@ p.update = function() {
  * @method enable
  */
 p.enable = function () {
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
@@ -349,8 +351,10 @@ p.enable = function () {
  * @method disable
  */
 p.disable = function () {
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
 };

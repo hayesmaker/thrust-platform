@@ -1,3 +1,8 @@
+/**
+ * @class Features
+ * @type {Object}
+ * @static
+ */
 module.exports = {
   init: function () {
     this.isTouchScreen =
