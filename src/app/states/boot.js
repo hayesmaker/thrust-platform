@@ -20,21 +20,9 @@ var userControl;
  */
 module.exports = {
   /**
-   * External gamepad controller
-   * 
-   * @property controller
+   * @property bootScreen
    */
-  controller: null,
-
-  /**
-   * @property externalGamePadDetected
-   */
-  externalGamePadDetected: false,
-
-  /**
-   *
-   */
-  fireButton: null,
+  bootScreen: null,
   /**
    * Preload the title screen
    * Initialise the e2e hooks object
@@ -78,12 +66,12 @@ module.exports = {
     if (properties.dev.skipSplashScreen) {
       this.startLoad();
     } else {
-      var spr = game.add.sprite(0,0, 'title');
-      spr.inputEnabled = true;
-      spr.useHandCursor = true;
-      spr.events.onInputDown.add(this.startLoad, this);
-      spr.width = properties.width;
-      spr.height = properties.height;
+      this.bootScreen = game.add.sprite(0,0, 'title');
+      this.bootScreen.inputEnabled = true;
+      this.bootScreen.useHandCursor = true;
+      this.bootScreen.events.onInputDown.add(this.startLoad, this);
+      this.bootScreen.width = properties.width;
+      this.bootScreen.height = properties.height;
       game.e2e.boot = this;
       if (game.controls.useKeys) {
         game.controls.spacePress.onDown.add(this.startLoad, this);
@@ -106,8 +94,8 @@ module.exports = {
    *
    * @method startGame
    */
-  startLoad: function(spr) {
-    spr.events.onInputDown.remove(this.startLoad, this);
+  startLoad: function() {
+    this.bootScreen.events.onInputDown.remove(this.startLoad, this);
     game.state.start('load', false, false);
   }
 };

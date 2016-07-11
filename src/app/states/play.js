@@ -286,7 +286,6 @@ module.exports = {
     this.tractorBeam.checkDistance(this.player, this.isXDown);
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
-      return;
     }
     this.player.checkPlayerControl(this.cursors, this.buttonADown);
   },
