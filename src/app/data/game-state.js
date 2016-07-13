@@ -11,10 +11,10 @@ var levelManager = require('./level-manager');
  */
 module.exports = {
   /**
-   * @propery levelsCompleted 
+   * @propery gameComplete 
    * @type {boolean}
    */
-  levelsCompleted: false,
+  gameComplete: false,
   /**
    * @property PLAY_STATES
    * @type {Object}
@@ -193,7 +193,7 @@ module.exports = {
    * @method levelStart
    */
   levelStart: function() {
-    this.levelsCompleted = false;
+    this.gameComplete = false;
     this.bonuses.planetBuster = false;
     this.bonuses.orbRecovered = false;
   },
@@ -217,11 +217,11 @@ module.exports = {
 
   /**
    * @method doHighScoreCheck
-   * @param [levelsComplete] {boolean}
+   * @param [gameComplete] {boolean}
    */
-  doHighScoreCheck: function(levelsComplete) {
-    if (levelsComplete) {
-      this.levelsCompleted = true;
+  doHighScoreCheck: function(gameComplete) {
+    if (gameComplete) {
+      this.gameComplete = true;
     }
     this.shouldEnterHighScore = this.getScoreIndex() >= 0;
   },

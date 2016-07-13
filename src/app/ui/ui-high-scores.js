@@ -191,7 +191,7 @@ p.gameOverSubTitle = function () {
   this.subTitle2.text = "YOU REACHED LEVEL " + parseInt(levelManager.levelIndex + 1, 10);
   this.subTitle3.visible = true;
 
-  if (gameState.levelsCompleted) {
+  if (gameState.gameComplete) {
     this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
   }
 
