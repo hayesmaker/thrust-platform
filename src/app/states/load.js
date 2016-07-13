@@ -5,8 +5,10 @@ var properties = require('../properties');
 var levelManager = require('../data/level-manager');
 
 /**
- * The load state - Loads in game assets
- * and starts the game when complete
+ * The load state 
+ * - Loads in game assets
+ * - Decodes Audio
+ * - Starts the game when complete
  *
  * @class load
  * @namespace states
@@ -14,7 +16,10 @@ var levelManager = require('../data/level-manager');
  * @type {Object}
  */
 module.exports = {
-  
+
+  /**
+   * @property loadProgressTxt
+   */
   loadProgressTxt: null,
   /**
    * Preload all in game assets
@@ -36,12 +41,8 @@ module.exports = {
     this.loadProgressTxt = game.add.text(0, 0, '0%', style);
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
-    if (game.controls.useVirtualJoypad) {
-      game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
-    }
-    if (properties.drawBackground) {
-      game.load.image('stars', 'assets/images/space.jpg');
-    }
+    game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
+    game.load.image('stars', 'assets/images/space.jpg');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
@@ -62,7 +63,6 @@ module.exports = {
    * @method loadSfx
    */
   loadSfx: function () {
-
     game.load.audiosprite(
       'sfx', [
         'assets/audiosprite/thrust-sfx.mp3',
@@ -177,22 +177,12 @@ module.exports = {
    */
   decodeAudio: function () {
     console.log('decoding audio');
-
     var sfx = game.add.audioSprite('sfx');
     sfx.allowMultiple = true;
-    
     var music = game.add.audioSprite('music');
     music.allowMultiple = true;
-    
-    /**
-     *
-     * @type {{zap1: *, hurt1: *, hurt2: *, boom1: *, boom2: *, exit1: *, planetDeath1: *, connect1: *, teleportIn1: *}}
-     */
-    game.sfx = game.audiosprite = sfx;
+    game.sfx = sfx;
     game.music = music;
-    //  Being mp3 files these take time to decode, so we can't play them instantly
-    //  Using setDecodedCallback we can be notified when they're ALL ready for use.
-    //  The audio files could decode in ANY order, we can never be sure which it'll be.
     game.sound.setDecodedCallback(['sfx', 'music'], this.start, this);
 
   },

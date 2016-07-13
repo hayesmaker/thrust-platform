@@ -114,7 +114,7 @@ function Player(collisions, groups) {
   this.anchor.setTo(0.5);
   this.alpha = 0;
   this.init();
-  this.thrustSfx = game.audiosprite.get('thrust4');
+  this.thrustSfx = game.sfx.get('thrust4');
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {

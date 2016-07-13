@@ -35,6 +35,9 @@ p.render = function () {
   this.enable();
 };
 
+/**
+ * @method createDisplay
+ */
 p.createDisplay = function () {
   var titleFontSize = Math.floor(24 * this.scale);
   var defaultFontSize = Math.floor(16 * this.scale);
@@ -46,6 +49,9 @@ p.createDisplay = function () {
   this.renderText();
 };
 
+/**
+ * @method renderText
+ */
 p.renderText = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "CONGRATULATIONS", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
@@ -73,6 +79,9 @@ p.renderText = function () {
   this.title.fill = this.paragraph1.fill = this.pressFire.fill = '#ffffff';
 };
 
+/**
+ * @method renderImage
+ */
 p.renderImage = function () {
   var image = game.add.image(0, 0, 'coverImage', '', this.group);
   var scaleX = (game.width - game.width / 30) / image.width;
@@ -100,6 +109,9 @@ p.renderImage = function () {
   image.mask = mask;
 };
 
+/**
+ * @method enable
+ */
 p.enable = function () {
   this.enabled = true;
   if (game.controls.useKeys) {
@@ -110,6 +122,9 @@ p.enable = function () {
   }
 };
 
+/**
+ * @method disable
+ */
 p.disable = function () {
   this.enabled = false;
   if (game.controls.useKeys) {
@@ -120,6 +135,9 @@ p.disable = function () {
   }
 };
 
+/**
+ * @method update
+ */
 p.update = function() {
   if (!this.enabled) {
     return;
@@ -133,5 +151,7 @@ p.update = function() {
  * @method spacePressed
  */
 p.spacePressed = function () {
+  //todo add logging to debug high scores after game complete
+  gameState.doHighScoreCheck(true);
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.HIGH_SCORES);
 };

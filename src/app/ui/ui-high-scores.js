@@ -190,6 +190,11 @@ p.gameOverSubTitle = function () {
   this.subTitle1.text = "GAME OVER";
   this.subTitle2.text = "YOU REACHED LEVEL " + parseInt(levelManager.levelIndex + 1, 10);
   this.subTitle3.visible = true;
+
+  if (gameState.levelsCompleted) {
+    this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
+  }
+
 };
 
 p.checkTouchInput = function () {

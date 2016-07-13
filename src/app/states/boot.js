@@ -95,7 +95,9 @@ module.exports = {
    * @method startGame
    */
   startLoad: function() {
-    this.bootScreen.events.onInputDown.remove(this.startLoad, this);
+    if (this.bootScreen) {
+      this.bootScreen.events.onInputDown.remove(this.startLoad, this);
+    }
     game.state.start('load', false, false);
   }
 };

@@ -64,8 +64,6 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    //uncomment to test game complete screen
-    //gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
@@ -286,8 +284,9 @@ module.exports = {
     this.tractorBeam.checkDistance(this.player, this.isXDown);
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
+    } else {
+      this.player.checkPlayerControl(this.cursors, this.buttonADown);
     }
-    this.player.checkPlayerControl(this.cursors, this.buttonADown);
   },
 
   /**
@@ -557,7 +556,6 @@ module.exports = {
    * @method initControls
    */
   initControls: function () {
-    
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.buttonA.onDown.add(this.pressButtonA, this);
       game.controls.buttonA.onUp.add(this.upButtonA, this);

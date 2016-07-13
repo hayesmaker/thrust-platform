@@ -169,6 +169,13 @@ p.dispose = function() {
   if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
+  if (game.controls.useExternalJoypad) {
+    game.externalJoypad.up.onDown.remove(this.upPressed, this);
+    game.externalJoypad.down.onDown.remove(this.downPressed, this);
+    game.externalJoypad.left.onDown.remove(this.leftPressed, this);
+    game.externalJoypad.right.onDown.remove(this.rightPressed, this);
+    game.externalJoypad.fireButton.onDown.remove(this.spacePressed, this);
+  }
   manager.clearSubscreens();
   this.isActive = false;
 };
@@ -189,6 +196,13 @@ p.initEvents = function() {
   }
   if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
+    game.externalJoypad.up.onDown.add(this.upPressed, this);
+    game.externalJoypad.down.onDown.add(this.downPressed, this);
+    game.externalJoypad.left.onDown.add(this.leftPressed, this);
+    game.externalJoypad.right.onDown.add(this.rightPressed, this);
+    game.externalJoypad.fireButton.onDown.add(this.spacePressed, this);
   }
 };
 

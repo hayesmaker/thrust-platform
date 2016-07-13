@@ -10,7 +10,11 @@ var levelManager = require('./level-manager');
  * @type {{PLAY_STATES: {MENU: string, PLAY: string, HIGH_SCORES: string, INTERSTITIAL: string, GAME_OVER: string}, currentState: null, highScoreTable: *[], getScoreIndex: module.exports.getScoreIndex, insertNewHighScore: module.exports.insertNewHighScore, newScoreEntered: module.exports.newScoreEntered, shouldEnterHighScore: boolean, SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, getScoreByValueId: module.exports.getScoreByValueId, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, levelStart: module.exports.levelStart, newPlayer: module.exports.newPlayer, newGame: module.exports.newGame, doHighScoreCheck: module.exports.doHighScoreCheck, nextLevel: module.exports.nextLevel, bonuses: {planetBuster: boolean, orbRecovered: boolean}, score: number, fuel: number, lives: number, isGameOver: boolean}}
  */
 module.exports = {
-
+  /**
+   * @propery levelsCompleted 
+   * @type {boolean}
+   */
+  levelsCompleted: false,
   /**
    * @property PLAY_STATES
    * @type {Object}
@@ -72,7 +76,7 @@ module.exports = {
   ],
 
   /**
-   * 
+   * @method getScoreIndex
    */
   getScoreIndex: function() {
     return _.findIndex(this.highScoreTable, function(data) {
@@ -189,22 +193,36 @@ module.exports = {
    * @method levelStart
    */
   levelStart: function() {
+    this.levelsCompleted = false;
     this.bonuses.planetBuster = false;
     this.bonuses.orbRecovered = false;
   },
-  
+
+  /**
+   * @method newPlayer
+   */
   newPlayer: function() {
     this.score = 0;
     this.fuel = 10000;
     this.lives = 1;
   },
 
+  /**
+   * @method newGame
+   */
   newGame: function() {
     this.levelStart();
     levelManager.newGame();
   },
 
-  doHighScoreCheck: function() {
+  /**
+   * @method doHighScoreCheck
+   * @param [levelsComplete] {boolean}
+   */
+  doHighScoreCheck: function(levelsComplete) {
+    if (levelsComplete) {
+      this.levelsCompleted = true;
+    }
     this.shouldEnterHighScore = this.getScoreIndex() >= 0;
   },
 
