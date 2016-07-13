@@ -25,6 +25,11 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
 }
 
 /**
+ * @property joypadFireButton
+ * @type {boolean}
+ */
+p.joypadFireButton = true;
+/**
  * @property group
  * @type {Phaser.Group}
  */
@@ -96,7 +101,30 @@ p.render = function () {
  */
 p.update = function () {
   var stick = game.controls.stick;
-  if (stick) {
+  var joypad = game.externalJoypad;
+  if (joypad) {
+    if (joypad.up.isDown) {
+      this.stickUpPressed = true;
+      this.stickDownPressed = false;
+    } else if (joypad.down.isDown) {
+      this.stickUpPressed = false;
+      this.stickDownPressed = true;
+    } else {
+      this.checkPressed();
+    }
+    game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
+      if (buttonCode === Phaser.Gamepad.BUTTON_1) {
+        this.joypadFireButton = true;
+      }
+    }.bind(this);
+    game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
+      if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
+        this.joypadFireButton = false;
+        this.spacePressed();
+      }
+    }.bind(this);
+
+  } else if (stick) {
     if (stick.isDown) {
       if (stick.direction === Phaser.UP) {
         this.stickUpPressed = true;
@@ -106,15 +134,22 @@ p.update = function () {
         this.stickDownPressed = true;
       }
     } else {
-      if (this.stickDownPressed) {
-        this.stickDownPressed = false;
-        this.downPressed();
-      }
-      if (this.stickUpPressed) {
-        this.stickUpPressed = false;
-        this.upPressed();
-      }
+      this.checkPressed();
     }
+  }
+};
+
+/**
+ * @method checkPressed
+ */
+p.checkPressed = function() {
+  if (this.stickDownPressed) {
+    this.stickDownPressed = false;
+    this.downPressed();
+  }
+  if (this.stickUpPressed) {
+    this.stickUpPressed = false;
+    this.upPressed();
   }
 };
 
@@ -165,10 +200,12 @@ p.enable = function () {
   this.selectedIndex = 0;
   console.log('ui-menu :: enable', this.selectedIndex);
   this.selectItemByIndex(this.selectedIndex);
-  game.controls.cursors.up.onDown.add(this.upPressed, this);
-  game.controls.cursors.down.onDown.add(this.downPressed, this);
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.add(this.upPressed, this);
+    game.controls.cursors.down.onDown.add(this.downPressed, this);
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
@@ -179,9 +216,11 @@ p.enable = function () {
  */
 p.disable = function () {
   console.log('ui-menu :: disable');
-  game.controls.cursors.up.onDown.remove(this.upPressed, this);
-  game.controls.cursors.down.onDown.remove(this.downPressed, this);
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.remove(this.upPressed, this);
+    game.controls.cursors.down.onDown.remove(this.downPressed, this);
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
   if (game.controls.stick) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }

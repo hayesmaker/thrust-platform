@@ -11,7 +11,7 @@ var url = 'http://thrust-platform.herokuapp.com';
 var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
 
 var status = function() {
-  return 'Thrust 2016 update launched (v' + process.env.npm_package_version +') live now at: ' + url + ' changes: ' + changelog + ' #indiedev ';
+  return 'Thrust 2016 minor update (v' + process.env.npm_package_version +')' + url + ' Gamepad Support added. Changes: ' + changelog + '#RetroRemake @F84Games';
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet, response){

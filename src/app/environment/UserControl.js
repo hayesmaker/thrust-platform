@@ -7,14 +7,50 @@ var game = window.game;
  *
  * @class UserControl
  * @constructor
- * @param isTouchDevice {Boolean} passed from the boot state.
+ * @param features {Object} passed from the boot state.
  */
-function UserControl(isTouchDevice) {
-  this.initKeys();
-  this.isJoypadEnabled = isTouchDevice;
+function UserControl(features) {
+  this.features = features;
+  this.initExternalJoypad();
+  if (!this.externalGamePadDetected && this.features.isTouchScreen) {
+    this.useVirtualJoypad = true;
+  } else {
+    this.initKeys(); 
+  }
+  console.log('UserControl :: constructor :: useVirtual = %s : useExternal = %s : useKeys = %s', this.useVirtualJoypad, this.useExternalJoypad, this.useKeys);
 }
 
 var p = UserControl.prototype;
+
+p.gamepad = null;
+p.useKeys = false;
+p.useVirtualJoypad = false;
+p.useExternalJoypad = false;
+p.externalGamePadDetected = false;
+
+/**
+ * @method initExternalJoypad
+ */
+p.initExternalJoypad = function() {
+  this.gamepad = game.input.gamepad.pad1;
+  this.gamepad.addCallbacks(this, {
+    
+    onConnect: function() {
+      this.useExternalJoypad = true;
+      this.useVirtualJoypad = false;
+      game.externalJoypad = {};
+      game.externalJoypad.fireButton = this.gamepad.getButton(Phaser.Gamepad.BUTTON_1);
+      game.externalJoypad.thrustButton = this.gamepad.getButton(Phaser.Gamepad.BUTTON_0);
+      game.externalJoypad.up = this.gamepad.getButton(Phaser.Gamepad.BUTTON_12);
+      game.externalJoypad.down = this.gamepad.getButton(Phaser.Gamepad.BUTTON_13);
+      game.externalJoypad.left = this.gamepad.getButton(Phaser.Gamepad.BUTTON_14);
+      game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
+    }.bind(this)
+  });
+  game.input.gamepad.start();
+};
+
+
 
 /**
  * UserControl initialisation
@@ -22,6 +58,7 @@ var p = UserControl.prototype;
  * @method init
  */
 p.initKeys = function () {
+  this.useKeys = true;
   this.cursors = game.input.keyboard.createCursorKeys();
   this.spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
@@ -30,7 +67,7 @@ p.initKeys = function () {
 /**
  * @method initJoypad
  */
-p.initJoypad = function () {
+p.initVirtualJoypad = function () {
   this.pad = game.plugins.add(Phaser.VirtualJoystick);
   this.stick = this.pad.addDPad(game.width * 0.15, game.height*0.8, 200, 'dpad');
   this.buttonA = this.pad.addButton(game.width * 0.78, game.height * 0.85, 'dpad', 'button1-up', 'button1-down');

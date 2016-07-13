@@ -30,6 +30,7 @@ var sound = require('../utils/sound');
  * @static
  */
 module.exports = {
+  externalGamePadDetected: false,
   level: null,
   collisions: null,
   groups: null,
@@ -63,8 +64,6 @@ module.exports = {
     this.createActors();
     this.createUi();
     this.createGroupLayering();
-    //uncomment to test game complete screen
-    //gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
@@ -85,17 +84,14 @@ module.exports = {
     this.uiUpdate();
     this.checkGameCondition();
     this.updateCamera();
-    if (this.uiMode && game.controls.isJoypadEnabled) {
-      ui.update();
+    if (this.uiMode) {
+      if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
+        ui.update();
+      }
     }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
-    //this.updatePostProcessing();
-  },
-
-  updatePostProcessing: function() {
-
   },
 
   /**
@@ -160,7 +156,7 @@ module.exports = {
     if (state === gameState.PLAY_STATES.PLAY) {
       sound.stopMusic();
     }
-
+    
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
@@ -282,14 +278,15 @@ module.exports = {
    * @method checkPlayerInput
    */
   checkPlayerInput: function () {
-    if (game.controls.isJoypadEnabled && gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
-      ui.highscores.checkMobileInput(this.buttonBDown);
-    }
-    if (!this.inPlay || !this.cursors) {
+    if (!this.inPlay) {
       return;
     }
-    this.player.checkPlayerControl(this.stick, this.cursors, this.buttonADown);
     this.tractorBeam.checkDistance(this.player, this.isXDown);
+    if (game.controls.useExternalJoypad) {
+      this.player.checkPlayerControlJoypad();
+    } else {
+      this.player.checkPlayerControl(this.cursors, this.buttonADown);
+    }
   },
 
   /**
@@ -316,7 +313,6 @@ module.exports = {
         this.orb.stop();
         ui.countdown.stop();
         sound.playSound('teleport-in3');
-        //todo move teleport logic to here:
         this.player.levelExit();
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
@@ -406,6 +402,18 @@ module.exports = {
     ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
     ui.lives.update(Math.max(gameState.lives, 0), true);
+
+    if (gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
+      ui.highscores.update();
+    }
+
+    if (game.externalJoypad) {
+      if (gameState.currentState === gameState.PLAY_STATES.INTERSTITIAL) {
+        ui.interstitial.update();
+      } else if (gameState.currentState === gameState.PLAY_STATES.COMPLETE) {
+        ui.levelsComplete.update();
+      }
+    }
   },
 
   /**
@@ -469,16 +477,15 @@ module.exports = {
     //do planet destruction anims
 
   },
-
-
+  
   /**
    * Creates the user interface and touch controls
    *
    * @method createUi
    */
   createUi: function () {
-    if (game.controls.isJoypadEnabled) {
-      game.controls.initJoypad();
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
+      game.controls.initVirtualJoypad();
     }
     ui.init(this.menuItemSelected, this);
     ui.countdown.complete.add(this.countdownComplete, this);
@@ -545,22 +552,22 @@ module.exports = {
 
   /**
    * Initialises player control
-   * also activates enemy
    *
    * @method initControls
    */
   initControls: function () {
-    if (game.controls.isJoypadEnabled) {
-      this.stick = game.controls.stick;
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.buttonA.onDown.add(this.pressButtonA, this);
       game.controls.buttonA.onUp.add(this.upButtonA, this);
       game.controls.buttonB.onDown.add(this.pressButtonB, this);
       game.controls.buttonB.onUp.add(this.upButtonB, this);
     }
-    this.cursors = game.controls.cursors;
-    game.controls.spacePress.onDown.add(this.player.fire, this.player);
-    game.controls.xKey.onDown.add(this.xDown, this);
-    game.controls.xKey.onUp.add(this.xUp, this);
+    if (game.controls.useKeys) {
+      this.cursors = game.controls.cursors;
+      game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      game.controls.xKey.onDown.add(this.xDown, this);
+      game.controls.xKey.onUp.add(this.xUp, this);
+    }
   },
 
   /**

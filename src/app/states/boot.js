@@ -20,6 +20,10 @@ var userControl;
  */
 module.exports = {
   /**
+   * @property bootScreen
+   */
+  bootScreen: null,
+  /**
    * Preload the title screen
    * Initialise the e2e hooks object
    *
@@ -43,37 +47,6 @@ module.exports = {
    */
   create: function () {
     console.log('boot :: create');
-    //WebGL arcade style CRT scanline Filter
-    var fragmentSrc = [
-      "precision mediump float;",
-      // Incoming texture coordinates.
-      'varying vec2 vTextureCoord;',
-      // Incoming vertex color
-      'varying vec4 vColor;',
-      // Sampler for a) sprite image or b) rendertarget in case of game.world.filter
-      'uniform sampler2D uSampler;',
-
-      "uniform vec2      resolution;",
-      "uniform float     time;",
-      "uniform vec2      mouse;",
-
-      "void main( void ) {",
-      // colorRGBA = (y % 2) * texel(u,v);
-      "gl_FragColor = mod(gl_FragCoord.y,2.0) * texture2D(uSampler, vTextureCoord);",
-      "}"
-    ];
-    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
-    var vignette = game.add.filter('Vignette');
-    this.filmgrain = game.add.filter('FilmGrain');
-    vignette.size = 0.4;
-    vignette.amount = 0.5;
-    vignette.alpha = 1;
-
-    this.filmgrain.color = 0.1;
-    this.filmgrain.amount = 0.4;
-    this.filmgrain.luminance = 0.8;
-
-    game.world.filters = [scanlineFilter, vignette, this.filmgrain];
     features.init();
     levelManager.init();
     particles.init();
@@ -82,9 +55,10 @@ module.exports = {
     if (properties.dev.stats) {
       game.time.advancedTiming = true;
     }
-    userControl = new UserControl(features.isTouchScreen || properties.enableJoypad);
+    userControl = new UserControl(features);
     console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
-    console.warn("TouchScreenDetected:", features.isTouchScreen);
+    console.warn("TouchScreenDetected : features=", features);
+    console.warn("ControlMethods:", userControl);
     console.warn("ScaleMode:", game.scale.scaleMode);
     game.controls = userControl;
     game.e2e = {};
@@ -92,14 +66,16 @@ module.exports = {
     if (properties.dev.skipSplashScreen) {
       this.startLoad();
     } else {
-      var spr = game.add.sprite(0,0, 'title');
-      spr.inputEnabled = true;
-      spr.useHandCursor = true;
-      spr.events.onInputDown.add(this.startLoad, this);
-      spr.width = properties.width;
-      spr.height = properties.height;
+      this.bootScreen = game.add.sprite(0,0, 'title');
+      this.bootScreen.inputEnabled = true;
+      this.bootScreen.useHandCursor = true;
+      this.bootScreen.events.onInputDown.add(this.startLoad, this);
+      this.bootScreen.width = properties.width;
+      this.bootScreen.height = properties.height;
       game.e2e.boot = this;
-      game.controls.spacePress.onDown.add(this.startLoad, this);
+      if (game.controls.useKeys) {
+        game.controls.spacePress.onDown.add(this.startLoad, this);
+      }
     }
   },
 
@@ -107,7 +83,9 @@ module.exports = {
    * @method update
    */
   update:function() {
-    this.filmgrain.update();
+    if (game.externalJoypad && game.externalJoypad.fireButton.isDown) {
+      this.startLoad();
+    }
   },
 
 
@@ -117,6 +95,9 @@ module.exports = {
    * @method startGame
    */
   startLoad: function() {
+    if (this.bootScreen) {
+      this.bootScreen.events.onInputDown.remove(this.startLoad, this);
+    }
     game.state.start('load', false, false);
   }
 };

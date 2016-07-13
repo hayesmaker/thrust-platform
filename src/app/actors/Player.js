@@ -24,6 +24,12 @@ var sound = require('../utils/sound');
 function Player(collisions, groups) {
 
   /**
+   * @property joypadFireButton
+   * @type {boolean}
+   * @default true
+   */
+  this.joypadFireButton = true;
+  /**
    * @property inPlay
    * @type {boolean}
    */
@@ -108,7 +114,7 @@ function Player(collisions, groups) {
   this.anchor.setTo(0.5);
   this.alpha = 0;
   this.init();
-  this.thrustSfx = game.audiosprite.get('thrust4');
+  this.thrustSfx = game.sfx.get('thrust4');
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
@@ -288,16 +294,51 @@ p.createTurret = function () {
 
 /**
  * @method checkPlayerControl
- * @param stick
  * @param cursors
  * @param buttonAPressed
  */
-p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
+p.checkPlayerControl = function(cursors, buttonAPressed) {
   if (!this.alive || !this.inGameArea) {
     return;
   }
-  this.checkRotate(stick, cursors);
+  this.checkRotate(game.controls.stick, cursors);
   this.checkThrust(buttonAPressed, cursors);
+};
+
+/**
+ * Called by play update method, only when an external joypad
+ * is connected.
+ *
+ * @method checkPlayerControlJoypad
+ */
+p.checkPlayerControlJoypad = function() {
+  if (!this.alive || !this.inGameArea) {
+    return;
+  }
+  this.checkJoypadFire();
+  this.checkThrust(game.externalJoypad.thrustButton.isDown);
+  this.checkRotate(null, game.externalJoypad);
+};
+
+/**
+ * Necessary to check onUpCallback to stop firing constantly when
+ * joypad fire button is pressed down.
+ * Would be nice to find a nicer way to do this.
+ *
+ * @method checkJoypadFire
+ */
+p.checkJoypadFire = function() {
+  game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
+    if (buttonCode === Phaser.Gamepad.BUTTON_1) {
+      this.joypadFireButton = true;
+    }
+  }.bind(this);
+  game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
+    if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
+      this.joypadFireButton = false;
+      this.fire();
+    }
+  }.bind(this);
 };
 
 /**
@@ -306,9 +347,9 @@ p.checkPlayerControl = function(stick, cursors, buttonAPressed) {
  * @param cursors
  */
 p.checkRotate = function(stick, cursors) {
-  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors.left.isDown) {
+  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors && cursors.left.isDown) {
     this.rotate(-90);
-  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors.right.isDown) {
+  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors && cursors.right.isDown) {
     this.rotate(90);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();
@@ -321,7 +362,7 @@ p.checkRotate = function(stick, cursors) {
  * @param cursors
  */
 p.checkThrust = function(buttonAPressed, cursors) {
-  if (cursors.up.isDown || buttonAPressed) {
+  if (cursors && cursors.up.isDown || buttonAPressed) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;

@@ -16,7 +16,7 @@ module.exports = {
    */
   playSound: function(name, volume, loop) {
     if (optionsModel.sound.soundFx) {
-      game.audiosprite.play(name, volume, loop);
+      game.sfx.play(name, volume, loop);
     }
   },
 

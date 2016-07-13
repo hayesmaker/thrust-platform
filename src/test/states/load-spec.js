@@ -33,19 +33,13 @@ describe("Phaser load state tests", function() {
       game.load.physics.restore();
     });
 
-    it('if joypad is enabled, load the virtual joystick assets', function() {
+    it('should load the virtual joystick assets', function() {
       game.controls.isJoypadEnabled = true;
       state.preload();
       expect(game.load.atlas).to.have.been.calledWith('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     });
-
-    it('if joypad is not enabled, do not load the virtual joystick assets', function() {
-      game.controls.isJoypadEnabled = false;
-      state.preload();
-      expect(game.load.atlas).not.to.have.been.called;
-    });
-
-    it('if background is enabled, load the starfield asset', function() {
+    
+    it('should load the background image', function() {
       state.preload();
       expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/space.jpg');
     });

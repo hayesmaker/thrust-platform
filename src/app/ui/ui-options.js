@@ -159,13 +159,22 @@ p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
   this.optionsList.onItemSelected.remove(this.itemSelected, this);
   this.exitButton.onItemSelected.remove(this.exit, this);
-  game.controls.cursors.up.onDown.remove(this.upPressed, this);
-  game.controls.cursors.down.onDown.remove(this.downPressed, this);
-  game.controls.cursors.left.onDown.remove(this.leftPressed, this);
-  game.controls.cursors.right.onDown.remove(this.rightPressed, this);
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.remove(this.upPressed, this);
+    game.controls.cursors.down.onDown.remove(this.downPressed, this);
+    game.controls.cursors.left.onDown.remove(this.leftPressed, this);
+    game.controls.cursors.right.onDown.remove(this.rightPressed, this);
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
+    game.externalJoypad.up.onDown.remove(this.upPressed, this);
+    game.externalJoypad.down.onDown.remove(this.downPressed, this);
+    game.externalJoypad.left.onDown.remove(this.leftPressed, this);
+    game.externalJoypad.right.onDown.remove(this.rightPressed, this);
+    game.externalJoypad.fireButton.onDown.remove(this.spacePressed, this);
   }
   manager.clearSubscreens();
   this.isActive = false;
@@ -178,13 +187,22 @@ p.renderSubScreens = function() {
 p.initEvents = function() {
   this.optionsList.onItemSelected.add(this.itemSelected, this);
   this.exitButton.onItemSelected.add(this.exit, this);
-  game.controls.cursors.up.onDown.add(this.upPressed, this);
-  game.controls.cursors.down.onDown.add(this.downPressed, this);
-  game.controls.cursors.left.onDown.add(this.leftPressed, this);
-  game.controls.cursors.right.onDown.add(this.rightPressed, this);
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.add(this.upPressed, this);
+    game.controls.cursors.down.onDown.add(this.downPressed, this);
+    game.controls.cursors.left.onDown.add(this.leftPressed, this);
+    game.controls.cursors.right.onDown.add(this.rightPressed, this);
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
+    game.externalJoypad.up.onDown.add(this.upPressed, this);
+    game.externalJoypad.down.onDown.add(this.downPressed, this);
+    game.externalJoypad.left.onDown.add(this.leftPressed, this);
+    game.externalJoypad.right.onDown.add(this.rightPressed, this);
+    game.externalJoypad.fireButton.onDown.add(this.spacePressed, this);
   }
 };
 

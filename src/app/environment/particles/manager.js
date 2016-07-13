@@ -108,7 +108,7 @@ module.exports = {
   playerTeleport: function(x, y, boundCallback) {
     var circle = this.manager.createCircleZone(25);
     this.emitter.force.y = 0;
-    this.emitter.emit('transporter', x, y, {zone: circle, total: 5, repeat: 80, frequency: 1});
+    this.emitter.emit('transporter', x, y, {zone: circle, total: 25, repeat: 20, frequency: 10});
     if (boundCallback) {
       game.time.events.add(2000, boundCallback);
     }
@@ -117,7 +117,7 @@ module.exports = {
   orbTeleport: function(x, y) {
     var circle = this.manager.createCircleZone(25);
     this.emitter.force.y = 0;
-    this.emitter.emit('transporterOrb', x, y, {zone: circle, total: 5, repeat: 80, frequency: 1});
+    this.emitter.emit('transporterOrb', x, y, {zone: circle, total: 25, repeat: 20, frequency: 10});
   },
 
   explode: function(x, y) {

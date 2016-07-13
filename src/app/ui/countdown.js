@@ -59,7 +59,7 @@ module.exports = {
   },
 
   stop: function() {
-    game.audiosprite.stop('planet-dying1');
+    game.sfx.stop('planet-dying1');
     this.label.visible = false;
     this.timer.stop();
   },

@@ -157,11 +157,28 @@ p.render = function() {
 };
 
 /**
+ * Called by play state only for external joypad support
+ *
+ * @method update
+ */
+p.update = function() {
+  if (!this.enabled) {
+    return;
+  }
+  if (game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
+    this.spacePressed();
+  }
+};
+
+/**
  * @method enable
  */
 p.enable = function() {
-  game.controls.spacePress.onDown.add(this.spacePressed, this);
-  if (game.controls.stick) {
+  this.enabled = true;
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
@@ -170,8 +187,11 @@ p.enable = function() {
  * @method disable
  */
 p.disable = function() {
-  game.controls.spacePress.onDown.remove(this.spacePressed, this);
-  if (game.controls.stick) {
+  this.enabled = false;
+  if (game.controls.useKeys) {
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
 };
