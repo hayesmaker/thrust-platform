@@ -34,12 +34,6 @@ p.externalGamePadDetected = false;
 p.initExternalJoypad = function() {
   this.gamepad = game.input.gamepad.pad1;
   this.gamepad.addCallbacks(this, {
-    onDown: function(code) {
-
-    },
-    onUp: function(code) {
-
-    },
     
     onConnect: function() {
       this.useExternalJoypad = true;

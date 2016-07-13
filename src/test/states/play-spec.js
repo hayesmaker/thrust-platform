@@ -75,11 +75,6 @@ describe("Phaser play state tests", function () {
       expect(play.showCurrentScreenByState).to.have.been.calledOnce;
     });
 
-    xit('should do post processing', function () {
-      play.create();
-      expect(play.postProcessing).to.have.been.calledOnce;
-    });
-
     //todo test create methods
 
   });
@@ -94,7 +89,6 @@ describe("Phaser play state tests", function () {
       sinon.stub(play, 'uiUpdate');
       sinon.stub(play, 'checkGameCondition');
       sinon.stub(play, 'updateCamera');
-      sinon.stub(play, 'updatePostProcessing');
     });
 
     afterEach(function () {
@@ -105,7 +99,6 @@ describe("Phaser play state tests", function () {
       play.uiUpdate.restore();
       play.checkGameCondition.restore();
       play.updateCamera.restore();
-      play.updatePostProcessing.restore();
     });
 
     it('should check for user input', function () {
@@ -131,11 +124,6 @@ describe("Phaser play state tests", function () {
     it('should update camera for derp scrolling', function(){
       play.update();
       expect(play.updateCamera).to.have.been.calledOnce;
-    });
-
-    xit('should update post processing', function(){
-      play.update();
-      expect(play.updatePostProcessing).to.have.been.calledOnce;
     });
 
     //todo test update methods
