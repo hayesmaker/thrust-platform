@@ -79,6 +79,11 @@ module.exports = {
     //this.levelIndex = 0;
     console.log('level-manager :: newGame :', this.levelIndex);
     this.currentLevel = this.levels[this.levelIndex];
+  },
+  
+  startTraining: function() {
+    this.currentLevel = properties.levels.training;
+    console.log('level-manager :: startTraining : this.currentLevel', this.currentLevel);
   }
 
 

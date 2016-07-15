@@ -8,9 +8,6 @@
  * @type {Object}
  */
 module.exports = {
-  /**
-   * @deprecated
-   */
   collideWorldBounds: true,
   enableTouchPad: false,
   enableJoyPad: false,
@@ -31,12 +28,12 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: false,
-    debugPositions: false,
+    debugPhysics: true,
+    debugPositions: true,
     stats: true,
     mode: false,
     skipIntro: false,
-    skipSplashScreen: false
+    skipSplashScreen: true
   },
   gamePlay: {
     firingMagnitude: 350,
@@ -49,6 +46,23 @@ module.exports = {
   },
   mapSuffix: '-map',
   levels: {
+    training: {
+      missionSwipe: {
+        title: 'Flight Training',
+        desc: 'Fly through the highlighted training pods',
+        color: "rgba(255, 0, 0, 0.7)"
+      },
+      world: {
+        width: 1536,
+        height: 1000
+      },
+      spawns: [{
+        x: 500,
+        y: 500,
+        orb: false
+      }],
+      orbPosition: {x: 915, y: 852}
+    },
     startLevel: 1,
     data: [
       {

@@ -179,11 +179,16 @@ p.start = function (completeCallback, context) {
   game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
-  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
+  this.body.collides([this.collisions.orb], this.orbHit, this);
+  //this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.motionState = 2;
   this.body.mass = 1;
   this.respawn(completeCallback, context);
+};
+
+p.orbHit = function() {
+  console.log('orb hit');
 };
 
 /**
@@ -221,6 +226,7 @@ p.tweenOutAndRemove = function(removeWithOrb) {
 p.spawn = function() {
   this.inGameArea = true;
   this.body.motionState = 1;
+  //this.body.collideWorldBounds = true;
   this.alpha = 0;
   this.visible = true;
   this.alive = true;
@@ -248,17 +254,21 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
+  //this.body.collideWorldBounds = true;
   if (removeShip === true) {
     gameState.lives--;
   }
-  this.tractorBeam.orb.respawn();
+  if (!gameState.trainingMode) {
+    this.tractorBeam.orb.respawn();
+  }
+
   sound.playSound('teleport-in3');
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
     if (completeCallback) {
       completeCallback.call(thisArg);
     }
     self.spawn();
-    if (self.spawnWithOrb) {
+    if (self.spawnWithOrb && !gameState.trainingMode) {
       self.tractorBeam.orb.respawn(true);
       self.tractorBeam.lock();
     }

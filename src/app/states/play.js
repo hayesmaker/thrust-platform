@@ -82,7 +82,9 @@ module.exports = {
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
-    this.checkGameCondition();
+    if (!gameState.trainingMode) {
+      this.checkGameCondition();
+    }
     this.updateCamera();
     if (this.uiMode) {
       if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
@@ -168,9 +170,17 @@ module.exports = {
    * @param item {Object}
    */
   menuItemSelected: function (item) {
+    
     switch (item.text.text) {
       case "PLAY THRUST" :
         gameState.newPlayer();
+        this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
+        break;
+      case "TRAINING" :
+        gameState.newPlayer();
+        gameState.trainingMode = true;
+        console.warn('Training Mode activated');
+        this.restartPlayState();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "HIGH-SCORES":
@@ -281,7 +291,9 @@ module.exports = {
     if (!this.inPlay) {
       return;
     }
-    this.tractorBeam.checkDistance(this.player, this.isXDown);
+    if (!gameState.trainingMode) {
+      this.tractorBeam.checkDistance(this.player, this.isXDown);
+    }
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
     } else {
@@ -422,6 +434,7 @@ module.exports = {
    * @method defineWorldBounds
    */
   defineWorldBounds: function () {
+    console.info('play :: defineWorldBounds :: this.level=', this.level);
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
   },
 
@@ -441,22 +454,27 @@ module.exports = {
     this.player = new Player(this.collisions, this.groups);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
-    this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
-    this.player.setTractorBeam(this.tractorBeam);
-    _.each(this.level.enemies, _.bind(this.createLimpet, this));
-    _.each(this.level.fuels, _.bind(this.createFuel, this));
-    this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
-    this.powerStation.initPhysics('powerStationPhysics', 'power-station');
-    this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
-    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
-    this.map = new Map(this.collisions, this.groups);
+
+    if (!gameState.trainingMode) {
+      _.each(this.level.enemies, _.bind(this.createLimpet, this));
+      _.each(this.level.fuels, _.bind(this.createFuel, this));
+      this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
+      this.player.setTractorBeam(this.tractorBeam);
+      this.map = new Map(this.collisions, this.groups);
+      this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
+      this.powerStation.initPhysics('powerStationPhysics', 'power-station');
+      this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
+      this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
+      this.powerStation.body.setCollisionGroup(this.collisions.terrain);
+      this.powerStation.initCollisions();
+      this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
+      this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
+      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+    } else {
+      this.collisions.set(this.orb.sprite, [this.collisions.players]);
+    }
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
-    this.powerStation.body.setCollisionGroup(this.collisions.terrain);
-    this.powerStation.initCollisions();
-    this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
-    this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
-    this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
@@ -525,16 +543,24 @@ module.exports = {
       this.groups.background.add(this.background.sprite);
     }
     this.groups.actors.add(this.player);
-    this.groups.actors.add(this.orb.sprite);
-    _.each(this.limpetGuns, _.bind(function (limpet) {
-      this.groups.enemies.add(limpet);
-    }, this));
-    _.each(this.fuels, _.bind(function (fuel) {
-      this.groups.fuels.add(fuel);
-    }, this));
-    this.groups.actors.add(this.powerStation);
-    this.groups.actors.add(this.orbHolder);
-    this.groups.swapTerrain();
+    if (this.orb) {
+      this.groups.actors.add(this.orb.sprite);
+    }
+    if (this.powerStation) {
+      this.groups.actors.add(this.powerStation);
+    }
+    if (this.orbHolder) {
+      this.groups.actors.add(this.orbHolder);
+    }
+    if (!gameState.trainingMode) {
+      this.groups.swapTerrain();
+      _.each(this.limpetGuns, _.bind(function (limpet) {
+        this.groups.enemies.add(limpet);
+      }, this));
+      _.each(this.fuels, _.bind(function (fuel) {
+        this.groups.fuels.add(fuel);
+      }, this));
+    }
     game.world.add(ui.group);
   },
 

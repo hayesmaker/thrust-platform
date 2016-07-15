@@ -86,6 +86,7 @@ p.render = function () {
   _.each(
     [
       'PLAY THRUST',
+      'TRAINING',
       'HIGH-SCORES',
       'OPTIONS'
     ],

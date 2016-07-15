@@ -10,6 +10,7 @@ var levelManager = require('./level-manager');
  * @type {{PLAY_STATES: {MENU: string, PLAY: string, HIGH_SCORES: string, INTERSTITIAL: string, GAME_OVER: string}, currentState: null, highScoreTable: *[], getScoreIndex: module.exports.getScoreIndex, insertNewHighScore: module.exports.insertNewHighScore, newScoreEntered: module.exports.newScoreEntered, shouldEnterHighScore: boolean, SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, getScoreByValueId: module.exports.getScoreByValueId, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, levelStart: module.exports.levelStart, newPlayer: module.exports.newPlayer, newGame: module.exports.newGame, doHighScoreCheck: module.exports.doHighScoreCheck, nextLevel: module.exports.nextLevel, bonuses: {planetBuster: boolean, orbRecovered: boolean}, score: number, fuel: number, lives: number, isGameOver: boolean}}
  */
 module.exports = {
+  trainingMode: false,
   /**
    * @propery gameComplete 
    * @type {boolean}
@@ -168,7 +169,7 @@ module.exports = {
    * @property FUEL_AMOUNT
    * @type {Number}
    */
-  FUEL_AMOUNT: 400,
+  FUEL_AMOUNT: 600,
 
   /**
    * 
@@ -203,8 +204,8 @@ module.exports = {
    */
   newPlayer: function() {
     this.score = 0;
-    this.fuel = 10000;
-    this.lives = 1;
+    this.fuel = 9000;
+    this.lives = 5;
   },
 
   /**
@@ -213,6 +214,11 @@ module.exports = {
   newGame: function() {
     this.levelStart();
     levelManager.newGame();
+  },
+  
+  startTraining: function() {
+    this.levelStart();
+    levelManager.startTraining();
   },
 
   /**
@@ -231,6 +237,12 @@ module.exports = {
    */
   nextLevel: function () {
     console.log('gameState :: nextLevel : orbRecovered,isGameOver=', this.bonuses.orbRecovered, this.isGameOver);
+    
+    if (this.trainingMode) {
+      this.startTraining();
+      return;
+    }
+    
     if (this.bonuses.orbRecovered && !this.isGameOver) {
       if (levelManager.levels.length - 1 === levelManager.levelIndex) {
         this.levelsCompleted.dispatch();
