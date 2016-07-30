@@ -11,8 +11,7 @@ module.exports = {
    * @param collisions
    */
   newDrones: function(x, y, groups, collisions) {
-    var drone = new Drone(x, y, groups, collisions);
-
+    new Drone(x, y, groups, collisions);
   }
 
 };

@@ -43,13 +43,18 @@ p.initPhysics = function() {
   this.flag1.body.collides([this.collisions.players]);
   this.flag1.body.onBeginContact.add(this.contactStart, this);
   this.flag1.body.onEndContact.add(this.contactLost, this);
-  //this.flag1.body.collides([this.collisions.players], this.dronePassed, this);
 };
 
+/**
+ * @method contactLost
+ */
 p.contactLost = function() {
   console.log('drone contact lost!');
 };
 
+/**
+ * @method contactStart
+ */
 p.contactStart = function() {
   console.log('drone overlap');
 };
