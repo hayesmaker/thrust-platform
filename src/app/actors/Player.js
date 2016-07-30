@@ -181,10 +181,15 @@ p.start = function (completeCallback, context) {
   this.body.loadPolygon('playerPhysics', 'player');
   this.body.setCollisionGroup(this.collisions.players);
   this.body.collides([this.collisions.orb], this.orbHit, this);
-  //this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
+  this.body.collides([this.collisions.drones]);
   this.body.motionState = 2;
   this.body.mass = 1;
   this.respawn(completeCallback, context);
+};
+
+p.playerDronePass = function() {
+  console.log('player drone pass');
 };
 
 p.orbHit = function() {

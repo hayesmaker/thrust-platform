@@ -53,8 +53,8 @@ module.exports = {
         color: "rgba(255, 0, 0, 0.7)"
       },
       world: {
-        width: 1536,
-        height: 1000
+        width: 1920,
+        height: 1200
       },
       spawns: [{
         x: 500,

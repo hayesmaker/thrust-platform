@@ -28,6 +28,7 @@ p.init = function () {
   this.enemies = game.add.group();
   this.terrain = game.add.group();
   this.bullets = game.add.group();
+  this.drones = game.add.group();
 
   console.log('new Groups :: init ; game.groups', game);
   /*

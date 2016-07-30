@@ -43,6 +43,8 @@ module.exports = {
     game.load.onLoadComplete.add(this.loadComplete, this);
     game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     game.load.image('stars', 'assets/images/space.jpg');
+    game.load.image('starfield', 'assets/images/starfield.png');
+    game.load.image('drone', 'assets/images/drone.png');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }

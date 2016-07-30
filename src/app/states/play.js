@@ -18,6 +18,7 @@ var PowerStation = require('../actors/PowerStation');
 var PhysicsActor = require('../actors/PhysicsActor');
 var gameState = require('../data/game-state');
 var sound = require('../utils/sound');
+var droneManager = require('../actors/drone-manager');
 
 /**
  * The play state
@@ -272,10 +273,13 @@ module.exports = {
   playerWarpComplete: function () {
     this.inPlay = true;
     this.initControls();
-    this.initActorsStart();
+    this.startEnemies();
   },
 
-  initActorsStart: function () {
+  /**
+   * @method startEnemies
+   */
+  startEnemies: function () {
     _.each(this.limpetGuns, function (limpet) {
       limpet.start();
     });
@@ -447,9 +451,8 @@ module.exports = {
   createActors: function () {
     this.groups = new Groups();
     this.collisions = new Collisions();
-    if (properties.drawBackground) {
-      this.background = new Background();
-    }
+    var bgKey = gameState.trainingMode? 'starfield' : 'stars';
+    this.background = new Background(0,0,bgKey);
     particles.create();
     this.player = new Player(this.collisions, this.groups);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
@@ -472,12 +475,20 @@ module.exports = {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players]);
+      this.createTrainingDrones();
     }
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;
     game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
+  },
+
+  /**
+   * @method createTrainingDrones
+   */
+  createTrainingDrones: function() {
+    droneManager.newDrones(600, 1000, this.groups, this.collisions);
   },
 
   /**

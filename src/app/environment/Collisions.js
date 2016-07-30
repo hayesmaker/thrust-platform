@@ -37,6 +37,7 @@ p.init = function () {
   this.enemyBullets = game.physics.p2.createCollisionGroup();
   this.enemies = game.physics.p2.createCollisionGroup();
   this.fuels = game.physics.p2.createCollisionGroup();
+  this.drones = game.physics.p2.createCollisionGroup();
 
   game.physics.p2.updateBoundsCollisionGroup();
 };
