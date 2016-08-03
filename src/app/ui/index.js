@@ -30,6 +30,7 @@ module.exports = {
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
+    this.missionDialog.init(game.add.group(this.group));
   },
   
   update: function() {
@@ -77,5 +78,7 @@ module.exports = {
 
   lives: require('./lives'),
   
-  countdown: require('./countdown')
+  countdown: require('./countdown'),
+
+  missionDialog: require('./mission-dialog')
 };

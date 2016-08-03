@@ -200,11 +200,17 @@ p.orbHit = function() {
  * @method stop
  */
 p.stop = function() {
+  this.alive = false;
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
+};
+
+p.resume = function() {
+  this.alive = true;
+  this.body.motionState = 1;
 };
 
 p.levelExit = function() {

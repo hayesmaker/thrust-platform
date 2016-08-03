@@ -100,7 +100,7 @@ p.components = [];
  * Make this uiComponent a subscreen
  * If the ui-component is autoManaged (via the constructor)
  * this should not be called
- * todo maybe refactor this so it's not possible to be called if autoManaged
+ * todo maybe refactor this so it's not possible to be called if auto managed
  *
  * @method addAsSubScreen
  */

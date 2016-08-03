@@ -69,7 +69,7 @@ module.exports = {
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
-  levelsCompleted: function() {
+  levelsCompleted: function () {
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
   },
@@ -153,13 +153,13 @@ module.exports = {
 
     if (state === gameState.PLAY_STATES.MENU && !sound.music) {
       sound.playMusic("thrust-title-theme1", 1, true);
-      
+
     }
 
     if (state === gameState.PLAY_STATES.PLAY) {
       sound.stopMusic();
     }
-    
+
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
@@ -171,7 +171,7 @@ module.exports = {
    * @param item {Object}
    */
   menuItemSelected: function (item) {
-    
+
     switch (item.text.text) {
       case "PLAY THRUST" :
         gameState.newPlayer();
@@ -261,6 +261,14 @@ module.exports = {
    */
   missionStart: function () {
     gameState.isGameOver = false;
+    if (gameState.trainingMode) {
+      this.createMissionDialog();
+    } else {
+      this.playerStart();
+    }
+  },
+
+  playerStart: function () {
     this.player.start(this.playerWarpComplete, this);
   },
 
@@ -451,32 +459,34 @@ module.exports = {
   createActors: function () {
     this.groups = new Groups();
     this.collisions = new Collisions();
-    var bgKey = gameState.trainingMode? 'starfield' : 'stars';
-    this.background = new Background(0,0,bgKey);
+    var bgKey = gameState.trainingMode ? 'starfield' : 'stars';
+    this.background = new Background(0, 0, bgKey);
     particles.create();
     this.player = new Player(this.collisions, this.groups);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
+    this.map = new Map(this.collisions, this.groups);
+    this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
+    this.player.setTractorBeam(this.tractorBeam);
 
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
-      this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
-      this.player.setTractorBeam(this.tractorBeam);
-      this.map = new Map(this.collisions, this.groups);
       this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
       this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
       this.powerStation.initCollisions();
-      this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
       this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
+      this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players]);
+      this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
       this.createTrainingDrones();
     }
+
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;
@@ -484,11 +494,17 @@ module.exports = {
     game.e2e.enemies = this.limpetGuns;
   },
 
+  createMissionDialog: function () {
+    ui.missionDialog.render(this.playerStart, this);
+  },
+
   /**
    * @method createTrainingDrones
    */
-  createTrainingDrones: function() {
-    droneManager.newDrones(600, 1000, this.groups, this.collisions);
+  createTrainingDrones: function () {
+    droneManager.init(this.player, this.groups, this.collisions);
+    droneManager.newDrones();
+    droneManager.newHoverDrones();
   },
 
   /**
@@ -506,7 +522,7 @@ module.exports = {
     //do planet destruction anims
 
   },
-  
+
   /**
    * Creates the user interface and touch controls
    *

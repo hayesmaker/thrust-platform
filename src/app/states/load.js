@@ -48,6 +48,7 @@ module.exports = {
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
+    this.preloadTrainingMap(properties.levels.training);
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
@@ -89,6 +90,11 @@ module.exports = {
     );
   },
 
+  preloadTrainingMap: function(levelData) {
+    game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
+    game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
+  },
+
   /**
    * Load all maps in defined in the levelManager
    *
@@ -116,6 +122,9 @@ module.exports = {
     if (this.isLevelData(cacheKey)) {
       var levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
       var level = this.getLevelByCacheKey(cacheKey);
+      if (!level) {
+        level = properties.levels.training;
+      }
       if (level.hasOwnProperty('mapScale')) {
         this.scaleMapData(levelPhysics.data, level);
       }
@@ -144,9 +153,10 @@ module.exports = {
    * @todo test this
    */
   getLevelByCacheKey: function (cacheKey) {
-    return _.find(properties.levels.data, function (levelData) {
+    var myLevel = _.find(properties.levels.data, function (levelData) {
       return levelData.mapDataKey + properties.mapSuffix === cacheKey;
     }, this);
+    return myLevel;
   },
 
   /**

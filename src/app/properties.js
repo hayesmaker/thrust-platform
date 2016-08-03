@@ -29,7 +29,7 @@ module.exports = {
   },
   dev: {
     debugPhysics: true,
-    debugPositions: true,
+    debugPositions: false,
     stats: true,
     mode: false,
     skipIntro: false,
@@ -47,21 +47,30 @@ module.exports = {
   mapSuffix: '-map',
   levels: {
     training: {
+      mapImgUrl: 'assets/levels/training.png',
+      mapImgKey: 'training',
+      mapDataUrl: 'assets/levels/training.json',
+      mapDataKey: 'training',
+      mapScale: 2,
+      mapPosition: {
+        x: 0,
+        y: 500
+      },
       missionSwipe: {
         title: 'Flight Training',
         desc: 'Fly through the highlighted training pods',
         color: "rgba(255, 0, 0, 0.7)"
       },
       world: {
-        width: 1920,
-        height: 1200
+        width: 3000,
+        height: 3000
       },
       spawns: [{
-        x: 500,
-        y: 500,
+        x: 1500,
+        y: 1500,
         orb: false
       }],
-      orbPosition: {x: 915, y: 852}
+      orbPosition: {x: 2000, y: 2000}
     },
     startLevel: 1,
     data: [
