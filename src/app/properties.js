@@ -70,7 +70,8 @@ module.exports = {
         y: 1500,
         orb: false
       }],
-      orbPosition: {x: 2000, y: 2000}
+      orbPosition: {x: 2600, y: 1742},
+      orbHolder: {x: 2600, y: 1780}
     },
     startLevel: 1,
     data: [

@@ -468,6 +468,7 @@ module.exports = {
     this.map = new Map(this.collisions, this.groups);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
+    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
 
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
@@ -475,7 +476,6 @@ module.exports = {
       this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
-      this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
       this.powerStation.initCollisions();
       this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
@@ -579,8 +579,8 @@ module.exports = {
     if (this.orbHolder) {
       this.groups.actors.add(this.orbHolder);
     }
+    this.groups.swapTerrain();
     if (!gameState.trainingMode) {
-      this.groups.swapTerrain();
       _.each(this.limpetGuns, _.bind(function (limpet) {
         this.groups.enemies.add(limpet);
       }, this));

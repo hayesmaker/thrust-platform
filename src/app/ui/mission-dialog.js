@@ -29,7 +29,7 @@ module.exports = {
    * @param group
    */
   init: function (group) {
-    this.group = group;
+    this.group = game.add.group(group);
     this.initLayout();
     this.textData = textData.training;
 
@@ -54,8 +54,40 @@ module.exports = {
     this.dialogCallbackContext = context;
     this.renderBg();
     this.renderText();
-    this.enable();
+    this.startTweenIn();
+  },
 
+  /**
+   * @method startTweenIn
+   */
+  startTweenIn: function() {
+    var toY;
+    if (game.controls.useVirtualJoypad) {
+      toY = 20;
+      this.group.y = - this.layoutRect.height;
+    } else {
+      toY = game.height - this.layoutRect.height - 20;
+      this.group.y = game.height + this.layoutRect.height;
+    }
+    this.group.x = game.width/2 - this.group.width/2;
+    TweenMax.to(this.group, 0.25, {y: toY, ease: Quad.easeOut, onComplete: function() {
+      this.enable();
+    }.bind(this)} );
+  },
+
+  /**
+   * @method startTweenOut
+   */
+  startTweenOut: function() {
+    var toY;
+    if (game.controls.useVirtualJoypad) {
+      toY = - this.layoutRect.height;
+    } else {
+      toY = game.height + this.layoutRect.height
+    }
+    TweenMax.to(this.group, 0.25, {y: toY, ease: Quad.easeOut, onComplete: function() {
+      this.transitionExitComplete();
+    }.bind(this)} );
   },
 
   /**
@@ -71,8 +103,8 @@ module.exports = {
     bmd.ctx.lineWidth = 4;
     utils.drawRoundRect(bmd.ctx, lineW / 2, lineW / 2, w, h, 25, true, true);
     this.bg = game.add.sprite(0, 0, bmd, null, this.group);
-    this.bg.x = this.layoutRect.x = game.width / 2 - this.bg.width / 2;
-    this.bg.y = this.layoutRect.y = game.height - this.bg.height - 10;
+    this.bg.x = this.layoutRect.x = 0;
+    this.bg.y = this.layoutRect.y = 0;
   },
 
   /**
@@ -121,15 +153,15 @@ module.exports = {
    */
   spacePressed: function () {
     this.textIndex++;
-    this.transitionExitComplete();
+    this.startTweenOut();
     this.disable();
-    this.dialogCallback.call(this.dialogCallbackContext);
   },
 
   /**
    * @method transitionExitComplete
    */
   transitionExitComplete: function () {
+    this.dialogCallback.call(this.dialogCallbackContext);
     this.group.removeAll();
   }
 

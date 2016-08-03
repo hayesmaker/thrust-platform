@@ -200,6 +200,7 @@ p.orbHit = function() {
  * @method stop
  */
 p.stop = function() {
+  console.log('player :: stop');
   this.alive = false;
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -209,6 +210,7 @@ p.stop = function() {
 };
 
 p.resume = function() {
+  console.log('player :: resume');
   this.alive = true;
   this.body.motionState = 1;
 };
@@ -235,6 +237,7 @@ p.tweenOutAndRemove = function(removeWithOrb) {
  * @method spawn
  */
 p.spawn = function() {
+  console.log('spawn');
   this.inGameArea = true;
   this.body.motionState = 1;
   //this.body.collideWorldBounds = true;
@@ -279,7 +282,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
       completeCallback.call(thisArg);
     }
     self.spawn();
-    if (self.spawnWithOrb && !gameState.trainingMode) {
+    if (self.spawnWithOrb) {
       self.tractorBeam.orb.respawn(true);
       self.tractorBeam.lock();
     }
@@ -481,6 +484,8 @@ p.explosion = function () {
     this.explodeEmitter.start(true, 1500, null, 40);
     sound.playSound('boom1');
     this.thrustSfx.stop();
+    //sound.playSound('explode1');
+    this.thrustSfx.stop();
     if (hasOrb) {
       this.tractorBeam.breakLink();
     }
@@ -536,17 +541,19 @@ p.exhaustUpdate = function() {
  * @method death
  */
 p.death = function () {
+  /*
   if (!this.alive) {
     return;
+  }*/
+  if (this.inPlay) {
+    console.log('player :: death');
+    this.thrustEmitter.on = false;
+    this.inPlay = false;
+    this.alive = false;
+    game.time.events.add(2000, _.bind(this.checkRespawn, this));
   }
-  this.thrustSfx.stop();
-  sound.playSound('explode1');
-  this.thrustEmitter.on = false;
-  this.inPlay = false;
-  this.alive = false;
-  game.time.events.add(2000, _.bind(this.checkRespawn, this));
-};
 
+};
 /**
  * @method dispatch game over if player lives are lost
  * @param callback

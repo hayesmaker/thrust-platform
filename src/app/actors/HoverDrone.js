@@ -17,6 +17,7 @@ function HoverDrone (x, y, width, groups, collisions) {
   this.collisions = collisions;
   this.drawFlags(x, y, width);
   this.width = width;
+  this.onTrainingComplete = new Phaser.Signal();
   //
 }
 
@@ -60,7 +61,6 @@ p.drawFlags = function(x, y, width) {
   this.sensor = game.add.sprite(x, y, bmd);
   this.sensor.anchor.setTo(0.5);
   this.sensor.width = this.sensor.height = width;
-
   this.deactivate();
   //this.flag1.tint = 0xffffff;
   //this.flag2.tint = 0x0000ff;
@@ -160,7 +160,7 @@ p.resetTimer = function() {
  * @method startTimer
  */
 p.startTimer = function() {
-  this.timer = game.time.events.add(Phaser.Timer.SECOND * 5, this.passed, this);
+  this.timer = game.time.events.add(Phaser.Timer.SECOND * 3, this.passed, this);
 };
 
 /**
@@ -169,6 +169,7 @@ p.startTimer = function() {
 p.passed = function() {
   game.time.events.remove(this.timer);
   this.hasPassed = true;
+  this.onTrainingComplete.dispatch();
   this.flag1.tint = 0x00ff00;
   this.flag2.tint = 0x00ff00;
   this.flag3.tint = 0x00ff00;

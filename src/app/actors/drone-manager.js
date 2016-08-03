@@ -65,6 +65,10 @@ module.exports = {
     _.each(this.hoverDroneData, function(data) {
       this.hoverDrones.push(new HoverDrone(data.x, data.y, this.hoverDroneWidth, this.groups, this.collisions));
     }.bind(this));
+
+    _.each(this.hoverDrones, function(drone) {
+      drone.onTrainingComplete.add(this.hoverDroneActivated, this);
+    }.bind(this));
   },
 
   /**
@@ -86,12 +90,35 @@ module.exports = {
   },
 
   /**
+   * @method hoverDroneActivated
+   */
+  hoverDroneActivated: function() {
+    var passedDrones = _.map(this.hoverDrones, function(drone) {
+      return drone.hasPassed;
+    });
+    if (passedDrones.indexOf(false) < 0) {
+      this.gotoOrbStage();
+    }
+  },
+
+  /**
+   * @method gotoOrbStage
+   */
+  gotoOrbStage: function () {
+
+    this.player.stop();
+
+
+
+    this.nextTrainingStage();
+  },
+
+  /**
    * @todo refactor needed!
    *
    * @method nextTrainingStage
-   * @param stageIndex
    */
-  nextTrainingStage: function(stageIndex) {
+  nextTrainingStage: function() {
     this.player.stop();
     dialog.render(function() {
       this.trainingStageIndex++;
@@ -114,6 +141,7 @@ module.exports = {
 
     } else if (this.trainingStageIndex === 2) {
       //activate orb
+
     }
 
 

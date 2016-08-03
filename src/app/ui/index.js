@@ -30,7 +30,7 @@ module.exports = {
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
-    this.missionDialog.init(game.add.group(this.group));
+    this.missionDialog.init(this.group);
   },
   
   update: function() {
