@@ -29,10 +29,10 @@ module.exports = {
    * @param group
    */
   init: function (group) {
+    this.textIndex = 0;
     this.group = game.add.group(group);
     this.initLayout();
     this.textData = textData.training;
-
   },
 
   /**

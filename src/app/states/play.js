@@ -84,7 +84,11 @@ module.exports = {
     this.actorsUpdate();
     this.uiUpdate();
     this.checkGameCondition();
-    this.updateCamera();
+    if (droneManager.followOrb) {
+      this.updateCamera(this.orb.sprite);
+    } else {
+      this.updateCamera(this.player);
+    }
     if (this.uiMode) {
       if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
         ui.update();
@@ -198,13 +202,12 @@ module.exports = {
    * Change the lerp value to alter the amount of damping, lower values = smoother camera movement
    * @method updateCamera
    */
-  updateCamera: function () {
+  updateCamera: function (target) {
     var lerp = 0.05;
-    this.cameraPos.x += (this.player.x - this.cameraPos.x) * lerp;
-    this.cameraPos.y += (this.player.y - this.cameraPos.y) * lerp;
+    this.cameraPos.x += (target.x - this.cameraPos.x) * lerp;
+    this.cameraPos.y += (target.y - this.cameraPos.y) * lerp;
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
   },
-
   /**
    * Called first thing in state.create
    * to set the level to the current level defined in levelManager.
@@ -280,6 +283,9 @@ module.exports = {
     this.inPlay = true;
     this.initControls();
     this.startEnemies();
+    if (!gameState.trainingMode) {
+      this.player.orbActivated = true;
+    }
   },
 
   /**
@@ -378,10 +384,16 @@ module.exports = {
   gameOver: function () {
     console.warn('GAME OVER score:', gameState.score);
     ui.countdown.stop();
-    gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
-    if (gameState.isGameOver) {
+    if (gameState.trainingMode) {
+      gameState.trainingMode = false;
+      gameState.currentState = gameState.PLAY_STATES.MENU;
       gameState.newGame();
-      gameState.doHighScoreCheck();
+    } else {
+      gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
+      if (gameState.isGameOver) {
+        gameState.newGame();
+        gameState.doHighScoreCheck();
+      }
     }
     this.restartPlayState();
   },

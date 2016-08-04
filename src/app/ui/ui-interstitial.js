@@ -4,6 +4,7 @@ var gameState = require('../data/game-state');
 var TweenLite = global.TweenLite;
 var TimelineLite = global.TimelineLite;
 var Quad = global.Quad;
+var dialog = require('./mission-dialog');
 
 var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
   constructor: UIInterstial
@@ -255,7 +256,10 @@ p.transitionEnterComplete = function() {
 p.transitionExitComplete = function() {
   this.group.removeAll();
   if (gameState.trainingMode) {
-
+    dialog.render(function() {
+      gameState.isGameOver = true;
+      this.playState.gameOver();
+    }.bind(this), this)
   } else {
     this.playState.nextLevel();
   }

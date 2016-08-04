@@ -44,6 +44,9 @@ p.init = function () {
  * @param isXDown {Boolean} if x button is pressed for manual locking mode
  */
 p.checkDistance = function(player, isXDown) {
+  if (!player.orbActivated) {
+    return;
+  }
   if (!this.hasGrabbed) {
     if (isXDown || properties.gamePlay.autoOrbLocking) {
       player.checkOrbDistance();

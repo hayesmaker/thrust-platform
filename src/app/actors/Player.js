@@ -22,6 +22,12 @@ var sound = require('../utils/sound');
  * @constructor
  */
 function Player(collisions, groups) {
+  /**
+   * @property orbActivated
+   * @type {boolean}
+   * @default false
+   */
+  this.orbActivated = false;
 
   /**
    * @property joypadFireButton

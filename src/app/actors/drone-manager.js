@@ -3,7 +3,7 @@ var HoverDrone = require('./HoverDrone');
 var dialog = require('../ui/mission-dialog');
 
 module.exports = {
-
+  followOrb: false,
   player: null,
   standardDroneWidth: 100,
   standardDroneData: [
@@ -120,10 +120,16 @@ module.exports = {
    */
   nextTrainingStage: function() {
     this.player.stop();
+
+    if (this.trainingStageIndex === 1) {
+      this.followOrb = true;
+    }
+
     dialog.render(function() {
       this.trainingStageIndex++;
       this.doStageSpecifics();
       this.player.resume();
+      this.followOrb = false;
     }.bind(this), this);
   },
 
@@ -141,6 +147,7 @@ module.exports = {
 
     } else if (this.trainingStageIndex === 2) {
       //activate orb
+      this.player.orbActivated = true;
 
 
     }
