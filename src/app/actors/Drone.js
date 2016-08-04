@@ -47,7 +47,7 @@ p.drawFlags = function(x, y, width, rotation) {
   this.flag1 = game.add.sprite(x - pos.x, y + pos.y, 'drone', null, this.groups.drones);
   this.flag2 = game.add.sprite(x + pos.x, y - pos.y, 'drone', null, this.groups.drones);
   var bmd = game.make.bitmapData(1, 1);
-  bmd.rect(0,0,1,1, 'rgba(0, 255, 0, 0.5)');
+  bmd.rect(0,0,1,1, 'rgba(0, 255, 0, 0)');
   this.sensor = game.add.sprite(x + this.flag1.width/2, y, bmd);
   this.sensor.width = width * 2 - this.flag1.width;
   this.sensor.height = 10;

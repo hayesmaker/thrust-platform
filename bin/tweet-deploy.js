@@ -15,8 +15,10 @@ var status = function() {
     + changelog + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
   }
-}); 
+});
+*/

@@ -57,7 +57,7 @@ p.drawFlags = function(x, y, width) {
   this.flag3.anchor.setTo(0.5);
   this.flag4.anchor.setTo(0.5);
   var bmd = game.make.bitmapData(1, 1);
-  bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0.7)');
+  bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0)');
   this.sensor = game.add.sprite(x, y, bmd);
   this.sensor.anchor.setTo(0.5);
   this.sensor.width = this.sensor.height = width - this.flag1.width;
