@@ -11,10 +11,11 @@ var url = 'http://thrust-platform.herokuapp.com';
 var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
 
 var status = function() {
-  return 'Thrust 2016 minor update (v' + process.env.npm_package_version +') ' + url + ''  + changelog + '#GameDev #RetroRemake #IndieDev';
+  return 'Thrust 2016 Major update (v' + process.env.npm_package_version +') ' + url + 'Flight Training mode!'
+    + changelog + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 
-client.post('statuses/update', {status: status() }, function(error, tweet, response){
+client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
   }

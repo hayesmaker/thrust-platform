@@ -4,6 +4,7 @@ var gameState = require('../data/game-state');
 var TweenLite = global.TweenLite;
 var TimelineLite = global.TimelineLite;
 var Quad = global.Quad;
+var dialog = require('./mission-dialog');
 
 var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
   constructor: UIInterstial
@@ -149,8 +150,8 @@ p.render = function() {
   UIComponent.prototype.render.call(this);
   var x = game.width/2;
   _.each(this.fields, function(field, index) {
-    var label = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
-    label = this.createLabels(x, field, index, label);
+    var labelText = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
+    var label = this.createLabels(x, field, index, labelText);
     this.createValues(x, field, label);
   }.bind(this));
   this.transitionEnter();
@@ -254,5 +255,12 @@ p.transitionEnterComplete = function() {
  */
 p.transitionExitComplete = function() {
   this.group.removeAll();
-  this.playState.nextLevel();
+  if (gameState.trainingMode) {
+    dialog.render(function() {
+      gameState.isGameOver = true;
+      this.playState.gameOver();
+    }.bind(this), this);
+  } else {
+    this.playState.nextLevel();
+  }
 };

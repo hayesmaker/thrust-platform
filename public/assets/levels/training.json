@@ -1,0 +1,16 @@
+{ 
+    
+    "training": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   1500, 600  ,  753, 399  ,  1052, 51  ,  1497, 51  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   753, 399  ,  1500, 600  ,  0, 600  ,  0, 399  ]
+        }
+    ]
+}

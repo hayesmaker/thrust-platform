@@ -22,6 +22,12 @@ var sound = require('../utils/sound');
  * @constructor
  */
 function Player(collisions, groups) {
+  /**
+   * @property orbActivated
+   * @type {boolean}
+   * @default false
+   */
+  this.orbActivated = false;
 
   /**
    * @property joypadFireButton
@@ -179,22 +185,41 @@ p.start = function (completeCallback, context) {
   game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
-  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.setCollisionGroup(this.collisions.players);
+  //this.body.collides([this.collisions.orb], this.orbHit, this);
+  this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
+  this.body.collides([this.collisions.drones]);
   this.body.motionState = 2;
   this.body.mass = 1;
   this.respawn(completeCallback, context);
+};
+
+p.playerDronePass = function() {
+  console.log('player drone pass');
+};
+
+p.orbHit = function() {
+  console.log('orb hit');
 };
 
 /**
  * @method stop
  */
 p.stop = function() {
+  console.log('player :: stop');
+  this.alive = false;
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
+  this.thrustSfx.stop();
+};
+
+p.resume = function() {
+  console.log('player :: resume');
+  this.alive = true;
+  this.body.motionState = 1;
 };
 
 p.levelExit = function() {
@@ -219,8 +244,10 @@ p.tweenOutAndRemove = function(removeWithOrb) {
  * @method spawn
  */
 p.spawn = function() {
+  console.log('spawn');
   this.inGameArea = true;
   this.body.motionState = 1;
+  //this.body.collideWorldBounds = true;
   this.alpha = 0;
   this.visible = true;
   this.alive = true;
@@ -252,6 +279,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
     gameState.lives--;
   }
   this.tractorBeam.orb.respawn();
+
   sound.playSound('teleport-in3');
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
     if (completeCallback) {
@@ -395,7 +423,7 @@ p.checkOrbDistance = function () {
   var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
   if (distance < this.tractorBeam.length && this.alive) {
     this.tractorBeam.drawBeam(this.position);
-  } else if (distance >= this.tractorBeam.length && distance < 90) {
+  } else if (distance >= this.tractorBeam.length && distance < this.tractorBeam.length + this.tractorBeam.variance) {
     if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
     }
@@ -515,15 +543,14 @@ p.exhaustUpdate = function() {
  * @method death
  */
 p.death = function () {
-  if (!this.alive) {
-    return;
+  if (this.inPlay) {
+    console.log('player :: death');
+    this.thrustEmitter.on = false;
+    this.inPlay = false;
+    this.alive = false;
+    game.time.events.add(2000, _.bind(this.checkRespawn, this));
   }
-  this.thrustSfx.stop();
-  sound.playSound('explode1');
-  this.thrustEmitter.on = false;
-  this.inPlay = false;
-  this.alive = false;
-  game.time.events.add(2000, _.bind(this.checkRespawn, this));
+
 };
 
 /**
