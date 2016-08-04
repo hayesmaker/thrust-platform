@@ -47,13 +47,11 @@ p.drawFlags = function(x, y, width, rotation) {
   this.flag1 = game.add.sprite(x - pos.x, y + pos.y, 'drone', null, this.groups.drones);
   this.flag2 = game.add.sprite(x + pos.x, y - pos.y, 'drone', null, this.groups.drones);
   var bmd = game.make.bitmapData(1, 1);
-  bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0.0)');
-  this.sensor = game.add.sprite(x + 15, y + 5, bmd);
-  this.sensor.width = width * 2;
+  bmd.rect(0,0,1,1, 'rgba(0, 255, 0, 0.5)');
+  this.sensor = game.add.sprite(x + this.flag1.width/2, y, bmd);
+  this.sensor.width = width * 2 - this.flag1.width;
   this.sensor.height = 10;
   this.deactivate();
-  //this.flag1.tint = 0xffffff;
-  //this.flag2.tint = 0x0000ff;
 };
 
 /**
@@ -64,7 +62,7 @@ p.drawFlags = function(x, y, width, rotation) {
 p.initPhysics = function(width, rotation) {
   game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();
-  var box = this.sensor.body.addRectangle(width * 2, 10, 0, 0, 0);
+  var box = this.sensor.body.addRectangle(this.sensor.width, 10, 0, 0, 0);
   box.sensor = true;
   this.sensor.body.rotation = -rotation;
   this.sensor.body.motionState = 2;

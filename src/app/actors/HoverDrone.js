@@ -60,7 +60,7 @@ p.drawFlags = function(x, y, width) {
   bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0.7)');
   this.sensor = game.add.sprite(x, y, bmd);
   this.sensor.anchor.setTo(0.5);
-  this.sensor.width = this.sensor.height = width;
+  this.sensor.width = this.sensor.height = width - this.flag1.width;
   this.deactivate();
   //this.flag1.tint = 0xffffff;
   //this.flag2.tint = 0x0000ff;
@@ -75,7 +75,7 @@ p.drawFlags = function(x, y, width) {
 p.initPhysics = function() {
   game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();
-  var box = this.sensor.body.addRectangle(this.width, this.width, 0, 0, 0);
+  var box = this.sensor.body.addRectangle(this.sensor.width, this.sensor.width, 0, 0, 0);
   box.sensor = true;
   this.sensor.body.motionState = 2;
   this.sensor.body.setCollisionGroup(this.collisions.drones);

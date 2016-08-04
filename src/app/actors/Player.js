@@ -213,6 +213,7 @@ p.stop = function() {
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
+  this.thrustSfx.stop();
 };
 
 p.resume = function() {

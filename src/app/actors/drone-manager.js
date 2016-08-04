@@ -5,7 +5,7 @@ var dialog = require('../ui/mission-dialog');
 module.exports = {
   followOrb: false,
   player: null,
-  standardDroneWidth: 100,
+  standardDroneWidth: 75,
   standardDroneData: [
     {x: 1400, y: 1400, rotation: 0},
     {x: 1400, y: 1200, rotation: 0},

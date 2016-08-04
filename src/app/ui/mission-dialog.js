@@ -1,6 +1,7 @@
 var utils = require('../utils/canvas');
 var TweenMax = global.TweenMax;
 var textData = require('../data/dialogs');
+var gameState = require('../data/game-state');
 
 module.exports = {
 
@@ -39,7 +40,7 @@ module.exports = {
    * @method initLayout
    */
   initLayout: function () {
-    this.layoutRect = new Phaser.Rectangle(0, 0, game.width * 0.8, game.height * 0.2);
+    this.layoutRect = new Phaser.Rectangle(0, 0, game.width * 0.8, game.height * 0.225);
   },
 
   /**
@@ -60,34 +61,38 @@ module.exports = {
   /**
    * @method startTweenIn
    */
-  startTweenIn: function() {
+  startTweenIn: function () {
     var toY;
     if (game.controls.useVirtualJoypad) {
       toY = 20;
-      this.group.y = - this.layoutRect.height;
+      this.group.y = -this.layoutRect.height;
     } else {
       toY = game.height - this.layoutRect.height - 20;
       this.group.y = game.height + this.layoutRect.height;
     }
-    this.group.x = game.width/2 - this.group.width/2;
-    TweenMax.to(this.group, 0.25, {y: toY, ease: Quad.easeOut, onComplete: function() {
-      this.enable();
-    }.bind(this)} );
+    this.group.x = game.width / 2 - this.group.width / 2;
+    TweenMax.to(this.group, 0.25, {
+      y: toY, ease: Quad.easeOut, onComplete: function () {
+        this.enable();
+      }.bind(this)
+    });
   },
 
   /**
    * @method startTweenOut
    */
-  startTweenOut: function() {
+  startTweenOut: function () {
     var toY;
     if (game.controls.useVirtualJoypad) {
-      toY = - this.layoutRect.height;
+      toY = -this.layoutRect.height;
     } else {
       toY = game.height + this.layoutRect.height
     }
-    TweenMax.to(this.group, 0.25, {y: toY, ease: Quad.easeOut, onComplete: function() {
-      this.transitionExitComplete();
-    }.bind(this)} );
+    TweenMax.to(this.group, 0.25, {
+      y: toY, ease: Quad.easeOut, onComplete: function () {
+        this.transitionExitComplete();
+      }.bind(this)
+    });
   },
 
   /**
@@ -114,13 +119,22 @@ module.exports = {
     var style = {
       font: "18px Arial", fill: "#fff",
       align: "center",
-      boundsAlignH: "left",
-      boundsAlignV: "top",
+      boundsAlignH: "center",
+      boundsAlignV: "center",
       wordWrap: true, wordWrapWidth: this.layoutRect.width - 20
     };
-    var text = game.add.text(this.bg.x + 20, this.bg.y + 10, this.textData[this.textIndex], style);
+    style.font =  this.scaleFontSize(style.font);
+    var text = game.add.text(0, 0, this.textData[this.textIndex], style);
+    text.setTextBounds(10, 10, this.layoutRect.width - 20, this.layoutRect.height - 10);
     this.group.add(text);
   },
+
+  scaleFontSize: function (style) {
+    var fontsizeStr = style.split('px')[0];
+    var fontsize = parseInt(fontsizeStr, 10) * gameState.gameScale;
+    return style.replace(fontsizeStr, fontsize);
+  },
+
 
   /**
    * @method enable
