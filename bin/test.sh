@@ -5,9 +5,9 @@ echo Test Sweep env: $NODE_ENV
 npm run mocha
 
 if [[ $NODE_ENV == "travis" ]]; then
-  echo "Travis build: Launch e2e tests on browserstack"
-  npm run e2e:travis
+  echo "Skipping Travis build: Launch e2e tests on browserstack"
+  #npm run e2e:travis
 else
-  echo "Local testing: Ensure selenium server is running"
-  npm run nightwatch
+  echo "Skipping Local E2E testing"
+  #npm run nightwatch
 fi
