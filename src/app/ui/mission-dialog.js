@@ -86,7 +86,7 @@ module.exports = {
     if (game.controls.useVirtualJoypad) {
       toY = -this.layoutRect.height;
     } else {
-      toY = game.height + this.layoutRect.height
+      toY = game.height + this.layoutRect.height;
     }
     TweenMax.to(this.group, 0.25, {
       y: toY, ease: Quad.easeOut, onComplete: function () {

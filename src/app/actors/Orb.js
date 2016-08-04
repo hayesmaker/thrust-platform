@@ -1,5 +1,4 @@
 var properties = require('../properties');
-var gameState = require('../data/game-state');
 
 /**
  * Orb description

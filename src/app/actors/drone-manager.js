@@ -1,6 +1,7 @@
 var Drone = require('./Drone');
 var HoverDrone = require('./HoverDrone');
 var dialog = require('../ui/mission-dialog');
+var _ = require('lodash');
 
 module.exports = {
   followOrb: false,

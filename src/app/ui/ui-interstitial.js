@@ -259,7 +259,7 @@ p.transitionExitComplete = function() {
     dialog.render(function() {
       gameState.isGameOver = true;
       this.playState.gameOver();
-    }.bind(this), this)
+    }.bind(this), this);
   } else {
     this.playState.nextLevel();
   }
