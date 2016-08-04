@@ -1,5 +1,19 @@
 # Change Log
 
+## [v0.8.0](https://github.com/hayesmaker/thrust-platform/tree/v0.8.0) (2016-08-04)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.4...v0.8.0)
+
+**Merged pull requests:**
+
+- Feature/gamepad support [\#23](https://github.com/hayesmaker/thrust-platform/pull/23) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.7.4](https://github.com/hayesmaker/thrust-platform/tree/v0.7.4) (2016-07-13)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.3...v0.7.4)
+
+**Merged pull requests:**
+
+- Feature/title music [\#22](https://github.com/hayesmaker/thrust-platform/pull/22) ([hayesmaker](https://github.com/hayesmaker))
+
 ## [v0.7.3](https://github.com/hayesmaker/thrust-platform/tree/v0.7.3) (2016-07-07)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.2...v0.7.3)
 
