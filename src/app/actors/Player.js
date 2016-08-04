@@ -180,7 +180,7 @@ p.start = function (completeCallback, context) {
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
   this.body.setCollisionGroup(this.collisions.players);
-  this.body.collides([this.collisions.orb], this.orbHit, this);
+  //this.body.collides([this.collisions.orb], this.orbHit, this);
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.collides([this.collisions.drones]);
   this.body.motionState = 2;
@@ -268,13 +268,10 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
-  //this.body.collideWorldBounds = true;
   if (removeShip === true) {
     gameState.lives--;
   }
-  if (!gameState.trainingMode) {
-    this.tractorBeam.orb.respawn();
-  }
+  this.tractorBeam.orb.respawn();
 
   sound.playSound('teleport-in3');
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
@@ -419,7 +416,7 @@ p.checkOrbDistance = function () {
   var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
   if (distance < this.tractorBeam.length && this.alive) {
     this.tractorBeam.drawBeam(this.position);
-  } else if (distance >= this.tractorBeam.length && distance < 90) {
+  } else if (distance >= this.tractorBeam.length && distance < this.tractorBeam.length + this.tractorBeam.variance) {
     if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
     }
@@ -484,8 +481,6 @@ p.explosion = function () {
     this.explodeEmitter.start(true, 1500, null, 40);
     sound.playSound('boom1');
     this.thrustSfx.stop();
-    //sound.playSound('explode1');
-    this.thrustSfx.stop();
     if (hasOrb) {
       this.tractorBeam.breakLink();
     }
@@ -541,10 +536,6 @@ p.exhaustUpdate = function() {
  * @method death
  */
 p.death = function () {
-  /*
-  if (!this.alive) {
-    return;
-  }*/
   if (this.inPlay) {
     console.log('player :: death');
     this.thrustEmitter.on = false;
@@ -554,6 +545,7 @@ p.death = function () {
   }
 
 };
+
 /**
  * @method dispatch game over if player lives are lost
  * @param callback

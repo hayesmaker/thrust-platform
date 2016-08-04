@@ -37,7 +37,7 @@ module.exports = {
   },
   gamePlay: {
     firingMagnitude: 350,
-    tractorBeamLength: 85,
+    tractorBeamLength: 100,
     tractorBeamVariation: 10,
     lockingDuration: 800,
     parallax: true,

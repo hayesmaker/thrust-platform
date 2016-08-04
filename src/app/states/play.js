@@ -83,9 +83,7 @@ module.exports = {
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
-    if (!gameState.trainingMode) {
-      this.checkGameCondition();
-    }
+    this.checkGameCondition();
     this.updateCamera();
     if (this.uiMode) {
       if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
@@ -303,9 +301,7 @@ module.exports = {
     if (!this.inPlay) {
       return;
     }
-    if (!gameState.trainingMode) {
-      this.tractorBeam.checkDistance(this.player, this.isXDown);
-    }
+    this.tractorBeam.checkDistance(this.player, this.isXDown);
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
     } else {
@@ -451,6 +447,9 @@ module.exports = {
   },
 
   /**
+   * @todo refactor.
+   * @todo simplify training/normal level creation
+   *
    * create game actors, group and collision initialisation
    * game.e2e exposes actors to window, allowing actor control in e2e tests.
    *
@@ -469,7 +468,6 @@ module.exports = {
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
-
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
@@ -478,15 +476,14 @@ module.exports = {
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
       this.powerStation.initCollisions();
-      this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
       this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
+      this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
-      this.collisions.set(this.orb.sprite, [this.collisions.players]);
+      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
       this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
       this.createTrainingDrones();
     }
-
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;

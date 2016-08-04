@@ -40,11 +40,7 @@ p.init = function () {
   this.body.setCircle(13, 0, 0);
   this.body.motionState = 2;
   this.body.setCollisionGroup(this.collisions.orb);
-  if (gameState.trainingMode) {
-    this.body.collides([this.collisions.players], this.orbHit, this);
-  } else {
-    this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
-  }
+  this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
 };
 
 p.orbHit = function() {
@@ -89,9 +85,6 @@ p.stop = function() {
  */
 p.crash = function () {
   console.warn('Orb :: crash');
-  if (gameState.trainingMode) {
-    return;
-  }
   if (this.player) {
     this.player.crash();
   }
