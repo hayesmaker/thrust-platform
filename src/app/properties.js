@@ -1,3 +1,5 @@
+'use strict';
+
 var Phaser = global.Phaser;
 
 /**
@@ -33,7 +35,7 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: false,
+    debugPhysics: true,
     debugPositions: false,
     stats: true,
     mode: false,
