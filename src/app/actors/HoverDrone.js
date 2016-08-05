@@ -12,13 +12,13 @@ var properties = require('../properties');
  * @class Drone
  * @constructor
  */
-function HoverDrone (x, y, width, groups, collisions) {
+function HoverDrone(x, y, width, groups, collisions) {
   this.groups = groups;
   this.collisions = collisions;
   this.drawFlags(x, y, width);
   this.width = width;
   this.onTrainingComplete = new Phaser.Signal();
-  //
+  this.numActive = 0;
 }
 
 var p = HoverDrone.prototype;
@@ -36,6 +36,7 @@ p.hasPassed = false;
 p.nextDrone = null;
 p.newContact = false;
 p.timer = null;
+p.numActive = 0;
 
 /**
  * @method drawFlags
@@ -43,11 +44,11 @@ p.timer = null;
  * @param y
  * @param width
  */
-p.drawFlags = function(x, y, width) {
-  var pos1 = new Phaser.Point(x - width/2, y);
-  var pos2 = new Phaser.Point(x, y - width/2);
-  var pos3 = new Phaser.Point(x + width/2, y);
-  var pos4 = new Phaser.Point(x, y + width/2);
+p.drawFlags = function (x, y, width) {
+  var pos1 = new Phaser.Point(x - width / 2, y);
+  var pos2 = new Phaser.Point(x, y - width / 2);
+  var pos3 = new Phaser.Point(x + width / 2, y);
+  var pos4 = new Phaser.Point(x, y + width / 2);
   this.flag1 = game.add.sprite(pos1.x, pos1.y, 'drone', null, this.groups.drones);
   this.flag2 = game.add.sprite(pos2.x, pos2.y, 'drone', null, this.groups.drones);
   this.flag3 = game.add.sprite(pos3.x, pos3.y, 'drone', null, this.groups.drones);
@@ -57,7 +58,7 @@ p.drawFlags = function(x, y, width) {
   this.flag3.anchor.setTo(0.5);
   this.flag4.anchor.setTo(0.5);
   var bmd = game.make.bitmapData(1, 1);
-  bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0)');
+  bmd.rect(0, 0, 1, 1, 'rgba(255, 0, 0, 0)');
   this.sensor = game.add.sprite(x, y, bmd);
   this.sensor.anchor.setTo(0.5);
   this.sensor.width = this.sensor.height = width - this.flag1.width;
@@ -72,7 +73,7 @@ p.drawFlags = function(x, y, width) {
  * @method initPhysics
  * @param width
  */
-p.initPhysics = function() {
+p.initPhysics = function () {
   game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();
   var box = this.sensor.body.addRectangle(this.sensor.width, this.sensor.width, 0, 0, 0);
@@ -84,11 +85,10 @@ p.initPhysics = function() {
   this.sensor.body.onEndContact.add(this.contactLost, this);
 };
 
-p.lastDrone = function() {
-  this.onTrainingComplete = new Phaser.Signal();
-};
-
-p.deactivate = function(){
+/**
+ * @method deactivate
+ */
+p.deactivate = function () {
   this.active = false;
   this.newContact = false;
   this.flag1.alpha = 0.25;
@@ -97,7 +97,12 @@ p.deactivate = function(){
   this.flag4.alpha = 0.25;
 };
 
-p.activate = function( ) {
+/**
+ * Init Physics
+ *
+ * @method activate
+ */
+p.activate = function () {
   this.initPhysics();
   this.newContact = true;
   this.active = true;
@@ -107,16 +112,23 @@ p.activate = function( ) {
   this.flag4.alpha = 1;
 };
 
-p.isHovering = function() {
+/**
+ * @method isHovering
+ */
+p.isHovering = function () {
   this.newContact = false;
-  this.flag1.tint = 0x0000ff;
-  this.flag2.tint = 0x0000ff;
-  this.flag3.tint = 0x0000ff;
-  this.flag4.tint = 0x0000ff;
+  this.flag1.tint = 0xfffa75;
+  this.flag2.tint = 0xfffa75;
+  this.flag3.tint = 0xfffa75;
+  this.flag4.tint = 0xfffa75;
 };
 
-p.isNotHovering = function() {
+/**
+ * @method isNotHovering
+ */
+p.isNotHovering = function () {
   this.newContact = true;
+  this.numActive = 0;
   this.flag1.tint = 0xffffff;
   this.flag2.tint = 0xffffff;
   this.flag3.tint = 0xffffff;
@@ -126,7 +138,7 @@ p.isNotHovering = function() {
 /**
  * @method contactStart
  */
-p.contactStart = function() {
+p.contactStart = function () {
 
   if (this.active && !this.hasPassed && this.newContact) {
     this.startTimer();
@@ -137,7 +149,7 @@ p.contactStart = function() {
 /**
  * @method contactLost
  */
-p.contactLost = function() {
+p.contactLost = function () {
   if (this.hasPassed) {
     return;
   }
@@ -148,25 +160,52 @@ p.contactLost = function() {
 /**
  * @method resetTimer;
  */
-p.resetTimer = function() {
+p.resetTimer = function () {
   game.time.events.remove(this.timer);
   this.timer = null;
 };
 
 /**
- * this.timer = game.time.events.add(Phaser.Timer.SECOND * config.features.preShow.linesDuration, callback, this);
+ * //standard timer
+ * this.timer = game.time.events.add(Phaser.Timer.SECOND * seconds, callback, this);
  * game.time.events.remove(this.timer);
  *
  * @method startTimer
  */
-p.startTimer = function() {
-  this.timer = game.time.events.add(Phaser.Timer.SECOND * 3, this.passed, this);
+p.startTimer = function () {
+  console.log('start Timer');
+  this.timer = game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
+  this.updateTimer();
+};
+
+/**
+ * @method updateTimer
+ */
+p.updateTimer = function () {
+  switch (this.numActive++) {
+    case 1 :
+      this.flag1.tint = 0x1787fa;
+      break;
+    case 2 :
+      this.flag2.tint = 0x1787fa;
+      break;
+    case 3 :
+      this.flag3.tint = 0x1787fa;
+      break;
+    case 4 :
+      this.flag4.tint = 0x1787fa;
+      this.passed();
+      break;
+    default:
+
+      break;
+  }
 };
 
 /**
  * @method passed
  */
-p.passed = function() {
+p.passed = function () {
   game.time.events.remove(this.timer);
   this.hasPassed = true;
   this.onTrainingComplete.dispatch();

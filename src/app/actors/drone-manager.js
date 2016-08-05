@@ -8,31 +8,31 @@ module.exports = {
   player: null,
   standardDroneWidth: 75,
   standardDroneData: [
-    {x: 1400, y: 1400, rotation: 0},
-    {x: 1400, y: 1200, rotation: 0},
-    {x: 1400, y: 1000, rotation: 0},
-    {x: 1300, y: 800, rotation: 0},
-    {x: 1500, y: 600, rotation: 0},
-    {x: 1400, y: 400, rotation: 0},
-    {x: 1200, y: 300, rotation: Math.PI / 4},
+    {x: 1600, y: 1400, rotation: 0},
+    {x: 1600, y: 1200, rotation: 0},
+    {x: 1600, y: 1000, rotation: 0},
+    {x: 1500, y: 800, rotation: 0},
+    {x: 1700, y: 600, rotation: 0},
+    {x: 1600, y: 400, rotation: 0},
+    {x: 1400, y: 300, rotation: Math.PI / 4},
+    {x: 1200, y: 300, rotation: Math.PI / 2},
     {x: 1000, y: 300, rotation: Math.PI / 2},
     {x: 800, y: 300, rotation: Math.PI / 2},
-    {x: 600, y: 300, rotation: Math.PI / 2},
-    {x: 400, y: 300, rotation: 3 * Math.PI / 4},
-    {x: 300, y: 400, rotation: 3 * Math.PI / 4},
-    {x: 200, y: 500, rotation: 3 * Math.PI / 4},
-    {x: 100, y: 700, rotation: 0},
-    {x: 200, y: 900, rotation: 0},
-    {x: 100, y: 1100, rotation: 0},
-    {x: 100, y: 1300, rotation: 0},
-    {x: 100, y: 1600, rotation: Math.PI / 4},
+    {x: 600, y: 300, rotation: 3 * Math.PI / 4},
+    {x: 500, y: 400, rotation: 3 * Math.PI / 4},
+    {x: 400, y: 500, rotation: 3 * Math.PI / 4},
+    {x: 300, y: 700, rotation: 0},
+    {x: 400, y: 900, rotation: 0},
+    {x: 300, y: 1100, rotation: 0},
+    {x: 200, y: 1300, rotation: 0},
+    {x: 300, y: 1600, rotation: Math.PI / 4},
     {x: 300, y: 1800, rotation: Math.PI / 4},
-    {x: 600, y: 1900, rotation: Math.PI / 2},
     {x: 800, y: 1900, rotation: Math.PI / 2},
     {x: 1000, y: 1900, rotation: Math.PI / 2},
-    {x: 1100, y: 1800, rotation: 7 * Math.PI / 4},
-    {x: 1300, y: 1700, rotation: 7 * Math.PI / 4},
-    {x: 1400, y: 1600, rotation: 0}
+    {x: 1200, y: 1900, rotation: Math.PI / 2},
+    {x: 1300, y: 1800, rotation: 7 * Math.PI / 4},
+    {x: 1500, y: 1700, rotation: 7 * Math.PI / 4},
+    {x: 1600, y: 1550, rotation: 0}
   ],
   standardDrones: [],
   hoverDrones: [],
@@ -53,6 +53,7 @@ module.exports = {
    * @param collisions
    */
   init: function(player, groups, collisions) {
+    this.trainingStageIndex = 0;
     this.standardDrones = [];
     this.player = player;
     this.groups = groups;
@@ -106,11 +107,7 @@ module.exports = {
    * @method gotoOrbStage
    */
   gotoOrbStage: function () {
-
     this.player.stop();
-
-
-
     this.nextTrainingStage();
   },
 
@@ -125,7 +122,6 @@ module.exports = {
     if (this.trainingStageIndex === 1) {
       this.followOrb = true;
     }
-
     dialog.render(function() {
       this.trainingStageIndex++;
       this.doStageSpecifics();
@@ -139,13 +135,11 @@ module.exports = {
    */
   doStageSpecifics: function() {
     console.log('drone-manager :: doStageSpecifics :: stageIndex=', this.trainingStageIndex);
-
     if (this.trainingStageIndex === 1) {
       //activate Hover Drones
       _.each(this.hoverDrones, function(hoverDrone) {
         hoverDrone.activate();
       }.bind(this));
-
     } else if (this.trainingStageIndex === 2) {
       //activate orb
       this.player.orbActivated = true;

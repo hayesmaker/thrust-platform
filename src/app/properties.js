@@ -35,12 +35,12 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: true,
+    debugPhysics: false,
     debugPositions: false,
     stats: true,
     mode: false,
     skipIntro: false,
-    skipSplashScreen: false
+    skipSplashScreen: true
   },
   gamePlay: {
     firingMagnitude: 350,
@@ -65,7 +65,7 @@ module.exports = {
       },
       missionSwipe: {
         title: 'Flight Training',
-        desc: 'Welcome to flight training pilot!.',
+        desc: 'Welcome to flight training pilot',
         color: "rgba(124, 255, 0, 0.7)"
       },
       world: {
