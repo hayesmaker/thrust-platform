@@ -38,11 +38,11 @@ module.exports = {
   hoverDrones: [],
   hoverDroneWidth: 125,
   hoverDroneData: [
-    {x: 1900, y: 1500},
-    {x: 2400, y: 1000},
-    {x: 2200, y: 1200},
-    {x: 2000, y: 700},
-    {x: 2200, y: 800}
+    {x: 2300, y: 1550},
+    {x: 2500, y: 1000},
+    {x: 2400, y: 1300},
+    {x: 2600, y: 1500},
+    {x: 2250, y: 800}
   ],
   trainingStageIndex: 0,
 

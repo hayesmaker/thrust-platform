@@ -10,6 +10,13 @@ var levelManager = require('./level-manager');
  * @type {{PLAY_STATES: {MENU: string, PLAY: string, HIGH_SCORES: string, INTERSTITIAL: string, GAME_OVER: string}, currentState: null, highScoreTable: *[], getScoreIndex: module.exports.getScoreIndex, insertNewHighScore: module.exports.insertNewHighScore, newScoreEntered: module.exports.newScoreEntered, shouldEnterHighScore: boolean, SCORES: {FUEL: number, LIMPET: number, PLANET_BUSTER: number, ORB_RECOVERED: number, LIMPETS_DESTROYED: number}, getScoreByValueId: module.exports.getScoreByValueId, POWER_STATION_HEALTH: number, ENEMY_BULLET_DURATION: number, PLAYER_BULLET_DURATION: number, FUEL_AMOUNT: number, init: module.exports.init, levelStart: module.exports.levelStart, newPlayer: module.exports.newPlayer, newGame: module.exports.newGame, doHighScoreCheck: module.exports.doHighScoreCheck, nextLevel: module.exports.nextLevel, bonuses: {planetBuster: boolean, orbRecovered: boolean}, score: number, fuel: number, lives: number, isGameOver: boolean}}
  */
 module.exports = {
+  /**
+   * When player plays Flight Training, this flag is set to true.
+   * It controls many aspects of in game logic, specific to Flight Training Mode.
+   *
+   * @property trainingMode
+   * @type {Boolean}
+   */
   trainingMode: false,
   /**
    * @propery gameComplete 
@@ -141,7 +148,7 @@ module.exports = {
     PLANET_BUSTER: 1000,
     ORB_RECOVERED: 750,
     LIMPETS_DESTROYED: 500,
-    DRONES_PASSED: 28,
+    DRONES_PASSED: 29,
     TIMED_RUN: 0
   },
 
@@ -186,8 +193,7 @@ module.exports = {
   FUEL_AMOUNT: 600,
 
   /**
-   * 
-   * 
+   *
    * @property gameScale
    */
   gameScale: 1,

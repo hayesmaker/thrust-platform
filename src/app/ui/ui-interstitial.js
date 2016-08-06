@@ -52,10 +52,17 @@ p.trainingFields = [
     style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
   },
   {
+    successLabel: "Orb Recovered",
+    failLabel: "Orb Not Recovered",
+    valueId: "ORB_RECOVERED",
+    yPos: 0.45,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
     successLabel: "Timed Run",
     failLabel: "Time Invalidated",
     valueId: "TIMED_RUN",
-    yPos: 0.45,
+    yPos: 0.5,
     style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
   },
   {
@@ -255,7 +262,7 @@ p.transitionEnter = function() {
      this.tl.add(TweenLite.to(field.tf, 0.2, {alpha: 1, ease:Quad.easeIn}));
    }.bind(this));
     this.tl.add(TweenLite.to(this, 0.5));
-   _.each(this.fields, function(field) {
+   _.each(this.getFields(), function(field) {
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
        if (field.score > 0 && !gameState.trainingMode) {
