@@ -130,6 +130,17 @@ module.exports = {
     }.bind(this), this);
   },
 
+  activateTimedRun: function(stopwatch) {
+    this.stopwatch = stopwatch;
+  },
+
+  /**
+   * @method trainingComplete
+   */
+  trainingComplete: function() {
+    this.stopwatch.stop();
+  },
+
   /**
    * @method doStageSpecifics
    */

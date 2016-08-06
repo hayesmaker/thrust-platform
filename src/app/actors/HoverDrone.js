@@ -2,6 +2,7 @@
 
 var properties = require('../properties');
 var sound = require('../utils/sound');
+var gameState = require('../data/game-state');
 
 /**
  *
@@ -218,6 +219,7 @@ p.passed = function () {
   this.flag2.tint = 0x00ff00;
   this.flag3.tint = 0x00ff00;
   this.flag4.tint = 0x00ff00;
+  gameState.score+=1;
 };
 
 module.exports = HoverDrone;

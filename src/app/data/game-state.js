@@ -122,7 +122,15 @@ module.exports = {
    * @default false
    */
   shouldEnterHighScore: false,
-  
+
+  /**
+   * Set when a timed run has completed
+   * (only in training mode currently)
+   *
+   * @property playTime
+   */
+  playTime: "0",
+
   /**
    * @property SCORES
    * @type {object}
@@ -132,7 +140,9 @@ module.exports = {
     LIMPET: 750,
     PLANET_BUSTER: 1000,
     ORB_RECOVERED: 750,
-    LIMPETS_DESTROYED: 500
+    LIMPETS_DESTROYED: 500,
+    DRONES_PASSED: 28,
+    TIMED_RUN: 0
   },
 
   /**
@@ -141,7 +151,11 @@ module.exports = {
    * @returns {*}
    */
   getScoreByValueId: function(valueId) {
-    return this.SCORES[valueId];
+    if (valueId === "TIMED_RUN") {
+      return this.playTime;
+    } else {
+      return this.SCORES[valueId];
+    }
   },
 
   /**

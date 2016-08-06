@@ -19,6 +19,7 @@ var PhysicsActor = require('../actors/PhysicsActor');
 var gameState = require('../data/game-state');
 var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
+var Stopwatch = require('../ui/Stopwatch');
 
 /**
  * The play state
@@ -49,6 +50,7 @@ module.exports = {
   crossHair: null,
   crossHairSpeed: 15,
   menuMode: false,
+  stopwatch: null,
   cameraPos: {
     x: 0,
     y: 0
@@ -340,6 +342,10 @@ module.exports = {
         ui.countdown.stop();
         sound.playSound('teleport-in3');
         this.player.levelExit();
+       if (gameState.trainingMode) {
+         droneManager.trainingComplete();
+         gameState.playTime = this.stopwatch.getText();
+       }
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
@@ -504,7 +510,12 @@ module.exports = {
   },
 
   createMissionDialog: function () {
-    ui.missionDialog.render(this.playerStart, this);
+    ui.missionDialog.render(function() {
+      this.playerStart();
+      this.stopwatch = new Stopwatch();
+      this.stopwatch.start(ui.stopwatch);
+      droneManager.activateTimedRun(this.stopwatch);
+    }.bind(this), this);
   },
 
   /**
@@ -542,6 +553,9 @@ module.exports = {
       game.controls.initVirtualJoypad();
     }
     ui.init(this.menuItemSelected, this);
+    if (gameState.trainingMode) {
+      ui.drawTrainingUi();
+    }
     ui.countdown.complete.add(this.countdownComplete, this);
   },
 
