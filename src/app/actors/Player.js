@@ -118,6 +118,7 @@ function Player(collisions, groups) {
   this.respawnPos.copyFrom(this.initialPos);
   Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'player');
   this.anchor.setTo(0.5);
+  //this.scale.setTo(0.6);
   this.alpha = 0;
   this.init();
   this.thrustSfx = game.sfx.get('thrust4');

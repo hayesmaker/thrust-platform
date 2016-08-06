@@ -53,5 +53,9 @@ module.exports = {
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
     game.state.start('boot');
+
+    //game.renderer.renderSession.roundPixels = true;
+    //Phaser.Canvas.setImageRenderingCrisp(game.canvas);
+
   }
 };  

@@ -36,6 +36,44 @@ p.onExitComplete = new Phaser.Signal();
  */
 p.preventAutoEnable = true;
 
+p.trainingFields = [
+  {
+    successLabel: "Training Complete",
+    failLabel: "Training Failed",
+    yPos: 0.3,
+    style: { font: "18px thrust_regular", fill: "#ffffff", align: "left" },
+    center: true
+  },
+  {
+    successLabel: "Drones Passed",
+    failLabel: "Drones Missed",
+    valueId: "DRONES_PASSED",
+    yPos: 0.4,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Orb Recovered",
+    failLabel: "Orb Not Recovered",
+    valueId: "ORB_RECOVERED",
+    yPos: 0.45,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Timed Run",
+    failLabel: "Time Invalidated",
+    valueId: "TIMED_RUN",
+    yPos: 0.5,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Press Fire",
+    failLabel: "Press Fire",
+    yPos: 0.6,
+    style: { font: "18px thrust_regular", fill: "#00ff00", align: "left" },
+    center: true
+  }
+];
+
 /**
  * Data provider for this ui component
  * 
@@ -95,7 +133,14 @@ p.scaleFontSize = function(style) {
  */
 p.createLabels = function(x, field, index, label) {
   var fontStyle = this.scaleFontSize(field.style.font);
-  if (gameState.bonuses.planetBuster) {
+  if (gameState.bonuses.planetBuster || gameState.trainingMode) {
+
+    if (gameState.trainingMode) {
+      if (index < this.trainingFields.length - 1) {
+        label = field.successLabel;
+      }
+    }
+
     if (index === 2 || index === 3) {
       label = field.successLabel;
     }
@@ -149,7 +194,7 @@ p.createValues = function(x, field, label) {
 p.render = function() {
   UIComponent.prototype.render.call(this);
   var x = game.width/2;
-  _.each(this.fields, function(field, index) {
+  _.each(this.getFields(), function(field, index) {
     var labelText = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
     var label = this.createLabels(x, field, index, labelText);
     this.createValues(x, field, label);
@@ -211,20 +256,25 @@ p.spacePressed = function () {
  * @method transitionEnter
  */
 p.transitionEnter = function() {
+
    this.tl = new TimelineLite({delay: 0.25, onComplete: this.transitionEnterComplete, callbackScope: this});
-   _.each(this.fields, function(field) {
+   _.each(this.getFields(), function(field) {
      this.tl.add(TweenLite.to(field.tf, 0.2, {alpha: 1, ease:Quad.easeIn}));
    }.bind(this));
     this.tl.add(TweenLite.to(this, 0.5));
-   _.each(this.fields, function(field) {
+   _.each(this.getFields(), function(field) {
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
-       if (field.score > 0) {
+       if (field.score > 0 && !gameState.trainingMode) {
          var newScore = gameState.score + field.score;
          this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score"}));
        }
      }
    }.bind(this));
+};
+
+p.getFields = function() {
+  return gameState.trainingMode? this.trainingFields : this.fields;
 };
 
 /**
@@ -234,7 +284,7 @@ p.transitionEnter = function() {
  */
 p.transitionExit = function() {
   this.tl = new TimelineLite({delay: 0, onComplete: this.transitionExitComplete, callbackScope: this});
-  _.each(this.fields, function(field) {
+  _.each(this.getFields(), function(field) {
     this.tl.add(TweenLite.to(field.tf, 0.2, {y: -100, ease:Quad.easeIn}));
     if (field.valueTf) {
       this.tl.add(TweenLite.to(field.valueTf, 0.2, {x: game.width + 100, ease:Quad.easeIn}));
