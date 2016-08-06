@@ -45,7 +45,7 @@
     "tweet:deploy": "node ./bin/tweet-deploy",
     "assets": "./bin/assets.sh",
     "heroku": "echo 'Deploying to heroku master' && git push heroku master",
-    "update:audio": "cp -rf ../thrust-platform-dev/_dev/audio/result/ ./public/assets/audiosprite/"
+    "update:audio": "echo 'run audiosprite task from dev before running this' && cp -rf ../thrust-platform-dev/_dev/audio/result/ ./public/assets/audiosprite/"
   },
   "dependencies": {
     "body-parser": "~1.12.0",

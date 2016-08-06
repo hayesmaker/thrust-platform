@@ -1,6 +1,7 @@
 'use strict';
 
 var properties = require('../properties');
+var sound = require('../utils/sound');
 
 /**
  *
@@ -106,6 +107,7 @@ p.contactStart = function() {
     this.flag2.tint = 0x00ff00;
     if (this.nextDrone) {
       this.nextDrone.activate();
+      sound.playSound('collect1', 1, false);
     } else {
       this.onTrainingComplete.dispatch();
     }
