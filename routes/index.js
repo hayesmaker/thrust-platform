@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 
 router.get('/min', function(req, res) {
   res.render('app', {
-    title: title + "(canvas)",
+    title: title + "(minified)",
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-canvas.min.js'
   });
@@ -22,9 +22,17 @@ router.get('/min', function(req, res) {
 
 router.get('/dev', function(req, res) {
   res.render('app', {
-    title: title + " (canvas)",
+    title: title + " (dev)",
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-canvas.js'
+  });
+});
+
+router.get('/mobile', function(req, res) {
+  res.render('app', {
+    title: title + " (mobile)",
+    version: pkg.version,
+    engine: 'javascripts/browserify/thrust-engine-mobile.js'
   });
 });
 

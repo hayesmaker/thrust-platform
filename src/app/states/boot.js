@@ -19,6 +19,12 @@ var userControl;
  * @static
  */
 module.exports = {
+
+  init: function(customScaleMode) {
+    console.log('boot :: customScaleMode', customScaleMode);
+    this.customScaleMode = customScaleMode;
+  },
+
   /**
    * @property bootScreen
    */
@@ -47,11 +53,18 @@ module.exports = {
    */
   create: function () {
     console.log('boot :: create');
+    //Experimental undocumented feature of Phaser
+    game.renderer.renderSession.roundPixels = true;
+    Phaser.Canvas.setImageRenderingCrisp(game.canvas);
+
     features.init();
     levelManager.init();
     particles.init();
     gameState.init();
     game.scale.scaleMode = features.isTouchScreen ? properties.scale.device : properties.scale.web;
+    if (this.customScaleMode >= 0) {
+      game.scale.scaleMode = this.customScaleMode;
+    }
     if (properties.dev.stats) {
       game.time.advancedTiming = true;
     }
