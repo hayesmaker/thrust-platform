@@ -13,7 +13,7 @@ var url = 'http://thrust-platform.herokuapp.com';
 var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
 
 var status = function() {
-  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + 'Saved Highscores.'
+  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'Saved Highscores.'
     + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 
