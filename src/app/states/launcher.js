@@ -16,6 +16,9 @@ var properties = require('../properties');
  * @class launcher
  */
 module.exports = {
+  renderMode: null,
+
+  customScaleMode: null,
 
   /**
    * @method enableHiResMode
@@ -29,6 +32,14 @@ module.exports = {
       properties.width = window.innerWidth;
       properties.height = window.innerHeight;
     }
+  },
+
+  /**
+   * @method setCustomScale
+   * @param scaleMode
+   */
+  setCustomScale: function(scaleMode) {
+    this.customScaleMode = scaleMode;
   },
 
   /**
@@ -48,14 +59,10 @@ module.exports = {
    */
   start: function() {
     var domParent = document.getElementById('gameContainer') || '';
-    global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent);
+    global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
-    game.state.start('boot');
-
-    //game.renderer.renderSession.roundPixels = true;
-    //Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-
+    game.state.start('boot', true, false, this.customScaleMode);
   }
 };  

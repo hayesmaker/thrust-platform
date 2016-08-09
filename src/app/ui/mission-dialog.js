@@ -1,4 +1,4 @@
-var utils = require('../utils/canvas');
+//var utils = require('../utils/canvas');
 var TweenMax = global.TweenMax;
 var textData = require('../data/dialogs');
 var gameState = require('../data/game-state');
@@ -64,7 +64,7 @@ module.exports = {
   startTweenIn: function () {
     var toY;
     if (game.controls.useVirtualJoypad) {
-      toY = 20;
+      toY = game.height/2 - this.layoutRect.height/2;
       this.group.y = -this.layoutRect.height;
     } else {
       toY = game.height - this.layoutRect.height - 20;
@@ -102,14 +102,38 @@ module.exports = {
     var lineW = 4;
     var w = this.layoutRect.width;
     var h = this.layoutRect.height;
+    //if (game.device.iPad || game.device.iPhone) {
+    /*
+    this.bg = game.add.graphics(0,0);
+    this.bg.beginFill(0xFF3300);
+    this.bg.lineStyle(lineW, 0xffd900, 1);
+    this.bg.drawRect(0, 0, w + lineW * 2, h + lineW *2);
+    this.bg.endFill();
+    this.bg.fixedToCamera = true;
+
+      //this.bg = new Phaser.Sprite();
+      //this.group.add(this.bg);
+      //this.bg.addChild(graphics);
+    //}
+    */
+    var bmd = game.make.bitmapData(1, 1);
+    bmd.rect(0,0,1,1, 'rgba(0,100,0, 1)');
+    this.bg = game.add.sprite(0, 0, bmd, null, this.group);
+    this.bg.width = w + lineW * 2;
+    this.bg.height = h + lineW * 2;
+
+    /* This method isn't working on ipad
     var bmd = game.make.bitmapData(w + lineW * 2, h + lineW * 2);
-    bmd.ctx.fillStyle = "rgba(0,0,0, 0.5)";
+    bmd.ctx.fillStyle = "rgba(0,0,0, 1)";
     bmd.ctx.strokeStyle = "rgba(0,0,255, 1)";
-    bmd.ctx.lineWidth = 4;
+    bmd.ctx.lineWidth = lineW;
     utils.drawRoundRect(bmd.ctx, lineW / 2, lineW / 2, w, h, 25, true, true);
+    */
+
     this.bg = game.add.sprite(0, 0, bmd, null, this.group);
     this.bg.x = this.layoutRect.x = 0;
     this.bg.y = this.layoutRect.y = 0;
+    //this.bg.fixedToCamera = true;
   },
 
   /**

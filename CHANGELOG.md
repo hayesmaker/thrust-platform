@@ -1,5 +1,19 @@
 # Change Log
 
+## [v0.8.2](https://github.com/hayesmaker/thrust-platform/tree/v0.8.2) (2016-08-09)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.1...v0.8.2)
+
+**Merged pull requests:**
+
+- Tidy training mode [\#25](https://github.com/hayesmaker/thrust-platform/pull/25) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.8.1](https://github.com/hayesmaker/thrust-platform/tree/v0.8.1) (2016-08-06)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.0...v0.8.1)
+
+**Merged pull requests:**
+
+- Feature/major/flight training [\#24](https://github.com/hayesmaker/thrust-platform/pull/24) ([hayesmaker](https://github.com/hayesmaker))
+
 ## [v0.8.0](https://github.com/hayesmaker/thrust-platform/tree/v0.8.0) (2016-08-04)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.7.4...v0.8.0)
 

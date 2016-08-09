@@ -26,9 +26,6 @@ module.exports = {
   width: 800,
   height: 500,
   scale: {
-    /**
-     * @deprecated
-     */
     bestFit: true,
     hires: true,
     web: Phaser.ScaleManager.NO_SCALE,

@@ -58,21 +58,20 @@ p.render = function () {
   this.initSignals();
   this.initLayout();
   this.createDisplay();
-  this.centerDisplay();
-  this.drawLines();
   this.drawPressFire();
 };
 
 p.initFullLayout = function () {
   this.fullLayout = true;
   this.lineHeight = 4;
-  this.layoutRect = new Phaser.Rectangle(0, 0, 640, 480);
+  this.padding = game.width * 0.1;
+  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
 };
 
 p.initSmallLayout = function () {
-  this.padding = 10;
+  this.padding = game.width * 0.1;
   this.lineHeight = 3;
-  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, window.innerWidth - this.padding * 2, window.innerHeight - this.padding * 2);
+  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
     title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
     scores: {font: '10px thrust_regular', fill: '#ffffff', align: 'left'},
@@ -82,15 +81,21 @@ p.initSmallLayout = function () {
 
 p.drawLines = function () {
   var linePadding = this.layoutRect.height * 0.02;
-  var y = this.layoutRect.height * 0.075;
+  var y = this.layoutRect.y;
   var line = game.add.graphics(this.layoutRect.x, y, this.group);
   var xTo = this.layoutRect.width;
   line.lineStyle(this.lineHeight, 0xffffff, 0.5);
-  line.moveTo(0, y);
-  line.lineTo(xTo, y);
+
+  line.moveTo(0, 0);
+
+  line.lineTo(xTo, 0);
+
   line.moveTo(0, y + linePadding);
+
   line.lineTo(xTo, y + linePadding);
+
   line.moveTo(0, this.maxY);
+
   line.lineTo(xTo, this.maxY);
 };
 
@@ -105,28 +110,30 @@ p.createDisplay = function () {
   rect.endFill();
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
+  //this.drawLines();
   this.createSubtitles();
 };
 
 p.centerDisplay = function () {
-  this.group.x = game.width / 2 - this.group.width / 2 - this.padding;
-  this.group.y = game.height / 2 - this.group.height / 2 - this.padding;
+  this.group.x = game.width / 2 - this.layoutRect .width / 2;
+  this.group.y = game.height / 2 - this.layoutRect.height / 2;
 };
 
 p.createTitle = function () {
-  this.title = game.add.text(this.layoutRect.halfWidth, 0, "HIGH SCORES", this.styles.title, this.group);
+  this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "HIGH SCORES", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
-  this.title.y = this.layoutRect.height * 0.075;
+  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.075;
 };
 
 p.addHighScore = function (highscore, index) {
-  var numberTf = game.add.text(this.layoutRect.x + this.padding, 0, index + 1, this.styles.scores, this.group);
+  var numberTf = game.add.text(0, 0, index + 1, this.styles.scores, this.group);
   var nameTf = game.add.text(0, 0, highscore.name, this.styles.scores, this.group);
   var scoreTf = game.add.text(0, 0, highscore.score, this.styles.scores, this.group);
   var y = this.layoutRect.y + this.layoutRect.height * 0.2 + (numberTf.height + 5) * index;
+  numberTf.x = this.layoutRect.x + this.padding / 2;
   numberTf.y = nameTf.y = scoreTf.y = y;
-  nameTf.x = numberTf.x + numberTf.width + this.layoutRect.width * 0.02;
-  scoreTf.x = this.layoutRect.width - scoreTf.width - this.padding;
+  nameTf.x = numberTf.x + numberTf.width + this.layoutRect.width * 0.04;
+  scoreTf.x = this.layoutRect.x + this.layoutRect.width - scoreTf.width - this.padding / 2;
   this.items.push({
     number: numberTf,
     name: nameTf,
@@ -167,13 +174,13 @@ p.drawPressFire = function () {
 
 p.createSubtitles = function () {
   var style = this.styles.subtitle;
-  this.subTitle1 = game.add.text(this.layoutRect.halfWidth, this.layoutRect.height * 0.75, "", style, this.group);
+  this.subTitle1 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.layoutRect.y + this.layoutRect.height * 0.75, "", style, this.group);
   this.subTitle1.anchor.setTo(0.5);
-  this.subTitle2 = game.add.text(this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
+  this.subTitle2 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
   this.subTitle2.anchor.setTo(0.5);
-  this.subTitle3 = game.add.text(this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
+  this.subTitle3 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
   this.subTitle3.anchor.setTo(0.5);
-  this.subTitle3.y = this.layoutRect.height - this.layoutRect.height * 0.075;
+  this.subTitle3.y = this.layoutRect.y + this.layoutRect.height - this.layoutRect.height * 0.075;
   this.subTitle1.visible = false;
   this.subTitle2.visible = false;
   this.subTitle3.visible = false;
@@ -389,6 +396,7 @@ p.upButtonA = function() {
  * @method enableKeyboardEntry
  */
 p.enableKeyboardEntry = function () {
+  this.subTitle3.visible = false;
   this.highScoreInputEnabled = true;
   if (game.controls.stick) {
     //game.controls.buttonB.onDown.add(this.pressButtonB, this);
@@ -407,6 +415,7 @@ p.enableKeyboardEntry = function () {
  * @method disableKeyboardEntry
  */
 p.disableKeyboardEntry = function () {
+  this.subTitle3.visible = true;
   this.highScoreInputEnabled = false;
   if (game.controls.stick) {
     //game.controls.buttonB.onDown.add(this.pressButtonB, this);

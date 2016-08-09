@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var levelManager = require('./level-manager');
+var utils = require('../utils');
 
 /**
  * keeps a record of current game state data
@@ -43,6 +44,7 @@ module.exports = {
    * @type {String}
    */
   currentState: null,
+
 
   /**
    * @property highScoreTable
@@ -103,7 +105,6 @@ module.exports = {
       score: this.score
     });
     this.highScoreTable.pop();
-    console.log('gameState :: insertNewHighScore :: ', this.highScoreTable);
   },
 
   /**
@@ -117,7 +118,7 @@ module.exports = {
         data.dirty = false;
       }
     });
-    console.log('gameState :: newScoreEntered :: ', this.highScoreTable);
+    this.setHighscoresStorage();
   },
 
   /**
@@ -204,10 +205,25 @@ module.exports = {
   init: function () {
     this.gameScale = game.width / 1024;
     this.currentState = this.PLAY_STATES.MENU;
+    this.highscoreStorage();
     this.newPlayer();
     this.newGame();
-    console.log('gameState :: initialise', this.currentState);
     this.levelsCompleted = new Phaser.Signal();
+  },
+
+  setHighscoresStorage: function() {
+    if (utils.features.isLocalStorageAvailable) {
+      window.localStorage.setItem('highscores', JSON.stringify(this.highScoreTable));
+    }
+  },
+
+  highscoreStorage: function() {
+    if (utils.features.isLocalStorageAvailable) {
+      if (window.localStorage.getItem('highscores')) {
+        this.highScoreTable = JSON.parse(window.localStorage.getItem('highscores'));
+      }
+    }
+
   },
 
   /**
@@ -256,13 +272,11 @@ module.exports = {
    * @method levelReset
    */
   nextLevel: function () {
-    console.log('gameState :: nextLevel : orbRecovered,isGameOver=', this.bonuses.orbRecovered, this.isGameOver);
-    
     if (this.trainingMode) {
       this.startTraining();
       return;
     }
-    
+
     if (this.bonuses.orbRecovered && !this.isGameOver) {
       if (levelManager.levels.length - 1 === levelManager.levelIndex) {
         this.levelsCompleted.dispatch();
