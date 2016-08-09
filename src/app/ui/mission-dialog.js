@@ -1,4 +1,4 @@
-var utils = require('../utils/canvas');
+//var utils = require('../utils/canvas');
 var TweenMax = global.TweenMax;
 var textData = require('../data/dialogs');
 var gameState = require('../data/game-state');
