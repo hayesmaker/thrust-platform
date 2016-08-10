@@ -19,9 +19,6 @@ module.exports = {
   enableTouchPad: false,
   enableJoyPad: false,
   fatalCollisions: true,
-  /**
-   * @deprecated
-   */
   drawBackground: true,
   width: 800,
   height: 500,
@@ -32,7 +29,7 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: false,
+    debugPhysics: true,
     debugPositions: false,
     stats: true,
     mode: false,
@@ -77,7 +74,7 @@ module.exports = {
       orbPosition: {x: 2600, y: 1732},
       orbHolder: {x: 2600, y: 1770}
     },
-    startLevel: 1,
+    startLevel: 4,
     data: [
       {
         missionSwipe: {
@@ -275,10 +272,26 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(148, 24, 206, 0.7)"
         },
+        gateImgKey: 'level-4-gate',
+        gateImgUrl: 'assets/levels/level-4-gate.png',
+        gateDataKey: 'level-4-gate',
+        gateDataUrl: 'assets/levels/level-4-gate.json',
         mapImgUrl: 'assets/levels/level-4.png',
         mapImgKey: 'level-4',
         mapDataUrl: 'assets/levels/level-4.json',
         mapDataKey: 'level-4',
+        gateTweenTo: {
+          x: 500,
+          y: 500
+        },
+        gatePosition: {
+          x: 650,
+          y: 500
+        },
+        switches: [
+          {x: 500, y: 300, rotation: 0},
+          {x: 500, y: 700, rotation: 0}
+        ],
         mapScale: 2,
         world: {width: 1726, height: 3000},
         mapPosition: {x: 0, y: 1000},
@@ -349,10 +362,18 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(156, 77, 0, 0.7)"
         },
+        gateImgKey: 'level-4-gate',
+        gateImgUrl: 'assets/levels/level-4-gate.png',
+        gateDataKey: 'level4Gate',
+        gateDataUrl: 'assets/levels/level-4-gate.png',
         mapImgUrl: 'assets/levels/level-5.png',
         mapImgKey: 'level-5',
         mapDataUrl: 'assets/levels/level-5.json',
         mapDataKey: 'level-5',
+        gatePosition: {
+          x: 650,
+          y: 500
+        },
         mapScale: 2,
         world: {width: 1920, height: 2810},
         mapPosition: {x: 0, y: 1185},
@@ -468,6 +489,14 @@ module.exports = {
           title: 'Mission 6',
           desc: 'Recover the final orb',
           color: "rgba(246, 0, 255, 0.7)"
+        },
+        gateImgKey: 'level-4-gate',
+        gateImgUrl: 'assets/levels/level-4-gate.png',
+        gateDataKey: 'level4Gate',
+        gateDataUrl: 'assets/levels/level-4-gate.png',
+        gatePosition: {
+          x: 650,
+          y: 500
         },
         mapImgUrl: 'assets/levels/level-6.png',
         mapImgKey: 'level-6',

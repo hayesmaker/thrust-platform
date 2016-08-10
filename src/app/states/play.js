@@ -7,6 +7,7 @@ var ui = require('../ui/index');
 var Player = require('../actors/Player');
 var Fuel = require('../actors/Fuel');
 var Limpet = require('../actors/Limpet');
+var Switch = require('../actors/GateSwitch');
 var Orb = require('../actors/Orb');
 var Map = require('../actors/Map');
 var Background = require('../actors/Background');
@@ -42,6 +43,7 @@ module.exports = {
   tractorBeam: null,
   background: null,
   limpetGuns: [],
+  switches: [],
   buttonADown: false,
   buttonBDown: false,
   isXDown: false,
@@ -476,8 +478,10 @@ module.exports = {
   createActors: function () {
     this.groups = new Groups();
     this.collisions = new Collisions();
-    var bgKey = gameState.trainingMode ? 'starfield' : 'stars';
-    this.background = new Background(0, 0, bgKey);
+    if (properties.drawBackground) {
+      var bgKey = gameState.trainingMode ? 'starfield' : 'stars';
+      this.background = new Background(0, 0, bgKey);
+    }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
@@ -489,6 +493,7 @@ module.exports = {
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
+      _.each(this.level.switches, _.bind(this.createSwitch, this));
       this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
@@ -496,6 +501,9 @@ module.exports = {
       this.powerStation.initCollisions();
       this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
       this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
+      if (this.map.gateSprite) {
+        this.collisions.set(this.map.gateSprite, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
+      }
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
@@ -560,9 +568,18 @@ module.exports = {
   },
 
   /**
+   * @method createSwitch
+   * @param data
+   */
+  createSwitch: function(data) {
+    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation);
+    this.switches.push(gateSwitch);
+
+  },
+  /**
    * Create an enemy
    *
-   * @method createLimpet
+   * @method createLimpets
    * @param data
    *
    */
@@ -604,6 +621,9 @@ module.exports = {
     }
     this.groups.swapTerrain();
     if (!gameState.trainingMode) {
+      _.each(this.switches, _.bind(function(gateSwitch) {
+        this.groups.terrain.add(gateSwitch)
+      }, this));
       _.each(this.limpetGuns, _.bind(function (limpet) {
         this.groups.enemies.add(limpet);
       }, this));
