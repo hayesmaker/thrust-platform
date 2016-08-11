@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
+
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.2...HEAD)
+
+**Merged pull requests:**
+
+- Feature/save local scores [\#26](https://github.com/hayesmaker/thrust-platform/pull/26) ([hayesmaker](https://github.com/hayesmaker))
+
 ## [v0.8.2](https://github.com/hayesmaker/thrust-platform/tree/v0.8.2) (2016-08-09)
 [Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.1...v0.8.2)
 
