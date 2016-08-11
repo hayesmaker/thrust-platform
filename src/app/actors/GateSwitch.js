@@ -61,7 +61,7 @@ p.map = null;
 p.hit = function () {
   this.map.openGate();
   if (!this.timer) {
-    this.timer = game.time.events.add(5000, this.closeGate, this);
+    this.timer = game.time.events.add(7500, this.closeGate, this);
   }
   //
   //particles.explode(this.x, this.y);

@@ -29,11 +29,11 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    debugPhysics: true,
+    mode: false,
+    debugPhysics: false,
     debugPositions: false,
     stats: true,
-    mode: false,
-    skipIntro: false,
+    skipIntro: true,
     skipSplashScreen: true
   },
   gamePlay: {
@@ -272,25 +272,25 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(148, 24, 206, 0.7)"
         },
-        gateImgKey: 'level-4-gate',
-        gateImgUrl: 'assets/levels/level-4-gate.png',
-        gateDataKey: 'level-4-gate',
-        gateDataUrl: 'assets/levels/level-4-gate.json',
         mapImgUrl: 'assets/levels/level-4.png',
         mapImgKey: 'level-4',
         mapDataUrl: 'assets/levels/level-4.json',
         mapDataKey: 'level-4',
+        gateImgKey: 'level-4-gate',
+        gateImgUrl: 'assets/levels/level-4-gate.png',
+        gateDataKey: 'level-4-gate',
+        gateDataUrl: 'assets/levels/level-4-gate.json',
         gateTweenTo: {
-          x: 500,
-          y: 500
+          x: 1210,
+          y: 2000
         },
         gatePosition: {
-          x: 650,
-          y: 500
+          x: 1390,
+          y: 2000
         },
         switches: [
-          {x: 500, y: 300, rotation: 0},
-          {x: 500, y: 700, rotation: 0}
+          {x: 1488, y: 1850, rotation: 0},
+          {x: 1488, y: 2150, rotation: 0}
         ],
         mapScale: 2,
         world: {width: 1726, height: 3000},
@@ -362,18 +362,26 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(156, 77, 0, 0.7)"
         },
-        gateImgKey: 'level-4-gate',
-        gateImgUrl: 'assets/levels/level-4-gate.png',
-        gateDataKey: 'level4Gate',
-        gateDataUrl: 'assets/levels/level-4-gate.png',
         mapImgUrl: 'assets/levels/level-5.png',
         mapImgKey: 'level-5',
         mapDataUrl: 'assets/levels/level-5.json',
         mapDataKey: 'level-5',
-        gatePosition: {
-          x: 650,
-          y: 500
+        gateImgKey: 'level-5-gate',
+        gateImgUrl: 'assets/levels/level-5-gate.png',
+        gateDataKey: 'level-5-gate',
+        gateDataUrl: 'assets/levels/level-5-gate.json',
+        gateTweenTo: {
+          x: 1278,
+          y: 2069
         },
+        gatePosition: {
+          x: 1470,
+          y: 2069
+        },
+        switches: [
+          {x: 1556, y: 1928, rotation: 0},
+          {x: 1103, y: 2300, rotation: 180}
+        ],
         mapScale: 2,
         world: {width: 1920, height: 2810},
         mapPosition: {x: 0, y: 1185},
@@ -490,18 +498,26 @@ module.exports = {
           desc: 'Recover the final orb',
           color: "rgba(246, 0, 255, 0.7)"
         },
-        gateImgKey: 'level-4-gate',
-        gateImgUrl: 'assets/levels/level-4-gate.png',
-        gateDataKey: 'level4Gate',
-        gateDataUrl: 'assets/levels/level-4-gate.png',
-        gatePosition: {
-          x: 650,
-          y: 500
-        },
         mapImgUrl: 'assets/levels/level-6.png',
         mapImgKey: 'level-6',
         mapDataUrl: 'assets/levels/level-6.json',
         mapDataKey: 'level-6',
+        gateImgKey: 'level-6-gate',
+        gateImgUrl: 'assets/levels/level-6-gate.png',
+        gateDataKey: 'level-6-gate',
+        gateDataUrl: 'assets/levels/level-6-gate.json',
+        gateTweenTo: {
+          x: 1810,
+          y: 1938
+        },
+        gatePosition: {
+          x: 1995,
+          y: 1938
+        },
+        switches: [
+          {x: 2087, y: 1805, rotation: 0},
+          {x: 1754, y: 2072, rotation: 180}
+        ],
         mapScale: 2,
         world: {width: 2306, height: 2700},
         mapPosition: {x: 0, y: 960},
