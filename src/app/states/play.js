@@ -627,7 +627,7 @@ module.exports = {
     this.groups.swapTerrain();
     if (!gameState.trainingMode) {
       _.each(this.switches, _.bind(function(gateSwitch) {
-        this.groups.terrain.add(gateSwitch)
+        this.groups.terrain.add(gateSwitch);
       }, this));
       _.each(this.limpetGuns, _.bind(function (limpet) {
         this.groups.enemies.add(limpet);

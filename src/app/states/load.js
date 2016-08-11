@@ -170,7 +170,7 @@ module.exports = {
     if (!myLevel) {
       myLevel = _.find(properties.levels.data, function(levelData) {
         return levelData.gateDataKey + properties.mapSuffix === cacheKey;
-      })
+      });
     }
     return myLevel;
   },
