@@ -104,6 +104,10 @@ module.exports = {
   preloadMapData: function (levelData) {
     game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
+    if (levelData.gateImgKey) {
+      game.load.image(levelData.gateImgKey, levelData.gateImgUrl);
+      game.load.physics(levelData.gateDataKey + properties.mapSuffix, levelData.gateDataUrl);
+    }
   },
 
   /**
@@ -117,6 +121,9 @@ module.exports = {
    * @param cacheKey
    */
   fileComplete: function (progress, cacheKey) {
+
+    console.log('loadComplete :: fileComplete :: cacheKey=', cacheKey);
+
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
     if (this.isLevelData(cacheKey)) {
@@ -126,7 +133,11 @@ module.exports = {
         level = properties.levels.training;
       }
       if (level.hasOwnProperty('mapScale')) {
-        this.scaleMapData(levelPhysics.data, level);
+        if (cacheKey.indexOf('gate') >= 0) {
+          this.scaleMapData(levelPhysics.data, level, level.gateDataKey);
+        } else {
+          this.scaleMapData(levelPhysics.data, level, level.mapDataKey);
+        }
       }
     }
   },
@@ -156,6 +167,11 @@ module.exports = {
     var myLevel = _.find(properties.levels.data, function (levelData) {
       return levelData.mapDataKey + properties.mapSuffix === cacheKey;
     }, this);
+    if (!myLevel) {
+      myLevel = _.find(properties.levels.data, function(levelData) {
+        return levelData.gateDataKey + properties.mapSuffix === cacheKey;
+      });
+    }
     return myLevel;
   },
 
@@ -166,8 +182,8 @@ module.exports = {
    * @param physicsData
    * @param level
    */
-  scaleMapData: function (physicsData, level) {
-    _.each(physicsData[level.mapDataKey], function (node) {
+  scaleMapData: function (physicsData, level, key) {
+    _.each(physicsData[key], function (node) {
       _.each(node.shape, function (value, n) {
         node.shape[n] = value * level.mapScale;
       });

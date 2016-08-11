@@ -9,11 +9,10 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'http://thrust-platform.herokuapp.com';
-var changelog = 'https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md';
+var url = 'https://www.youtube.com/watch?v=we0Z3_8oMDs';
 
 var status = function() {
-  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + 'Saved Highscores.'
+  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Level map gates & switches.'
     + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 
@@ -26,6 +25,8 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+
+//console.log(status());
 
 /*
  Thrust 2016 Major update (v0.8.1) http://thrust-platform.herokuapp.com New Flight Training mode! #indiedev @IndieGameDevBot @IndieDevDog;
