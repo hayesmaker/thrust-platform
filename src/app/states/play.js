@@ -98,6 +98,11 @@ module.exports = {
         ui.update();
       }
     }
+    if (game.controls.useExternalJoypad &&
+      gameState.trainingMode &&
+      ui.missionDialog.enabled) {
+      ui.missionDialog.update();
+    }
     if (this.isDevMode) {
       this.devModeUpdate();
     }

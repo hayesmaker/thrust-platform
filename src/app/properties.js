@@ -33,7 +33,7 @@ module.exports = {
     debugPhysics: false,
     debugPositions: false,
     stats: true,
-    skipIntro: true,
+    skipIntro: false,
     skipSplashScreen: true
   },
   gamePlay: {
@@ -74,7 +74,7 @@ module.exports = {
       orbPosition: {x: 2600, y: 1732},
       orbHolder: {x: 2600, y: 1770}
     },
-    startLevel: 4,
+    startLevel: 1,
     data: [
       {
         missionSwipe: {
@@ -371,7 +371,7 @@ module.exports = {
         gateDataKey: 'level-5-gate',
         gateDataUrl: 'assets/levels/level-5-gate.json',
         gateTweenTo: {
-          x: 1278,
+          x: 1305,
           y: 2069
         },
         gatePosition: {
@@ -379,7 +379,7 @@ module.exports = {
           y: 2069
         },
         switches: [
-          {x: 1556, y: 1928, rotation: 0},
+          {x: 1557, y: 1928, rotation: 0},
           {x: 1103, y: 2300, rotation: 180}
         ],
         mapScale: 2,

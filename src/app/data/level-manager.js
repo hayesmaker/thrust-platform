@@ -66,7 +66,8 @@ module.exports = {
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {
-      //end of levels.
+      //this shouldn't normally be called if the game had ended
+      //but can be used as the basis for an 'endless mode' to loop back to the first level map.
       this.levelIndex = 0;
     } else {
       this.levelIndex++;
@@ -74,16 +75,27 @@ module.exports = {
     this.currentLevel = this.levels[this.levelIndex];
     return this.currentLevel;
   },
-  
+
+  /**
+   * Simply sets the currentLevel data to the level defined by the level index
+   * levels are normally defined in properties.levels
+   *
+   * You can implement a continue play
+   * system by not resetting the level index on newGame
+   *
+   * @method newGame
+   */
   newGame: function() {
-    //this.levelIndex = 0;
+    this.levelIndex = 0;
     console.log('level-manager :: newGame :', this.levelIndex);
     this.currentLevel = this.levels[this.levelIndex];
   },
-  
+
+  /**
+   * @method startTraining
+   */
   startTraining: function() {
     this.currentLevel = properties.levels.training;
-    console.log('level-manager :: startTraining : this.currentLevel', this.currentLevel);
   }
 
 
