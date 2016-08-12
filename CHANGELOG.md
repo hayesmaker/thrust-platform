@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.2...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.3...HEAD)
+
+**Merged pull requests:**
+
+- Expanding Scenery in Level Maps [\#27](https://github.com/hayesmaker/thrust-platform/pull/27) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.8.3](https://github.com/hayesmaker/thrust-platform/tree/v0.8.3) (2016-08-11)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.2...v0.8.3)
 
 **Merged pull requests:**
 
