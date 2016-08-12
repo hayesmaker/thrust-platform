@@ -367,7 +367,6 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    game.camera.resetFX();
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -556,7 +555,19 @@ module.exports = {
     this.planetDeathTl.addCallback(this.randomExplosions, 0, null, this);
     this.planetDeathTl.addCallback(this.destroyPlayer, 3, null, this);
     this.planetDeathTl.addCallback(this.fadeToWhite, 3.5, null, this);
-    this.planetDeathTl.addCallback(this.levelTransition, 5, null, this);
+    this.planetDeathTl.addCallback(this.removePlanet, 4, null, this);
+    this.planetDeathTl.addCallback(game.camera.resetFX, 5, null, game.camera);
+    this.planetDeathTl.addCallback(this.levelInterstitialStart, 8, null, this);
+  },
+
+  /**
+   * @method removePlanet
+   */
+  removePlanet: function() {
+    this.groups.actors.removeAll(true);
+    this.groups.fuels.removeAll(true);
+    this.groups.enemies.removeAll(true);
+    this.groups.terrain.removeAll(true);
   },
 
   /**
@@ -567,11 +578,17 @@ module.exports = {
   randomExplosions: function() {
     var numExplosions = 30;
     var duration = 2000;
-    var pos = new Phaser.Point(Math.floor(Math.random() * game.width), Math.floor(Math.random()* game.height));
+    var pos = new Phaser.Point(
+      Math.random() * (game.camera.x + game.camera.width),
+      Math.random() * (game.camera.y + game.camera.height)
+    );
     particles.explode(pos.x, pos.y);
     sound.playSound('boom1');
     this.explosionsTimer = game.time.events.loop(duration/numExplosions, function() {
-      var pos = new Phaser.Point(Math.floor(Math.random() * game.width), Math.floor(Math.random()* game.height));
+      var pos = new Phaser.Point(
+        Math.random() * (game.camera.x + game.camera.width),
+        Math.random() * (game.camera.y + game.camera.height)
+      );
       particles.explode(pos.x, pos.y);
       sound.playSound('boom1');
     }, this);
@@ -591,7 +608,7 @@ module.exports = {
    */
   fadeToWhite: function() {
     game.time.events.remove(this.explosionsTimer);
-    game.camera.fade(0xffffff, 300, true);
+    game.camera.fade(0xffffff, 740, true);
   },
 
   /**
