@@ -23,7 +23,11 @@ var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
 
 /**
- * The play state
+ * The play statem
+ * - Core class for game logic
+ * - Actor and Level creation
+ * - User Interface
+ * - Internal (non Phaser) State transitions
  *
  * @namespace states
  * @submodule play
