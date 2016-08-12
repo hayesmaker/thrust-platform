@@ -34,7 +34,7 @@ module.exports = {
     debugPositions: false,
     stats: true,
     skipIntro: false,
-    skipSplashScreen: true
+    skipSplashScreen: false
   },
   gamePlay: {
     firingMagnitude: 350,

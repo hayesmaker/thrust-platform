@@ -9,10 +9,10 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'https://www.youtube.com/watch?v=we0Z3_8oMDs';
+var url = 'https://youtu.be/Nix6tju9P6g';
 
 var status = function() {
-  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Level map gates & switches.'
+  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Destructible Planets.'
     + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 

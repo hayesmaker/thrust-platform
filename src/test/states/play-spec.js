@@ -23,7 +23,6 @@ describe("Phaser play state tests", function () {
   describe('play.create', function () {
 
     beforeEach(function () {
-      sinon.stub(play, 'setLevel');
       sinon.stub(play, 'defineWorldBounds');
       sinon.stub(play, 'createActors');
       sinon.stub(play, 'createUi');
@@ -34,7 +33,6 @@ describe("Phaser play state tests", function () {
     });
 
     afterEach(function () {
-      play.setLevel.restore();
       play.defineWorldBounds.restore();
       play.createActors.restore();
       play.createUi.restore();
@@ -45,8 +43,9 @@ describe("Phaser play state tests", function () {
     });
 
     it('should set current level', function () {
+      var properties = require('../mocks/properties-mock');
       play.create();
-      expect(play.setLevel).to.have.been.calledOnce;
+      expect(play.level).to.eql(properties.levels.data[0]);
     });
 
     it('should define world bounds', function () {

@@ -20,7 +20,7 @@ var userControl;
  */
 module.exports = {
 
-  init: function(customScaleMode) {
+  init: function (customScaleMode) {
     console.log('boot :: customScaleMode', customScaleMode);
     this.customScaleMode = customScaleMode;
   },
@@ -37,6 +37,7 @@ module.exports = {
    */
   preload: function () {
     game.load.image('title', 'assets/images/title.png');
+    game.load.image('splash', 'assets/images/splash-1.png');
   },
 
   /**
@@ -78,41 +79,34 @@ module.exports = {
     game.controls = userControl;
     game.e2e = {};
 
-    if (properties.dev.skipSplashScreen) {
-      this.startLoad();
-    } else {
-      this.bootScreen = game.add.sprite(0,0, 'title');
-      this.bootScreen.inputEnabled = true;
-      this.bootScreen.useHandCursor = true;
-      this.bootScreen.events.onInputDown.add(this.startLoad, this);
-      this.bootScreen.width = properties.width;
-      this.bootScreen.height = properties.height;
-      game.e2e.boot = this;
-      if (game.controls.useKeys) {
-        game.controls.spacePress.onDown.add(this.startLoad, this);
-      }
-    }
+    this.bootScreen = game.add.sprite(0, 0, 'splash');
+    this.bootScreen.inputEnabled = true;
+    this.bootScreen.useHandCursor = true;
+    this.bootScreen.width = game.width;
+    this.bootScreen.height = game.height;
+    this.bootScreen.alpha = 0;
+
+    TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
+    game.e2e.boot = this;
   },
 
   /**
    * @method update
    */
-  update:function() {
+  update: function () {
+    /*
     if (game.externalJoypad && game.externalJoypad.fireButton.isDown) {
       this.startLoad();
     }
+    */
   },
-
 
   /**
    * Launch game on correct user input
    *
    * @method startGame
    */
-  startLoad: function() {
-    if (this.bootScreen) {
-      this.bootScreen.events.onInputDown.remove(this.startLoad, this);
-    }
-    game.state.start('load', false, false);
+  startLoad: function () {
+    game.state.start('load', false, false, this.bootScreen);
   }
 };

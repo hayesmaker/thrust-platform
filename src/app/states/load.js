@@ -21,6 +21,19 @@ module.exports = {
    * @property loadProgressTxt
    */
   loadProgressTxt: null,
+
+  /**
+   * Init state with boot screen for removal
+   *
+   * @method init
+   * @param bootScreen {Phaser.Sprite}
+   */
+  init: function(bootScreen) {
+
+    this.bootScreen = bootScreen;
+
+  },
+
   /**
    * Preload all in game assets
    *
@@ -211,8 +224,15 @@ module.exports = {
     music.allowMultiple = true;
     game.sfx = sfx;
     game.music = music;
-    game.sound.setDecodedCallback(['sfx', 'music'], this.start, this);
+    game.sound.setDecodedCallback(['sfx', 'music'], this.transitionOut, this);
 
+  },
+
+  /**
+   * @method transitionOut
+   */
+  transitionOut:function() {
+    TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
   },
 
   /**

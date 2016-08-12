@@ -21,9 +21,14 @@ var gameState = require('../data/game-state');
 var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
+var TimelineMax = global.TimelineMax;
 
 /**
- * The play state
+ * The play statem
+ * - Core class for game logic
+ * - Actor and Level creation
+ * - User Interface
+ * - Internal (non Phaser) State transitions
  *
  * @namespace states
  * @submodule play
@@ -57,6 +62,8 @@ module.exports = {
     x: 0,
     y: 0
   },
+  planetDeathTl: null,
+  explosionsTimer: null,
 
   /**
    * Setup the game
@@ -64,7 +71,7 @@ module.exports = {
    * @method create
    */
   create: function () {
-    this.setLevel();
+    this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
     this.createUi();
@@ -216,17 +223,6 @@ module.exports = {
     this.cameraPos.x += (target.x - this.cameraPos.x) * lerp;
     this.cameraPos.y += (target.y - this.cameraPos.y) * lerp;
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
-  },
-  /**
-   * Called first thing in state.create
-   * to set the level to the current level defined in levelManager.
-   * When next level is called, the data is moved along and the setLevel is called
-   * as part of the state restart.
-   *
-   * @method setLevel
-   */
-  setLevel: function () {
-    this.level = levelManager.currentLevel;
   },
 
   /**
@@ -522,6 +518,9 @@ module.exports = {
     game.e2e.enemies = this.limpetGuns;
   },
 
+  /**
+   * @method createMissionDialog
+   */
   createMissionDialog: function () {
     ui.missionDialog.render(function() {
       this.playerStart();
@@ -549,11 +548,72 @@ module.exports = {
   },
 
   /**
+   * Planet destruction animation
+   *
    * @method countdownComplete
    */
   countdownComplete: function () {
     //do planet destruction anims
+    this.player.alive = false;
+    this.player.inPlay = false;
+    this.planetDeathTl = new TimelineMax();
+    this.planetDeathTl.addCallback(this.randomExplosions, 0, null, this);
+    this.planetDeathTl.addCallback(this.destroyPlayer, 3, null, this);
+    this.planetDeathTl.addCallback(this.fadeToWhite, 3.5, null, this);
+    this.planetDeathTl.addCallback(this.removePlanet, 4, null, this);
+    this.planetDeathTl.addCallback(game.camera.resetFX, 5, null, game.camera);
+    this.planetDeathTl.addCallback(this.levelInterstitialStart, 8, null, this);
+  },
 
+  /**
+   * @method removePlanet
+   */
+  removePlanet: function() {
+    this.groups.actors.removeAll(true);
+    this.groups.fuels.removeAll(true);
+    this.groups.enemies.removeAll(true);
+    this.groups.terrain.removeAll(true);
+  },
+
+  /**
+   *
+   *
+   * @method randomExplosions
+   */
+  randomExplosions: function() {
+    var numExplosions = 30;
+    var duration = 2000;
+    var pos = new Phaser.Point(
+      Math.random() * (game.camera.x + game.camera.width),
+      Math.random() * (game.camera.y + game.camera.height)
+    );
+    particles.explode(pos.x, pos.y);
+    sound.playSound('boom1');
+    this.explosionsTimer = game.time.events.loop(duration/numExplosions, function() {
+      var pos = new Phaser.Point(
+        Math.random() * (game.camera.x + game.camera.width),
+        Math.random() * (game.camera.y + game.camera.height)
+      );
+      particles.explode(pos.x, pos.y);
+      sound.playSound('boom1');
+    }, this);
+  },
+
+  /**
+   * @method destroyPlayer
+   */
+  destroyPlayer: function() {
+    gameState.lives--;
+    this.player.stop();
+    this.player.explosion(true);
+  },
+
+  /**
+   * @method fadeToWhite
+   */
+  fadeToWhite: function() {
+    game.time.events.remove(this.explosionsTimer);
+    game.camera.fade(0xffffff, 740, true);
   },
 
   /**
@@ -654,6 +714,9 @@ module.exports = {
   /**
    * Initialises player control
    *
+   * Maybe we can move out control initialisation and handling to
+   * tidy up play state
+   *
    * @method initControls
    */
   initControls: function () {
@@ -672,17 +735,8 @@ module.exports = {
   },
 
   /**
-   * Initialises the limpet guns
    *
-   * @method initEnemies
-   */
-  initEnemies: function () {
-    _.each(this.limpetGuns, function (limpet) {
-      limpet.init();
-    });
-  },
-
-  /**
+   *
    * Touch control: Press A
    *
    * @method pressButtonA
