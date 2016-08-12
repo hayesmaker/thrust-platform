@@ -86,7 +86,7 @@ module.exports = {
     this.bootScreen.height = game.height;
     this.bootScreen.alpha = 0;
 
-    TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeOut, onComplete: this.startLoad});
+    TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
     game.e2e.boot = this;
   },
 
@@ -94,11 +94,12 @@ module.exports = {
    * @method update
    */
   update: function () {
+    /*
     if (game.externalJoypad && game.externalJoypad.fireButton.isDown) {
       this.startLoad();
     }
+    */
   },
-
 
   /**
    * Launch game on correct user input
@@ -106,6 +107,6 @@ module.exports = {
    * @method startGame
    */
   startLoad: function () {
-    game.state.start('load', false, false);
+    game.state.start('load', false, false, this.bootScreen);
   }
 };

@@ -479,9 +479,10 @@ p.rotate = function (val) {
  * Called when the player collides with something.
  *
  * @method explosion
+ * @param force {Boolean] force explosion of player even if not alive
  */
-p.explosion = function () {
-  if (this.alive) {
+p.explosion = function (force) {
+  if (this.alive || force === true) {
     var hasOrb = this.tractorBeam.isLocked;
     console.warn('explosion');
     this.explodeEmitter.x = this.position.x;

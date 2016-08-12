@@ -57,6 +57,8 @@ module.exports = {
     x: 0,
     y: 0
   },
+  planetDeathTl: null,
+  explosionsTimer: null,
 
   /**
    * Setup the game
@@ -64,7 +66,7 @@ module.exports = {
    * @method create
    */
   create: function () {
-    this.setLevel();
+    this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
     this.createUi();
@@ -217,17 +219,6 @@ module.exports = {
     this.cameraPos.y += (target.y - this.cameraPos.y) * lerp;
     game.camera.focusOnXY(this.cameraPos.x, this.cameraPos.y);
   },
-  /**
-   * Called first thing in state.create
-   * to set the level to the current level defined in levelManager.
-   * When next level is called, the data is moved along and the setLevel is called
-   * as part of the state restart.
-   *
-   * @method setLevel
-   */
-  setLevel: function () {
-    this.level = levelManager.currentLevel;
-  },
 
   /**
    * Moves level data to the next level, and restarts
@@ -376,6 +367,7 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
+    game.camera.resetFX();
     this.player.tweenOutAndRemove(true);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -522,6 +514,9 @@ module.exports = {
     game.e2e.enemies = this.limpetGuns;
   },
 
+  /**
+   * @method createMissionDialog
+   */
   createMissionDialog: function () {
     ui.missionDialog.render(function() {
       this.playerStart();
@@ -549,11 +544,54 @@ module.exports = {
   },
 
   /**
+   * Planet destruction animation
+   *
    * @method countdownComplete
    */
   countdownComplete: function () {
     //do planet destruction anims
+    this.player.alive = false;
+    this.player.inPlay = false;
+    this.planetDeathTl = new TimelineMax();
+    this.planetDeathTl.addCallback(this.randomExplosions, 0, null, this);
+    this.planetDeathTl.addCallback(this.destroyPlayer, 3, null, this);
+    this.planetDeathTl.addCallback(this.fadeToWhite, 3.5, null, this);
+    this.planetDeathTl.addCallback(this.levelTransition, 5, null, this);
+  },
 
+  /**
+   *
+   *
+   * @method randomExplosions
+   */
+  randomExplosions: function() {
+    var numExplosions = 30;
+    var duration = 2000;
+    var pos = new Phaser.Point(Math.floor(Math.random() * game.width), Math.floor(Math.random()* game.height));
+    particles.explode(pos.x, pos.y);
+    sound.playSound('boom1');
+    this.explosionsTimer = game.time.events.loop(duration/numExplosions, function() {
+      var pos = new Phaser.Point(Math.floor(Math.random() * game.width), Math.floor(Math.random()* game.height));
+      particles.explode(pos.x, pos.y);
+      sound.playSound('boom1');
+    }, this);
+  },
+
+  /**
+   * @method destroyPlayer
+   */
+  destroyPlayer: function() {
+    gameState.lives--;
+    this.player.stop();
+    this.player.explosion(true);
+  },
+
+  /**
+   * @method fadeToWhite
+   */
+  fadeToWhite: function() {
+    game.time.events.remove(this.explosionsTimer);
+    game.camera.fade(0xffffff, 300, true);
   },
 
   /**
@@ -654,6 +692,9 @@ module.exports = {
   /**
    * Initialises player control
    *
+   * Maybe we can move out control initialisation and handling to
+   * tidy up play state
+   *
    * @method initControls
    */
   initControls: function () {
@@ -672,17 +713,8 @@ module.exports = {
   },
 
   /**
-   * Initialises the limpet guns
    *
-   * @method initEnemies
-   */
-  initEnemies: function () {
-    _.each(this.limpetGuns, function (limpet) {
-      limpet.init();
-    });
-  },
-
-  /**
+   *
    * Touch control: Press A
    *
    * @method pressButtonA
