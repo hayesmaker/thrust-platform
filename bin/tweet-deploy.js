@@ -12,7 +12,7 @@ var client = new Twitter({
 var url = 'https://www.youtube.com/watch?v=we0Z3_8oMDs';
 
 var status = function() {
-  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Level map gates & switches.'
+  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Destructible Planets.'
     + ' #indiedev @IndieGameDevBot @IndieDevDog';
 };
 
