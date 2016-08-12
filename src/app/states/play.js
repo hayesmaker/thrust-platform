@@ -21,6 +21,7 @@ var gameState = require('../data/game-state');
 var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
+var TimelineMax = global.TimelineMax;
 
 /**
  * The play statem
