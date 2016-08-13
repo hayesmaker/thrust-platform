@@ -629,10 +629,11 @@ module.exports = {
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
 
-    //if (features.isTouchScreen) {
-    this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
-    this.pauseButton.anchor.setTo(1, 0);
-    this.pauseButton.fixedToCamera = true;
+    if (features.isTouchScreen) {
+      this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
+      this.pauseButton.anchor.setTo(1, 0);
+      this.pauseButton.fixedToCamera = true;
+    }
 
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.initVirtualJoypad();
