@@ -34,7 +34,6 @@ p.externalGamePadDetected = false;
 p.initExternalJoypad = function() {
   this.gamepad = game.input.gamepad.pad1;
   this.gamepad.addCallbacks(this, {
-    
     onConnect: function() {
       this.useExternalJoypad = true;
       this.useVirtualJoypad = false;
@@ -62,6 +61,7 @@ p.initKeys = function () {
   this.cursors = game.input.keyboard.createCursorKeys();
   this.spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
+  this.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 };
 
 /**

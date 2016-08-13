@@ -622,9 +622,18 @@ module.exports = {
    * @method createUi
    */
   createUi: function () {
+    var style = { font: "16px thrust_regular", fill: "#ffffff", align: "center", backgroundColor: 'black' };
+    this.uiPaused = game.add.text(game.width/2, game.height/2, "GAME PAUSED", style);
+    this.uiPaused.anchor.setTo(0.5);
+    this.uiPaused.fixedToCamera = true;
+    this.uiPaused.visible = false;
+    //this.uiPaused.x = game.width/2;
+    //this.uiPaused.y = game.height/2;
+
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.initVirtualJoypad();
     }
+
     ui.init(this.menuItemSelected, this);
     if (gameState.trainingMode) {
       ui.drawTrainingUi();
@@ -731,7 +740,16 @@ module.exports = {
       game.controls.spacePress.onDown.add(this.player.fire, this.player);
       game.controls.xKey.onDown.add(this.xDown, this);
       game.controls.xKey.onUp.add(this.xUp, this);
+      game.controls.esc.onUp.add(this.escPressed, this);
     }
+  },
+
+  /**
+   * @method escPressed
+   */
+  escPressed: function() {
+    console.log('play :: esc pressed');
+    game.paused = this.uiPaused.visible = !game.paused;
   },
 
   /**
