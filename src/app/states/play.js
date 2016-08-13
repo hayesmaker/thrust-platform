@@ -22,6 +22,7 @@ var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
 var TimelineMax = global.TimelineMax;
+var features = require('../utils/features');
 
 /**
  * The play statem
@@ -627,8 +628,11 @@ module.exports = {
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
-    //this.uiPaused.x = game.width/2;
-    //this.uiPaused.y = game.height/2;
+
+    //if (features.isTouchScreen) {
+    this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
+    this.pauseButton.anchor.setTo(1, 0);
+    this.pauseButton.fixedToCamera = true;
 
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.initVirtualJoypad();
@@ -639,6 +643,19 @@ module.exports = {
       ui.drawTrainingUi();
     }
     ui.countdown.complete.add(this.countdownComplete, this);
+  },
+
+  onPauseClick: function() {
+    this.escPressed();
+    this.pauseButton.onInputUp.remove(this.onPauseClick, this);
+    game.input.onDown.add(this.resume, this);
+  },
+
+  resume: function() {
+    console.log("resume");
+    this.escPressed();
+    this.pauseButton.onInputUp.add(this.onPauseClick, this);
+    game.input.onDown.remove(this.resume, this);
   },
 
   /**
