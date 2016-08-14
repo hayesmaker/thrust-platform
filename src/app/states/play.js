@@ -141,6 +141,7 @@ module.exports = {
    */
   playGame: function () {
     ui.showUser();
+    //this.pauseButton.visible = true;
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -150,6 +151,13 @@ module.exports = {
     }
   },
 
+  showPauseButton: function(uiMode) {
+    if (!this.pauseButton) {
+      return;
+    }
+    this.pauseButton.visible = !uiMode && gameState.PLAY_STATES.HIGH_SCORES;
+  },
+
   /**
    * @property showCurrentScreenByState
    * @param state {String} name of gameState and also name of screen to show
@@ -157,6 +165,7 @@ module.exports = {
   showCurrentScreenByState: function (state) {
     console.warn('showCurrentScreenByState', state);
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
+    this.showPauseButton(this.uiMode);
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
@@ -633,6 +642,7 @@ module.exports = {
       this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
+      this.pauseButton.visible = false;
     }
 
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
