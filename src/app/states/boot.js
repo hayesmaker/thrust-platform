@@ -54,7 +54,8 @@ module.exports = {
    */
   create: function () {
     console.log('boot :: create');
-    //Experimental poorly documented feature of Phaser
+    //Experimental poorly documented features of Phaser
+    //game.scale.forceOrientation(true, false);
     game.renderer.renderSession.roundPixels = true;
     Phaser.Canvas.setImageRenderingCrisp(game.canvas);
 

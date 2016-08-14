@@ -22,6 +22,7 @@ var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
 var TimelineMax = global.TimelineMax;
+var features = require('../utils/features');
 
 /**
  * The play statem
@@ -140,6 +141,7 @@ module.exports = {
    */
   playGame: function () {
     ui.showUser();
+    //this.pauseButton.visible = true;
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -149,6 +151,13 @@ module.exports = {
     }
   },
 
+  showPauseButton: function(uiMode) {
+    if (!this.pauseButton) {
+      return;
+    }
+    this.pauseButton.visible = !uiMode && gameState.PLAY_STATES.HIGH_SCORES;
+  },
+
   /**
    * @property showCurrentScreenByState
    * @param state {String} name of gameState and also name of screen to show
@@ -156,6 +165,7 @@ module.exports = {
   showCurrentScreenByState: function (state) {
     console.warn('showCurrentScreenByState', state);
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
+    this.showPauseButton(this.uiMode);
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
@@ -622,14 +632,41 @@ module.exports = {
    * @method createUi
    */
   createUi: function () {
+    var style = { font: "16px thrust_regular", fill: "#ffffff", align: "center", backgroundColor: 'black' };
+    this.uiPaused = game.add.text(game.width/2, game.height/2, "GAME PAUSED", style);
+    this.uiPaused.anchor.setTo(0.5);
+    this.uiPaused.fixedToCamera = true;
+    this.uiPaused.visible = false;
+
+    if (features.isTouchScreen) {
+      this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
+      this.pauseButton.anchor.setTo(1, 0);
+      this.pauseButton.fixedToCamera = true;
+      this.pauseButton.visible = false;
+    }
+
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       game.controls.initVirtualJoypad();
     }
+
     ui.init(this.menuItemSelected, this);
     if (gameState.trainingMode) {
       ui.drawTrainingUi();
     }
     ui.countdown.complete.add(this.countdownComplete, this);
+  },
+
+  onPauseClick: function() {
+    this.escPressed();
+    this.pauseButton.onInputUp.remove(this.onPauseClick, this);
+    game.input.onDown.add(this.resume, this);
+  },
+
+  resume: function() {
+    console.log("resume");
+    this.escPressed();
+    this.pauseButton.onInputUp.add(this.onPauseClick, this);
+    game.input.onDown.remove(this.resume, this);
   },
 
   /**
@@ -731,7 +768,16 @@ module.exports = {
       game.controls.spacePress.onDown.add(this.player.fire, this.player);
       game.controls.xKey.onDown.add(this.xDown, this);
       game.controls.xKey.onUp.add(this.xUp, this);
+      game.controls.esc.onUp.add(this.escPressed, this);
     }
+  },
+
+  /**
+   * @method escPressed
+   */
+  escPressed: function() {
+    console.log('play :: esc pressed');
+    game.paused = this.uiPaused.visible = !game.paused;
   },
 
   /**
