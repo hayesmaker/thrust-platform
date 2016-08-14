@@ -9,11 +9,10 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'https://youtu.be/Nix6tju9P6g';
+var url = 'http://thrust-platform.herokuapp.com/';
 
 var status = function() {
-  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'NEW: Destructible Planets.'
-    + ' #indiedev @IndieGameDevBot @IndieDevDog';
+  return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'Finally added a pause game feature!';
 };
 
 
@@ -25,6 +24,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+
 
 //console.log(status());
 
