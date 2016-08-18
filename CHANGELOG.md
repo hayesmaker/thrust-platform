@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.4...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.5...HEAD)
+
+**Merged pull requests:**
+
+- Feature/in game pause [\#29](https://github.com/hayesmaker/thrust-platform/pull/29) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.8.5](https://github.com/hayesmaker/thrust-platform/tree/v0.8.5) (2016-08-14)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.4...v0.8.5)
 
 **Merged pull requests:**
 
