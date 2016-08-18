@@ -11,11 +11,13 @@ var client = new Twitter({
 
 var url = 'http://thrust-platform.herokuapp.com/';
 
+
 var status = function() {
   return 'Thrust 2016 update (v' + process.env.npm_package_version +') ' + url + ' ' + 'Finally added a pause game feature!';
 };
 
 
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -24,6 +26,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+*/
 
 
 //console.log(status());
