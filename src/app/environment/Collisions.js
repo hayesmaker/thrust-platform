@@ -19,8 +19,10 @@ var p = Collisions.prototype;
 p.startSystem = function () {
   console.info('Collisions :: startSystem : Phaser.Physics.P2JS');
   game.physics.startSystem(Phaser.Physics.P2JS);
+  game.physics.p2.useElapsedTime = true;
   game.physics.p2.setImpactEvents(true);
   game.physics.p2.gravity.y = 100;
+
 };
 
 /**
