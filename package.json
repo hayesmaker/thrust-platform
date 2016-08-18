@@ -46,7 +46,8 @@
     "assets": "./bin/assets.sh",
     "heroku": "echo 'Deploying to heroku master' && git push heroku master",
     "update:audio": "echo 'run audiosprite task from dev before running this' && cp -rf ../thrust-platform-dev/_dev/audio/result/ ./public/assets/audiosprite/",
-    "jade": "jade --client --no-debug filename.jade"
+    "jade": "jade --client --no-debug filename.jade",
+    "heroku:rebuild" : "git commit --allow-empty -m 'empty commit' && git push heroku master"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
