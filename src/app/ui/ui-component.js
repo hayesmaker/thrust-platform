@@ -114,11 +114,9 @@ p.add = function(component) {
 
 p.render = function () {
   this.isRendered = true;
-  console.log('ui-component :: render sub components', this.components, this);
 };
 
 p.remove = function () {
-  console.log('ui-component : remove');
   this.isRendered = false;
   this.group.removeAll();
   this.dispose();
@@ -132,11 +130,9 @@ p.dispose = function() {
 };
 
 p.enable = function () {
-  console.log('abstract ui-component enable');
 };
   
 p.disable = function () {
-  console.log('abstract ui-component disable');
 };
 
 p.show = function () {
@@ -152,7 +148,6 @@ p.hide = function () {
 };
 
 p.showAndAdd = function () {
-  console.log('showAndAdd :: ', this);
   if (!this.isRendered) {
     this.render();
     this.show();
@@ -160,7 +155,6 @@ p.showAndAdd = function () {
 };
 
 p.hideAndRemove = function () {
-  console.log('hideAndRemove', this);
   if (this.isRendered) {
     this.remove();
     this.hide();
@@ -186,8 +180,6 @@ p.initSmallLayout = function() {
 p.centerDisplay = function () {
   this.group.x = game.width / 2 - this.group.width / 2;
   this.group.y = game.height / 2 - this.group.height / 2;
-  console.log('centerDisplay', this, this.group);
-  console.log('centerDisplay', this.group.x, this.group.y);
 };
 
 

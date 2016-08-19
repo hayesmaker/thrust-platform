@@ -123,7 +123,7 @@ module.exports = {
    */
   render: function () {
     if (properties.dev.stats) {
-      game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
+      game.debug.text(game.time.fps || '--', game.width - 50, 14, "#00ff00");
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
@@ -163,7 +163,6 @@ module.exports = {
    * @param state {String} name of gameState and also name of screen to show
    */
   showCurrentScreenByState: function (state) {
-    console.warn('showCurrentScreenByState', state);
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
     this.showPauseButton(this.uiMode);
     if (state === gameState.PLAY_STATES.PLAY) {
@@ -208,7 +207,6 @@ module.exports = {
       case "TRAINING" :
         gameState.newPlayer();
         gameState.trainingMode = true;
-        console.warn('Training Mode activated');
         this.restartPlayState();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
@@ -219,7 +217,6 @@ module.exports = {
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
       default :
-        console.log(item.text.text + ' not implemented');
         break;
     }
   },
@@ -390,7 +387,6 @@ module.exports = {
    * @method levelInterstitialStart
    */
   levelInterstitialStart: function () {
-    console.log('play :: levelInterstitialStart');
     gameState.currentState = gameState.PLAY_STATES.INTERSTITIAL;
     ui.showScreen(gameState.currentState, true);
   },
@@ -401,7 +397,6 @@ module.exports = {
    * @method gameOver
    */
   gameOver: function () {
-    console.warn('GAME OVER score:', gameState.score);
     ui.countdown.stop();
     if (gameState.trainingMode) {
       gameState.trainingMode = false;
@@ -473,7 +468,6 @@ module.exports = {
    * @method defineWorldBounds
    */
   defineWorldBounds: function () {
-    console.info('play :: defineWorldBounds :: this.level=', this.level);
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
   },
 
@@ -663,7 +657,6 @@ module.exports = {
   },
 
   resume: function() {
-    console.log("resume");
     this.escPressed();
     this.pauseButton.onInputUp.add(this.onPauseClick, this);
     game.input.onDown.remove(this.resume, this);
@@ -776,7 +769,6 @@ module.exports = {
    * @method escPressed
    */
   escPressed: function() {
-    console.log('play :: esc pressed');
     game.paused = this.uiPaused.visible = !game.paused;
   },
 

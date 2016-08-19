@@ -17,7 +17,6 @@ function UserControl(features) {
   } else {
     this.initKeys(); 
   }
-  console.log('UserControl :: constructor :: useVirtual = %s : useExternal = %s : useKeys = %s', this.useVirtualJoypad, this.useExternalJoypad, this.useKeys);
 }
 
 var p = UserControl.prototype;

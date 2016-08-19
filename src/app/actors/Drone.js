@@ -82,7 +82,7 @@ p.lastDrone = function() {
  * @method contactLost
  */
 p.contactLost = function() {
-  //console.log('drone contact lost!');
+
 };
 
 p.deactivate = function(){

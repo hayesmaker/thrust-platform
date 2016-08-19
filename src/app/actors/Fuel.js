@@ -69,7 +69,6 @@ p.explode = function () {
     return;
   }
   sound.playSound('boom1');
-  console.log('explode');
   particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;
   this.cleanup();

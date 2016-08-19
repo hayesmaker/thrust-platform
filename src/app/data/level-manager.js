@@ -44,7 +44,6 @@ module.exports = {
    */
   init: function() {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
-    console.log('level-manager ::  init : customLevel= %s', customLevel);
     this.levels = properties.levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;
@@ -52,7 +51,6 @@ module.exports = {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
-    console.log('level-manager :: init=', this.levelIndex, this.currentLevel);
   },
 
   /**
@@ -87,7 +85,6 @@ module.exports = {
    */
   newGame: function() {
     this.levelIndex = 0;
-    console.log('level-manager :: newGame :', this.levelIndex);
     this.currentLevel = this.levels[this.levelIndex];
   },
 

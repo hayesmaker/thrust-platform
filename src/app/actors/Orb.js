@@ -43,7 +43,7 @@ p.init = function () {
 };
 
 p.orbHit = function() {
-  console.log('orb :: orbHit');
+
 };
 
 /**
@@ -83,7 +83,6 @@ p.stop = function() {
  * @method crash
  */
 p.crash = function () {
-  console.warn('Orb :: crash');
   if (this.player) {
     this.player.crash();
   }

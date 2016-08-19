@@ -81,7 +81,6 @@ p.stickDownPressed = false;
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
-  console.log('ui-menu :: render');
   this.items = [];
   _.each(
     [
@@ -183,7 +182,6 @@ p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
   this.items[index].graphic.visible = true;
   sound.playSound('select2', 0.2);
-  console.log('this.items[index]', this.items[index].graphic);
 };
 
 /**
@@ -199,7 +197,6 @@ p.deselectItem = function (item) {
  */
 p.enable = function () {
   this.selectedIndex = 0;
-  console.log('ui-menu :: enable', this.selectedIndex);
   this.selectItemByIndex(this.selectedIndex);
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
@@ -216,7 +213,6 @@ p.enable = function () {
  * @method disable
  */
 p.disable = function () {
-  console.log('ui-menu :: disable');
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
     game.controls.cursors.down.onDown.remove(this.downPressed, this);

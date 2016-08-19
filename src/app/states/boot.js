@@ -7,6 +7,7 @@ var levelManager = require('../data/level-manager');
 var particles = require('../environment/particles/manager');
 var gameState = require('../data/game-state');
 var userControl;
+var version = require('../../../package.json').version;
 
 /**
  * The boot state
@@ -21,7 +22,6 @@ var userControl;
 module.exports = {
 
   init: function (customScaleMode) {
-    console.log('boot :: customScaleMode', customScaleMode);
     this.customScaleMode = customScaleMode;
   },
 
@@ -36,7 +36,6 @@ module.exports = {
    * @method preload
    */
   preload: function () {
-    game.load.image('title', 'assets/images/title.png');
     game.load.image('splash', 'assets/images/splash-1.png');
   },
 
@@ -53,7 +52,6 @@ module.exports = {
    * @method create
    */
   create: function () {
-    console.log('boot :: create');
     //Experimental poorly documented features of Phaser
     //game.scale.forceOrientation(true, false);
     game.renderer.renderSession.roundPixels = true;
@@ -73,10 +71,6 @@ module.exports = {
       game.time.advancedTiming = true;
     }
     userControl = new UserControl(features);
-    console.warn("Instructions: Use Cursors to move ship, space to shoot, collect orb by passing near");
-    console.warn("TouchScreenDetected : features=", features);
-    console.warn("ControlMethods:", userControl);
-    console.warn("ScaleMode:", game.scale.scaleMode);
     game.controls = userControl;
     game.e2e = {};
 
@@ -87,6 +81,13 @@ module.exports = {
     this.bootScreen.height = game.height;
     this.bootScreen.alpha = 0;
 
+    var style = {font: "10px thrust_regular", fill: "#ffffff", align: 'left'};
+    this.version = game.make.text(0,0, 'v' + version, style);
+    this.version.anchor.setTo(0, 0.5);
+    this.version.x = 0;
+    this.version.y = game.height*0.25;
+    this.bootScreen.addChild(this.version);
+
     TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
     game.e2e.boot = this;
   },
@@ -95,11 +96,7 @@ module.exports = {
    * @method update
    */
   update: function () {
-    /*
-    if (game.externalJoypad && game.externalJoypad.fireButton.isDown) {
-      this.startLoad();
-    }
-    */
+
   },
 
   /**
@@ -108,6 +105,6 @@ module.exports = {
    * @method startGame
    */
   startLoad: function () {
-    game.state.start('load', false, false, this.bootScreen);
+    game.state.start('load', false, false, this.bootScreen, this.version);
   }
 };

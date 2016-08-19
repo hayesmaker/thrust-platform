@@ -45,12 +45,10 @@ module.exports = {
   },
 
   levelTransitionCompleted: function() {
-    console.log('ui : index :: levelTransitionCompleted');
     this.fade.tweenOut();
   },
   
   showScreen: function(name, fadeIn) {
-    console.log('ui : index :: showScreen', name);
     gameState.currentState = name;
     manager.showScreen(name);
     if (fadeIn) {

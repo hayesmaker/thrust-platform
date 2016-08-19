@@ -63,7 +63,6 @@ p.kill = function() {
  * @method initCollisions
  */
 p.initCollisions = function() {
-  console.log('PowerStation :: initCollisions', this.collisions.bullets);
   this.body.collides(this.collisions.bullets, this.hit, this);
 };
 
@@ -80,7 +79,6 @@ p.update = function() {
  * @method hit
  */
 p.hit = function() {
-  console.log('PowerStation :: hit', this.health);
   this.damage(85);
   sound.playSound('hurt2');
 };
@@ -89,8 +87,7 @@ p.hit = function() {
  * @method createParticles
  */
 p.createParticles = function() {
-  //this.particles = new FuelParticlesSystem();
-  //this.particles.init(this.position);
+
 };
 
 /**

@@ -151,7 +151,6 @@ p.apiSelect = function() {
 };
 
 p.selectOption = function(id) {
-  console.log('ui-button :: selectOption : ', this, id);
   this.onItemSelected.dispatch(id, this);
 };
 

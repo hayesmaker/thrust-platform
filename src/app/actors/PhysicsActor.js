@@ -16,7 +16,6 @@ var properties = require('../properties');
  * @constructor
  */
 function PhysicsActor(collisions, groups, imageCacheKey, x, y) {
-  console.log('PhysicsActor :: constructor :', this);
   /**
    * The collisions container
    *
@@ -69,7 +68,6 @@ p.initCustomPhysics = function(isStatic) {
  * @param physicsDataObjKey {String} eg 'player'
  */
 p.initPhysics = function(physicsDataKey, physicsDataObjKey) {
-  console.log('Actor :: initPhysics');
   game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon(physicsDataKey, physicsDataObjKey);
@@ -91,7 +89,6 @@ p.start = function() {
  * @method stop
  */
 p.stop = function() {
-  console.log('PhysicsActor :: stop');
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
