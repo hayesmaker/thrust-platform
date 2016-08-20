@@ -690,8 +690,7 @@ module.exports = {
    * @param data
    */
   createFuel: function (data) {
-    var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y);
-    fuel.player = this.player;
+    var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y, this.player);
     this.fuels.push(fuel);
   },
 

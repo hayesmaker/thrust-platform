@@ -8,6 +8,7 @@ var _ = require('lodash');
 var particles = require('../environment/particles/manager');
 var TweenLite = global.TweenLite;
 var sound = require('../utils/sound');
+var properties = require('../properties');
 
 /**
  * Fuel Sprite - PhysicsActor enabled fuel cell sprite
@@ -18,12 +19,14 @@ var sound = require('../utils/sound');
  * @param {String} imageCacheKey - Sprite image key.
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
+ * @param {Player} player
  * @extends {PhysicsActor}
  * @constructor
  */
-function Fuel(collisions, groups, imageCacheKey, x, y) {
+function Fuel(collisions, groups, imageCacheKey, x, y, player) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
   this.health = 250;
+  this.player = player;
   this.init();
 }
 
@@ -32,12 +35,6 @@ var p = Fuel.prototype = Object.create(PhysicsActor.prototype, {
 });
 
 module.exports = Fuel;
-
-/**
- * @property player
- * @type {Player}
- */
-p.player = null;
 
 /**
  * @property particles
@@ -53,21 +50,63 @@ p.particles = null;
 p.refuelAmount = 1;
 
 /**
+ *
+ * @type {boolean}
+ */
+p.isRefuelling = false;
+
+/**
  * @method init
  */
 p.init = function () {
   this.createParticles();
   this.initCustomPhysics(true);
+  this.drawSensor();
+  this.initSensorPhysics();
   this.setPhysicsShape();
+};
+
+p.drawSensor = function () {
+  var bmd = game.make.bitmapData(1, 1);
+  bmd.rect(0, 0, 1, 1, 'rgba(0, 255, 0, 0)');
+  this.sensor = game.add.sprite(this.x, this.y - this.height, bmd);
+  this.sensor.width = this.width;
+  this.sensor.height = this.height;
+  //this.sensor.anchor.setTo(0.5);
+  this.sensor.x -= this.sensor.width / 2;
+  this.sensor.y -= this.sensor.height / 2;
+};
+
+p.initSensorPhysics = function () {
+  game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
+  this.sensor.body.clearShapes();
+  var box = this.sensor.body.addRectangle(this.sensor.width, this.sensor.height, this.sensor.width/2, this.sensor.height/2, 0);
+  box.sensor = true;
+  this.sensor.body.motionState = 2;
+  this.sensor.body.setCollisionGroup(this.collisions.fuels);
+  this.sensor.body.collides([this.collisions.players]);
+  this.sensor.body.onBeginContact.add(this.contactStart, this);
+  this.sensor.body.onEndContact.add(this.contactLost, this);
+};
+
+/**
+ * @method contactLost
+ */
+p.contactLost = function () {
+  this.isRefuelling = false;
+};
+
+/**
+ * @method contactStart
+ */
+p.contactStart = function () {
+  this.isRefuelling = true;
 };
 
 /**
  * @method explode
  */
 p.explode = function () {
-  if (!this.player.alive) {
-    return;
-  }
   sound.playSound('boom1');
   particles.explode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;
@@ -78,7 +117,20 @@ p.explode = function () {
  * @method update
  */
 p.update = function () {
-  this.checkPlayerVicinity();
+    if (this.isRefuelling) {
+      if (!this.particles.isEmitting) {
+        this.particles.start(this.position, this.player.position);
+        TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
+      }
+      this.particles.update();
+      gameState.fuel += this.refuelAmount;
+      this.damage(1);
+    } else {
+      if (this.particles.isEmitting) {
+        this.particles.stop();
+        this.tint = 0xffffff;
+      }
+    }
 };
 
 /**
@@ -94,7 +146,7 @@ p.createParticles = function () {
  *
  * @method setPhysicsShape
  */
-p.setPhysicsShape = function() {
+p.setPhysicsShape = function () {
   this.fuelPadding = {
     x: 6.5,
     y: 5
@@ -130,28 +182,7 @@ p.cleanup = function () {
   Phaser.Sprite.prototype.kill.call(this);
   this.body.removeFromWorld();
   this.body.destroy();
-};
-
-/**
- * If a player is close to the fuel, refuelling can happen
- * and particles emitted to show the refuel.
- *
- * @method checkPlayerVicinity
- */
-p.checkPlayerVicinity = function () {
-  var dist = utils.distAtoB(this.player.position, this.position);
-  if (this.alive && this.player.alive && dist < 80) {
-    if (!this.particles.isEmitting) {
-      this.particles.start(this.position, this.player.position);
-      TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
-    }
-    this.particles.update();
-    gameState.fuel += this.refuelAmount;
-    this.damage(1);
-  } else {
-    if (this.particles.isEmitting) {
-      this.particles.stop();
-      this.tint = 0xffffff;
-    }
-  }
+  this.sensor.kill();
+  this.sensor.body.removeFromWorld();
+  this.sensor.body.destroy();
 };

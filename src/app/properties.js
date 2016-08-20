@@ -19,7 +19,7 @@ module.exports = {
   enableTouchPad: false,
   enableJoyPad: false,
   fatalCollisions: true,
-  drawBackground: true,
+  drawBackground: false,
   width: 800,
   height: 500,
   scale: {
