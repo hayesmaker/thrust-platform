@@ -94,7 +94,6 @@ p.gateOpenComplete = function() {
  * @method closeGate
  */
 p.closeGate = function() {
-  console.log('closeGate', this.gateSprite);
   if (this.gateSprite) {
     var level = levelManager.currentLevel;
     var xTo = level.gatePosition.x;

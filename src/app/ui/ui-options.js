@@ -83,20 +83,15 @@ p.createDisplay = function() {
   this.optionsList.render();
   this.optionsList.group.x = this.layoutRect.width/2 - this.optionsList.group.width/2;
   this.optionsList.group.y = this.layoutRect.height * 0.15;
-  
   this.exitButton = new UiButton(this.group, "x");
   this.exitButton.render();
   this.exitButton.group.x = 20;
   this.exitButton.group.y = 20;
-
-  console.log('ui-options :: render this.activeOptions=', this.activeOptions);
-  
   this.activeOptions.push(this.exitButton);
   _.each(this.optionsList.listComponents, function(component) {
     this.activeOptions.push(component.button);
   }.bind(this));
   this.numMainOptions = this.activeOptions.length;
-  console.log('this.activeOptions =-', this.activeOptions);
 };
 
 

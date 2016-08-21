@@ -11,7 +11,6 @@ function UiList(group, name, listItems) {
   UiComponent.call(this, group, name, true, false);
   this.listItems = listItems || [];
   this.listComponents = [];
-  console.log('ui-list :: render : ', this.listItems);
 }
 
 var p = UiList.prototype = Object.create(UiComponent.prototype, {
@@ -93,7 +92,6 @@ p.currentSelectedId = null;
  * @param layoutType {String|"VERTICAL"|"HORIZONTAL"}
  */
 p.setAutoLayout = function(layoutType) {
-  console.log('setAutoLayout : this.layoutType = ', layoutType);
   this.layoutType = layoutType;
 };
 
@@ -126,12 +124,8 @@ p.drawPosition = p.padding + p.margin;
  * @param index
  */
 p.drawItem = function(label, index) {
-  console.log('ui-list :: drawItem', this.listComponents, this.layoutType);
-
   var button = new UiButton(this.group, label);
   button.render();
-
-  //var text = game.add.text(0, 0, label, this.style, this.group);
   var x, y;
   if (this.layoutType === UiComponent.HORIZONTAL) {
     x = this.drawPosition;
@@ -169,13 +163,11 @@ p.initEvents = function () {
 
 p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
-  console.log('ui-list :: dispose', this, this.listComponents);
   _.each(this.listComponents, function(component) {
     component.button.onItemSelected.remove(this.selectOption, this);
     component.button.dispose();
   }.bind(this));
   this.listComponents = [];
-  console.log('ui0list :: dispose', this.listComponents);
 };
 
 p.componentMouseDown = function(arg1, arg2, id) {
@@ -183,7 +175,6 @@ p.componentMouseDown = function(arg1, arg2, id) {
 };
 
 p.selectOption = function(id, button) {
-  console.log('selectOption :: ', button, id, this.listComponents);
   if (id !== this.currentSelectedId) {
     _.each(this.listComponents, this.deselectComponent);
     if (!button) {
@@ -199,7 +190,6 @@ p.getButtonById = function(id) {
   var listComponent = _.find(this.listComponents, function(component) {
     return component.id === id;
   });
-  console.log('getButtonById id=', id, listComponent);
   return listComponent.button;
 };
 

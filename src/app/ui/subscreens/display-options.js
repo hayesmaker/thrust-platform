@@ -72,13 +72,11 @@ p.dispose = function () {
 p.scanlineFilterOn = function () {
   var filter = optionsModel.getFilterByName('scanlines');
   filter.scanlines = true;
-  console.log('filter.scanlines=', filter.scanlines);
 };
 
 p.scanlineFilterOff = function () {
   var filter = optionsModel.getFilterByName('scanlines');
   filter.scanlines = false;
-  console.log('filter.scanlines=', filter.scanlines);
 };
 
 p.webGlOn = function () {

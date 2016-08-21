@@ -36,7 +36,6 @@ function UiSwitch(group, name) {
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
-  console.log('ui-switch :: render');
   this.createDisplay();
   this.createLabel();
   this.drawSelector();
@@ -126,7 +125,6 @@ p.dispose = function() {
  */
 p.mouseDown = function () {
   this.switch();
-  console.log('ui-switch :: ',this, this.isOn);
 };
 
 /**

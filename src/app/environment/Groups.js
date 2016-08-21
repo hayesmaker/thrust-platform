@@ -29,15 +29,6 @@ p.init = function () {
   this.terrain = game.add.group();
   this.bullets = game.add.group();
   this.drones = game.add.group();
-
-  console.log('new Groups :: init ; game.groups', game);
-  /*
-  this.cameraGroup.add(this.background);
-  this.cameraGroup.add(this.actors);
-  this.cameraGroup.add(this.enemies);
-  this.cameraGroup.add(this.terrain);
-  this.cameraGroup.add(this.bullets);
-  */
 };
 
 

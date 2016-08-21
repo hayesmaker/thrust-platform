@@ -175,7 +175,6 @@ p.resetTimer = function () {
  * @method startTimer
  */
 p.startTimer = function () {
-  console.log('start Timer');
   this.timer = game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
   this.updateTimer();
 };

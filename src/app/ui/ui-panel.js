@@ -69,7 +69,6 @@ p.initSmallLayout = function () {
 };
 
 p.createDisplay = function() {
-  console.log('ui-panel :: createDisplay');
   if (!this.skinBitmap) {
     var strokeWidth = 4;
     this.skinBitmap = game.make.bitmapData(this.layoutRect.width + strokeWidth * 2,  this.layoutRect.height + strokeWidth * 2);

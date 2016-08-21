@@ -13,7 +13,6 @@ var properties = require('../../properties');
  * @constructor
  */
 function ForwardsFire(origin, collisions, groups, bulletBmp, lifespan) {
-  console.log('new ForwardFire :: origin, lifespan', origin, lifespan);
   FiringStrategy.call(this, origin, collisions, groups, bulletBmp, lifespan);
   this.setCollisionGroup(this.collisions.bullets);
   this.setCollidesWith([this.collisions.terrain, this.collisions.enemies, this.collisions.fuels]);
@@ -30,7 +29,6 @@ p.halfPi = Math.PI * 0.5;
  * @method fire
  */
 p.fire = function () {
-  console.log('ForwardFire :: fire : lifespan=', this.lifespan);
   FiringStrategy.prototype.fire.call(this);
   var magnitude = properties.gamePlay.firingMagnitude;
   var angle = this.origin.body.rotation - this.halfPi;

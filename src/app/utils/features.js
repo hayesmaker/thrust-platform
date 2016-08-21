@@ -23,9 +23,6 @@ module.exports = {
         (navigator.msMaxTouchPoints > 0)
       );
     this.isLocalStorageAvailable = this.storageAvailable('localStorage');
-    console.log("features:");
-    console.log("touchScreen:", this.isTouchScreen);
-    console.log("isLocalStorageAvailable:", this.isLocalStorageAvailable);
   },
 
   /**

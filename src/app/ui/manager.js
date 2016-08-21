@@ -23,12 +23,10 @@ module.exports = {
     var existingScreen = _.find(this.screens, {name: screen.name});
     if (!existingScreen) {
       this.screens.push(screen);
-      console.log('manager :: add : this.screens=', this.screens);
     }
   },
   
   showScreen: function(name, isSubScreen) {
-    console.log('ui-manager :: showScreen : name, isSubScreen, subscreens, screens', name, isSubScreen, this.subScreens, this.screens);
     var screensCheck = isSubScreen? this.subScreens : this.screens;
     var activeScreen = null;
     _.each(screensCheck, function(screen) {
@@ -44,7 +42,6 @@ module.exports = {
 
   addSubScreen: function(subScreen) {
     this.subScreens.push(subScreen);
-    console.log('manager :: addSubScreen : this.screens=', this.subScreens);
   },
   
   clearSubscreens: function() {

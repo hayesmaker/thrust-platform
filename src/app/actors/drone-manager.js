@@ -145,7 +145,6 @@ module.exports = {
    * @method doStageSpecifics
    */
   doStageSpecifics: function() {
-    console.log('drone-manager :: doStageSpecifics :: stageIndex=', this.trainingStageIndex);
     if (this.trainingStageIndex === 1) {
       //activate Hover Drones
       _.each(this.hoverDrones, function(hoverDrone) {

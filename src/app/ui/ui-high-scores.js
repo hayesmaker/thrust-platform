@@ -152,10 +152,8 @@ p.renderHighScores = function () {
 
 p.insertNewScore = function () {
   var scoreIndex = gameState.getScoreIndex();
-  console.log('scoreIndex:', scoreIndex);
   if (scoreIndex >= 0) {
     var currentScoreItem = this.items[scoreIndex];
-    console.log('insertNewScore :: scoreIndex=', scoreIndex);
     this.cursor = game.add.text(this.layoutRect.x + 20, this.layoutRect.y + 20, "_", this.styles.scores, this.group);
     this.cursor.x = currentScoreItem.name.x;
     this.cursor.y = currentScoreItem.name.y;
@@ -309,7 +307,6 @@ p.stepDownMobileChar = function () {
  */
 p.renderMobileChar = function () {
   if (this.mobileCharDirty) {
-    console.log('ui-high-scores :: renderMobileChar', this.mobileChars[this.mobileCharsIndex]);
     this.mobileCharDirty = false;
     this.char = this.mobileChars[this.mobileCharsIndex];
     this.renderScoreInput(this.newScoreName + this.char);
@@ -325,7 +322,6 @@ p.assignMobileChar = function () {
     return;
   }
   if (this.newScoreName.length < 13) {
-    console.warn('ui-high-scores :: assignMobileChar', this.char);
     this.newScoreName = this.newScoreName + this.char;
     this.mobileCharsIndex = 0;
     this.char = this.mobileChars[this.mobileCharsIndex];

@@ -112,8 +112,6 @@ function Player(collisions, groups) {
    */
   this.respawnPos = new Phaser.Point();
 
-  console.log('new Player');
-
   this.setStartPosition(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
   Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'player');
@@ -182,7 +180,6 @@ p.reset = function() {
  * @method start
  */
 p.start = function (completeCallback, context) {
-  console.log('Player :: start');
   game.physics.p2.enable(this, properties.dev.debugPhysics);
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
@@ -196,18 +193,17 @@ p.start = function (completeCallback, context) {
 };
 
 p.playerDronePass = function() {
-  console.log('player drone pass');
+
 };
 
 p.orbHit = function() {
-  console.log('orb hit');
+
 };
 
 /**
  * @method stop
  */
 p.stop = function() {
-  console.log('player :: stop');
   this.alive = false;
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -218,7 +214,6 @@ p.stop = function() {
 };
 
 p.resume = function() {
-  console.log('player :: resume');
   this.alive = true;
   this.body.motionState = 1;
 };
@@ -245,10 +240,8 @@ p.tweenOutAndRemove = function(removeWithOrb) {
  * @method spawn
  */
 p.spawn = function() {
-  console.log('spawn');
   this.inGameArea = true;
   this.body.motionState = 1;
-  //this.body.collideWorldBounds = true;
   this.alpha = 0;
   this.visible = true;
   this.alive = true;
@@ -267,7 +260,6 @@ p.spawn = function() {
  */
 p.respawn = function(completeCallback, thisArg, removeShip) {
   var self = this;
-  console.warn('player :: respawn :: this.initialPos', this.initialPos);
   this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -302,9 +294,7 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
  * @method update§
  */
 p.update = function () {
-  //if (this.alive ) {
-    //this.exhaustUpdate();
-  //}
+
 };
 
 /**
@@ -454,7 +444,6 @@ p.fire = function () {
  */
 p.crash = function () {
   if (!properties.fatalCollisions) {
-    console.log('Hit but no effect');
     return;
   }
   this.explosion();
@@ -484,7 +473,6 @@ p.rotate = function (val) {
 p.explosion = function (force) {
   if (this.alive || force === true) {
     var hasOrb = this.tractorBeam.isLocked;
-    console.warn('explosion');
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);
@@ -515,12 +503,10 @@ p.setRespawnPosition = function(position, hasOrb) {
     distances.push(distance);
   });
   var minDistance = _.min(distances);
-  console.log('setRespawnPosition :: distances / spawns:', distances, spawns);
   this.respawnPos = spawns[distances.indexOf(minDistance)];
   if (this.respawnPos.orb && hasOrb) {
     this.spawnWithOrb = true;
   }
-  console.log('respawnPos=', this.respawnPos, this.spawnWithOrb);
 };
 
 /**
@@ -546,7 +532,6 @@ p.exhaustUpdate = function() {
  */
 p.death = function () {
   if (this.inPlay) {
-    console.log('player :: death');
     this.thrustEmitter.on = false;
     this.inPlay = false;
     this.alive = false;

@@ -28,8 +28,8 @@ module.exports = {
    * @method init
    * @param bootScreen {Phaser.Sprite}
    */
-  init: function(bootScreen) {
-
+  init: function(bootScreen, versionTxt) {
+    this.version = versionTxt;
     this.bootScreen = bootScreen;
 
   },
@@ -135,9 +135,6 @@ module.exports = {
    * @param cacheKey
    */
   fileComplete: function (progress, cacheKey) {
-
-    console.log('loadComplete :: fileComplete :: cacheKey=', cacheKey);
-
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
     if (this.isLevelData(cacheKey)) {
@@ -218,7 +215,6 @@ module.exports = {
    * @method decodeAudio
    */
   decodeAudio: function () {
-    console.log('decoding audio');
     var sfx = game.add.audioSprite('sfx');
     sfx.allowMultiple = true;
     var music = game.add.audioSprite('music');
@@ -240,8 +236,9 @@ module.exports = {
    * @method start
    */
   start: function () {
-    console.log('audioDecoded');
     this.loadProgressTxt.destroy();
+    this.version.destroy();
+    this.bootScreen.destroy();
     game.state.start('play', true, false);
   }
 };

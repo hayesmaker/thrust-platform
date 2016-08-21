@@ -208,7 +208,6 @@ module.exports = {
    * @method update
    */
   update: function () {
-    console.log('mission dialog enabled');
     game.input.gamepad.pad1.onUpCallback = function (buttonCode) {
       if (buttonCode === Phaser.Gamepad.BUTTON_1) {
         this.joypadFireButton = true;
