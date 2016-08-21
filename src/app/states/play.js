@@ -484,7 +484,7 @@ module.exports = {
     this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
-      var bgKey = gameState.trainingMode ? 'starfield' : 'stars';
+      var bgKey = 'starfield';  //gameState.trainingMode ? 'starfield' : 'stars';
       this.background = new Background(0, 0, bgKey);
     }
     particles.create();
