@@ -43,9 +43,9 @@ p.start = function(origin, target) {
     this.origin.y, 
     { 
       zone: this.circle, 
-      total: 4, 
+      total: 2,
       repeat: -1, 
-      frequency: 4 
+      frequency: 20
     });
   this.refuelEmitterEvent = this.emitter.timerEvent;
 };
@@ -54,9 +54,9 @@ p.start = function(origin, target) {
  * @method update
  */
 p.update = function() {
-  ParticleSystem.prototype.update.call(this);
   this.well.position.x = this.target.x;
   this.well.position.y = this.target.y;
+  ParticleSystem.prototype.update.call(this);
 };
 
 /**

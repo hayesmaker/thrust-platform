@@ -57,24 +57,32 @@ module.exports = {
     transporterOrbParticle.ctx.fillRect(0,0,2,2);
     transporterOrbParticle.ctx.closePath();
 
-    var fuelParticle = game.make.bitmapData(2, 2);
-    fuelParticle.ctx.fillStyle = '#00ff00';
-    fuelParticle.ctx.beginPath();
-    fuelParticle.ctx.fillRect(0,0,2,2);
-    fuelParticle.ctx.closePath();
+    var fuelParticle = game.make.bitmapData(4, 4);
+    fuelParticle.circle(0, 0, 2, 'rgb(255,255,255)');
 
     game.cache.addBitmapData('transportParticle', transporterParticle);
     game.cache.addBitmapData('transportOrbParticle', transporterOrbParticle);
     game.cache.addBitmapData('fuelParticle', fuelParticle);
     game.cache.addBitmapData('explodeParticle', explodeParticle);
 
+    var teleportEmitterData = {
+      lifespan: 400,
+      image: game.cache.getBitmapData('fuelParticle')
+    };
+
+    var teleportEmitterDataOrb = {
+      lifespan: 400,
+      image: game.cache.getBitmapData('fuelParticle'),
+      hsv: { initial: 0, value: 359, control: 'linear' }
+    };
+
     var fuelEmitterData = {
-      lifespan: 750,
+      lifespan: 500,
       image: game.cache.getBitmapData('fuelParticle'),
       vy: { min: 0, max: 0 },
       alpha: {
-        initial: 0.5,
-        value: 0.5,
+        initial: 1,
+        value: 1,
         control: [
           { x: 0, y: 1 },
           { x: 1, y: 0 }
@@ -83,7 +91,7 @@ module.exports = {
     };
     
     var explodeEmitterData = {
-      lifespan: { min: 1000, max: 2000 },
+      lifespan: { min: 500, max: 1000 },
       image: game.cache.getBitmapData('explodeParticle'),
       scale: { min: 0.5, max: 2 },
       rotation: { delta: 3 },
@@ -92,8 +100,8 @@ module.exports = {
 
     this.manager.addData('explode', explodeEmitterData);
     this.manager.addData('fuelEmitter', fuelEmitterData);
-    this.manager.addData('transporter', {image: game.cache.getBitmapData('transportParticle')});
-    this.manager.addData('transporterOrb', {image: game.cache.getBitmapData('transportOrbParticle')});
+    this.manager.addData('transporter', teleportEmitterData);
+
 
     this.emitter = this.manager.createEmitter();
     this.emitter.addToWorld(this.group);
@@ -108,21 +116,30 @@ module.exports = {
   playerTeleport: function(x, y, boundCallback) {
     var circle = this.manager.createCircleZone(25);
     this.emitter.force.y = 0;
-    this.emitter.emit('transporter', x, y, {zone: circle, total: 20, repeat: 10, frequency: 10});
+    this.emitter.emit('transporter', x, y, {
+      zone: circle,
+      total: 20,
+      repeat: 10,
+      frequency: 100
+    });
     if (boundCallback) {
-      game.time.events.add(2000, boundCallback);
+      game.time.events.add(1000, boundCallback);
     }
   },
 
   orbTeleport: function(x, y) {
     var circle = this.manager.createCircleZone(25);
     this.emitter.force.y = 0;
-    this.emitter.emit('transporterOrb', x, y, {zone: circle, total: 20, repeat: 10, frequency: 10});
+    this.emitter.emit('transporter', x, y, {
+      zone: circle,
+      total: 20,
+      repeat: 10,
+      frequency: 100});
   },
 
   explode: function(x, y) {
     this.emitter.force.y = 0.1;
-    this.emitter.emit('explode', x, y, { total: 25 });
+    this.emitter.emit('explode', x, y, { total: 20 });
   }
 
 };
