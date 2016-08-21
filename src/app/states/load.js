@@ -237,7 +237,7 @@ module.exports = {
    */
   start: function () {
     this.loadProgressTxt.destroy();
-    this.version.destroy()
+    this.version.destroy();
     this.bootScreen.destroy();
     game.state.start('play', true, false);
   }
