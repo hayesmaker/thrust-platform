@@ -9,7 +9,6 @@ var Fuel = require('../actors/Fuel');
 var Limpet = require('../actors/Limpet');
 var Switch = require('../actors/GateSwitch');
 var Orb = require('../actors/Orb');
-var Map = require('../actors/Map');
 var Background = require('../actors/Background');
 var TractorBeam = require('../actors/TractorBeam');
 var _ = require('lodash');

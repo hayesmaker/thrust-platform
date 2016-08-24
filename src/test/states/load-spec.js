@@ -44,9 +44,14 @@ describe("Phaser load state tests", function() {
       expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/space.jpg');
     });
 
-    it('player ship image should be loaded', function() {
+    it('actors texture atlas should be loaded', function() {
       state.preload();
-      expect(game.load.image).to.have.been.calledWith('player', 'assets/actors/player.png');
+      expect(game.load.atlas).to.have.been.calledWith('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
+    });
+
+    it('level maps atlas should be loaded', function() {
+      state.preload();
+      expect(game.load.atlas).to.have.been.calledWith('levels-atlas', 'assets/levels/atlas/levels.png', 'assets/levels/atlas/levels.json');
     });
 
     it('player phyics data should be loaded', function() {
@@ -54,19 +59,9 @@ describe("Phaser load state tests", function() {
       expect(game.load.physics).to.have.been.calledWith('playerPhysics', 'assets/actors/player.json');
     });
 
-    it('all level map images should be loaded', function() {
-      state.preload();
-      expect(game.load.image).to.have.been.calledWith('mapImage', 'assets/levels/level_6_x2.png');
-    });
-
     it('all level map physics data should be loaded', function() {
       state.preload();
       expect(game.load.physics).to.have.been.calledWith('mapPhysics-map', 'assets/levels/level_6.json');
-    });
-
-    it('fuel cell image should be loaded', function() {
-      state.preload();
-      expect(game.load.image).to.have.been.calledWith('fuelImage', 'assets/actors/fuel.png');
     });
 
   });
