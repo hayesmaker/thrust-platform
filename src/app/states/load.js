@@ -64,12 +64,8 @@ module.exports = {
     this.preloadTrainingMap(properties.levels.training);
     game.load.atlas('levels-atlas', 'assets/levels/atlas/levels.png', 'assets/levels/atlas/levels.json');
     _.each(levelManager.levels, this.preloadMapData, this);
-    game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
-    game.load.image('fuelImage', 'assets/actors/fuel.png');
-    game.load.image('powerStationImage', 'assets/actors/power-station.png');
     game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
-    game.load.image('orbHolderImage', 'assets/actors/orb-holder.png');
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
@@ -84,17 +80,11 @@ module.exports = {
   },
 
   loadHiResAssets: function() {
-    game.load.image('enemy-damage-1', 'assets/actors/HD/Turret_Damage_01.png');
-    game.load.image('enemy-damage-2', 'assets/actors/HD/Turret_Damage_02.png');
-    game.load.image('enemy-normal-1', 'assets/actors/HD/Turret_Normal_01.png');
-    game.load.image('enemy-normal-2', 'assets/actors/HD/Turret_Normal_02.png');
+    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
   },
 
   loadLowResAssets: function() {
-    game.load.image('enemy-damage-1', 'assets/actors/Normal/Turret_Damage_01.png');
-    game.load.image('enemy-damage-2', 'assets/actors/Normal/Turret_Damage_02.png');
-    game.load.image('enemy-normal-1', 'assets/actors/Normal/Turret_Normal_01.png');
-    game.load.image('enemy-normal-2', 'assets/actors/Normal/Turret_Normal_02.png');
+    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
   },
 
   /**

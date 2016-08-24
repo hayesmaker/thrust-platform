@@ -114,9 +114,8 @@ function Player(collisions, groups) {
 
   this.setStartPosition(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
-  Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'player');
+  Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'actors-atlas', 'player.png');
   this.anchor.setTo(0.5);
-  //this.scale.setTo(0.6);
   this.alpha = 0;
   this.init();
   this.thrustSfx = game.sfx.get('thrust4');

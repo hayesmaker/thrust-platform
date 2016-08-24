@@ -502,11 +502,11 @@ module.exports = {
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
-    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
+    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'actors-atlas', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
-      this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
+      this.powerStation = new PowerStation(this.collisions, this.groups, 'actors-atlas', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
@@ -699,7 +699,7 @@ module.exports = {
    * @param data
    */
   createFuel: function (data) {
-    var fuel = new Fuel(this.collisions, this.groups, 'fuelImage', data.x, data.y, this.player);
+    var fuel = new Fuel(this.collisions, this.groups, 'actors-atlas', 'fuel.png', data.x, data.y, this.player);
     this.fuels.push(fuel);
   },
 
