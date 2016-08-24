@@ -12,14 +12,11 @@ var Phaser = global.Phaser;
  * @type {Object}
  */
 module.exports = {
-  /**
-   * @deprecated
-   */
   collideWorldBounds: true,
   enableTouchPad: false,
   enableJoyPad: false,
   fatalCollisions: true,
-  drawBackground: false,
+  drawBackground: true,
   width: 800,
   height: 500,
   scale: {
@@ -74,7 +71,7 @@ module.exports = {
       orbPosition: {x: 2600, y: 1732},
       orbHolder: {x: 2600, y: 1770}
     },
-    startLevel: 1,
+    startLevel: 6,
     data: [
       {
         missionSwipe: {
@@ -82,8 +79,10 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(255, 0, 0, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-1.png',
-        mapImgKey: 'level-1',
+        atlasData: {
+          levelKey: 'level-1',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-1.json',
         mapDataKey: 'level-1',
         mapScale: 2,
@@ -93,7 +92,7 @@ module.exports = {
         },
         mapPosition: {
           x: 0,
-          y: 150
+          y: 730
         },
         spawns: [{
           x: 500,
@@ -134,13 +133,15 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(62, 217, 42, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-2.png',
-        mapImgKey: 'level-2',
+        atlasData: {
+          levelKey: 'level-2',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-2.json',
         mapDataKey: 'level-2',
         mapScale: 2,
         world: {width: 1536, height: 2000},
-        mapPosition: {x: 0, y: 600},
+        mapPosition: {x: 0, y: 740},
         spawns: [{
           x: 500,
           y: 400,
@@ -182,13 +183,15 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(29, 192, 222, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-3.png',
-        mapImgKey: 'level-3',
+        atlasData: {
+          levelKey: 'level-3',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-3.json',
         mapDataKey: 'level-3',
         mapScale: 2,
         world: {width: 1920, height: 3200},
-        mapPosition: {x: 0, y: 650},
+        mapPosition: {x: 0, y: 790},
         spawns: [{
           x: 600,
           y: 500,
@@ -272,8 +275,10 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(148, 24, 206, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-4.png',
-        mapImgKey: 'level-4',
+        atlasData: {
+          levelKey: 'level-4',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-4.json',
         mapDataKey: 'level-4',
         gateImgKey: 'level-4-gate',
@@ -293,8 +298,8 @@ module.exports = {
           {x: 1488, y: 2150, rotation: 0}
         ],
         mapScale: 2,
-        world: {width: 1726, height: 3000},
-        mapPosition: {x: 0, y: 1000},
+        world: {width: 1728, height: 3000},
+        mapPosition: {x: 0, y: 880},
         spawns: [{
           x: 500,
           y: 500,
@@ -362,8 +367,10 @@ module.exports = {
           desc: 'Recover the orb',
           color: "rgba(156, 77, 0, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-5.png',
-        mapImgKey: 'level-5',
+        atlasData: {
+          levelKey: 'level-5',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-5.json',
         mapDataKey: 'level-5',
         gateImgKey: 'level-5-gate',
@@ -372,11 +379,11 @@ module.exports = {
         gateDataUrl: 'assets/levels/level-5-gate.json',
         gateTweenTo: {
           x: 1305,
-          y: 2069
+          y: 2070
         },
         gatePosition: {
           x: 1470,
-          y: 2069
+          y: 2070
         },
         switches: [
           {x: 1557, y: 1928, rotation: 0},
@@ -384,7 +391,7 @@ module.exports = {
         ],
         mapScale: 2,
         world: {width: 1920, height: 2810},
-        mapPosition: {x: 0, y: 1185},
+        mapPosition: {x: 0, y: 696},
         spawns: [{
           x: 500,
           y: 400,
@@ -498,8 +505,10 @@ module.exports = {
           desc: 'Recover the final orb',
           color: "rgba(246, 0, 255, 0.7)"
         },
-        mapImgUrl: 'assets/levels/level-6.png',
-        mapImgKey: 'level-6',
+        atlasData: {
+          levelKey: 'level-6',
+          imageKey: 'levels-atlas'
+        },
         mapDataUrl: 'assets/levels/level-6.json',
         mapDataKey: 'level-6',
         gateImgKey: 'level-6-gate',
@@ -519,8 +528,8 @@ module.exports = {
           {x: 1754, y: 2072, rotation: 180}
         ],
         mapScale: 2,
-        world: {width: 2306, height: 2700},
-        mapPosition: {x: 0, y: 960},
+        world: {width: 2304, height: 2700},
+        mapPosition: {x: 0, y: 660},
         spawns: [{
           x: 400,
           y: 400,

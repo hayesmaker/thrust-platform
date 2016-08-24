@@ -62,6 +62,7 @@ module.exports = {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
     this.preloadTrainingMap(properties.levels.training);
+    game.load.atlas('levels-atlas', 'assets/levels/atlas/levels.png', 'assets/levels/atlas/levels.json');
     _.each(levelManager.levels, this.preloadMapData, this);
     game.load.image('player', 'assets/actors/player.png');
     game.load.physics('playerPhysics', 'assets/actors/player.json');
@@ -72,8 +73,28 @@ module.exports = {
     game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
+
+    if (game.device.pixelRatio > 1) {
+      this.loadHiResAssets();
+    } else {
+      this.loadLowResAssets();
+    }
     this.loadSfx();
     this.loadMusic();
+  },
+
+  loadHiResAssets: function() {
+    game.load.image('enemy-damage-1', 'assets/actors/HD/Turret_Damage_01.png');
+    game.load.image('enemy-damage-2', 'assets/actors/HD/Turret_Damage_02.png');
+    game.load.image('enemy-normal-1', 'assets/actors/HD/Turret_Normal_01.png');
+    game.load.image('enemy-normal-2', 'assets/actors/HD/Turret_Normal_02.png');
+  },
+
+  loadLowResAssets: function() {
+    game.load.image('enemy-damage-1', 'assets/actors/Normal/Turret_Damage_01.png');
+    game.load.image('enemy-damage-2', 'assets/actors/Normal/Turret_Damage_02.png');
+    game.load.image('enemy-normal-1', 'assets/actors/Normal/Turret_Normal_01.png');
+    game.load.image('enemy-normal-2', 'assets/actors/Normal/Turret_Normal_02.png');
   },
 
   /**
@@ -116,7 +137,6 @@ module.exports = {
    * @param levelData {Object} defines a map key and url, and the physics data key and url
    */
   preloadMapData: function (levelData) {
-    game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
     if (levelData.gateImgKey) {
       game.load.image(levelData.gateImgKey, levelData.gateImgUrl);

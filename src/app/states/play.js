@@ -23,6 +23,7 @@ var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
 var TimelineMax = global.TimelineMax;
 var features = require('../utils/features');
+var MapAtlas = require('../environment/levels/MapAtlas');
 
 /**
  * The play statem
@@ -72,9 +73,12 @@ module.exports = {
    * @method create
    */
   create: function () {
+    game.fpsProblemNotifier.add(this.fpsProblemDetected, this);
+    //game.forceSingleUpdate = true;
     this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
+    this.createLevelMap();
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
@@ -84,6 +88,10 @@ module.exports = {
   levelsCompleted: function () {
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
+  },
+
+  fpsProblemDetected: function(){
+    console.warn('play :: fps problem notifier fired');
   },
 
   /**
@@ -484,42 +492,43 @@ module.exports = {
     this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
-      var bgKey = 'starfield';  //gameState.trainingMode ? 'starfield' : 'stars';
+      //gameState.trainingMode ? 'starfield' : 'stars';
+      var bgKey = 'starfield';
       this.background = new Background(0, 0, bgKey);
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
     this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
-    this.map = new Map(this.collisions, this.groups);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
     this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'orbHolderImage', this.level.orbHolder.x, this.level.orbHolder.y);
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
-      _.each(this.level.switches, _.bind(this.createSwitch, this));
       this.powerStation = new PowerStation(this.collisions, this.groups, 'powerStationImage', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
       this.powerStation.initCollisions();
       this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
-      this.collisions.set(this.map, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
-      if (this.map.gateSprite) {
-        this.collisions.set(this.map.gateSprite, [this.collisions.players, this.collisions.bullets, this.collisions.enemyBullets, this.collisions.orb]);
-      }
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
-      this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
+      //this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
       this.createTrainingDrones();
     }
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;
-    game.e2e.map = this.map;
     game.e2e.enemies = this.limpetGuns;
+  },
+
+  createLevelMap: function() {
+    this.map = new MapAtlas(this.groups.terrain, this.level);
+    this.map.init();
+    this.map.initPhysics(this.collisions);
+    _.each(this.level.switches, _.bind(this.createSwitch, this));
   },
 
   /**

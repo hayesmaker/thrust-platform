@@ -20,26 +20,16 @@ var sound = require('../utils/sound');
  * @constructor
  */
 function Limpet (collisions, groups, x, y, angleDeg) {
-  var bmd = game.make.bitmapData(50, 25);
-  bmd.ctx.strokeStyle = '#ffffff';
-  bmd.ctx.lineWidth = 2;
-  bmd.ctx.beginPath();
-  bmd.ctx.moveTo(5, 15);
-  bmd.ctx.lineTo(45, 15);
-  bmd.ctx.lineTo(50, 25);
-  bmd.ctx.lineTo(43, 20);
-  bmd.ctx.lineTo(3, 20);
-  bmd.ctx.lineTo(0, 25);
-  bmd.ctx.lineTo(5, 15);
-  bmd.ctx.arc(25, 15, 12, 0, Math.PI, true);
-  bmd.ctx.closePath();
-  bmd.ctx.stroke(); 
 
-  PhysicsActor.call(this, collisions, groups, bmd, x, y);
+  PhysicsActor.call(this, collisions, groups, 'enemy-normal-1', x, y);
   this.angle = angleDeg;
   this.fireRate = 1 / 200;
   this.alive = false;
   this.turret = this.createTurret();
+
+  if (game.device.pixelRatio > 1) {
+    this.scale.setTo(0.5);
+  }
 
   this.initCustomPhysics(true);
   this.body.addRectangle(50, 25, 0, 0);
