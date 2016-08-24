@@ -84,7 +84,7 @@ module.exports = {
    * @method newGame
    */
   newGame: function() {
-    this.levelIndex = 0;
+    this.levelIndex = properties.levels.startLevel - 1;
     this.currentLevel = this.levels[this.levelIndex];
   },
 

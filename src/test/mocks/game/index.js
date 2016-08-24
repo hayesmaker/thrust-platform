@@ -3,9 +3,15 @@ var sinon = require('sinon');
 module.exports = function () {
 
   return {
+    device: {
+      pixelRatio: 1
+    },
+
     stats: require('./stats'),
 
     add: require('./add'),
+
+    fpsProblemNotifier: require('./signal'),
 
     controls: {
       isJoypadEnabled: false

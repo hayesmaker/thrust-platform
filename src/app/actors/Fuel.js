@@ -16,14 +16,15 @@ var properties = require('../properties');
  * @param {Collisions} collisions - Our collisions groups.
  * @param {Groups} groups - Our display groups.
  * @param {String} imageCacheKey - Sprite image key.
+ * @param {String} imageFrameKey - Sprite frame key.
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @param {Player} player
  * @extends {PhysicsActor}
  * @constructor
  */
-function Fuel(collisions, groups, imageCacheKey, x, y, player) {
-  PhysicsActor.call(this, collisions, groups, imageCacheKey, x, y);
+function Fuel(collisions, groups, imageCacheKey, imageFrameKey, x, y, player) {
+  PhysicsActor.call(this, collisions, groups, imageCacheKey, imageFrameKey, x, y);
   this.health = 250;
   this.player = player;
   this.init();

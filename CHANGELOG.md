@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Spike/optimisations [\#31](https://github.com/hayesmaker/thrust-platform/pull/31) ([hayesmaker](https://github.com/hayesmaker))
 - Feature/new graphics [\#30](https://github.com/hayesmaker/thrust-platform/pull/30) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.8.6](https://github.com/hayesmaker/thrust-platform/tree/v0.8.6) (2016-08-18)

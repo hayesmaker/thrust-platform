@@ -30,6 +30,7 @@ describe("Phaser play state tests", function () {
       sinon.stub(play, 'startLevelIntro');
       sinon.stub(play, 'missionStart');
       sinon.stub(play, 'showCurrentScreenByState');
+      sinon.stub(play, 'createLevelMap');
     });
 
     afterEach(function () {
@@ -40,6 +41,7 @@ describe("Phaser play state tests", function () {
       play.startLevelIntro.restore();
       play.missionStart.restore();
       play.showCurrentScreenByState.restore();
+      play.createLevelMap.restore();
     });
 
     it('should set current level', function () {
@@ -56,6 +58,11 @@ describe("Phaser play state tests", function () {
     it('should create actors', function () {
       play.create();
       expect(play.createActors).to.have.been.calledOnce;
+    });
+
+    it('should create level Map', function() {
+      play.create();
+      expect(play.createLevelMap).to.have.been.calledOnce;
     });
 
     it('should create the in-game ui', function () {

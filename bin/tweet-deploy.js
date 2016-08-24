@@ -13,7 +13,7 @@ var url = 'http://www.thrust2016.com/';
 
 
 var status = function() {
-  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'Performance improvements for iPad #JSDev #PhaserDev #HTML5Dev';
+  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'Graphics update and massive optimisations';
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet) {

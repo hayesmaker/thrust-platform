@@ -9,13 +9,14 @@ var properties = require('../properties');
  * @class PhysicsActor
  * @param {Collisions} collisions - Our collisions container of collisionGroups.
  * @param {Groups} groups - Our groups container.
- * @param {String} imageCacheKey - Sprite image key.
+ * @param {String} atlasKey - Sprite atlas key.
+ * @param {String} atlasFrame - Sprite frame key.
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @extends {Phaser.Sprite}
  * @constructor
  */
-function PhysicsActor(collisions, groups, imageCacheKey, x, y) {
+function PhysicsActor(collisions, groups, atlasKey, atlasFrame, x, y) {
   /**
    * The collisions container
    *
@@ -38,7 +39,7 @@ function PhysicsActor(collisions, groups, imageCacheKey, x, y) {
    */
   this.initalPosition = new Phaser.Point(x || 0, y || 0);
 
-  Phaser.Sprite.call(this, game, this.initalPosition.x, this.initalPosition.y, imageCacheKey);
+  Phaser.Sprite.call(this, game, this.initalPosition.x, this.initalPosition.y, atlasKey, atlasFrame);
   this.anchor.setTo(0.5);
 }
 
