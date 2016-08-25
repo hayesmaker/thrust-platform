@@ -10,12 +10,13 @@ var properties = require('../properties');
  *
  * @param x {Number}
  * @param y {Number}
- * @param [key] {String}
+ * @param levelData {Object}
  * @class Background
  * @constructor
  */
-function Background(x, y, key) {
-  this.sprite = game.make.tileSprite(x, y, properties.width, properties.height, key || 'stars');
+function Background(levelData) {
+  this.levelData = levelData;
+  this.sprite = game.make.tileSprite(0, 0, properties.width, this.levelData.mapPosition.y, 'combined', 'starfield.png');
   this.sprite.fixedToCamera = true;
 }
 

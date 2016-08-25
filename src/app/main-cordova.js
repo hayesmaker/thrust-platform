@@ -39,7 +39,7 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     launcher.renderMode = Phaser.CANVAS;
-    launcher.customScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    launcher.enableHiResMode();
     launcher.start();
   }
 };

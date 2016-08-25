@@ -12,11 +12,13 @@ var properties = require('../../properties');
  * @constructor
  * @param parentGroup
  * @param levelData
+ * @param isAtlas
  */
-function MapAtlas(parentGroup, levelData) {
+function MapAtlas(parentGroup, levelData, isAtlas) {
+  this.isAtlas = isAtlas;
   this.x = levelData.mapPosition.x;
   this.y = levelData.mapPosition.y;
-  this.key = levelData.atlasData.imageKey;
+  this.key = 'combined';
   this.data = game.cache.getFrameData(this.key);
   this.group = game.add.group(parentGroup);
   this.parent = parentGroup;
@@ -44,11 +46,16 @@ p.tweenDuration = 1.75;
  * @method init
  */
 p.init = function() {
+  this.spriteBatch = game.add.spriteBatch(this.group, 'level-map');
   this.physicsSprite = new Phaser.Sprite(game, 0, 0, null, null);
   game.world.add(this.physicsSprite);
   this.group.x = this.x;
   this.group.y = this.y;
-  this.render();
+  if (this.isAtlas) {
+    this.renderAtlas();
+  } else {
+    this.renderImage();
+  }
   this.renderGate();
 };
 
@@ -57,13 +64,13 @@ p.init = function() {
  * The Essential Guide to Flash Games - Jeff Fulton
  * https://www.amazon.co.uk/Essential-Guide-Flash-Games-Entertainment/dp/1430226145
  *
- * @method render
+ * @method renderAtlas
  */
-p.render = function() {
+p.renderAtlas = function() {
   var frames = this.data.getFrames();
   var tile, x, y;
-  var tileWidth = 24 * this.levelData.mapScale;
-  var tileHeight = 24 * this.levelData.mapScale;
+  var tileWidth = 96 * this.levelData.mapScale;
+  var tileHeight = 96 * this.levelData.mapScale;
   var numTilesWide = this.levelData.world.width / tileWidth;
   frames = _.filter(frames, function(frame) {
     return frame.name.indexOf(this.levelData.atlasData.levelKey) >= 0;
@@ -71,9 +78,14 @@ p.render = function() {
   _.each(frames, function(frame, index) {
     x = Math.floor(index % numTilesWide) * tileWidth;
     y = Math.floor(index / numTilesWide) * tileHeight;
-    tile = game.add.sprite(x, y, this.key, frame.index, this.group);
+    tile = game.add.sprite(x, y, this.key, frame.index, this.spriteBatch);
     tile.scale.setTo(this.levelData.mapScale);
   }.bind(this));
+};
+
+p.renderImage = function() {
+  this.sprite = game.add.sprite(0,0, this.levelData.mapImgKey, null, this.group);
+  this.sprite.scale.setTo(this.levelData.mapScale);
 };
 
 /**

@@ -21,7 +21,7 @@ var sound = require('../utils/sound');
  */
 function Limpet (collisions, groups, x, y, angleDeg) {
 
-  PhysicsActor.call(this, collisions, groups, 'actors-atlas', 'turret_001.png', x, y);
+  PhysicsActor.call(this, collisions, groups, 'combined', 'turret_001.png', x, y);
   this.angle = angleDeg;
   this.fireRate = 1 / 200;
   this.alive = false;

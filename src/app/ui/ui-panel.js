@@ -54,13 +54,13 @@ p.render = function () {
 p.initFullLayout = function () {
   this.fullLayout = true;
   this.lineHeight = 4;
-  this.layoutRect = new Phaser.Rectangle(0, 0, 700, 500);
+  this.layoutRect = new Phaser.Rectangle(0, 0, game.width * 0.7, game.height * 0.6);
 };
 
 p.initSmallLayout = function () {
   this.padding = 2;
   this.lineHeight = 3;
-  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, window.innerWidth - this.padding * 2, window.innerHeight - this.padding * 2);
+  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
     title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
     scores: {font: '10px thrust_regular', fill: '#ffffff', align: 'left'},
