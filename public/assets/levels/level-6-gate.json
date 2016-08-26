@@ -1,0 +1,11 @@
+{ 
+    
+    "level-6-gate": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   98.022598266601562, 35.807909965515137  ,  8, 36  ,  8, 8  ,  102, 8  ,  130, 22  ]
+        }
+    ]
+}

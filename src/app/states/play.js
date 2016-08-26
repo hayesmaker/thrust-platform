@@ -72,8 +72,12 @@ module.exports = {
    * @method create
    */
   create: function () {
-    game.fpsProblemNotifier.add(this.fpsProblemDetected, this);
+    //game.fpsProblemNotifier.add(this.fpsProblemDetected, this);
     //game.forceSingleUpdate = true;
+    game.time.desiredFps = 60;
+    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      game.time.desiredFps = 30;
+    }
     this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
@@ -491,9 +495,7 @@ module.exports = {
     this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
-      //gameState.trainingMode ? 'starfield' : 'stars';
-      var bgKey = 'starfield';
-      this.background = new Background(0, 0, bgKey);
+      this.background = new Background(this.level);
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
@@ -501,11 +503,11 @@ module.exports = {
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
-    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'actors-atlas', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
+    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'combined', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
-      this.powerStation = new PowerStation(this.collisions, this.groups, 'actors-atlas', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
+      this.powerStation = new PowerStation(this.collisions, this.groups, 'combined', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
       this.powerStation.initPhysics('powerStationPhysics', 'power-station');
       this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
       this.powerStation.body.setCollisionGroup(this.collisions.terrain);
@@ -514,7 +516,6 @@ module.exports = {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
-      //this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
       this.createTrainingDrones();
     }
     this.cameraPos.x = this.player.x;
@@ -524,7 +525,7 @@ module.exports = {
   },
 
   createLevelMap: function() {
-    this.map = new MapAtlas(this.groups.terrain, this.level);
+    this.map = new MapAtlas(this.groups.terrain, this.level, 'combined', this.level.useAtlas);
     this.map.init();
     this.map.initPhysics(this.collisions);
     _.each(this.level.switches, _.bind(this.createSwitch, this));
@@ -698,7 +699,7 @@ module.exports = {
    * @param data
    */
   createFuel: function (data) {
-    var fuel = new Fuel(this.collisions, this.groups, 'actors-atlas', 'fuel.png', data.x, data.y, this.player);
+    var fuel = new Fuel(this.collisions, this.groups, 'combined', 'fuel.png', data.x, data.y, this.player);
     this.fuels.push(fuel);
   },
 
