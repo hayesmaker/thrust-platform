@@ -2,11 +2,24 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.6...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.0...HEAD)
+
+**Merged pull requests:**
+
+- Feature/tiled level atlases [\#32](https://github.com/hayesmaker/thrust-platform/pull/32) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.0](https://github.com/hayesmaker/thrust-platform/tree/v0.9.0) (2016-08-24)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.7...v0.9.0)
 
 **Merged pull requests:**
 
 - Spike/optimisations [\#31](https://github.com/hayesmaker/thrust-platform/pull/31) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.8.7](https://github.com/hayesmaker/thrust-platform/tree/v0.8.7) (2016-08-21)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.8.6...v0.8.7)
+
+**Merged pull requests:**
+
 - Feature/new graphics [\#30](https://github.com/hayesmaker/thrust-platform/pull/30) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.8.6](https://github.com/hayesmaker/thrust-platform/tree/v0.8.6) (2016-08-18)
