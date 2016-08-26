@@ -16,7 +16,7 @@ var properties = require('../properties');
  */
 function Background(levelData) {
   this.levelData = levelData;
-  this.sprite = game.make.tileSprite(0, 0, properties.width, this.levelData.mapPosition.y, 'combined', 'starfield.png');
+  this.sprite = game.make.tileSprite(0, 0, properties.width, this.levelData.mapPosition.y, 'combined', 'stars.png');
   this.sprite.fixedToCamera = true;
 }
 
