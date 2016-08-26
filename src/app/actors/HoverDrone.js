@@ -51,10 +51,10 @@ p.drawFlags = function (x, y, width) {
   var pos2 = new Phaser.Point(x, y - width / 2);
   var pos3 = new Phaser.Point(x + width / 2, y);
   var pos4 = new Phaser.Point(x, y + width / 2);
-  this.flag1 = game.add.sprite(pos1.x, pos1.y, 'drone', null, this.groups.drones);
-  this.flag2 = game.add.sprite(pos2.x, pos2.y, 'drone', null, this.groups.drones);
-  this.flag3 = game.add.sprite(pos3.x, pos3.y, 'drone', null, this.groups.drones);
-  this.flag4 = game.add.sprite(pos4.x, pos4.y, 'drone', null, this.groups.drones);
+  this.flag1 = game.add.sprite(pos1.x, pos1.y, 'combined', 'drone.png', this.groups.drones);
+  this.flag2 = game.add.sprite(pos2.x, pos2.y, 'combined', 'drone.png', this.groups.drones);
+  this.flag3 = game.add.sprite(pos3.x, pos3.y, 'combined', 'drone.png', this.groups.drones);
+  this.flag4 = game.add.sprite(pos4.x, pos4.y, 'combined', 'drone.png', this.groups.drones);
   this.flag1.anchor.setTo(0.5);
   this.flag2.anchor.setTo(0.5);
   this.flag3.anchor.setTo(0.5);

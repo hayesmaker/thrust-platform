@@ -53,9 +53,10 @@ module.exports = {
       mapDataUrl: 'assets/levels/training.json',
       mapDataKey: 'training',
       mapScale: 2,
+      useAtlas: false,
       mapPosition: {
         x: 0,
-        y: 500
+        y: 1700
       },
       missionSwipe: {
         title: 'Flight Training',
@@ -68,13 +69,13 @@ module.exports = {
       },
       spawns: [{
         x: 1500,
-        y: 1500,
+        y: 1550,
         orb: false
       }],
       orbPosition: {x: 2600, y: 1732},
       orbHolder: {x: 2600, y: 1770}
     },
-    startLevel: 1,
+    startLevel: 4,
     data: [
       {
         useAtlas: true,

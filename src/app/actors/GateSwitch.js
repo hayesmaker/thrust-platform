@@ -26,7 +26,7 @@ function GateSwitch (collisions, groups, map, x, y, angleDeg) {
   bmd.ctx.closePath();
   bmd.ctx.stroke(); 
 
-  PhysicsActor.call(this, collisions, groups, bmd, x, y);
+  PhysicsActor.call(this, collisions, groups, bmd, null, x, y);
   this.map = map;
   this.angle = angleDeg;
   this.alive = true;
@@ -63,13 +63,7 @@ p.hit = function () {
   if (!this.timer) {
     this.timer = game.time.events.add(6000, this.closeGate, this);
   }
-  //
-  //particles.explode(this.x, this.y);
-  //this.kill();
-  //this.body.removeFromWorld();
-  //this.body.destroy();
-  //gameState.score+=gameState.SCORES.GateSwitch;
-  sound.playSound('boom3');
+  sound.playSound('select2');
 };
 
 p.closeGate = function() {

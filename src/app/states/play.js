@@ -495,7 +495,6 @@ module.exports = {
     this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
-      //gameState.trainingMode ? 'starfield' : 'stars';
       this.background = new Background(this.level);
     }
     particles.create();
@@ -517,7 +516,6 @@ module.exports = {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
     } else {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
-      //this.collisions.set(this.map, [this.collisions.players, this.collisions.orb]);
       this.createTrainingDrones();
     }
     this.cameraPos.x = this.player.x;
@@ -527,7 +525,7 @@ module.exports = {
   },
 
   createLevelMap: function() {
-    this.map = new MapAtlas(this.groups.terrain, this.level, this.level.useAtlas);
+    this.map = new MapAtlas(this.groups.terrain, this.level, 'combined', this.level.useAtlas);
     this.map.init();
     this.map.initPhysics(this.collisions);
     _.each(this.level.switches, _.bind(this.createSwitch, this));

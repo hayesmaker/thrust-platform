@@ -46,8 +46,8 @@ p.drawFlags = function(x, y, width, rotation) {
   var pos = new Phaser.Point();
   pos.x = Math.cos(rotation) * width;
   pos.y = Math.sin(rotation) * width;
-  this.flag1 = game.add.sprite(x - pos.x, y + pos.y, 'drone', null, this.groups.drones);
-  this.flag2 = game.add.sprite(x + pos.x, y - pos.y, 'drone', null, this.groups.drones);
+  this.flag1 = game.add.sprite(x - pos.x, y + pos.y, 'combined', 'drone.png', this.groups.drones);
+  this.flag2 = game.add.sprite(x + pos.x, y - pos.y, 'combined', 'drone.png', this.groups.drones);
   var bmd = game.make.bitmapData(1, 1);
   bmd.rect(0,0,1,1, 'rgba(0, 255, 0, 0)');
   this.sensor = game.add.sprite(x + this.flag1.width/2, y, bmd);

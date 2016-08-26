@@ -12,13 +12,14 @@ var properties = require('../../properties');
  * @constructor
  * @param parentGroup
  * @param levelData
+ * @param key
  * @param isAtlas
  */
-function MapAtlas(parentGroup, levelData, isAtlas) {
+function MapAtlas(parentGroup, levelData, key, isAtlas) {
   this.isAtlas = isAtlas;
   this.x = levelData.mapPosition.x;
   this.y = levelData.mapPosition.y;
-  this.key = 'combined';
+  this.key = key;
   this.data = game.cache.getFrameData(this.key);
   this.group = game.add.group(parentGroup);
   this.parent = parentGroup;
@@ -125,6 +126,7 @@ p.initPhysics = function(collisions) {
     this.gateSprite.body.clearShapes();
     this.gateSprite.body.loadPolygon(this.gateCacheKey(), this.levelData.gateDataKey);
     this.gateSprite.body.setCollisionGroup(collisions.terrain);
+    collisions.set(this.gateSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);
   }
 };
 
