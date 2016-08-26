@@ -38,20 +38,10 @@ describe("Phaser load state tests", function() {
       state.preload();
       expect(game.load.atlas).to.have.been.calledWith('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     });
-    
-    it('should load the background image', function() {
-      state.preload();
-      expect(game.load.image).to.have.been.calledWith('stars', 'assets/images/space.jpg');
-    });
 
-    it('actors texture atlas should be loaded', function() {
+    it('combined levels and actors texture atlas should be loaded', function() {
       state.preload();
-      expect(game.load.atlas).to.have.been.calledWith('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
-    });
-
-    it('level maps atlas should be loaded', function() {
-      state.preload();
-      expect(game.load.atlas).to.have.been.calledWith('levels-atlas', 'assets/levels/atlas/levels.png', 'assets/levels/atlas/levels.json');
+      expect(game.load.atlas).to.have.been.calledWith('combined', 'assets/atlas/combined.png', 'assets/atlas/combined.json');
     });
 
     it('player phyics data should be loaded', function() {
