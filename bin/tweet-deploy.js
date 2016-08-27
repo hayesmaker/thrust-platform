@@ -16,6 +16,7 @@ var status = function() {
   return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'Fixed the broken stuff and updated graphics #gamedev #indiegamedev';
 };
 
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -24,8 +25,9 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+*/
 
-//console.log(status());
+console.log(status());
 
 /*
  Thrust 2016 Major update (v0.8.1) http://thrust-platform.herokuapp.com New Flight Training mode! #indiedev @IndieGameDevBot @IndieDevDog;

@@ -248,6 +248,7 @@ module.exports = {
    * @method newGame
    */
   newGame: function() {
+    this.resetTimes();
     this.levelStart();
     levelManager.newGame();
   },
@@ -269,25 +270,48 @@ module.exports = {
   },
 
   /**
-   * @method levelReset
+   * @method nextLevel
    */
   nextLevel: function () {
     if (this.trainingMode) {
       this.startTraining();
       return;
     }
-
     if (this.bonuses.orbRecovered && !this.isGameOver) {
       if (levelManager.levels.length - 1 === levelManager.levelIndex) {
+        //this.newGame();
         this.levelsCompleted.dispatch();
       } else {
         this.levelStart();
         levelManager.nextLevel();
       }
-      
-
     }
   },
+
+  counter: 0,
+
+  stopwatchCacheTxt: "",
+
+  cacheTime: function(ms, text){
+    this.counter = ms;
+    this.stopwatchCacheTxt = text;
+
+  },
+
+  getCachedTime: function() {
+    return this.counter;
+  },
+
+  getCachedTimeStr: function() {
+    return this.stopwatchCacheTxt;
+  },
+
+  resetTimes: function() {
+    this.counter = 0;
+    this.stopwatchCacheTxt = "";
+  },
+
+
   
   /**
    * Set to true when a condition is satisfied

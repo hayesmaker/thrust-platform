@@ -23,6 +23,7 @@ var Stopwatch = require('../ui/Stopwatch');
 var TimelineMax = global.TimelineMax;
 var features = require('../utils/features');
 var MapAtlas = require('../environment/levels/MapAtlas');
+var options = require('../data/options-model');
 
 /**
  * The play statem
@@ -72,12 +73,8 @@ module.exports = {
    * @method create
    */
   create: function () {
-    //game.fpsProblemNotifier.add(this.fpsProblemDetected, this);
     //game.forceSingleUpdate = true;
-    game.time.desiredFps = 60;
-    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
-      game.time.desiredFps = 30;
-    }
+    this.initFps();
     this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
@@ -85,16 +82,18 @@ module.exports = {
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
+
+    if (options.gameModes.speedRun.enabled) {
+      this.initStopwatch();
+    }
+
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
-  levelsCompleted: function () {
-    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
-    this.showCurrentScreenByState(gameState.currentState);
-  },
 
-  fpsProblemDetected: function(){
-    console.warn('play :: fps problem notifier fired');
+  initStopwatch: function() {
+    ui.drawStopwatch();
+    this.stopwatch = new Stopwatch(ui.stopwatch);
   },
 
   /**
@@ -134,7 +133,8 @@ module.exports = {
    */
   render: function () {
     if (properties.dev.stats) {
-      game.debug.text(game.time.fps || '--', game.width - 50, 14, "#00ff00");
+      var color = game.time.desiredFps === 60? '#00ff00' : '0000ff';
+      game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
@@ -152,13 +152,38 @@ module.exports = {
    */
   playGame: function () {
     ui.showUser();
-    //this.pauseButton.visible = true;
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
       this.missionStart();
     } else {
       this.initialiseDevMode();
+    }
+  },
+
+  /**
+   * Shows the levels complete screen
+   *
+   * @method levelsCompleted
+   */
+  levelsCompleted: function () {
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
+  },
+
+  /**
+   * mobile devices seem to struggle with p2 physics running at maximum 60fps
+   * this sets desiredFps to 30 on mobile OS.
+   * Overall performance is much improved at this setting on mobile.
+   * Although particle storm effects seem to run at half speed.
+   *
+   * @todo implement a switch in settings to turn this default setting.
+   * @method initFps
+   */
+  initFps: function() {
+    game.time.desiredFps = 60;
+    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      game.time.desiredFps = 30;
     }
   },
 
@@ -288,10 +313,23 @@ module.exports = {
     if (gameState.trainingMode) {
       this.createMissionDialog();
     } else {
+      if (options.gameModes.speedRun.enabled) {
+        this.startSpeedRun();
+      }
       this.playerStart();
     }
   },
 
+  /**
+   * @method startSpeedRun
+   */
+  startSpeedRun: function() {
+    this.stopwatch.start(ui.stopwatch);
+  },
+
+  /**
+   * @method playerStart
+   */
   playerStart: function () {
     this.player.start(this.playerWarpComplete, this);
   },
@@ -363,6 +401,7 @@ module.exports = {
         ui.countdown.stop();
         sound.playSound('teleport-in3');
         this.player.levelExit();
+        this.stopStopwatch();
        if (gameState.trainingMode) {
          droneManager.trainingComplete();
          gameState.playTime = this.stopwatch.getText();
@@ -409,6 +448,7 @@ module.exports = {
    */
   gameOver: function () {
     ui.countdown.stop();
+    this.stopStopwatch();
     if (gameState.trainingMode) {
       gameState.trainingMode = false;
       gameState.currentState = gameState.PLAY_STATES.MENU;
@@ -421,6 +461,16 @@ module.exports = {
       }
     }
     this.restartPlayState();
+  },
+
+  /**
+   * @method stopStopwatch
+   */
+  stopStopwatch: function() {
+    if (options.gameModes.speedRun.enabled) {
+      console.log('stopStopWatch');
+      this.stopwatch.stop();
+    }
   },
 
   /**
@@ -537,8 +587,8 @@ module.exports = {
   createMissionDialog: function () {
     ui.missionDialog.render(function() {
       this.playerStart();
-      this.stopwatch = new Stopwatch();
-      this.stopwatch.start(ui.stopwatch);
+      this.stopwatch = new Stopwatch(ui.stopWatch);
+      this.stopwatch.start();
       droneManager.activateTimedRun(this.stopwatch);
     }.bind(this), this);
   },
