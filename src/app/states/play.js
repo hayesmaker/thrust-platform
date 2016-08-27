@@ -72,7 +72,6 @@ module.exports = {
    * @method create
    */
   create: function () {
-    //game.fpsProblemNotifier.add(this.fpsProblemDetected, this);
     //game.forceSingleUpdate = true;
     game.time.desiredFps = 60;
     if (game.device.iOS || game.device.android || game.device.windowsPhone) {
@@ -91,10 +90,6 @@ module.exports = {
   levelsCompleted: function () {
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
-  },
-
-  fpsProblemDetected: function(){
-    console.warn('play :: fps problem notifier fired');
   },
 
   /**
