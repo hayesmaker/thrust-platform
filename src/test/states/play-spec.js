@@ -9,7 +9,8 @@ var mocks = require('mocks');
 var stubs = {
   '../properties': require('../mocks/properties-mock'),
   '../data/level-manager': require('../mocks/data/level-manager'),
-  '../data/game-state': require('../mocks/data/game-state')
+  '../data/game-state': require('../mocks/data/game-state'),
+  '../data/options-model': require('../mocks/data/options-model')
 };
 
 var proxyquire = require('proxyquireify')(require);
@@ -31,6 +32,7 @@ describe("Phaser play state tests", function () {
       sinon.stub(play, 'missionStart');
       sinon.stub(play, 'showCurrentScreenByState');
       sinon.stub(play, 'createLevelMap');
+      sinon.stub(play, 'initStopwatch');
     });
 
     afterEach(function () {
@@ -42,6 +44,7 @@ describe("Phaser play state tests", function () {
       play.missionStart.restore();
       play.showCurrentScreenByState.restore();
       play.createLevelMap.restore();
+      play.initStopwatch.restore();
     });
 
     it('should set current level', function () {

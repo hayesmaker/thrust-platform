@@ -49,7 +49,7 @@ p.cachedTime = 0;
 /**
  *
  */
-p.start = function (uiStopwatch) {
+p.start = function () {
   this.timer.start();
 };
 

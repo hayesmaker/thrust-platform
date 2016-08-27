@@ -1,7 +1,6 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
-var FuelParticlesSystem = require('../environment/particles/FuelParticlesSystem');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
 var particles = require('../environment/particles/manager');
