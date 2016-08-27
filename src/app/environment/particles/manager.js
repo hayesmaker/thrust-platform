@@ -57,10 +57,10 @@ module.exports = {
     transporterOrbParticle.ctx.fillRect(0,0,2,2);
     transporterOrbParticle.ctx.closePath();
 
-    var fuelParticle = game.make.bitmapData(1, 1);
+    var fuelParticle = game.make.bitmapData(2, 2);
     //fuelParticle.circle(0, 0, 1, 'rgb(255,255,255)');
-    fuelParticle.ctx.fillStyle = '#ffffff';
-    fuelParticle.ctx.fillRect(0,0,1,1);
+    fuelParticle.ctx.fillStyle = '#3CFFFF';
+    fuelParticle.ctx.fillRect(0,0,2,2);
 
     game.cache.addBitmapData('transportParticle', transporterParticle);
     game.cache.addBitmapData('transportOrbParticle', transporterOrbParticle);
@@ -79,11 +79,11 @@ module.exports = {
     };
 
     var fuelEmitterData = {
-      lifespan: 500,
+      lifespan: 850,
       image: game.cache.getBitmapData('fuelParticle'),
       vy: { min: 0, max: 0 },
       alpha: {
-        initial: 1,
+        initial: 0,
         value: 1,
         control: [
           { x: 0, y: 1 },

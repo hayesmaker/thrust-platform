@@ -26,7 +26,7 @@ module.exports = FuelParticlesSystem;
  */
 p.init = function(source) {
   ParticleSystem.prototype.init.call(this);
-  this.well = this.emitter.createGravityWell(source.x, source.y, 1);
+  this.well = this.emitter.createGravityWell(source.x, source.y, 2);
   this.circle = this.manager.createCircleZone(20);
   this.emitter.addToWorld(particles.group);
 };
@@ -43,9 +43,9 @@ p.start = function(origin, target) {
     this.origin.y, 
     { 
       zone: this.circle, 
-      total: 2,
+      total: 3,
       repeat: -1, 
-      frequency: 10
+      frequency: 15
     });
   this.refuelEmitterEvent = this.emitter.timerEvent;
 };
