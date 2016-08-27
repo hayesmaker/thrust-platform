@@ -121,7 +121,8 @@ module.exports = {
    */
   render: function () {
     if (properties.dev.stats) {
-      game.debug.text(game.time.fps || '--', game.width - 50, 14, "#00ff00");
+      var color = game.time.desiredFps === 60? '#00ff00' : '0000ff';
+      game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
