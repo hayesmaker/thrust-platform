@@ -248,6 +248,7 @@ module.exports = {
    * @method newGame
    */
   newGame: function() {
+    this.resetTimes();
     this.levelStart();
     levelManager.newGame();
   },
@@ -303,6 +304,11 @@ module.exports = {
 
   getCachedTimeStr: function() {
     return this.stopwatchCacheTxt;
+  },
+
+  resetTimes: function() {
+    this.counter = 0;
+    this.stopwatchCacheTxt = "";
   },
 
 
