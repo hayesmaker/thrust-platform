@@ -1,12 +1,22 @@
 'use strict';
 
+
+var options = require('../data/options-model');
+var gameState = require('../data/game-state');
+
 /**
  * @class StopWatch
  * @constructor
  */
-function StopWatch() {
+function StopWatch(uiStopwatch) {
+  this.uiStopwatch = uiStopwatch;
   this.timer = game.time.create(false);
   this.timer.loop(1, this.update, this);
+  if (options.gameModes.speedRun.enabled) {
+    this.timerString = gameState.getCachedTimeStr();
+    this.cachedTime = gameState.getCachedTime();
+    this.uiStopwatch.update(this.timerString);
+  }
 }
 
 var p = StopWatch.prototype;
@@ -29,10 +39,17 @@ p.counter = 0;
 p.timerString = "00:00:00";
 
 /**
+ * Stored during speed runs
+ *
+ * @property cachedTime
+ * @type {number}
+ */
+p.cachedTime = 0;
+
+/**
  *
  */
 p.start = function (uiStopwatch) {
-  this.uiStopwatch = uiStopwatch;
   this.timer.start();
 };
 
@@ -48,6 +65,9 @@ p.pause = function () {
  */
 p.stop = function () {
   this.timer.pause();
+  if (options.gameModes.speedRun.enabled) {
+    gameState.cacheTime(this.counter, this.getText());
+  }
 };
 
 /**
@@ -70,7 +90,7 @@ p.destroy = function () {
  *
  */
 p.update = function () {
-  this.counter = this.timer.ms;
+  this.counter = this.timer.ms + this.cachedTime;
   var mins = Math.floor(this.counter / 60000) % 60;
   var s = Math.floor(this.counter / 1000) % 60;
   var ms = Math.floor(this.counter / 10) % 100;

@@ -286,6 +286,26 @@ module.exports = {
       }
     }
   },
+
+  counter: 0,
+
+  stopwatchCacheTxt: "",
+
+  cacheTime: function(ms, text){
+    this.counter = ms;
+    this.stopwatchCacheTxt = text;
+
+  },
+
+  getCachedTime: function() {
+    return this.counter;
+  },
+
+  getCachedTimeStr: function() {
+    return this.stopwatchCacheTxt;
+  },
+
+
   
   /**
    * Set to true when a condition is satisfied

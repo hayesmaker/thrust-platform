@@ -34,8 +34,12 @@ module.exports = {
     //this.stopwatch.hide();
   },
 
-  drawTrainingUi: function() {
+  drawStopwatch: function() {
     this.stopwatch.init(game.width - 10, this.score.scoreLabel.y, this.scoreGroup);
+  },
+
+  drawTrainingUi: function() {
+    this.drawStopwatch();
     this.score.trainingMode();
   },
   
