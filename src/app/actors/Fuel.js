@@ -1,6 +1,7 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
+var FuelParticlesSystem = require('../environment/particles/FuelParticlesSystem');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
 var particles = require('../environment/particles/manager');
@@ -49,7 +50,7 @@ p.particles = null;
  * @property refuelAmount
  * @type {number}
  */
-p.refuelAmount = 1;
+p.refuelAmount = 2;
 
 /**
  *
@@ -67,6 +68,7 @@ p.isAnimating = false;
  * @method init
  */
 p.init = function () {
+  this.createParticles();
   this.initCustomPhysics(true);
   this.drawSensor();
   this.initSensorPhysics();
@@ -110,7 +112,8 @@ p.createFuelAnim = function () {
     'Fuel_Anim_029.png',
     'Fuel_Anim_030.png'
   ], 60, true);
-  this.fuelAnim.visible = false;
+  this.fuelAnim.visible = true;
+  this.fuelAnim.play('refuelling');
 };
 
 p.drawSensor = function () {
@@ -163,38 +166,28 @@ p.explode = function () {
  * @method update
  */
 p.update = function () {
-
-  if (this.isRefuelling) {
-
-    if (!this.isAnimating) {
-      this.isAnimating = true;
-      this.fuelAnim.animations.play('refuelling');
-      this.fuelAnim.visible = true;
+    if (this.isRefuelling) {
+      if (!this.particles.isEmitting) {
+        this.particles.start(this.position, this.player.position);
+        TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
+      }
+      this.particles.update();
+      gameState.fuel += this.refuelAmount;
+      this.damage(1);
+    } else {
+      if (this.particles.isEmitting) {
+        this.particles.stop();
+        this.tint = 0xffffff;
+      }
     }
-
-
-   TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
-    gameState.fuel += this.refuelAmount;
-    this.damage(1);
-  } else {
-
-    if (this.isAnimating) {
-      this.fuelAnim.animations.stop('refuelling', true);
-      this.isAnimating = false;
-      this.fuelAnim.visible = false;
-    }
-    //this.particles.stop();
-    this.tint = 0xffffff;
-  }
 };
 
 /**
- * @deprecated
  * @method createParticles
  */
 p.createParticles = function () {
-  //this.particles = new FuelParticlesSystem();
-  //this.particles.init(this.position);
+  this.particles = new FuelParticlesSystem();
+  this.particles.init(this.position);
 };
 
 /**

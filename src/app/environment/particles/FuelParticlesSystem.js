@@ -45,7 +45,7 @@ p.start = function(origin, target) {
       zone: this.circle, 
       total: 2,
       repeat: -1, 
-      frequency: 20
+      frequency: 10
     });
   this.refuelEmitterEvent = this.emitter.timerEvent;
 };
