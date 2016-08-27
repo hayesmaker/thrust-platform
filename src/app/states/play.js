@@ -73,10 +73,7 @@ module.exports = {
    */
   create: function () {
     //game.forceSingleUpdate = true;
-    game.time.desiredFps = 60;
-    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
-      game.time.desiredFps = 30;
-    }
+    this.initFps();
     this.level = levelManager.currentLevel;
     this.defineWorldBounds();
     this.createActors();
@@ -85,11 +82,6 @@ module.exports = {
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
-  },
-
-  levelsCompleted: function () {
-    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
-    this.showCurrentScreenByState(gameState.currentState);
   },
 
   /**
@@ -147,13 +139,38 @@ module.exports = {
    */
   playGame: function () {
     ui.showUser();
-    //this.pauseButton.visible = true;
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
       this.missionStart();
     } else {
       this.initialiseDevMode();
+    }
+  },
+
+  /**
+   * Shows the levels complete screen
+   *
+   * @method levelsCompleted
+   */
+  levelsCompleted: function () {
+    gameState.currentState = gameState.PLAY_STATES.COMPLETE;
+    this.showCurrentScreenByState(gameState.currentState);
+  },
+
+  /**
+   * mobile devices seem to struggle with p2 physics running at maximum 60fps
+   * this sets desiredFps to 30 on mobile OS.
+   * Overall performance is much improved at this setting on mobile.
+   * Although particle storm effects seem to run at half speed.
+   *
+   * @todo implement a switch in settings to turn this default setting.
+   * @method initFps
+   */
+  initFps: function() {
+    game.time.desiredFps = 60;
+    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      game.time.desiredFps = 30;
     }
   },
 
