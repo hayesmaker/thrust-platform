@@ -52,7 +52,7 @@ p.init = function() {
   this.animations.add('normal', [
     'power-station_001.png',
     'power-station_002.png'
-  ], 5,  true);
+  ], 1,  true);
 
   this.animations.add('damaged', [
     'power-station-damaged.png'
@@ -113,7 +113,7 @@ p.stopParticles = function() {
 };
 
 p.startParticles = function() {
-  particleManager.emitPower(this.x - this.width/3.5, this.y);
+  particleManager.emitPower(this.x - this.width/2.5, this.y);
 };
 
 /**

@@ -181,9 +181,12 @@ module.exports = {
    * @method initFps
    */
   initFps: function() {
-    game.time.desiredFps = 60;
     if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      game.device.isMobile = true;
       game.time.desiredFps = 30;
+    } else {
+      game.time.desiredFps = 60;
+      game.device.isMobile = false;
     }
   },
 

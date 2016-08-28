@@ -75,7 +75,7 @@ module.exports = {
       orbPosition: {x: 2600, y: 1732},
       orbHolder: {x: 2600, y: 1770}
     },
-    startLevel: 2,
+    startLevel: 1,
     data: [
       {
         useAtlas: true,
