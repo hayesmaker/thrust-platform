@@ -91,6 +91,14 @@ module.exports = {
         ]
       }
     };
+
+    var fuelExplodeEmitter = {
+      lifespan: { min: 500, max: 1250 },
+      image: game.cache.getBitmapData('fuelParticle'),
+      scale: { min: 0.25, max: 2 },
+      rotation: { delta: 4 },
+      velocity: { radial: { arcStart: -15, arcEnd: 15 }, initial: { min: 1, max: 3 } }
+    };
     
     var explodeEmitterData = {
       lifespan: { min: 500, max: 1000 },
@@ -103,6 +111,7 @@ module.exports = {
     this.manager.addData('explode', explodeEmitterData);
     this.manager.addData('fuelEmitter', fuelEmitterData);
     this.manager.addData('transporter', teleportEmitterData);
+    this.manager.addData('fuelExplode', fuelExplodeEmitter);
 
 
     this.emitter = this.manager.createEmitter();
@@ -142,6 +151,11 @@ module.exports = {
   explode: function(x, y) {
     this.emitter.force.y = 0.1;
     this.emitter.emit('explode', x, y, { total: 20 });
+  },
+
+  fuelExplode: function(x, y) {
+    this.emitter.force.y = -0.01;
+    this.emitter.emit('fuelExplode', x, y, { total: 80 });
   }
 
 };
