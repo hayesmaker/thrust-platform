@@ -9,14 +9,13 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'http://www.thrust2016.com/';
+var url = 'https://youtu.be/uHDTferI2HQ';
 
 
 var status = function() {
-  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'Fixed the broken stuff and updated graphics #gamedev #indiegamedev';
+  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'New animations and particle effects #gamedev #indiegamedev';
 };
 
-/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -25,7 +24,6 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
-*/
 
 console.log(status());
 
