@@ -16,6 +16,7 @@ var status = function() {
   return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'New animations and particle effects #gamedev #indiegamedev';
 };
 
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -24,6 +25,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+*/
 
 console.log(status());
 

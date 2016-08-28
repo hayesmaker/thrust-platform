@@ -101,8 +101,11 @@ module.exports = {
       }
     };
 
+    var lifeSpan = game.device.isMobile ?
+    {min: 2000, max: 4000} : {min: 1000, max: 2000};
+
     var smokeData = {
-      lifespan: {min: 1000, max: 2000},
+      lifespan: lifeSpan,
       hsv: 299,
       image: 'combined',
       frame: 'smoke-particle.png',
@@ -183,12 +186,13 @@ module.exports = {
   },
 
   emitPower: function (x, y) {
+    var freqency = game.device.isMobile ? 100 : 50;
     this.powerEmitter.force.y = -0.0001;
-    this.powerEmitter.emit('smoke', x, y, {repeat: -1, frequency: 50});
+    this.powerEmitter.emit('smoke', x, y, {repeat: -1, frequency: freqency});
     this.powerEmitter.timer.resume();
   },
 
-  stopPower: function() {
+  stopPower: function () {
     this.powerEmitter.timer.pause();
   }
 
