@@ -23,6 +23,7 @@ var sound = require('../utils/sound');
 function PowerStation (collisions, groups, imageCacheKey, imageFrame, x, y) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, imageFrame, x, y);
   this.health = gameState.POWER_STATION_HEALTH;
+  this.init();
 }
 
 var p = PowerStation.prototype = Object.create(PhysicsActor.prototype, {
@@ -47,6 +48,16 @@ p.destructionSequenceActivated = new Phaser.Signal();
  * @method init
  */
 p.init = function() {
+
+  this.animations.add('normal', [
+    'power-station_001.png',
+    'power-station_002.png'
+  ], 5,  true);
+
+  this.animations.add('damaged', [
+    'power-station-damaged.png'
+  ], 1, true);
+  this.play('normal');
   this.createParticles();
 };
 
@@ -72,7 +83,17 @@ p.initCollisions = function() {
  */
 p.update = function() {
   if (this.alive && this.health < gameState.POWER_STATION_HEALTH) {
+
+    if (this.isNormal) {
+      this.isNormal = false;
+      this.play('damaged');
+    }
     this.health+=0.5;
+  } else if (this.health >= gameState.POWER_STATION_HEALTH) {
+    if (!this.isNormal) {
+      this.isNormal = true;
+      this.play('normal');
+    }
   }
 };
 

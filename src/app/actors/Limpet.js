@@ -31,6 +31,27 @@ function Limpet (collisions, groups, x, y, angleDeg) {
     //this.scale.setTo(0.5);
   }
 
+  /*
+  this.data = game.cache.getFrameData('combined');
+  this.frames = this.data.getFrames();
+  var normalFrames = _.filter(this.frames, function(frame) {
+    return frame.name.indexOf('turret_') >= 0;
+  });
+
+  var damagedFrames = _.filter(this.frames, function(frame) {
+    return frame.name.indexOf('turret-damaged') >= 0;
+  });
+  */
+  this.animations.add('normal', [
+    'turret_001.png',
+    'turret_002.png'
+  ], 5, true);
+  this.animations.add('damaged', [
+    'turret-damaged_001.png',
+    'turret-damaged_002.png'
+  ], 5, true);
+  this.play('normal');
+
   this.initCustomPhysics(true);
   this.body.addRectangle(50, 25, 0, 0);
   this.body.rotation = game.math.degToRad(this.angle);
@@ -46,6 +67,7 @@ var p = Limpet.prototype = Object.create(PhysicsActor.prototype, {
 module.exports = Limpet;
 
 p.hasPower = false;
+p.isPlayingNormal = true;
 
 /**
  * @method start
@@ -70,9 +92,17 @@ p.update = function () {
     return;
   }
   if (!this.hasPower) {
-    this.alpha = 0.6;
+    if (this.isPlayingNormal) {
+      this.isPlayingNormal = false;
+      this.play('damaged');
+    }
+    //this.alpha = 0.6;
   } else {
-    this.alpha = 1;
+    if (!this.isPlayingNormal) {
+      this.isPlayingNormal = true;
+      this.play('normal');
+    }
+    //this.alpha = 1;
     /*
      todo investigate
      todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
