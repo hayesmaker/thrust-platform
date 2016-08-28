@@ -157,7 +157,7 @@ p.contactStart = function () {
  */
 p.explode = function () {
   sound.playSound('boom1');
-  particles.explode(this.x, this.y + this.height / 2);
+  particles.fuelExplode(this.x, this.y + this.height / 2);
   gameState.score += gameState.SCORES.FUEL;
   this.cleanup();
 };

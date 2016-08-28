@@ -83,7 +83,7 @@ module.exports = {
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
 
-    if (options.gameModes.speedRun.enabled) {
+    if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
       this.initStopwatch();
     }
 
@@ -587,8 +587,8 @@ module.exports = {
   createMissionDialog: function () {
     ui.missionDialog.render(function() {
       this.playerStart();
-      this.stopwatch = new Stopwatch(ui.stopWatch);
-      this.stopwatch.start();
+      //this.stopwatch = new Stopwatch(ui.stopWatch);
+      this.startSpeedRun();
       droneManager.activateTimedRun(this.stopwatch);
     }.bind(this), this);
   },
@@ -704,7 +704,7 @@ module.exports = {
 
     ui.init(this.menuItemSelected, this);
     if (gameState.trainingMode) {
-      ui.drawTrainingUi();
+      //ui.drawTrainingUi();
     }
     ui.countdown.complete.add(this.countdownComplete, this);
   },

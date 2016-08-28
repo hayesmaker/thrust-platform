@@ -4576,9 +4576,17 @@
 	"spriteSourceSize": {"x":3,"y":0,"w":10,"h":14},
 	"sourceSize": {"w":16,"h":16}
 },
+"smoke-particle.png":
+{
+	"frame": {"x":607,"y":1450,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
 "stars.png":
 {
-	"frame": {"x":607,"y":1466,"w":512,"h":512},
+	"frame": {"x":740,"y":1468,"w":512,"h":512},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
@@ -4623,6 +4631,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:6a83c52f801ea6f1461c298581a71816:cd42e833e6ece3da4e1887ac069120a3:3095d46931c42493d5042f9206258520$"
+	"smartupdate": "$TexturePacker:SmartUpdate:112ae4b85cb8345700c3a872fc97a734:cc34175fd78fe2eca6ee2e025a192227:3095d46931c42493d5042f9206258520$"
 }
 }
