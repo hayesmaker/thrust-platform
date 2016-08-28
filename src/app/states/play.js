@@ -760,6 +760,7 @@ module.exports = {
    */
   createGroupLayering: function () {
     if (this.background) {
+      this.groups.background.add(this.background.gradientBg);
       this.groups.background.add(this.background.sprite);
     }
     this.groups.actors.add(this.player);
