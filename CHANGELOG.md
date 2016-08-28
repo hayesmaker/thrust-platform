@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.2...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.3...HEAD)
+
+**Merged pull requests:**
+
+- Feature/more anims training fix [\#35](https://github.com/hayesmaker/thrust-platform/pull/35) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.3](https://github.com/hayesmaker/thrust-platform/tree/v0.9.3) (2016-08-28)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.2...v0.9.3)
 
 **Merged pull requests:**
 
