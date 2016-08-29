@@ -1,0 +1,11 @@
+{ 
+    
+    "level-4-gate": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   105, 10  ,  105, 44  ,  10, 44  ,  10, 10  ]
+        }
+    ]
+}
