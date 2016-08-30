@@ -58,6 +58,14 @@ p.group = null;
  */
 p.style = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
 
+p.darkStyle = {font: "16px thrust_regular", fill: "#000000", align: "left"};
+
+p.minStyle = {font: "12px thrust_regular", fill: "#ffffff", align: "left"};
+
+p.darkMinStyle = {font: "12px thrust_regular", fill: "#000000", align: "left"};
+
+p.isFullLayout = false;
+
 /**
  * @property name
  * @type {string}
@@ -119,7 +127,15 @@ p.add = function(component) {
 };
 
 p.render = function () {
+  this.initLayout();
   this.isRendered = true;
+};
+
+p.renderDebug = function() {
+   var bgDebug = game.add.graphics(0,0, this.group);
+   bgDebug.beginFill(0x00ff00, 0.3);
+   bgDebug.drawRect(0, 0, this.group.width, this.group.height);
+   bgDebug.endFill();
 };
 
 p.remove = function () {
@@ -176,11 +192,20 @@ p.initLayout = function () {
 };
 
 p.initFullLayout = function() {
-  
+  this.isFullLayout = true;
 };
 
 p.initSmallLayout = function() {
-  
+  this.isFullLayout = false;
+};
+
+p.getDarkStyle = function() {
+  console.log('getDarkStyle :', this.isFullLayout, this.darkStyle);
+  return this.isFullLayout? this.darkStyle : this.darkMinStyle;
+};
+
+p.getStyle = function() {
+  return this.isFullLayout? this.style : this.minStyle;
 };
 
 p.centerDisplay = function () {

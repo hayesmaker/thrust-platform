@@ -34,6 +34,8 @@ p.margin = 2;
  */
 p.padding = 10;
 
+p.selectionPadding = 5;
+
 /**
  * @property stickUpPressed
  * @type {boolean}
@@ -64,6 +66,7 @@ p.gamepadSelector = null;
  * @method render
  */
 p.render = function() {
+  UiComponent.prototype.render.call(this);
   this.drawItem();
   this.drawSelector();
   this.initEvents();
@@ -83,27 +86,28 @@ p.drawPosition = p.padding + p.margin;
  * @param label
  */
 p.drawItem = function() {
-  var text = game.add.text(0, 0, this.label, this.style, this.group);
-  var x = 0, y = 0;
-  text.x = x;
-  text.y = y;
-  x = text.x - this.padding;
-  y = text.y - this.padding;
+  var text = game.make.text(0, 0, this.label, this.getDarkStyle());
+  var x = this.selectionPadding, y = this.selectionPadding;
   var width = text.width + this.padding * 2;
   var height = text.height + this.padding * 2;
   var backgroundSkin = game.make.bitmapData(width, height);
   backgroundSkin.ctx.fillStyle = 'rgba(225, 225, 225, 0.7)';
   canvas.drawRoundRect(backgroundSkin.ctx, 0, 0, width, height, 5, true, false);
   var spr = game.add.sprite(x, y, backgroundSkin, '', this.group);
+  text.x = spr.x + this.padding;
+  text.y = spr.y + this.padding;
+  this.group.add(text);
   this.buttonElements = {
     id: this.label,
     tf: text,
     spr: spr
   };
+
+
 };
 
 p.drawSelector = function() {
-  var w = this.group.width + 10, h = this.group.height + 10;
+  var w = this.group.width + this.selectionPadding * 2, h = this.group.height + this.selectionPadding * 2;
   var selector = game.make.bitmapData(w , h);
   selector.ctx.translate(0.5, 0.5);
   selector.ctx.beginPath();
@@ -112,7 +116,7 @@ p.drawSelector = function() {
   selector.ctx.setLineDash([3,2]);
   canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
   var bg = this.buttonElements.spr;
-  this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
+  this.gamepadSelector = game.add.sprite(bg.x - this.selectionPadding, bg.y -this.selectionPadding, selector, '', this.group);
   this.userDeselected();
 };
 

@@ -67,15 +67,17 @@ p.render = function() {
 };
 
 p.createDisplay = function() {
+
+  var paddingPerc = this.isFullLayout? 0.05 : 0.05;
+  this.exitButton = new UiButton(this.group, "<");
+  this.exitButton.render();
+  this.exitButton.group.x = this.layoutRect.height * paddingPerc;
+  this.exitButton.group.y = this.layoutRect.height * paddingPerc;
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
   this.optionsList.setAutoLayout(UiComponent.HORIZONTAL);
   this.optionsList.render();
-  this.optionsList.group.x = 0;
-  this.optionsList.group.y = this.layoutRect.height * 0.05;
-  this.exitButton = new UiButton(this.group, "<");
-  this.exitButton.render();
-  this.exitButton.group.x = 20;
-  this.exitButton.group.y = 20;
+  this.optionsList.group.x = this.exitButton.group.x + this.exitButton.group.width;
+  this.optionsList.group.y = this.layoutRect.height * paddingPerc;
   this.activeOptions.push(this.exitButton);
   _.each(this.optionsList.listComponents, function(component) {
     this.activeOptions.push(component.button);

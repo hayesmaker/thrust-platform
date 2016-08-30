@@ -99,6 +99,7 @@ p.setAutoLayout = function(layoutType) {
  * @method render
  */
 p.render = function() {
+  UiComponent.prototype.render.call(this);
   _.each(
     this.listItems,
     _.bind(
@@ -106,8 +107,9 @@ p.render = function() {
       this
     )
   );
-
   this.initEvents();
+
+  this.renderDebug();
 };
 
 /**

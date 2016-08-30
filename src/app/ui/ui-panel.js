@@ -47,17 +47,18 @@ p.setSkin = function (bmd) {
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
-  this.initLayout();
+  //this.initLayout();
   this.createDisplay();
 };
 
 p.initFullLayout = function () {
-  this.fullLayout = true;
+  UiComponent.prototype.initFullLayout.call(this);
   this.lineHeight = 4;
   this.layoutRect = new Phaser.Rectangle(0, 0, game.width * 0.7, game.height * 0.6);
 };
 
 p.initSmallLayout = function () {
+  UiComponent.prototype.initSmallLayout.call(this);
   this.padding = 2;
   this.lineHeight = 3;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
@@ -79,15 +80,16 @@ p.createDisplay = function () {
     this.skinBitmap.ctx.fillStyle = 'rgba(0,0,0, 0.75)';
     this.skinBitmap.ctx.strokeStyle = 'rgb(255,255,255)';
     this.skinBitmap.ctx.lineWidth = strokeWidth;
-    canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth / 2, strokeWidth / 2, this.layoutRect.width, this.layoutRect.height, 15, true, true);
+    canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth / 2, strokeWidth / 2, this.layoutRect.width - strokeWidth * 2, this.layoutRect.height - strokeWidth * 2, 10, true, true);
   }
   this.background = game.add.sprite(this.layoutRect.x, this.layoutRect.y, this.skinBitmap, '', this.group);
 
-
+  /*
   var bgDebug = game.add.graphics(this.layoutRect.x, this.layoutRect.y, this.group);
   bgDebug.beginFill(0xff0000, 0.3);
   bgDebug.drawRect(0, 0, this.layoutRect.width, this.layoutRect.height);
   bgDebug.endFill();
+  */
 
 
   //this.createTitle();
