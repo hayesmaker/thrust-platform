@@ -109,7 +109,7 @@ p.render = function() {
   );
   this.initEvents();
 
-  this.renderDebug();
+  //this.renderDebug();
 };
 
 /**

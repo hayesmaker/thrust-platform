@@ -21,10 +21,12 @@ p.group = null;
  * @class DisplayOptions
  * @param group
  * @param name
+ * @param layoutRect
  * @constructor
  */
-function DisplayOptions(group, name) {
+function DisplayOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.layoutRect = layoutRect;
 }
 
 p.render = function () {

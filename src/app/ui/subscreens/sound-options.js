@@ -22,29 +22,33 @@ p.group = null;
  * @class SoundOptions
  * @param group
  * @param name
+ * @param layoutRect {Phaser.Rectangle} - pass as reference, the options ui-component layout rect.
  * @constructor
  */
-function SoundOptions(group, name) {
+function SoundOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.layoutRect = layoutRect;
 }
 
 p.render = function() {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
   this.renderDefaults();
+  //this.renderDebug(this.group.parent);
 };
 
 p.createDisplay = function() {
   var switch1 = new UiSwitch(this.group, "Music");
-  switch1.group.x = 350;
-  switch1.group.y = 150;
   switch1.render();
+  switch1.group.x = this.layoutRect.halfWidth - switch1.originPos.x;
+  switch1.group.y = this.layoutRect.height * 0.25;
   switch1.switchedOn.add(this.musicOn, this);
   switch1.switchedOff.add(this.musicOff, this);
+  //switch1.renderDebug();
   var switch2 = new UiSwitch(this.group, "Sound FX");
-  switch2.group.x = 350;
-  switch2.group.y = 210;
   switch2.render();
+  switch2.group.x = this.layoutRect.halfWidth - switch2.originPos.x;
+  switch2.group.y = switch1.group.y + switch1.group.height;
   switch2.switchedOn.add(this.soundOn, this);
   switch2.switchedOff.add(this.soundOff, this);
   this.components = [switch1, switch2];

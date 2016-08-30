@@ -21,10 +21,12 @@ p.group = null;
  * @class ControlOptions
  * @param group
  * @param name
+ * @param layoutRect
  * @constructor
  */
-function ControlOptions(group, name) {
+function ControlOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.layoutRect = layoutRect;
 }
 
 /**

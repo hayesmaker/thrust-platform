@@ -24,10 +24,8 @@ var _ = require('lodash');
  * @constructor
  */
 function UiComponent(group, name, shouldAddNewGroup, shouldAutoManage) {
-  this.group = group;
-  this.shouldAddNewGroup = shouldAddNewGroup;
-  this.group = this.shouldAddNewGroup? game.add.group(this.group) : this.group;
-  this.name = name;
+  this.group = shouldAddNewGroup? game.add.group(group) : group;
+  this.name = this.group.name = name;
   if (shouldAutoManage) {
     manager.add(this);
   }
@@ -131,11 +129,18 @@ p.render = function () {
   this.isRendered = true;
 };
 
-p.renderDebug = function() {
-   var bgDebug = game.add.graphics(0,0, this.group);
-   bgDebug.beginFill(0x00ff00, 0.3);
-   bgDebug.drawRect(0, 0, this.group.width, this.group.height);
-   bgDebug.endFill();
+/**
+ *
+ * @param [group]
+ */
+p.renderDebug = function(group) {
+  var debugGroup = group || this.group;
+  console.log('ui-component :: renderDebug', debugGroup);
+  var colour = group? 0x00ffff : 0x00ff00;
+  var bgDebug = game.add.graphics(0,0, debugGroup);
+  bgDebug.beginFill(colour, 0.3);
+  bgDebug.drawRect(0, 0, debugGroup.width, debugGroup.height);
+  bgDebug.endFill();
 };
 
 p.remove = function () {
@@ -184,6 +189,7 @@ p.hideAndRemove = function () {
 };
 
 p.initLayout = function () {
+  //console.log(this, 'initLayout', game.width);
   if (game.width > 1000) {
     this.initFullLayout();
   } else {
@@ -200,7 +206,7 @@ p.initSmallLayout = function() {
 };
 
 p.getDarkStyle = function() {
-  console.log('getDarkStyle :', this.isFullLayout, this.darkStyle);
+  //console.log('getDarkStyle :', this.isFullLayout, this.darkStyle);
   return this.isFullLayout? this.darkStyle : this.darkMinStyle;
 };
 

@@ -189,11 +189,16 @@ module.exports = {
     }
   },
 
-  showPauseButton: function (uiMode) {
-    if (!this.pauseButton) {
-      return;
+  showPauseButton: function () {
+    if (this.pauseButton) {
+      this.pauseButton.visible = true;
     }
-    this.pauseButton.visible = !uiMode && gameState.PLAY_STATES.HIGH_SCORES;
+  },
+
+  hidePauseButton: function() {
+    if (this.pauseButton) {
+      this.pauseButton.visible = false;
+    }
   },
 
   /**
@@ -202,11 +207,13 @@ module.exports = {
    */
   showCurrentScreenByState: function (state) {
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
-    this.showPauseButton(this.uiMode);
+
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
+      this.showPauseButton();
     } else {
+      this.hidePauseButton();
       ui.hideUser();
     }
     var shouldFadeBackground = (
@@ -694,7 +701,7 @@ module.exports = {
     this.uiPaused.visible = false;
 
     if (features.isTouchScreen) {
-      this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
+      this.pauseButton = game.add.button(game.width - 10, 10, "combined", this.onPauseClick, this, 'pause-button.png', 'pause-button.png');
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;

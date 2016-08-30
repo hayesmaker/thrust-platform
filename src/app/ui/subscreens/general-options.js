@@ -22,10 +22,12 @@ p.group = null;
  * @class GeneralOptions
  * @param group
  * @param name
+ * @param layoutRect
  * @constructor
  */
-function GeneralOptions(group, name) {
+function GeneralOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.layoutRect = layoutRect;
 }
 
 /**

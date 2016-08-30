@@ -67,17 +67,16 @@ p.render = function() {
 };
 
 p.createDisplay = function() {
-
   var paddingPerc = this.isFullLayout? 0.05 : 0.05;
   this.exitButton = new UiButton(this.group, "<");
   this.exitButton.render();
-  this.exitButton.group.x = this.layoutRect.height * paddingPerc;
-  this.exitButton.group.y = this.layoutRect.height * paddingPerc;
+  this.exitButton.group.x = this.layoutRect.height * 0.02;
+  this.exitButton.group.y = this.layoutRect.height * 0.02;
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
   this.optionsList.setAutoLayout(UiComponent.HORIZONTAL);
   this.optionsList.render();
-  this.optionsList.group.x = this.exitButton.group.x + this.exitButton.group.width;
   this.optionsList.group.y = this.layoutRect.height * paddingPerc;
+  this.optionsList.group.x = this.layoutRect.halfWidth - this.optionsList.group.width/2;
   this.activeOptions.push(this.exitButton);
   _.each(this.optionsList.listComponents, function(component) {
     this.activeOptions.push(component.button);
@@ -88,13 +87,13 @@ p.createDisplay = function() {
 
 
 p.initSubScreens = function() {
-  this.soundOptions = new SoundOptions(this.group, "SOUND_OPTIONS");
+  this.soundOptions = new SoundOptions(this.group, "SOUND_OPTIONS", this.layoutRect);
   this.soundOptions.addAsSubScreen();
-  this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS");
+  this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS", this.layoutRect);
   this.displayOptions.addAsSubScreen();
-  this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS");
+  this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS", this.layoutRect);
   this.controlsOptions.addAsSubScreen();
-  this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS");
+  this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS", this.layoutRect);
   this.generalOptions.addAsSubScreen();
 };
 

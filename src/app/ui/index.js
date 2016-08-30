@@ -34,7 +34,7 @@ module.exports = {
   },
 
   drawStopwatch: function() {
-    this.stopwatch.init(game.width - 10, this.score.scoreLabel.y, this.scoreGroup);
+    this.stopwatch.init(game.width /2, this.score.scoreLabel.y, this.scoreGroup);
   },
 
   drawTrainingUi: function() {
