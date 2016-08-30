@@ -97,6 +97,12 @@ p.hasNewGroup = false;
 p.components = [];
 
 /**
+ * @property layoutRect
+ * @type {Phaser.Rectangle}
+ */
+p.layoutRect = new Phaser.Rectangle(0,0,10,10);
+
+/**
  * Make this uiComponent a subscreen
  * If the ui-component is autoManaged (via the constructor)
  * this should not be called
@@ -178,8 +184,9 @@ p.initSmallLayout = function() {
 };
 
 p.centerDisplay = function () {
-  this.group.x = game.width / 2 - this.group.width / 2;
-  this.group.y = game.height / 2 - this.group.height / 2;
+  //console.log('ui-component :: centerDisplay :: game : group', game.width, game.height, this.group.width, this.group.height);
+  this.group.x = game.width / 2 - this.layoutRect.width / 2;
+  this.group.y = game.height / 2 - this.layoutRect.height / 2;
 };
 
 

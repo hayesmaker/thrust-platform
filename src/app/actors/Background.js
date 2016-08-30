@@ -16,9 +16,9 @@ var _ = require('lodash');
  */
 function Background(levelData) {
   this.levelData = levelData;
-  this.gradientBg = game.make.tileSprite(0, 0, properties.width, 740, 'combined', 'gradient-bg.png');
+  this.gradientBg = game.make.tileSprite(0, 0, properties.width, 490, 'combined', 'gradient-bg.png');
   var requiredHeight = this.levelData.mapPosition.y;
-  this.gradientBg.scale.set(1, requiredHeight / 740);
+  //this.gradientBg.scale.set(1, requiredHeight / 740);
   this.sprite = game.make.tileSprite(0, 0, properties.width, requiredHeight, 'combined', 'stars-tile.png');
   this.sprite.fixedToCamera = true;
   this.gradientBg.fixedToCamera = true;
@@ -43,6 +43,7 @@ var p = Background.prototype;
  */
 p.update = function () {
   this.sprite.tilePosition.set(-game.camera.x * 0.2, -game.camera.y * 0.2);
+  //this.gradientBg.tilePosition.set(-game.camera.x * 0.2, -game.camera.y * 0.2);
 };
 
 

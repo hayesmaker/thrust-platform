@@ -142,7 +142,6 @@ p.drawItem = function(label, index) {
   button.group.x = x;
   button.group.y = y;
 
-
   this.listComponents.push({
     id: label,
     button: button

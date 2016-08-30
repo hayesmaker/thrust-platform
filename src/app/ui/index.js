@@ -31,7 +31,6 @@ module.exports = {
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);
-    //this.stopwatch.hide();
   },
 
   drawStopwatch: function() {

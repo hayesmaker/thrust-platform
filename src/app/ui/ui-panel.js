@@ -38,7 +38,7 @@ p.styles = {
  * @method setSkin
  * @param bmd {Phaser.BitmapData}
  */
-p.setSkin = function(bmd) {
+p.setSkin = function (bmd) {
   this.skinBitmap = bmd;
 };
 
@@ -68,17 +68,29 @@ p.initSmallLayout = function () {
   };
 };
 
-p.createDisplay = function() {
+/**
+ * @
+ */
+p.createDisplay = function () {
+
   if (!this.skinBitmap) {
     var strokeWidth = 4;
-    this.skinBitmap = game.make.bitmapData(this.layoutRect.width + strokeWidth * 2,  this.layoutRect.height + strokeWidth * 2);
+    this.skinBitmap = game.make.bitmapData(this.layoutRect.width + strokeWidth * 2, this.layoutRect.height + strokeWidth * 2);
     this.skinBitmap.ctx.fillStyle = 'rgba(0,0,0, 0.75)';
     this.skinBitmap.ctx.strokeStyle = 'rgb(255,255,255)';
     this.skinBitmap.ctx.lineWidth = strokeWidth;
-    canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth/2, strokeWidth/2, this.layoutRect.width, this.layoutRect.height, 15, true, true);
+    canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth / 2, strokeWidth / 2, this.layoutRect.width, this.layoutRect.height, 15, true, true);
   }
   this.background = game.add.sprite(this.layoutRect.x, this.layoutRect.y, this.skinBitmap, '', this.group);
-  this.createTitle();
+
+
+  var bgDebug = game.add.graphics(this.layoutRect.x, this.layoutRect.y, this.group);
+  bgDebug.beginFill(0xff0000, 0.3);
+  bgDebug.drawRect(0, 0, this.layoutRect.width, this.layoutRect.height);
+  bgDebug.endFill();
+
+
+  //this.createTitle();
 };
 
 p.createTitle = function () {

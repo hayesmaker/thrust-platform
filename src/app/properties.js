@@ -12,6 +12,7 @@ var Phaser = global.Phaser;
  * @type {Object}
  */
 module.exports = {
+  backgroundColour: 0x000817,
   collideWorldBounds: true,
   enableTouchPad: false,
   enableJoyPad: false,
@@ -50,7 +51,7 @@ module.exports = {
     training: {
       mapImgUrl: 'assets/levels/training.png',
       mapImgKey: 'training',
-      mapDataUrl: 'assets/levels/training.json',
+      mapDataUrl: 'assets/physics/training.json',
       mapDataKey: 'training',
       mapScale: 2,
       useAtlas: false,
@@ -88,7 +89,7 @@ module.exports = {
           levelKey: 'level-1',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-1.json',
+        mapDataUrl: 'assets/physics/level-1.json',
         mapDataKey: 'level-1',
         mapScale: 2,
         world: {
@@ -143,7 +144,7 @@ module.exports = {
           levelKey: 'level-2',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-2.json',
+        mapDataUrl: 'assets/physics/level-2.json',
         mapDataKey: 'level-2',
         mapScale: 2,
         world: {width: 1536, height: 2000},
@@ -194,7 +195,7 @@ module.exports = {
           levelKey: 'level-3',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-3.json',
+        mapDataUrl: 'assets/physics/level-3.json',
         mapDataKey: 'level-3',
         mapScale: 2,
         world: {width: 1920, height: 3200},
@@ -287,12 +288,12 @@ module.exports = {
           levelKey: 'level-4',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-4.json',
+        mapDataUrl: 'assets/physics/level-4.json',
         mapDataKey: 'level-4',
         gateImgKey: 'level-4-gate',
         gateImgUrl: 'assets/levels/level-4-gate.png',
         gateDataKey: 'level-4-gate',
-        gateDataUrl: 'assets/levels/level-4-gate.json',
+        gateDataUrl: 'assets/physics/level-4-gate.json',
         gateTweenTo: {
           x: 1210,
           y: 2000
@@ -380,12 +381,12 @@ module.exports = {
           levelKey: 'level-5',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-5.json',
+        mapDataUrl: 'assets/physics/level-5.json',
         mapDataKey: 'level-5',
         gateImgKey: 'level-5-gate',
         gateImgUrl: 'assets/levels/level-5-gate.png',
         gateDataKey: 'level-5-gate',
-        gateDataUrl: 'assets/levels/level-5-gate.json',
+        gateDataUrl: 'assets/physics/level-5-gate.json',
         gateTweenTo: {
           x: 1305,
           y: 2070
@@ -521,12 +522,12 @@ module.exports = {
         },
         mapImgKey: 'level-6-img',
         mapImgUrl: 'assets/levels/level-6.png',
-        mapDataUrl: 'assets/levels/level-6.json',
+        mapDataUrl: 'assets/physics/level-6.json',
         mapDataKey: 'level-6',
         gateImgKey: 'level-6-gate',
         gateImgUrl: 'assets/levels/level-6-gate.png',
         gateDataKey: 'level-6-gate',
-        gateDataUrl: 'assets/levels/level-6-gate.json',
+        gateDataUrl: 'assets/physics/level-6-gate.json',
         gateTweenTo: {
           x: 1810,
           y: 1938

@@ -33,6 +33,8 @@ module.exports = {
    * @param group
    */
   init: function(x, y, group) {
+
+
     this.group = group;
     var style = { font: "14px thrust_regular", fill: "#ffffff", align: "center" };
     this.timerLabel = game.add.text(0, y + 5, "Time:", style, this.group);

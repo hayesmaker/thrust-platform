@@ -17,30 +17,19 @@ var p = UiOptions.prototype = Object.create(UiComponent.prototype, {
 
 module.exports = UiOptions;
 
-
 p.subScreenLabels = ['SOUND', 'DISPLAY', 'CONTROLS', 'GENERAL'];
-
 p.subScreens = [];
-
 p.panel = null;
-
 p.group = null;
-
 p.playState = null;
-
 p.components = [];
-
 p.selectedOptionIndex = 0;
-
 p.activeOptions = [];
-
 p.numMainOptions = 0;
-
 p.stickUpPressed = false;
 p.stickDownPressed = false;
 p.stickLeftPressed = false;
 p.stickRightPressed = false;
-
 p.isActive = false;
 
 /**
@@ -81,9 +70,9 @@ p.createDisplay = function() {
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
   this.optionsList.setAutoLayout(UiComponent.HORIZONTAL);
   this.optionsList.render();
-  this.optionsList.group.x = this.layoutRect.width/2 - this.optionsList.group.width/2;
-  this.optionsList.group.y = this.layoutRect.height * 0.15;
-  this.exitButton = new UiButton(this.group, "x");
+  this.optionsList.group.x = 0;
+  this.optionsList.group.y = this.layoutRect.height * 0.05;
+  this.exitButton = new UiButton(this.group, "<");
   this.exitButton.render();
   this.exitButton.group.x = 20;
   this.exitButton.group.y = 20;

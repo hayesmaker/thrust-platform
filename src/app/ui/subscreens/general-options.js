@@ -81,6 +81,7 @@ p.speedRunOn = function() {
  */
 p.speedRunOff = function() {
   optionsModel.gameModes.speedRun.enabled = false;
+  console.warn('speedRunOff', optionsModel);
 };
 
 /**
