@@ -189,7 +189,6 @@ p.hideAndRemove = function () {
 };
 
 p.initLayout = function () {
-  //console.log(this, 'initLayout', game.width);
   if (game.width > 1000) {
     this.initFullLayout();
   } else {
@@ -206,7 +205,6 @@ p.initSmallLayout = function() {
 };
 
 p.getDarkStyle = function() {
-  //console.log('getDarkStyle :', this.isFullLayout, this.darkStyle);
   return this.isFullLayout? this.darkStyle : this.darkMinStyle;
 };
 

@@ -256,6 +256,14 @@
 	"spriteSourceSize": {"x":19,"y":38,"w":90,"h":90},
 	"sourceSize": {"w":128,"h":128}
 },
+"gamepad.png":
+{
+	"frame": {"x":538,"y":1536,"w":200,"h":147},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":147},
+	"sourceSize": {"w":200,"h":147}
+},
 "gradient-bg.png":
 {
 	"frame": {"x":2021,"y":153,"w":1,"h":490},
@@ -4634,7 +4642,7 @@
 },
 "stars-tile.png":
 {
-	"frame": {"x":538,"y":1538,"w":464,"h":384},
+	"frame": {"x":743,"y":1546,"w":464,"h":384},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":9,"y":59,"w":464,"h":384},
@@ -4679,6 +4687,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:6579af6352e2e6a680521c3f34ddc802:e961d60f6dff402992dd9ef0ba88a34f:3095d46931c42493d5042f9206258520$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2143dcb7b9d58653fa6762600de4a76d:91944542516721c3fc265d7f9b237869:3095d46931c42493d5042f9206258520$"
 }
 }
