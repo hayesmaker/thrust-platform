@@ -30,6 +30,8 @@ function UiComponent(group, name, shouldAddNewGroup, shouldAutoManage) {
     manager.add(this);
   }
   this.components = [];
+  this.overrideUserControl = new Phaser.Signal();
+  this.restoreUserControl = new Phaser.Signal();
 }
 
 var p = UiComponent.prototype = Object.create(UiComponent.prototype, {

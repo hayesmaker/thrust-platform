@@ -95,7 +95,7 @@ p.drawItem = function() {
   canvas.drawRoundRect(backgroundSkin.ctx, 0, 0, width, height, 5, true, false);
   var spr = game.add.sprite(x, y, backgroundSkin, '', this.group);
   text.x = spr.x + this.padding;
-  text.y = spr.y + this.padding;
+  text.y = spr.y + this.padding * 1.25;
   this.group.add(text);
   this.buttonElements = {
     id: this.label,

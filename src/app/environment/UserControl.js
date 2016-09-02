@@ -1,4 +1,3 @@
-var game = window.game;
 /**
  * UserControl description
  *

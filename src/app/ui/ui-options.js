@@ -2,7 +2,7 @@
 var UiComponent = require('./ui-component');
 var SoundOptions = require('./subscreens/sound-options');
 var DisplayOptions = require('./subscreens/display-options');
-var ControlsOptions = require('./subscreens/controls-options-gamepad');
+var ControlsOptions = require('./subscreens/controls-options-keys');
 var GeneralOptions = require('./subscreens/general-options');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
@@ -24,6 +24,13 @@ p.group = null;
 p.playState = null;
 p.components = [];
 p.selectedOptionIndex = 0;
+
+/**
+ * @todo fix bug in activeOptions:
+ * @todo Uncaught TypeError: Cannot read property 'userSelected' of undefined
+ * @todo this.activeOptions[this.selectedOptionIndex].userSelected();
+ * @type {Array}
+ */
 p.activeOptions = [];
 p.numMainOptions = 0;
 p.stickUpPressed = false;
@@ -92,9 +99,12 @@ p.initSubScreens = function() {
   this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS", this.layoutRect);
   this.displayOptions.addAsSubScreen();
   this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS", this.layoutRect);
+  this.controlsOptions.setTopMargin(this.optionsList.group.y + this.optionsList.group.height + this.layoutRect.height * 0.05);
   this.controlsOptions.addAsSubScreen();
   this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS", this.layoutRect);
   this.generalOptions.addAsSubScreen();
+  this.generalOptions.overrideUserControl.add(this.removeActiveEvents, this);
+  this.generalOptions.restoreUserControl.add(this.addActiveEvents, this);
 };
 
 p.update = function() {
@@ -137,34 +147,6 @@ p.preparePress = function(directionStr) {
   this.stickRightPressed = directionStr === Phaser.RIGHT;
 };
 
-/**
- * @method dispose
- */
-p.dispose = function() {
-  UiComponent.prototype.dispose.call(this);
-  this.optionsList.onItemSelected.remove(this.itemSelected, this);
-  this.exitButton.onItemSelected.remove(this.exit, this);
-  if (game.controls.useKeys) {
-    game.controls.cursors.up.onDown.remove(this.upPressed, this);
-    game.controls.cursors.down.onDown.remove(this.downPressed, this);
-    game.controls.cursors.left.onDown.remove(this.leftPressed, this);
-    game.controls.cursors.right.onDown.remove(this.rightPressed, this);
-    game.controls.spacePress.onDown.remove(this.spacePressed, this);
-  }
-  if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
-  }
-  if (game.controls.useExternalJoypad) {
-    game.externalJoypad.up.onDown.remove(this.upPressed, this);
-    game.externalJoypad.down.onDown.remove(this.downPressed, this);
-    game.externalJoypad.left.onDown.remove(this.leftPressed, this);
-    game.externalJoypad.right.onDown.remove(this.rightPressed, this);
-    game.externalJoypad.fireButton.onDown.remove(this.spacePressed, this);
-  }
-  manager.clearSubscreens();
-  this.isActive = false;
-};
-
 p.renderSubScreens = function() {
   this.optionsList.selectOption('SOUND');
 };
@@ -172,6 +154,10 @@ p.renderSubScreens = function() {
 p.initEvents = function() {
   this.optionsList.onItemSelected.add(this.itemSelected, this);
   this.exitButton.onItemSelected.add(this.exit, this);
+  this.addActiveEvents();
+};
+
+p.addActiveEvents = function() {
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
     game.controls.cursors.down.onDown.add(this.downPressed, this);
@@ -188,6 +174,40 @@ p.initEvents = function() {
     game.externalJoypad.left.onDown.add(this.leftPressed, this);
     game.externalJoypad.right.onDown.add(this.rightPressed, this);
     game.externalJoypad.fireButton.onDown.add(this.spacePressed, this);
+  }
+};
+
+/**
+ * @method dispose
+ */
+p.dispose = function() {
+  UiComponent.prototype.dispose.call(this);
+  this.optionsList.onItemSelected.remove(this.itemSelected, this);
+  this.exitButton.onItemSelected.remove(this.exit, this);
+  this.removeActiveEvents();
+  manager.clearSubscreens();
+  this.isActive = false;
+};
+
+
+p.removeActiveEvents = function() {
+  console.log('removeActiveEvents', this);
+  if (game.controls.useKeys) {
+    game.controls.cursors.up.onDown.remove(this.upPressed, this);
+    game.controls.cursors.down.onDown.remove(this.downPressed, this);
+    game.controls.cursors.left.onDown.remove(this.leftPressed, this);
+    game.controls.cursors.right.onDown.remove(this.rightPressed, this);
+    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useVirtualJoypad) {
+    game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
+    game.externalJoypad.up.onDown.remove(this.upPressed, this);
+    game.externalJoypad.down.onDown.remove(this.downPressed, this);
+    game.externalJoypad.left.onDown.remove(this.leftPressed, this);
+    game.externalJoypad.right.onDown.remove(this.rightPressed, this);
+    game.externalJoypad.fireButton.onDown.remove(this.spacePressed, this);
   }
 };
 

@@ -3,6 +3,7 @@ var UiComponent = require('../ui-component');
 var UiButton = require('../ui-button');
 var UiSwitch = require('../ui-switch');
 var optionsModel = require('../../data/options-model');
+var UiSelect = require('../ui-select');
 
 var p = GeneralOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: GeneralOptions
@@ -43,6 +44,29 @@ p.render = function() {
  * @method createDisplay
  */
 p.createDisplay = function() {
+
+  var optionsData = [
+    {str: 'Classic Retro', value: 'classic'},
+    {str: '2016 Levels', value: '2016'},
+    {str: 'Classic Endless', value: 'endless'},
+    {str: 'Classic Speed Run', value: 'speed-run'}
+  ];
+
+  var uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
+  uiSelect.group.x = 350;
+  uiSelect.group.y = 150;
+
+  uiSelect.render();
+  uiSelect.overrideUserControl.add(function() {
+    this.overrideUserControl.dispatch();
+  }.bind(this), this);
+  this.components.push(uiSelect);
+
+  uiSelect.restoreUserControl.add(function() {
+    this.restoreUserControl.dispatch();
+  }.bind(this), this);
+
+  /*
   if (optionsModel.gameModes.speedRun.unlocked) {
     var switch1 = new UiSwitch(this.group, "Speed Run");
     switch1.group.x = 350;
@@ -58,17 +82,20 @@ p.createDisplay = function() {
   resetButton.render();
   resetButton.onItemSelected.add(this.resetHighScores, this);
   this.components.push(resetButton);
+  */
 };
 
 /**
  * @method renderDefaults
  */
 p.renderDefaults = function() {
+  /*
   if (optionsModel.gameModes.speedRun.unlocked) {
     if (optionsModel.gameModes.speedRun.enabled) {
       this.components[0].switch(true);
     }
   }
+  */
 };
 
 /**
