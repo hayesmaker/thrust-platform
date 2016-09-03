@@ -110,6 +110,17 @@ p.components = [];
  */
 p.layoutRect = new Phaser.Rectangle(0,0,10,10);
 
+p.marginTop = 0;
+
+/**
+ * Is this ui-component currently active for the user
+ * set to false to disable the current ui-component
+ *
+ * @property isActive
+ * @type {boolean}
+ */
+p.isActive = false;
+
 /**
  * Make this uiComponent a subscreen
  * If the ui-component is autoManaged (via the constructor)
@@ -130,6 +141,11 @@ p.render = function () {
   this.initLayout();
   this.isRendered = true;
 };
+
+p.setTopMargin = function(marginTop) {
+  this.marginTop = marginTop;
+};
+
 
 /**
  *
@@ -218,6 +234,10 @@ p.centerDisplay = function () {
   //console.log('ui-component :: centerDisplay :: game : group', game.width, game.height, this.group.width, this.group.height);
   this.group.x = game.width / 2 - this.layoutRect.width / 2;
   this.group.y = game.height / 2 - this.layoutRect.height / 2;
+};
+
+p.update = function() {
+
 };
 
 

@@ -104,7 +104,6 @@ p.createDisplay = function () {
   this.button = new UiButton(this.group, "V");
   this.button.padding = 5;
   this.button.render();
-  this.button.onItemSelected.add(this.switch, this);
 
   this.backgroundSkin = game.make.bitmapData(this.maxW + this.padding * 2, this.maxH + this.padding * 2);
   this.backgroundSkin.ctx.fillStyle = 'rgba(20, 51, 87, 1)';
@@ -170,9 +169,13 @@ p.initEvents = function () {
   this.switchedOn = new Phaser.Signal();
   this.switchedOff = new Phaser.Signal();
 
+  this.button.onItemSelected.add(this.switch, this);
+
 };
 
 p.dispose = function() {
+
+  this.button.onItemSelected.remove(this.switch, this);
   /*
   this.button.inputEnabled = false;
   this.background.inputEnabled = false;
@@ -331,6 +334,7 @@ p.apiSelect = function() {
  *
  */
 p.removeActiveEvents = function() {
+  this.isActive = false;
   console.log('removeActiveEvents', this);
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
@@ -355,6 +359,7 @@ p.removeActiveEvents = function() {
  *
  */
 p.addActiveEvents = function() {
+  this.isActive = true;
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
     game.controls.cursors.down.onDown.add(this.downPressed, this);
@@ -392,6 +397,46 @@ p.addActiveEvents = function() {
 };
 
  */
+p.update = function() {
+  if (!this.isActive) {
+    return;
+  }
+  var stick = game.controls.stick;
+  if (stick) {
+    if (stick.isDown) {
+      this.preparePress(stick.direction);
+    } else {
+      if (this.stickDownPressed) {
+        this.stickDownPressed = false;
+        this.downPressed();
+      }
+      if (this.stickUpPressed) {
+        this.stickUpPressed = false;
+        this.upPressed();
+      }
+      if (this.stickLeftPressed) {
+        this.stickLeftPressed = false;
+        this.leftPressed();
+      }
+      if (this.stickRightPressed) {
+        this.stickRightPressed = false;
+        this.rightPressed();
+      }
+    }
+  }
+};
+
+/**
+ *
+ * @param directionStr
+ */
+p.preparePress = function(directionStr) {
+  this.stickUpPressed = directionStr === Phaser.UP;
+  this.stickDownPressed = directionStr === Phaser.DOWN;
+  this.stickLeftPressed = directionStr === Phaser.LEFT;
+  this.stickRightPressed = directionStr === Phaser.RIGHT;
+};
+
 p.upPressed = function() {
 
   if (this.selectedIndex > 0) {

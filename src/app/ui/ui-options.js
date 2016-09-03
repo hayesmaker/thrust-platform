@@ -37,7 +37,6 @@ p.stickUpPressed = false;
 p.stickDownPressed = false;
 p.stickLeftPressed = false;
 p.stickRightPressed = false;
-p.isActive = false;
 
 /**
  *
@@ -70,7 +69,6 @@ p.render = function() {
   this.renderSubScreens();
   this.components = [this.optionsList, this.exitButton, this.soundOptions, this.displayOptions, this.controlsOptions, this.generalOptions];
   this.selectActiveOption();
-  this.isActive = true;
 };
 
 p.createDisplay = function() {
@@ -94,20 +92,27 @@ p.createDisplay = function() {
 
 
 p.initSubScreens = function() {
+
+  var topMargin = this.optionsList.group.y + this.optionsList.group.height + this.layoutRect.height * 0.1;
+
   this.soundOptions = new SoundOptions(this.group, "SOUND_OPTIONS", this.layoutRect);
   this.soundOptions.addAsSubScreen();
   this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS", this.layoutRect);
   this.displayOptions.addAsSubScreen();
   this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS", this.layoutRect);
-  this.controlsOptions.setTopMargin(this.optionsList.group.y + this.optionsList.group.height + this.layoutRect.height * 0.05);
+  this.controlsOptions.setTopMargin(topMargin);
   this.controlsOptions.addAsSubScreen();
   this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS", this.layoutRect);
+  this.generalOptions.setTopMargin(topMargin);
   this.generalOptions.addAsSubScreen();
   this.generalOptions.overrideUserControl.add(this.removeActiveEvents, this);
   this.generalOptions.restoreUserControl.add(this.addActiveEvents, this);
 };
 
 p.update = function() {
+  if (this.generalOptions) {
+    this.generalOptions.update();
+  }
   if (!this.isActive) {
     return;
   }
@@ -137,7 +142,7 @@ p.update = function() {
 };
 
 /**
- *
+ * @todo refactor to uiComponent base?
  * @param directionStr
  */
 p.preparePress = function(directionStr) {
@@ -158,6 +163,7 @@ p.initEvents = function() {
 };
 
 p.addActiveEvents = function() {
+  this.isActive = true;
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
     game.controls.cursors.down.onDown.add(this.downPressed, this);
@@ -191,7 +197,7 @@ p.dispose = function() {
 
 
 p.removeActiveEvents = function() {
-  console.log('removeActiveEvents', this);
+  this.isActive = false;
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
     game.controls.cursors.down.onDown.remove(this.downPressed, this);

@@ -16,12 +16,6 @@ module.exports = ControlOptions;
 p.group = null;
 
 /**
- * @property marginTop
- * @type {number}
- */
-p.marginTop = 0;
-
-/**
  *
  *
  * @class ControlOptions
@@ -34,14 +28,6 @@ function ControlOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
   this.layoutRect = layoutRect;
 }
-
-/**
- * @method setTopMargin
- * @param marginTop
- */
-p.setTopMargin = function(marginTop) {
-  this.marginTop = marginTop;
-};
 
 /**
  * @method render

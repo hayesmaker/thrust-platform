@@ -41,10 +41,6 @@ p.render = function () {
   this.renderDefaults();
 };
 
-p.setTopMargin = function(marginTop) {
-  this.marginTop = marginTop;
-};
-
 /**
  *
  */

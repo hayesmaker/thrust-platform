@@ -44,37 +44,42 @@ p.render = function() {
  * @method createDisplay
  */
 p.createDisplay = function() {
-
+  var paddingFaction = this.layoutRect.height * 0.05;
   var optionsData = [
-    {str: 'Classic Retro', value: 'classic'},
-    {str: '2016 Levels', value: '2016'},
-    {str: 'Classic Endless', value: 'endless'},
-    {str: 'Classic Speed Run', value: 'speed-run'}
+    {str: 'Classic Levels', value: 'classic'},
+    {str: '2016 Levels', value: '2016'}
   ];
-
-  var uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
-  uiSelect.group.x = 350;
-  uiSelect.group.y = 150;
-
-  uiSelect.render();
-  uiSelect.overrideUserControl.add(function() {
+  var switch1 = new UiSwitch(this.group, "Speed Run") ;
+  switch1.render();
+  var switch2 = new UiSwitch(this.group, "Endless");
+  switch2.render();
+  this.uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
+  this.uiSelect.group.x = this.layoutRect.width * 0.15;
+  this.uiSelect.group.y = this.marginTop;
+  this.uiSelect.render();
+  this.uiSelect.overrideUserControl.add(function() {
     this.overrideUserControl.dispatch();
   }.bind(this), this);
-  this.components.push(uiSelect);
+  this.components.push(this.uiSelect);
 
-  uiSelect.restoreUserControl.add(function() {
+  this.uiSelect.restoreUserControl.add(function() {
     this.restoreUserControl.dispatch();
   }.bind(this), this);
 
+  switch1.group.x = this.uiSelect.group.x + this.uiSelect.button.group.x - switch1.originPos.x;
+  switch1.group.y = this.uiSelect.group.y + this.uiSelect.label.height + paddingFaction;
+  switch1.switchedOn.add(this.speedRunOn, this);
+  switch1.switchedOff.add(this.speedRunOff, this);
+  this.components.push(switch1);
+  switch2.group.x = this.layoutRect.width * 0.15 + this.uiSelect.button.group.x - switch2.originPos.x;
+  switch2.group.y = switch1.group.y + switch1.group.height + paddingFaction;
+  switch2.switchedOn.add(this.endlessOn, this);
+  switch2.switchedOff.add(this.endlessOff, this);
+  this.components.push(switch2);
+
   /*
   if (optionsModel.gameModes.speedRun.unlocked) {
-    var switch1 = new UiSwitch(this.group, "Speed Run");
-    switch1.group.x = 350;
-    switch1.group.y = 150;
-    switch1.render();
-    switch1.switchedOn.add(this.speedRunOn, this);
-    switch1.switchedOff.add(this.speedRunOff, this);
-    this.components.push(switch1);
+
   }
   var resetButton = new UiButton(this.group, "Reset High Scores");
   resetButton.group.x = 200;
@@ -114,6 +119,21 @@ p.speedRunOff = function() {
 };
 
 /**
+ * @method speedRunOn
+ */
+p.endlessOn = function() {
+  console.info('endlessOn', optionsModel);
+};
+
+/**
+ * @method speedRunOff
+ */
+p.endlessOff = function() {
+
+  console.info('endlessOff', optionsModel);
+};
+
+/**
  * Clears the localStorage highscores..
  * @todo automatically reset current session's highscores also
  * @todo maybe make a confirmation dialog component
@@ -131,4 +151,11 @@ p.dispose = function(){
   _.each(this.components, function(component) {
     component.dispose();
   });
+  UiComponent.prototype.dispose.call(this);
+};
+
+p.update = function() {
+  if (this.uiSelect) {
+    this.uiSelect.update();
+  }
 };
