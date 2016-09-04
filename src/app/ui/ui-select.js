@@ -105,7 +105,7 @@ p.selectBoxOver = function (arg, arg1) {
 
 p.selectBoxDown = function(spr, pointer) {
   var pos = pointer.positionDown;
-  this.selectedIndex = Math.floor((pos.y - this.group.y - this.selectBoxBg.y) / this.optionBg.height);;
+  this.selectedIndex = Math.floor((pos.y - this.group.y - this.selectBoxBg.y) / this.optionBg.height);
   this.selectCurrentOption();
 };
 
@@ -286,7 +286,7 @@ p.disableOptions = function() {
 /**
  * @method switchOff
  */
-p.switchOff = function (noAnimation) {
+p.switchOff = function () {
   var scaleX = 1;
   var scaleY = 1;
   var posY = 0;
