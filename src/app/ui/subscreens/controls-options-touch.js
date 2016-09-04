@@ -67,17 +67,9 @@ p.createDisplay = function () {
   var graphics = game.add.graphics(0, 0, this.group);
   graphics.lineStyle(1, 0xff00c6, 1);
 
-  console.log('virtualjoypad dpad= ', game.controls.stick);
-  console.log('virtualjoypad buttonA= ', game.controls.buttonA);
-  console.log('virtualjoypad buttonB= ', game.controls.buttonB);
-
   var dpad = game.controls.stick;
   var aButton = game.controls.buttonA;
   var bButton = game.controls.buttonB;
-
-  console.log('controls-options-touch', dpad, aButton, bButton, this.layoutRect, this.group.parent.position);
-
-  //var fraction = this.layoutRect.height * 0.007;
 
   var buttonLeftPos = new Phaser.Point(
     dpad.posX - dpad.sprite.width * 0.25 - this.group.parent.position.x,
@@ -127,9 +119,7 @@ p.createDisplay = function () {
   graphics.moveTo(coords[9].x, coords[9].y);
   graphics.lineTo(coords[10].x, coords[10].y);
   graphics.lineTo(coords[11].x, coords[11].y);
-
-
-
+  
   var gamePadEnabled = new UiSwitch(this.group, "VIRTUAL JOYPAD");
   gamePadEnabled.render();
   gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
