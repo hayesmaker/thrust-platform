@@ -52,6 +52,7 @@ module.exports = {
    * @method create
    */
   create: function () {
+    game.stage.backgroundColor = properties.backgroundColour;
     //Experimental poorly documented features of Phaser
     //game.scale.forceOrientation(true, false);
     game.renderer.renderSession.roundPixels = true;

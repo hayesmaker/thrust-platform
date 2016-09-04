@@ -17,6 +17,7 @@ p.isOn = false;
 p.switchedOn = null;
 p.switchedOff = null;
 p.gamepadSelector = null;
+p.originPos = null;
 
 /**
  * Skinnable Ui switch button
@@ -28,6 +29,7 @@ p.gamepadSelector = null;
  */
 function UiSwitch(group, name) {
   UiComponent.call(this, group, name, true, false);
+  this.originPos = new Phaser.Point();
   this.label = this.name;
 }
 
@@ -38,6 +40,7 @@ p.render = function () {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
   this.createLabel();
+  this.alignToLabel();
   this.drawSelector();
   this.initEvents();
 };
@@ -69,17 +72,25 @@ p.createDisplay = function () {
   this.background = game.add.sprite(0, 0, this.backgroundSkin, '', this.group);
   this.selection = game.add.sprite(0, 0, this.selectionSkin, '', this.group);
   this.button = game.add.sprite(0, 0, this.buttonSkin, '', this.group);
+  //this.button.anchor.setTo(0.5);
   this.selection.anchor.setTo(0.5);
-  this.selection.x = this.selection.width/2;
-  this.selection.y = this.backgroundSkin.height / 2 - this.button.height / 2 + this.selection.height/2;
-  this.button.y = this.backgroundSkin.height / 2 - this.button.height / 2;
+
 };
 
 p.createLabel = function() {
   this.label = game.add.text(0, 0, this.label, this.style, this.group);
   this.label.anchor.setTo(0, 0.5);
-  this.label.x = -this.button.x - this.label.width - 10;
+  //this.label.x = -this.button.x - this.label.width - 10;
   this.label.y = this.backgroundSkin.height / 2 + 2;
+};
+
+p.alignToLabel = function() {
+  this.originPos.setTo(this.label.x + this.label.width + 10, this.backgroundSkin.height / 2 - this.button.height / 2);
+  this.background.x = this.originPos.x;
+  this.button.x = this.originPos.x;
+  this.button.y = this.originPos.y;
+  this.selection.x = this.originPos.x + this.selection.width/2;
+  this.selection.y = this.originPos.y + this.selection.height/2;
 };
 
 p.drawSelector = function() {
@@ -93,6 +104,8 @@ p.drawSelector = function() {
   canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
   var bg = this.background;
   this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
+  this.gamepadSelector.alpha = 0;
+  this.gamepadSelector.visible = false;
 };
 
 p.initEvents = function () {
@@ -140,7 +153,7 @@ p.switch = function (noAnimation) {
  * @method switchOn
  */
 p.switchOn = function (noAnimation) {
-  var x = this.background.width - this.button.width;
+  var x = this.originPos.x + this.background.width - this.button.width;
   this.selection.scale.setTo(1);
   var sX = x + this.selection.width/2;
   this.selection.alpha = 1;
@@ -163,9 +176,9 @@ p.switchOn = function (noAnimation) {
  * @method switchOff
  */
 p.switchOff = function (noAnimation) {
-  var x = 0;
+  var x = this.originPos.x;
   this.selection.scale.setTo(1);
-  var sX = this.selection.width/2;
+  var sX = this. originPos.x + this.selection.width/2;
   this.selection.alpha = 1;
   this.tl = new TimelineMax();
   this.tl = new TimelineMax();
@@ -183,10 +196,12 @@ p.switchOff = function (noAnimation) {
 };
 
 p.userSelected = function() {
+  this.gamepadSelector.visible = true;
   this.gamepadSelector.alpha = 1;
 };
 
 p.userDeselected = function() {
+  this.gamepadSelector.visible = false;
   this.gamepadSelector.alpha = 0;
 };
 

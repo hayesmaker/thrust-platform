@@ -12,6 +12,7 @@ var Phaser = global.Phaser;
  * @type {Object}
  */
 module.exports = {
+  backgroundColour: 0x000817,
   collideWorldBounds: true,
   enableTouchPad: false,
   enableJoyPad: false,
@@ -50,7 +51,7 @@ module.exports = {
     training: {
       mapImgUrl: 'assets/levels/training.png',
       mapImgKey: 'training',
-      mapDataUrl: 'assets/levels/training.json',
+      mapDataUrl: 'assets/physics/training.json',
       mapDataKey: 'training',
       mapScale: 2,
       useAtlas: false,
@@ -88,7 +89,7 @@ module.exports = {
           levelKey: 'level-1',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-1.json',
+        mapDataUrl: 'assets/physics/level-1.json',
         mapDataKey: 'level-1',
         mapScale: 2,
         world: {
@@ -143,7 +144,7 @@ module.exports = {
           levelKey: 'level-2',
           imageKey: 'levels-atlas'
         },
-        mapDataUrl: 'assets/levels/level-2.json',
+        mapDataUrl: 'assets/physics/level-2.json',
         mapDataKey: 'level-2',
         mapScale: 2,
         world: {width: 1536, height: 2000},

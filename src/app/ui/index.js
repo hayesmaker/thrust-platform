@@ -31,11 +31,10 @@ module.exports = {
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);
-    //this.stopwatch.hide();
   },
 
   drawStopwatch: function() {
-    this.stopwatch.init(game.width - 10, this.score.scoreLabel.y, this.scoreGroup);
+    this.stopwatch.init(game.width /2, this.score.scoreLabel.y, this.scoreGroup);
   },
 
   drawTrainingUi: function() {

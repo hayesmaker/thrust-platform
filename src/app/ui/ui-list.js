@@ -99,6 +99,7 @@ p.setAutoLayout = function(layoutType) {
  * @method render
  */
 p.render = function() {
+  UiComponent.prototype.render.call(this);
   _.each(
     this.listItems,
     _.bind(
@@ -106,8 +107,9 @@ p.render = function() {
       this
     )
   );
-
   this.initEvents();
+
+  //this.renderDebug();
 };
 
 /**
@@ -142,7 +144,6 @@ p.drawItem = function(label, index) {
   button.group.x = x;
   button.group.y = y;
 
-
   this.listComponents.push({
     id: label,
     button: button
@@ -156,8 +157,8 @@ p.hideSelectionBackgrounds = function() {
 };
 
 p.initEvents = function () {
-  _.each(this.listComponents, function(component) {
-    component.button.onItemSelected.add(this.selectOption, this);
+  _.each(this.listComponents, function(component, index) {
+    component.button.onItemSelected.add(this.selectOption, this, 0, index);
   }.bind(this));
 };
 
@@ -171,17 +172,18 @@ p.dispose = function() {
 };
 
 p.componentMouseDown = function(arg1, arg2, id) {
-  this.selectOption(id);
+  this.selectOption(id, null, this.selectedIndex);
 };
 
-p.selectOption = function(id, button) {
+p.selectOption = function(id, button, index) {
+  this.selectedIndex = index + 1;
   if (id !== this.currentSelectedId) {
     _.each(this.listComponents, this.deselectComponent);
     if (!button) {
       button = this.getButtonById(id);
     }
     this.selectComponent(button);
-    this.onItemSelected.dispatch(id);
+    this.onItemSelected.dispatch(id, this.selectedIndex);
     this.currentSelectedId = id;
   }
 };

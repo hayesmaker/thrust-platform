@@ -55,21 +55,17 @@ module.exports = {
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
     game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
-    //game.load.image('stars', 'assets/images/space.jpg');
-    //game.load.image('starfield', 'assets/images/starfield.png');
-    //game.load.image('drone', 'assets/images/drone.png');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
-    this.preloadTrainingMap(properties.levels.training);
-    //game.load.atlas('levels-atlas', 'assets/levels/atlas/levels.png', 'assets/levels/atlas/levels.json');
-    game.load.atlas('combined', 'assets/atlas/combined.png', 'assets/atlas/combined.json');
-    _.each(levelManager.levels, this.preloadMapData, this);
-    game.load.physics('playerPhysics', 'assets/actors/player.json');
-    game.load.physics('powerStationPhysics', 'assets/actors/power-station.json');
-    game.load.physics('orbHolderPhysics', 'assets/actors/orb-holder.json');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
+    this.preloadTrainingMap(properties.levels.training);
+    game.load.atlas('combined', 'assets/atlas/combined.png', 'assets/atlas/combined.json');
+    _.each(levelManager.levels, this.preloadMapData, this);
+    game.load.physics('playerPhysics', 'assets/physics/player.json');
+    game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
+    game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
 
     /*
     if (game.device.pixelRatio > 1) {

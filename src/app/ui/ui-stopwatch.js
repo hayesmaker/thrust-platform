@@ -33,12 +33,15 @@ module.exports = {
    * @param group
    */
   init: function(x, y, group) {
+
+
     this.group = group;
     var style = { font: "14px thrust_regular", fill: "#ffffff", align: "center" };
-    this.timerLabel = game.add.text(0, y + 5, "Time:", style, this.group);
-    this.timerValue = game.add.text(0, y + 5, "00:00:00", style, this.group);
-    this.timerLabel.x = x - this.timerLabel.width - this.timerValue.width - 10;
-    this.timerValue.x = this.timerLabel.x + this.timerLabel.width + 5;
+    //this.timerLabel = game.add.text(0, y, "Time:", style, this.group);
+    this.timerValue = game.add.text(0, y, "00:00:00", style, this.group);
+    //this.timerLabel.x = x - this.timerLabel.width - this.timerValue.width - 10;
+    this.timerValue.x = x;
+    this.timerValue.anchor.setTo(0.5, 0);
   },
 
   /**
@@ -48,7 +51,7 @@ module.exports = {
    * @method trainingMode
    */
   trainingMode: function() {
-    this.timerLabel.visible = true;
+    //this.timerLabel.visible = true;
     this.timerValue.visible = true;
     this.scoreLabel.text = "Drones: ";
   },
@@ -57,8 +60,8 @@ module.exports = {
    * @method hide
    */
   hide: function() {
-    if (this.timerLabel) {
-      this.timerLabel.visible = false;
+    if (this.value) {
+      //this.timerLabel.visible = false;
       this.timerValue.visible = false;
     }
   },

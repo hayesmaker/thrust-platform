@@ -21,37 +21,53 @@ p.group = null;
  * @class DisplayOptions
  * @param group
  * @param name
+ * @param layoutRect
  * @constructor
  */
-function DisplayOptions(group, name) {
+function DisplayOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.layoutRect = layoutRect;
 }
 
+/**
+ * @property render
+ */
 p.render = function () {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
   this.renderDefaults();
 };
 
+/**
+ * @method createDisplay
+ */
 p.createDisplay = function () {
-  var switch1 = new UiSwitch(this.group, "WebGL");
-  switch1.group.x = 350;
-  switch1.group.y = 150;
-  switch1.render();
-  switch1.switchedOn.add(this.webGlOn, this);
-  switch1.switchedOff.add(this.webGlOff, this);
-  var switch2 = new UiSwitch(this.group, "CRT Scanlines");
-  switch2.group.x = 350;
-  switch2.group.y = 210;
-  switch2.render();
-  switch2.switchedOn.add(this.scanlineFilterOn, this);
-  switch2.switchedOff.add(this.scanlineFilterOff, this);
-  //switch1.switch(true);
-  //switch2.switch(true);
-  this.components = [switch1, switch2];
+  var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND'];
+  var x = this.isFullLayout? 0.5 : 0.4;
+  _.each(switches, function(name, index) {
+    var uiSwitch = new UiSwitch(this.group, name);
+    //todo allow to define positions at render time to avoid pre-render flashes
+    uiSwitch.render();
+    uiSwitch.group.x = this.layoutRect.width * x - uiSwitch.originPos.x;
+    uiSwitch.group.y = this.layoutRect.height * 0.25 + uiSwitch.group.height * index;
+    uiSwitch.switchedOn.add(this.onSwitch, this, 0, name);
+    uiSwitch.switchedOff.add(this.offSwitch, this, 0, name);
+    this.components.push(uiSwitch);
+  }.bind(this));
+};
+
+p.onSwitch = function(name) {
+
+
+};
+
+p.offSwitch = function(name) {
+
 };
 
 p.renderDefaults = function () {
+
+  /*
   var filter = optionsModel.getFilterByName('scanlines');
   if (filter.scanlines) {
     this.components[1].switch(true);
@@ -59,6 +75,7 @@ p.renderDefaults = function () {
   if (optionsModel.display.webGl) {
     this.components[0].switch(true);
   }
+  */
 };
 
 p.dispose = function () {

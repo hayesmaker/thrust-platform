@@ -46,7 +46,7 @@ describe("Phaser load state tests", function() {
 
     it('player phyics data should be loaded', function() {
       state.preload();
-      expect(game.load.physics).to.have.been.calledWith('playerPhysics', 'assets/actors/player.json');
+      expect(game.load.physics).to.have.been.calledWith('playerPhysics', 'assets/physics/player.json');
     });
 
     it('all level map physics data should be loaded', function() {

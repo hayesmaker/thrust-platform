@@ -82,16 +82,12 @@ module.exports = {
     this.createUi();
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
-
-    if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
-      this.initStopwatch();
-    }
-
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
 
-  initStopwatch: function() {
+  initStopwatch: function () {
+    console.warn('fug', options.gameModes.speedRun.enabled, gameState.trainingMode);
     ui.drawStopwatch();
     this.stopwatch = new Stopwatch(ui.stopwatch);
   },
@@ -133,7 +129,7 @@ module.exports = {
    */
   render: function () {
     if (properties.dev.stats) {
-      var color = game.time.desiredFps === 60? '#00ff00' : '0000ff';
+      var color = game.device.isMobile ? '#0000ff' : '#00ff00';
       game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
     }
     if (properties.dev.debugPositions) {
@@ -152,6 +148,9 @@ module.exports = {
    */
   playGame: function () {
     ui.showUser();
+    if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
+      this.initStopwatch();
+    }
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -180,7 +179,7 @@ module.exports = {
    * @todo implement a switch in settings to turn this default setting.
    * @method initFps
    */
-  initFps: function() {
+  initFps: function () {
     if (game.device.iOS || game.device.android || game.device.windowsPhone) {
       game.device.isMobile = true;
       game.time.desiredFps = 30;
@@ -190,11 +189,16 @@ module.exports = {
     }
   },
 
-  showPauseButton: function(uiMode) {
-    if (!this.pauseButton) {
-      return;
+  showPauseButton: function () {
+    if (this.pauseButton) {
+      this.pauseButton.visible = true;
     }
-    this.pauseButton.visible = !uiMode && gameState.PLAY_STATES.HIGH_SCORES;
+  },
+
+  hidePauseButton: function() {
+    if (this.pauseButton) {
+      this.pauseButton.visible = false;
+    }
   },
 
   /**
@@ -203,11 +207,13 @@ module.exports = {
    */
   showCurrentScreenByState: function (state) {
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
-    this.showPauseButton(this.uiMode);
+
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
+      this.showPauseButton();
     } else {
+      this.hidePauseButton();
       ui.hideUser();
     }
     var shouldFadeBackground = (
@@ -326,7 +332,7 @@ module.exports = {
   /**
    * @method startSpeedRun
    */
-  startSpeedRun: function() {
+  startSpeedRun: function () {
     this.stopwatch.start(ui.stopwatch);
   },
 
@@ -405,10 +411,10 @@ module.exports = {
         sound.playSound('teleport-in3');
         this.player.levelExit();
         this.stopStopwatch();
-       if (gameState.trainingMode) {
-         droneManager.trainingComplete();
-         gameState.playTime = this.stopwatch.getText();
-       }
+        if (gameState.trainingMode) {
+          droneManager.trainingComplete();
+          gameState.playTime = this.stopwatch.getText();
+        }
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
         if (this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
@@ -469,7 +475,7 @@ module.exports = {
   /**
    * @method stopStopwatch
    */
-  stopStopwatch: function() {
+  stopStopwatch: function () {
     if (options.gameModes.speedRun.enabled) {
       console.log('stopStopWatch');
       this.stopwatch.stop();
@@ -577,7 +583,7 @@ module.exports = {
     game.e2e.enemies = this.limpetGuns;
   },
 
-  createLevelMap: function() {
+  createLevelMap: function () {
     this.map = new MapAtlas(this.groups.terrain, this.level, 'combined', this.level.useAtlas);
     this.map.init();
     this.map.initPhysics(this.collisions);
@@ -588,7 +594,7 @@ module.exports = {
    * @method createMissionDialog
    */
   createMissionDialog: function () {
-    ui.missionDialog.render(function() {
+    ui.missionDialog.render(function () {
       this.playerStart();
       //this.stopwatch = new Stopwatch(ui.stopWatch);
       this.startSpeedRun();
@@ -634,7 +640,7 @@ module.exports = {
   /**
    * @method removePlanet
    */
-  removePlanet: function() {
+  removePlanet: function () {
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
@@ -646,7 +652,7 @@ module.exports = {
    *
    * @method randomExplosions
    */
-  randomExplosions: function() {
+  randomExplosions: function () {
     var numExplosions = 30;
     var duration = 2000;
     var pos = new Phaser.Point(
@@ -655,7 +661,7 @@ module.exports = {
     );
     particles.explode(pos.x, pos.y);
     sound.playSound('boom1');
-    this.explosionsTimer = game.time.events.loop(duration/numExplosions, function() {
+    this.explosionsTimer = game.time.events.loop(duration / numExplosions, function () {
       var pos = new Phaser.Point(
         Math.random() * (game.camera.x + game.camera.width),
         Math.random() * (game.camera.y + game.camera.height)
@@ -668,7 +674,7 @@ module.exports = {
   /**
    * @method destroyPlayer
    */
-  destroyPlayer: function() {
+  destroyPlayer: function () {
     gameState.lives--;
     this.player.stop();
     this.player.explosion(true);
@@ -677,7 +683,7 @@ module.exports = {
   /**
    * @method fadeToWhite
    */
-  fadeToWhite: function() {
+  fadeToWhite: function () {
     game.time.events.remove(this.explosionsTimer);
     game.camera.fade(0xffffff, 740, true);
   },
@@ -688,14 +694,14 @@ module.exports = {
    * @method createUi
    */
   createUi: function () {
-    var style = { font: "16px thrust_regular", fill: "#ffffff", align: "center", backgroundColor: 'black' };
-    this.uiPaused = game.add.text(game.width/2, game.height/2, "GAME PAUSED", style);
+    var style = {font: "16px thrust_regular", fill: "#ffffff", align: "center", backgroundColor: 'black'};
+    this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED", style);
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
 
     if (features.isTouchScreen) {
-      this.pauseButton = game.add.button(game.width - 10, 10, "pause", this.onPauseClick, this);
+      this.pauseButton = game.add.button(game.width - 10, 10, "combined", this.onPauseClick, this, 'pause-button.png', 'pause-button.png');
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;
@@ -712,13 +718,13 @@ module.exports = {
     ui.countdown.complete.add(this.countdownComplete, this);
   },
 
-  onPauseClick: function() {
+  onPauseClick: function () {
     this.escPressed();
     this.pauseButton.onInputUp.remove(this.onPauseClick, this);
     game.input.onDown.add(this.resume, this);
   },
 
-  resume: function() {
+  resume: function () {
     this.escPressed();
     this.pauseButton.onInputUp.add(this.onPauseClick, this);
     game.input.onDown.remove(this.resume, this);
@@ -728,7 +734,7 @@ module.exports = {
    * @method createSwitch
    * @param data
    */
-  createSwitch: function(data) {
+  createSwitch: function (data) {
     var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation);
     this.switches.push(gateSwitch);
 
@@ -778,7 +784,7 @@ module.exports = {
     }
     this.groups.swapTerrain();
     if (!gameState.trainingMode) {
-      _.each(this.switches, _.bind(function(gateSwitch) {
+      _.each(this.switches, _.bind(function (gateSwitch) {
         this.groups.terrain.add(gateSwitch);
       }, this));
       _.each(this.limpetGuns, _.bind(function (limpet) {
@@ -830,7 +836,7 @@ module.exports = {
   /**
    * @method escPressed
    */
-  escPressed: function() {
+  escPressed: function () {
     game.paused = this.uiPaused.visible = !game.paused;
   },
 

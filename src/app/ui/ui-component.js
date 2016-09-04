@@ -24,14 +24,14 @@ var _ = require('lodash');
  * @constructor
  */
 function UiComponent(group, name, shouldAddNewGroup, shouldAutoManage) {
-  this.group = group;
-  this.shouldAddNewGroup = shouldAddNewGroup;
-  this.group = this.shouldAddNewGroup? game.add.group(this.group) : this.group;
-  this.name = name;
+  this.group = shouldAddNewGroup? game.add.group(group) : group;
+  this.name = this.group.name = name;
   if (shouldAutoManage) {
     manager.add(this);
   }
   this.components = [];
+  this.overrideUserControl = new Phaser.Signal();
+  this.restoreUserControl = new Phaser.Signal();
 }
 
 var p = UiComponent.prototype = Object.create(UiComponent.prototype, {
@@ -57,6 +57,14 @@ p.group = null;
  * @type {{font: string, fill: string, align: string}}
  */
 p.style = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
+
+p.darkStyle = {font: "16px thrust_regular", fill: "#000000", align: "left"};
+
+p.minStyle = {font: "12px thrust_regular", fill: "#ffffff", align: "left"};
+
+p.darkMinStyle = {font: "12px thrust_regular", fill: "#000000", align: "left"};
+
+p.isFullLayout = false;
 
 /**
  * @property name
@@ -97,6 +105,23 @@ p.hasNewGroup = false;
 p.components = [];
 
 /**
+ * @property layoutRect
+ * @type {Phaser.Rectangle}
+ */
+p.layoutRect = new Phaser.Rectangle(0,0,10,10);
+
+p.marginTop = 0;
+
+/**
+ * Is this ui-component currently active for the user
+ * set to false to disable the current ui-component
+ *
+ * @property isActive
+ * @type {boolean}
+ */
+p.isActive = false;
+
+/**
  * Make this uiComponent a subscreen
  * If the ui-component is autoManaged (via the constructor)
  * this should not be called
@@ -113,7 +138,27 @@ p.add = function(component) {
 };
 
 p.render = function () {
+  this.initLayout();
   this.isRendered = true;
+};
+
+p.setTopMargin = function(marginTop) {
+  this.marginTop = marginTop;
+};
+
+
+/**
+ *
+ * @param [group]
+ */
+p.renderDebug = function(group) {
+  var debugGroup = group || this.group;
+  console.log('ui-component :: renderDebug', debugGroup);
+  var colour = group? 0x00ffff : 0x00ff00;
+  var bgDebug = game.add.graphics(0,0, debugGroup);
+  bgDebug.beginFill(colour, 0.3);
+  bgDebug.drawRect(0, 0, debugGroup.width, debugGroup.height);
+  bgDebug.endFill();
 };
 
 p.remove = function () {
@@ -170,16 +215,29 @@ p.initLayout = function () {
 };
 
 p.initFullLayout = function() {
-  
+  this.isFullLayout = true;
 };
 
 p.initSmallLayout = function() {
-  
+  this.isFullLayout = false;
+};
+
+p.getDarkStyle = function() {
+  return this.isFullLayout? this.darkStyle : this.darkMinStyle;
+};
+
+p.getStyle = function() {
+  return this.isFullLayout? this.style : this.minStyle;
 };
 
 p.centerDisplay = function () {
-  this.group.x = game.width / 2 - this.group.width / 2;
-  this.group.y = game.height / 2 - this.group.height / 2;
+  //console.log('ui-component :: centerDisplay :: game : group', game.width, game.height, this.group.width, this.group.height);
+  this.group.x = game.width / 2 - this.layoutRect.width / 2;
+  this.group.y = game.height / 2 - this.layoutRect.height / 2;
+};
+
+p.update = function() {
+
 };
 
 
