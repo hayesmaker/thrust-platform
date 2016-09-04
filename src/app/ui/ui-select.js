@@ -4,6 +4,7 @@ var canvas = require('../utils/canvas');
 var TimelineMax = global.TimelineMax;
 var TweenMax = global.TweenMax;
 var Quad = global.Quad;
+var _ = require('lodash');
 
 var p = UiSelect.prototype = Object.create(UiComponent.prototype, {
   constructor: UiSelect
@@ -97,26 +98,36 @@ p.addOptions = function() {
   }.bind(this));
 };
 
+
+p.selectBoxOver = function (arg, arg1) {
+  console.log('selectBoxOver', arg, arg1);
+};
+
+p.selectBoxDown = function(spr, pointer) {
+  var pos = pointer.positionDown;
+  this.selectedIndex = Math.floor((pos.y - this.group.y - this.selectBoxBg.y) / this.optionBg.height);;
+  this.selectCurrentOption();
+};
+
+
 /**
  * @method createDisplay
  */
 p.createDisplay = function () {
   this.button = new UiButton(this.group, "V");
-  this.button.padding = 5;
+  this.button.padding = 7.5;
   this.button.render();
 
-  this.backgroundSkin = game.make.bitmapData(this.maxW + this.padding * 2, this.maxH + this.padding * 2);
+  this.backgroundSkin = game.make.bitmapData(this.maxW, this.maxH);
   this.backgroundSkin.ctx.fillStyle = 'rgba(20, 51, 87, 1)';
   canvas.drawRoundRect(this.backgroundSkin.ctx, 0, 0, this.maxW, this.maxH, 0, true, false);
   this.selectBoxBg = game.make.sprite(-this.padding, -this.padding, this.backgroundSkin, '');
+  //this.selectBoxBg.inputEnabled = true;
+  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
+  //this.selectBoxBg.events.onInputDown.add(this.selectBoxDown, this);
   this.group.add(this.selectBoxBg);
   this.selectBoxBg.visible = false;
   this.selectBoxBg.alpha = 0;
-
-};
-
-p.dropDownSelect = function() {
-  console.log('dropDownSelect');
 
 };
 
@@ -152,6 +163,8 @@ p.drawSelector = function() {
   selector.ctx.setLineDash([3,2]);
   canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
   this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
+  this.gamepadSelector.visible = false;
+  this.gamepadSelector.alpha = 0;
 };
 
 p.initEvents = function () {
@@ -193,25 +206,22 @@ p.dispose = function() {
  * @method mouseDown
  */
 p.mouseDown = function () {
-  console.log('this mouseDown');
   //this.switch();
 };
 
 /**
  * @method switch
  */
-p.switch = function (noAnimation) {
+p.switch = function () {
   this.isOn = !this.isOn;
   var switchFunc = this.isOn ? this.switchOn : this.switchOff;
-  switchFunc.call(this, noAnimation);
+  switchFunc.call(this);
 };
 
 /**
  * @method switchOn
  */
-p.switchOn = function (noAnimation) {
-
-  console.log('this switchOn');
+p.switchOn = function () {
 
   this.optionLabel.visible = false;
   this.optionLabel.alpha = 0;
@@ -268,18 +278,15 @@ p.switchOn = function (noAnimation) {
 };
 
 p.enableOptions = function() {
-  console.log('enableOptions');
 };
 
 p.disableOptions = function() {
-  console.log('disableOptions');
 };
 
 /**
  * @method switchOff
  */
 p.switchOff = function (noAnimation) {
-  console.log('this switchOff');
   var scaleX = 1;
   var scaleY = 1;
   var posY = 0;
@@ -318,10 +325,12 @@ p.switchOff = function (noAnimation) {
 };
 
 p.userSelected = function() {
+  this.gamepadSelector.visible = true;
   this.gamepadSelector.alpha = 1;
 };
 
 p.userDeselected = function() {
+  this.gamepadSelector.visible = false;
   this.gamepadSelector.alpha = 0;
 };
 
@@ -335,7 +344,11 @@ p.apiSelect = function() {
  */
 p.removeActiveEvents = function() {
   this.isActive = false;
-  console.log('removeActiveEvents', this);
+
+  this.selectBoxBg.inputEnabled = false;
+  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
+  this.selectBoxBg.events.onInputDown.remove(this.selectBoxDown, this);
+
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
     game.controls.cursors.down.onDown.remove(this.downPressed, this);
@@ -360,6 +373,11 @@ p.removeActiveEvents = function() {
  */
 p.addActiveEvents = function() {
   this.isActive = true;
+
+  this.selectBoxBg.inputEnabled = true;
+  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
+  this.selectBoxBg.events.onInputDown.add(this.selectBoxDown, this);
+
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
     game.controls.cursors.down.onDown.add(this.downPressed, this);

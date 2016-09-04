@@ -53,8 +53,14 @@ p.createDisplay = function() {
   switch1.render();
   var switch2 = new UiSwitch(this.group, "Endless");
   switch2.render();
+  var switch3 = new UiSwitch(this.group, "Nag\nScreens");
+  switch3.render();
+  var trainingLabel = game.add.text(0, 0, "Training", this.style, this.group);
+  trainingLabel.x = this.layoutRect.width * 0.6;
+  trainingLabel.y = this.marginTop;
+
   this.uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
-  this.uiSelect.group.x = this.layoutRect.width * 0.15;
+  this.uiSelect.group.x = this.layoutRect.width * 0.12;
   this.uiSelect.group.y = this.marginTop;
   this.uiSelect.render();
   this.uiSelect.overrideUserControl.add(function() {
@@ -67,15 +73,24 @@ p.createDisplay = function() {
   }.bind(this), this);
 
   switch1.group.x = this.uiSelect.group.x + this.uiSelect.button.group.x - switch1.originPos.x;
-  switch1.group.y = this.uiSelect.group.y + this.uiSelect.label.height + paddingFaction;
+  switch1.group.y = this.uiSelect.group.y + this.uiSelect.label.height + paddingFaction * 2;
   switch1.switchedOn.add(this.speedRunOn, this);
   switch1.switchedOff.add(this.speedRunOff, this);
   this.components.push(switch1);
-  switch2.group.x = this.layoutRect.width * 0.15 + this.uiSelect.button.group.x - switch2.originPos.x;
+  switch2.group.x = this.uiSelect.group.x + this.uiSelect.button.group.x - switch2.originPos.x;
   switch2.group.y = switch1.group.y + switch1.group.height + paddingFaction;
   switch2.switchedOn.add(this.endlessOn, this);
   switch2.switchedOff.add(this.endlessOff, this);
   this.components.push(switch2);
+  switch3.group.x = this.layoutRect.width * 0.75 - switch3.originPos.x;
+  switch3.group.y = switch1.group.y;
+  switch3.switchedOn.add(this.endlessOn, this);
+  switch3.switchedOff.add(this.endlessOff, this);
+  this.components.push(switch3);
+
+
+
+
 
   /*
   if (optionsModel.gameModes.speedRun.unlocked) {

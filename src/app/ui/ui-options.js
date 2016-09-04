@@ -2,7 +2,6 @@
 var UiComponent = require('./ui-component');
 var SoundOptions = require('./subscreens/sound-options');
 var DisplayOptions = require('./subscreens/display-options');
-var ControlsOptions = require('./subscreens/controls-options-keys');
 var GeneralOptions = require('./subscreens/general-options');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
@@ -10,6 +9,7 @@ var manager = require('./manager');
 var UiButton = require('./ui-button');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
+var controlsFactory = require('./factories/controls-factory');
 
 var p = UiOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: UiOptions
@@ -68,7 +68,7 @@ p.render = function() {
   this.centerDisplay();
   this.renderSubScreens();
   this.components = [this.optionsList, this.exitButton, this.soundOptions, this.displayOptions, this.controlsOptions, this.generalOptions];
-  this.selectActiveOption();
+  //this.selectActiveOption();
 };
 
 p.createDisplay = function() {
@@ -99,7 +99,8 @@ p.initSubScreens = function() {
   this.soundOptions.addAsSubScreen();
   this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS", this.layoutRect);
   this.displayOptions.addAsSubScreen();
-  this.controlsOptions = new ControlsOptions(this.group, "CONTROLS_OPTIONS", this.layoutRect);
+  var ControlsScreen = controlsFactory.getControlsScreen();
+  this.controlsOptions = new ControlsScreen(this.group, "CONTROLS_OPTIONS", this.layoutRect);
   this.controlsOptions.setTopMargin(topMargin);
   this.controlsOptions.addAsSubScreen();
   this.generalOptions = new GeneralOptions(this.group, "GENERAL_OPTIONS", this.layoutRect);
@@ -110,9 +111,7 @@ p.initSubScreens = function() {
 };
 
 p.update = function() {
-  if (this.generalOptions) {
-    this.generalOptions.update();
-  }
+  this.updateChildComponents();
   if (!this.isActive) {
     return;
   }
@@ -141,6 +140,13 @@ p.update = function() {
   }
 };
 
+p.updateChildComponents = function() {
+  if (this.generalOptions) {
+    this.generalOptions.update();
+  }
+
+};
+
 /**
  * @todo refactor to uiComponent base?
  * @param directionStr
@@ -153,7 +159,9 @@ p.preparePress = function(directionStr) {
 };
 
 p.renderSubScreens = function() {
-  this.optionsList.selectOption('SOUND');
+  this.optionsList.selectOption('SOUND', null, 0);
+
+
 };
 
 p.initEvents = function() {
@@ -270,7 +278,7 @@ p.pressActiveButton = function() {
   
 };
 
-p.itemSelected = function(id) {
+p.itemSelected = function(id, index) {
   var screen = manager.showScreen(id + "_OPTIONS" , true);
   this.activeOptions.splice(this.numMainOptions);
   if (screen) {
@@ -278,6 +286,8 @@ p.itemSelected = function(id) {
       this.activeOptions.push(component);
     }.bind(this));
   }
+
+  this.selectedOptionIndex = index;
   this.selectActiveOption();
 };
 

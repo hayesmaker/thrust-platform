@@ -104,6 +104,8 @@ p.drawSelector = function() {
   canvas.drawRoundRect(selector.ctx, 2, 2, w - 4, h-4, 2, false, true );
   var bg = this.background;
   this.gamepadSelector = game.add.sprite(bg.x - 5, bg.y -5, selector, '', this.group);
+  this.gamepadSelector.alpha = 0;
+  this.gamepadSelector.visible = false;
 };
 
 p.initEvents = function () {
@@ -194,10 +196,12 @@ p.switchOff = function (noAnimation) {
 };
 
 p.userSelected = function() {
+  this.gamepadSelector.visible = true;
   this.gamepadSelector.alpha = 1;
 };
 
 p.userDeselected = function() {
+  this.gamepadSelector.visible = false;
   this.gamepadSelector.alpha = 0;
 };
 

@@ -8,15 +8,15 @@ module.exports = {
    *
    * @todo create correct controls screen and return it
    * @method getControlsScreen
-   * @returns 0
+   * @returns {UiComponent}
    */
   getControlsScreen: function() {
-
-    return 0;
-
-
-
+    if (game.controls.useVirtualJoypad) {
+      return touch;
+    } else if (game.controls.useExternalJoypad) {
+      return gamepad;
+    } else if (game.controls.useKeys) {
+      return keys;
+    }
   }
-
-
 };

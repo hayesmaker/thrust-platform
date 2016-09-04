@@ -75,26 +75,28 @@ p.createDisplay = function () {
   var aButton = game.controls.buttonA;
   var bButton = game.controls.buttonB;
 
-  //var fraction = spr.height * 0.007;
+  console.log('controls-options-touch', dpad, aButton, bButton, this.layoutRect, this.group.parent.position);
+
+  //var fraction = this.layoutRect.height * 0.007;
 
   var buttonLeftPos = new Phaser.Point(
-    dpad.posX - dpad.sprite.width * 0.25,
-    dpad.posY
+    dpad.posX - dpad.sprite.width * 0.25 - this.group.parent.position.x,
+    dpad.posY - this.group.parent.position.y
   );
 
   var buttonRightPos = new Phaser.Point(
-    dpad.posX + dpad.sprite.width * 0.25,
-    dpad.posY
+    dpad.posX + dpad.sprite.width * 0.25 - this.group.parent.position.x,
+    buttonLeftPos.y
   );
 
   var aButtonPos = new Phaser.Point(
-    aButton.posX,
-    aButton.posY
+    aButton.posX - this.group.parent.position.x,
+    aButton.posY - this.group.parent.position.y
 
   );
   var bButtonPos = new Phaser.Point(
-    bButton.posX,
-    bButton.posY
+    bButton.posX - this.group.parent.position.x,
+    bButton.posY - this.group.parent.position.y
   );
 
   var coords = [

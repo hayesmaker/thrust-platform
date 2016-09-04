@@ -57,7 +57,6 @@ p.createDisplay = function () {
 };
 
 p.onSwitch = function(name) {
-  console.log('onSwitch=', name);
 
 
 };
