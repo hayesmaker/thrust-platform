@@ -43,8 +43,8 @@ p.render = function () {
  */
 p.createDisplay = function () {
   var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND'];
-  var x = this.isFullLayout? 0.5 : 0.4;
-  _.each(switches, function(name, index) {
+  var x = this.isFullLayout ? 0.5 : 0.4;
+  _.each(switches, function (name, index) {
     var uiSwitch = new UiSwitch(this.group, name);
     //todo allow to define positions at render time to avoid pre-render flashes
     uiSwitch.render();
@@ -56,26 +56,81 @@ p.createDisplay = function () {
   }.bind(this));
 };
 
-p.onSwitch = function(name) {
-
-
+p.onSwitch = function (name) {
+  switch (name) {
+    case  "FULL SCREEN":
+      this.fullscreenOn();
+      break;
+    case  "PARTICLE FX":
+      this.particlesOn();
+      break;
+    case  "BACKGROUND":
+      this.backgroundOn();
+      break;
+  }
 };
 
-p.offSwitch = function(name) {
+p.offSwitch = function (name) {
+  switch (name) {
+    case  "FULL SCREEN":
+      this.fullscreenOff();
+      break;
+    case  "PARTICLE FX":
+      this.particlesOff();
+      break;
+    case  "BACKGROUND":
+      this.backgroundOff();
+      break;
+  }
+};
 
+p.update = function () {
+  var uiSwitch = this.getComponentByName("FULL SCREEN");
+  if (!uiSwitch) return;
+  if (game.scale.isFullScreen) {
+    uiSwitch.switchOn(true);
+  } else {
+    uiSwitch.switchOff(true);
+  }
+};
+
+p.fullscreenOn = function () {
+  optionsModel.display.fullscreen = true;
+  game.scale.startFullScreen(false);
+};
+
+p.fullscreenOff = function () {
+  optionsModel.display.fullscreen = false;
+  game.scale.stopFullScreen();
+};
+
+p.particlesOn = function () {
+  optionsModel.display.fx.particles = true;
+  optionsModel.fxParticlesOn.dispatch();
+};
+p.backgroundOn = function () {
+  optionsModel.display.fx.background = true;
+  optionsModel.fxBackgroundOn.dispatch();
+};
+
+p.particlesOff = function () {
+  optionsModel.display.fx.particles = false;
+  optionsModel.fxParticlesOff.dispatch();
+};
+p.backgroundOff = function () {
+  optionsModel.display.fx.background = false;
+  optionsModel.fxBackgroundOff.dispatch();
 };
 
 p.renderDefaults = function () {
-
-  /*
-  var filter = optionsModel.getFilterByName('scanlines');
-  if (filter.scanlines) {
-    this.components[1].switch(true);
+  var particlesSwitch = this.getComponentByName("PARTICLE FX");
+  var backgroundSwitch = this.getComponentByName("BACKGROUND");
+  if (optionsModel.display.fx.background) {
+    backgroundSwitch.switch(true);
   }
-  if (optionsModel.display.webGl) {
-    this.components[0].switch(true);
+  if (optionsModel.display.fx.particles) {
+    particlesSwitch.switch(true);
   }
-  */
 };
 
 p.dispose = function () {
@@ -84,22 +139,4 @@ p.dispose = function () {
     //component.switchedOff.removeAll();
   });
   UiComponent.prototype.dispose.call(this);
-};
-
-p.scanlineFilterOn = function () {
-  var filter = optionsModel.getFilterByName('scanlines');
-  filter.scanlines = true;
-};
-
-p.scanlineFilterOff = function () {
-  var filter = optionsModel.getFilterByName('scanlines');
-  filter.scanlines = false;
-};
-
-p.webGlOn = function () {
-  optionsModel.display.webGl = true;
-};
-
-p.webGlOff = function () {
-  optionsModel.display.webGl = false;
 };
