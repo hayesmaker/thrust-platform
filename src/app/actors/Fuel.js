@@ -225,6 +225,10 @@ p.kill = function () {
 };
 
 /**
+ * @todo investigate crash
+ * Fuel.js:233 Uncaught TypeError: Cannot read property 'removeFromWorld' of null
+ * this.body.removeFromWorld();
+ *
  * @method cleanup
  */
 p.cleanup = function () {

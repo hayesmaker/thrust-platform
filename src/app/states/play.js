@@ -95,10 +95,14 @@ module.exports = {
 
   fxParticlesOff: function() {
     console.log('fxParticlesOff');
+    particles.disable();
+    this.powerStation.stopParticles();
   },
 
   fxParticlesOn: function() {
     console.log('fxParticlesOn');
+    particles.enable();
+    this.powerStation.startParticles();
   },
 
   fxBackgroundOn: function() {
@@ -282,6 +286,7 @@ module.exports = {
     switch (item.text.text) {
       case "PLAY THRUST" :
         gameState.newPlayer();
+        gameState.trainingMode = false;
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "TRAINING" :

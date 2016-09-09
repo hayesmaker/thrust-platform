@@ -37,34 +37,42 @@ p.init = function(source) {
  * @param target
  */
 p.start = function(origin, target) {
-  ParticleSystem.prototype.start.call(this, origin, target);
-  this.emitter.emit('fuelEmitter', 
-    this.origin.x, 
-    this.origin.y, 
-    { 
-      zone: this.circle, 
-      total: 3,
-      repeat: -1, 
-      frequency: 15
-    });
-  this.refuelEmitterEvent = this.emitter.timerEvent;
+  if (particles.enabled) {
+    ParticleSystem.prototype.start.call(this, origin, target);
+    this.emitter.emit('fuelEmitter',
+      this.origin.x,
+      this.origin.y,
+      {
+        zone: this.circle,
+        total: 3,
+        repeat: -1,
+        frequency: 15
+      });
+    this.refuelEmitterEvent = this.emitter.timerEvent;
+  }
+
 };
 
 /**
  * @method update
  */
 p.update = function() {
-  this.well.position.x = this.target.x;
-  this.well.position.y = this.target.y;
-  ParticleSystem.prototype.update.call(this);
+  if (particles.enabled) {
+    this.well.position.x = this.target.x;
+    this.well.position.y = this.target.y;
+    ParticleSystem.prototype.update.call(this);
+  }
+
 };
 
 /**
  * @method stop
  */
 p.stop = function() {
-  ParticleSystem.prototype.stop.call(this);
-  game.time.events.remove(this.refuelEmitterEvent);
-  this.refuelEmitterEvent.loop = false;
+  if (particles.enabled) {
+    ParticleSystem.prototype.stop.call(this);
+    game.time.events.remove(this.refuelEmitterEvent);
+    this.refuelEmitterEvent.loop = false;
+  }
 };
 

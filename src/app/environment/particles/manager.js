@@ -29,10 +29,23 @@ module.exports = {
   powerEmitter: null,
 
   /**
+   * @property enabled
+   */
+  enabled: true,
+
+  /**
    * @method init
    */
   init: function () {
     this.manager = game.plugins.add(Phaser.ParticleStorm);
+  },
+
+  enable: function() {
+    this.enabled = true;
+  },
+
+  disable: function() {
+    this.enabled = false;
   },
 
   /**
@@ -186,10 +199,12 @@ module.exports = {
   },
 
   emitPower: function (x, y) {
-    var freqency = game.device.isMobile ? 100 : 50;
-    this.powerEmitter.force.y = -0.0001;
-    this.powerEmitter.emit('smoke', x, y, {repeat: -1, frequency: freqency});
-    this.powerEmitter.timer.resume();
+    if (this.enabled) {
+      var freqency = game.device.isMobile ? 100 : 50;
+      this.powerEmitter.force.y = -0.0001;
+      this.powerEmitter.emit('smoke', x, y, {repeat: -1, frequency: freqency});
+      this.powerEmitter.timer.resume();
+    }
   },
 
   stopPower: function () {
