@@ -37,8 +37,8 @@ p.init = function(source) {
  * @param target
  */
 p.start = function(origin, target) {
+  ParticleSystem.prototype.start.call(this, origin, target);
   if (particles.enabled) {
-    ParticleSystem.prototype.start.call(this, origin, target);
     this.emitter.emit('fuelEmitter',
       this.origin.x,
       this.origin.y,
@@ -69,8 +69,8 @@ p.update = function() {
  * @method stop
  */
 p.stop = function() {
+  ParticleSystem.prototype.stop.call(this);
   if (particles.enabled) {
-    ParticleSystem.prototype.stop.call(this);
     game.time.events.remove(this.refuelEmitterEvent);
     this.refuelEmitterEvent.loop = false;
   }

@@ -6,19 +6,20 @@ var properties = require('../properties');
  *
  * @class Orb
  * @constructor
+ * @param groups
+ * @param x
+ * @param y
+ * @param collisions
+ * @constructor
  */
-function Orb(x, y, collisions) {
+function Orb(groups, x, y, collisions) {
+  this.groups = groups;
   this.collisions = collisions;
   this.player = null;
-  var bmd = game.make.bitmapData(30, 30);
-  bmd.ctx.strokeStyle = '#ffffff';
-  bmd.ctx.lineWidth = 2;
-  bmd.ctx.beginPath();
-  bmd.ctx.arc(15, 15, 13, 0, Math.PI * 2, true);
-  bmd.ctx.closePath();
-  bmd.ctx.stroke();
-  this.sprite = game.make.sprite(x, y, bmd);
-  this.sprite.anchor.setTo(0.5, 0.5);
+  this.sprite = game.add.sprite(x, y, 'combined', 'orb.png', this.groups.actors);
+  this.glowSprite = game.make.sprite(x, y, 'combined', 'orb-shine.png');
+  this.glowSprite.anchor.setTo(0.5);
+  this.groups.actors.add(this.glowSprite);
   this.initialPosition = {x: x, y: y};
   this.init();
 }
@@ -66,6 +67,7 @@ p.move = function () {
   this.body.velocity = 0;
   this.body.angularVelocity = 0;
   this.body.angle = 0;
+  this.killGlow();
 };
 
 /**
@@ -84,9 +86,14 @@ p.stop = function() {
  */
 p.crash = function () {
   if (this.player) {
+    this.killGlow();
     this.player.crash();
   }
   this.body.motionState = 1;
+};
+
+p.killGlow = function() {
+  this.glowSprite.visible = false;
 };
 
 /**
@@ -106,6 +113,7 @@ p.respawn = function (withShip) {
   this.body.reset(orbSpawnPosition.x, orbSpawnPosition.y, true, true);
   this.body.motionState = 2;
   this.sprite.alpha = 1;
+  this.glowSprite.visible = true;
 };
 
 

@@ -168,6 +168,7 @@ p.explode = function () {
 p.update = function () {
     if (this.isRefuelling) {
       if (!this.particles.isEmitting) {
+        this.player.doRefuel();
         this.particles.start(this.position, this.player.position);
         TweenMax.to(this, 0.5, {tint: 0xfffffe, tintAmount: 1});
       }
@@ -176,6 +177,7 @@ p.update = function () {
       this.damage(1);
     } else {
       if (this.particles.isEmitting) {
+        this.player.clearRefuel();
         this.particles.stop();
         this.tint = 0xffffff;
       }

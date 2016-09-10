@@ -590,7 +590,7 @@ module.exports = {
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
-    this.orb = new Orb(this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
+    this.orb = new Orb(this.groups, this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
     this.orb.setPlayer(this.player);
     this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
     this.player.setTractorBeam(this.tractorBeam);
@@ -800,10 +800,6 @@ module.exports = {
    * @method createGroupLayering
    */
   createGroupLayering: function () {
-    this.groups.actors.add(this.player);
-    if (this.orb) {
-      this.groups.actors.add(this.orb.sprite);
-    }
     if (this.powerStation) {
       this.groups.actors.add(this.powerStation);
     }
