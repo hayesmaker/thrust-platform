@@ -21,8 +21,8 @@ module.exports = {
    * @param {Number} width The width of the rectangle
    * @param {Number} height The height of the rectangle
    * @param {Number} radius of all corner radii if [cornerRadii] is not set for all 4 cornerRadii
-   * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
-   * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
+   * @param {Boolean} [fill] Whether to fill the rectangle. Defaults to false.
+   * @param {Boolean} [stroke] Whether to stroke the rectangle. Defaults to true.
    * @param {Array} [cornerRadii] optionally independently effect the radius of a corner pass array with radius starting from [upperLeft, upperRight, lowerLeft, lowerRight]
    * @returns {CanvasRenderingContext2D} ctx for daisy chaining
    */
@@ -41,11 +41,11 @@ module.exports = {
     ctx.lineTo(x, y + cornerRadii[0]);
     ctx.quadraticCurveTo(x, y, x + cornerRadii[0], y);
     ctx.closePath();
-    if (fill) {
-      ctx.fill();
-    }
     if (stroke) {
       ctx.stroke();
+    }
+    if (fill) {
+      ctx.fill();
     }
     return ctx;
   },

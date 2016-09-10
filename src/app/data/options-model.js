@@ -7,6 +7,12 @@ var _ = require('lodash');
  * @type {{gameModes: {speedRun: {unlocked: boolean, enabled: boolean}, endlessMode: {unlocked: boolean, enabled: boolean}}, sound: {soundFx: boolean, music: boolean}, display: {webGl: boolean, filters: *[]}, controls: {virtualJoypad: boolean, keyboard: boolean, externalGamepad: boolean}, general: {}, getFilterByName: module.exports.getFilterByName}}
  */
 module.exports = {
+
+  init: function() {
+    this.initEvents();
+  },
+
+
   gameModes: {
     speedRun: {
       unlocked: true,
@@ -22,12 +28,11 @@ module.exports = {
     music: true
   },
   display: {
-    webGl: false,
-    filters: [
-      {scanlines: false},
-      {vignette: false},
-      {noise: false}
-    ]
+    fullscreen: true,
+    fx: {
+      background: true,
+      particles: true
+    }
   },
   controls: {
     virtualJoypad: false,
@@ -45,5 +50,23 @@ module.exports = {
     return _.find(this.display.filters, function(val) {
       return  !_.isUndefined(val[name]);
     });
+  },
+
+  initEvents: function() {
+    this.fxParticlesOn = new Phaser.Signal();
+    this.fxParticlesOff = new Phaser.Signal();
+    this.fxBackgroundOn = new Phaser.Signal();
+    this.fxBackgroundOff = new Phaser.Signal();
+  },
+
+  dispose: function() {
+    this.fxParticlesOn.removeAll();
+    this.fxParticlesOn = null;
+    this.fxParticlesOff.removeAll();
+    this.fxParticlesOff = null;
+    this.fxBackgroundOn.removeAll();
+    this.fxBackgroundOn = null;
+    this.fxBackgroundOff.removeAll();
+    this.fxBackgroundOff = null;
   }
 };

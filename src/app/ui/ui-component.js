@@ -19,8 +19,8 @@ var _ = require('lodash');
  * @constructor
  * @param group
  * @param name
- * @param shouldAddNewGroup
- * @param shouldAutoManage
+ * @param shouldAddNewGroup {Boolean} - maybe remove this, and automatically assign new groups to each ui-component
+ * @param shouldAutoManage {Boolean}
  * @constructor
  */
 function UiComponent(group, name, shouldAddNewGroup, shouldAutoManage) {
@@ -69,8 +69,9 @@ p.isFullLayout = false;
 /**
  * @property name
  * @type {string}
+ * @default not set
  */
-p.name = "";
+p.name = "not set";
 
 /**
  * Prevents this ui component being enabled automatically when shown.
@@ -87,13 +88,6 @@ p.preventAutoEnable = false;
  * @private
  */
 p.isRendered = false;
-
-/**
- * @property hasNewGroup
- * @type {boolean}
- * @private
- */
-p.hasNewGroup = false;
 
 /**
  * List of display components, which can be cached here
@@ -238,6 +232,10 @@ p.centerDisplay = function () {
 
 p.update = function() {
 
+};
+
+p.getComponentByName = function (name) {
+  return _.find(this.components, {name: name});
 };
 
 

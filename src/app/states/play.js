@@ -40,7 +40,6 @@ var options = require('../data/options-model');
  * @static
  */
 module.exports = {
-  externalGamePadDetected: false,
   level: null,
   collisions: null,
   groups: null,
@@ -73,10 +72,11 @@ module.exports = {
    * @method create
    */
   create: function () {
-    //game.forceSingleUpdate = true;
+    this.initOptionsModel();
+    this.initFullScreenHandling();
     this.initFps();
     this.level = levelManager.currentLevel;
-    this.defineWorldBounds();
+    game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
     this.createLevelMap();
     this.createUi();
@@ -85,6 +85,47 @@ module.exports = {
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
+  initOptionsModel: function() {
+    options.init();
+    options.fxParticlesOn.add(this.fxParticlesOn, this);
+    options.fxParticlesOff.add(this.fxParticlesOff, this);
+    options.fxBackgroundOn.add(this.fxBackgroundOn, this);
+    options.fxBackgroundOff.add(this.fxBackgroundOff, this);
+  },
+
+  fxParticlesOff: function() {
+    console.log('fxParticlesOff');
+    particles.disable();
+    this.powerStation.stopParticles();
+  },
+
+  fxParticlesOn: function() {
+    console.log('fxParticlesOn');
+    particles.enable();
+    this.powerStation.startParticles();
+  },
+
+  fxBackgroundOn: function() {
+    console.log('fxBackgroundOn');
+    if (!this.background.enabled) {
+      this.background.enable();
+    }
+  },
+
+  fxBackgroundOff: function() {
+    console.log('fxBackgroundOff');
+    if (this.background.enabled) {
+      this.background.disable();
+    }
+  },
+
+  initFullScreenHandling: function() {
+    game.scale.onFullScreenChange.add(this.fullScreenChange, this);
+  },
+
+  fullScreenChange: function() {
+    options.display.fullscreen = game.scale.isFullScreen;
+  },
 
   initStopwatch: function () {
     console.warn('fug', options.gameModes.speedRun.enabled, gameState.trainingMode);
@@ -108,9 +149,7 @@ module.exports = {
       this.updateCamera(this.player);
     }
     if (this.uiMode) {
-      if (game.controls.useVirtualJoypad || game.controls.useExternalJoypad) {
-        ui.update();
-      }
+      ui.update();
     }
     if (game.controls.useExternalJoypad &&
       gameState.trainingMode &&
@@ -247,6 +286,7 @@ module.exports = {
     switch (item.text.text) {
       case "PLAY THRUST" :
         gameState.newPlayer();
+        gameState.trainingMode = false;
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "TRAINING" :
@@ -286,6 +326,7 @@ module.exports = {
   restartPlayState: function () {
     ui.countdown.clear();
     ui.destroy();
+    options.dispose();
     this.limpetGuns = [];
     this.fuels = [];
     this.groups.background.removeAll(true);
@@ -495,7 +536,7 @@ module.exports = {
       enemy.setPower(this.powerStation.health);
       enemy.update();
     }, this);
-    if (this.background && properties.gamePlay.parallax) {
+    if (this.background && this.background.enabled) {
       this.background.update();
     }
   },
@@ -533,15 +574,6 @@ module.exports = {
   },
 
   /**
-   * Set game world parameters depending on level size
-   *
-   * @method defineWorldBounds
-   */
-  defineWorldBounds: function () {
-    game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
-  },
-
-  /**
    * @todo refactor.
    * @todo simplify training/normal level creation
    *
@@ -554,7 +586,7 @@ module.exports = {
     this.groups = new Groups();
     this.collisions = new Collisions();
     if (properties.drawBackground) {
-      this.background = new Background(this.level);
+      this.background = new Background(this.level, this.groups);
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
@@ -768,10 +800,6 @@ module.exports = {
    * @method createGroupLayering
    */
   createGroupLayering: function () {
-    if (this.background) {
-      this.groups.background.add(this.background.gradientBg);
-      this.groups.background.add(this.background.sprite);
-    }
     this.groups.actors.add(this.player);
     if (this.orb) {
       this.groups.actors.add(this.orb.sprite);
@@ -887,7 +915,6 @@ module.exports = {
    */
   xDown: function () {
     this.isXDown = true;
-    //limpet1.fire();
   },
 
   /**

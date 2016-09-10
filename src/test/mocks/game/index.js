@@ -14,6 +14,10 @@ module.exports = function () {
     time: {
       desiredFps: 1
     },
+
+    world: {
+      setBounds: function() {}
+    },
     
     device: {
       iOS: false,

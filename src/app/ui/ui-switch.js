@@ -181,7 +181,6 @@ p.switchOff = function (noAnimation) {
   var sX = this. originPos.x + this.selection.width/2;
   this.selection.alpha = 1;
   this.tl = new TimelineMax();
-  this.tl = new TimelineMax();
   var tween1 = new TweenMax(this.button, 0.2, {x: x, ease: Quad.easeOut});
   var tween2 = new TweenMax(this.selection, 0.2, {x: sX, ease: Quad.easeOut});
   this.tl.add([tween1, tween2]);

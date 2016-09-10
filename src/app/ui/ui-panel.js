@@ -19,11 +19,8 @@ module.exports = UiPanel;
 function UiPanel(group, name, playState) {
   UiComponent.call(this, group, name, false, false);
   this.playState = playState;
-  this.label = this.name;
 }
 
-p.label = "";
-p.name = "";
 p.group = null;
 p.fullLayout = false;
 p.padding = 30;
@@ -31,7 +28,7 @@ p.maxY = 0;
 p.styles = {
   title: {font: '20px thrust_regular', fill: '#ffffff', align: 'left'},
   scores: {font: '16px thrust_regular', fill: '#ffffff', align: 'left'},
-  subtitle: {font: '18px thrust_regular', fill: '#ffffff', align: 'left'}
+  subtitle: {font: '18px thrust_regular',   fill: '#ffffff', align: 'left'}
 };
 
 /**
@@ -47,7 +44,6 @@ p.setSkin = function (bmd) {
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
-  //this.initLayout();
   this.createDisplay();
 };
 
@@ -70,40 +66,53 @@ p.initSmallLayout = function () {
 };
 
 /**
- * @
+ * This creates a Phaser.Graphics version of the options background
+ * on iOS devices.. As there's a problem with the drawCanvasBackground method
+ * on ipad/iphone.  If the bug can be resolved, then drawCanvasBackground should be used only.
+ *
+ * @method createDisplay
  */
 p.createDisplay = function () {
+  if (game.device.iOS) {
+    this.drawIOSBackground();
+  } else {
+    this.drawCanvasBackground();
+  }
+};
 
+/**
+ * @todo find out why ios can't render the bitmapData / ctx draw calls used in drawCanvasBackground
+ * @method drawCanvasBackground
+ */
+p.drawCanvasBackground = function() {
   var strokeWidth = 4;
   var width  = this.layoutRect.width - strokeWidth * 2;
   var height = this.layoutRect.height - strokeWidth * 2;
-  if (!this.skinBitmap) {
-    this.skinBitmap = game.make.bitmapData(this.layoutRect.width + strokeWidth * 2, this.layoutRect.height + strokeWidth * 2);
-    var linearGradient1 = this.skinBitmap.ctx.createLinearGradient(0,0,0,height);
-    linearGradient1.addColorStop(0, 'rgb(25, 24, 24');
-    linearGradient1.addColorStop(0.5  , 'rgb(3, 31, 64)');
-    this.skinBitmap.ctx.fillStyle = linearGradient1;
-    this.skinBitmap.ctx.strokeStyle = 'rgb(255,255,255)';
-    this.skinBitmap.ctx.lineWidth = strokeWidth;
-    canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth / 2, strokeWidth / 2, width, height, 10, true, true);
-  }
+  this.skinBitmap = game.make.bitmapData(this.layoutRect.width + strokeWidth * 2, this.layoutRect.height + strokeWidth * 2);
+  var linearGradient1 = this.skinBitmap.ctx.createLinearGradient(0,0,0,height);
+  linearGradient1.addColorStop(0, 'rgb(25, 24, 24)');
+  linearGradient1.addColorStop(0.5  , 'rgb(3, 31, 64)');
+  this.skinBitmap.ctx.fillStyle = linearGradient1;
+  this.skinBitmap.ctx.strokeStyle = 'rgb(255,255,255)';
+  this.skinBitmap.ctx.lineWidth = strokeWidth;
+  canvas.drawRoundRect(this.skinBitmap.ctx, strokeWidth / 2, strokeWidth / 2, width, height, 10, true, true);
   this.background = game.add.sprite(this.layoutRect.x, this.layoutRect.y, this.skinBitmap, '', this.group);
-  this.background.alpha = 0.5;
-  /*
-  var bgDebug = game.add.graphics(this.layoutRect.x, this.layoutRect.y, this.group);
-  bgDebug.beginFill(0xff0000, 0.3);
-  bgDebug.drawRect(0, 0, this.layoutRect.width, this.layoutRect.height);
-  bgDebug.endFill();
-  */
-
-
-  //this.createTitle();
 };
 
-p.createTitle = function () {
-  this.title = game.add.text(this.layoutRect.halfWidth, 0, this.label, this.styles.title, this.group);
-  this.title.anchor.setTo(0.5);
-  this.title.y = this.layoutRect.height * 0.075;
+/**
+ * iOS friendly version of drawing the panel background
+ *
+ * @method drawIOSBackground
+ */
+p.drawIOSBackground = function() {
+  var strokeWidth = 4;
+  var width  = this.layoutRect.width - strokeWidth * 2;
+  var height = this.layoutRect.height - strokeWidth * 2;
+  var color = Phaser.Color.RGBtoString(25, 24, 24);
+  this.background = game.add.graphics(0, 0, this.group);
+  this.background.lineStyle(strokeWidth, 0xffffff);
+  this.background.beginFill(color, 1);
+  this.background.drawRoundedRect(this.layoutRect.x, this.layoutRect.y, width, height, 10);
+  this.background.endFill();
 };
-
 

@@ -71,6 +71,9 @@ module.exports = {
     if (properties.dev.stats) {
       game.time.advancedTiming = true;
     }
+
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
     userControl = new UserControl(features);
     game.controls = userControl;
     game.e2e = {};

@@ -144,7 +144,9 @@ p.updateChildComponents = function() {
   if (this.generalOptions) {
     this.generalOptions.update();
   }
-
+  if (this.displayOptions) {
+    this.displayOptions.update();
+  }
 };
 
 /**
