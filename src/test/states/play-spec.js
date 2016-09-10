@@ -21,30 +21,65 @@ chai.use(sinonChai);
 
 describe("Phaser play state tests", function () {
 
+  /*
+   this.initOptionsModel();
+   this.initFullScreenHandling();
+   this.initFps();
+   this.level = levelManager.currentLevel;
+   game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
+   this.createActors();
+   this.createLevelMap();
+   this.createUi();
+   this.createGroupLayering();
+   this.showCurrentScreenByState(gameState.currentState);
+   gameState.levelsCompleted.add(this.levelsCompleted, this);
+   */
+
   describe('play.create', function () {
 
     beforeEach(function () {
-      sinon.stub(play, 'defineWorldBounds');
+      sinon.stub(game.world, 'setBounds');
+      sinon.stub(play, 'initOptionsModel');
+      sinon.stub(play, 'initFullScreenHandling');
+      sinon.stub(play, 'initFps');
       sinon.stub(play, 'createActors');
+      sinon.stub(play, 'createLevelMap');
       sinon.stub(play, 'createUi');
       sinon.stub(play, 'createGroupLayering');
       sinon.stub(play, 'startLevelIntro');
       sinon.stub(play, 'missionStart');
       sinon.stub(play, 'showCurrentScreenByState');
-      sinon.stub(play, 'createLevelMap');
       sinon.stub(play, 'initStopwatch');
     });
 
     afterEach(function () {
-      play.defineWorldBounds.restore();
+      game.world.setBounds.restore();
+      play.initOptionsModel.restore();
+      play.initFullScreenHandling.restore();
+      play.initFps.restore();
       play.createActors.restore();
+      play.createLevelMap.restore();
       play.createUi.restore();
       play.createGroupLayering.restore();
       play.startLevelIntro.restore();
       play.missionStart.restore();
       play.showCurrentScreenByState.restore();
-      play.createLevelMap.restore();
       play.initStopwatch.restore();
+    });
+
+    it('should init options model', function () {
+      play.create();
+      expect(play.initOptionsModel).to.have.been.calledOnce;
+    });
+
+    it('should init fullscreen handling', function () {
+      play.create();
+      expect(play.initFullScreenHandling).to.have.been.calledOnce;
+    });
+
+    it('should init fps settings', function() {
+      play.create();
+      expect(play.initFps).to.have.been.calledOnce;
     });
 
     it('should set current level', function () {
@@ -55,7 +90,7 @@ describe("Phaser play state tests", function () {
 
     it('should define world bounds', function () {
       play.create();
-      expect(play.defineWorldBounds).to.have.been.calledOnce;
+      expect(game.world.setBounds).to.have.been.calledOnce;
     });
 
     it('should create actors', function () {
@@ -63,7 +98,7 @@ describe("Phaser play state tests", function () {
       expect(play.createActors).to.have.been.calledOnce;
     });
 
-    it('should create level Map', function() {
+    it('should create level Map', function () {
       play.create();
       expect(play.createLevelMap).to.have.been.calledOnce;
     });
@@ -94,7 +129,7 @@ describe("Phaser play state tests", function () {
       sinon.stub(game.stats, 'begin');
       sinon.stub(game.stats, 'end');
       sinon.stub(play, 'checkPlayerInput');
-      sinon.stub(play, 'actorsUpdate'); 
+      sinon.stub(play, 'actorsUpdate');
       sinon.stub(play, 'uiUpdate');
       sinon.stub(play, 'checkGameCondition');
       sinon.stub(play, 'updateCamera');
@@ -130,7 +165,7 @@ describe("Phaser play state tests", function () {
       expect(play.checkGameCondition).to.have.been.calledOnce;
     });
 
-    it('should update camera for derp scrolling', function(){
+    it('should update camera for derp scrolling', function () {
       play.update();
       expect(play.updateCamera).to.have.been.calledOnce;
     });
