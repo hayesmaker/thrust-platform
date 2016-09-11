@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.5...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.6...HEAD)
+
+**Merged pull requests:**
+
+- Feature/options/display [\#38](https://github.com/hayesmaker/thrust-platform/pull/38) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.6](https://github.com/hayesmaker/thrust-platform/tree/v0.9.6) (2016-09-10)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.5...v0.9.6)
 
 **Merged pull requests:**
 
