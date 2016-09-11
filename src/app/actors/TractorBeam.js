@@ -39,20 +39,50 @@ p.init = function () {
 };
 
 /**
- * @method checkDistance
- * @param player
- * @param isXDown {Boolean} if x button is pressed for manual locking mode
+ * @method contactStart
  */
-p.checkDistance = function(player, isXDown) {
-  if (!player.orbActivated) {
+p.contactStart = function() {
+  if (!this.player.orbActivated) {
     return;
   }
+  this.startLocking();
+};
+
+/**
+ * @method contactLoset
+ */
+p.contactLost = function() {
+  var player = this.player;
+  this.isLocking = false;
+  if (this.isLocked && player.alive) {
+    this.grab(this);
+  }
   if (!this.hasGrabbed) {
-    if (isXDown || properties.gamePlay.autoOrbLocking) {
-      player.checkOrbDistance();
+    this.breakLink();
+  }
+
+};
+
+/**
+ * @method update
+ */
+p.update = function() {
+  if (this.player && this.player.body) {
+    if (this.isLocking || this.hasGrabbed) {
+      this.drawBeam();
     }
-  } else {
-    this.drawBeam(player.position);
+  }
+};
+
+/**
+ * @method startLocking
+ */
+p.startLocking = function(){
+  if (!this.isLocking) {
+    this.isLocking = true;
+    this.timer.add(this.lockingDuration, this.lock, this);
+    this.timer.start();
+    sound.playSound('connecting1');
   }
 };
 
@@ -63,21 +93,29 @@ p.checkDistance = function(player, isXDown) {
  * @method drawBeam
  * @param posA
  */
-p.drawBeam = function (posA) {
-  if (!this.isLocking) {
-    this.isLocking = true;
-    this.timer.add(this.lockingDuration, this.lock, this);
-    this.timer.start();
-    sound.playSound('connecting1');
-  }
+p.drawBeam = function () {
   this.graphics.clear();
   var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
   var alpha = this.hasGrabbed ? 0.5 : 0.4;
   this.graphics.lineStyle(5, colour, alpha);
-  this.graphics.moveTo(posA.x, posA.y);
+  this.graphics.moveTo(this.player.body.x,this.player.body.y);
   this.graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
 
+/**
+ *
+ */
+p.clearPhysics = function() {
+  this.timer.stop();
+  game.time.events.remove(this.timer);
+  this.orb.sensor.body.onBeginContact.remove(this.contactStart, this);
+  this.orb.sensor.body.onEndContact.remove(this.contactLost, this);
+  this.orb.disposeSensor();
+};
+
+/**
+ * @method unlock
+ */
 p.unlock = function () {
   this.isLocked = false;
 };
@@ -106,7 +144,8 @@ p.lockingRelease = function () {
  * @method grab
  * @param player
  */
-p.grab = function (player) {
+p.grab = function () {
+  var player = this.player;
   this.hasGrabbed = true;
   var maxForce = 200000;
   var diffX = player.position.x - this.orb.sprite.position.x;
@@ -114,7 +153,7 @@ p.grab = function (player) {
   this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX, diffY], maxForce);
   this.orb.move();
   sound.playSound('connect1');
-  //this.orb.setPlayer(this.player);
+  this.clearPhysics();
 };
 
 /**
@@ -126,6 +165,19 @@ p.breakLink = function () {
   sound.playSound('hurt3');
   this.lockingRelease();
   game.physics.p2.removeConstraint(this.constraint);
+};
+
+/**
+ *
+ */
+p.respawn = function() {
+  this.orb.respawn();
+  this.initSignals();
+};
+
+p.initSignals = function() {
+  this.orb.sensor.body.onBeginContact.add(this.contactStart, this);
+  this.orb.sensor.body.onEndContact.add(this.contactLost, this);
 };
 
 

@@ -116,6 +116,9 @@ p.createFuelAnim = function () {
   this.fuelAnim.play('refuelling');
 };
 
+/**
+ * @method drawSensor
+ */
 p.drawSensor = function () {
   var bmd = game.make.bitmapData(1, 1);
   bmd.rect(0, 0, 1, 1, 'rgba(0, 255, 0, 0)');
@@ -126,6 +129,9 @@ p.drawSensor = function () {
   this.sensor.y -= this.sensor.height / 2;
 };
 
+/**
+ * @method initSensorPhysics
+ */
 p.initSensorPhysics = function () {
   game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();

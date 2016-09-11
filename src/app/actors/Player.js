@@ -311,7 +311,8 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
   if (removeShip === true) {
     gameState.lives--;
   }
-  this.tractorBeam.orb.respawn();
+
+  this.tractorBeam.respawn();
 
   sound.playSound('teleport-in3');
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
@@ -461,9 +462,10 @@ p.stopThrustFx = function() {
  * When this is called, we'll check the ditance of the player to the orb, and depending on distance,
  * either draw a tractorBeam
  *
+ * @deprecated
  * @method checkOrbDistance
  */
-p.checkOrbDistance = function () {
+p.connectAttempt = function () {
   var distance = utils.distAtoB(this.position, this.tractorBeam.orb.sprite.position);
   if (distance < this.tractorBeam.length && this.alive) {
     this.tractorBeam.drawBeam(this.position);
@@ -472,11 +474,10 @@ p.checkOrbDistance = function () {
       this.tractorBeam.grab(this);
     }
   } else {
-    if (this.tractorBeam.isLocking) {
-      this.tractorBeam.lockingRelease();
-    }
+
   }
 };
+
 
 /**
  * Fires the current actor's turret

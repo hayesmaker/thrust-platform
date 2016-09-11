@@ -418,7 +418,6 @@ module.exports = {
     if (!this.inPlay) {
       return;
     }
-    this.tractorBeam.checkDistance(this.player, this.isXDown);
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
     } else {
@@ -530,6 +529,7 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
+    this.tractorBeam.update();
     this.powerStation.update();
     this.checkForFuelDistance();
     this.groups.enemies.forEachAlive(function (enemy) {
