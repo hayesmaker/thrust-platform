@@ -73,13 +73,7 @@ function Player(collisions, groups) {
    * @type {boolean}
    */
   this.inGameArea = false;
-  /**
-   * Dispatched when player has lost all lives
-   *
-   * @property livesLost
-   * @type {Phaser.Signal}
-   */
-  this.livesLost = new Phaser.Signal();
+
   /**
    * A beam actor used by player to colect the orb
    *
@@ -111,11 +105,48 @@ function Player(collisions, groups) {
    * @type {Phaser.Point}
    */
   this.respawnPos = new Phaser.Point();
-
-  this.setStartPosition(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
+  this.initialPos.setTo(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
-  Phaser.Sprite.call(this, game, this.respawnPos.x, this.respawnPos.y, 'combined', 'player.png');
+  Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'combined', 'player.png');
   this.groups.actors.add(this);
+
+  this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
+  this.thrustAnim.anchor.setTo(0.5, -0.6);
+  this.thrustAnim.animations.add('rocket', [
+    'rocket_001.png',
+    'rocket_002.png'
+  ], 4, true);
+  this.thrustAnim.visible = false;
+  this.refuelAnimSprite = game.add.sprite(this.x, this.y, 'combined', 'Fuel_PU_000.png', this.groups.actors);
+  this.refuelAnimSprite.anchor.setTo(0.5);
+  this.refuelAnimSprite.animations.add('refuelling', [
+    'Fuel_PU_000.png',
+    'Fuel_PU_001.png',
+    'Fuel_PU_002.png',
+    'Fuel_PU_003.png',
+    'Fuel_PU_004.png',
+    'Fuel_PU_005.png',
+    'Fuel_PU_006.png',
+    'Fuel_PU_007.png',
+    'Fuel_PU_008.png',
+    'Fuel_PU_009.png',
+    'Fuel_PU_010.png',
+    'Fuel_PU_011.png',
+    'Fuel_PU_012.png',
+    'Fuel_PU_013.png',
+    'Fuel_PU_014.png',
+    'Fuel_PU_015.png',
+    'Fuel_PU_016.png',
+    'Fuel_PU_017.png',
+    'Fuel_PU_018.png',
+    'Fuel_PU_019.png',
+    'Fuel_PU_020.png',
+    'Fuel_PU_021.png',
+    'Fuel_PU_022.png',
+    'Fuel_PU_023.png',
+    'Fuel_PU_024.png'
+  ], 30, true);
+  this.refuelAnimSprite.visible = false;
   this.alpha = 0;
   this.init();
   this.thrustSfx = game.sfx.get('thrust4');
@@ -199,6 +230,16 @@ p.orbHit = function() {
 
 };
 
+p.showRefuelAnim = function() {
+  this.refuelAnimSprite.visible = true;
+  this.refuelAnimSprite.play('refuelling');
+};
+
+p.hideRefuelAnim = function() {
+  this.refuelAnimSprite.animations.stop('refuelling', true);
+  this.refuelAnimSprite.visible = false;
+};
+
 /**
  * @method stop
  */
@@ -220,7 +261,7 @@ p.resume = function() {
 p.levelExit = function() {
   this.inPlay = false;
   //this.thrustEmitter.on = false;
-  this.thrustSfx.stop();
+  this.stopThrustFx();
 };
 
 /**
@@ -293,7 +334,11 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
  * @method update§
  */
 p.update = function () {
-
+  if (this.body) {
+    this.refuelAnimSprite.x = this.body.x;
+    this.refuelAnimSprite.y = this.body.y;
+    this.exhaustUpdate();
+  }
 };
 
 /**
@@ -384,9 +429,12 @@ p.checkThrust = function(buttonAPressed, cursors) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;
+        this.thrustAnim.visible = true;
+        this.thrustAnim.play('rocket');
         if (sound.shouldPlaySfx()) {
           this.thrustSfx.play(ThrustSound, 0, 0.3, true);
         }
+
         //flow(lifespan, frequency, quantity, total, immediate)
         //this.thrustEmitter.flow(200, 10, 2, -1, true);
       }
@@ -397,10 +445,16 @@ p.checkThrust = function(buttonAPressed, cursors) {
       gameState.fuel--;
     }
   } else {
-    this.thrustStarted = false;
-    this.thrustSfx.stop();
-    this.thrustEmitter.on = false;
+    this.stopThrustFx();
   }
+};
+
+p.stopThrustFx = function() {
+  this.thrustAnim.visible = false;
+  this.thrustAnim.animations.stop('rocket', true);
+  this.thrustStarted = false;
+  this.thrustSfx.stop();
+  this.thrustEmitter.on = false;
 };
 
 /**
@@ -509,10 +563,12 @@ p.setRespawnPosition = function(position, hasOrb) {
 };
 
 p.doRefuel = function() {
+  this.showRefuelAnim();
   this.frameName = 'player-refueling.png';
 };
 
 p.clearRefuel = function() {
+  this.hideRefuelAnim();
   this.frameName = 'player.png';
 };
 
@@ -525,11 +581,17 @@ p.clearRefuel = function() {
  * @method exhaustUpdate
  */
 p.exhaustUpdate = function() {
+  /*
   var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
   var r = (this.width / 2) - speed / 60; //hardcoded position
   var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
   this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
   this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
+  */
+
+  this.thrustAnim.x = this.body.x;
+  this.thrustAnim.y = this.body.y;
+  this.thrustAnim.rotation = this.rotation;
 };
 
 /**
