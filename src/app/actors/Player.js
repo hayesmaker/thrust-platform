@@ -250,7 +250,7 @@ p.stop = function() {
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
-  this.thrustSfx.stop();
+  //this.thrustSfx.stop();
 };
 
 p.resume = function() {
@@ -525,6 +525,7 @@ p.rotate = function (val) {
  */
 p.explosion = function (force) {
   if (this.alive || force === true) {
+    this.stopThrustFx();
     var hasOrb = this.tractorBeam.isLocked;
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
