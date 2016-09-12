@@ -41,7 +41,49 @@ p.init = function () {
   this.body.motionState = 2;
   this.body.setCollisionGroup(this.collisions.orb);
   this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
+  this.drawSensor();
+  this.initSensorPhysics();
 };
+
+/**
+ * @method drawSensor
+ */
+p.drawSensor = function () {
+  var bmd = game.make.bitmapData(60, 60);
+  bmd.ctx.beginPath();
+  bmd.ctx.fillStyle = "rgba(255,0,0, 0)";
+  bmd.ctx.arc(30, 30, 30, 0, Math.PI * 2, true);
+  bmd.ctx.fill();
+  bmd.ctx.closePath();
+  this.sensor = game.add.sprite(this.body.x, this.body.y, bmd, this.groups.actors);
+  this.sensor.width = 190;
+  this.sensor.height = 190;
+};
+
+
+/**
+ * addCircle(radius, offsetX, offsetY, rotation) → {p2.Circle}
+ *
+ * @method initSensorPhysics
+ */
+p.initSensorPhysics = function () {
+  game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
+  this.sensor.body.clearShapes();
+  var box = this.sensor.body.addCircle(this.sensor.width/2, 0, 0, 0);
+  box.sensor = true;
+  this.sensor.body.motionState = 2;
+  this.sensor.body.setCollisionGroup(this.collisions.orb);
+  this.sensor.body.collides([this.collisions.players]);
+};
+
+p.disposeSensor = function() {
+  this.sensor.body.removeFromWorld();
+  this.sensor.body.destroy();
+  this.sensor.destroy();
+  this.sensor = null;
+};
+
+
 
 p.orbHit = function() {
 
@@ -114,6 +156,10 @@ p.respawn = function (withShip) {
   this.body.motionState = 2;
   this.sprite.alpha = 1;
   this.glowSprite.visible = true;
+  if (!this.sensor) {
+    this.drawSensor();
+    this.initSensorPhysics();
+  }
 };
 
 
