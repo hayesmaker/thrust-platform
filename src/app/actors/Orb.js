@@ -56,8 +56,8 @@ p.drawSensor = function () {
   bmd.ctx.fill();
   bmd.ctx.closePath();
   this.sensor = game.add.sprite(this.body.x, this.body.y, bmd, this.groups.actors);
-  this.sensor.width = 200;
-  this.sensor.height = 200;
+  this.sensor.width = 190;
+  this.sensor.height = 190;
 };
 
 
