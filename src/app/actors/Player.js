@@ -91,6 +91,7 @@ function Player(collisions, groups) {
   /**
    * @property thrustEmitter
    * @type {Phaser.Emitter}
+   * @deprecated
    */
   this.thrustEmitter = null;
 
@@ -99,6 +100,12 @@ function Player(collisions, groups) {
    * @type {Phaser.Point}
    */
   this.initialPos = new Phaser.Point();
+
+  /**
+   * @property isRefuelling
+   * @type {boolean}
+   */
+  this.isRefuelling = false;
 
   /**
    * @property respawnPos
@@ -113,8 +120,8 @@ function Player(collisions, groups) {
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
   this.thrustAnim.anchor.setTo(0.5, -0.6);
   this.thrustAnim.animations.add('rocket', [
-    'rocket_001.png',
-    'rocket_002.png'
+    'rocket_002.png',
+    'rocket_001.png'
   ], 4, true);
   this.thrustAnim.visible = false;
   this.refuelAnimSprite = game.add.sprite(this.x, this.y, 'combined', 'Fuel_PU_000.png', this.groups.actors);
@@ -162,7 +169,7 @@ module.exports = Player;
  *
  * @method setStartPosition
  */
-p.setStartPosition = function(x, y) {
+p.setStartPosition = function (x, y) {
   this.initialPos.setTo(x, y);
 };
 
@@ -189,11 +196,13 @@ p.init = function () {
   this.explodeEmitter.makeParticles();
   this.explodeEmitter.gravity = 10;
 
+  /*
   this.thrustEmitter = game.add.emitter(this.x, this.y, 10);
   this.thrustEmitter.particleClass = ShipParticle;
   this.thrustEmitter.minRotation = 0;
   this.thrustEmitter.maxRotation = 0;
   this.thrustEmitter.makeParticles();
+  */
 };
 
 /**
@@ -201,7 +210,7 @@ p.init = function () {
  *
  * @method reset
  */
-p.reset = function() {
+p.reset = function () {
   this.setStartPosition();
   this.respawn();
 };
@@ -222,20 +231,12 @@ p.start = function (completeCallback, context) {
   this.respawn(completeCallback, context);
 };
 
-p.playerDronePass = function() {
-
-};
-
-p.orbHit = function() {
-
-};
-
-p.showRefuelAnim = function() {
+p.showRefuelAnim = function () {
   this.refuelAnimSprite.visible = true;
   this.refuelAnimSprite.play('refuelling');
 };
 
-p.hideRefuelAnim = function() {
+p.hideRefuelAnim = function () {
   this.refuelAnimSprite.animations.stop('refuelling', true);
   this.refuelAnimSprite.visible = false;
 };
@@ -243,7 +244,7 @@ p.hideRefuelAnim = function() {
 /**
  * @method stop
  */
-p.stop = function() {
+p.stop = function () {
   this.alive = false;
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -253,12 +254,12 @@ p.stop = function() {
   //this.thrustSfx.stop();
 };
 
-p.resume = function() {
+p.resume = function () {
   this.alive = true;
   this.body.motionState = 1;
 };
 
-p.levelExit = function() {
+p.levelExit = function () {
   this.inPlay = false;
   //this.thrustEmitter.on = false;
   this.stopThrustFx();
@@ -269,8 +270,8 @@ p.levelExit = function() {
  *
  * @method tweenOutAndRemove
  */
-p.tweenOutAndRemove = function(removeWithOrb) {
-  TweenMax.to(this, 0.4, {alpha: 0, ease: Quad.easeOut} );
+p.tweenOutAndRemove = function (removeWithOrb) {
+  TweenMax.to(this, 0.4, {alpha: 0, ease: Quad.easeOut});
   if (removeWithOrb) {
     TweenMax.to(this.tractorBeam.orb.sprite, 0.4, {alpha: 0, ease: Quad.easeOut});
   }
@@ -279,14 +280,14 @@ p.tweenOutAndRemove = function(removeWithOrb) {
 /**
  * @method spawn
  */
-p.spawn = function() {
+p.spawn = function () {
   this.inGameArea = true;
   this.body.motionState = 1;
   this.alpha = 0;
   this.visible = true;
   this.alive = true;
   this.inPlay = true;
-  TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut} );
+  TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut});
 };
 
 /**
@@ -298,8 +299,7 @@ p.spawn = function() {
  * @param [thisArg]
  * @param [removeShip] {Boolean}
  */
-p.respawn = function(completeCallback, thisArg, removeShip) {
-  var self = this;
+p.respawn = function (completeCallback, thisArg, removeShip) {
   this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -312,19 +312,20 @@ p.respawn = function(completeCallback, thisArg, removeShip) {
     gameState.lives--;
   }
 
-  this.tractorBeam.respawn();
-
   sound.playSound('teleport-in3');
-  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function() {
+  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function () {
     if (completeCallback) {
       completeCallback.call(thisArg);
     }
-    self.spawn();
-    if (self.spawnWithOrb) {
-      self.tractorBeam.orb.respawn(true);
-      self.tractorBeam.lock();
+    this.spawn();
+    if (this.spawnWithOrb) {
+      this.tractorBeam.respawn(true);
+      //self.tractorBeam.lock();
+    } else {
+      this.tractorBeam.respawn(false);
     }
-  });
+  }.bind(this));
+
 };
 
 /**§
@@ -361,7 +362,7 @@ p.createTurret = function () {
  * @param cursors
  * @param buttonAPressed
  */
-p.checkPlayerControl = function(cursors, buttonAPressed) {
+p.checkPlayerControl = function (cursors, buttonAPressed) {
   if (!this.alive || !this.inGameArea) {
     return;
   }
@@ -375,7 +376,7 @@ p.checkPlayerControl = function(cursors, buttonAPressed) {
  *
  * @method checkPlayerControlJoypad
  */
-p.checkPlayerControlJoypad = function() {
+p.checkPlayerControlJoypad = function () {
   if (!this.alive || !this.inGameArea) {
     return;
   }
@@ -391,13 +392,13 @@ p.checkPlayerControlJoypad = function() {
  *
  * @method checkJoypadFire
  */
-p.checkJoypadFire = function() {
-  game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
+p.checkJoypadFire = function () {
+  game.input.gamepad.pad1.onUpCallback = function (buttonCode) {
     if (buttonCode === Phaser.Gamepad.BUTTON_1) {
       this.joypadFireButton = true;
     }
   }.bind(this);
-  game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
+  game.input.gamepad.pad1.onDownCallback = function (buttonCode) {
     if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
       this.joypadFireButton = false;
       this.fire();
@@ -410,7 +411,7 @@ p.checkJoypadFire = function() {
  * @param stick
  * @param cursors
  */
-p.checkRotate = function(stick, cursors) {
+p.checkRotate = function (stick, cursors) {
   if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors && cursors.left.isDown) {
     this.rotate(-90);
   } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors && cursors.right.isDown) {
@@ -425,7 +426,7 @@ p.checkRotate = function(stick, cursors) {
  * @param buttonAPressed
  * @param cursors
  */
-p.checkThrust = function(buttonAPressed, cursors) {
+p.checkThrust = function (buttonAPressed, cursors) {
   if (cursors && cursors.up.isDown || buttonAPressed) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
@@ -435,27 +436,23 @@ p.checkThrust = function(buttonAPressed, cursors) {
         if (sound.shouldPlaySfx()) {
           this.thrustSfx.play(ThrustSound, 0, 0.3, true);
         }
-
-        //flow(lifespan, frequency, quantity, total, immediate)
-        //this.thrustEmitter.flow(200, 10, 2, -1, true);
-      }
-      if (gameState.fuel % 5 === 0) {
-
       }
       this.body.thrust(400);
-      gameState.fuel--;
+      if (!this.isRefuelling) {
+        gameState.fuel--;
+      }
     }
   } else {
     this.stopThrustFx();
   }
 };
 
-p.stopThrustFx = function() {
+p.stopThrustFx = function () {
   this.thrustAnim.visible = false;
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
   this.thrustSfx.stop();
-  this.thrustEmitter.on = false;
+  //this.thrustEmitter.on = false;
 };
 
 /**
@@ -549,11 +546,11 @@ p.explosion = function (force) {
  * @param position {Phaser.Point}
  * @param hasOrb {Boolean}
  */
-p.setRespawnPosition = function(position, hasOrb) {
+p.setRespawnPosition = function (position, hasOrb) {
   var spawns = levelManager.currentLevel.spawns;
   var distances = [];
   var distance;
-  _.each(spawns, function(spawnPosition) {
+  _.each(spawns, function (spawnPosition) {
     distance = utils.distAtoB(position, spawnPosition);
     distances.push(distance);
   });
@@ -564,12 +561,20 @@ p.setRespawnPosition = function(position, hasOrb) {
   }
 };
 
-p.doRefuel = function() {
+/**
+ * @method doRefuel
+ */
+p.doRefuel = function () {
+  this.isRefuelling = true;
   this.showRefuelAnim();
   this.frameName = 'player-refueling.png';
 };
 
-p.clearRefuel = function() {
+/**
+ * @method clearRefuel
+ */
+p.clearRefuel = function () {
+  this.isRefuelling = false;
   this.hideRefuelAnim();
   this.frameName = 'player.png';
 };
@@ -579,18 +584,17 @@ p.clearRefuel = function() {
  * ```
  * x = cx + r * cos(a)
  * y = cy + r * sin(a)
+ *
+ *
+ var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
+ var r = (this.width / 2) - speed / 60; //hardcoded position
+ var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
+ this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
+ this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
  * ```
  * @method exhaustUpdate
  */
-p.exhaustUpdate = function() {
-  /*
-  var speed = Math.abs(this.body.velocity.x) + Math.abs(this.body.velocity.y);
-  var r = (this.width / 2) - speed / 60; //hardcoded position
-  var oppositeAngle = this.rotation + (3 * Math.PI) / 2 - Math.PI;
-  this.thrustEmitter.x = this.position.x + r * Math.cos(oppositeAngle);
-  this.thrustEmitter.y = this.position.y + r * Math.sin(oppositeAngle);
-  */
-
+p.exhaustUpdate = function () {
   this.thrustAnim.x = this.body.x;
   this.thrustAnim.y = this.body.y;
   this.thrustAnim.rotation = this.rotation;
@@ -603,7 +607,7 @@ p.exhaustUpdate = function() {
  */
 p.death = function () {
   if (this.inPlay) {
-    this.thrustEmitter.on = false;
+    //this.thrustEmitter.on = false;
     this.inPlay = false;
     this.alive = false;
     game.time.events.add(2000, _.bind(this.checkRespawn, this));
@@ -617,7 +621,7 @@ p.death = function () {
  * @param context
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
-p.checkRespawn = function(callback, context, removeShip) {
+p.checkRespawn = function (callback, context, removeShip) {
   if (--gameState.lives < 0) {
     gameState.lives = -1;
     //this.livesLost.dispatch();

@@ -170,8 +170,8 @@ p.breakLink = function () {
 /**
  *
  */
-p.respawn = function() {
-  this.orb.respawn();
+p.respawn = function(withShip) {
+  this.orb.respawn(withShip);
   this.initSignals();
 };
 

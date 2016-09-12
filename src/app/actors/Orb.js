@@ -51,7 +51,7 @@ p.init = function () {
 p.drawSensor = function () {
   var bmd = game.make.bitmapData(60, 60);
   bmd.ctx.beginPath();
-  bmd.ctx.fillStyle = "rgba(255,0,0, 0.4)";
+  bmd.ctx.fillStyle = "rgba(255,0,0, 0)";
   bmd.ctx.arc(30, 30, 30, 0, Math.PI * 2, true);
   bmd.ctx.fill();
   bmd.ctx.closePath();
@@ -67,7 +67,7 @@ p.drawSensor = function () {
  * @method initSensorPhysics
  */
 p.initSensorPhysics = function () {
-  game.physics.p2.enable(this.sensor, true);
+  game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();
   var box = this.sensor.body.addCircle(this.sensor.width/2, 0, 0, 0);
   box.sensor = true;
