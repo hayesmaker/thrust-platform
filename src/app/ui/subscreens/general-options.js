@@ -31,6 +31,10 @@ function GeneralOptions(group, name, layoutRect) {
   this.layoutRect = layoutRect;
 }
 
+p.levelsSelected = function(option) {
+  console.log('levelsSelected=', option);
+};
+
 /**
  * @method render
  */
@@ -60,6 +64,7 @@ p.createDisplay = function() {
   trainingLabel.y = this.marginTop;
 
   this.uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
+  this.uiSelect.optionSelected.add(this.levelsSelected, this);
   this.uiSelect.group.x = this.layoutRect.width * 0.12;
   this.uiSelect.group.y = this.marginTop;
   this.uiSelect.render();

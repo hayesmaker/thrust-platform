@@ -28,7 +28,7 @@ module.exports = {
   },
   dev: {
     mode: false,
-    debugPhysics: false,
+    debugPhysics: true,
     debugPositions: false,
     stats: true,
     skipIntro: false,

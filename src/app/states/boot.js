@@ -59,9 +59,9 @@ module.exports = {
     Phaser.Canvas.setImageRenderingCrisp(game.canvas);
 
     features.init();
-    levelManager.init();
+    //levelManager.init();
     particles.init();
-    gameState.init();
+    //gameState.init();
 
     if (this.customScaleMode >= 0) {
       game.scale.scaleMode = this.customScaleMode;

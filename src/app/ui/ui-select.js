@@ -40,6 +40,7 @@ function UiSelect(group, name, dataProvider) {
   this.label = this.name;
   this.dataProvider = dataProvider;
   this.optionTexts = [];
+  this.optionSelected = new Phaser.Signal();
 
 }
 
@@ -516,6 +517,13 @@ p.selectCurrentOption = function() {
   //this.button.realignSelector(this.optionLabel.x + this.optionLabel.width + this.padding);
   this.alignToNewLabel();
   this.selectTween();
+
+};
+
+p.onOptionSelected = function() {
+  var option = this.dataProvider[this.selectedIndex];
+  console.log('option', option);
+  this.optionSelected.dispatch(option.value);
 };
 
 /**
@@ -526,7 +534,7 @@ p.selectTween = function() {
   this.restoreUserControl.dispatch();
   this.removeActiveEvents();
 
-  this.selectAnim = new TimelineMax();
+  this.selectAnim = new TimelineMax({onComplete: this.onOptionSelected, callbackScope: this});
   var bgTween = new TweenMax(this.optionBg, 0.2, {alpha: 0, ease: Quad.easOut});
   var selectBg = new TweenMax(this.selectBoxBg, 0.2, {alpha: 0, ease: Quad.easeOut});
 
