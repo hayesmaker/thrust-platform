@@ -27,6 +27,7 @@ module.exports = {
    *
    * @method init
    * @param bootScreen {Phaser.Sprite}
+   * @param versionTxt {Phaser.Text}
    */
   init: function(bootScreen, versionTxt) {
     this.version = versionTxt;
