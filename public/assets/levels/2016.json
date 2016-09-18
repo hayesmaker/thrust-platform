@@ -1,0 +1,80 @@
+{
+  "atlas": {
+    "key": "combined",
+    "imgUrl": "assets/atlas/combined-2016.png",
+    "dataUrl": "assets/atlas/combined-2016.json"
+  },
+  "data": [
+    {
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "2016 - Mission 4",
+        "desc": "Destroy all enemies",
+        "color": "rgba(155, 150, 100, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-4",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/2016-level-4.json",
+      "mapDataKey": "level-4",
+      "mapScale": 1,
+      "world": {
+        "width": 2304,
+        "height": 2730
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 730
+      },
+      "spawns": [
+        {"x": 1850, "y": 1105, "orb": false},
+        {"x": 1129, "y": 1950, "orb": false}
+      ],
+      "enemies": [
+        {"x": 925, "y": 1480, "rotation": 30},
+        {"x": 1202, "y": 1460, "rotation": 210},
+        {"x": 1032, "y": 1376, "rotation": 210},
+        {"x": 1032, "y": 1376, "rotation": 210},
+        {"x": 777, "y": 1406, "rotation": 30},
+        {"x": 626, "y": 1333, "rotation": 30},
+        {"x": 499, "y": 1558, "rotation": 210},
+        {"x": 681, "y": 1653, "rotation": 210},
+        {"x": 878, "y": 1749, "rotation": 210},
+        {"x": 533, "y": 1738, "rotation": 30},
+        {"x": 698, "y": 1821, "rotation": 30},
+        {"x": 1610, "y": 1980, "rotation": 180},
+        {"x": 1722, "y": 1980, "rotation": 180},
+        {"x": 1840, "y": 1980, "rotation": 180},
+        {"x": 1607, "y": 2348, "rotation": 0},
+        {"x": 1723, "y": 2348, "rotation": 0},
+        {"x": 1841, "y": 2348, "rotation": 0},
+        {"x": 1506, "y": 2196, "rotation": 90},
+        {"x": 2090, "y": 2126, "rotation": 270},
+        {"x": 2090, "y": 2276, "rotation": 270},
+        {"x": 2090, "y": 2416, "rotation": 270},
+        {"x": 609, "y": 2227, "rotation": 30},
+        {"x": 493, "y": 2171, "rotation": 30},
+        {"x": 485, "y": 2003, "rotation": 210},
+        {"x": 601, "y": 2060, "rotation": 210},
+        {"x": 714, "y": 2121, "rotation": 210},
+        {"x": 177, "y": 2125, "rotation": 90},
+        {"x": 177, "y": 2275, "rotation": 90},
+        {"x": 323, "y": 2280, "rotation": 270},
+        {"x": 323, "y": 2430, "rotation": 270},
+        {"x": 245, "y": 2554, "rotation": 0}
+      ],
+      "fuels": [
+        {"x": 1420, "y": 1655},
+        {"x": 1420, "y": 2113},
+        {"x": 1420, "y": 2562}
+      ],
+      "enemyFireRate": 400,
+      "powerStation": {
+        "x": 1034,
+        "y": 1215
+      }
+    }
+  ]
+
+}
