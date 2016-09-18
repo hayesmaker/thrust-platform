@@ -108,9 +108,11 @@ p.drawBeam = function () {
 p.clearPhysics = function() {
   this.timer.stop();
   game.time.events.remove(this.timer);
-  this.orb.sensor.body.onBeginContact.remove(this.contactStart, this);
-  this.orb.sensor.body.onEndContact.remove(this.contactLost, this);
-  this.orb.disposeSensor();
+  /*
+  if (this.orb.body) {
+    this.orb.disposeSensor();
+  }
+  */
 };
 
 /**

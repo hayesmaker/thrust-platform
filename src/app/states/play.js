@@ -334,6 +334,7 @@ module.exports = {
    * @method restartPlayState
    */
   restartPlayState: function () {
+    console.log('restartPlayState');
     ui.countdown.clear();
     ui.destroy();
     options.dispose();
@@ -346,6 +347,7 @@ module.exports = {
    * @method clearPlayWorld
    */
   clearPlayWorld: function() {
+    console.log('clearPlayWorld');
     this.limpetGuns = [];
     this.fuels = [];
     if (this.orb) {
