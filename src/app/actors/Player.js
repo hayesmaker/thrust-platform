@@ -195,14 +195,6 @@ p.init = function () {
   this.explodeEmitter.particleClass = ShipParticle;
   this.explodeEmitter.makeParticles();
   this.explodeEmitter.gravity = 10;
-
-  /*
-  this.thrustEmitter = game.add.emitter(this.x, this.y, 10);
-  this.thrustEmitter.particleClass = ShipParticle;
-  this.thrustEmitter.minRotation = 0;
-  this.thrustEmitter.maxRotation = 0;
-  this.thrustEmitter.makeParticles();
-  */
 };
 
 /**
@@ -223,7 +215,7 @@ p.start = function (completeCallback, context) {
   this.body.clearShapes();
   this.body.loadPolygon('playerPhysics', 'player');
   this.body.setCollisionGroup(this.collisions.players);
-  //this.body.collides([this.collisions.orb], this.orbHit, this);
+  //todo make orb in a seperate collides if possible and do only if (this.tractorBeam)
   this.body.collides([this.collisions.enemyBullets, this.collisions.terrain, this.collisions.orb, this.collisions.fuels], this.crash, this);
   this.body.collides([this.collisions.drones]);
   this.body.motionState = 2;
@@ -231,11 +223,17 @@ p.start = function (completeCallback, context) {
   this.respawn(completeCallback, context);
 };
 
+/**
+ * @method showRefuelAnim
+ */
 p.showRefuelAnim = function () {
   this.refuelAnimSprite.visible = true;
   this.refuelAnimSprite.play('refuelling');
 };
 
+/**
+ * @method hideRefuelAnim
+ */
 p.hideRefuelAnim = function () {
   this.refuelAnimSprite.animations.stop('refuelling', true);
   this.refuelAnimSprite.visible = false;
@@ -251,7 +249,6 @@ p.stop = function () {
   this.body.setZeroForce();
   this.body.setZeroRotation();
   this.body.motionState = 2;
-  //this.thrustSfx.stop();
 };
 
 p.resume = function () {
@@ -259,9 +256,11 @@ p.resume = function () {
   this.body.motionState = 1;
 };
 
+/**
+ * @method levelExit
+ */
 p.levelExit = function () {
   this.inPlay = false;
-  //this.thrustEmitter.on = false;
   this.stopThrustFx();
 };
 
@@ -320,9 +319,10 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
     this.spawn();
     if (this.spawnWithOrb) {
       this.tractorBeam.respawn(true);
-      //self.tractorBeam.lock();
     } else {
-      this.tractorBeam.respawn(false);
+      if (this.tractorBeam) {
+        this.tractorBeam.respawn(false);
+      }
     }
   }.bind(this));
 
@@ -345,7 +345,7 @@ p.update = function () {
 
 /**
  * @method createTurret
- * @return {Turret|exports|module.exports}
+ * @return {Turret}
  */
 p.createTurret = function () {
   var bulletBitmap = game.make.bitmapData(5, 5);
@@ -447,12 +447,14 @@ p.checkThrust = function (buttonAPressed, cursors) {
   }
 };
 
+/**
+ * @method stopThrustFx
+ */
 p.stopThrustFx = function () {
   this.thrustAnim.visible = false;
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
   this.thrustSfx.stop();
-  //this.thrustEmitter.on = false;
 };
 
 /**
@@ -519,12 +521,15 @@ p.rotate = function (val) {
  * Called when the player collides with something.
  *
  * @method explosion
- * @param force {Boolean] force explosion of player even if not alive
+ * @param [force] {Boolean} force explosion of player even if not alive
  */
 p.explosion = function (force) {
   if (this.alive || force === true) {
+    var hasOrb = false;
     this.stopThrustFx();
-    var hasOrb = this.tractorBeam.isLocked;
+    if (this.tractorBeam) {
+     hasOrb = this.tractorBeam.isLocked;
+    }
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);

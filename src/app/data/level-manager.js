@@ -42,9 +42,9 @@ module.exports = {
    *
    * @method init
    */
-  init: function() {
+  init: function(levels) {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
-    this.levels = properties.levels.data;
+    this.levels = properties.levels.data || levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;
     } else {

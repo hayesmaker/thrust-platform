@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Feature/orb pickup zone [\#40](https://github.com/hayesmaker/thrust-platform/pull/40) ([hayesmaker](https://github.com/hayesmaker))
 - Feature/more new graphics! [\#39](https://github.com/hayesmaker/thrust-platform/pull/39) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.9.7](https://github.com/hayesmaker/thrust-platform/tree/v0.9.7) (2016-09-11)

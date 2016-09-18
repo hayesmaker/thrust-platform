@@ -3,9 +3,7 @@
 var properties = require('../properties');
 var features = require('../utils/features');
 var UserControl = require('../environment/UserControl');
-var levelManager = require('../data/level-manager');
 var particles = require('../environment/particles/manager');
-var gameState = require('../data/game-state');
 var userControl;
 var version = require('../../../package.json').version;
 
@@ -59,9 +57,9 @@ module.exports = {
     Phaser.Canvas.setImageRenderingCrisp(game.canvas);
 
     features.init();
-    levelManager.init();
+    //levelManager.init();
     particles.init();
-    gameState.init();
+    //gameState.init();
 
     if (this.customScaleMode >= 0) {
       game.scale.scaleMode = this.customScaleMode;

@@ -12,8 +12,30 @@ module.exports = {
     this.initEvents();
   },
 
+  setLevels: function(value) {
+    this.gameModes.levels.dirty = value !== this.gameModes.levels.current;
+    this.gameModes.levels.selected = value;
+  },
+
+  getLevelsJsonUrl: function() {
+    var jsonUrl;
+    switch(this.gameModes.levels.selected) {
+      case 'classic' :
+        jsonUrl = 'assets/levels/classic.json';
+        break;
+      case '2016' :
+        jsonUrl = 'assets/levels/2016.json';
+        break;
+    }
+    return jsonUrl;
+  },
 
   gameModes: {
+    levels: {
+      dirty: false,
+      current: '2016',
+      selected: '2016'
+    },
     speedRun: {
       unlocked: true,
       enabled: true
@@ -52,14 +74,23 @@ module.exports = {
     });
   },
 
+  /**
+   * @method initEvents
+   */
   initEvents: function() {
+    this.loadNewLevels = new Phaser.Signal();
     this.fxParticlesOn = new Phaser.Signal();
     this.fxParticlesOff = new Phaser.Signal();
     this.fxBackgroundOn = new Phaser.Signal();
     this.fxBackgroundOff = new Phaser.Signal();
   },
 
+  /**
+   * @method dispose
+   */
   dispose: function() {
+    this.loadNewLevels.removeAll();
+    this.loadNewLevels = null;
     this.fxParticlesOn.removeAll();
     this.fxParticlesOn = null;
     this.fxParticlesOff.removeAll();

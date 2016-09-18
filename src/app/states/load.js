@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
 var properties = require('../properties');
-var levelManager = require('../data/level-manager');
-
+var levelsLoader = require('../utils/levels-loader');
+var gameState = require('../data/game-state');
+var optionsModel = require('../data/options-model');
 /**
  * The load state 
  * - Loads in game assets
@@ -16,19 +16,16 @@ var levelManager = require('../data/level-manager');
  * @type {Object}
  */
 module.exports = {
-
-  /**
-   * @property loadProgressTxt
-   */
-  loadProgressTxt: null,
-
   /**
    * Init state with boot screen for removal
    *
    * @method init
    * @param bootScreen {Phaser.Sprite}
+   * @param versionTxt {Phaser.Text}
    */
   init: function(bootScreen, versionTxt) {
+    console.log('load state :: init', bootScreen, versionTxt);
+    levelsLoader.init();
     this.version = versionTxt;
     this.bootScreen = bootScreen;
 
@@ -54,36 +51,20 @@ module.exports = {
     this.loadProgressTxt = game.add.text(0, 0, '0%', style);
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
+    levelsLoader.loadLevelsJson(optionsModel.getLevelsJsonUrl());
     game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
+    game.load.image('level-4-layout', 'assets/images/level-4-layout.png');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
     this.preloadTrainingMap(properties.levels.training);
-    game.load.atlas('combined', 'assets/atlas/combined.png', 'assets/atlas/combined.json');
-    _.each(levelManager.levels, this.preloadMapData, this);
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
-
-    /*
-    if (game.device.pixelRatio > 1) {
-      this.loadHiResAssets();
-    } else {
-      this.loadLowResAssets();
-    }
-    */
     this.loadSfx();
     this.loadMusic();
-  },
-
-  loadHiResAssets: function() {
-    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
-  },
-
-  loadLowResAssets: function() {
-    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
   },
 
   /**
@@ -120,23 +101,6 @@ module.exports = {
   },
 
   /**
-   * Load all maps in defined in the levelManager
-   *
-   * @method loadMap Data
-   * @param levelData {Object} defines a map key and url, and the physics data key and url
-   */
-  preloadMapData: function (levelData) {
-    if (!levelData.useAtlas) {
-      game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
-    }
-    game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
-    if (levelData.gateImgKey) {
-      game.load.image(levelData.gateImgKey, levelData.gateImgUrl);
-      game.load.physics(levelData.gateDataKey + properties.mapSuffix, levelData.gateDataUrl);
-    }
-  },
-
-  /**
    * SignalHandler for loaded files.
    * - Updates the loader progress
    * - Checks if a loaded file was some level map Physics data.
@@ -147,70 +111,9 @@ module.exports = {
    * @param cacheKey
    */
   fileComplete: function (progress, cacheKey) {
+    console.log('load :: fileComplete', cacheKey);
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
-    if (this.isLevelData(cacheKey)) {
-      var levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-      var level = this.getLevelByCacheKey(cacheKey);
-      if (!level) {
-        level = properties.levels.training;
-      }
-      if (level.hasOwnProperty('mapScale')) {
-        if (cacheKey.indexOf('gate') >= 0) {
-          this.scaleMapData(levelPhysics.data, level, level.gateDataKey);
-        } else {
-          this.scaleMapData(levelPhysics.data, level, level.mapDataKey);
-        }
-      }
-    }
-  },
-
-  /**
-   * Checks the physics data in the game cache, and ensures it's a level map. (It uses the mapSuffix in the
-   * json object to tell).
-   *
-   * @method isLevelData
-   * @param cacheKey
-   * @return {boolean|*|Object|any}
-   */
-  isLevelData: function (cacheKey) {
-    return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-  },
-
-  /**
-   * Takes a phaser cache key, and returns a level, based on that key and the level's mapDataKey value.
-   * Required to know what scale should be applied to the level's physics data
-   *
-   * @method getLevelByCacheKey
-   * @param cacheKey
-   * @return {*}
-   * @todo test this
-   */
-  getLevelByCacheKey: function (cacheKey) {
-    var myLevel = _.find(properties.levels.data, function (levelData) {
-      return levelData.mapDataKey + properties.mapSuffix === cacheKey;
-    }, this);
-    if (!myLevel) {
-      myLevel = _.find(properties.levels.data, function(levelData) {
-        return levelData.gateDataKey + properties.mapSuffix === cacheKey;
-      });
-    }
-    return myLevel;
-  },
-
-  /**
-   * Take's a Phaser Physics data and scales it by level.mapScale
-   *
-   * @method scaleMapData
-   * @param physicsData
-   * @param level
-   */
-  scaleMapData: function (physicsData, level, key) {
-    _.each(physicsData[key], function (node) {
-      _.each(node.shape, function (value, n) {
-        node.shape[n] = value * level.mapScale;
-      });
-    });
   },
 
   /**
@@ -220,6 +123,7 @@ module.exports = {
    * @method loadComplete
    */
   loadComplete: function () {
+    console.log('load :: loadComplete');
     this.decodeAudio();
   },
 
@@ -241,16 +145,26 @@ module.exports = {
    * @method transitionOut
    */
   transitionOut:function() {
-    TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+    if (this.bootScreen) {
+      TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+    } else {
+      this.start();
+    }
   },
 
   /**
    * @method start
    */
   start: function () {
+    console.log('load :: start ', gameState);
     this.loadProgressTxt.destroy();
-    this.version.destroy();
-    this.bootScreen.destroy();
+    gameState.init();
+    if (this.version) {
+      this.version.destroy();
+    }
+    if (this.bootScreen) {
+      this.bootScreen.destroy();
+    }
     game.state.start('play', true, false);
   }
 };

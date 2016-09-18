@@ -1,6 +1,7 @@
 module.exports = {
   canvas: require('./canvas'),
   features: require('./features'),
+  levelsLoader: require('./levels-loader'),
   /**
    * @method distAtoB
    * @param pointA

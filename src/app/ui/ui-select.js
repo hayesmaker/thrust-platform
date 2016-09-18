@@ -40,6 +40,7 @@ function UiSelect(group, name, dataProvider) {
   this.label = this.name;
   this.dataProvider = dataProvider;
   this.optionTexts = [];
+  this.optionSelected = new Phaser.Signal();
 
 }
 
@@ -220,8 +221,9 @@ p.switch = function () {
 
 /**
  * @method switchOn
+ * @param noAnimation
  */
-p.switchOn = function () {
+p.switchOn = function (noAnimation) {
 
   this.optionLabel.visible = false;
   this.optionLabel.alpha = 0;
@@ -268,11 +270,9 @@ p.switchOn = function () {
   //this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
   //this.switchedOn.dispatch();
 
-  /*
   if (noAnimation) {
-    this.tl.progress(1, false);
+    this.openAnim.progress(1, false);
   }
-  */
 
 
 };
@@ -285,8 +285,9 @@ p.disableOptions = function() {
 
 /**
  * @method switchOff
+ * @param noAnimation
  */
-p.switchOff = function () {
+p.switchOff = function (noAnimation) {
   var scaleX = 1;
   var scaleY = 1;
   var posY = 0;
@@ -315,11 +316,10 @@ p.switchOff = function () {
   this.closeAnim.add(txtTweens);
   this.closeAnim.add([tween1, tween2]);
 
-  /*
+
   if (noAnimation) {
-    this.tl.progress(1, false);
+    this.closeAnim.progress(1, false);
   }
-  */
   this.isOn = false;
 
 };
@@ -508,14 +508,30 @@ p.highlightOption = function() {
 
 /**
  * @method selectCurrentOption
+ * @param overrideIndex
+ * @param silent
  */
-p.selectCurrentOption = function() {
+p.selectCurrentOption = function(overrideIndex, silent) {
+  if (overrideIndex) {
+    this.selectedIndex = overrideIndex;
+  }
+  if (silent) {
+    this.silent = silent;
+  }
   this.optionLabel.text = this.dataProvider[this.selectedIndex].str;
   this.optionLabel.visible = true;
   this.optionLabel.alpha = 1;
   //this.button.realignSelector(this.optionLabel.x + this.optionLabel.width + this.padding);
   this.alignToNewLabel();
-  this.selectTween();
+  if (!this.silent) {
+    this.selectTween();
+  }
+};
+
+p.onOptionSelected = function() {
+  var option = this.dataProvider[this.selectedIndex];
+  console.log('option', option);
+  this.optionSelected.dispatch(option.value);
 };
 
 /**
@@ -526,7 +542,7 @@ p.selectTween = function() {
   this.restoreUserControl.dispatch();
   this.removeActiveEvents();
 
-  this.selectAnim = new TimelineMax();
+  this.selectAnim = new TimelineMax({onComplete: this.onOptionSelected, callbackScope: this});
   var bgTween = new TweenMax(this.optionBg, 0.2, {alpha: 0, ease: Quad.easOut});
   var selectBg = new TweenMax(this.selectBoxBg, 0.2, {alpha: 0, ease: Quad.easeOut});
 
