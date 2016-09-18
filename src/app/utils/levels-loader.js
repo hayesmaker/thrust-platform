@@ -2,28 +2,64 @@ var levelManager = require('../data/level-manager');
 var properties = require('../properties');
 var _ = require('lodash');
 
-module.exports = {
 
+module.exports = {
+  /**
+   * @property levelsData
+   */
+  levelsData: {},
+
+  levelProgressTxt: null,
+
+  /**
+   * @method init
+   */
   init: function() {
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
   },
 
+  /**
+   * @method loadLevelsJson
+   * @param levelsJsonUrl
+   * @param showProgress
+   */
+  loadLevelsJson: function(levelsJsonUrl, showProgress) {
+    if (showProgress) {
+      var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
+      this.loadProgressTxt = game.add.text(0, 0, '0%', style);
+    }
+    /*
+    if (game.cache.checkKey(Phaser.Cache.IMAGE, 'combined')) {
+      console.log('textureAtlas exists :: destroying texture');
+      game.cache.removeImage('combined', true);
+    }
+    */
+    game.load.json('levels-data', levelsJsonUrl);
+  },
+
+  /**
+   * @method startLoad
+   */
   startLoad: function() {
-    this.loadAtlas();
-    this.loadLevelsPack();
+    this.loadAtlas(this.levelsData.atlas);
   },
 
+  /**
+   * @method loadAtlas
+   * @param atlas {Object} contains key, imgUrl, dataUrl
+   */
+  loadAtlas: function(atlas) {
+    console.log('loadAtlas :: this.levelsData.atlas', atlas);
+    game.load.atlas(atlas.key, atlas.imgUrl, atlas.dataUrl);
+  },
+
+  /**
+   * @method loadLevelsPack
+   */
   loadLevelsPack: function() {
-    _.each(levelManager.levels, this.loadLevel, this);
-  },
-
-  loadLevelsJson: function() {
-    game.load.json('levels-data', 'assets/levels/classic.json');
-  },
-
-  loadAtlas: function() {
-    game.load.atlas('combined', 'assets/atlas/combined.png', 'assets/atlas/combined.json');
+    console.log('levels-loader :: loadLevelsPack :', levelManager.levels);
+    _.each(levelManager.levels, _.bind(this.loadLevel, this));
   },
 
   /**
@@ -31,18 +67,30 @@ module.exports = {
    * @param levelData {Object} defines a map key and url, and the physics data key and url
    */
   loadLevel: function(levelData) {
+    this.loadLevelImg(levelData);
+    this.loadLevelPhysics(levelData);
+  },
+
+  /**
+   * @method loadLevelImage
+   * @param levelData
+   */
+  loadLevelImg: function(levelData) {
+    console.log('levels-loader :: loadLevelImg');
     if (!levelData.useAtlas) {
       game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     }
+  },
+
+  /**
+   * @method loadLevelPhysics
+   */
+  loadLevelPhysics: function(levelData) {
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
     if (levelData.gateImgKey) {
       game.load.image(levelData.gateImgKey, levelData.gateImgUrl);
       game.load.physics(levelData.gateDataKey + properties.mapSuffix, levelData.gateDataUrl);
     }
-  },
-
-  loadLevelPhysics: function() {
-
   },
 
   /**
@@ -57,8 +105,22 @@ module.exports = {
     return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
   },
 
+  /**
+   * @method isLevelsJson
+   * @param cacheKey
+   * @returns {boolean}
+   */
   isLevelsJson: function(cacheKey) {
-    return game.cache.getItem(cacheKey, Phaser.Cache.JSON);
+    return cacheKey === 'levels-data';
+  },
+
+  /**
+   * @method isLevelsAtlas
+   * @param cacheKey
+   * @returns {boolean}
+   */
+  isLevelsAtlas: function(cacheKey) {
+    return cacheKey === 'combined';
   },
 
   /**
@@ -75,21 +137,33 @@ module.exports = {
       return levelData.mapDataKey + properties.mapSuffix === cacheKey;
     }, this);
     if (!myLevel) {
-      myLevel = _.find(properties.levels.data, function(levelData) {
+      //isPhysicsGate data?
+      myLevel = _.find(levelManager.levels, function(levelData) {
         return levelData.gateDataKey + properties.mapSuffix === cacheKey;
       });
     }
     return myLevel;
   },
 
+  /**
+   * @method fileComplete
+   * @param progress
+   * @param cacheKey
+   */
   fileComplete: function(progress, cacheKey) {
-    if (cacheKey === 'levels-data') {
-      var levels = game.cache.getJSON('levels-data');
-      console.log('fileComplete: levels=', levels);
-      levelManager.init(levels);
+    console.log('levels-loader :: fileComplete cacheKey=', cacheKey);
+    if (this.levelProgressTxt) {
+      var percent = game.load.progress;
+      this.loadProgressTxt.text = percent + '%';
+    }
+    if (this.isLevelsJson(cacheKey)) {
+      this.levelsData = game.cache.getJSON('levels-data');
+      levelManager.init(this.levelsData);
       this.startLoad();
     }
-
+    if (this.isLevelsAtlas(cacheKey)) {
+      this.loadLevelsPack();
+    }
     if (this.isLevelData(cacheKey)) {
       console.log('levels-loader :: this.isLevelData loadPhysics');
       var levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
@@ -107,9 +181,11 @@ module.exports = {
     }
   },
 
+  /**
+   * @method loadComplete
+   */
   loadComplete: function() {
     this.levelsLoadComplete();
-    //this.cleanUp();
   },
 
   /**
@@ -129,13 +205,21 @@ module.exports = {
     });
   },
 
+  /**
+   * @method levelsLoadComplete
+   */
   levelsLoadComplete: function() {
     console.log('levelsJson loadComplete :: levelsData');
+    this.cleanUp();
+
   },
 
+  /**
+   * @method finalLoadComplete
+   */
   finalLoadComplete: function() {
     console.log('finalLoadComplete');
-    this.cleanUp();
+
   },
   /**
    * removing the signals here but it may not be necessary
@@ -143,6 +227,11 @@ module.exports = {
    * @method cleanUp
    */
   cleanUp: function() {
+    console.log('levels-loader :: cleanup');
+    if (this.levelProgressTxt) {
+      this.loadProgressTxt.destroy();
+      this.loadProgressTxt = null;
+    }
     game.load.onFileComplete.remove(this.fileComplete, this);
     game.load.onLoadComplete.remove(this.finalLoadComplete, this);
   }

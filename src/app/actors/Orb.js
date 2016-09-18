@@ -83,6 +83,16 @@ p.disposeSensor = function() {
   this.sensor = null;
 };
 
+p.dispose = function() {
+  this.sprite.body.removeFromWorld();
+  this.sprite.body = null;
+  this.disposeSensor();
+  this.sprite.destroy();
+  this.glowSprite.destroy();
+  this.sprite = null;
+  this.glowSprite = null;
+};
+
 
 
 p.orbHit = function() {

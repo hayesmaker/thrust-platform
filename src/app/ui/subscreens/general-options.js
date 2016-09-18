@@ -4,6 +4,7 @@ var UiButton = require('../ui-button');
 var UiSwitch = require('../ui-switch');
 var optionsModel = require('../../data/options-model');
 var UiSelect = require('../ui-select');
+var levelsLoader = require('../../utils/levels-loader');
 
 var p = GeneralOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: GeneralOptions
@@ -31,8 +32,17 @@ function GeneralOptions(group, name, layoutRect) {
   this.layoutRect = layoutRect;
 }
 
+/**
+ * @method levelsSelected
+ * @param option
+ */
 p.levelsSelected = function(option) {
   console.log('levelsSelected=', option);
+  optionsModel.setLevels(option);
+  if (optionsModel.gameModes.levels.dirty) {
+    optionsModel.gameModes.levels.current = option;
+    optionsModel.loadNewLevels.dispatch();
+  }
 };
 
 /**
@@ -42,6 +52,12 @@ p.render = function() {
   UiComponent.prototype.render.call(this);
   this.createDisplay();
   this.renderDefaults();
+};
+
+p.currentOptionIndex = function(optionsData) {
+  _.findIndex(optionsData, function(data) {
+    return data.value === optionsModel.gameModes.levels.current;
+  });
 };
 
 /**
@@ -63,7 +79,7 @@ p.createDisplay = function() {
   trainingLabel.x = this.layoutRect.width * 0.6;
   trainingLabel.y = this.marginTop;
 
-  this.uiSelect = new UiSelect(this.group, "Game Modes:", optionsData);
+  this.uiSelect = new UiSelect(this.group, "Levels:", optionsData);
   this.uiSelect.optionSelected.add(this.levelsSelected, this);
   this.uiSelect.group.x = this.layoutRect.width * 0.12;
   this.uiSelect.group.y = this.marginTop;

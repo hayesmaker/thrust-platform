@@ -2,9 +2,9 @@
 
 var _ = require('lodash');
 var properties = require('../properties');
-var levelManager = require('../data/level-manager');
 var levelsLoader = require('../utils/levels-loader');
 var gameState = require('../data/game-state');
+var optionsModel = require('../data/options-model');
 /**
  * The load state 
  * - Loads in game assets
@@ -17,12 +17,6 @@ var gameState = require('../data/game-state');
  * @type {Object}
  */
 module.exports = {
-
-  /**
-   * @property loadProgressTxt
-   */
-  loadProgressTxt: null,
-
   /**
    * Init state with boot screen for removal
    *
@@ -31,6 +25,7 @@ module.exports = {
    * @param versionTxt {Phaser.Text}
    */
   init: function(bootScreen, versionTxt) {
+    console.log('load state :: init', bootScreen, versionTxt);
     levelsLoader.init();
     this.version = versionTxt;
     this.bootScreen = bootScreen;
@@ -57,35 +52,20 @@ module.exports = {
     this.loadProgressTxt = game.add.text(0, 0, '0%', style);
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
-    levelsLoader.loadLevelsJson();
+    levelsLoader.loadLevelsJson(optionsModel.getLevelsJsonUrl());
     game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
+    game.load.image('level-4-layout', 'assets/images/level-4-layout.png');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
     this.preloadTrainingMap(properties.levels.training);
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
-
-    /*
-    if (game.device.pixelRatio > 1) {
-      this.loadHiResAssets();
-    } else {
-      this.loadLowResAssets();
-    }
-    */
     this.loadSfx();
     this.loadMusic();
-  },
-
-  loadHiResAssets: function() {
-    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
-  },
-
-  loadLowResAssets: function() {
-    game.load.atlas('actors-atlas', 'assets/actors/atlas/actors.png', 'assets/actors/atlas/actors.json');
   },
 
   /**
@@ -132,8 +112,11 @@ module.exports = {
    * @param cacheKey
    */
   fileComplete: function (progress, cacheKey) {
+    console.log('load :: fileComplete', cacheKey);
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
+    //var percent = game.load.progress;
+    //this.loadProgressTxt.text = percent + '%';
   },
 
   /**
@@ -165,7 +148,11 @@ module.exports = {
    * @method transitionOut
    */
   transitionOut:function() {
-    TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+    if (this.bootScreen) {
+      TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+    } else {
+      this.start();
+    }
   },
 
   /**
@@ -173,10 +160,14 @@ module.exports = {
    */
   start: function () {
     console.log('load :: start ', gameState);
-    gameState.init();
     this.loadProgressTxt.destroy();
-    this.version.destroy();
-    this.bootScreen.destroy();
+    gameState.init();
+    if (this.version) {
+      this.version.destroy();
+    }
+    if (this.bootScreen) {
+      this.bootScreen.destroy();
+    }
     game.state.start('play', true, false);
   }
 };

@@ -75,6 +75,7 @@ module.exports = {
     this.initOptionsModel();
     this.initFullScreenHandling();
     this.initFps();
+    console.log('play :: create : this.level=', this.level);
     this.level = levelManager.currentLevel;
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
@@ -91,6 +92,7 @@ module.exports = {
     options.fxParticlesOff.add(this.fxParticlesOff, this);
     options.fxBackgroundOn.add(this.fxBackgroundOn, this);
     options.fxBackgroundOff.add(this.fxBackgroundOff, this);
+    options.loadNewLevels.add(this.loadNewLevelPack, this);
   },
 
   fxParticlesOff: function() {
@@ -318,6 +320,14 @@ module.exports = {
   },
 
   /**
+   * @method loadNewLevelPack
+   */
+  loadNewLevelPack: function() {
+    this.clearPlayWorld();
+    game.state.start('load', true, true);
+  },
+
+  /**
    * Moves level data to the next level, and restarts
    * the game state
    *
@@ -327,15 +337,31 @@ module.exports = {
     ui.countdown.clear();
     ui.destroy();
     options.dispose();
+    this.clearPlayWorld();
+    gameState.nextLevel();
+    game.state.restart();
+  },
+
+  /**
+   * @method clearPlayWorld
+   */
+  clearPlayWorld: function() {
     this.limpetGuns = [];
     this.fuels = [];
+    if (this.orb) {
+      this.orb.dispose();
+      this.orb = null;
+    }
+    if (this.tractorBeam) {
+      this.tractorBeam.dispose();
+      this.tractorBeam = null;
+      this.player.tractorBeam = null;
+    }
     this.groups.background.removeAll(true);
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
-    gameState.nextLevel();
-    game.state.restart();
   },
 
   /**
@@ -446,7 +472,9 @@ module.exports = {
         this.player.inGameArea = false;
         this.inPlay = false;
         this.player.stop();
-        this.orb.stop();
+        if (this.orb) {
+          this.orb.stop();
+        }
         ui.countdown.stop();
         sound.playSound('teleport-in3');
         this.player.levelExit();
@@ -529,8 +557,12 @@ module.exports = {
    */
   actorsUpdate: function () {
     this.player.update();
-    this.tractorBeam.update();
-    this.powerStation.update();
+    if (this.tractorBeam) {
+      this.tractorBeam.update();
+    }
+    if (this.powerStation) {
+      this.powerStation.update();
+    }
     this.checkForFuelDistance();
     this.groups.enemies.forEachAlive(function (enemy) {
       enemy.setPower(this.powerStation.health);
@@ -590,29 +622,54 @@ module.exports = {
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
-    this.orb = new Orb(this.groups, this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
-    this.orb.setPlayer(this.player);
-    this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
-    this.player.setTractorBeam(this.tractorBeam);
-    this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'combined', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
+    if (this.level.orbPosition) {
+      this.orb = new Orb(this.groups, this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
+      this.orb.setPlayer(this.player);
+      this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
+      this.player.setTractorBeam(this.tractorBeam);
+      this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'combined', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
+    }
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
-      this.powerStation = new PowerStation(this.collisions, this.groups, 'combined', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
-      this.powerStation.initPhysics('powerStationPhysics', 'power-station');
-      this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
-      this.powerStation.body.setCollisionGroup(this.collisions.terrain);
-      this.powerStation.initCollisions();
-      this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
-      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+      if (this.level.powerStation) {
+        this.powerStation = new PowerStation(this.collisions, this.groups, 'combined', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
+        this.powerStation.initPhysics('powerStationPhysics', 'power-station');
+        this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
+        this.powerStation.body.setCollisionGroup(this.collisions.terrain);
+        this.powerStation.initCollisions();
+      }
+      this.createMainPhysics();
     } else {
-      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
       this.createTrainingDrones();
+      this.createTrainingPhysics();
     }
     this.cameraPos.x = this.player.x;
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;
     game.e2e.enemies = this.limpetGuns;
+  },
+
+  /**
+   * @method createMainPhysics
+   */
+  createMainPhysics: function() {
+    console.log('createMainPhysics', this.orb);
+    if (this.orb) {
+      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+      if (this.powerStation) {
+        this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
+      }
+    }
+  },
+
+  /**
+   * @method createTrainingPhysics
+   */
+  createTrainingPhysics: function() {
+    if (this.orb) {
+      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+    }
   },
 
   createLevelMap: function () {

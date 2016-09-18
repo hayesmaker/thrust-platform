@@ -167,6 +167,11 @@ p.breakLink = function () {
   game.physics.p2.removeConstraint(this.constraint);
 };
 
+p.dispose = function() {
+  this.clearPhysics();
+  this.graphics.destroy();
+};
+
 /**
  *
  */

@@ -50,6 +50,12 @@ p.init = function() {
   this.spriteBatch = game.add.spriteBatch(this.group, 'level-map');
   this.physicsSprite = new Phaser.Sprite(game, 0, 0, null, null);
   game.world.add(this.physicsSprite);
+
+  //debug positions
+  //this.layoutSprite = game.add.sprite(0, 0, 'level-4-layout', null, this.group);
+  //this.layoutSprite.alpha = 0.3;
+
+
   this.group.x = this.x;
   this.group.y = this.y;
   if (this.isAtlas) {

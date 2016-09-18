@@ -1,4 +1,9 @@
 {
+  "atlas": {
+    "key": "combined",
+    "imgUrl": "assets/atlas/combined.png",
+    "dataUrl": "assets/atlas/combined.json"
+  },
   "data": [
     {
       "useAtlas": true,
