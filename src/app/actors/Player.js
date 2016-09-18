@@ -525,9 +525,10 @@ p.rotate = function (val) {
  */
 p.explosion = function (force) {
   if (this.alive || force === true) {
+    var hasOrb = false;
     this.stopThrustFx();
     if (this.tractorBeam) {
-      var hasOrb = this.tractorBeam.isLocked;
+     hasOrb = this.tractorBeam.isLocked;
     }
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;

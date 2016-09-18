@@ -18,14 +18,16 @@ module.exports = {
   },
 
   getLevelsJsonUrl: function() {
+    var jsonUrl;
     switch(this.gameModes.levels.selected) {
       case 'classic' :
-        return 'assets/levels/classic.json';
+        jsonUrl = 'assets/levels/classic.json';
         break;
       case '2016' :
-        return 'assets/levels/2016.json';
+        jsonUrl = 'assets/levels/2016.json';
         break;
     }
+    return jsonUrl;
   },
 
   gameModes: {

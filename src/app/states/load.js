@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var properties = require('../properties');
 var levelsLoader = require('../utils/levels-loader');
 var gameState = require('../data/game-state');
@@ -115,8 +114,6 @@ module.exports = {
     console.log('load :: fileComplete', cacheKey);
     var percent = game.load.progress;
     this.loadProgressTxt.text = percent + '%';
-    //var percent = game.load.progress;
-    //this.loadProgressTxt.text = percent + '%';
   },
 
   /**
