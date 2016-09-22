@@ -106,13 +106,12 @@ p.drawBeam = function () {
  *
  */
 p.clearPhysics = function() {
+  console.log('TractorBeam :: clearPhysics');
   this.timer.stop();
   game.time.events.remove(this.timer);
-  /*
   if (this.orb.body) {
     this.orb.disposeSensor();
   }
-  */
 };
 
 /**
@@ -170,7 +169,8 @@ p.breakLink = function () {
 };
 
 p.dispose = function() {
-  this.clearPhysics();
+  console.log('TractorBeam :: dispose (graphics destroyed)');
+  //this.clearPhysics();
   this.graphics.destroy();
 };
 
@@ -178,13 +178,21 @@ p.dispose = function() {
  *
  */
 p.respawn = function(withShip) {
+  console.log('TractorBeam :: respawn', withShip);
   this.orb.respawn(withShip);
   this.initSignals();
 };
 
+/**
+ * //todo are these being added too often?
+ * @method initSignals
+ */
 p.initSignals = function() {
-  this.orb.sensor.body.onBeginContact.add(this.contactStart, this);
-  this.orb.sensor.body.onEndContact.add(this.contactLost, this);
+  console.log('TractorBeam:: initSignals', this.orb.sensor.body.onBeginContact.getNumListeners());
+  if (!this.orb.sensor.body.onBeginContact.getNumListeners()) {
+    this.orb.sensor.body.onBeginContact.add(this.contactStart, this);
+    this.orb.sensor.body.onEndContact.add(this.contactLost, this);
+  }
 };
 
 

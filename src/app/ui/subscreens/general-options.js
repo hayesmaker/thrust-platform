@@ -137,6 +137,11 @@ p.renderDefaults = function() {
     }
   }
   */
+  var speedRunSwitch = this.getComponentByName('Speed Run');
+  if (optionsModel.gameModes.speedRun.enabled) {
+    speedRunSwitch.switch(true);
+  }
+
 };
 
 /**
