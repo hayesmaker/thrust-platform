@@ -1,6 +1,5 @@
 var UiComponent = require('./ui-component');
 var gameState = require('../data/game-state');
-var optionsModel = require('../data/options-model');
 
 var p = UiLevelsComplete.prototype = Object.create(UiComponent.prototype, {
   constructor: UiLevelsComplete
