@@ -106,7 +106,7 @@ p.drawBeam = function () {
  *
  */
 p.clearPhysics = function() {
-  console.log('TractorBeam :: clearPhysics');
+  console.log('TractorBeam :: clear orb sensor Physics, and remove timers');
   this.timer.stop();
   game.time.events.remove(this.timer);
   if (this.orb.body) {
@@ -142,8 +142,10 @@ p.lockingRelease = function () {
 };
 
 /**
+ * Attach the orb to the player
+ *
+ *
  * @method grab
- * @param player
  */
 p.grab = function () {
   var player = this.player;
@@ -170,7 +172,7 @@ p.breakLink = function () {
 
 p.dispose = function() {
   console.log('TractorBeam :: dispose (graphics destroyed)');
-  //this.clearPhysics();
+  //this.clearPhysics(); - causes bug on connection
   this.graphics.destroy();
 };
 
@@ -185,6 +187,8 @@ p.respawn = function(withShip) {
 
 /**
  * //todo are these being added too often?
+ * the getNumListeners check should prevent re-adding listeners already added,
+ * we could clean this up so initSignals isn't called in that case
  * @method initSignals
  */
 p.initSignals = function() {

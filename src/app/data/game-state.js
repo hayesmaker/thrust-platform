@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var levelManager = require('./level-manager');
 var utils = require('../utils');
+var options = require('./options-model');
 
 /**
  * keeps a record of current game state data
@@ -132,6 +133,13 @@ module.exports = {
   shouldEnterHighScore: false,
 
   /**
+   * @property shouldUpdateBestTime
+   * @type {boolean}
+   * @default false
+   */
+  shouldUpdateBestTime: false,
+
+  /**
    * Set when a timed run has completed
    * (only in training mode currently)
    *
@@ -206,17 +214,51 @@ module.exports = {
     this.gameScale = game.width / 1024;
     this.currentState = this.PLAY_STATES.MENU;
     this.highscoreStorage();
+    this.getBestTimeStorage();
     this.newPlayer();
     this.newGame();
     this.levelsCompleted = new Phaser.Signal();
   },
 
+  /**
+   * @method setBestTimeStorage
+   */
+  setBestTimeStorage: function() {
+    this.bestTimeMs = this.counter;
+    this.bestTimeStr = this.stopwatchCacheTxt;
+    if (utils.features.isLocalStorageAvailable) {
+      window.localStorage.setItem('bestTime', JSON.stringify({
+        bestTimeMs: this.bestTimeMs,
+        bestTimeStr: this.stopwatchCacheTxt
+      }));
+    }
+  },
+
+  /**
+   * @method getBestTimeStorage
+   */
+  getBestTimeStorage: function() {
+    if (utils.features.isLocalStorageAvailable) {
+      if (window.localStorage.getItem('bestTime')) {
+        var bestTimesData = JSON.parse(window.localStorage.getItem('bestTime'));
+        this.bestTimeMs = bestTimesData.bestTimeMs;
+        this.bestTimeStr = bestTimesData.bestTimeStr;
+      }
+    }
+  },
+
+  /**
+   * @method setHighscoresStorage
+   */
   setHighscoresStorage: function() {
     if (utils.features.isLocalStorageAvailable) {
       window.localStorage.setItem('highscores', JSON.stringify(this.highScoreTable));
     }
   },
 
+  /**
+   * @method highscoresStorage
+   */
   highscoreStorage: function() {
     if (utils.features.isLocalStorageAvailable) {
       if (window.localStorage.getItem('highscores')) {
@@ -270,6 +312,15 @@ module.exports = {
   },
 
   /**
+   * @method doBestTimeCheck
+   */
+  doBestTimeCheck: function() {
+    if (options.gameModes.speedRun.enabled) {
+      this.shouldUpdateBestTime = this.isBestTime();
+    }
+  },
+
+  /**
    * @method nextLevel
    */
   nextLevel: function () {
@@ -290,7 +341,21 @@ module.exports = {
 
   counter: 0,
 
+  bestTimeMs: 0,
+
   stopwatchCacheTxt: "",
+
+  /**
+   * @method isBestTime
+   * @returns {boolean}
+   */
+  isBestTime: function() {
+    if (this.counter > this.bestTimeMs) {
+      this.setBestTimeStorage();
+      return true;
+    }
+    return false;
+  },
 
   cacheTime: function(ms, text){
     this.counter = ms;

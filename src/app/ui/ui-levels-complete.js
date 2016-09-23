@@ -1,5 +1,6 @@
 var UiComponent = require('./ui-component');
 var gameState = require('../data/game-state');
+var optionsModel = require('../data/options-model');
 
 var p = UiLevelsComplete.prototype = Object.create(UiComponent.prototype, {
   constructor: UiLevelsComplete
@@ -153,5 +154,6 @@ p.update = function() {
 p.spacePressed = function () {
   //todo add logging to debug high scores after game complete
   gameState.doHighScoreCheck(true);
+  gameState.doBestTimeCheck();
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.HIGH_SCORES);
 };
