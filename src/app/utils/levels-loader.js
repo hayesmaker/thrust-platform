@@ -29,12 +29,6 @@ module.exports = {
       var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
       this.loadProgressTxt = game.add.text(0, 0, '0%', style);
     }
-    /*
-    if (game.cache.checkKey(Phaser.Cache.IMAGE, 'combined')) {
-      console.log('textureAtlas exists :: destroying texture');
-      game.cache.removeImage('combined', true);
-    }
-    */
     game.load.json('levels-data', levelsJsonUrl);
   },
 

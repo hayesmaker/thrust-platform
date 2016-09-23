@@ -64,6 +64,7 @@ p.pause = function () {
  *
  */
 p.stop = function () {
+  console.log('Stopwatch :: stop');
   this.timer.pause();
   if (options.gameModes.speedRun.enabled) {
     gameState.cacheTime(this.counter, this.getText());

@@ -63,14 +63,12 @@ p.render = function () {
 
 p.initFullLayout = function () {
   this.fullLayout = true;
-  this.lineHeight = 4;
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
 };
 
 p.initSmallLayout = function () {
   this.padding = game.width * 0.1;
-  this.lineHeight = 3;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
     title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
@@ -79,25 +77,7 @@ p.initSmallLayout = function () {
   };
 };
 
-p.drawLines = function () {
-  var linePadding = this.layoutRect.height * 0.02;
-  var y = this.layoutRect.y;
-  var line = game.add.graphics(this.layoutRect.x, y, this.group);
-  var xTo = this.layoutRect.width;
-  line.lineStyle(this.lineHeight, 0xffffff, 0.5);
 
-  line.moveTo(0, 0);
-
-  line.lineTo(xTo, 0);
-
-  line.moveTo(0, y + linePadding);
-
-  line.lineTo(xTo, y + linePadding);
-
-  line.moveTo(0, this.maxY);
-
-  line.lineTo(xTo, this.maxY);
-};
 
 p.initSignals = function () {
 
@@ -110,6 +90,7 @@ p.createDisplay = function () {
   rect.endFill();
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
+  this.drawBestTime();
   //this.drawLines();
   this.createSubtitles();
 };
@@ -139,6 +120,8 @@ p.addHighScore = function (highscore, index) {
     name: nameTf,
     score: scoreTf
   });
+  this.paddingLeft = numberTf.x;
+  this.lineHeight = nameTf.height + 5;
   this.maxY = y;
 };
 
@@ -170,9 +153,18 @@ p.drawPressFire = function () {
   this.subTitle3.visible = true;
 };
 
+p.drawBestTime = function() {
+  var style = this.styles.subtitle;
+  this.bestTimeLabel = game.add.text(this.paddingLeft, this.maxY + this.lineHeight * 2, "Fastest Run: ", style, this.group);
+  this.bestTimeValue = game.add.text(this.bestTimeLabel.x + this.bestTimeLabel.width, this.bestTimeLabel.y, "-- : -- : --", style, this.group);
+  if (gameState.bestTimeMs > 0) {
+    this.bestTimeValue.text = gameState.bestTimeStr;
+  }
+};
+
 p.createSubtitles = function () {
   var style = this.styles.subtitle;
-  this.subTitle1 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.layoutRect.y + this.layoutRect.height * 0.75, "", style, this.group);
+  this.subTitle1 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.layoutRect.y + this.layoutRect.height * 0.8, "", style, this.group);
   this.subTitle1.anchor.setTo(0.5);
   this.subTitle2 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
   this.subTitle2.anchor.setTo(0.5);
@@ -199,8 +191,15 @@ p.gameOverSubTitle = function () {
   if (gameState.gameComplete) {
     this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
   }
-
 };
+
+/*
+p.bestTimeCheck = function() {
+  if (gameState.shouldUpdateBestTime) {
+    this.bestTimeValue.text = gameState.stopwatchCacheTxt;
+  }
+};
+*/
 
 p.checkTouchInput = function () {
   if (!this.highScoreInputEnabled) {

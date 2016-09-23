@@ -153,5 +153,6 @@ p.update = function() {
 p.spacePressed = function () {
   //todo add logging to debug high scores after game complete
   gameState.doHighScoreCheck(true);
+  gameState.doBestTimeCheck();
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.HIGH_SCORES);
 };

@@ -77,6 +77,8 @@ p.initSensorPhysics = function () {
 };
 
 p.disposeSensor = function() {
+  this.sensor.body.onBeginContact.removeAll();
+  this.sensor.body.onEndContact.removeAll();
   this.sensor.body.removeFromWorld();
   this.sensor.body.destroy();
   this.sensor.destroy();
@@ -85,9 +87,11 @@ p.disposeSensor = function() {
 
 p.dispose = function() {
   this.sprite.body.removeFromWorld();
-  this.sprite.body = null;
-  this.disposeSensor();
   this.sprite.destroy();
+  this.sprite.body = null;
+  if (this.sensor) {
+    this.disposeSensor();
+  }
   this.glowSprite.destroy();
   this.sprite = null;
   this.glowSprite = null;

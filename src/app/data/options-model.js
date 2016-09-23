@@ -33,8 +33,8 @@ module.exports = {
   gameModes: {
     levels: {
       dirty: false,
-      current: '2016',
-      selected: '2016'
+      current: 'classic',
+      selected: 'classic'
     },
     speedRun: {
       unlocked: true,
