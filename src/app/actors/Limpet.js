@@ -6,9 +6,17 @@ var gameState = require('../data/game-state');
 var particles = require('../environment/particles/manager');
 var SpreadFiring = require('./strategies/SpreadFiring');
 var sound = require('../utils/sound');
+var levelManager = require('../data/level-manager');
 
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
+ *
+ * 100 0.01      1/(1000-100) 0.00111
+ * 100 0.01      1/(1000-100) 0.00111
+ * 150 0.0067    1/(1000-150) 0.00117
+ * 200 0.005     1(1000-200) 0.00125
+ * 225 0.004     1(1000-225) 0.00129
+ * 250 0.004     1(1000-250) 0.00133
  *
  * @class Limpet
  * @param {Collisions} collisions - Our collisions groups.
@@ -22,9 +30,9 @@ var sound = require('../utils/sound');
 function Limpet (collisions, groups, x, y, angleDeg) {
 
   PhysicsActor.call(this, collisions, groups, 'combined', 'turret_001.png', x, y);
-  this.angle = angleDeg;
-  this.fireRate = 1 / 200;
   this.alive = false;
+  this.angle = angleDeg;
+  this.fireRate = this.getFireRate();
   this.turret = this.createTurret();
 
   if (game.device.pixelRatio > 1) {
@@ -35,7 +43,7 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   this.data = game.cache.getFrameData('combined');
   this.frames = this.data.getFrames();
   var normalFrames = _.filter(this.frames, function(frame) {
-    return frame.name.indexOf('turret_') >= 0;
+    return frame.name.indexOf('turret_  ') >= 0;
   });
 
   var damagedFrames = _.filter(this.frames, function(frame) {
@@ -84,32 +92,31 @@ p.setPower = function(powerStationHealth) {
   this.hasPower = powerStationHealth >= gameState.POWER_STATION_HEALTH;
 };
 
+p.getFireRate = function() {
+  return 1 / (500 - levelManager.currentLevel.enemyFireRate);
+};
+
 /**
  * @method update
  */
 p.update = function () {
-  if (!this.alive) {
-    return;
-  }
-  if (!this.hasPower) {
-    if (this.isPlayingNormal) {
-      this.isPlayingNormal = false;
-      this.play('damaged');
-    }
-    //this.alpha = 0.6;
-  } else {
-    if (!this.isPlayingNormal) {
-      this.isPlayingNormal = true;
-      this.play('normal');
-    }
-    //this.alpha = 1;
-    /*
-     todo investigate
-     todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
-     */
-    if (Math.random() < this.fireRate) {
-      this.turret.fire();
-      sound.playSound('zap2');
+  if (this.alive) {
+    if (!this.hasPower) {
+      if (this.isPlayingNormal) {
+        this.isPlayingNormal = false;
+        this.play('damaged');
+      }
+    } else {
+      if (!this.isPlayingNormal) {
+        this.isPlayingNormal = true;
+        this.play('normal');
+      }
+      //todo investigate
+      //todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
+      if (Math.random() < this.fireRate) {
+        this.turret.fire();
+        sound.playSound('zap2');
+      }
     }
   }
 };

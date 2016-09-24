@@ -6,7 +6,7 @@
   },
   "endless": [
     {
-      "rate": 1,
+      "rate": 1.1,
       "blink": false,
       "flip": false
     }, {
@@ -14,17 +14,18 @@
       "blink": false,
       "flip": true
     }, {
-      "rate": 1.2,
+      "rate": 1.1,
       "blink": true,
       "flip": false
     }, {
-      "rate": 1.3,
+      "rate": 1.1,
       "blink": true,
       "flip": true
     }
   ],
   "data": [
     {
+      "enemyFireRate": 100,
       "useAtlas": true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -78,13 +79,13 @@
           "y": 816
         }
       ],
-      "enemyFireRate": 400,
       "powerStation": {
         "x": 1100,
         "y": 800
       }
     },
     {
+      "enemyFireRate": 100,
       "useAtlas": true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -132,10 +133,10 @@
           "x": 820,
           "y": 1735
         }
-      ],
-      "enemyFireRate": 500
+      ]
     },
     {
+      "enemyFireRate": 150,
       "useAtlas": true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -225,10 +226,10 @@
           "x": 745,
           "y": 2041
         }
-      ],
-      "enemyFireRate": 600
+      ]
     },
     {
+      "enemyFireRate": 200,
       "useAtlas": true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -318,10 +319,10 @@
           "y": 2238,
           "rotation": 152
         }
-      ],
-      "enemyFireRate": 700
+      ]
     },
     {
+      "enemyFireRate": 225,
       "useAtlas":true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -457,10 +458,10 @@
           "x": 1270,
           "y": 1977
         }
-      ],
-      "enemyFireRate": 800
+      ]
     },
     {
+      "enemyFireRate": 250,
       "useAtlas": true,
       "missionSwipe": {
         "title": "Mission %n",
@@ -581,8 +582,7 @@
           "y": 2219,
           "rotation": 332
         }
-      ],
-      "enemyFireRate": 1200
+      ]
     }
   ]
 
