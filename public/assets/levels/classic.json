@@ -4,12 +4,31 @@
     "imgUrl": "assets/atlas/combined.png",
     "dataUrl": "assets/atlas/combined.json"
   },
+  "endless": [
+    {
+      "rate": 1,
+      "blink": false,
+      "flip": false
+    }, {
+      "rate": 1.1,
+      "blink": false,
+      "flip": true
+    }, {
+      "rate": 1.2,
+      "blink": true,
+      "flip": false
+    }, {
+      "rate": 1.3,
+      "blink": true,
+      "flip": true
+    }
+  ],
   "data": [
     {
       "useAtlas": true,
       "missionSwipe": {
-        "title": "Mission 1",
-        "desc": "Recover the orb",
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
         "color": "rgba(255, 0, 0, 0.7)"
       },
       "atlasData": {
@@ -27,16 +46,21 @@
         "x": 0,
         "y": 730
       },
-      "spawns": [{
-        "x": 500,
-        "y": 500,
-        "orb": false
-      }],
+      "spawns": [
+        {
+          "x": 500,
+          "y": 500,
+          "orb": false
+        }
+      ],
       "startPosition": {
         "x": 0,
         "y": -50
       },
-      "orbPosition": {"x": 915, "y": 852},
+      "orbPosition": {
+        "x": 915,
+        "y": 852
+      },
       "orbHolder": {
         "x": 915,
         "y": 890
@@ -61,5 +85,4 @@
       }
     }
   ]
-
 }

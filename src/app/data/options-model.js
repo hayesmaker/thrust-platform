@@ -42,7 +42,7 @@ module.exports = {
     },
     endlessMode: {
       unlocked: true,
-      enabled: false
+      enabled: true
     }
   },
   sound: {

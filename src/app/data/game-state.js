@@ -329,8 +329,8 @@ module.exports = {
       return;
     }
     if (this.bonuses.orbRecovered && !this.isGameOver) {
-      if (levelManager.levels.length - 1 === levelManager.levelIndex) {
-        //this.newGame();
+      if (levelManager.levels.length - 1 === levelManager.levelIndex &&
+        !options.gameModes.endlessMode.enabled) {
         this.levelsCompleted.dispatch();
       } else {
         this.levelStart();

@@ -1,10 +1,8 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
-var UiButton = require('../ui-button');
 var UiSwitch = require('../ui-switch');
 var optionsModel = require('../../data/options-model');
 var UiSelect = require('../ui-select');
-var levelsLoader = require('../../utils/levels-loader');
 
 var p = GeneralOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: GeneralOptions
@@ -19,7 +17,6 @@ module.exports = GeneralOptions;
 p.group = null;
 
 /**
- *
  *
  * @class GeneralOptions
  * @param group
@@ -108,40 +105,20 @@ p.createDisplay = function() {
   switch3.switchedOn.add(this.endlessOn, this);
   switch3.switchedOff.add(this.endlessOff, this);
   this.components.push(switch3);
-
-
-
-
-
-  /*
-  if (optionsModel.gameModes.speedRun.unlocked) {
-
-  }
-  var resetButton = new UiButton(this.group, "Reset High Scores");
-  resetButton.group.x = 200;
-  resetButton.group.y = 300;
-  resetButton.render();
-  resetButton.onItemSelected.add(this.resetHighScores, this);
-  this.components.push(resetButton);
-  */
 };
 
 /**
  * @method renderDefaults
  */
 p.renderDefaults = function() {
-  /*
-  if (optionsModel.gameModes.speedRun.unlocked) {
-    if (optionsModel.gameModes.speedRun.enabled) {
-      this.components[0].switch(true);
-    }
+  var endlessSwitch = this.getComponentByName("Endless");
+  if (optionsModel.gameModes.endlessMode.enabled) {
+    endlessSwitch.switch(true);
   }
-  */
   var speedRunSwitch = this.getComponentByName('Speed Run');
   if (optionsModel.gameModes.speedRun.enabled) {
     speedRunSwitch.switch(true);
   }
-
 };
 
 /**
@@ -164,14 +141,15 @@ p.speedRunOff = function() {
  */
 p.endlessOn = function() {
   console.info('endlessOn', optionsModel);
+  optionsModel.gameModes.endlessMode.enabled = true;
 };
 
 /**
  * @method speedRunOff
  */
 p.endlessOff = function() {
-
   console.info('endlessOff', optionsModel);
+  optionsModel.gameModes.endlessMode.enabled = false;
 };
 
 /**
