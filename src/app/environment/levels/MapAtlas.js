@@ -24,9 +24,16 @@ function MapAtlas(parentGroup, levelData, key, isAtlas) {
   this.group = game.add.group(parentGroup);
   this.parent = parentGroup;
   this.levelData = levelData;
+  this.counter = 0;
 }
 
 var p = MapAtlas.prototype;
+
+/**
+ * @property counter
+ * @type {number}
+ */
+p.counter = 0;
 
 /**
  * An empty sprite is created and used to attach the physics body
@@ -133,6 +140,27 @@ p.initPhysics = function(collisions) {
     this.gateSprite.body.loadPolygon(this.gateCacheKey(), this.levelData.gateDataKey);
     this.gateSprite.body.setCollisionGroup(collisions.terrain);
     collisions.set(this.gateSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);
+  }
+};
+
+/**
+ * Required to be called if map blinking mode is on
+ *
+ * @method update
+ */
+p.update = function() {
+  if (this.counter++ % 120 === 0) {
+    this.blink();
+  }
+};
+
+/**
+ * @method blink
+ */
+p.blink = function() {
+  this.spriteBatch.visible = !this.spriteBatch.visible;
+  if (this.gateSprite) {
+    this.gateSprite.visible = this.spriteBatch.visible;
   }
 };
 

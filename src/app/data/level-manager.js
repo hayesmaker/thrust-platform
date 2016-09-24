@@ -81,6 +81,7 @@ module.exports = {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
+    this.updateEndlessData();
   },
 
   /**
@@ -117,6 +118,10 @@ module.exports = {
       this.endlessModeIndex++;
     }
     console.log('checkEndlessCycle index:', this.endlessCycle);
+    this.updateEndlessData();
+  },
+
+  updateEndlessData: function() {
     var endlessObj = this.endless[this.endlessModeIndex];
     this.endlessData.flip = endlessObj.flip;
     this.endlessData.rate = endlessObj.rate;

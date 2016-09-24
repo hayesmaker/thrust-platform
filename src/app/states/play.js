@@ -573,6 +573,9 @@ module.exports = {
     if (this.background && this.background.enabled) {
       this.background.update();
     }
+    if (this.map && levelManager.endlessData.blink) {
+      this.map.update();
+    }
   },
 
   /**
