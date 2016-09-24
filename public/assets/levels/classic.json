@@ -7,8 +7,8 @@
   "endless": [
     {
       "rate": 1,
-      "blink": true,
-      "flip": true
+      "blink": false,
+      "flip": false
     }, {
       "rate": 1.1,
       "blink": false,
