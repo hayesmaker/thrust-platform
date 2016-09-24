@@ -140,6 +140,8 @@ module.exports = {
   newGame: function() {
     this.levelIndex = properties.levels.startLevel - 1;
     this.currentLevel = this.levels[this.levelIndex];
+    this.endlessModeIndex = 0;
+    this.endlessCycle = 0;
   },
 
   /**
