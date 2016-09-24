@@ -38,11 +38,11 @@ module.exports = {
     },
     speedRun: {
       unlocked: true,
-      enabled: true
+      enabled: false
     },
     endlessMode: {
       unlocked: true,
-      enabled: true
+      enabled: false
     }
   },
   sound: {
