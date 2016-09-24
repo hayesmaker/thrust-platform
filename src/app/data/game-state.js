@@ -281,8 +281,9 @@ module.exports = {
    * @method newPlayer
    */
   newPlayer: function() {
+    this.numExtraLives = 0;
     this.score = 0;
-    this.fuel = 9000;
+    this.fuel = 8000;
     this.lives = 5;
   },
 
@@ -389,6 +390,32 @@ module.exports = {
     planetBuster: false,
     orbRecovered: false
   },
+
+  setScore: function(value) {
+    this.score = value;
+    this.check1Up();
+  },
+
+  addScore: function(value) {
+    this.score += value;
+    this.check1Up();
+  },
+
+  /**
+   * @method check1Up
+   */
+  check1Up: function() {
+    if (this.score / (10000 * (this.numExtraLives + 1)) >= 1) {
+      console.log('1 UP!', this.score / (10000 * (this.numExtraLives + 1)));
+      this.lives += 1;
+      this.numExtraLives++;
+    }
+  },
+
+  /**
+   *
+   */
+  numExtraLives: 0,
 
   /**
    * @property score

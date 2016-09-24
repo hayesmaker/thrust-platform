@@ -267,7 +267,9 @@ p.transitionEnter = function() {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
        if (field.score > 0 && !gameState.trainingMode) {
          var newScore = gameState.score + field.score;
-         this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score"}));
+         this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score", onComplete: function() {
+           gameState.setScore(newScore);
+         }}));
        }
      }
    }.bind(this));

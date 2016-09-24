@@ -164,7 +164,7 @@ p.contactStart = function () {
 p.explode = function () {
   sound.playSound('boom1');
   particles.fuelExplode(this.x, this.y + this.height / 2);
-  gameState.score += gameState.SCORES.FUEL;
+  gameState.addScore(gameState.SCORES.FUEL);
   this.cleanup();
 };
 
@@ -223,7 +223,7 @@ p.setPhysicsShape = function () {
  */
 p.kill = function () {
   this.alive = false;
-  gameState.score += gameState.SCORES.FUEL;
+  gameState.addScore(gameState.SCORES.FUEL);
   TweenLite.to(this, 0.3, {
     alpha: 0,
     ease: Quad.easeOut,

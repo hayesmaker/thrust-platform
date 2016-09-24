@@ -144,7 +144,7 @@ p.explode = function () {
   this.kill();
   this.body.removeFromWorld();
   this.body.destroy();
-  gameState.score+=gameState.SCORES.LIMPET;
+  gameState.addScore(gameState.SCORES.LIMPET);
   sound.playSound('boom3');
 };
 
