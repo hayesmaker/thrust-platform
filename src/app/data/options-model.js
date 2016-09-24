@@ -38,7 +38,7 @@ module.exports = {
     },
     speedRun: {
       unlocked: true,
-      enabled: true
+      enabled: false
     },
     endlessMode: {
       unlocked: true,

@@ -2,11 +2,25 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.7...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.9...HEAD)
+
+**Merged pull requests:**
+
+- Feature/new game modes [\#42](https://github.com/hayesmaker/thrust-platform/pull/42) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/new levels [\#41](https://github.com/hayesmaker/thrust-platform/pull/41) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.9](https://github.com/hayesmaker/thrust-platform/tree/v0.9.9) (2016-09-18)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.8...v0.9.9)
 
 **Merged pull requests:**
 
 - Feature/orb pickup zone [\#40](https://github.com/hayesmaker/thrust-platform/pull/40) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.8](https://github.com/hayesmaker/thrust-platform/tree/v0.9.8) (2016-09-12)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.7...v0.9.8)
+
+**Merged pull requests:**
+
 - Feature/more new graphics! [\#39](https://github.com/hayesmaker/thrust-platform/pull/39) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.9.7](https://github.com/hayesmaker/thrust-platform/tree/v0.9.7) (2016-09-11)

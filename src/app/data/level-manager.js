@@ -38,12 +38,42 @@ module.exports = {
   currentLevel: null,
 
   /**
+   * Increased in endless mode when levels cycle ends
+   *
+   * @property endlessModeIndex
+   * @type {number}
+   */
+  endlessModeIndex: 0,
+
+  /**
+   * @property endlessCycle
+   * @type {number}
+   */
+  endlessCycle: 0,
+
+  /**
+   * @property endless
+   */
+  endless: [],
+
+  /**
+   * @property endlessData
+   * @type {object}
+   */
+  endlessData: {
+    rate: 1,
+    blink: false,
+    flip: false
+  },
+
+  /**
    * Initialise the level manager.
    *
    * @method init
    */
   init: function(levels) {
     var customLevel = parseInt(game.net.getQueryString('level'), 10);
+    this.endless = levels.endless;
     this.levels = properties.levels.data || levels.data;
     if (_.isEmpty(customLevel)) {
       this.levelIndex = properties.levels.startLevel - 1;
@@ -51,12 +81,15 @@ module.exports = {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
+    this.updateEndlessData();
   },
 
   /**
    * Gets the next level configuration  
    * and updates the currentLevel index.
    * If you're on the last level, the levelIndex is reset to 0.
+   * Also handles endless mode looping (next level should only be called here if endless mode is on
+   * or if the current levels set hasn't been exhausted.
    *
    * @method nextLevel
    * @property nextLevel
@@ -64,14 +97,35 @@ module.exports = {
    */
   nextLevel: function() {
     if (this.levels.length - 1 === this.levelIndex) {
-      //this shouldn't normally be called if the game had ended
-      //but can be used as the basis for an 'endless mode' to loop back to the first level map.
+      this.checkEndlessCycle();
       this.levelIndex = 0;
     } else {
       this.levelIndex++;
     }
     this.currentLevel = this.levels[this.levelIndex];
     return this.currentLevel;
+  },
+
+  /**
+   * @method checkEndlessCycle
+   */
+  checkEndlessCycle: function() {
+    console.log('checkEndlessCycle this.endless.length, this.endlessModeIndex', this.endless.length, this.endlessModeIndex);
+    if (this.endless.length - 1 === this.endlessModeIndex) {
+      this.endlessModeIndex = 0;
+      this.endlessCycle++;
+    } else {
+      this.endlessModeIndex++;
+    }
+    console.log('checkEndlessCycle index:', this.endlessCycle);
+    this.updateEndlessData();
+  },
+
+  updateEndlessData: function() {
+    var endlessObj = this.endless[this.endlessModeIndex];
+    this.endlessData.flip = endlessObj.flip;
+    this.endlessData.rate = endlessObj.rate;
+    this.endlessData.blink = endlessObj.blink;
   },
 
   /**
@@ -86,6 +140,8 @@ module.exports = {
   newGame: function() {
     this.levelIndex = properties.levels.startLevel - 1;
     this.currentLevel = this.levels[this.levelIndex];
+    this.endlessModeIndex = 0;
+    this.endlessCycle = 0;
   },
 
   /**

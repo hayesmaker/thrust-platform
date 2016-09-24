@@ -13,7 +13,7 @@ var url = 'https://www.thrust2016.com';
 
 
 var status = function() {
-  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'NEW: Speed Run game mode! #gamedev #indiegamedev';
+  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'NEW: Endless game mode! #gamedev #indiegamedev';
 };
 
 client.post('statuses/update', {status: status() }, function(error, tweet) {

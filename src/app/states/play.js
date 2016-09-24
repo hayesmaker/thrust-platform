@@ -207,6 +207,7 @@ module.exports = {
    * @method levelsCompleted
    */
   levelsCompleted: function () {
+    sound.playMusic("thrust-title-theme1", 1, true);
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
   },
@@ -265,8 +266,7 @@ module.exports = {
     ui.showScreen(state, shouldFadeBackground);
 
     if (state === gameState.PLAY_STATES.MENU && !sound.music) {
-      sound.playMusic("thrust-title-theme1", 1, true);
-
+      sound.playMusic("thrust-title-theme2", 1, true);
     }
 
     if (state === gameState.PLAY_STATES.PLAY) {
@@ -573,6 +573,9 @@ module.exports = {
     if (this.background && this.background.enabled) {
       this.background.update();
     }
+    if (this.map && levelManager.endlessData.blink) {
+      this.map.update();
+    }
   },
 
   /**
@@ -590,14 +593,12 @@ module.exports = {
    * @method uiUpdate
    */
   uiUpdate: function () {
-    ui.fuel.update(gameState.fuel, true);
     ui.score.update(gameState.score, true);
+    ui.fuel.update(gameState.fuel, true);
     ui.lives.update(Math.max(gameState.lives, 0), true);
-
     if (gameState.currentState === gameState.PLAY_STATES.HIGH_SCORES) {
       ui.highscores.update();
     }
-
     if (game.externalJoypad) {
       if (gameState.currentState === gameState.PLAY_STATES.INTERSTITIAL) {
         ui.interstitial.update();
