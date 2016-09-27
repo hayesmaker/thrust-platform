@@ -191,7 +191,7 @@ module.exports = {
     ui.showUser();
     if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
       this.initStopwatch();
-    }
+    }x
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -391,6 +391,7 @@ module.exports = {
     if (gameState.trainingMode) {
       this.createMissionDialog();
     } else {
+      sound.playMusic("thrust-in-game1", 1, true)
       if (options.gameModes.speedRun.enabled) {
         this.startSpeedRun();
       }
@@ -651,6 +652,14 @@ module.exports = {
     this.cameraPos.y = this.player.y;
     game.e2e.player = this.player;
     game.e2e.enemies = this.limpetGuns;
+
+    if (game.device.webApp) {
+      var bmd = game.make.bitmapData(50, 50);
+      bmd.rect(0,0,50,50, 'rgba(255,0,0,1)');
+      var testFlag = game.add.sprite(0, 0, bmd);
+      testFlag.fixedToCamera = true;
+    }
+
   },
 
   /**
