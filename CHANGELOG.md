@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.9...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.10...HEAD)
+
+**Merged pull requests:**
+
+- Feature/new game mode/endless [\#43](https://github.com/hayesmaker/thrust-platform/pull/43) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.10](https://github.com/hayesmaker/thrust-platform/tree/v0.9.10) (2016-09-24)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.9...v0.9.10)
 
 **Merged pull requests:**
 

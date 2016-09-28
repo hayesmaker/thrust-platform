@@ -16,7 +16,11 @@ module.exports = {
    */
   playSound: function(name, volume, loop) {
     if (optionsModel.sound.soundFx) {
-      game.sfx.play(name, volume, loop);
+      game.sfx.play(name, volume);
+      var sound = game.sfx.get(name);
+      if (loop) {
+        sound.loop = loop;
+      }
     }
   },
 
@@ -35,9 +39,13 @@ module.exports = {
    * @param loop
    */
   playMusic: function(name, volume, loop) {
+    this.stopMusic();
     if (optionsModel.sound.music) {
-      game.music.play(name, volume, loop);
+      game.music.play(name, volume);
       this.music = game.music.get(name);
+      if (loop) {
+        this.music.loop = loop;
+      }
     }
   },
   
