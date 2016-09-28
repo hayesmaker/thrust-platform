@@ -191,7 +191,7 @@ module.exports = {
     ui.showUser();
     if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
       this.initStopwatch();
-    }x
+    }
     if (!properties.dev.skipIntro) {
       this.startLevelIntro();
     } else if (!properties.dev.mode) {
@@ -207,6 +207,7 @@ module.exports = {
    * @method levelsCompleted
    */
   levelsCompleted: function () {
+    //sound.stopMusic();
     sound.playMusic("thrust-title-theme1", 1, true);
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
@@ -266,11 +267,7 @@ module.exports = {
     ui.showScreen(state, shouldFadeBackground);
 
     if (state === gameState.PLAY_STATES.MENU && !sound.music) {
-      sound.playMusic("thrust-title-theme2", 1, true);
-    }
-
-    if (state === gameState.PLAY_STATES.PLAY) {
-      sound.stopMusic();
+      sound.playMusic("thrust-title-theme2", 0.5, true);
     }
 
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
@@ -287,6 +284,8 @@ module.exports = {
 
     switch (item.text.text) {
       case "PLAY THRUST" :
+        //sound.stopMusic();
+        sound.playMusic("thrust-in-game1", 0.6, true);
         gameState.newPlayer();
         gameState.trainingMode = false;
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
@@ -334,13 +333,24 @@ module.exports = {
    * @method restartPlayState
    */
   restartPlayState: function () {
-    console.log('restartPlayState');
     ui.countdown.clear();
     ui.destroy();
     options.dispose();
     this.clearPlayWorld();
     gameState.nextLevel();
     game.state.restart();
+    //this.restartLevel();
+
+  },
+
+  restartLevel: function() {
+    this.level = levelManager.currentLevel;
+    game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
+    this.createActors();
+    this.createLevelMap();
+    this.createUi();
+    this.createGroupLayering();
+    this.playGame();
   },
 
   /**
@@ -391,7 +401,6 @@ module.exports = {
     if (gameState.trainingMode) {
       this.createMissionDialog();
     } else {
-      sound.playMusic("thrust-in-game1", 1, true)
       if (options.gameModes.speedRun.enabled) {
         this.startSpeedRun();
       }
