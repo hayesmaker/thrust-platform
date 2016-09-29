@@ -628,8 +628,8 @@ module.exports = {
    * @method createActors
    */
   createActors: function () {
-    this.groups = new Groups();
     this.collisions = new Collisions();
+    this.groups = new Groups(this.collisions);
     if (properties.drawBackground) {
       this.background = new Background(this.level, this.groups);
     }

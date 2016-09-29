@@ -1,3 +1,5 @@
+var BulletGroup = require('./BulletGroup');
+
 /**
  * These groups were registerd to a common camera parent group.
  *
@@ -10,7 +12,8 @@
  * @class Groups
  * @constructor
  */
-function Groups() {
+function Groups(collisionGroups) {
+  this.collisionGroups = collisionGroups;
   this.init();
 }
 
@@ -27,7 +30,7 @@ p.init = function () {
   this.fuels = game.add.group();
   this.enemies = game.add.group();
   this.terrain = game.add.group();
-  this.bullets = game.add.group();
+  this.bullets = new BulletGroup(60, this.collisionGroups.enemyBullets);
   this.drones = game.add.group();
 };
 

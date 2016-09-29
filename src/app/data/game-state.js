@@ -184,13 +184,13 @@ module.exports = {
    * @property ENEMY_BULLET_DURATION
    * @type {number}
    */
-  ENEMY_BULLET_DURATION: 3000,
+  ENEMY_BULLET_DURATION: 2500,
 
   /**
    * @property PLAYER_BULLET_DURATION
    * @type {number}
    */
-  PLAYER_BULLET_DURATION: 2000,
+  PLAYER_BULLET_DURATION: 3000,
 
   /**
    * The amount of fuel a fuel cell can refuel the player

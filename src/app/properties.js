@@ -35,7 +35,7 @@ module.exports = {
     skipSplashScreen: true
   },
   gamePlay: {
-    firingMagnitude: 350,
+    firingMagnitude: 400,
     tractorBeamLength: 100,
     tractorBeamVariation: 10,
     lockingDuration: 800,
