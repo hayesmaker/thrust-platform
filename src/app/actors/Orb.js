@@ -35,14 +35,18 @@ var p = Orb.prototype;
  * @method init
  */
 p.init = function () {
+  this.initPhysics();
+  this.drawSensor();
+  this.initSensorPhysics();
+};
+
+p.initPhysics = function() {
   game.physics.p2.enable(this.sprite, properties.dev.debugPhysics);
   this.body = this.sprite.body;
   this.body.setCircle(13, 0, 0);
   this.body.motionState = 2;
   this.body.setCollisionGroup(this.collisions.orb);
-  this.body.collides([this.collisions.enemyBullets, this.collisions.players, this.collisions.terrain, this.collisions.bullets], this.crash, this);
-  this.drawSensor();
-  this.initSensorPhysics();
+  this.body.collides([this.collisions.players, this.collisions.terrain, this.collisions.fuels], this.crash, this);
 };
 
 /**
@@ -99,8 +103,13 @@ p.dispose = function() {
 
 
 
-p.orbHit = function() {
-
+p.bulletHit = function() {
+  console.log('bulletHit');
+  this.body.motionState = 1;
+  if (!this.sensor) {
+    this.player.crash();
+    this.sprite.alpha = 0;
+  }
 };
 
 /**
@@ -118,11 +127,13 @@ p.setPlayer = function (player) {
  * motionState = 4; //for kinematic
  */
 p.move = function () {
+  console.log('move');
   this.body.motionState = 1;
   this.body.mass = 1;
   this.body.velocity = 0;
   this.body.angularVelocity = 0;
   this.body.angle = 0;
+  this.body.collides([this.collisions.bullets, this.collisions.enemyBullets], this.bulletHit, this);
   this.killGlow();
 };
 
@@ -141,6 +152,7 @@ p.stop = function() {
  * @method crash
  */
 p.crash = function () {
+  console.warn('this.crash', this.player);
   if (this.player) {
     this.killGlow();
     this.player.crash();
@@ -150,6 +162,10 @@ p.crash = function () {
 
 p.killGlow = function() {
   this.glowSprite.visible = false;
+};
+
+p.removeBulletCollisions = function() {
+  this.body.removeCollisionGroup([this.collisions.bullets, this.collisions.enemyBullets]);
 };
 
 /**
@@ -169,6 +185,7 @@ p.respawn = function (withShip) {
   this.body.reset(orbSpawnPosition.x, orbSpawnPosition.y, true, true);
   this.body.motionState = 2;
   this.sprite.alpha = 1;
+  this.removeBulletCollisions();
   this.glowSprite.visible = true;
   if (!this.sensor) {
     this.drawSensor();

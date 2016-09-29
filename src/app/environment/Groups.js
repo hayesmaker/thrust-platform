@@ -12,8 +12,8 @@ var BulletGroup = require('./BulletGroup');
  * @class Groups
  * @constructor
  */
-function Groups(collisionGroups) {
-  this.collisionGroups = collisionGroups;
+function Groups(collisions) {
+  this.collisions = collisions;
   this.init();
 }
 
@@ -30,7 +30,7 @@ p.init = function () {
   this.fuels = game.add.group();
   this.enemies = game.add.group();
   this.terrain = game.add.group();
-  this.bullets = new BulletGroup(60, this.collisionGroups.enemyBullets);
+  this.bullets = new BulletGroup(60, this.collisions);
   this.drones = game.add.group();
 };
 

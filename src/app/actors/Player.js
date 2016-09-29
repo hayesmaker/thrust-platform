@@ -1,16 +1,14 @@
 'use strict';
 
 var properties = require('../properties');
-var Turret = require('./Turret');
 var utils = require('../utils');
-var ForwardFiring = require('./strategies/ForwardFiring');
 var ShipParticle = require('./bitmaps/ShipParticle');
 var particles = require('../environment/particles/manager');
 var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
-var ThrustSound = 'thrust4';
 var sound = require('../utils/sound');
+var ThrustSound = 'thrust4';
 
 /**
  * A user controlled controlled spaceship
@@ -190,7 +188,6 @@ p.setTractorBeam = function (tractorBeam) {
  */
 p.init = function () {
   this.alive = false;
-  this.turret = this.createTurret();
   this.explodeEmitter = game.add.emitter(this.x, this.y, 20);
   this.explodeEmitter.particleClass = ShipParticle;
   this.explodeEmitter.makeParticles();
@@ -344,20 +341,6 @@ p.update = function () {
 };
 
 /**
- * @method createTurret
- * @return {Turret}
- */
-p.createTurret = function () {
-  var bulletBitmap = game.make.bitmapData(5, 5);
-  bulletBitmap.ctx.fillStyle = '#ffffff';
-  bulletBitmap.ctx.beginPath();
-  bulletBitmap.ctx.arc(1.5, 1.5, 3, 0, Math.PI * 2, true);
-  bulletBitmap.ctx.closePath();
-  bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new ForwardFiring(this, this.collisions, this.groups, bulletBitmap, gameState.PLAYER_BULLET_DURATION));
-};
-
-/**
  * @method checkPlayerControl
  * @param cursors
  * @param buttonAPressed
@@ -479,13 +462,14 @@ p.connectAttempt = function () {
 
 
 /**
- * Fires the current actor's turret
+ * Player Fire!
+ * Picks a free bullet from the bullet pool and fires
  *
  * @method shoot
  */
 p.fire = function () {
   if (this.inPlay) {
-    this.turret.fire();
+    this.groups.bullets.playerFire(this);
     sound.playSound('zap1');
   }
 };

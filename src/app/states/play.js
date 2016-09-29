@@ -677,7 +677,7 @@ module.exports = {
   createMainPhysics: function() {
     console.log('createMainPhysics', this.orb);
     if (this.orb) {
-      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+      //this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
       if (this.powerStation) {
         this.collisions.set(this.powerStation, [this.collisions.players, this.collisions.orb]);
       }
@@ -689,7 +689,7 @@ module.exports = {
    */
   createTrainingPhysics: function() {
     if (this.orb) {
-      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
+      this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain]);
     }
   },
 

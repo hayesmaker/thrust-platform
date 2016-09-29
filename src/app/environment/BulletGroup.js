@@ -4,12 +4,12 @@ var Bullet = require('../actors/Bullet');
  * @class BulletGroup
  * @constructor
  */
-function BulletGroup(maxEntities, collionGroup) {
+function BulletGroup(maxEntities, collisions) {
   Phaser.Group.call(this, game, game.world, 'bullets', false, true, Phaser.Physics.P2JS);
   var i;
-  this.collisionGroup = collionGroup;
+  this.collisions = collisions;
   for (i = 0; i < maxEntities; i++) {
-    this.add(new Bullet());
+    this.add(new Bullet(collisions));
   }
   return this;
 }
@@ -26,13 +26,31 @@ var p = BulletGroup.prototype = Object.create(Phaser.Group.prototype, {
  * @type {number}
  * @default 350
  */
-p.bulletSpeed = 400;
+p.bulletSpeed = 350;
 
 /**
  * @property lifespan
  * @type {number}
  */
 p.lifespan = 2000;
+
+/**
+ * @property playerBulletSpeed
+ * @type {number}
+ */
+p.playerBulletSpeed = 400;
+
+/**
+ * @property playerBulletLifespan
+ * @type {number}
+ */
+p.playerBulletLifespan = 2500;
+
+/**
+ * @property halfPi
+ * @type {number}
+ */
+p.halfPi = Math.PI * 0.5;
 
 /**
  * @method fire
@@ -44,6 +62,17 @@ p.fire = function(position, body) {
   var y = position.y;
   var angle = body.rotation + Math.PI + Math.random() * Math.PI;
   this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan);
+};
+
+/**
+ * @method playerFire
+ * @param player {Player}
+ */
+p.playerFire = function(player) {
+  var x = player.position.x;
+  var y = player.position.y;
+  var angle = player.body.rotation - this.halfPi;
+  this.getFirstExists(false).fire(x, y, angle, this.playerBulletSpeed, this.playerBulletLifespan, true);
 };
 
 

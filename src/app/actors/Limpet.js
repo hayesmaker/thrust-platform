@@ -1,10 +1,8 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
-var Turret = require('./Turret');
 var gameState = require('../data/game-state');
 var particles = require('../environment/particles/manager');
-var SpreadFiring = require('./strategies/SpreadFiring');
 var sound = require('../utils/sound');
 var levelManager = require('../data/level-manager');
 
@@ -33,7 +31,6 @@ function Limpet (collisions, groups, x, y, angleDeg) {
   this.alive = false;
   this.angle = angleDeg;
   this.fireRate = this.getFireRate();
-  this.turret = this.createTurret();
 
   if (game.device.pixelRatio > 1) {
     //this.scale.setTo(0.5);
@@ -93,7 +90,8 @@ p.setPower = function(powerStationHealth) {
 };
 
 p.getFireRate = function() {
-  return 1 / (500 - levelManager.currentLevel.enemyFireRate);
+  //return 1 / (500 - levelManager.currentLevel.enemyFireRate);
+  return 1 / (500 - 400);
 };
 
 /**
@@ -119,21 +117,6 @@ p.update = function () {
       }
     }
   }
-};
-
-/**
- * @method createTurret
- * @returns {Turret}
- */
-p.createTurret = function () {
-  var bulletBitmap = game.make.bitmapData(5, 5);
-  bulletBitmap.ctx.fillStyle = '#ffffff';
-  bulletBitmap.ctx.beginPath();
-  bulletBitmap.ctx.lineWidth = 0.5;
-  bulletBitmap.ctx.arc(0, 0, 5, 0, Math.PI * 2, true);
-  bulletBitmap.ctx.closePath();
-  bulletBitmap.ctx.fill();
-  return new Turret(this.groups, this, new SpreadFiring(this, this.collisions, this.groups, bulletBitmap, gameState.ENEMY_BULLET_DURATION));
 };
 
 /**
