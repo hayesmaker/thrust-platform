@@ -469,7 +469,8 @@ p.connectAttempt = function () {
  */
 p.fire = function () {
   if (this.inPlay) {
-    this.groups.bullets.playerFire(this);
+    console.log('FIRE!');
+    this.groups.playerBullets.fire(this);
     sound.playSound('zap1');
   }
 };

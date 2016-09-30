@@ -12,11 +12,11 @@ function Bullet(collisions) {
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
   Phaser.Sprite.call(this, game, 0, 0, bulletBitmap);
-  this.anchor.set(0.5);
-  this.checkWorldBounds = true;
-  this.outOfBoundsKill = true;
-  this.exists = false;
   this.collisions = collisions;
+  this.anchor.set(0.5);
+  this.checkWorldBounds = false;
+  this.outOfBoundsKill = false;
+  this.exists = false;
 }
 
 var p = Bullet.prototype = Object.create(Phaser.Sprite.prototype, {

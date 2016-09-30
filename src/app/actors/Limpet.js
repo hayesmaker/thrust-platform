@@ -90,8 +90,8 @@ p.setPower = function(powerStationHealth) {
 };
 
 p.getFireRate = function() {
-  //return 1 / (500 - levelManager.currentLevel.enemyFireRate);
-  return 1 / (500 - 400);
+  return 1 / (500 - levelManager.currentLevel.enemyFireRate);
+  //return 1 / (500 - 400);
 };
 
 /**

@@ -87,17 +87,21 @@ p.disposeSensor = function() {
   this.sensor.body.destroy();
   this.sensor.destroy();
   this.sensor = null;
+  //this.glowSprite.destroy();
+  //this.glowSprite = null;
 };
 
 p.dispose = function() {
-  this.sprite.body.removeFromWorld();
-  this.sprite.destroy();
-  this.sprite.body = null;
+  if (this.sprite && this.sprite.body) {
+    this.sprite.body.removeFromWorld();
+    this.sprite.destroy();
+    this.sprite.body = null;
+    this.sprite = null;
+  }
   if (this.sensor) {
     this.disposeSensor();
   }
   this.glowSprite.destroy();
-  this.sprite = null;
   this.glowSprite = null;
 };
 
@@ -134,7 +138,7 @@ p.move = function () {
   this.body.angularVelocity = 0;
   this.body.angle = 0;
   this.body.collides([this.collisions.bullets, this.collisions.enemyBullets], this.bulletHit, this);
-  this.killGlow();
+  this.glowSprite.visible = false;
 };
 
 /**
@@ -154,14 +158,10 @@ p.stop = function() {
 p.crash = function () {
   console.warn('this.crash', this.player);
   if (this.player) {
-    this.killGlow();
     this.player.crash();
   }
-  this.body.motionState = 1;
-};
-
-p.killGlow = function() {
   this.glowSprite.visible = false;
+  this.body.motionState = 1;
 };
 
 p.removeBulletCollisions = function() {
