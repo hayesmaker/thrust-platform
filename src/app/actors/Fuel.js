@@ -162,7 +162,7 @@ p.contactStart = function () {
  * @method explode
  */
 p.explode = function () {
-  sound.playSound('boom1');
+  sound.playSound('matt-fuel-explode-1');
   particles.fuelExplode(this.x, this.y + this.height / 2);
   gameState.addScore(gameState.SCORES.FUEL);
   this.cleanup();

@@ -8,7 +8,7 @@ var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
 var sound = require('../utils/sound');
-var ThrustSound = 'thrust4';
+var ThrustSound = 'matt-thrust-1';
 
 /**
  * A user controlled controlled spaceship
@@ -154,7 +154,7 @@ function Player(collisions, groups) {
   this.refuelAnimSprite.visible = false;
   this.alpha = 0;
   this.init();
-  this.thrustSfx = game.sfx.get('thrust4');
+  this.thrustSfx = game.sfx.get(ThrustSound);
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
@@ -226,6 +226,7 @@ p.start = function (completeCallback, context) {
 p.showRefuelAnim = function () {
   this.refuelAnimSprite.visible = true;
   this.refuelAnimSprite.play('refuelling');
+  sound.playSound('matt-refuel-1', 1, true);
 };
 
 /**
@@ -234,6 +235,7 @@ p.showRefuelAnim = function () {
 p.hideRefuelAnim = function () {
   this.refuelAnimSprite.animations.stop('refuelling', true);
   this.refuelAnimSprite.visible = false;
+  game.sfx.stop('matt-refuel-1');
 };
 
 /**
@@ -416,9 +418,7 @@ p.checkThrust = function (buttonAPressed, cursors) {
         this.thrustStarted = true;
         this.thrustAnim.visible = true;
         this.thrustAnim.play('rocket');
-        if (sound.shouldPlaySfx()) {
-          this.thrustSfx.play(ThrustSound, 0, 0.3, true);
-        }
+        sound.playSound(ThrustSound, 1, true);
       }
       this.body.thrust(400);
       if (!this.isRefuelling) {
@@ -437,7 +437,8 @@ p.stopThrustFx = function () {
   this.thrustAnim.visible = false;
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
-  this.thrustSfx.stop();
+  game.sfx.stop(ThrustSound);
+  //this.thrustSfx.stop();
 };
 
 /**
@@ -517,8 +518,7 @@ p.explosion = function (force) {
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);
-    sound.playSound('boom1');
-    this.thrustSfx.stop();
+    sound.playSound('matt-player-explode-1');
     if (hasOrb) {
       this.tractorBeam.breakLink();
     }

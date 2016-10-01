@@ -81,79 +81,109 @@
       "end": 30.122086167800454,
       "loop": false
     },
-    "planet-death1": {
+    "matt-fuel-explode-1": {
       "start": 32,
-      "end": 33.22090702947846,
+      "end": 33.730770975056686,
+      "loop": false
+    },
+    "matt-limpet-explode-1": {
+      "start": 35,
+      "end": 37.019229024943314,
+      "loop": false
+    },
+    "matt-limpet-fire-1": {
+      "start": 39,
+      "end": 39.721156462585036,
+      "loop": false
+    },
+    "matt-player-explode-1": {
+      "start": 41,
+      "end": 42.730770975056686,
+      "loop": false
+    },
+    "matt-refuel-1": {
+      "start": 44,
+      "end": 50.82691609977324,
+      "loop": false
+    },
+    "matt-thrust-1": {
+      "start": 52,
+      "end": 56.615374149659864,
+      "loop": false
+    },
+    "planet-death1": {
+      "start": 58,
+      "end": 59.22090702947846,
       "loop": false
     },
     "planet-dying1": {
-      "start": 35,
-      "end": 40.48206349206349,
+      "start": 61,
+      "end": 66.48206349206349,
       "loop": true
     },
     "select1": {
-      "start": 42,
-      "end": 42.07891156462585,
+      "start": 68,
+      "end": 68.07891156462586,
       "loop": false
     },
     "select2": {
-      "start": 44,
-      "end": 44.18331065759637,
+      "start": 70,
+      "end": 70.18331065759637,
       "loop": false
     },
     "swipe1": {
-      "start": 46,
-      "end": 46.56952380952381,
+      "start": 72,
+      "end": 72.56952380952382,
       "loop": false
     },
     "teleport-in1": {
-      "start": 48,
-      "end": 50.91297052154195,
+      "start": 74,
+      "end": 76.91297052154195,
       "loop": false
     },
     "teleport-in2": {
-      "start": 52,
-      "end": 52.823197278911564,
+      "start": 78,
+      "end": 78.82319727891156,
       "loop": false
     },
     "teleport-in3": {
-      "start": 54,
-      "end": 56.80637188208617,
+      "start": 80,
+      "end": 82.80637188208617,
       "loop": false
     },
     "teleport-in4": {
-      "start": 58,
-      "end": 60.80621315192744,
+      "start": 84,
+      "end": 86.80621315192744,
       "loop": false
     },
     "thrust1": {
-      "start": 62,
-      "end": 62.408684807256236,
+      "start": 88,
+      "end": 88.40868480725624,
       "loop": true
     },
     "thrust2": {
-      "start": 64,
-      "end": 66.6915873015873,
+      "start": 90,
+      "end": 92.6915873015873,
       "loop": false
     },
     "thrust3": {
-      "start": 68,
-      "end": 68.241179138322,
+      "start": 94,
+      "end": 94.241179138322,
       "loop": false
     },
     "thrust4": {
-      "start": 70,
-      "end": 70.14083900226757,
+      "start": 96,
+      "end": 96.14083900226757,
       "loop": false
     },
     "zap1": {
-      "start": 72,
-      "end": 72.39746031746031,
+      "start": 98,
+      "end": 98.39746031746031,
       "loop": false
     },
     "zap2": {
-      "start": 74,
-      "end": 74.07984126984127,
+      "start": 100,
+      "end": 100.07984126984127,
       "loop": false
     }
   }

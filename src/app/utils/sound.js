@@ -6,6 +6,7 @@ var optionsModel = require('../data/options-model');
  */
 module.exports = {
   music: null,
+
   /**
    *
    *
