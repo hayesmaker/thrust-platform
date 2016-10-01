@@ -114,7 +114,7 @@ p.update = function () {
       //todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
       if (Math.random() < this.fireRate) {
         this.groups.bullets.fire(this.position, this.body);
-        sound.playSound('zap2');
+        sound.playSound('matt-limpet-fire-1');
       }
     }
   }
@@ -129,7 +129,7 @@ p.explode = function () {
   this.body.removeFromWorld();
   this.body.destroy();
   gameState.addScore(gameState.SCORES.LIMPET);
-  sound.playSound('boom3');
+  sound.playSound('matt-limpet-explode-1');
 };
 
 
