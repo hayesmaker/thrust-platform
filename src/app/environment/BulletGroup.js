@@ -64,17 +64,5 @@ p.fire = function(position, body) {
   this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan);
 };
 
-/**
- * @method playerFire
- * @param player {Player}
- */
-p.playerFire = function(player) {
-  var x = player.position.x;
-  var y = player.position.y;
-  var angle = player.body.rotation - this.halfPi;
-  this.getFirstExists(false).fire(x, y, angle, this.playerBulletSpeed, this.playerBulletLifespan, true);
-};
-
-
 
 module.exports = BulletGroup;

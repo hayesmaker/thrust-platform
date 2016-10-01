@@ -9,7 +9,7 @@ function BulletGroup(maxEntities, collisions) {
   var i;
   this.collisions = collisions;
   for (i = 0; i < maxEntities; i++) {
-    this.add(new Bullet(collisions));
+    this.add(new Bullet(collisions, true));
   }
   return this;
 }
@@ -26,7 +26,7 @@ var p = BulletGroup.prototype = Object.create(Phaser.Group.prototype, {
  * @type {number}
  * @default 350
  */
-p.bulletSpeed = 400;
+p.bulletSpeed = 800;
 
 /**
  * @property lifespan
@@ -45,9 +45,10 @@ p.halfPi = Math.PI * 0.5;
  * @param player
  */
 p.fire = function(player) {
-  var x = player.position.x;
-  var y = player.position.y;
   var angle = player.body.rotation - this.halfPi;
+  var r = player.width * 0.5;
+  var x = player.x + Math.cos(angle) * r;
+  var y = player.y + Math.sin(angle) * r;
   this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan, true);
 };
 

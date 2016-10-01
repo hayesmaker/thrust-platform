@@ -469,7 +469,6 @@ p.connectAttempt = function () {
  */
 p.fire = function () {
   if (this.inPlay) {
-    console.log('FIRE!');
     this.groups.playerBullets.fire(this);
     sound.playSound('zap1');
   }
@@ -597,12 +596,10 @@ p.exhaustUpdate = function () {
  */
 p.death = function () {
   if (this.inPlay) {
-    //this.thrustEmitter.on = false;
     this.inPlay = false;
     this.alive = false;
     game.time.events.add(2000, _.bind(this.checkRespawn, this));
   }
-
 };
 
 /**

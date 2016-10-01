@@ -31,8 +31,8 @@ p.init = function () {
   this.fuels = game.add.group();
   this.enemies = game.add.group();
   this.terrain = game.add.group();
-  this.bullets = new BulletGroup(60, this.collisions);
-  this.playerBullets = new PlayerBulletGroup(20, this.collisions);
+  this.bullets = new BulletGroup(30, this.collisions);
+  this.playerBullets = new PlayerBulletGroup(40, this.collisions);
   this.drones = game.add.group();
 };
 

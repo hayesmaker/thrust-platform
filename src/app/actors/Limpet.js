@@ -9,6 +9,7 @@ var levelManager = require('../data/level-manager');
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
  *
+ * # Firerates :: < Fire rate chance
  * 100 0.01      1/(1000-100) 0.00111
  * 100 0.01      1/(1000-100) 0.00111
  * 150 0.0067    1/(1000-150) 0.00117
