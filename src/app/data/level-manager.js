@@ -81,6 +81,13 @@ module.exports = {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
+
+    console.log('level-manager :: init : ', game.net.getQueryString('level'));
+    console.log('level-manager :: init : ', _.isEmpty(customLevel));
+    console.log('level-manager :: init : ', customLevel);
+
+
+
     this.updateEndlessData();
   },
 
