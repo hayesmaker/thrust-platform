@@ -75,9 +75,6 @@ p.fire = function (x, y, angle, speed, lifespan) {
   this.exists = true;
   this.body.velocity.x = speed * Math.cos(angle);
   this.body.velocity.y = speed * Math.sin(angle);
-
-  window.console.log('this.fire : body.velocity.xy', Math.round(this.body.velocity.x), Math.round(this.body.velocity.y));
-
   this.body.collideWorldBounds = false;
   this.body.setCollisionGroup(this.collisionGroup);
   this.body.collides(this.collidesArr, this.remove, this);
@@ -86,10 +83,13 @@ p.fire = function (x, y, angle, speed, lifespan) {
 };
 
 /**
+ * Calling sprite.kill here causes bullets to sometimes
+ * missfire (reset and stop in mid air)
+ * This is fixed by ONLY calling exists.false on the bullet
+ *
  * @method remove
  */
 p.remove = function () {
-  //this.kill();
   this.exists = false;
 };
 
