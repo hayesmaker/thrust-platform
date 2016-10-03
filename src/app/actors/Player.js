@@ -421,7 +421,7 @@ p.checkThrust = function (buttonAPressed, cursors) {
         sound.playSound(ThrustSound, 1, true);
       }
       this.body.thrust(400);
-      if (!this.isRefuelling) {
+      if (!this.isRefuelling && !gameState.cheats.infiniteFuel) {
         gameState.fuel--;
       }
     }
@@ -481,7 +481,7 @@ p.fire = function () {
  * @method crash
  */
 p.crash = function () {
-  if (!properties.fatalCollisions) {
+  if (!properties.fatalCollisions || !gameState.cheats.fatalCollisions) {
     return;
   }
   this.explosion();
@@ -610,7 +610,9 @@ p.death = function () {
  */
 p.checkRespawn = function (callback, context, removeShip) {
   if (--gameState.lives < 0) {
-    gameState.lives = -1;
+    if (!gameState.cheats.infiniteLives) {
+      gameState.lives = -1;
+    }
     //this.livesLost.dispatch();
   } else {
     this.respawn(callback, context, removeShip);

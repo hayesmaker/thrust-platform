@@ -2,16 +2,33 @@
  * @class Bullet
  * @constructor
  * @param collisions
+ * @param isPlayer
  */
 function Bullet(collisions, isPlayer) {
+  this.isPlayer = isPlayer;
   var bulletBitmap;
   if (isPlayer) {
-   bulletBitmap = this.drawPlayerBullet();
+    bulletBitmap = this.drawPlayerBullet();
   } else {
-   bulletBitmap = this.drawEnemyBullet();
+    bulletBitmap = this.drawEnemyBullet();
   }
   Phaser.Sprite.call(this, game, 0, 0, bulletBitmap);
   this.collisions = collisions;
+  this.collisionGroup = isPlayer ? this.collisions.bullets : this.collisions.enemyBullets;
+  this.collidesArr = isPlayer ?
+    [
+      this.collisions.terrain,
+      this.collisions.enemies,
+      this.collisions.fuels,
+      this.collisions.orb
+    ] :
+    [
+      this.collisions.terrain,
+      this.collisions.enemies,
+      this.collisions.fuels,
+      this.collisions.players,
+      this.collisions.orb
+    ];
   this.anchor.set(0.5);
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
@@ -22,7 +39,7 @@ var p = Bullet.prototype = Object.create(Phaser.Sprite.prototype, {
   constructor: Bullet
 });
 
-p.drawPlayerBullet = function() {
+p.drawPlayerBullet = function () {
   var bulletBitmap = game.make.bitmapData(15, 2);
   bulletBitmap.ctx.beginPath();
   bulletBitmap.ctx.strokeStyle = '#4affff';
@@ -33,7 +50,7 @@ p.drawPlayerBullet = function() {
   return bulletBitmap;
 };
 
-p.drawEnemyBullet = function() {
+p.drawEnemyBullet = function () {
   var bulletBitmap = game.make.bitmapData(4, 4);
   bulletBitmap.ctx.fillStyle = '#ff93ff';
   bulletBitmap.ctx.beginPath();
@@ -53,27 +70,27 @@ p.drawEnemyBullet = function() {
  * @param lifespan
  * @param [isPlayer] {boolean} - true if this is fired from player (false or leave blank if enemy fired)
  */
-p.fire = function(x, y, angle, speed, lifespan, isPlayer) {
-  //this.body.debug = true;
-  var collisionGroup = isPlayer? this.collisions.bullets : this.collisions.enemyBullets;
-  this.body.reset(x, y);
+p.fire = function (x, y, angle, speed, lifespan) {
+  this.reset(x, y);
+  this.exists = true;
   this.body.velocity.x = speed * Math.cos(angle);
   this.body.velocity.y = speed * Math.sin(angle);
+
+  window.console.log('this.fire : body.velocity.xy', Math.round(this.body.velocity.x), Math.round(this.body.velocity.y));
+
   this.body.collideWorldBounds = false;
-  this.body.setCollisionGroup(collisionGroup);
-  this.body.collides([this.collisions.terrain, this.collisions.enemies, this.collisions.fuels, this.collisions.players, this.collisions.orb], this.remove, this);
-  this.exists = true;
+  this.body.setCollisionGroup(this.collisionGroup);
+  this.body.collides(this.collidesArr, this.remove, this);
   this.lifespan = lifespan;
   this.body.rotation = angle;
-  this.body.data.gravityScale = 0;
 };
 
 /**
  * @method remove
  */
-p.remove = function() {
+p.remove = function () {
+  //this.kill();
   this.exists = false;
-  this.kill();
 };
 
 

@@ -785,7 +785,9 @@ module.exports = {
    * @method destroyPlayer
    */
   destroyPlayer: function () {
-    gameState.lives--;
+    if (!gameState.cheats.infiniteLives) {
+      gameState.lives--;
+    }
     this.player.stop();
     this.player.explosion(true);
   },

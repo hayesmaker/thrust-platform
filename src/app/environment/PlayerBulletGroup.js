@@ -32,7 +32,7 @@ p.bulletSpeed = 800;
  * @property lifespan
  * @type {number}
  */
-p.lifespan = 2500;
+p.lifespan = 1500;
 
 /**
  * @property halfPi
@@ -49,7 +49,7 @@ p.fire = function(player) {
   var r = player.width * 0.5;
   var x = player.x + Math.cos(angle) * r;
   var y = player.y + Math.sin(angle) * r;
-  this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan, true);
+  this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan);
 };
 
 

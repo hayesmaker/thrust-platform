@@ -1,0 +1,25 @@
+{
+  "resources": [
+    "_dev/audio/result/thrust-music.ogg",
+    "_dev/audio/result/thrust-music.m4a",
+    "_dev/audio/result/thrust-music.mp3",
+    "_dev/audio/result/thrust-music.ac3"
+  ],
+  "spritemap": {
+    "thrust-in-game1": {
+      "start": 0,
+      "end": 325.4595918367347,
+      "loop": false
+    },
+    "thrust-title-theme1": {
+      "start": 327,
+      "end": 411,
+      "loop": true
+    },
+    "thrust-title-theme2": {
+      "start": 412,
+      "end": 487.84000000000003,
+      "loop": false
+    }
+  }
+}

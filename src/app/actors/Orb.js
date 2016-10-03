@@ -1,4 +1,5 @@
 var properties = require('../properties');
+var gameState = require('../data/game-state');
 
 /**
  * Orb description
@@ -40,7 +41,7 @@ p.init = function () {
   this.initSensorPhysics();
 };
 
-p.initPhysics = function() {
+p.initPhysics = function () {
   game.physics.p2.enable(this.sprite, properties.dev.debugPhysics);
   this.body = this.sprite.body;
   this.body.setCircle(13, 0, 0);
@@ -73,14 +74,14 @@ p.drawSensor = function () {
 p.initSensorPhysics = function () {
   game.physics.p2.enable(this.sensor, properties.dev.debugPhysics);
   this.sensor.body.clearShapes();
-  var box = this.sensor.body.addCircle(this.sensor.width/2, 0, 0, 0);
+  var box = this.sensor.body.addCircle(this.sensor.width / 2, 0, 0, 0);
   box.sensor = true;
   this.sensor.body.motionState = 2;
   this.sensor.body.setCollisionGroup(this.collisions.orb);
   this.sensor.body.collides([this.collisions.players]);
 };
 
-p.disposeSensor = function() {
+p.disposeSensor = function () {
   this.sensor.body.onBeginContact.removeAll();
   this.sensor.body.onEndContact.removeAll();
   this.sensor.body.removeFromWorld();
@@ -91,7 +92,7 @@ p.disposeSensor = function() {
   //this.glowSprite = null;
 };
 
-p.dispose = function() {
+p.dispose = function () {
   if (this.sprite && this.sprite.body) {
     this.sprite.body.removeFromWorld();
     this.sprite.destroy();
@@ -106,12 +107,12 @@ p.dispose = function() {
 };
 
 
-
-p.bulletHit = function() {
+p.bulletHit = function () {
   console.log('bulletHit');
-  this.body.motionState = 1;
-  if (!this.sensor) {
+  if (!this.sensor && !gameState.cheats.infiniteLives &&
+    gameState.cheats.fatalCollisions) {
     this.player.crash();
+    this.body.motionState = 1;
     this.sprite.alpha = 0;
   }
 };
@@ -144,7 +145,7 @@ p.move = function () {
 /**
  * @method stop
  */
-p.stop = function() {
+p.stop = function () {
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
   this.body.setZeroForce();
@@ -157,14 +158,17 @@ p.stop = function() {
  */
 p.crash = function () {
   console.warn('this.crash', this.player);
-  if (this.player) {
-    this.player.crash();
+  if (gameState.cheats.fatalCollisions) {
+    if (this.player) {
+      this.player.crash();
+    }
+    this.glowSprite.visible = false;
+    this.body.motionState = 1;
   }
-  this.glowSprite.visible = false;
-  this.body.motionState = 1;
+
 };
 
-p.removeBulletCollisions = function() {
+p.removeBulletCollisions = function () {
   this.body.removeCollisionGroup([this.collisions.bullets, this.collisions.enemyBullets]);
 };
 

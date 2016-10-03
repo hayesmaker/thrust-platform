@@ -13,6 +13,21 @@ var options = require('./options-model');
  */
 module.exports = {
   /**
+   * @todo Activate cheats enabled via konami code
+   *
+   * @property cheats
+   * @property cheats.enabled
+   * @property cheats.infiniteFuel
+   * @property cheats.infiniteLives
+   * @property cheats.fatalCollisions
+   */
+  cheats: {
+    enabled: true,
+    infiniteFuel: false,
+    infiniteLives: false,
+    fatalCollisions: true
+  },
+  /**
    * When player plays Flight Training, this flag is set to true.
    * It controls many aspects of in game logic, specific to Flight Training Mode.
    *
