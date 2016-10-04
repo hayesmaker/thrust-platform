@@ -119,6 +119,8 @@ p.initSubScreens = function() {
     this.sandbox = new Sandbox(this.group, "SANDBOX_OPTIONS", this.layoutRect);
     this.sandbox.setTopMargin(topMargin);
     this.sandbox.addAsSubScreen();
+    this.sandbox.overrideUserControl.add(this.removeActiveEvents, this);
+    this.sandbox.restoreUserControl.add(this.addActiveEvents, this);
   }
 };
 
@@ -275,10 +277,18 @@ p.rightPressed = function() {
   this.selectActiveOption();
 };
 
+/**
+ *
+ * @todo # Fix error #
+ * @todo ui-options.js:284 Uncaught TypeError: Cannot read property 'userSelected' of undefined
+ * @todo > this.activeOptions[this.selectedOptionIndex].userSelected();
+ * @method selectActiveOption
+ */
 p.selectActiveOption = function() {
   _.each(this.activeOptions, function(button) {
     button.userDeselected();
   });
+
   this.activeOptions[this.selectedOptionIndex].userSelected();
 };
 

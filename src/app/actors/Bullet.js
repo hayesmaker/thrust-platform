@@ -68,7 +68,6 @@ p.drawEnemyBullet = function () {
  * @param angle
  * @param speed
  * @param lifespan
- * @param [isPlayer] {boolean} - true if this is fired from player (false or leave blank if enemy fired)
  */
 p.fire = function (x, y, angle, speed, lifespan) {
   this.reset(x, y);

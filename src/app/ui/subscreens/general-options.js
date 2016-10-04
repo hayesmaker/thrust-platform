@@ -61,7 +61,7 @@ p.currentOptionIndex = function(optionsData) {
  * @method createDisplay
  */
 p.createDisplay = function() {
-  var paddingFaction = this.layoutRect.height * 0.05;
+  var paddingFaction = this.layoutRect.height * 0.025;
   var optionsData = [
     {str: 'Classic Levels', value: 'classic'},
     {str: '2016 Levels', value: '2016'}
