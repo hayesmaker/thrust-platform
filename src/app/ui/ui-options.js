@@ -81,7 +81,7 @@ p.createDisplay = function() {
   this.exitButton.group.x = this.layoutRect.height * 0.02;
   this.exitButton.group.y = this.layoutRect.height * 0.02;
 
-  if (gameState.cheats.enabled) {
+  if (gameState.cheats.enabled && this.subScreenLabels.indexOf('SANDBOX') === -1) {
     this.subScreenLabels.push('SANDBOX');
   }
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
