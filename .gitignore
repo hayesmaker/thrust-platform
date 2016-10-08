@@ -10,3 +10,12 @@ tests.js
 test/e2e/nightwatch/reports/
 assets.zip
 assets.tar.gz
+
+
+public/assets/atlas/combined.json
+public/assets/atlas/combined.png
+public/assets/audiosprite/thrust-music.ac3
+public/assets/audiosprite/thrust-music.json
+public/assets/audiosprite/thrust-music.m4a
+public/assets/audiosprite/thrust-music.mp3
+public/assets/audiosprite/thrust-music.ogg
