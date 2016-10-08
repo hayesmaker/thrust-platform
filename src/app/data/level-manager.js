@@ -97,9 +97,10 @@ module.exports = {
   setNewLevel: function(levelIndex) {
     if (levelIndex !== this.levelIndex) {
       this.startDebugLevel = true;
-      gameState.cheats.startDebugLevel = true;
       this.debugStartLevelIndex = levelIndex;
+      return true;
     }
+    return false;
   },
 
   /**

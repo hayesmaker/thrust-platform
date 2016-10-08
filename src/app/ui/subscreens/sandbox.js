@@ -93,7 +93,9 @@ p.createDisplay = function() {
 };
 
 p.startLevelSelected = function(val) {
-  levelManager.setNewLevel(val);
+  if (levelManager.setNewLevel(val)) {
+    gameState.cheats.startDebugLevel = true;
+  }
 };
 
 p.infiniteLivesOn = function() {
