@@ -5,6 +5,7 @@ var gameState = require('../data/game-state');
 var particles = require('../environment/particles/manager');
 var sound = require('../utils/sound');
 var levelManager = require('../data/level-manager');
+var utils = require('../utils/index');
 
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
@@ -23,10 +24,12 @@ var levelManager = require('../data/level-manager');
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @param {Number} [angleDeg] - initial angle in degrees, if unset is 0
+ * @@param {Player} player - the player for calculating player distance
  * @extends {PhysicsActor}
  * @constructor
  */
-function Limpet (collisions, groups, x, y, angleDeg) {
+function Limpet (collisions, groups, x, y, angleDeg, player) {
+  this.player = player;
 
   PhysicsActor.call(this, collisions, groups, 'combined', 'turret_001.png', x, y);
   this.alive = false;
@@ -112,10 +115,17 @@ p.update = function () {
       }
       //todo investigate
       //todo possible recurring error: SpreadFiring.js:28 Uncaught TypeError: Cannot read property 'rotation' of null
+
       if (Math.random() < this.fireRate) {
-        this.groups.bullets.fire(this.position, this.body);
-        sound.playSound('matt-limpet-fire-1');
+        if (this.canFire()) {
+          this.groups.bullets.fire(this.position, this.body);
+          sound.playSound('matt-limpet-fire-1');
+        }
+
       }
+
+
+
     }
   }
 };
@@ -130,6 +140,19 @@ p.explode = function () {
   this.body.destroy();
   gameState.addScore(gameState.SCORES.LIMPET);
   sound.playSound('matt-limpet-explode-1');
+};
+
+/**
+ * Check if player is within 1000 pixels of this enemy
+ *
+ * @method canFire
+ * @returns {boolean}
+ */
+p.canFire = function() {
+  if (utils.distAtoB(this.position, this.player.position) < 600) {
+    return true;
+  }
+  return false;
 };
 
 

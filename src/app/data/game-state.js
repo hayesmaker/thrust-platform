@@ -13,6 +13,22 @@ var options = require('./options-model');
  */
 module.exports = {
   /**
+   * @todo Activate cheats enabled via konami code
+   *
+   * @property cheats
+   * @property cheats.enabled
+   * @property cheats.infiniteFuel
+   * @property cheats.infiniteLives
+   * @property cheats.fatalCollisions
+   */
+  cheats: {
+    enabled: true,
+    infiniteFuel: false,
+    infiniteLives: false,
+    fatalCollisions: true,
+    startDebugLevel: false
+  },
+  /**
    * When player plays Flight Training, this flag is set to true.
    * It controls many aspects of in game logic, specific to Flight Training Mode.
    *
@@ -283,8 +299,8 @@ module.exports = {
   newPlayer: function() {
     this.numExtraLives = 0;
     this.score = 0;
-    this.fuel = 8000;
-    this.lives = 5;
+    this.fuel = 5000;
+    this.lives = 3;
   },
 
   /**
@@ -325,6 +341,11 @@ module.exports = {
    * @method nextLevel
    */
   nextLevel: function () {
+    //support debug levels
+    if (levelManager.startDebugLevel) {
+      levelManager.nextLevel();
+      return;
+    }
     if (this.trainingMode) {
       this.startTraining();
       return;
@@ -406,7 +427,6 @@ module.exports = {
    */
   check1Up: function() {
     if (this.score / (10000 * (this.numExtraLives + 1)) >= 1) {
-      console.log('1 UP!', this.score / (10000 * (this.numExtraLives + 1)));
       this.lives += 1;
       this.numExtraLives++;
     }
@@ -421,19 +441,19 @@ module.exports = {
    * @property score
    * @type {number}
    */
-  score: 0,
+  score: null,
 
   /**
    * @property fuel
    * @type {number}
    */
-  fuel: 10000,
+  fuel: null,
 
   /**
    * @property lives
    * @type {number}
    */
-  lives: 5,
+  lives: null,
 
   /**
    * @property isGameOver

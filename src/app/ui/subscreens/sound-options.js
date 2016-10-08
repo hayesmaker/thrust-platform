@@ -38,6 +38,7 @@ p.render = function() {
 };
 
 p.createDisplay = function() {
+  var paddingFraction = this.layoutRect.height * 0.025;
   var switch1 = new UiSwitch(this.group, "Music");
   switch1.render();
   switch1.group.x = this.layoutRect.halfWidth - switch1.originPos.x;
@@ -47,7 +48,7 @@ p.createDisplay = function() {
   var switch2 = new UiSwitch(this.group, "Sound FX");
   switch2.render();
   switch2.group.x = this.layoutRect.halfWidth - switch2.originPos.x;
-  switch2.group.y = switch1.group.y + switch1.group.height;
+  switch2.group.y = switch1.group.y + switch1.group.height + paddingFraction;
   switch2.switchedOn.add(this.soundOn, this);
   switch2.switchedOff.add(this.soundOff, this);
   this.components = [switch1, switch2];

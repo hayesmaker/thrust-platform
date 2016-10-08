@@ -4,6 +4,25 @@
     "imgUrl": "assets/atlas/combined-2016.png",
     "dataUrl": "assets/atlas/combined-2016.json"
   },
+  "endless": [
+    {
+      "rate": 1,
+      "blink": false,
+      "flip": false
+    }, {
+      "rate": 1.1,
+      "blink": false,
+      "flip": true
+    }, {
+      "rate": 1.1,
+      "blink": true,
+      "flip": false
+    }, {
+      "rate": 1.1,
+      "blink": true,
+      "flip": true
+    }
+  ],
   "data": [
     {
       "useAtlas": true,
@@ -69,7 +88,7 @@
         {"x": 1420, "y": 2113},
         {"x": 1420, "y": 2562}
       ],
-      "enemyFireRate": 400,
+      "enemyFireRate": 100,
       "powerStation": {
         "x": 1034,
         "y": 1215

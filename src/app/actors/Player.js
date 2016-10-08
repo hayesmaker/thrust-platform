@@ -306,7 +306,7 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
-  if (removeShip === true) {
+  if (removeShip === true && !gameState.cheats.infiniteLives) {
     gameState.lives--;
   }
 
@@ -421,7 +421,7 @@ p.checkThrust = function (buttonAPressed, cursors) {
         sound.playSound(ThrustSound, 1, true);
       }
       this.body.thrust(400);
-      if (!this.isRefuelling) {
+      if (!this.isRefuelling && !gameState.cheats.infiniteFuel) {
         gameState.fuel--;
       }
     }
@@ -481,7 +481,7 @@ p.fire = function () {
  * @method crash
  */
 p.crash = function () {
-  if (!properties.fatalCollisions) {
+  if (!properties.fatalCollisions || !gameState.cheats.fatalCollisions) {
     return;
   }
   this.explosion();
@@ -609,8 +609,8 @@ p.death = function () {
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
 p.checkRespawn = function (callback, context, removeShip) {
-  if (--gameState.lives < 0) {
-    gameState.lives = -1;
+  if (gameState.lives < 0) {
+      gameState.lives = -1;
     //this.livesLost.dispatch();
   } else {
     this.respawn(callback, context, removeShip);

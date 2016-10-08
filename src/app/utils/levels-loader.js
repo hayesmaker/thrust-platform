@@ -25,6 +25,7 @@ module.exports = {
    * @param showProgress
    */
   loadLevelsJson: function(levelsJsonUrl, showProgress) {
+    console.log('levels-loader :: loadLevelsJson', levelsJsonUrl);
     if (showProgress) {
       var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
       this.loadProgressTxt = game.add.text(0, 0, '0%', style);
@@ -36,6 +37,7 @@ module.exports = {
    * @method startLoad
    */
   startLoad: function() {
+    console.log('levels-loader :: startLoad', this.levelsData);
     this.loadAtlas(this.levelsData.atlas);
   },
 
@@ -44,7 +46,7 @@ module.exports = {
    * @param atlas {Object} contains key, imgUrl, dataUrl
    */
   loadAtlas: function(atlas) {
-    console.log('loadAtlas :: this.levelsData.atlas', atlas);
+    console.log('levels-loader :: loadAtlas :: this.levelsData.atlas', atlas);
     game.load.atlas(atlas.key, atlas.imgUrl, atlas.dataUrl);
   },
 
@@ -70,7 +72,7 @@ module.exports = {
    * @param levelData
    */
   loadLevelImg: function(levelData) {
-    console.log('levels-loader :: loadLevelImg');
+    console.log('levels-loader :: loadLevelImg', levelData);
     if (!levelData.useAtlas) {
       game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     }
@@ -151,7 +153,9 @@ module.exports = {
       this.loadProgressTxt.text = percent + '%';
     }
     if (this.isLevelsJson(cacheKey)) {
+      console.log('levels-loader :: isLevelsJson : cacheKey=', cacheKey);
       this.levelsData = game.cache.getJSON('levels-data');
+      console.log('levels-loader :: this.levelsData =', this.levelsData);
       levelManager.init(this.levelsData);
       this.startLoad();
     }

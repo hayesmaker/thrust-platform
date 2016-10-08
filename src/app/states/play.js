@@ -40,6 +40,8 @@ var options = require('../data/options-model');
  * @static
  */
 module.exports = {
+  startDebugLevel: false,
+  cleaning: false,
   level: null,
   collisions: null,
   groups: null,
@@ -75,7 +77,6 @@ module.exports = {
     this.initOptionsModel();
     this.initFullScreenHandling();
     this.initFps();
-    console.log('play :: create : this.level=', this.level);
     this.level = levelManager.currentLevel;
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
@@ -96,26 +97,22 @@ module.exports = {
   },
 
   fxParticlesOff: function() {
-    console.log('fxParticlesOff');
     particles.disable();
     this.powerStation.stopParticles();
   },
 
   fxParticlesOn: function() {
-    console.log('fxParticlesOn');
     particles.enable();
     this.powerStation.startParticles();
   },
 
   fxBackgroundOn: function() {
-    console.log('fxBackgroundOn');
     if (!this.background.enabled) {
       this.background.enable();
     }
   },
 
   fxBackgroundOff: function() {
-    console.log('fxBackgroundOff');
     if (this.background.enabled) {
       this.background.disable();
     }
@@ -130,7 +127,6 @@ module.exports = {
   },
 
   initStopwatch: function () {
-    console.warn('fug', options.gameModes.speedRun.enabled, gameState.trainingMode);
     ui.drawStopwatch();
     this.stopwatch = new Stopwatch(ui.stopwatch);
   },
@@ -141,6 +137,10 @@ module.exports = {
    * @method update
    */
   update: function () {
+    if (this.cleaning) {
+      return;
+    }
+
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
@@ -188,6 +188,13 @@ module.exports = {
    * @method playGame
    */
   playGame: function () {
+    //support debug level starts
+    if (gameState.cheats.startDebugLevel) {
+      gameState.cheats.startDebugLevel = false;
+      this.cleaning = true;
+      this.nextLevel();
+      return;
+    }
     ui.showUser();
     if (options.gameModes.speedRun.enabled || gameState.trainingMode) {
       this.initStopwatch();
@@ -357,7 +364,6 @@ module.exports = {
    * @method clearPlayWorld
    */
   clearPlayWorld: function() {
-    console.log('clearPlayWorld');
     this.limpetGuns = [];
     this.fuels = [];
     if (this.orb) {
@@ -496,7 +502,7 @@ module.exports = {
           gameState.playTime = this.stopwatch.getText();
         }
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
-        if (this.tractorBeam.hasGrabbed) {
+        if (this.tractorBeam && this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
@@ -518,7 +524,8 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    this.player.tweenOutAndRemove(true);
+    var hasOrb = this.tractorBeam? true : false;
+    this.player.tweenOutAndRemove(hasOrb);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
 
@@ -557,7 +564,6 @@ module.exports = {
    */
   stopStopwatch: function () {
     if (options.gameModes.speedRun.enabled) {
-      console.log('stopStopWatch');
       this.stopwatch.stop();
     }
   },
@@ -662,6 +668,8 @@ module.exports = {
     game.e2e.player = this.player;
     game.e2e.enemies = this.limpetGuns;
 
+    this.cleaning = false;
+
     if (game.device.webApp) {
       var bmd = game.make.bitmapData(50, 50);
       bmd.rect(0,0,50,50, 'rgba(255,0,0,1)');
@@ -675,7 +683,6 @@ module.exports = {
    * @method createMainPhysics
    */
   createMainPhysics: function() {
-    console.log('createMainPhysics', this.orb);
     if (this.orb) {
       //this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
       if (this.powerStation) {
@@ -785,7 +792,9 @@ module.exports = {
    * @method destroyPlayer
    */
   destroyPlayer: function () {
-    gameState.lives--;
+    if (!gameState.cheats.infiniteLives) {
+      gameState.lives--;
+    }
     this.player.stop();
     this.player.explosion(true);
   },
@@ -857,7 +866,7 @@ module.exports = {
    *
    */
   createLimpet: function (data) {
-    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);
+    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation, this.player);
     this.limpetGuns.push(limpet);
   },
 

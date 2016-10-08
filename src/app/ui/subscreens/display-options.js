@@ -42,6 +42,7 @@ p.render = function () {
  * @method createDisplay
  */
 p.createDisplay = function () {
+  var paddingFaction = this.layoutRect.height * 0.025;
   var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND'];
   var x = this.isFullLayout ? 0.5 : 0.4;
   _.each(switches, function (name, index) {
@@ -49,7 +50,7 @@ p.createDisplay = function () {
     //todo allow to define positions at render time to avoid pre-render flashes
     uiSwitch.render();
     uiSwitch.group.x = this.layoutRect.width * x - uiSwitch.originPos.x;
-    uiSwitch.group.y = this.layoutRect.height * 0.25 + uiSwitch.group.height * index;
+    uiSwitch.group.y = this.layoutRect.height * 0.25 + (uiSwitch.group.height + paddingFaction) * index;
     uiSwitch.switchedOn.add(this.onSwitch, this, 0, name);
     uiSwitch.switchedOff.add(this.offSwitch, this, 0, name);
     this.components.push(uiSwitch);

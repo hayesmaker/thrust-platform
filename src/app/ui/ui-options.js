@@ -3,6 +3,7 @@ var UiComponent = require('./ui-component');
 var SoundOptions = require('./subscreens/sound-options');
 var DisplayOptions = require('./subscreens/display-options');
 var GeneralOptions = require('./subscreens/general-options');
+var Sandbox = require('./subscreens/sandbox');
 var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
 var manager = require('./manager');
@@ -68,7 +69,9 @@ p.render = function() {
   this.centerDisplay();
   this.renderSubScreens();
   this.components = [this.optionsList, this.exitButton, this.soundOptions, this.displayOptions, this.controlsOptions, this.generalOptions];
-  //this.selectActiveOption();
+  if (gameState.cheats.enabled) {
+    this.components.push(this.sandbox);
+  }
 };
 
 p.createDisplay = function() {
@@ -77,6 +80,10 @@ p.createDisplay = function() {
   this.exitButton.render();
   this.exitButton.group.x = this.layoutRect.height * 0.02;
   this.exitButton.group.y = this.layoutRect.height * 0.02;
+
+  if (gameState.cheats.enabled) {
+    this.subScreenLabels.push('SANDBOX');
+  }
   this.optionsList = new UiList(this.group, "OPTIONS_LIST", this.subScreenLabels);
   this.optionsList.setAutoLayout(UiComponent.HORIZONTAL);
   this.optionsList.render();
@@ -108,6 +115,13 @@ p.initSubScreens = function() {
   this.generalOptions.addAsSubScreen();
   this.generalOptions.overrideUserControl.add(this.removeActiveEvents, this);
   this.generalOptions.restoreUserControl.add(this.addActiveEvents, this);
+  if (gameState.cheats.enabled) {
+    this.sandbox = new Sandbox(this.group, "SANDBOX_OPTIONS", this.layoutRect);
+    this.sandbox.setTopMargin(topMargin);
+    this.sandbox.addAsSubScreen();
+    this.sandbox.overrideUserControl.add(this.removeActiveEvents, this);
+    this.sandbox.restoreUserControl.add(this.addActiveEvents, this);
+  }
 };
 
 p.update = function() {
@@ -263,10 +277,18 @@ p.rightPressed = function() {
   this.selectActiveOption();
 };
 
+/**
+ *
+ * @todo # Fix error #
+ * @todo ui-options.js:284 Uncaught TypeError: Cannot read property 'userSelected' of undefined
+ * @todo > this.activeOptions[this.selectedOptionIndex].userSelected();
+ * @method selectActiveOption
+ */
 p.selectActiveOption = function() {
   _.each(this.activeOptions, function(button) {
     button.userDeselected();
   });
+
   this.activeOptions[this.selectedOptionIndex].userSelected();
 };
 
@@ -294,7 +316,13 @@ p.itemSelected = function(id, index) {
 };
 
 p.exit = function() {
+  this.clearState();
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
+};
+
+p.clearState = function(){
+  p.subScreenLabels = ['SOUND', 'DISPLAY', 'CONTROLS', 'GENERAL'];
+  p.subScreens = [];
 };
 
 
