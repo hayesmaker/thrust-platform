@@ -298,6 +298,7 @@ p.spawn = function () {
  * @param [removeShip] {Boolean}
  */
 p.respawn = function (completeCallback, thisArg, removeShip) {
+  console.log('Player :: respawn :', removeShip, gameState.cheats.infiniteLives);
   this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -608,11 +609,13 @@ p.death = function () {
  * @param context
  * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
-p.checkRespawn = function (callback, context, removeShip) {
-  if (gameState.lives < 0) {
-      gameState.lives = -1;
+p.checkRespawn = function (callback, context) {
+  if (gameState.lives  - 1 < 0) {
+    console.log('game over');
+    gameState.isGameOver = true;
+    //game over
     //this.livesLost.dispatch();
   } else {
-    this.respawn(callback, context, removeShip);
+    this.respawn(callback, context, true);
   }
 };

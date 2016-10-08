@@ -40,6 +40,7 @@ var options = require('../data/options-model');
  * @static
  */
 module.exports = {
+  isGameOver: true,
   startDebugLevel: false,
   cleaning: false,
   level: null,
@@ -188,6 +189,8 @@ module.exports = {
    * @method playGame
    */
   playGame: function () {
+    gameState.isGameOver = false;
+    this.isGameOver = false;
     //support debug level starts
     if (gameState.cheats.startDebugLevel) {
       gameState.cheats.startDebugLevel = false;
@@ -403,7 +406,6 @@ module.exports = {
    * @method missionStart
    */
   missionStart: function () {
-    gameState.isGameOver = false;
     if (gameState.trainingMode) {
       this.createMissionDialog();
     } else {
@@ -515,8 +517,8 @@ module.exports = {
    * @method checkGameOver
    */
   checkGameOver: function () {
-    if (gameState.lives < 0 && !gameState.isGameOver) {
-      gameState.isGameOver = true;
+    if (gameState.isGameOver && !this.isGameOver) {
+      this.isGameOver = true;
       game.time.events.add(3000, _.bind(this.gameOver, this));
     }
   },

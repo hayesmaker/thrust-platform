@@ -458,6 +458,6 @@ module.exports = {
   /**
    * @property isGameOver
    */
-  isGameOver: true
+  isGameOver: false
 
 };
