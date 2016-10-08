@@ -496,7 +496,7 @@ module.exports = {
           gameState.playTime = this.stopwatch.getText();
         }
         particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
-        if (this.tractorBeam.hasGrabbed) {
+        if (this.tractorBeam && this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
           particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
@@ -518,7 +518,8 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    this.player.tweenOutAndRemove(true);
+    var hasOrb = this.tractorBeam? true : false;
+    this.player.tweenOutAndRemove(hasOrb);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
 
@@ -859,7 +860,7 @@ module.exports = {
    *
    */
   createLimpet: function (data) {
-    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation);
+    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation, this.player);
     this.limpetGuns.push(limpet);
   },
 

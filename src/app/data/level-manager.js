@@ -82,9 +82,11 @@ module.exports = {
     }
     this.currentLevel = this.levels[this.levelIndex];
 
-    console.log('level-manager :: init : ', game.net.getQueryString('level'));
-    console.log('level-manager :: init : ', _.isEmpty(customLevel));
-    console.log('level-manager :: init : ', customLevel);
+    console.log('debug level-manager:');
+    console.log('level-manager :: init : getQueryString("level")', game.net.getQueryString('level'));
+    console.log('level-manager :: init : isEmpty(customLevel)', _.isEmpty(customLevel));
+    console.log('level-manager :: init : customLevel= ', customLevel);
+    console.log('level-manager :: init : this.currentLevel= ', this.currentLevel);
 
 
 
