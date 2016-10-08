@@ -88,12 +88,12 @@ p.createDisplay = function() {
   this.components.push(switch3);
 
   this.uiSelect.group.x = this.layoutRect.width * 0.15;
-  this.uiSelect.group.y = switch3.group.y + switch3.group.height + paddingFaction * 2;
+  this.uiSelect.group.y = switch3.group.y + switch3.group.height + paddingFaction * 4;
   this.components.push(this.uiSelect);
 };
 
 p.startLevelSelected = function(val) {
-  console.log('startLevelSelected', val);
+  levelManager.setNewLevel(val);
 };
 
 p.infiniteLivesOn = function() {

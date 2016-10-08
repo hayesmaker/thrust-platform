@@ -67,6 +67,16 @@ module.exports = {
   },
 
   /**
+   * @property debugStartLevelIndex
+   */
+  debugStartLevelIndex: 0,
+
+  /**
+   * @property startDebugLevel
+   */
+  startDebugLevel: false,
+
+  /**
    * Initialise the level manager.
    *
    * @method init
@@ -81,16 +91,15 @@ module.exports = {
       this.levelIndex = customLevel - 1;
     }
     this.currentLevel = this.levels[this.levelIndex];
-
-    console.log('debug level-manager:');
-    console.log('level-manager :: init : getQueryString("level")', game.net.getQueryString('level'));
-    console.log('level-manager :: init : isEmpty(customLevel)', _.isEmpty(customLevel));
-    console.log('level-manager :: init : customLevel= ', customLevel);
-    console.log('level-manager :: init : this.currentLevel= ', this.currentLevel);
-
-
-
     this.updateEndlessData();
+  },
+
+  setNewLevel: function(levelIndex) {
+    if (levelIndex !== this.levelIndex) {
+      this.startDebugLevel = true;
+      gameState.cheats.startDebugLevel = true;
+      this.debugStartLevelIndex = levelIndex;
+    }
   },
 
   /**
@@ -105,6 +114,13 @@ module.exports = {
    * @return {Object}
    */
   nextLevel: function() {
+    //support debug level starts
+    if (this.startDebugLevel) {
+      this.startDebugLevel = false;
+      this.levelIndex = this.debugStartLevelIndex;
+      this.currentLevel = this.levels[this.levelIndex];
+      return this.currentLevel;
+    }
     if (this.levels.length - 1 === this.levelIndex) {
       this.checkEndlessCycle();
       this.levelIndex = 0;

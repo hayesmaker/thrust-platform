@@ -25,7 +25,8 @@ module.exports = {
     enabled: true,
     infiniteFuel: false,
     infiniteLives: false,
-    fatalCollisions: true
+    fatalCollisions: true,
+    startDebugLevel: false
   },
   /**
    * When player plays Flight Training, this flag is set to true.
@@ -340,6 +341,11 @@ module.exports = {
    * @method nextLevel
    */
   nextLevel: function () {
+    //support debug levels
+    if (levelManager.startDebugLevel) {
+      levelManager.nextLevel();
+      return;
+    }
     if (this.trainingMode) {
       this.startTraining();
       return;
@@ -421,7 +427,6 @@ module.exports = {
    */
   check1Up: function() {
     if (this.score / (10000 * (this.numExtraLives + 1)) >= 1) {
-      console.log('1 UP!', this.score / (10000 * (this.numExtraLives + 1)));
       this.lives += 1;
       this.numExtraLives++;
     }
