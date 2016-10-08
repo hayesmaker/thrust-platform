@@ -2,7 +2,22 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.10...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.12...HEAD)
+
+**Merged pull requests:**
+
+- Feature/try out sfx [\#46](https://github.com/hayesmaker/thrust-platform/pull/46) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/improve bullet logic [\#45](https://github.com/hayesmaker/thrust-platform/pull/45) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.12](https://github.com/hayesmaker/thrust-platform/tree/v0.9.12) (2016-10-01)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.11...v0.9.12)
+
+**Merged pull requests:**
+
+- Feature/music [\#44](https://github.com/hayesmaker/thrust-platform/pull/44) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.11](https://github.com/hayesmaker/thrust-platform/tree/v0.9.11) (2016-09-28)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.10...v0.9.11)
 
 **Merged pull requests:**
 

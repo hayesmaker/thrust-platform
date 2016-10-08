@@ -13,10 +13,9 @@ var url = 'https://www.thrust2016.com';
 
 
 var status = function() {
-  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'NEW: Endless game mode! #gamedev #indiegamedev';
+  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'NEW: Bullet graphics, object pooling & sandbox Mode! #gamedev #indiegamedev';
 };
 
-/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -26,7 +25,6 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
   }
 });
 
-*/
 console.log(status());
 
 /*
