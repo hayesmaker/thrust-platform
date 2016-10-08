@@ -299,8 +299,8 @@ module.exports = {
   newPlayer: function() {
     this.numExtraLives = 0;
     this.score = 0;
-    this.fuel = 8000;
-    this.lives = 5;
+    this.fuel = 5000;
+    this.lives = 3;
   },
 
   /**
@@ -441,19 +441,19 @@ module.exports = {
    * @property score
    * @type {number}
    */
-  score: 0,
+  score: null,
 
   /**
    * @property fuel
    * @type {number}
    */
-  fuel: 10000,
+  fuel: null,
 
   /**
    * @property lives
    * @type {number}
    */
-  lives: 5,
+  lives: null,
 
   /**
    * @property isGameOver
