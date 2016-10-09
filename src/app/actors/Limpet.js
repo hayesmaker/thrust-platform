@@ -6,6 +6,7 @@ var particles = require('../environment/particles/manager');
 var sound = require('../utils/sound');
 var levelManager = require('../data/level-manager');
 var utils = require('../utils/index');
+var _ = require('lodash');
 
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
@@ -67,6 +68,12 @@ function Limpet (collisions, groups, x, y, angleDeg, player) {
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);
   this.body.collides(this.collisions.bullets, this.explode, this);
+
+  /**
+   *
+   * @type {Phaser.Signal}
+   */
+  this.enemiesDestroyed = new Phaser.Signal();
 }
 
 var p = Limpet.prototype = Object.create(PhysicsActor.prototype, {
@@ -75,6 +82,7 @@ var p = Limpet.prototype = Object.create(PhysicsActor.prototype, {
 
 module.exports = Limpet;
 
+p.enemiesDestroyed = null;
 p.hasPower = false;
 p.isPlayingNormal = true;
 
@@ -140,6 +148,12 @@ p.explode = function () {
   this.body.destroy();
   gameState.addScore(gameState.SCORES.LIMPET);
   sound.playSound('matt-limpet-explode-1');
+  var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {
+    return limpet.exists === true;
+  });
+  if (enemiesKilled === -1) {
+    this.enemiesDestroyed.dispatch();
+  }
 };
 
 /**
@@ -149,10 +163,7 @@ p.explode = function () {
  * @returns {boolean}
  */
 p.canFire = function() {
-  if (utils.distAtoB(this.position, this.player.position) < 600) {
-    return true;
-  }
-  return false;
+  return (utils.distAtoB(this.position, this.player.position) < 600);
 };
 
 

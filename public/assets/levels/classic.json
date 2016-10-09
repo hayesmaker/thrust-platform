@@ -49,8 +49,8 @@
       },
       "spawns": [
         {
-          "x": 500,
-          "y": 500,
+          "x": 400,
+          "y": 550,
           "orb": false
         }
       ],
@@ -102,8 +102,8 @@
       "world": {"width": 1536, "height": 2000},
       "mapPosition": {"x": 0, "y": 740},
       "spawns": [{
-        "x": 500,
-        "y": 400,
+        "x": 600,
+        "y": 550,
         "orb": false
       }],
       "startPosition": {"x": 0, "y": 0},
@@ -153,17 +153,20 @@
       "world": {"width": 1920, "height": 3200},
       "mapPosition": {"x": 0, "y": 790},
       "spawns": [{
-        "x": 600,
-        "y": 500,
-        "orb": false
+        "x": 775,
+        "y": 620,
+        "orb": false,
+        "enemies": 0
       }, {
         "x": 1110,
         "y": 1560,
-        "orb": true
+        "orb": true,
+        "enemies": 2
       }, {
         "x": 415,
         "y": 2050,
-        "orb": false
+        "orb": false,
+        "enemies": 5
       }],
       "powerStation": {
         "x": 1440,
@@ -176,14 +179,14 @@
       },
       "enemies": [
         {
-          "x": 1030,
-          "y": 1450,
-          "rotation": 155
-        },
-        {
           "x": 1635,
           "y": 1505,
           "rotation": 327
+        },
+        {
+          "x": 1030,
+          "y": 1450,
+          "rotation": 155
         },
         {
           "x": 550,
@@ -262,17 +265,20 @@
       "world": {"width": 1728, "height": 3000},
       "mapPosition": {"x": 0, "y": 880},
       "spawns": [{
-        "x": 500,
-        "y": 500,
-        "orb": false
+        "x": 700,
+        "y": 700,
+        "orb": false,
+        "enemies": 0
       }, {
         "x": 773,
         "y": 1157,
-        "orb": true
+        "orb": true,
+        "enemies": 2
       }, {
         "x": 1330,
         "y": 1700,
-        "orb": false
+        "orb": false,
+        "enemies": 7
       }],
       "powerStation": {
         "x": 326,
@@ -357,19 +363,23 @@
       "spawns": [{
         "x": 500,
         "y": 400,
-        "orb": false
+        "orb": false,
+        "enemies": 0
       }, {
         "x": 1470,
         "y": 1327,
-        "orb": true
+        "orb": true,
+        "enemies": 3
       }, {
         "x": 340,
         "y": 1690,
-        "orb": true
+        "orb": true,
+        "enemies": 4
       }, {
         "x": 1206,
         "y": 1806,
-        "orb": false
+        "orb": false,
+        "enemies": 9
       }],
       "startPosition": {"x": 250, "y": 0},
       "orbPosition": {"x": 1560, "y": 2400},
@@ -418,16 +428,15 @@
           "rotation": 28
         },
         {
-          "x": 1148,
-          "y": 2378,
-          "rotation": 28
-        },
-        {
           "x": 1606,
           "y": 2174,
           "rotation": 205
+        },
+        {
+          "x": 1148,
+          "y": 2378,
+          "rotation": 28
         }
-
       ],
       "fuels": [
         {
@@ -498,23 +507,28 @@
       "spawns": [{
         "x": 400,
         "y": 400,
-        "orb": false
+        "orb": false,
+        "enemies": 0
       }, {
         "x": 1020,
         "y": 1282,
-        "orb": true
+        "orb": true,
+        "enemies":4
       }, {
         "x": 987,
         "y": 1852,
-        "orb": true
+        "orb": true,
+        "enemies": 6
       }, {
         "x": 781,
         "y": 2195,
-        "orb": true
+        "orb": true,
+        "enemies": 8
       }, {
         "x": 1916,
         "y": 2030,
-        "orb": false
+        "orb": false,
+        "enemies": 11
       }],
       "startPosition": {"x": 0, "y": 0},
       "powerStation": {

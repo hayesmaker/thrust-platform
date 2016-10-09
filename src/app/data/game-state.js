@@ -338,9 +338,9 @@ module.exports = {
   },
 
   /**
-   * @method nextLevel
+   * @method nextLevelCheck
    */
-  nextLevel: function () {
+  nextLevelCheck: function () {
     //support debug levels
     if (levelManager.startDebugLevel) {
       levelManager.nextLevel();
@@ -350,7 +350,20 @@ module.exports = {
       this.startTraining();
       return;
     }
-    if (this.bonuses.orbRecovered && !this.isGameOver) {
+
+    //multiple objective support
+    var objectiveComplete = false;
+    if (this.planetBusterMode) {
+      if (this.bonuses.planetBuster) {
+        objectiveComplete = true;
+      }
+    } else {
+      if (this.bonuses.orbRecovered) {
+        objectiveComplete = true;
+      }
+    }
+
+    if (objectiveComplete && !this.isGameOver) {
       if (levelManager.levels.length - 1 === levelManager.levelIndex &&
         !options.gameModes.endlessMode.enabled) {
         this.levelsCompleted.dispatch();
@@ -398,7 +411,7 @@ module.exports = {
     this.stopwatchCacheTxt = "";
   },
 
-
+  planetBusterMode: false,
   
   /**
    * Set to true when a condition is satisfied

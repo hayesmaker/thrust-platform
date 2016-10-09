@@ -84,11 +84,12 @@ module.exports = {
     this.createLevelMap();
     this.createUi();
     this.createGroupLayering();
+    //this.debugSpawns();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
-  initOptionsModel: function() {
+  initOptionsModel: function () {
     options.init();
     options.fxParticlesOn.add(this.fxParticlesOn, this);
     options.fxParticlesOff.add(this.fxParticlesOff, this);
@@ -97,33 +98,48 @@ module.exports = {
     options.loadNewLevels.add(this.loadNewLevelPack, this);
   },
 
-  fxParticlesOff: function() {
+  debugSpawns: function () {
+    _.each(this.level.spawns, function (spawn) {
+      var spawnBm = game.make.bitmapData(50, 50);
+      spawnBm.ctx.fillStyle = '#ff93ff';
+      spawnBm.ctx.beginPath();
+      spawnBm.ctx.lineWidth = 1;
+      spawnBm.ctx.arc(25, 25, 25, 0, Math.PI * 2, true);
+      spawnBm.ctx.closePath();
+      spawnBm.ctx.fill();
+      var spawnSpr = game.add.sprite(spawn.x, spawn.y, spawnBm);
+      spawnSpr.anchor.setTo(0.5);
+      spawnSpr.alpha = 0.2;
+    });
+  },
+
+  fxParticlesOff: function () {
     particles.disable();
     this.powerStation.stopParticles();
   },
 
-  fxParticlesOn: function() {
+  fxParticlesOn: function () {
     particles.enable();
     this.powerStation.startParticles();
   },
 
-  fxBackgroundOn: function() {
+  fxBackgroundOn: function () {
     if (!this.background.enabled) {
       this.background.enable();
     }
   },
 
-  fxBackgroundOff: function() {
+  fxBackgroundOff: function () {
     if (this.background.enabled) {
       this.background.disable();
     }
   },
 
-  initFullScreenHandling: function() {
+  initFullScreenHandling: function () {
     game.scale.onFullScreenChange.add(this.fullScreenChange, this);
   },
 
-  fullScreenChange: function() {
+  fullScreenChange: function () {
     options.display.fullscreen = game.scale.isFullScreen;
   },
 
@@ -248,7 +264,7 @@ module.exports = {
     }
   },
 
-  hidePauseButton: function() {
+  hidePauseButton: function () {
     if (this.pauseButton) {
       this.pauseButton.visible = false;
     }
@@ -297,6 +313,11 @@ module.exports = {
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.6, true);
         gameState.newPlayer();
+
+        if (this.level.planetBusterMode) {
+          console.warn('planetBusterMode');
+          gameState.planetBusterMode = true;
+        }
         gameState.trainingMode = false;
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
@@ -331,7 +352,7 @@ module.exports = {
   /**
    * @method loadNewLevelPack
    */
-  loadNewLevelPack: function() {
+  loadNewLevelPack: function () {
     this.clearPlayWorld();
     game.state.start('load', true, true);
   },
@@ -347,13 +368,13 @@ module.exports = {
     ui.destroy();
     options.dispose();
     this.clearPlayWorld();
-    gameState.nextLevel();
+    gameState.nextLevelCheck();
     game.state.restart();
     //this.restartLevel();
 
   },
 
-  restartLevel: function() {
+  restartLevel: function () {
     this.level = levelManager.currentLevel;
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
@@ -366,7 +387,7 @@ module.exports = {
   /**
    * @method clearPlayWorld
    */
-  clearPlayWorld: function() {
+  clearPlayWorld: function () {
     this.limpetGuns = [];
     this.fuels = [];
     if (this.orb) {
@@ -526,7 +547,7 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    var hasOrb = this.tractorBeam? true : false;
+    var hasOrb = this.tractorBeam ? true : false;
     this.player.tweenOutAndRemove(hasOrb);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -674,7 +695,7 @@ module.exports = {
 
     if (game.device.webApp) {
       var bmd = game.make.bitmapData(50, 50);
-      bmd.rect(0,0,50,50, 'rgba(255,0,0,1)');
+      bmd.rect(0, 0, 50, 50, 'rgba(255,0,0,1)');
       var testFlag = game.add.sprite(0, 0, bmd);
       testFlag.fixedToCamera = true;
     }
@@ -684,7 +705,7 @@ module.exports = {
   /**
    * @method createMainPhysics
    */
-  createMainPhysics: function() {
+  createMainPhysics: function () {
     if (this.orb) {
       //this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain, this.collisions.enemyBullets]);
       if (this.powerStation) {
@@ -696,7 +717,7 @@ module.exports = {
   /**
    * @method createTrainingPhysics
    */
-  createTrainingPhysics: function() {
+  createTrainingPhysics: function () {
     if (this.orb) {
       this.collisions.set(this.orb.sprite, [this.collisions.players, this.collisions.terrain]);
     }
@@ -869,7 +890,13 @@ module.exports = {
    */
   createLimpet: function (data) {
     var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation, this.player);
+    limpet.enemiesDestroyed.add(this.allEnemiesDestroyed, this);
     this.limpetGuns.push(limpet);
+  },
+
+  allEnemiesDestroyed: function () {
+    console.log('all enemies destroyed');
+    this.map.allEnemiesDetroyed();
   },
 
   /**

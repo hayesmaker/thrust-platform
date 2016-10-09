@@ -19,12 +19,27 @@ module.exports = {
 
   getLevelsJsonUrl: function() {
     var jsonUrl;
+    var levelPack = game.net.getQueryString('levelPack');
+    console.log('getLevelsJsonUrl', levelPack);
+    if (_.isEmpty(levelPack)) {
+      console.log('no level pack in qs');
+    } else {
+      console.log('level pack in qs', levelPack);
+      this.gameModes.levels.selected = levelPack;
+    }
+
+    if (this.gameModes.levels.dirty) {
+      this.gameModes.levels.current = this.gameModes.levels.selected;
+    }
     switch(this.gameModes.levels.selected) {
       case 'classic' :
         jsonUrl = 'assets/levels/classic.json';
         break;
       case '2016' :
         jsonUrl = 'assets/levels/2016.json';
+        break;
+      default:
+
         break;
     }
     return jsonUrl;

@@ -36,6 +36,44 @@ p.onExitComplete = new Phaser.Signal();
  */
 p.preventAutoEnable = true;
 
+p.planetKillerFields = [
+  {
+    successLabel: "Mission Complete",
+    failLabel: "Mission Failed",
+    yPos: 0.3,
+    style: { font: "18px thrust_regular", fill: "#ffffff", align: "left" },
+    center: true
+  },
+  {
+    successLabel: "Limpets Destroyed",
+    failLabel: "Limpets Missed",
+    valueId: "LIMPETS_DESTROYED",
+    yPos: 0.4,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Planet Destroyed",
+    failLabel: "Planet Survived",
+    valueId: "PLANET_BUSTER",
+    yPos: 0.45,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Timed Run",
+    failLabel: "Time Invalidated",
+    valueId: "TIMED_RUN",
+    yPos: 0.5,
+    style: { font: "14px thrust_regular", fill: "#ffffff", align: "left" }
+  },
+  {
+    successLabel: "Press Fire",
+    failLabel: "Press Fire",
+    yPos: 0.6,
+    style: { font: "18px thrust_regular", fill: "#00ff00", align: "left" },
+    center: true
+  }
+];
+
 p.trainingFields = [
   {
     successLabel: "Training Complete",
@@ -195,7 +233,12 @@ p.render = function() {
   UIComponent.prototype.render.call(this);
   var x = game.width/2;
   _.each(this.getFields(), function(field, index) {
-    var labelText = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
+    var labelText;
+    if (gameState.planetBusterMode) {
+      labelText = gameState.bonuses.planetBuster? field.successLabel : field.failLabel;
+    } else {
+      labelText = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
+    }
     var label = this.createLabels(x, field, index, labelText);
     this.createValues(x, field, label);
   }.bind(this));
@@ -276,7 +319,13 @@ p.transitionEnter = function() {
 };
 
 p.getFields = function() {
-  return gameState.trainingMode? this.trainingFields : this.fields;
+  if (gameState.trainingMode) {
+    return this.trainingFields;
+  } else if (gameState.planetBusterMode) {
+    return this.planetKillerFields;
+  } else {
+    return this.fields;
+  }
 };
 
 /**

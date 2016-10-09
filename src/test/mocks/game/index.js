@@ -4,6 +4,9 @@ module.exports = function () {
 
   return {
 
+    net: {
+      getQueryString: function() {}
+    },
     /*
      game.time.desiredFps = 60;
      if (game.device.iOS || game.device.android || game.device.windowsPhone) {

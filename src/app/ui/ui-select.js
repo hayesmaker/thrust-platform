@@ -99,9 +99,20 @@ p.addOptions = function() {
   }.bind(this));
 };
 
+p.selectBoxOut = function() {
+  game.input.deleteMoveCallback(this.moveCallback, this);
+};
 
-p.selectBoxOver = function (arg, arg1) {
-  console.log('selectBoxOver', arg, arg1);
+p.selectBoxOver = function () {
+  game.input.addMoveCallback(this.moveCallback, this);
+};
+
+p.moveCallback = function(pointer) {
+  var pos = pointer.position;
+  if (pos.x > this.group.x && pos.x < this.group.x + this.selectBoxBg.width) {
+    this.selectedIndex = Math.floor((pos.y - this.group.y - this.selectBoxBg.y) / this.optionBg.height);
+    this.highlightOption();
+  }
 };
 
 p.selectBoxDown = function(spr, pointer) {
@@ -123,9 +134,6 @@ p.createDisplay = function () {
   this.backgroundSkin.ctx.fillStyle = 'rgba(20, 51, 87, 1)';
   canvas.drawRoundRect(this.backgroundSkin.ctx, 0, 0, this.maxW, this.maxH, 0, true, false);
   this.selectBoxBg = game.make.sprite(-this.padding, -this.padding, this.backgroundSkin, '');
-  //this.selectBoxBg.inputEnabled = true;
-  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
-  //this.selectBoxBg.events.onInputDown.add(this.selectBoxDown, this);
   this.group.add(this.selectBoxBg);
   this.selectBoxBg.visible = false;
   this.selectBoxBg.alpha = 0;
@@ -346,8 +354,9 @@ p.removeActiveEvents = function() {
   this.isActive = false;
 
   this.selectBoxBg.inputEnabled = false;
-  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
+  this.selectBoxBg.events.onInputOut.remove(this.selectBoxOut, this);
   this.selectBoxBg.events.onInputDown.remove(this.selectBoxDown, this);
+  this.selectBoxBg.events.onInputOver.remove(this.selectBoxOver, this);
 
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.remove(this.upPressed, this);
@@ -375,8 +384,9 @@ p.addActiveEvents = function() {
   this.isActive = true;
 
   this.selectBoxBg.inputEnabled = true;
-  //this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
+  this.selectBoxBg.events.onInputOut.add(this.selectBoxOut, this);
   this.selectBoxBg.events.onInputDown.add(this.selectBoxDown, this);
+  this.selectBoxBg.events.onInputOver.add(this.selectBoxOver, this);
 
   if (game.controls.useKeys) {
     game.controls.cursors.up.onDown.add(this.upPressed, this);
@@ -400,20 +410,6 @@ p.addActiveEvents = function() {
 /**
  *
  *
- * p.leftPressed = function() {
-  if (this.selectedOptionIndex > 0) {
-    this.selectedOptionIndex--;
-  }
-  this.selectActiveOption();
-};
-
- p.rightPressed = function() {
-  if (this.selectedOptionIndex < this.activeOptions.length - 1) {
-    this.selectedOptionIndex++;
-  }
-  this.selectActiveOption();
-};
-
  */
 p.update = function() {
   if (!this.isActive) {
@@ -503,7 +499,9 @@ p.spacePressed = function() {
  * @method selectOption
  */
 p.highlightOption = function() {
-  this.optionBg.y = this.optionTexts[this.selectedIndex].y - this.padding;
+  if (this.optionTexts[this.selectedIndex]) {
+    this.optionBg.y = this.optionTexts[this.selectedIndex].y - this.padding;
+  }
 };
 
 /**

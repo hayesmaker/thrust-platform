@@ -283,6 +283,7 @@ p.spawn = function () {
   this.body.motionState = 1;
   this.alpha = 0;
   this.visible = true;
+  //this.exists = true;
   this.alive = true;
   this.inPlay = true;
   TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut});
@@ -530,7 +531,17 @@ p.explosion = function (force) {
 };
 
 /**
+ * Set the Player spawn position with a number of requirements
  *
+ * The basic behaviour is for the nearest spawn point to the player to be calculated
+ * and used as the respawn position.
+ *
+ * However this might lead you to spawn in front of an enemy
+ * So each spawn Position defines a minimum number of enemies that need to be killed
+ * Before that spawn position can be used.
+ *
+ * Also we set the spawnWithOrb to be true if the player has the orb
+ * Some spawn positions allow the player to respawn with the orb attached
  *
  * @method setRespawnPosition
  * @param position {Phaser.Point}
@@ -540,12 +551,27 @@ p.setRespawnPosition = function (position, hasOrb) {
   var spawns = levelManager.currentLevel.spawns;
   var distances = [];
   var distance;
+  var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {
+    return limpet.exists === true;
+  });
+  if (enemiesKilled === -1) {
+    enemiesKilled = this.groups.enemies.children.length;
+  }
+  console.warn('enemies killed %d group =', enemiesKilled, this.groups.enemies);
   _.each(spawns, function (spawnPosition) {
     distance = utils.distAtoB(position, spawnPosition);
-    distances.push(distance);
+    if (enemiesKilled >= spawnPosition.enemies) {
+      distances.push(distance);
+    }
   });
-  var minDistance = _.min(distances);
-  this.respawnPos = spawns[distances.indexOf(minDistance)];
+
+  if (distances.length > 0) {
+    var minDistance = _.min(distances);
+    this.respawnPos = spawns[distances.indexOf(minDistance)];
+  } else {
+    this.respawnPos = spawns[0];
+  }
+
   if (this.respawnPos.orb && hasOrb) {
     this.spawnWithOrb = true;
   }
@@ -597,6 +623,7 @@ p.exhaustUpdate = function () {
  */
 p.death = function () {
   if (this.inPlay) {
+    //this.exists = false;
     this.inPlay = false;
     this.alive = false;
     game.time.events.add(2000, _.bind(this.checkRespawn, this));
