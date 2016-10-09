@@ -39,8 +39,8 @@
       "mapDataKey": "level-4",
       "mapScale": 1,
       "world": {
-        "width": 2304,
-        "height": 2730
+        "width": 2208,
+        "height": 2620
       },
       "mapPosition": {
         "x": 0,
