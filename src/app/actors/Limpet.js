@@ -6,6 +6,7 @@ var particles = require('../environment/particles/manager');
 var sound = require('../utils/sound');
 var levelManager = require('../data/level-manager');
 var utils = require('../utils/index');
+var _ = require('lodash');
 
 /**
  * Limpet Sprite - PhysicsActor enabled enemy limpet gun
