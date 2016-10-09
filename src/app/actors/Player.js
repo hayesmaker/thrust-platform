@@ -283,6 +283,7 @@ p.spawn = function () {
   this.body.motionState = 1;
   this.alpha = 0;
   this.visible = true;
+  //this.exists = true;
   this.alive = true;
   this.inPlay = true;
   TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut});
@@ -622,6 +623,7 @@ p.exhaustUpdate = function () {
  */
 p.death = function () {
   if (this.inPlay) {
+    //this.exists = false;
     this.inPlay = false;
     this.alive = false;
     game.time.events.add(2000, _.bind(this.checkRespawn, this));

@@ -39,6 +39,10 @@ var p = Bullet.prototype = Object.create(Phaser.Sprite.prototype, {
   constructor: Bullet
 });
 
+/**
+ * @method drawPlayerBullet
+ * @returns {*|Phaser.BitmapData}
+ */
 p.drawPlayerBullet = function () {
   var bulletBitmap = game.make.bitmapData(15, 2);
   bulletBitmap.ctx.beginPath();
@@ -50,12 +54,18 @@ p.drawPlayerBullet = function () {
   return bulletBitmap;
 };
 
+/**
+ *
+ *
+ * @method drawEnemyBullet
+ * @returns {Phaser.BitmapData|*}
+ */
 p.drawEnemyBullet = function () {
   var bulletBitmap = game.make.bitmapData(4, 4);
   bulletBitmap.ctx.fillStyle = '#ff93ff';
   bulletBitmap.ctx.beginPath();
   bulletBitmap.ctx.lineWidth = 1;
-  bulletBitmap.ctx.arc(0, 0, 4, 0, Math.PI * 2, true);
+  bulletBitmap.ctx.arc(2, 2, 2, 0, Math.PI * 2, true);
   bulletBitmap.ctx.closePath();
   bulletBitmap.ctx.fill();
   return bulletBitmap;

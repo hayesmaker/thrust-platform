@@ -17,6 +17,7 @@ var properties = require('../../properties');
  */
 function MapAtlas(parentGroup, levelData, key, isAtlas) {
   this.isAtlas = isAtlas;
+  this.hasBitmapGate = false;
   this.x = levelData.mapPosition.x;
   this.y = levelData.mapPosition.y;
   this.key = key;
@@ -29,6 +30,11 @@ function MapAtlas(parentGroup, levelData, key, isAtlas) {
 
 var p = MapAtlas.prototype;
 
+/**
+ * @property hasBitmapGate
+ * @type {boolean}
+ */
+p.hasBitmapGate = false;
 /**
  * @property counter
  * @type {number}
@@ -57,12 +63,9 @@ p.init = function() {
   this.spriteBatch = game.add.spriteBatch(this.group, 'level-map');
   this.physicsSprite = new Phaser.Sprite(game, 0, 0, null, null);
   game.world.add(this.physicsSprite);
-
   //debug positions
   //this.layoutSprite = game.add.sprite(0, 0, 'level-4-layout', null, this.group);
   //this.layoutSprite.alpha = 0.3;
-
-
   this.group.x = this.x;
   this.group.y = this.y;
   if (this.isAtlas) {
@@ -70,7 +73,13 @@ p.init = function() {
   } else {
     this.renderImage();
   }
-  this.renderGate();
+  //check gate data
+  if (this.levelData.hasOwnProperty('gateImgKey')) {
+    this.renderGate();
+  } else if (this.levelData.hasOwnProperty('gateBitmap')) {
+    this.renderBitmapGate();
+  }
+
 };
 
 /**
@@ -103,16 +112,35 @@ p.renderImage = function() {
 };
 
 /**
- *
+ * @method renderGate
  */
 p.renderGate = function () {
-  if (this.levelData.hasOwnProperty('gateImgKey')) {
-    console.log('renderGate');
-    this.gateSprite = game.make.sprite(0,0, this.levelData.gateImgKey);
-    this.gateSprite.scale.setTo(this.levelData.mapScale);
-    this.gateSprite.position.setTo(this.levelData.gatePosition.x,this.levelData.gatePosition.y);
-    this.parent.add(this.gateSprite);
-  }
+  console.log('renderGate');
+  this.gateSprite = game.make.sprite(0,0, this.levelData.gateImgKey);
+  this.gateSprite.scale.setTo(this.levelData.mapScale);
+  this.gateSprite.position.setTo(this.levelData.gatePosition.x,this.levelData.gatePosition.y);
+  this.parent.add(this.gateSprite);
+};
+
+/**
+ * @method renderBitmapGate
+ */
+p.renderBitmapGate = function() {
+  this.hasBitmapGate = true;
+  var w = this.levelData.gateBitmap.size.w;
+  var h = this.levelData.gateBitmap.size.h;
+  var x = this.levelData.gateBitmap.position.x;
+  var y = this.levelData.gateBitmap.position.y;
+  var selector = game.make.bitmapData(w , h);
+  selector.ctx.beginPath();
+  selector.ctx.strokeStyle =  '#c8048a';
+  selector.ctx.lineWidth = 2;
+  selector.ctx.setLineDash([3,2]);
+  selector.ctx.moveTo(0, 0);
+  selector.ctx.lineTo(0, h);
+  selector.ctx.stroke();
+  this.gateSprite = game.make.sprite(x + w/2, y + h/2, selector);
+  this.parent.add(this.gateSprite);
 };
 
 /**
@@ -133,11 +161,19 @@ p.initPhysics = function(collisions) {
   collisions.set(this.physicsSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);
   this.body.x = this.group.x + this.group.width/2;
   this.body.y = this.group.y + this.group.height/2;
-  if (this.gateSprite) {
+
+  if (this.levelData.hasOwnProperty('gateImgKey')) {
     game.physics.p2.enable(this.gateSprite, properties.dev.debugPhysics);
     this.gateSprite.body.static = true;
     this.gateSprite.body.clearShapes();
     this.gateSprite.body.loadPolygon(this.gateCacheKey(), this.levelData.gateDataKey);
+    this.gateSprite.body.setCollisionGroup(collisions.terrain);
+    collisions.set(this.gateSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);
+  } else if (this.levelData.hasOwnProperty('gateBitmap')) {
+    game.physics.p2.enable(this.gateSprite, properties.dev.debugPhysics);
+    this.gateSprite.body.static = true;
+    //this.gateSprite.body.clearShapes();
+    //this.gateSprite.body.loadPolygon(this.gateCacheKey(), this.levelData.gateDataKey);
     this.gateSprite.body.setCollisionGroup(collisions.terrain);
     collisions.set(this.gateSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);
   }
@@ -182,13 +218,22 @@ p.gateCacheKey = function() {
 
 
 /**
+ * Improve this for bitmap gates
+ *
  * @method openGate
  */
 p.openGate = function () {
-  if (this.gateSprite) {
+  if (this.gateSprite && !this.hasBitmapGate) {
     var xTo = this.levelData.gateTweenTo.x;
     var yTo = this.levelData.gateTweenTo.y;
     TweenMax.to(this.gateSprite.body, this.tweenDuration, {x: xTo, y: yTo,  ease: Quad.easeOut});
+  }
+};
+
+p.allEnemiesDetroyed = function() {
+  if (this.hasBitmapGate) {
+    this.gateSprite.body.destroy();
+    this.gateSprite.destroy();
   }
 };
 

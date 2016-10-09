@@ -25,6 +25,11 @@
   ],
   "data": [
     {
+      "planetBusterMode": true,
+      "gateBitmap": {
+        "position": {"x": 845, "y": 1008},
+        "size": {"w": 2, "h": 196}
+      },
       "useAtlas": true,
       "missionSwipe": {
         "title": "2016 - Mission 4",
