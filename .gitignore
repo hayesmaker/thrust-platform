@@ -11,7 +11,7 @@ test/e2e/nightwatch/reports/
 assets.zip
 assets.tar.gz
 
-
+<!-- remove to allow assets in repo -->
 public/assets/atlas/combined.json
 public/assets/atlas/combined.png
 public/assets/audiosprite/thrust-music.ac3

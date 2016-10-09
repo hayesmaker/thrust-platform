@@ -84,6 +84,7 @@ module.exports = {
     this.createLevelMap();
     this.createUi();
     this.createGroupLayering();
+    this.debugSpawns();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
@@ -95,6 +96,26 @@ module.exports = {
     options.fxBackgroundOn.add(this.fxBackgroundOn, this);
     options.fxBackgroundOff.add(this.fxBackgroundOff, this);
     options.loadNewLevels.add(this.loadNewLevelPack, this);
+  },
+
+  debugSpawns: function() {
+
+    console.log('debugSpawns: ', this.level);
+
+    _.each(this.level.spawns, function(spawn) {
+
+      var spawnBm = game.make.bitmapData(50, 50);
+      spawnBm.ctx.fillStyle = '#ff93ff';
+      spawnBm.ctx.beginPath();
+      spawnBm.ctx.lineWidth = 1;
+      spawnBm.ctx.arc(25, 25, 25, 0, Math.PI * 2, true);
+      spawnBm.ctx.closePath();
+      spawnBm.ctx.fill();
+      var spawnSpr = game.add.sprite(spawn.x, spawn.y, spawnBm);
+      spawnSpr.anchor.setTo(0.5);
+      spawnSpr.alpha = 0.2;
+
+    });
   },
 
   fxParticlesOff: function() {

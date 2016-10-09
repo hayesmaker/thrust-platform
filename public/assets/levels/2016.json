@@ -47,8 +47,8 @@
         "y": 730
       },
       "spawns": [
-        {"x": 1850, "y": 1105, "orb": false},
-        {"x": 1129, "y": 1950, "orb": false}
+        {"x": 1850, "y": 1105, "orb": false, "enemies": 0},
+        {"x": 1129, "y": 1950, "orb": false, "enemies": 11}
       ],
       "enemies": [
         {"x": 925, "y": 1480, "rotation": 30},
