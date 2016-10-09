@@ -84,7 +84,7 @@ module.exports = {
     this.createLevelMap();
     this.createUi();
     this.createGroupLayering();
-    this.debugSpawns();
+    //this.debugSpawns();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
@@ -99,11 +99,7 @@ module.exports = {
   },
 
   debugSpawns: function() {
-
-    console.log('debugSpawns: ', this.level);
-
     _.each(this.level.spawns, function(spawn) {
-
       var spawnBm = game.make.bitmapData(50, 50);
       spawnBm.ctx.fillStyle = '#ff93ff';
       spawnBm.ctx.beginPath();
@@ -114,7 +110,6 @@ module.exports = {
       var spawnSpr = game.add.sprite(spawn.x, spawn.y, spawnBm);
       spawnSpr.anchor.setTo(0.5);
       spawnSpr.alpha = 0.2;
-
     });
   },
 
