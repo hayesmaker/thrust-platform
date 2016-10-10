@@ -338,6 +338,10 @@ module.exports = {
     }
   },
 
+  isPlanetDestroyed: function() {
+    return this.bonuses.planetBuster;
+  },
+
   /**
    * @method nextLevelCheck
    */
@@ -352,14 +356,13 @@ module.exports = {
       return;
     }
 
+    var isPlanetDestroyed = this.isPlanetDestroyed();
     //multiple objective support
     var objectiveComplete = false;
-    if (this.planetBusterMode) {
-      if (this.bonuses.planetBuster) {
+    if (this.planetBusterMode && isPlanetDestroyed) {
         objectiveComplete = true;
-      }
     } else {
-      if (this.bonuses.orbRecovered || this.bonuses.planetBuster) {
+      if (this.bonuses.orbRecovered || isPlanetDestroyed) {
         objectiveComplete = true;
       }
     }
