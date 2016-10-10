@@ -144,6 +144,8 @@ p.renderBitmapGate = function() {
 };
 
 /**
+ * addRectangle(width, height, offsetX, offsetY, rotation) → {p2.Box}
+ *
  * @method initPhysics
  * @param collisions {Collisions}
  */
@@ -172,7 +174,8 @@ p.initPhysics = function(collisions) {
   } else if (this.levelData.hasOwnProperty('gateBitmap')) {
     game.physics.p2.enable(this.gateSprite, properties.dev.debugPhysics);
     this.gateSprite.body.static = true;
-    //this.gateSprite.body.clearShapes();
+    this.gateSprite.body.clearShapes();
+    this.gateSprite.body.addRectangle(20, this.gateSprite.height, 0, 0, 0);
     //this.gateSprite.body.loadPolygon(this.gateCacheKey(), this.levelData.gateDataKey);
     this.gateSprite.body.setCollisionGroup(collisions.terrain);
     collisions.set(this.gateSprite, [collisions.players, collisions.orb, collisions.bullets, collisions.enemyBullets]);

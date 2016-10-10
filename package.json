@@ -5,6 +5,7 @@
   "version": "0.9.14",
   "private": true,
   "scripts": {
+    "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
     "deploy:skipTests": "npm run heroku",
     "preversion": "npm test -s",

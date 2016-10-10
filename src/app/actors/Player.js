@@ -106,6 +106,17 @@ function Player(collisions, groups) {
   this.isRefuelling = false;
 
   /**
+   * @property onKilled
+   * @type {Phaser.Signal}
+   */
+  this.onKilled = new Phaser.Signal();
+  /**
+   * @property earlyInterstitial
+   * @type {Phaser.Signal}
+   */
+  this.earlyInterstitial = new Phaser.Signal();
+
+  /**
    * @property respawnPos
    * @type {Phaser.Point}
    */
@@ -623,6 +634,7 @@ p.exhaustUpdate = function () {
  */
 p.death = function () {
   if (this.inPlay) {
+    this.onKilled.dispatch();
     //this.exists = false;
     this.inPlay = false;
     this.alive = false;
@@ -631,18 +643,29 @@ p.death = function () {
 };
 
 /**
+ *
+ *
  * @method dispatch game over if player lives are lost
  * @param callback
  * @param context
- * @param [removeShip] {Boolean} If resulting from a fatal collision re-spawn and lose a ship
  */
 p.checkRespawn = function (callback, context) {
   if (gameState.lives  - 1 < 0) {
     console.log('game over');
     gameState.isGameOver = true;
     //game over
-    //this.livesLost.dispatch();
   } else {
-    this.respawn(callback, context, true);
+
+    if (!gameState.bonuses.planetBuster) {
+      this.respawn(callback, context, true);
+    } else {
+      if (!gameState.cheats.infiniteLives) {
+        gameState.lives--;
+      }
+      this.earlyInterstitial.dispatch();
+    }
+
+
+
   }
 };
