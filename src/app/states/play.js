@@ -566,6 +566,7 @@ module.exports = {
    * @method gameOver
    */
   gameOver: function () {
+    console.warn('play :: gameOver called');
     ui.countdown.stop();
     this.stopStopwatch();
     if (gameState.trainingMode) {
@@ -664,6 +665,9 @@ module.exports = {
     }
     particles.create();
     this.player = new Player(this.collisions, this.groups);
+    this.player.onKilled.add(this.playerKilled, this);
+    this.player.earlyInterstitial.add(this.earlyInterstitial, this);
+
     if (this.level.orbPosition) {
       this.orb = new Orb(this.groups, this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
       this.orb.setPlayer(this.player);
@@ -757,6 +761,11 @@ module.exports = {
   startDestructionSequence: function () {
     ui.countdown.start();
     gameState.bonuses.planetBuster = true;
+  },
+
+  stopDestructSequence: function () {
+    //todo countdown
+    ui.countdown.stop();
   },
 
   /**
@@ -895,8 +904,15 @@ module.exports = {
   },
 
   allEnemiesDestroyed: function () {
-    console.log('all enemies destroyed');
     this.map.allEnemiesDetroyed();
+  },
+
+  playerKilled: function () {
+    this.stopDestructSequence();
+  },
+
+  earlyInterstitial: function () {
+    this.levelInterstitialStart();
   },
 
   /**

@@ -287,7 +287,8 @@ module.exports = {
   /**
    * @method levelStart
    */
-  levelStart: function() {
+  resetBonuses: function() {
+    console.log('game-state :: levelStart : currentLevel', levelManager.currentLevel);
     this.gameComplete = false;
     this.bonuses.planetBuster = false;
     this.bonuses.orbRecovered = false;
@@ -308,7 +309,7 @@ module.exports = {
    */
   newGame: function() {
     this.resetTimes();
-    this.levelStart();
+    this.resetBonuses();
     levelManager.newGame();
   },
   
@@ -337,6 +338,10 @@ module.exports = {
     }
   },
 
+  isPlanetDestroyed: function() {
+    return this.bonuses.planetBuster;
+  },
+
   /**
    * @method nextLevelCheck
    */
@@ -351,14 +356,13 @@ module.exports = {
       return;
     }
 
+    var isPlanetDestroyed = this.isPlanetDestroyed();
     //multiple objective support
     var objectiveComplete = false;
-    if (this.planetBusterMode) {
-      if (this.bonuses.planetBuster) {
+    if (this.planetBusterMode && isPlanetDestroyed) {
         objectiveComplete = true;
-      }
     } else {
-      if (this.bonuses.orbRecovered) {
+      if (this.bonuses.orbRecovered || isPlanetDestroyed) {
         objectiveComplete = true;
       }
     }
@@ -368,7 +372,7 @@ module.exports = {
         !options.gameModes.endlessMode.enabled) {
         this.levelsCompleted.dispatch();
       } else {
-        this.levelStart();
+        this.resetBonuses();
         levelManager.nextLevel();
       }
     }

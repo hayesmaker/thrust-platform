@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.12...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.13...HEAD)
+
+**Merged pull requests:**
+
+- Feature/improve spawn logic [\#48](https://github.com/hayesmaker/thrust-platform/pull/48) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/cheats [\#47](https://github.com/hayesmaker/thrust-platform/pull/47) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.13](https://github.com/hayesmaker/thrust-platform/tree/v0.9.13) (2016-10-08)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.12...v0.9.13)
 
 **Merged pull requests:**
 
