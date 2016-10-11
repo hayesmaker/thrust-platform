@@ -82,7 +82,7 @@ p.startLocking = function(){
     this.isLocking = true;
     this.timer.add(this.lockingDuration, this.lock, this);
     this.timer.start();
-    sound.playSound('connecting1');
+    sound.playSound(sound.TRACTOR_BEAM_CONNECTING);
   }
 };
 
@@ -136,7 +136,7 @@ p.lockingRelease = function () {
     this.isLocking = false;
     this.hasGrabbed = false;
     this.graphics.clear();
-    sound.playSound('hurt3');
+    sound.playSound(sound.TRACTOR_BEAM_RELEASE);
     this.timer.stop(true);
   }
 };
@@ -155,7 +155,7 @@ p.grab = function () {
   var diffY = player.position.y - this.orb.sprite.position.y;
   this.constraint = game.physics.p2.createRevoluteConstraint(player, [0, 0], this.orb.sprite, [diffX, diffY], maxForce);
   this.orb.move();
-  sound.playSound('connect1');
+  sound.playSound(sound.TRACTOR_BEAM_GRAB);
   this.clearPhysics();
 };
 
@@ -164,8 +164,7 @@ p.grab = function () {
  */
 p.breakLink = function () {
   this.unlock();
-  sound.playSound('connecting1');
-  sound.playSound('hurt3');
+  sound.playSound(sound.TRACTOR_BEAM_BREAK);
   this.lockingRelease();
   game.physics.p2.removeConstraint(this.constraint);
 };

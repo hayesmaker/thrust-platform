@@ -1,6 +1,7 @@
 'use strict';
 
 var levelManager = require('../data/level-manager');
+var sound = require('../utils/sound');
 var TimelineMax = global.TimelineMax;
 
 /**
@@ -12,6 +13,7 @@ var TimelineMax = global.TimelineMax;
  */
 module.exports = {
 
+  isReversed: false,
   /**
    * @property swipe
    * @type {Phaser.Sprite}
@@ -55,6 +57,7 @@ module.exports = {
     this.swipe.height = 5;
     this.group.add(this.swipe);
     this.group.fixedToCamera = true;
+    this.isReversed = false;
 
     /**
      "title": "Mission %n",
@@ -63,6 +66,8 @@ module.exports = {
      *
      * @type {{font: string, fill: string, align: string}}
      */
+
+    //_.bind(this.swipeSound, this);
 
     console.log('levelIndex=', levelManager.levelIndex);
     console.log('levels.length=', levelManager.levels.length);
@@ -85,8 +90,14 @@ module.exports = {
     this.hideSwipe();
     this.tl = new TimelineMax({delay: 0.2, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
     this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));
-    this.tl.addCallback(this.swipeSound);
     this.tl.add(TweenMax.to(this.swipe, 0.2, {height: this.fullH, ease: Quad.easeOut} ));
+    this.tl.add(function() {
+      if (this.isReversed) {
+        sound.playSound(sound.UI_SWIPE_OUT);
+      } else {
+        sound.playSound(sound.UI_SWIPE_IN);
+      }
+    }.bind(this));
     this.tl.add(TweenMax.to(this.swipe, 0.4, {width: this.fullW, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.title, 0.25, {alpha: 1, ease: Quad.easeOut} ));
     this.tl.add(TweenMax.to(this.desc, 0.25, {alpha: 1, ease: Quad.easeOut} ));
@@ -117,11 +128,8 @@ module.exports = {
     this.tl.play();
   },
 
-  swipeSound: function() {
-    //game.sfx.play('swipe1');
-  },
-
   missionStartSwipeOut: function() {
+    this.isReversed = true;
     this.tl.reverse();
   },
 

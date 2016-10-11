@@ -31,6 +31,15 @@ module.exports = {
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);
+    this.gameOver.init(this.group);
+  },
+
+  showGameOver: function() {
+    this.gameOver.blink();
+  },
+
+  removeGameOver: function() {
+    this.gameOver.stop();
   },
 
   drawStopwatch: function() {
@@ -43,6 +52,7 @@ module.exports = {
   },
   
   update: function() {
+    this.gameOver.update();
     this.menu.update();
     this.options.update();
   },
@@ -74,6 +84,8 @@ module.exports = {
     this.group.removeAll(true);
     this.group.destroy();
   },
+
+  gameOver: require('./ui-game-over'),
 
   stopwatch: require('./ui-stopwatch'),
 

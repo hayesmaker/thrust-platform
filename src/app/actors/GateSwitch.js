@@ -63,7 +63,7 @@ p.hit = function () {
   if (!this.timer) {
     this.timer = game.time.events.add(6000, this.closeGate, this);
   }
-  sound.playSound('select2');
+  sound.playSound(sound.LIMPET_EXPLODE);
 };
 
 p.closeGate = function() {

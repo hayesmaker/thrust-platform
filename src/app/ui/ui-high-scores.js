@@ -179,7 +179,7 @@ p.createSubtitles = function () {
 p.newHighScoreSubTitle = function () {
   this.subTitle1.visible = this.subTitle2.visible = true;
   this.subTitle1.text = "NEW HIGH SCORE";
-  this.subTitle2.text = "ENTER YOUR NAME PILOT";
+  this.subTitle2.text = "ENTER YOUR NAME";
 };
 
 p.gameOverSubTitle = function () {

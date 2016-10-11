@@ -162,7 +162,7 @@ p.contactStart = function () {
  * @method explode
  */
 p.explode = function () {
-  sound.playSound('matt-fuel-explode-1');
+  sound.playSound(sound.FUEL_EXPLODE);
   particles.fuelExplode(this.x, this.y + this.height / 2);
   gameState.addScore(gameState.SCORES.FUEL);
   this.cleanup();
@@ -221,7 +221,8 @@ p.setPhysicsShape = function () {
  *
  * @method kill
  */
-p.kill = function () {
+p.kill = function (skipSound) {
+  sound.playSound(sound.FUEL_REFUEL_COMPLETE);
   this.alive = false;
   gameState.addScore(gameState.SCORES.FUEL);
   TweenLite.to(this, 0.3, {

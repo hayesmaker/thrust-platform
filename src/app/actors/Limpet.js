@@ -127,7 +127,7 @@ p.update = function () {
       if (Math.random() < this.fireRate) {
         if (this.canFire()) {
           this.groups.bullets.fire(this.position, this.body);
-          sound.playSound('matt-limpet-fire-1');
+          sound.playSound(sound.LIMPET_FIRE);
         }
 
       }
@@ -147,7 +147,7 @@ p.explode = function () {
   this.body.removeFromWorld();
   this.body.destroy();
   gameState.addScore(gameState.SCORES.LIMPET);
-  sound.playSound('matt-limpet-explode-1');
+  sound.playSound(sound.LIMPET_EXPLODE);
   var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {
     return limpet.exists === true;
   });

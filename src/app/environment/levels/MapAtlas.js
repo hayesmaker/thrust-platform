@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var properties = require('../../properties');
+var sound = require('../../utils/sound');
 
 /**
  * game.load.atlas(
@@ -227,6 +228,7 @@ p.gateCacheKey = function() {
  */
 p.openGate = function () {
   if (this.gateSprite && !this.hasBitmapGate) {
+    sound.playSound(sound.GATE_OPEN, 1, false);
     var xTo = this.levelData.gateTweenTo.x;
     var yTo = this.levelData.gateTweenTo.y;
     TweenMax.to(this.gateSprite.body, this.tweenDuration, {x: xTo, y: yTo,  ease: Quad.easeOut});
@@ -235,6 +237,7 @@ p.openGate = function () {
 
 p.allEnemiesDetroyed = function() {
   if (this.hasBitmapGate) {
+    sound.playSound(sound.GATE_OPEN, 1, false);
     this.gateSprite.body.destroy();
     this.gateSprite.destroy();
   }
@@ -245,6 +248,7 @@ p.allEnemiesDetroyed = function() {
  */
 p.closeGate = function() {
   if (this.gateSprite) {
+    sound.playSound(sound.GATE_CLOSE, 1, false);
     var xTo = this.levelData.gatePosition.x;
     var yTo = this.levelData.gatePosition.y;
     TweenMax.to(this.gateSprite.body, this.tweenDuration, {x: xTo, y: yTo,  ease: Quad.easeOut});

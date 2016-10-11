@@ -104,8 +104,8 @@ p.update = function() {
  * @method hit
  */
 p.hit = function() {
-  this.damage(85);
-  sound.playSound('hurt2');
+  this.damage(75);
+  sound.playSound(sound.POWER_STATION_HIT);
 };
 
 p.stopParticles = function() {
@@ -120,14 +120,14 @@ p.startParticles = function() {
  * @method explode
  */
 p.explode = function() {
-  sound.playSound('hurt1');
+  sound.playSound(sound.POWER_STATION_EXPLODE1);
   particleManager.explode(this.x  - this.width/2, this.y + this.height/2);
   game.time.events.add(Math.random()*500, function() {
-    sound.playSound('hurt1');
+    sound.playSound(sound.POWER_STATION_EXPLODE2);
     particleManager.explode(this.x, this.y + this.height/2);
   }, this);
   game.time.events.add(Math.random()*500, function() {
-    sound.playSound('planet-death1');
+    sound.playSound(sound.POWER_STATION_EXPLODE2);
     particleManager.explode(this.x + this.width/2, this.y + this.height/2);
   }, this);
 };
