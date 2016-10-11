@@ -2,6 +2,7 @@ var _ = require('lodash');
 var levelManager = require('./level-manager');
 var utils = require('../utils');
 var options = require('./options-model');
+var sound = require('../utils/sound');
 
 /**
  * keeps a record of current game state data
@@ -429,11 +430,19 @@ module.exports = {
     orbRecovered: false
   },
 
+  /**
+   * @method setScore
+   * @param value
+   */
   setScore: function(value) {
     this.score = value;
     this.check1Up();
   },
 
+  /**
+   * @method addScore
+   * @param value
+   */
   addScore: function(value) {
     this.score += value;
     this.check1Up();
@@ -444,13 +453,14 @@ module.exports = {
    */
   check1Up: function() {
     if (this.score / (10000 * (this.numExtraLives + 1)) >= 1) {
+      sound.playSound(sound.PLAYER_1UP);
       this.lives += 1;
       this.numExtraLives++;
     }
   },
 
   /**
-   *
+   * @property numExtraLives
    */
   numExtraLives: 0,
 

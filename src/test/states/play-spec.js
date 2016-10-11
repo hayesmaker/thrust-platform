@@ -125,6 +125,8 @@ describe("Phaser play state tests", function () {
 
   describe('play.update', function () {
 
+    play.isGameOver = false;
+
     beforeEach(function () {
       sinon.stub(game.stats, 'begin');
       sinon.stub(game.stats, 'end');

@@ -5,6 +5,7 @@ var TweenLite = global.TweenLite;
 var TimelineLite = global.TimelineLite;
 var Quad = global.Quad;
 var dialog = require('./mission-dialog');
+var sound = require('../utils/sound');
 
 var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
   constructor: UIInterstial
@@ -231,18 +232,22 @@ p.createValues = function(x, field, label) {
  */
 p.render = function() {
   UIComponent.prototype.render.call(this);
+  var isSuccess = false;
   var x = game.width/2;
   _.each(this.getFields(), function(field, index) {
     var labelText;
     if (gameState.planetBusterMode) {
-      labelText = gameState.bonuses.planetBuster? field.successLabel : field.failLabel;
+
+      isSuccess = gameState.bonuses.planetBuster;
+      labelText = isSuccess? field.successLabel : field.failLabel;
     } else {
-      labelText = gameState.bonuses.orbRecovered? field.successLabel : field.failLabel;
+      isSuccess = gameState.bonuses.orbRecovered;
+      labelText = isSuccess? field.successLabel : field.failLabel;
     }
     var label = this.createLabels(x, field, index, labelText);
     this.createValues(x, field, label);
   }.bind(this));
-  this.transitionEnter();
+  this.transitionEnter(isSuccess);
 };
 
 /**
@@ -289,6 +294,7 @@ p.disable = function() {
  * @method spacePressed
  */
 p.spacePressed = function () {
+  sound.playSound(sound.UI_PRESS_FIRE);
   this.disable();
   this.transitionExit();
 };
@@ -297,10 +303,17 @@ p.spacePressed = function () {
  * Tweens the ui component elements into view
  * 
  * @method transitionEnter
+ * @param isSuccess
  */
-p.transitionEnter = function() {
-
+p.transitionEnter = function(isSuccess) {
    this.tl = new TimelineLite({delay: 0.25, onComplete: this.transitionEnterComplete, callbackScope: this});
+   this.tl.add(function() {
+     if (isSuccess) {
+       sound.playSound(sound.UI_INTERSTITIAL_MISSION_COMPLETE);
+     } else {
+       sound.playSound(sound.UI_INTERSTITIAL_MISSION_FAILED);
+     }
+   });
    _.each(this.getFields(), function(field) {
      this.tl.add(TweenLite.to(field.tf, 0.2, {alpha: 1, ease:Quad.easeIn}));
    }.bind(this));
@@ -310,6 +323,7 @@ p.transitionEnter = function() {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
        if (field.score > 0 && !gameState.trainingMode) {
          var newScore = gameState.score + field.score;
+         sound.playSound(sound.UI_SCORE_ROLLUP);
          this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score", onComplete: function() {
            gameState.setScore(newScore);
          }}));

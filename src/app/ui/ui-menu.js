@@ -181,7 +181,7 @@ p.menuItem = function (label, index) {
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
   this.items[index].graphic.visible = true;
-  sound.playSound('select2', 0.2);
+  sound.playSound(sound.UI_MENU_SELECT, 1);
 };
 
 /**

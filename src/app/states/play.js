@@ -167,7 +167,7 @@ module.exports = {
     } else {
       this.updateCamera(this.player);
     }
-    if (this.uiMode) {
+    if (this.uiMode || this.isGameOver) {
       ui.update();
     }
     if (game.controls.useExternalJoypad &&
@@ -292,8 +292,9 @@ module.exports = {
     );
     ui.showScreen(state, shouldFadeBackground);
 
-    if (state === gameState.PLAY_STATES.MENU && !sound.music) {
+    if (state === gameState.PLAY_STATES.MENU) {
       sound.playMusic("thrust-title-theme2", 0.5, true);
+      ui.removeGameOver();
     }
 
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
@@ -516,8 +517,9 @@ module.exports = {
         if (this.orb) {
           this.orb.stop();
         }
+        console.log('play :: ui.countdown.stop');
         ui.countdown.stop();
-        sound.playSound('teleport-in3');
+        sound.playSound(sound.PLAYER_TELEPORT_OUT);
         this.player.levelExit();
         this.stopStopwatch();
         if (gameState.trainingMode) {
@@ -540,7 +542,9 @@ module.exports = {
   checkGameOver: function () {
     if (gameState.isGameOver && !this.isGameOver) {
       this.isGameOver = true;
-      game.time.events.add(3000, _.bind(this.gameOver, this));
+      ui.showGameOver();
+      sound.playSound(sound.UI_GAME_OVER);
+      game.time.events.add(2000, _.bind(this.gameOver, this));
     }
   },
   /**
@@ -759,11 +763,13 @@ module.exports = {
    * @method startDestructionSequence
    */
   startDestructionSequence: function () {
+    console.log('startDestructionSequence');
     ui.countdown.start();
     gameState.bonuses.planetBuster = true;
   },
 
   stopDestructSequence: function () {
+    console.log('stopDestructionSequence');
     //todo countdown
     ui.countdown.stop();
   },
@@ -787,9 +793,16 @@ module.exports = {
   },
 
   /**
+   * Removes
+   *
    * @method removePlanet
    */
   removePlanet: function () {
+    if (gameState.lives <= 0) {
+      this.planetDeathTl.kill();
+      game.camera.resetFX();
+      gameState.isGameOver = true;
+    }
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
@@ -809,14 +822,14 @@ module.exports = {
       Math.random() * (game.camera.y + game.camera.height)
     );
     particles.explode(pos.x, pos.y);
-    sound.playSound('boom1');
+    sound.playSound(sound.LIMPET_EXPLODE);
     this.explosionsTimer = game.time.events.loop(duration / numExplosions, function () {
       var pos = new Phaser.Point(
         Math.random() * (game.camera.x + game.camera.width),
         Math.random() * (game.camera.y + game.camera.height)
       );
       particles.explode(pos.x, pos.y);
-      sound.playSound('boom1');
+      sound.playSound(sound.PLAYER_EXPLOSION);
     }, this);
   },
 

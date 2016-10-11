@@ -8,7 +8,7 @@ var levelManager = require('../data/level-manager');
 var gameState = require('../data/game-state');
 var _ = require('lodash');
 var sound = require('../utils/sound');
-var ThrustSound = 'matt-thrust-1';
+var ThrustSound = sound.PLAYER_THRUST_MID;
 
 /**
  * A user controlled controlled spaceship
@@ -237,7 +237,7 @@ p.start = function (completeCallback, context) {
 p.showRefuelAnim = function () {
   this.refuelAnimSprite.visible = true;
   this.refuelAnimSprite.play('refuelling');
-  sound.playSound('matt-refuel-1', 1, true);
+  sound.playSound(sound.FUEL_REFUELLING, 1, true);
 };
 
 /**
@@ -246,7 +246,7 @@ p.showRefuelAnim = function () {
 p.hideRefuelAnim = function () {
   this.refuelAnimSprite.animations.stop('refuelling', true);
   this.refuelAnimSprite.visible = false;
-  game.sfx.stop('matt-refuel-1');
+  game.sfx.stop(sound.FUEL_REFUELLING);
 };
 
 /**
@@ -323,7 +323,7 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
     gameState.lives--;
   }
 
-  sound.playSound('teleport-in3');
+  sound.playSound(sound.PLAYER_TELEPORT_IN);
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function () {
     if (completeCallback) {
       completeCallback.call(thisArg);
@@ -484,7 +484,7 @@ p.connectAttempt = function () {
 p.fire = function () {
   if (this.inPlay) {
     this.groups.playerBullets.fire(this);
-    sound.playSound('zap1');
+    sound.playSound(sound.PLAYER_FIRE);
   }
 };
 
@@ -531,7 +531,7 @@ p.explosion = function (force) {
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);
-    sound.playSound('matt-player-explode-1');
+    sound.playSound(sound.PLAYER_EXPLOSION, 2);
     if (hasOrb) {
       this.tractorBeam.breakLink();
     }
