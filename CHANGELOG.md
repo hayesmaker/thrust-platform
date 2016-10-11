@@ -2,11 +2,24 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.13...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.15...HEAD)
+
+**Merged pull requests:**
+
+- Feature/fix planet buster bugs [\#49](https://github.com/hayesmaker/thrust-platform/pull/49) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.15](https://github.com/hayesmaker/thrust-platform/tree/v0.9.15) (2016-10-10)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.14...v0.9.15)
 
 **Merged pull requests:**
 
 - Feature/improve spawn logic [\#48](https://github.com/hayesmaker/thrust-platform/pull/48) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.14](https://github.com/hayesmaker/thrust-platform/tree/v0.9.14) (2016-10-09)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.13...v0.9.14)
+
+**Merged pull requests:**
+
 - Feature/cheats [\#47](https://github.com/hayesmaker/thrust-platform/pull/47) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.9.13](https://github.com/hayesmaker/thrust-platform/tree/v0.9.13) (2016-10-08)
