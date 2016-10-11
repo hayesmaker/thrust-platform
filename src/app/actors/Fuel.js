@@ -221,7 +221,7 @@ p.setPhysicsShape = function () {
  *
  * @method kill
  */
-p.kill = function (skipSound) {
+p.kill = function () {
   sound.playSound(sound.FUEL_REFUEL_COMPLETE);
   this.alive = false;
   gameState.addScore(gameState.SCORES.FUEL);
