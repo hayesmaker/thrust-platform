@@ -44,7 +44,12 @@ p.layoutRect = null;
 p.newScoreName = "";
 p.mobileCharsIndex = 0;
 p.mobileChars = [
-  " ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<3", ":)", "END"
+  " ", "A", "B", "C", "D", "E",
+  "F", "G", "H", "I", "J", "K",
+  "L", "M", "N", "O", "P", "Q",
+  "R", "S", "T", "U", "V", 
+  "W", "X", "Y", "Z", " ", ":)",
+  "END"
 ];
 p.mobileCharDirty = false;
 
