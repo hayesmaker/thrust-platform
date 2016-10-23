@@ -8,11 +8,19 @@ var _ = require('lodash');
  */
 module.exports = {
 
+  /**
+   * @method init
+   */
   init: function() {
     this.initFps();
+    this.initDisplay();
     this.initEvents();
   },
 
+  /**
+   * @method setLevels
+   * @param value
+   */
   setLevels: function(value) {
     this.gameModes.levels.dirty = value !== this.gameModes.levels.current;
     this.gameModes.levels.selected = value;
@@ -36,13 +44,17 @@ module.exports = {
         jsonUrl = 'assets/levels/2016.json';
         break;
       default:
-        console.warn('no json url found for selected levels');
+        jsonUrl = 'assets/levels/classic.json';
+        console.warn('no json url found for selected levels - using default classic.json');
         break;
     }
     console.log('getLevelsJsonUrl :: jsonUrl=', jsonUrl);
     return jsonUrl;
   },
 
+  /**
+   * @property gameModes
+   */
   gameModes: {
     levels: {
       dirty: false,
@@ -58,10 +70,16 @@ module.exports = {
       enabled: false
     }
   },
+  /**
+   * @property sound
+   */
   sound: {
     soundFx: true,
     music: false
   },
+  /**
+   * @property display
+   */
   display: {
     fps: 60,
     fullscreen: true,
@@ -70,13 +88,22 @@ module.exports = {
       particles: true
     }
   },
+  /**
+   * @property controls
+   */
   controls: {
     virtualJoypad: false,
     keyboard: true,
     externalGamepad: false
   },
+  /**
+   * @property general
+   */
   general: {},
 
+  /**
+   * @method initFps
+   */
   initFps: function() {
     if (game.device.iOS || game.device.android || game.device.windowsPhone || this.display.fps === 30) {
       game.device.isMobile = true;
@@ -84,6 +111,15 @@ module.exports = {
     } else {
       game.time.desiredFps = this.display.fps = 60;
       game.device.isMobile = false;
+    }
+  },
+
+  /**
+   * @method initDisplay
+   */
+  initDisplay: function() {
+    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      this.display.fx.particles = false;
     }
   },
 
