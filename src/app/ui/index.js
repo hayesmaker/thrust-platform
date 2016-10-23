@@ -51,10 +51,13 @@ module.exports = {
     this.score.trainingMode();
   },
   
-  update: function() {
-    this.gameOver.update();
-    this.menu.update();
-    this.options.update();
+  update: function(uiMode) {
+    if (uiMode) {
+      this.menu.update();
+      this.options.update();
+    } else {
+      this.gameOver.update();
+    }
   },
 
   levelTransitionCompleted: function() {

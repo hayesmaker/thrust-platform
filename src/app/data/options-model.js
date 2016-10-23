@@ -9,6 +9,7 @@ var _ = require('lodash');
 module.exports = {
 
   init: function() {
+    this.initFps();
     this.initEvents();
   },
 
@@ -17,17 +18,13 @@ module.exports = {
     this.gameModes.levels.selected = value;
   },
 
+  /**
+   *
+   * @method getLevelsJsonUrl
+   * @returns {*}
+   */
   getLevelsJsonUrl: function() {
     var jsonUrl;
-    var levelPack = game.net.getQueryString('levelPack');
-    console.log('getLevelsJsonUrl', levelPack);
-    if (_.isEmpty(levelPack)) {
-      console.log('no level pack in qs');
-    } else {
-      console.log('level pack in qs', levelPack);
-      this.gameModes.levels.selected = levelPack;
-    }
-
     if (this.gameModes.levels.dirty) {
       this.gameModes.levels.current = this.gameModes.levels.selected;
     }
@@ -39,9 +36,10 @@ module.exports = {
         jsonUrl = 'assets/levels/2016.json';
         break;
       default:
-
+        console.warn('no json url found for selected levels');
         break;
     }
+    console.log('getLevelsJsonUrl :: jsonUrl=', jsonUrl);
     return jsonUrl;
   },
 
@@ -62,9 +60,10 @@ module.exports = {
   },
   sound: {
     soundFx: true,
-    music: true
+    music: false
   },
   display: {
+    fps: 60,
     fullscreen: true,
     fx: {
       background: true,
@@ -77,6 +76,16 @@ module.exports = {
     externalGamepad: false
   },
   general: {},
+
+  initFps: function() {
+    if (game.device.iOS || game.device.android || game.device.windowsPhone || this.display.fps === 30) {
+      game.device.isMobile = true;
+      game.time.desiredFps = this.display.fps = 30;
+    } else {
+      game.time.desiredFps = this.display.fps = 60;
+      game.device.isMobile = false;
+    }
+  },
 
   /**
    * @method getFilterByName

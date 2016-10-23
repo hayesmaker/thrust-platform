@@ -175,6 +175,21 @@ p.menuItem = function (label, index) {
 };
 
 /**
+ * //todo runtime error on game over / highscores on mobile
+ * this.items[index].graphic.visible = true;
+ * [Error] TypeError: undefined is not an object (evaluating 'this.items[index].graphic')
+         selectItemByIndex (thrust-engine-cordova.js:24349)
+         downPressed (thrust-engine-cordova.js:24414)
+         checkPressed (thrust-engine-cordova.js:24314)
+         update (thrust-engine-cordova.js:24303)
+         update (thrust-engine-cordova.js:20813)
+         update (thrust-engine-cordova.js:19495)
+         update (phaser.min.js:10:28841)
+         updateLogic (phaser.min.js:12:5150)
+         update (phaser.min.js:12:4581)
+         updateRAF (phaser.min.js:18:10011)
+         _onLoop (phaser.min.js:18:9890)
+ *
  * @method selectItemByIndex
  * @param index
  */

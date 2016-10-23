@@ -13,10 +13,6 @@ assets.tar.gz
 
 public/assets/atlas/combined.json
 public/assets/atlas/combined.png
-public/assets/audiosprite/thrust-music.ac3
-public/assets/audiosprite/thrust-music.json
-public/assets/audiosprite/thrust-music.m4a
-public/assets/audiosprite/thrust-music.mp3
-public/assets/audiosprite/thrust-music.ogg
+public/assets/audiosprite/
 public/assets/atlas/combined-2016.json
 public/assets/atlas/combined-2016.png

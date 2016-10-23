@@ -56,7 +56,6 @@ module.exports = {
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
-    //game.load.image('level-4-layout', 'assets/images/level-4-layout.png');
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
     this.preloadTrainingMap(properties.levels.training);

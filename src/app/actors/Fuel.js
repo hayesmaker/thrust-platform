@@ -234,7 +234,7 @@ p.kill = function () {
 };
 
 /**
- * @todo investigate crash
+ * @todo check this is fixed
  * Fuel.js:233 Uncaught TypeError: Cannot read property 'removeFromWorld' of null
  * this.body.removeFromWorld();
  *
@@ -242,10 +242,17 @@ p.kill = function () {
  */
 p.cleanup = function () {
   Phaser.Sprite.prototype.kill.call(this);
-  this.fuelAnim.kill();
-  this.body.removeFromWorld();
-  this.body.destroy();
-  this.sensor.kill();
-  this.sensor.body.removeFromWorld();
-  this.sensor.body.destroy();
+  if (this.fuelAnim) {
+    this.fuelAnim.kill();
+  }
+  if (this.body) {
+    this.body.removeFromWorld();
+    this.body.destroy();
+  }
+  if (this.sensor) {
+    this.sensor.kill();
+    this.sensor.body.removeFromWorld();
+    this.sensor.body.destroy();
+  }
+
 };

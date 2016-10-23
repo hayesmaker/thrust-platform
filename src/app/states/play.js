@@ -72,23 +72,26 @@ module.exports = {
   /**
    * Setup the game
    *
+   * Call //this.debugSpawns(); to show spawn positions
+   *
    * @method create
    */
   create: function () {
     this.initOptionsModel();
     this.initFullScreenHandling();
-    this.initFps();
     this.level = levelManager.currentLevel;
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
     this.createLevelMap();
     this.createUi();
     this.createGroupLayering();
-    //this.debugSpawns();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
   },
 
+  /**
+   * @method initOptionsModel
+   */
   initOptionsModel: function () {
     options.init();
     options.fxParticlesOn.add(this.fxParticlesOn, this);
@@ -98,6 +101,9 @@ module.exports = {
     options.loadNewLevels.add(this.loadNewLevelPack, this);
   },
 
+  /**
+   * @method debugSpawns
+   */
   debugSpawns: function () {
     _.each(this.level.spawns, function (spawn) {
       var spawnBm = game.make.bitmapData(50, 50);
@@ -113,36 +119,57 @@ module.exports = {
     });
   },
 
+  /**
+   * @method fxParticlesOff
+   */
   fxParticlesOff: function () {
     particles.disable();
     this.powerStation.stopParticles();
   },
 
+  /**
+   * @method fxParticlesOn
+   */
   fxParticlesOn: function () {
     particles.enable();
     this.powerStation.startParticles();
   },
 
+  /**
+   * @method fxBackgroundOn
+   */
   fxBackgroundOn: function () {
     if (!this.background.enabled) {
       this.background.enable();
     }
   },
 
+  /**
+   * @method fxBackgroundOff
+   */
   fxBackgroundOff: function () {
     if (this.background.enabled) {
       this.background.disable();
     }
   },
 
+  /**
+   * @method initFullscreenHandling
+   */
   initFullScreenHandling: function () {
     game.scale.onFullScreenChange.add(this.fullScreenChange, this);
   },
 
+  /**
+   * @method fullScreenChange
+   */
   fullScreenChange: function () {
     options.display.fullscreen = game.scale.isFullScreen;
   },
 
+  /**
+   * @mehtod initStopwatch
+   */
   initStopwatch: function () {
     ui.drawStopwatch();
     this.stopwatch = new Stopwatch(ui.stopwatch);
@@ -168,7 +195,7 @@ module.exports = {
       this.updateCamera(this.player);
     }
     if (this.uiMode || this.isGameOver) {
-      ui.update();
+      ui.update(this.uiMode);
     }
     if (game.controls.useExternalJoypad &&
       gameState.trainingMode &&
@@ -239,25 +266,6 @@ module.exports = {
     this.showCurrentScreenByState(gameState.currentState);
   },
 
-  /**
-   * mobile devices seem to struggle with p2 physics running at maximum 60fps
-   * this sets desiredFps to 30 on mobile OS.
-   * Overall performance is much improved at this setting on mobile.
-   * Although particle storm effects seem to run at half speed.
-   *
-   * @todo implement a switch in settings to turn this default setting.
-   * @method initFps
-   */
-  initFps: function () {
-    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
-      game.device.isMobile = true;
-      game.time.desiredFps = 30;
-    } else {
-      game.time.desiredFps = 60;
-      game.device.isMobile = false;
-    }
-  },
-
   showPauseButton: function () {
     if (this.pauseButton) {
       this.pauseButton.visible = true;
@@ -275,8 +283,8 @@ module.exports = {
    * @param state {String} name of gameState and also name of screen to show
    */
   showCurrentScreenByState: function (state) {
+    console.log('play :: showCurrentScreenByState :: ', state);
     this.uiMode = state === gameState.PLAY_STATES.MENU || state === gameState.PLAY_STATES.OPTIONS;
-
     if (state === gameState.PLAY_STATES.PLAY) {
       ui.showUser();
       this.playGame();
@@ -291,12 +299,10 @@ module.exports = {
       state === gameState.PLAY_STATES.INTERSTITIAL
     );
     ui.showScreen(state, shouldFadeBackground);
-
     if (state === gameState.PLAY_STATES.MENU) {
       sound.playMusic("thrust-title-theme2", 0.5, true);
       ui.removeGameOver();
     }
-
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
       ui.highscores.insertNewScore();
       gameState.shouldEnterHighScore = false;
@@ -314,7 +320,6 @@ module.exports = {
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.6, true);
         gameState.newPlayer();
-
         if (this.level.planetBusterMode) {
           console.warn('planetBusterMode');
           gameState.planetBusterMode = true;
@@ -993,7 +998,7 @@ module.exports = {
       game.controls.buttonB.onDown.add(this.pressButtonB, this);
       game.controls.buttonB.onUp.add(this.upButtonB, this);
     }
-    if (game.controls.useKeys) {
+    if (game.controls.useKeys || game.controls.useVirtualJoypad) {
       this.cursors = game.controls.cursors;
       game.controls.spacePress.onDown.add(this.player.fire, this.player);
       game.controls.xKey.onDown.add(this.xDown, this);

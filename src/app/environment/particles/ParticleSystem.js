@@ -22,7 +22,7 @@ p.emitter = null;
  */
 p.init = function() {
   this.manager = particles.manager;
-  this.emitter = this.manager.createEmitter();
+  this.emitter = this.manager.createEmitter(Phaser.ParticleStorm.SPRITE_BATCH);
   this.emitter.addToWorld(particles.group);
 };
 

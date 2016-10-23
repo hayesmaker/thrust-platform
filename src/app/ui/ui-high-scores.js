@@ -41,7 +41,6 @@ p.styles = {
 p.selectedIndex = 0;
 p.itemSelected = null;
 p.layoutRect = null;
-p.fullLayout = false;
 p.newScoreName = "";
 p.mobileCharsIndex = 0;
 p.mobileChars = [
@@ -56,18 +55,18 @@ p.render = function () {
   UIComponent.prototype.render.call(this);
   this.items = [];
   this.initSignals();
-  this.initLayout();
   this.createDisplay();
   this.drawPressFire();
 };
 
 p.initFullLayout = function () {
-  this.fullLayout = true;
+  UIComponent.prototype.initFullLayout.call(this);
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
 };
 
 p.initSmallLayout = function () {
+  UIComponent.prototype.initSmallLayout().call(this);
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
@@ -91,7 +90,6 @@ p.createDisplay = function () {
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
   this.drawBestTime();
-  //this.drawLines();
   this.createSubtitles();
 };
 

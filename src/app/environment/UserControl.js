@@ -13,9 +13,8 @@ function UserControl(features) {
   this.initExternalJoypad();
   if (!this.externalGamePadDetected && this.features.isTouchScreen) {
     this.useVirtualJoypad = true;
-  } else {
-    this.initKeys(); 
   }
+  this.initKeys();
 }
 
 var p = UserControl.prototype;
