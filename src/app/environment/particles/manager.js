@@ -150,10 +150,10 @@ module.exports = {
     this.manager.addData('fuelExplode', fuelExplodeEmitter);
     this.manager.addData('smoke', smokeData);
 
-    this.powerEmitter = this.manager.createEmitter();
+    this.powerEmitter = this.manager.createEmitter(Phaser.ParticleStorm.SPRITE_BATCH);
     this.powerEmitter.addToWorld(this.group);
 
-    this.emitter = this.manager.createEmitter();
+    this.emitter = this.manager.createEmitter(Phaser.ParticleStorm.SPRITE_BATCH);
     this.emitter.addToWorld(this.group);
   },
 
@@ -199,6 +199,7 @@ module.exports = {
   },
 
   emitPower: function (x, y) {
+    console.log('particle-manager :: emitPower :: x,y', x, y, this.enabled);
     if (this.enabled) {
       var freqency = game.device.isMobile ? 100 : 50;
       this.powerEmitter.force.y = -0.0001;

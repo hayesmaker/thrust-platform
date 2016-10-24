@@ -89,7 +89,7 @@ p.update = function() {
       this.play('damaged');
       this.stopParticles();
     }
-    this.health+=0.5;
+    this.health+=0.6;
   } else if (this.health >= gameState.POWER_STATION_HEALTH) {
     if (!this.isNormal) {
       this.isNormal = true;

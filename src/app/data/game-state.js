@@ -313,9 +313,13 @@ module.exports = {
     this.resetBonuses();
     levelManager.newGame();
   },
-  
+
+  /**
+   * @method startTraining
+   */
   startTraining: function() {
-    this.levelStart();
+    this.resetTimes();
+    this.resetBonuses();
     levelManager.startTraining();
   },
 

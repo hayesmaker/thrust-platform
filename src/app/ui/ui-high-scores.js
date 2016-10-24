@@ -41,11 +41,15 @@ p.styles = {
 p.selectedIndex = 0;
 p.itemSelected = null;
 p.layoutRect = null;
-p.fullLayout = false;
 p.newScoreName = "";
 p.mobileCharsIndex = 0;
 p.mobileChars = [
-  " ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "<3", ":)", "END"
+  " ", "A", "B", "C", "D", "E",
+  "F", "G", "H", "I", "J", "K",
+  "L", "M", "N", "O", "P", "Q",
+  "R", "S", "T", "U", "V",
+  "W", "X", "Y", "Z", " ", ":)",
+  "END"
 ];
 p.mobileCharDirty = false;
 
@@ -56,18 +60,18 @@ p.render = function () {
   UIComponent.prototype.render.call(this);
   this.items = [];
   this.initSignals();
-  this.initLayout();
   this.createDisplay();
   this.drawPressFire();
 };
 
 p.initFullLayout = function () {
-  this.fullLayout = true;
+  UIComponent.prototype.initFullLayout.call(this);
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
 };
 
 p.initSmallLayout = function () {
+  UIComponent.prototype.initSmallLayout.call(this);
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
@@ -91,7 +95,6 @@ p.createDisplay = function () {
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
   this.drawBestTime();
-  //this.drawLines();
   this.createSubtitles();
 };
 
@@ -189,6 +192,7 @@ p.gameOverSubTitle = function () {
   this.subTitle3.visible = true;
 
   if (gameState.gameComplete) {
+    gameState.newGame();
     this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
   }
 };

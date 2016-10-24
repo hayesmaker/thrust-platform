@@ -43,7 +43,7 @@ p.render = function () {
  */
 p.createDisplay = function () {
   var paddingFaction = this.layoutRect.height * 0.025;
-  var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND'];
+  var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND', 'FPS 60'];
   var x = this.isFullLayout ? 0.5 : 0.4;
   _.each(switches, function (name, index) {
     var uiSwitch = new UiSwitch(this.group, name);
@@ -59,6 +59,9 @@ p.createDisplay = function () {
 
 p.onSwitch = function (name) {
   switch (name) {
+    case "FPS 60":
+      this.fpsToggleOn();
+      break;
     case  "FULL SCREEN":
       this.fullscreenOn();
       break;
@@ -73,6 +76,9 @@ p.onSwitch = function (name) {
 
 p.offSwitch = function (name) {
   switch (name) {
+    case "FPS 60":
+      this.fpsToggleOff();
+      break;
     case  "FULL SCREEN":
       this.fullscreenOff();
       break;
@@ -85,6 +91,29 @@ p.offSwitch = function (name) {
   }
 };
 
+p.fpsToggleOn  = function() {
+  optionsModel.display.fps = 60;
+  game.time.desiredFps = optionsModel.display.fps;
+
+  console.warn('fpsToggleOn :: FPS', optionsModel.display.fps);
+
+  var fpsSwitch = this.getComponentByName("FPS 60");
+  fpsSwitch.label.text = "FPS 60";
+};
+
+p.fpsToggleOff = function() {
+  optionsModel.display.fps = 30;
+  game.time.desiredFps = optionsModel.display.fps;
+
+  console.warn('fpsToggleOff :: FPS', optionsModel.display.fps);
+
+  var fpsSwitch = this.getComponentByName("FPS 60");
+  fpsSwitch.label.text = "FPS 30";
+};
+
+/**
+ * @method update
+ */
 p.update = function () {
   var uiSwitch = this.getComponentByName("FULL SCREEN");
   if (!uiSwitch) return;
@@ -95,20 +124,31 @@ p.update = function () {
   }
 };
 
+/**
+ * @method fullscreenOn
+ */
 p.fullscreenOn = function () {
   optionsModel.display.fullscreen = true;
   game.scale.startFullScreen(false);
 };
 
+/**
+ * @method fullscreenOff
+ */
 p.fullscreenOff = function () {
   optionsModel.display.fullscreen = false;
   game.scale.stopFullScreen();
 };
 
+/**
+ * @method particlesOn
+ */
 p.particlesOn = function () {
   optionsModel.display.fx.particles = true;
   optionsModel.fxParticlesOn.dispatch();
 };
+
+
 p.backgroundOn = function () {
   optionsModel.display.fx.background = true;
   optionsModel.fxBackgroundOn.dispatch();
@@ -126,11 +166,18 @@ p.backgroundOff = function () {
 p.renderDefaults = function () {
   var particlesSwitch = this.getComponentByName("PARTICLE FX");
   var backgroundSwitch = this.getComponentByName("BACKGROUND");
+  var fpsSwitch = this.getComponentByName("FPS 60");
   if (optionsModel.display.fx.background) {
     backgroundSwitch.switch(true);
   }
   if (optionsModel.display.fx.particles) {
     particlesSwitch.switch(true);
+  }
+  if (optionsModel.display.fps === 60) {
+    fpsSwitch.switch(true);
+    fpsSwitch.label.text = "FPS 60";
+  } else {
+    fpsSwitch.label.text = "FPS 30";
   }
 };
 

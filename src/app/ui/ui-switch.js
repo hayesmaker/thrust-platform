@@ -30,7 +30,7 @@ p.originPos = null;
 function UiSwitch(group, name) {
   UiComponent.call(this, group, name, true, false);
   this.originPos = new Phaser.Point();
-  this.label = this.name;
+  //this.label = this.name;
 }
 
 /**
@@ -78,7 +78,7 @@ p.createDisplay = function () {
 };
 
 p.createLabel = function() {
-  this.label = game.add.text(0, 0, this.label, this.style, this.group);
+  this.label = game.add.text(0, 0, this.name, this.style, this.group);
   this.label.anchor.setTo(0, 0.5);
   //this.label.x = -this.button.x - this.label.width - 10;
   this.label.y = this.backgroundSkin.height / 2 + 2;

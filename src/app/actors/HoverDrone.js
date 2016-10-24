@@ -185,19 +185,19 @@ p.startTimer = function () {
 p.updateTimer = function () {
   switch (this.numActive++) {
     case 1 :
-      sound.playSound('hover1', 1, false);
+      sound.playSound(sound.TRAINING_DRONE_HOVER1, 1, false);
       this.flag1.tint = 0x1787fa;
       break;
     case 2 :
-      sound.playSound('hover2', 1, false);
+      sound.playSound(sound.TRAINING_DRONE_HOVER2, 1, false);
       this.flag2.tint = 0x1787fa;
       break;
     case 3 :
-      sound.playSound('hover3', 1, false);
+      sound.playSound(sound.TRAINING_DRONE_HOVER3, 1, false);
       this.flag3.tint = 0x1787fa;
       break;
     case 4 :
-      sound.playSound('activate1', 1, false);
+      sound.playSound(sound.TRAINING_DRONE_HOVER4, 1, false);
       this.flag4.tint = 0x1787fa;
       this.passed();
       break;

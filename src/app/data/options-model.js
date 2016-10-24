@@ -8,26 +8,31 @@ var _ = require('lodash');
  */
 module.exports = {
 
+  /**
+   * @method init
+   */
   init: function() {
+    this.initFps();
+    this.initDisplay();
     this.initEvents();
   },
 
+  /**
+   * @method setLevels
+   * @param value
+   */
   setLevels: function(value) {
     this.gameModes.levels.dirty = value !== this.gameModes.levels.current;
     this.gameModes.levels.selected = value;
   },
 
+  /**
+   *
+   * @method getLevelsJsonUrl
+   * @returns {*}
+   */
   getLevelsJsonUrl: function() {
     var jsonUrl;
-    var levelPack = game.net.getQueryString('levelPack');
-    console.log('getLevelsJsonUrl', levelPack);
-    if (_.isEmpty(levelPack)) {
-      console.log('no level pack in qs');
-    } else {
-      console.log('level pack in qs', levelPack);
-      this.gameModes.levels.selected = levelPack;
-    }
-
     if (this.gameModes.levels.dirty) {
       this.gameModes.levels.current = this.gameModes.levels.selected;
     }
@@ -39,12 +44,17 @@ module.exports = {
         jsonUrl = 'assets/levels/2016.json';
         break;
       default:
-
+        jsonUrl = 'assets/levels/classic.json';
+        console.warn('no json url found for selected levels - using default classic.json');
         break;
     }
+    console.log('getLevelsJsonUrl :: jsonUrl=', jsonUrl);
     return jsonUrl;
   },
 
+  /**
+   * @property gameModes
+   */
   gameModes: {
     levels: {
       dirty: false,
@@ -60,23 +70,58 @@ module.exports = {
       enabled: false
     }
   },
+  /**
+   * @property sound
+   */
   sound: {
     soundFx: true,
     music: true
   },
+  /**
+   * @property display
+   */
   display: {
+    fps: 60,
     fullscreen: true,
     fx: {
       background: true,
       particles: true
     }
   },
+  /**
+   * @property controls
+   */
   controls: {
     virtualJoypad: false,
     keyboard: true,
     externalGamepad: false
   },
+  /**
+   * @property general
+   */
   general: {},
+
+  /**
+   * @method initFps
+   */
+  initFps: function() {
+    if (game.device.iOS || game.device.android || game.device.windowsPhone || this.display.fps === 30) {
+      game.device.isMobile = true;
+      game.time.desiredFps = this.display.fps = 30;
+    } else {
+      game.time.desiredFps = this.display.fps = 60;
+      game.device.isMobile = false;
+    }
+  },
+
+  /**
+   * @method initDisplay
+   */
+  initDisplay: function() {
+    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+      this.display.fx.particles = false;
+    }
+  },
 
   /**
    * @method getFilterByName
