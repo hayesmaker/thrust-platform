@@ -9,7 +9,6 @@
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
     "deploy:skipTests": "npm run heroku",
     "preversion": "npm test -s",
-    "postversion": "npm run changelog && git add -A && git push && git push --tags",
     "pretest": "npm config set travis_build && echo 'Starting tests' && npm run jshint",
     "test": "./bin/test.sh",
     "test:old": "npm run test:units && npm run test:e2e",

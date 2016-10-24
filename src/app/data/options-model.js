@@ -75,7 +75,7 @@ module.exports = {
    */
   sound: {
     soundFx: true,
-    music: false
+    music: true
   },
   /**
    * @property display
