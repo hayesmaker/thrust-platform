@@ -24,7 +24,6 @@ describe("Phaser play state tests", function () {
   /*
    this.initOptionsModel();
    this.initFullScreenHandling();
-   this.initFps();
    this.level = levelManager.currentLevel;
    game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
    this.createActors();
@@ -41,7 +40,6 @@ describe("Phaser play state tests", function () {
       sinon.stub(game.world, 'setBounds');
       sinon.stub(play, 'initOptionsModel');
       sinon.stub(play, 'initFullScreenHandling');
-      sinon.stub(play, 'initFps');
       sinon.stub(play, 'createActors');
       sinon.stub(play, 'createLevelMap');
       sinon.stub(play, 'createUi');
@@ -56,7 +54,6 @@ describe("Phaser play state tests", function () {
       game.world.setBounds.restore();
       play.initOptionsModel.restore();
       play.initFullScreenHandling.restore();
-      play.initFps.restore();
       play.createActors.restore();
       play.createLevelMap.restore();
       play.createUi.restore();
@@ -75,11 +72,6 @@ describe("Phaser play state tests", function () {
     it('should init fullscreen handling', function () {
       play.create();
       expect(play.initFullScreenHandling).to.have.been.calledOnce;
-    });
-
-    it('should init fps settings', function() {
-      play.create();
-      expect(play.initFps).to.have.been.calledOnce;
     });
 
     it('should set current level', function () {

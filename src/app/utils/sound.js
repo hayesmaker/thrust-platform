@@ -12,7 +12,7 @@ module.exports = {
   FUEL_REFUEL_COMPLETE: 'fuel-refuel-complete',
   LIMPET_FIRE: 'limpet-fire',
   LIMPET_EXPLODE: 'limpet-explode',
-  PLAYER_1UP: 'player-1up',
+  PLAYER_1UP: 'player-1up2',
   PLAYER_THRUST_START: 'player-thrust-start',
   PLAYER_THRUST_MID: 'player-thrust-mid',
   PLAYER_THRUST_END: 'player-thrust-end',
@@ -38,8 +38,7 @@ module.exports = {
   UI_SCORE_ROLLUP: 'ui-score-rollup',
   UI_PRESS_FIRE: 'ui-press-fire',
   UI_GAME_OVER: 'ui-game-over',
-
-  TRAINING_DRONE_PASSED: 'training-drone-passed',
+  TRAINING_DRONE_PASSED: 'training-drone-connect',
   TRAINING_DRONE_HOVER1: 'training-drone-hover1',
   TRAINING_DRONE_HOVER2: 'training-drone-hover2',
   TRAINING_DRONE_HOVER3: 'training-drone-hover3',

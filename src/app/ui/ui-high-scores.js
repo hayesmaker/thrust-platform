@@ -47,7 +47,7 @@ p.mobileChars = [
   " ", "A", "B", "C", "D", "E",
   "F", "G", "H", "I", "J", "K",
   "L", "M", "N", "O", "P", "Q",
-  "R", "S", "T", "U", "V", 
+  "R", "S", "T", "U", "V",
   "W", "X", "Y", "Z", " ", ":)",
   "END"
 ];
@@ -71,7 +71,7 @@ p.initFullLayout = function () {
 };
 
 p.initSmallLayout = function () {
-  UIComponent.prototype.initSmallLayout().call(this);
+  UIComponent.prototype.initSmallLayout.call(this);
   this.padding = game.width * 0.1;
   this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
   this.styles = {
@@ -192,6 +192,7 @@ p.gameOverSubTitle = function () {
   this.subTitle3.visible = true;
 
   if (gameState.gameComplete) {
+    gameState.newGame();
     this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
   }
 };

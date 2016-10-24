@@ -222,7 +222,7 @@ p.setPhysicsShape = function () {
  * @method kill
  */
 p.kill = function () {
-  sound.playSound(sound.FUEL_REFUEL_COMPLETE);
+  sound.playSound(sound.FUEL_REFUEL_COMPLETE, 3);
   this.alive = false;
   gameState.addScore(gameState.SCORES.FUEL);
   TweenLite.to(this, 0.3, {

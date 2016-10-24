@@ -109,7 +109,7 @@ p.contactStart = function() {
     if (this.nextDrone) {
       this.nextDrone.activate();
       gameState.score+=1;
-      sound.playSound('collect1', 1, false);
+      sound.playSound(sound.TRAINING_DRONE_PASSED, 1, false);
     } else {
       this.onTrainingComplete.dispatch();
     }

@@ -431,7 +431,7 @@ p.checkThrust = function (buttonAPressed, cursors) {
         this.thrustStarted = true;
         this.thrustAnim.visible = true;
         this.thrustAnim.play('rocket');
-        sound.playSound(ThrustSound, 1, true);
+        sound.playSound(ThrustSound, 0.6, true);
       }
       this.body.thrust(400);
       if (!this.isRefuelling && !gameState.cheats.infiniteFuel) {
@@ -531,7 +531,7 @@ p.explosion = function (force) {
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
     this.explodeEmitter.start(true, 1500, null, 40);
-    sound.playSound(sound.PLAYER_EXPLOSION, 2);
+    sound.playSound(sound.PLAYER_EXPLOSION, 3);
     if (hasOrb) {
       this.tractorBeam.breakLink();
     }
