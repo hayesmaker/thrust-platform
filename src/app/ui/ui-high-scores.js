@@ -128,14 +128,23 @@ p.addHighScore = function (highscore, index) {
   this.maxY = y;
 };
 
+/**
+ * @method renderHighScores
+ */
 p.renderHighScores = function () {
   _.each(gameState.highScoreTable, function (highScore, index) {
     this.items[index].name.text = highScore.name;
-    this.items[index].score.text = highScore.score;
+    var scoreTf = this.items[index].score;
+    scoreTf.text = highScore.score;
+    scoreTf.x = this.layoutRect.x + this.layoutRect.width - scoreTf.width - this.padding / 2;
   }.bind(this));
-
 };
 
+/**
+ * if a high score was achieved scoreIndex >= 0
+ *
+ * @method insertNewScore
+ */
 p.insertNewScore = function () {
   var scoreIndex = gameState.getScoreIndex();
   if (scoreIndex >= 0) {
