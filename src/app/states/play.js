@@ -261,7 +261,7 @@ module.exports = {
    */
   levelsCompleted: function () {
     //sound.stopMusic();
-    sound.playMusic("thrust-title-theme1", 1, true);
+    sound.playMusic("thrust-in-game1", 0.7, true);
     gameState.currentState = gameState.PLAY_STATES.COMPLETE;
     this.showCurrentScreenByState(gameState.currentState);
   },
@@ -300,7 +300,7 @@ module.exports = {
     );
     ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.MENU) {
-      sound.playMusic("thrust-title-theme2", 0.5, true);
+      sound.playMusic("thrust-title-theme1", 0.5, true);
       ui.removeGameOver();
     }
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
@@ -318,7 +318,7 @@ module.exports = {
     switch (item.text.text) {
       case "PLAY THRUST" :
         //sound.stopMusic();
-        sound.playMusic("thrust-in-game1", 0.6, true);
+        sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
         if (this.level.planetBusterMode) {
           console.warn('planetBusterMode');
