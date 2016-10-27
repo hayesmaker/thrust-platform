@@ -174,6 +174,7 @@ p.createLabels = function(x, field, index, label) {
   var fontStyle = this.scaleFontSize(field.style.font);
   if (gameState.bonuses.planetBuster || gameState.trainingMode) {
 
+    /*
     if (gameState.trainingMode) {
       if (index < this.trainingFields.length - 1) {
         label = field.successLabel;
@@ -183,6 +184,7 @@ p.createLabels = function(x, field, index, label) {
     if (index === 2 || index === 3) {
       label = field.successLabel;
     }
+    */
   } else {
     if (index === 2) {
       label = field.failLabel;
@@ -237,10 +239,10 @@ p.render = function() {
   _.each(this.getFields(), function(field, index) {
     var labelText;
     if (gameState.planetBusterMode) {
-
       isSuccess = gameState.bonuses.planetBuster;
       labelText = isSuccess? field.successLabel : field.failLabel;
     } else {
+      console.log('ui-interstitial :: render : orbRecovered? ', gameState.bonuses.orbRecovered);
       isSuccess = gameState.bonuses.orbRecovered;
       labelText = isSuccess? field.successLabel : field.failLabel;
     }
@@ -366,15 +368,20 @@ p.transitionEnterComplete = function() {
 };
 
 /**
+ *
+ *
  * @method transitionExitComplete
  */
 p.transitionExitComplete = function() {
   this.group.removeAll();
-  if (gameState.trainingMode) {
+  if (gameState.trainingMode & gameState.bonuses.orbRecovered) {
     dialog.render(function() {
-      gameState.isGameOver = true;
-      this.playState.gameOver();
+      console.log('training complete - return to menu');
+
     }.bind(this), this);
+  } else if (gameState.trainingMode && !gameState.bonuses.orbRecovered) {
+    console.log('training not complete, restart training / game over');
+
   } else {
     this.playState.nextLevel();
   }

@@ -22,7 +22,7 @@ var p = Collisions.prototype;
  */
 p.startSystem = function () {
   game.physics.startSystem(Phaser.Physics.P2JS);
-  game.physics.p2.useElapsedTime = true;
+  //game.physics.p2.useElapsedTime = true;
   game.physics.p2.setImpactEvents(true);
   game.physics.p2.gravity.y = levelManager.endlessData.flip? -100 : 100;
 };
