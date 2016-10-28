@@ -9,8 +9,10 @@ var UILevelsComplete = require('./ui-levels-complete');
 
 
 module.exports = {
+  playState: null,
 
   init: function(menuSelectedCallback, playState) {
+    this.playState = playState;
     manager.init(this);
     this.group = game.make.group();
     this.fade.init(this.group);
@@ -26,12 +28,29 @@ module.exports = {
     this.missionSwipe.init(0, this.lives.textfield.y + this.lives.textfield.height + 10, game.width * 0.5, game.height * 0.1, this.group);
     this.interstitial = new UIInterstitial(this.group, "INTERSTITIAL", playState);
     this.interstitial.onExitComplete.add(this.levelTransitionCompleted, this);
+    this.interstitial.trainingComplete.add(this.onTrainingCompleted, this);
+    this.interstitial.levelComplete.add(this.onLevelCompleted, this);
+    this.interstitial.trainingFailed.add(this.onTrainingFailed, this);
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);
     this.gameOver.init(this.group);
+  },
+
+  onTrainingFailed: function() {
+    console.log('training not complete, restart training / game over');
+    this.playState.gameOver();
+  },
+
+  onTrainingCompleted: function() {
+    console.log('training complete - return to menu');
+    this.playState.gameOver();
+  },
+
+  onLevelCompleted: function() {
+    this.playState.nextLevel();
   },
 
   showGameOver: function() {

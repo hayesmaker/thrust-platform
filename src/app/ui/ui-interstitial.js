@@ -23,13 +23,62 @@ module.exports = UIInterstial;
 function UIInterstial(group, name, playState) {
   UIComponent.call(this, group, name, true, true);
   this.playState = playState;
+  this.initSignals();
 }
+
+/**
+ * if (gameState.trainingMode & gameState.bonuses.orbRecovered) {
+    dialog.render(function() {
+      console.log('training complete - return to menu');
+
+    }.bind(this), this);
+  } else if (gameState.trainingMode && !gameState.bonuses.orbRecovered) {
+    console.log('training not complete, restart training / game over');
+
+  } else {
+    this.playState.nextLevel();
+ * @ethod initSignals
+ */
+p.initSignals = function() {
+  this.onExitComplete = new Phaser.Signal();
+  this.trainingFailed = new Phaser.Signal();
+  this.trainingComplete = new Phaser.Signal();
+  this.levelComplete = new Phaser.Signal();
+};
+
+/**
+ * @method clearSignals
+ */
+p.clearSignals = function() {
+  this.onExitComplete = null;
+  this.trainingFailed = null;
+  this.trainingComplete = null;
+  this.levelComplete = null;
+};
 
 /**
  * @property onExitComplete
  * @type {Phaser.Signal}
  */
-p.onExitComplete = new Phaser.Signal();
+p.onExitComplete = null;
+
+/**
+ * @property trainingSectionComplete
+ * @type {null}
+ */
+p.trainingSectionComplete = null;
+
+/**
+ * @property allTrainingComplete
+ * @type {null}
+ */
+p.trainingComplete = null;
+
+/**
+ * @property levelComplete
+ * @type {null}
+ */
+p.levelComplete = null;
 
 /**
  * @property preventAutoEnable
@@ -374,15 +423,14 @@ p.transitionEnterComplete = function() {
  */
 p.transitionExitComplete = function() {
   this.group.removeAll();
-  if (gameState.trainingMode & gameState.bonuses.orbRecovered) {
+  if (gameState.trainingMode && gameState.bonuses.orbRecovered) {
     dialog.render(function() {
-      console.log('training complete - return to menu');
-
+      this.trainingComplete.dispatch();
     }.bind(this), this);
   } else if (gameState.trainingMode && !gameState.bonuses.orbRecovered) {
-    console.log('training not complete, restart training / game over');
-
+    this.trainingFailed.dispatch();
   } else {
-    this.playState.nextLevel();
+    this.levelComplete.dispatch();
+    this.clearSignals();
   }
 };
