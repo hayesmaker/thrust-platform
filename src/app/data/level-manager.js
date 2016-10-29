@@ -1,5 +1,4 @@
 var properties = require('../properties');
-var _ = require('lodash');
 
 /**
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
