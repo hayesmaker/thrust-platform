@@ -13,6 +13,8 @@ var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
 
 module.exports = UIInterstial;
 
+p.scoreCalculator = 0;
+
 /**
  * @class UIInterstial
  * @param group
@@ -267,6 +269,7 @@ p.createValues = function(x, field, label) {
     } else {
       field.score = 0;
     }
+    console.log('field.valueId / score', field.valueId, field.score);
     if (label.length) {
       field.valueTf = game.add.text(x + 150 * gameState.gameScale, game.height * field.yPos, field.score, {
         font: fontStyle,
@@ -357,6 +360,9 @@ p.spacePressed = function () {
  * @param isSuccess
  */
 p.transitionEnter = function(isSuccess) {
+
+  this.scoreCalculator = gameState.score;
+
    this.tl = new TimelineLite({delay: 0.25, onComplete: this.transitionEnterComplete, callbackScope: this});
    this.tl.add(function() {
      if (isSuccess) {
@@ -370,14 +376,15 @@ p.transitionEnter = function(isSuccess) {
    }.bind(this));
     this.tl.add(TweenLite.to(this, 0.5));
    _.each(this.getFields(), function(field) {
+     console.log('do score transition :: field', field.tf.text, field);
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
        if (field.score > 0 && !gameState.trainingMode) {
-         var newScore = gameState.score + field.score;
+         this.scoreCalculator = this.scoreCalculator + field.score;
          sound.playSound(sound.UI_SCORE_ROLLUP);
-         this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score", onComplete: function() {
-           gameState.setScore(newScore);
-         }}));
+         this.tl.add(TweenMax.to(gameState, 0.3, {score: this.scoreCalculator, roundProps:"score", onComplete: function() {
+           gameState.setScore(this.scoreCalculator);
+         }.bind(this)}));
        }
      }
    }.bind(this));
