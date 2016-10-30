@@ -650,7 +650,7 @@ p.death = function () {
  * @param context
  */
 p.checkRespawn = function (callback, context) {
-  if (gameState.lives  - 1 < 0) {
+  if (gameState.lives  - 1 < 0 || gameState.fuel <= 0) {
     console.log('game over');
     gameState.isGameOver = true;
     //game over

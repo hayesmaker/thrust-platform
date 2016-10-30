@@ -166,7 +166,7 @@ module.exports = {
     },
     {
       name: "Baggins",
-      score: 1000
+      score: 200
     }
   ],
 
@@ -376,10 +376,12 @@ module.exports = {
     this.numExtraLives = 0;
     this.score = 0;
     this.fuel = 5000;
-    this.lives = 3;
+    this.lives = 4;
   },
 
   /**
+   * Maybe needs to reset gameover vars here
+   *
    * @method newGame
    */
   newGame: function() {
