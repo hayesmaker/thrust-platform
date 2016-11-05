@@ -548,6 +548,11 @@ module.exports = {
     if (gameState.isGameOver && !this.isGameOver) {
       this.isGameOver = true;
       ui.showGameOver();
+      console.warn('play :: checkGameOver :: isGameOver', this.isGameOver);
+      /*
+      this.stopStopwatch();
+      ui.stopwatch.hide();
+      */
       sound.playSound(sound.UI_GAME_OVER);
       game.time.events.add(2000, _.bind(this.gameOver, this));
     }
@@ -927,6 +932,12 @@ module.exports = {
 
   playerKilled: function () {
     this.stopDestructSequence();
+    console.warn('play :: playerKilled lives=', gameState.lives);
+    if (gameState.lives === 0 && this.stopwatch) {
+      console.warn('hide stopwatch');
+      this.stopStopwatch();
+      ui.stopwatch.shiftDown();
+    }
   },
 
   earlyInterstitial: function () {
