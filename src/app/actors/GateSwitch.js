@@ -13,10 +13,12 @@ var sound = require('../utils/sound');
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @param {Number} [angleDeg] - initial angle in degrees, if unset is 0
+ * @param [gateDuration] {Number} - GateDuration
  * @extends {PhysicsActor}
  * @constructor
  */
-function GateSwitch (collisions, groups, map, x, y, angleDeg) {
+function GateSwitch (collisions, groups, map, x, y, angleDeg, gateDuration) {
+  this.gateDuration = gateDuration * 1000 || 6000;
   var bmd = game.make.bitmapData(50, 50);
   bmd.ctx.strokeStyle = '#ffffff';
   bmd.ctx.lineWidth = 2;
@@ -61,7 +63,7 @@ p.map = null;
 p.hit = function () {
   this.map.openGate();
   if (!this.timer) {
-    this.timer = game.time.events.add(6000, this.closeGate, this);
+    this.timer = game.time.events.add(this.gateDuration, this.closeGate, this);
   }
   sound.playSound(sound.LIMPET_EXPLODE);
 };

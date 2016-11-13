@@ -58,8 +58,8 @@ module.exports = {
   gameModes: {
     levels: {
       dirty: false,
-      current: 'classic',
-      selected: 'classic'
+      current: '2016',
+      selected: '2016'
     },
     speedRun: {
       unlocked: true,
@@ -74,8 +74,8 @@ module.exports = {
    * @property sound
    */
   sound: {
-    soundFx: true,
-    music: true
+    soundFx: false,
+    music: false
   },
   /**
    * @property display

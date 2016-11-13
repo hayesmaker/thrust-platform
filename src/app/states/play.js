@@ -909,7 +909,7 @@ module.exports = {
    * @param data
    */
   createSwitch: function (data) {
-    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation);
+    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation, data.gateDuration);
     this.switches.push(gateSwitch);
 
   },
@@ -937,6 +937,7 @@ module.exports = {
       console.warn('hide stopwatch');
       this.stopStopwatch();
       ui.stopwatch.shiftDown();
+      //todo tween gameover
     }
   },
 
