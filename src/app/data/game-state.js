@@ -14,6 +14,71 @@ var sound = require('../utils/sound');
  */
 module.exports = {
   /**
+   * Keeps track of extra lives awarded. Necessary
+   * for the algorithm which awards extra lives
+   * check1Up
+   *
+   * @property numExtraLives
+   */
+  numExtraLives: 0,
+
+  /**
+   * @property score
+   * @type {number}
+   */
+  score: 0,
+
+  /**
+   * @property fuel
+   * @type {number}
+   */
+  fuel: 0,
+
+  /**
+   * @property lives
+   * @type {number}
+   */
+  lives: 0,
+
+  /**
+   * @property isGameOver
+   */
+  isGameOver: false,
+
+  /**
+   * @property POWER_STATION_HEALTH
+   * @type {number}
+   */
+  POWER_STATION_HEALTH: 1000,
+
+  /**
+   * @property ENEMY_BULLET_DURATION
+   * @type {number}
+   */
+  ENEMY_BULLET_DURATION: 2500,
+
+  /**
+   * @property PLAYER_BULLET_DURATION
+   * @type {number}
+   */
+  PLAYER_BULLET_DURATION: 3000,
+
+  /**
+   * The amount of fuel a fuel cell can refuel the player
+   * before it is removed
+   *
+   * @property FUEL_AMOUNT
+   * @type {Number}
+   */
+  FUEL_AMOUNT: 600,
+
+  /**
+   *
+   * @property gameScale
+   */
+  gameScale: 1,
+
+  /**
    * @todo Activate cheats enabled via konami code
    *
    * @property cheats
@@ -29,6 +94,7 @@ module.exports = {
     fatalCollisions: true,
     startDebugLevel: false
   },
+
   /**
    * When player plays Flight Training, this flag is set to true.
    * It controls many aspects of in game logic, specific to Flight Training Mode.
@@ -37,11 +103,13 @@ module.exports = {
    * @type {Boolean}
    */
   trainingMode: false,
+
   /**
    * @propery gameComplete 
    * @type {boolean}
    */
   gameComplete: false,
+
   /**
    * @property PLAY_STATES
    * @type {Object}
@@ -63,7 +131,6 @@ module.exports = {
    */
   currentState: null,
 
-
   /**
    * @property highScoreTable
    * @type {Array}
@@ -71,7 +138,7 @@ module.exports = {
   highScoreTable: [
     {
       name: "Andy",
-      score: 100000
+      score: 60000
     },
     {
       name: "Joe",
@@ -79,29 +146,105 @@ module.exports = {
     },
     {
       name: "Malcolm",
-      score: 10000
+      score: 30000
     },
     {
       name: "Rodney",
-      score: 5000
+      score: 20000
     },
     {
       name: "Simon",
-      score: 4000
+      score: 10000
     },
     {
       name: "Christopher",
-      score: 200
+      score: 5000
     },
     {
       name: "Bilbo",
-      score: 100
+      score: 2500
     },
     {
       name: "Baggins",
-      score: 0
+      score: 200
     }
   ],
+
+  /**
+   * If high score state is entered when this is true
+   * then insert high score is called.
+   *
+   * @property shouldEnterHighScore
+   * @type {boolean}
+   * @default false
+   */
+  shouldEnterHighScore: false,
+
+  /**
+   * @property shouldUpdateBestTime
+   * @type {boolean}
+   * @default false
+   */
+  shouldUpdateBestTime: false,
+
+  /**
+   * Set when a timed run has completed
+   * (only in training mode currently)
+   *
+   * @property playTime
+   */
+  playTime: "0",
+
+  /**
+   * @property SCORES
+   * @type {object}
+   */
+  SCORES: {
+    FUEL_COLLECTED: 300,
+    FUEL_DESTROYED: 150,
+    LIMPET: 750,
+    PLANET_BUSTER: 2000,
+    ORB_RECOVERED: 2000,
+    LIMPETS_DESTROYED: 500,
+    DRONES_PASSED: 29,
+    TIMED_RUN: 0,
+    XTRA_LIFE: 10000,
+    LEVEL_MULTIPLIER: 400
+  },
+
+  /**
+   * Best Time counter
+   *
+   * @property counter
+   */
+  counter: 0,
+
+  /**
+   * @property bestTimeMs
+   */
+  bestTimeMs: 0,
+
+  /**
+   * @property stopwatchCacheTxt
+   */
+  stopwatchCacheTxt: "",
+
+  /**
+   * @property planetBusterMode
+   */
+  planetBusterMode: false,
+
+  /**
+   * Set to true when a condition is satisfied
+   * This can be used in a level interstitial to add any bonuses
+   * and check mission completion.
+   *
+   * @property bonuses
+   */
+  bonuses: {
+    planetBuster: false,
+    orbRecovered: false
+  },
 
   /**
    * @method getScoreIndex
@@ -140,89 +283,20 @@ module.exports = {
   },
 
   /**
-   * If high score state is entered when this is true
-   * then insert high score is called.
-   * 
-   * @property shouldEnterHighScore
-   * @type {boolean}
-   * @default false
-   */
-  shouldEnterHighScore: false,
-
-  /**
-   * @property shouldUpdateBestTime
-   * @type {boolean}
-   * @default false
-   */
-  shouldUpdateBestTime: false,
-
-  /**
-   * Set when a timed run has completed
-   * (only in training mode currently)
-   *
-   * @property playTime
-   */
-  playTime: "0",
-
-  /**
-   * @property SCORES
-   * @type {object}
-   */
-  SCORES: {
-    FUEL: 100,
-    LIMPET: 750,
-    PLANET_BUSTER: 1000,
-    ORB_RECOVERED: 750,
-    LIMPETS_DESTROYED: 500,
-    DRONES_PASSED: 29,
-    TIMED_RUN: 0
-  },
-
-  /**
    * @method getScoreByValueId
    * @param valueId
    * @returns {*}
    */
   getScoreByValueId: function(valueId) {
+    console.log('gameState :: getScoreByValueId :', valueId, this.SCORES[valueId]);
     if (valueId === "TIMED_RUN") {
       return this.playTime;
+    } else if (valueId === "ORB_RECOVERED") {
+      return this.SCORES[valueId] + levelManager.levelIndex * this.SCORES.LEVEL_MULTIPLIER;
     } else {
       return this.SCORES[valueId];
     }
   },
-
-  /**
-   * @property POWER_STATION_HEALTH
-   * @type {number}
-   */
-  POWER_STATION_HEALTH: 1000,
-
-  /**
-   * @property ENEMY_BULLET_DURATION
-   * @type {number}
-   */
-  ENEMY_BULLET_DURATION: 2500,
-
-  /**
-   * @property PLAYER_BULLET_DURATION
-   * @type {number}
-   */
-  PLAYER_BULLET_DURATION: 3000,
-
-  /**
-   * The amount of fuel a fuel cell can refuel the player
-   * before it is removed
-   *
-   * @property FUEL_AMOUNT
-   * @type {Number}
-   */
-  FUEL_AMOUNT: 600,
-
-  /**
-   *
-   * @property gameScale
-   */
-  gameScale: 1,
 
   /**
    * @method init
@@ -302,10 +376,12 @@ module.exports = {
     this.numExtraLives = 0;
     this.score = 0;
     this.fuel = 5000;
-    this.lives = 3;
+    this.lives = 4;
   },
 
   /**
+   * Maybe needs to reset gameover vars here
+   *
    * @method newGame
    */
   newGame: function() {
@@ -343,6 +419,10 @@ module.exports = {
     }
   },
 
+  /**
+   * @method isPlanetDestroyed
+   * @returns {boolean}
+   */
   isPlanetDestroyed: function() {
     return this.bonuses.planetBuster;
   },
@@ -351,7 +431,6 @@ module.exports = {
    * @method nextLevelCheck
    */
   nextLevelCheck: function () {
-    //support debug levels
     if (levelManager.startDebugLevel) {
       levelManager.nextLevel();
       return;
@@ -360,9 +439,7 @@ module.exports = {
       this.startTraining();
       return;
     }
-
     var isPlanetDestroyed = this.isPlanetDestroyed();
-    //multiple objective support
     var objectiveComplete = false;
     if (this.planetBusterMode && isPlanetDestroyed) {
         objectiveComplete = true;
@@ -371,7 +448,6 @@ module.exports = {
         objectiveComplete = true;
       }
     }
-
     if (objectiveComplete && !this.isGameOver) {
       if (levelManager.levels.length - 1 === levelManager.levelIndex &&
         !options.gameModes.endlessMode.enabled) {
@@ -382,12 +458,6 @@ module.exports = {
       }
     }
   },
-
-  counter: 0,
-
-  bestTimeMs: 0,
-
-  stopwatchCacheTxt: "",
 
   /**
    * @method isBestTime
@@ -401,37 +471,39 @@ module.exports = {
     return false;
   },
 
+  /**
+   * @method cacheTime
+   * @param ms
+   * @param text
+   */
   cacheTime: function(ms, text){
     this.counter = ms;
     this.stopwatchCacheTxt = text;
 
   },
 
+  /**
+   * @method getCachedTime
+   * @returns {number}
+   */
   getCachedTime: function() {
     return this.counter;
   },
 
+  /**
+   * @method getCachedTimeStr
+   * @returns {string}
+   */
   getCachedTimeStr: function() {
     return this.stopwatchCacheTxt;
   },
 
+  /**
+   * @method resetTimes
+   */
   resetTimes: function() {
     this.counter = 0;
     this.stopwatchCacheTxt = "";
-  },
-
-  planetBusterMode: false,
-  
-  /**
-   * Set to true when a condition is satisfied
-   * This can be used in a level interstitial to add any bonuses
-   * and check mission completion.
-   *
-   * @property bonuses
-   */
-  bonuses: {
-    planetBuster: false,
-    orbRecovered: false
   },
 
   /**
@@ -456,39 +528,10 @@ module.exports = {
    * @method check1Up
    */
   check1Up: function() {
-    if (this.score / (10000 * (this.numExtraLives + 1)) >= 1) {
-      sound.playSound(sound.PLAYER_1UP);
+    if (this.score / (this.SCORES.XTRA_LIFE * (this.numExtraLives + 1)) >= 1) {
+      sound.playSound(sound.PLAYER_1UP, 3);
       this.lives += 1;
       this.numExtraLives++;
     }
-  },
-
-  /**
-   * @property numExtraLives
-   */
-  numExtraLives: 0,
-
-  /**
-   * @property score
-   * @type {number}
-   */
-  score: null,
-
-  /**
-   * @property fuel
-   * @type {number}
-   */
-  fuel: null,
-
-  /**
-   * @property lives
-   * @type {number}
-   */
-  lives: null,
-
-  /**
-   * @property isGameOver
-   */
-  isGameOver: false
-
+  }
 };

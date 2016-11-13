@@ -13,6 +13,8 @@ var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
 
 module.exports = UIInterstial;
 
+p.scoreCalculator = 0;
+
 /**
  * @class UIInterstial
  * @param group
@@ -23,13 +25,62 @@ module.exports = UIInterstial;
 function UIInterstial(group, name, playState) {
   UIComponent.call(this, group, name, true, true);
   this.playState = playState;
+  this.initSignals();
 }
+
+/**
+ * if (gameState.trainingMode & gameState.bonuses.orbRecovered) {
+    dialog.render(function() {
+      console.log('training complete - return to menu');
+
+    }.bind(this), this);
+  } else if (gameState.trainingMode && !gameState.bonuses.orbRecovered) {
+    console.log('training not complete, restart training / game over');
+
+  } else {
+    this.playState.nextLevel();
+ * @ethod initSignals
+ */
+p.initSignals = function() {
+  this.onExitComplete = new Phaser.Signal();
+  this.trainingFailed = new Phaser.Signal();
+  this.trainingComplete = new Phaser.Signal();
+  this.levelComplete = new Phaser.Signal();
+};
+
+/**
+ * @method clearSignals
+ */
+p.clearSignals = function() {
+  this.onExitComplete = null;
+  this.trainingFailed = null;
+  this.trainingComplete = null;
+  this.levelComplete = null;
+};
 
 /**
  * @property onExitComplete
  * @type {Phaser.Signal}
  */
-p.onExitComplete = new Phaser.Signal();
+p.onExitComplete = null;
+
+/**
+ * @property trainingSectionComplete
+ * @type {null}
+ */
+p.trainingSectionComplete = null;
+
+/**
+ * @property allTrainingComplete
+ * @type {null}
+ */
+p.trainingComplete = null;
+
+/**
+ * @property levelComplete
+ * @type {null}
+ */
+p.levelComplete = null;
 
 /**
  * @property preventAutoEnable
@@ -174,6 +225,7 @@ p.createLabels = function(x, field, index, label) {
   var fontStyle = this.scaleFontSize(field.style.font);
   if (gameState.bonuses.planetBuster || gameState.trainingMode) {
 
+    /*
     if (gameState.trainingMode) {
       if (index < this.trainingFields.length - 1) {
         label = field.successLabel;
@@ -183,6 +235,7 @@ p.createLabels = function(x, field, index, label) {
     if (index === 2 || index === 3) {
       label = field.successLabel;
     }
+    */
   } else {
     if (index === 2) {
       label = field.failLabel;
@@ -216,6 +269,7 @@ p.createValues = function(x, field, label) {
     } else {
       field.score = 0;
     }
+    console.log('field.valueId / score', field.valueId, field.score);
     if (label.length) {
       field.valueTf = game.add.text(x + 150 * gameState.gameScale, game.height * field.yPos, field.score, {
         font: fontStyle,
@@ -237,10 +291,10 @@ p.render = function() {
   _.each(this.getFields(), function(field, index) {
     var labelText;
     if (gameState.planetBusterMode) {
-
       isSuccess = gameState.bonuses.planetBuster;
       labelText = isSuccess? field.successLabel : field.failLabel;
     } else {
+      console.log('ui-interstitial :: render : orbRecovered? ', gameState.bonuses.orbRecovered);
       isSuccess = gameState.bonuses.orbRecovered;
       labelText = isSuccess? field.successLabel : field.failLabel;
     }
@@ -306,6 +360,9 @@ p.spacePressed = function () {
  * @param isSuccess
  */
 p.transitionEnter = function(isSuccess) {
+
+  this.scoreCalculator = gameState.score;
+
    this.tl = new TimelineLite({delay: 0.25, onComplete: this.transitionEnterComplete, callbackScope: this});
    this.tl.add(function() {
      if (isSuccess) {
@@ -319,14 +376,15 @@ p.transitionEnter = function(isSuccess) {
    }.bind(this));
     this.tl.add(TweenLite.to(this, 0.5));
    _.each(this.getFields(), function(field) {
+     console.log('do score transition :: field', field.tf.text, field);
      if (field.valueTf) {
        this.tl.add(TweenLite.to(field.valueTf, 0.2, {alpha: 1, ease:Quad.easeIn}));
        if (field.score > 0 && !gameState.trainingMode) {
-         var newScore = gameState.score + field.score;
+         this.scoreCalculator = this.scoreCalculator + field.score;
          sound.playSound(sound.UI_SCORE_ROLLUP);
-         this.tl.add(TweenMax.to(gameState, 0.3, {score: newScore, roundProps:"score", onComplete: function() {
-           gameState.setScore(newScore);
-         }}));
+         this.tl.add(TweenMax.to(gameState, 0.3, {score: this.scoreCalculator, roundProps:"score", onComplete: function() {
+           gameState.setScore(this.scoreCalculator);
+         }.bind(this)}));
        }
      }
    }.bind(this));
@@ -366,16 +424,20 @@ p.transitionEnterComplete = function() {
 };
 
 /**
+ *
+ *
  * @method transitionExitComplete
  */
 p.transitionExitComplete = function() {
   this.group.removeAll();
-  if (gameState.trainingMode) {
+  if (gameState.trainingMode && gameState.bonuses.orbRecovered) {
     dialog.render(function() {
-      gameState.isGameOver = true;
-      this.playState.gameOver();
+      this.trainingComplete.dispatch();
     }.bind(this), this);
+  } else if (gameState.trainingMode && !gameState.bonuses.orbRecovered) {
+    this.trainingFailed.dispatch();
   } else {
-    this.playState.nextLevel();
+    this.levelComplete.dispatch();
+    this.clearSignals();
   }
 };

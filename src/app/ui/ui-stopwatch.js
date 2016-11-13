@@ -54,6 +54,10 @@ module.exports = {
     this.scoreLabel.text = "Drones: ";
   },
 
+  shiftDown: function() {
+    this.timerValue.y += 30;
+  },
+
   /**
    * @method hide
    */

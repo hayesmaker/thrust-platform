@@ -25,6 +25,78 @@
   ],
   "data": [
     {
+      "tileSize": 100,
+      "planetBusterMode": false,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "2016 - Mission 3",
+        "desc": "Destroy all enemies",
+        "color": "rgba(255, 255, 0, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-3",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/2016-level-3.json",
+      "mapDataKey": "level-3",
+      "mapScale": 1,
+      "world": {
+        "width": 2000,
+        "height": 2500
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 500
+      },
+      "spawns": [
+        {"x": 1000, "y": 300, "orb": false, "enemies": 0}
+      ],
+      "orbPosition": {
+        "x": 250,
+        "y": 2330
+      },
+      "orbHolder": {
+        "x": 250,
+        "y": 2370
+      },
+      "enemies": [
+        { "x": 666, "y": 920, "rotation": 140 },
+        { "x": 425, "y": 1112, "rotation": 140 },
+        { "x": 709, "y": 1390, "rotation": 0 },
+        { "x": 1325, "y": 1390, "rotation": 0 },
+        { "x": 1552, "y": 1438, "rotation": 45 },
+        { "x": 1847, "y": 1438, "rotation": 315 },
+        { "x": 1552, "y": 1162, "rotation": 135 },
+        { "x": 1735, "y": 2052, "rotation": 225 },
+        { "x": 1735, "y": 2350, "rotation": 315 }
+      ],
+      "fuels": [
+        { "x": 1656, "y": 1470 },
+        { "x": 1737, "y": 1470 },
+        { "x": 1610, "y": 2370 }
+      ],
+      "enemyFireRate": 100,
+      "powerStation": {
+        "x": 1350,
+        "y": 870
+      },
+      "gateImgKey": "level-5-gate",
+      "gateImgUrl": "assets/levels/level-5-gate.png",
+      "gateDataKey": "level-5-gate",
+      "gateDataUrl": "assets/physics/level-5-gate.json",
+      "gateTweenTo": {
+        "x": 500,
+        "y": 2165
+      },
+      "gatePosition": {
+        "x": 213,
+        "y": 2165
+      },
+      "switches": [
+        { "x": 1450, "y": 2270, "rotation": 215, "gateDuration": 9999 }
+      ]
+    },
+    {
       "planetBusterMode": true,
       "gateBitmap": {
         "position": {"x": 845, "y": 1008},

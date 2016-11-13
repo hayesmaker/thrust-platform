@@ -27,6 +27,7 @@ function MapAtlas(parentGroup, levelData, key, isAtlas) {
   this.parent = parentGroup;
   this.levelData = levelData;
   this.counter = 0;
+  this.defaultTileSize = 96;
 }
 
 var p = MapAtlas.prototype;
@@ -93,8 +94,9 @@ p.init = function() {
 p.renderAtlas = function() {
   var frames = this.data.getFrames();
   var tile, x, y;
-  var tileWidth = 96 * this.levelData.mapScale;
-  var tileHeight = 96 * this.levelData.mapScale;
+  var standardTileSize = this.levelData.tileSize || this.defaultTileSize;
+  var tileWidth = standardTileSize * this.levelData.mapScale;
+  var tileHeight = standardTileSize * this.levelData.mapScale;
   var numTilesWide = this.levelData.world.width / tileWidth;
   frames = _.filter(frames, function(frame) {
     return frame.name.indexOf(this.levelData.atlasData.levelKey) >= 0;

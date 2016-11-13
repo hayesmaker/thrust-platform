@@ -31,7 +31,7 @@ module.exports = {
     debugPhysics: false,
     debugPositions: false,
     stats: true,
-    skipIntro: false
+    skipIntro: true
   },
   gamePlay: {
     firingMagnitude: 350,

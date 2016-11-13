@@ -1,5 +1,4 @@
 var properties = require('../properties');
-var _ = require('lodash');
 
 /**
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
@@ -82,18 +81,17 @@ module.exports = {
    * @method init
    */
   init: function(levels) {
-    var customLevel = parseInt(game.net.getQueryString('level'), 10);
     this.endless = levels.endless;
     this.levels = properties.levels.data || levels.data;
-    if (_.isEmpty(customLevel)) {
-      this.levelIndex = properties.levels.startLevel - 1;
-    } else {
-      this.levelIndex = customLevel - 1;
-    }
     this.currentLevel = this.levels[this.levelIndex];
     this.updateEndlessData();
   },
 
+  /**
+   * @method setNewLevel
+   * @param levelIndex
+   * @returns {boolean}
+   */
   setNewLevel: function(levelIndex) {
     if (levelIndex !== this.levelIndex) {
       this.startDebugLevel = true;
