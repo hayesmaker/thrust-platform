@@ -13,7 +13,7 @@ var url = 'https://www.thrust2016.com';
 
 
 var status = function() {
-  return 'Thrust 2016 update v' + process.env.npm_package_version +' ' + url + ' ' + 'Trying out a new Thrust level #indiegamedev';
+  return 'Thrust v' + process.env.npm_package_version +' ' + url + ' ' + 'Trying out a new 2016 beta level 3 #indiegamedev';
 };
 
 
