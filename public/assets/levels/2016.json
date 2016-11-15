@@ -80,20 +80,21 @@
         "x": 1350,
         "y": 870
       },
-      "gateImgKey": "level-5-gate",
-      "gateImgUrl": "assets/levels/level-5-gate.png",
-      "gateDataKey": "level-5-gate",
-      "gateDataUrl": "assets/physics/level-5-gate.json",
+      "gateImgKey": "2016-level-3-gate",
+      "gateImgUrl": "assets/levels/2016-level-3-gate.png",
+      "gateDataKey": "2016-level3-gate",
+      "gateDataUrl": "assets/physics/2016-level-3-gate.json",
       "gateTweenTo": {
-        "x": 500,
-        "y": 2165
+        "x": 520,
+        "y": 2150
       },
       "gatePosition": {
-        "x": 213,
-        "y": 2165
+        "x": 250,
+        "y": 2150
       },
+      "linkSwitchToGate": true,
       "switches": [
-        { "x": 1450, "y": 2270, "rotation": 215, "gateDuration": 9999 }
+        { "x": 1450, "y": 2250, "rotation": 225, "gateDuration": 9999 }
       ]
     },
     {

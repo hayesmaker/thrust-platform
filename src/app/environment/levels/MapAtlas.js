@@ -123,6 +123,34 @@ p.renderGate = function () {
   this.gateSprite.scale.setTo(this.levelData.mapScale);
   this.gateSprite.position.setTo(this.levelData.gatePosition.x,this.levelData.gatePosition.y);
   this.parent.add(this.gateSprite);
+  //this.gateSprite.visible = false;
+  if (this.levelData.linkSwitchToGate) {
+    this.linkSwitchToGate();
+  }
+};
+
+p.linkSwitchToGate = function() {
+  var xTo = this.levelData.switches[0].x;
+  var yTo = this.levelData.switches[0].y;
+  var w = Math.abs(xTo - this.gateSprite.x);
+  var h = Math.abs(yTo - this.gateSprite.y);
+  console.warn('link switch to gate', w + 2000, h + 2000);
+  var selector = game.make.bitmapData(2000 , 2000);
+  selector.ctx.beginPath();
+  selector.ctx.strokeStyle =  '#ffffff';
+  selector.ctx.lineWidth = 2;
+  selector.ctx.setLineDash([3,2]);
+  selector.ctx.moveTo(1, 1);
+  var part1 = {x: w * 0.5, y: 0};
+  var part2 = {x: w * 0.5, y: h};
+  var part3 = {x: w - this.gateSprite.width/2, y: h};
+  selector.ctx.lineTo(part1.x,part1.y);
+  selector.ctx.lineTo(part2.x,part2.y);
+  selector.ctx.lineTo(part3.x,part3.y);
+  selector.ctx.stroke();
+  this.linkSprite = game.make.sprite(0,0, selector);
+  this.linkSprite.position.setTo(this.levelData.gatePosition.x + this.gateSprite.width / 2, this.gateSprite.y);
+  this.parent.add(this.linkSprite);
 };
 
 /**
@@ -234,6 +262,9 @@ p.openGate = function () {
     var xTo = this.levelData.gateTweenTo.x;
     var yTo = this.levelData.gateTweenTo.y;
     TweenMax.to(this.gateSprite.body, this.tweenDuration, {x: xTo, y: yTo,  ease: Quad.easeOut});
+  }
+  if (this.linkSprite) {
+    this.linkSprite.visible = false;
   }
 };
 
