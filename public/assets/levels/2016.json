@@ -29,9 +29,80 @@
       "planetBusterMode": false,
       "useAtlas": true,
       "missionSwipe": {
+        "title": "2016 - Mission 2",
+        "desc": "Recover The Orb\nEnhanced Planetery Defences Online",
+        "color": "rgba(64, 117, 206, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-2",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/2016-level-2.json",
+      "mapDataKey": "level-2",
+      "mapScale": 2,
+      "world": {
+        "width": 2400,
+        "height": 2800
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 600
+      },
+      "spawns": [
+        {"x": 1000, "y": 300, "orb": false, "enemies": 0}
+      ],
+      "orbPosition": {
+        "x": 830,
+        "y": 2695
+      },
+      "orbHolder": {
+        "x": 830,
+        "y": 2730
+      },
+      "enemies": [
+        { "x": 60, "y": 2100, "rotation": 110 },
+        { "x": 488, "y": 2388, "rotation": 0 },
+        { "x": 770, "y": 2500, "rotation": 166 },
+        { "x": 1215, "y": 2710, "rotation": 302},
+        { "x": 927, "y": 1300, "rotation": 45 },
+        { "x": 910, "y": 812, "rotation": 180 },
+        { "x": 1486, "y": 812, "rotation": 180 },
+        { "x": 1486, "y": 1188, "rotation": 0 }
+      ],
+      "fuels": [
+        { "x": 130, "y": 2372 },
+        { "x": 220, "y": 2372 }
+      ],
+      "enemyFireRate": 100,
+      "powerStation": {
+        "x": 1200,
+        "y": 970
+      },
+      "gateImgKey": "2016-level-2-gate",
+      "gateImgUrl": "assets/levels/2016-level-2-gate.png",
+      "gateDataKey": "2016-level2-gate",
+      "gateDataUrl": "assets/physics/2016-level-2-gate.json",
+      "gateTweenTo": {
+        "x": 1510,
+        "y": 735
+      },
+      "gatePosition": {
+        "x": 1210,
+        "y": 735
+      },
+      "linkSwitchToGate": true,
+      "switches": [
+        { "x": 1600, "y": 900, "rotation": 0, "gateDuration": 9999 }
+      ]
+    },
+    {
+      "tileSize": 100,
+      "planetBusterMode": false,
+      "useAtlas": true,
+      "missionSwipe": {
         "title": "2016 - Mission 3",
-        "desc": "Destroy all enemies",
-        "color": "rgba(255, 255, 0, 0.7)"
+        "desc": "Recover The Orb - Enhanced Planetery Defences Online",
+        "color": "rgba(255, 0, 0, 0.7)"
       },
       "atlasData": {
         "levelKey": "level-3",

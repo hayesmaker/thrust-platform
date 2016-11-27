@@ -27,11 +27,11 @@ module.exports = {
     device: Phaser.ScaleManager.NO_SCALE
   },
   dev: {
-    mode: false,
+    mode: true,
     debugPhysics: false,
-    debugPositions: false,
+    debugPositions: true,
     stats: true,
-    skipIntro: false
+    skipIntro: true
   },
   gamePlay: {
     firingMagnitude: 350,
