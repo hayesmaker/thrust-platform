@@ -103,8 +103,10 @@ p.initSubScreens = function() {
   var topMargin = this.optionsList.group.y + this.optionsList.group.height + this.layoutRect.height * 0.1;
 
   this.soundOptions = new SoundOptions(this.group, "SOUND_OPTIONS", this.layoutRect);
+  this.soundOptions.setTopMargin(topMargin);
   this.soundOptions.addAsSubScreen();
   this.displayOptions = new DisplayOptions(this.group, "DISPLAY_OPTIONS", this.layoutRect);
+  this.displayOptions.setTopMargin(topMargin);
   this.displayOptions.addAsSubScreen();
   var ControlsScreen = controlsFactory.getControlsScreen();
   this.controlsOptions = new ControlsScreen(this.group, "CONTROLS_OPTIONS", this.layoutRect);
@@ -288,8 +290,7 @@ p.selectActiveOption = function() {
   _.each(this.activeOptions, function(button) {
     button.userDeselected();
   });
-
-  this.activeOptions[this.selectedOptionIndex].userSelected();
+  this.activeOptions[this.selectedOptionIndex] && this.activeOptions[this.selectedOptionIndex].userSelected();
 };
 
 p.spacePressed = function() {
@@ -298,8 +299,7 @@ p.spacePressed = function() {
 
 p.pressActiveButton = function() {
   var activeButton = this.activeOptions[this.selectedOptionIndex];
-  activeButton.apiSelect();
-  
+  activeButton && activeButton.apiSelect();
 };
 
 p.itemSelected = function(id, index) {

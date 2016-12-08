@@ -84,7 +84,7 @@ module.exports = {
     fps: 60,
     fullscreen: true,
     fx: {
-      background: false,
+      background: true,
       particles: false
     }
   },
