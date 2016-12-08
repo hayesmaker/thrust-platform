@@ -58,8 +58,8 @@ module.exports = {
   gameModes: {
     levels: {
       dirty: false,
-      current: '2016',
-      selected: '2016'
+      current: 'classic',
+      selected: 'classic'
     },
     speedRun: {
       unlocked: true,
@@ -84,8 +84,8 @@ module.exports = {
     fps: 60,
     fullscreen: true,
     fx: {
-      background: true,
-      particles: true
+      background: false,
+      particles: false
     }
   },
   /**
@@ -105,7 +105,8 @@ module.exports = {
    * @method initFps
    */
   initFps: function() {
-    if (game.device.iOS || game.device.android || game.device.windowsPhone || this.display.fps === 30) {
+    //if (game.device.iOS || game.device.android || game.device.windowsPhone || )
+    if (this.display.fps === 30) {
       game.device.isMobile = true;
       game.time.desiredFps = this.display.fps = 30;
     } else {

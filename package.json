@@ -25,7 +25,7 @@
     "browserify:main": "echo 'browserifying auto build' && browserify --version && browserify -e src/app/main-auto.js -o public/javascripts/browserify/thrust-engine-auto.js -d",
     "browserify:cordova": "echo 'browserifying cordova build' && browserify --version && browserify -e src/app/main-cordova.js -o public/javascripts/browserify/thrust-engine-cordova.js -d",
     "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
-    "build:app": "npm run update:audio && npm run browserify:canvas",
+    "build:app": "npm run browserify:canvas",
     "build:cordova": "npm run browserify:cordova",
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",
     "build:mobile": "npm run build:app && npm run browserify:mobile",

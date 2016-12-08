@@ -99,6 +99,9 @@ module.exports = {
     options.fxBackgroundOn.add(this.fxBackgroundOn, this);
     options.fxBackgroundOff.add(this.fxBackgroundOff, this);
     options.loadNewLevels.add(this.loadNewLevelPack, this);
+    if (!options.display.fx.particles) {
+      particles.disable();
+    }
   },
 
   /**
