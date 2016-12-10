@@ -65,6 +65,7 @@ p.initKeys = function () {
  * @method initJoypad
  */
 p.initVirtualJoypad = function () {
+  alert('virtual joypad added');
   this.pad = game.plugins.add(Phaser.VirtualJoystick);
   this.stick = this.pad.addDPad(game.width * 0.15, game.height*0.8, 200, 'dpad');
   this.buttonA = this.pad.addButton(game.width * 0.78, game.height * 0.85, 'dpad', 'button1-up', 'button1-down');

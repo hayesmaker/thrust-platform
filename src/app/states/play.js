@@ -84,6 +84,7 @@ module.exports = {
     this.createActors();
     this.createLevelMap();
     this.createUi();
+    gameState.uiCreated = true;
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
@@ -388,7 +389,7 @@ module.exports = {
     game.world.setBounds(0, 0, this.level.world.width, this.level.world.height);
     this.createActors();
     this.createLevelMap();
-    this.createUi();
+    //this.createUi();
     this.createGroupLayering();
     this.playGame();
   },
@@ -867,7 +868,7 @@ module.exports = {
 
   /**
    * Creates the user interface and touch controls
-   *
+   * @todo investigate memory leak in stuff added here
    * @method createUi
    */
   createUi: function () {
