@@ -5,7 +5,7 @@ var levelsLoader = require('../utils/levels-loader');
 var gameState = require('../data/game-state');
 var optionsModel = require('../data/options-model');
 /**
- * The load state 
+ * The load state
  * - Loads in game assets
  * - Decodes Audio
  * - Starts the game when complete
@@ -23,7 +23,7 @@ module.exports = {
    * @param bootScreen {Phaser.Sprite}
    * @param versionTxt {Phaser.Text}
    */
-  init: function(bootScreen, versionTxt) {
+  init: function (bootScreen, versionTxt) {
     console.log('load state :: init', bootScreen, versionTxt);
     levelsLoader.init();
     this.version = versionTxt;
@@ -67,15 +67,56 @@ module.exports = {
   },
 
   /**
+   * Hack to return single ogg format for android devices
+   * Fixes bug preventing game's audio decoding from happening
+   * in cocoon/android builds
+   *
+   * @method getSfxAudioFormats
+   * @returns {*}
+   */
+  getSfxAudioFormats: function () {
+    var formats;
+    if (game.device.android) {
+      formats = 'assets/audiosprite/thrust-sfx.ogg';
+    } else {
+      formats = [
+        'assets/audiosprite/thrust-sfx.mp3',
+        'assets/audiosprite/thrust-sfx.m4a',
+        'assets/audiosprite/thrust-sfx.ogg'
+      ];
+    }
+    return formats;
+  },
+
+  /**
+   * Hack to return single ogg format for android devices
+   * Fixes bug preventing game's audio decoding from happening
+   * in cocoon/android builds
+   *
+   * @method getSfxAudioFormats
+   * @returns {*}
+   */
+  getMusicAudioFormats: function() {
+    var formats;
+    if (game.device.android) {
+      formats = 'assets/audiosprite/thrust-music.ogg';
+    } else {
+      formats = [
+        'assets/audiosprite/thrust-music.mp3',
+        'assets/audiosprite/thrust-music.m4a',
+        'assets/audiosprite/thrust-music.ogg'
+      ];
+    }
+    return formats;
+  },
+
+  /**
    * @method loadSfx
    */
   loadSfx: function () {
     game.load.audiosprite(
-      'sfx', [
-        'assets/audiosprite/thrust-sfx.mp3',
-        'assets/audiosprite/thrust-sfx.m4a',
-        'assets/audiosprite/thrust-sfx.ogg'
-      ],
+      'sfx',
+      this.getSfxAudioFormats(),
       'assets/audiosprite/thrust-sfx.json'
     );
   },
@@ -83,18 +124,15 @@ module.exports = {
   /**
    * @method loadMusic
    */
-  loadMusic: function() {
+  loadMusic: function () {
     game.load.audiosprite(
-      'music', [
-        'assets/audiosprite/thrust-music.mp3',
-        'assets/audiosprite/thrust-music.m4a',
-        'assets/audiosprite/thrust-music.ogg'
-      ],
+      'music',
+      this.getMusicAudioFormats(),
       'assets/audiosprite/thrust-music.json'
     );
   },
 
-  preloadTrainingMap: function(levelData) {
+  preloadTrainingMap: function (levelData) {
     game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
   },
@@ -143,7 +181,7 @@ module.exports = {
   /**
    * @method transitionOut
    */
-  transitionOut:function() {
+  transitionOut: function () {
     if (this.bootScreen) {
       TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
     } else {
