@@ -71,23 +71,23 @@ p.createDisplay = function() {
     this.restoreUserControl.dispatch();
   }.bind(this), this);
 
-  switch1.group.x = this.layoutRect.width * 0.4 - switch1.originPos.x;
+  switch1.group.x = this.layoutRect.width * 0.5 - switch1.originPos.x;
   switch1.group.y = this.marginTop;
   switch1.switchedOn.add(this.infiniteLivesOn, this);
   switch1.switchedOff.add(this.infiniteLivesOff, this);
   this.components.push(switch1);
-  switch2.group.x = this.layoutRect.width * 0.4 - switch2.originPos.x;
+  switch2.group.x = this.layoutRect.width * 0.5 - switch2.originPos.x;
   switch2.group.y = switch1.group.y + switch1.group.height + paddingFaction;
   switch2.switchedOn.add(this.infiniteFuelOn, this);
   switch2.switchedOff.add(this.infiniteFuelOff, this);
   this.components.push(switch2);
-  switch3.group.x = this.layoutRect.width * 0.4 - switch3.originPos.x;
+  switch3.group.x = this.layoutRect.width * 0.5 - switch3.originPos.x;
   switch3.group.y = switch2.group.y + switch2.group.height + paddingFaction;
   switch3.switchedOn.add(this.fatalCollisionsOff, this);
   switch3.switchedOff.add(this.fatalCollisionsOn, this);
   this.components.push(switch3);
 
-  this.uiSelect.group.x = this.layoutRect.width * 0.15;
+  this.uiSelect.group.x = this.layoutRect.width * 0.3;
   this.uiSelect.group.y = switch3.group.y + switch3.group.height + paddingFaction * 4;
   this.components.push(this.uiSelect);
 };

@@ -13,6 +13,7 @@ function UserControl(features) {
   this.initExternalJoypad();
   if (!this.externalGamePadDetected && this.features.isTouchScreen) {
     this.useVirtualJoypad = true;
+    this.pad = game.plugins.add(Phaser.VirtualJoystick);
   }
   this.initKeys();
 }
@@ -24,6 +25,7 @@ p.useKeys = false;
 p.useVirtualJoypad = false;
 p.useExternalJoypad = false;
 p.externalGamePadDetected = false;
+p.virtualJoyInit = false;
 
 /**
  * @method initExternalJoypad
@@ -65,7 +67,10 @@ p.initKeys = function () {
  * @method initJoypad
  */
 p.initVirtualJoypad = function () {
-  this.pad = game.plugins.add(Phaser.VirtualJoystick);
+  if (this.virtualJoyInit) {
+    return;
+  }
+  this.virtualJoyInit = true;
   this.stick = this.pad.addDPad(game.width * 0.15, game.height*0.8, 200, 'dpad');
   this.buttonA = this.pad.addButton(game.width * 0.78, game.height * 0.85, 'dpad', 'button1-up', 'button1-down');
   this.buttonB = this.pad.addButton(game.width * 0.92, game.height * 0.78, 'dpad', 'button2-up', 'button2-down');

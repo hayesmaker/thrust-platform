@@ -201,7 +201,7 @@ p.hideAndRemove = function () {
 };
 
 p.initLayout = function () {
-  if (game.width > 1000) {
+  if (game.device.desktop && game.width >= 1000) {
     this.initFullLayout();
   } else {
     this.initSmallLayout();

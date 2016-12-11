@@ -42,7 +42,7 @@ p.createDisplay = function() {
   var switch1 = new UiSwitch(this.group, "Music");
   switch1.render();
   switch1.group.x = this.layoutRect.halfWidth - switch1.originPos.x;
-  switch1.group.y = this.layoutRect.height * 0.25;
+  switch1.group.y = this.marginTop;
   switch1.switchedOn.add(this.musicOn, this);
   switch1.switchedOff.add(this.musicOff, this);
   var switch2 = new UiSwitch(this.group, "Sound FX");
