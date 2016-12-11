@@ -873,12 +873,15 @@ module.exports = {
    */
   createUi: function () {
     var style = {font: "16px thrust_regular", fill: "#ffffff", align: "center", backgroundColor: 'black'};
+
+    if (this.uiPaused) this.uiPaused.destroy();
     this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED", style);
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
 
     if (features.isTouchScreen) {
+      if (this.pauseButton) this.pauseButton.destroy();
       this.pauseButton = game.add.button(game.width - 10, 10, "combined", this.onPauseClick, this, 'pause-button.png', 'pause-button.png');
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
