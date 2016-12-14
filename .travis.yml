@@ -1,6 +1,7 @@
 language: node_js
 node_js:
 - '5.11'
+sudo: required
 notifications:
   email:
   - andygoestohollywood@gmail.com
