@@ -20,6 +20,7 @@ before_script:
 - chmod 755 BrowserStackLocal
 - ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY > /dev/null &
 - sleep 4
+script:
 - npm start
 deploy:
   provider: heroku
