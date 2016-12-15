@@ -64,10 +64,25 @@ p.initKeys = function () {
 };
 
 /**
+ *
+ */
+p.reInit = function() {
+  console.log('virtualJoypadReinitialised', this.stick, this.buttonA, this.buttonB);
+};
+
+p.destroy = function() {
+  if (this.useVirtualJoypad) {
+    this.virtualJoyInit = false;
+    this.pad.destroy();
+  }
+};
+
+/**
  * @method initJoypad
  */
 p.initVirtualJoypad = function () {
   if (this.virtualJoyInit) {
+    this.reInit();
     return;
   }
   this.virtualJoyInit = true;
