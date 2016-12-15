@@ -13,7 +13,7 @@ var url = 'https://www.thrust2016.com';
 
 
 var status = function() {
-  return 'Thrust v' + process.env.npm_package_version +' ' + url + ' ' + 'BETA update: Touch controls fixed past level 2 #indiegamedev';
+  return '#Thrust30 v' + process.env.npm_package_version +' ' + url + ' ' + 'BETA update: Touch controls fixed past level 2 #indiegamedev';
 };
 
 
