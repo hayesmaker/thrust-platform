@@ -1,10 +1,12 @@
 var gameState = require('../data/game-state');
+var inAppPurchases = require('../data/in-app-purchases');
 var UIMenu = require('./ui-menu');
 var UIHighScores = require('./ui-high-scores');
 var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
 var UILevelsComplete = require('./ui-levels-complete');
+
 
 
 

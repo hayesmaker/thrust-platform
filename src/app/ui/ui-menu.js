@@ -1,6 +1,7 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
 var sound = require('../utils/sound');
+var inAppPurchaes = require('../data/in-app-purchases');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -22,6 +23,15 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
   UiComponent.call(this, group, name, true, true);
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
+  this.dataProvider = [
+    'PLAY THRUST',
+    'TRAINING',
+    'HIGH-SCORES',
+    'OPTIONS'
+  ];
+  if (inAppPurchaes.levelsPurchased.length === 0) {
+    this.dataProvider.push('BUY LEVELS');
+  }
 }
 
 /**
@@ -83,12 +93,7 @@ p.render = function () {
   UiComponent.prototype.render.call(this);
   this.items = [];
   _.each(
-    [
-      'PLAY THRUST',
-      'TRAINING',
-      'HIGH-SCORES',
-      'OPTIONS'
-    ],
+    this.dataProvider,
     _.bind(
       this.menuItem,
       this

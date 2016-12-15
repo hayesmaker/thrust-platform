@@ -6,6 +6,7 @@ var UserControl = require('../environment/UserControl');
 var particles = require('../environment/particles/manager');
 var userControl;
 var version = require('../../../package.json').version;
+var inAppPurchaes = require('../data/in-app-purchases');
 
 /**
  * The boot state
@@ -55,7 +56,7 @@ module.exports = {
     //game.scale.forceOrientation(true, false);
     //  game.renderer.renderSession.roundPixels = true;
     //Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-
+    inAppPurchaes.init();
     features.init();
     //levelManager.init();
     particles.init();

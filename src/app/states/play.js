@@ -343,6 +343,9 @@ module.exports = {
       case "OPTIONS" :
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
+      case "BUY LEVELS":
+        alert('purchase Classic Levels');
+        break;
       default :
         break;
     }
