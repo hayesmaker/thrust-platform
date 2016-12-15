@@ -409,6 +409,7 @@ module.exports = {
       this.tractorBeam = null;
       this.player.tractorBeam = null;
     }
+    game.controls.destroy();
     this.groups.background.removeAll(true);
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);

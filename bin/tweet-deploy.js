@@ -13,10 +13,10 @@ var url = 'https://www.thrust2016.com';
 
 
 var status = function() {
-  return 'Thrust v' + process.env.npm_package_version +' ' + url + ' ' + 'Trying out a new 2016 beta level 3 #indiegamedev';
+  return '#Thrust30 v' + process.env.npm_package_version +' ' + url + ' ' + 'BETA update: Touch controls fixed past level 2 #indiegamedev';
 };
 
-/*
+
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -25,7 +25,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
-*/
+
 
 
 console.log(status());
