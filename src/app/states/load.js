@@ -183,7 +183,7 @@ module.exports = {
    */
   transitionOut: function () {
     if (this.bootScreen) {
-      TweenMax.to(this.bootScreen, 3, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+      TweenMax.to(this.bootScreen, 1, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
     } else {
       this.start();
     }

@@ -86,11 +86,15 @@ module.exports = {
   init: function(levels) {
     this.endless = levels.endless;
     this.allLevels = levels.data.slice();
-    this.levels = levels.data.slice();
+    this.levels = levels.data;
+
     if (inAppPurchases.levelsPurchased.length === 0) {
       this.levels.splice(3, 3);
       inAppPurchases.onLevelsPurchased.add(this.onLevelsPurchased, this);
     }
+
+    console.log('level-manager :: init this.levels', this.levels);
+    console.log('level-manager :: init this.allLevels', this.allLevels);
     this.currentLevel = this.levels[this.levelIndex];
     this.updateEndlessData();
   },

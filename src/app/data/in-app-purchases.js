@@ -15,9 +15,9 @@ module.exports = {
    * @method init
    */
   init: function () {
+    this.onLevelsPurchased = new Phaser.Signal();
     if (Cocoon.InApp) {
       this.inappsService = Cocoon.InApp;
-      this.onLevelsPurchased = new Phaser.Signal();
     } else {
       return;
     }
