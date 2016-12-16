@@ -9,12 +9,15 @@ module.exports = {
 
   inappsService: null,
 
+  onLevelsPurchased: null,
+
   /**
    * @method init
    */
   init: function () {
     if (Cocoon.InApp) {
       this.inappsService = Cocoon.InApp;
+      this.onLevelsPurchased = new Phaser.Signal();
     } else {
       return;
     }
@@ -30,15 +33,15 @@ module.exports = {
       console.info('inappsService initialized :: levelsPurchased=', levelsPurchased);
       //Fetch products from the server
       /*
-      this.inappsService.fetchProducts(this.productIds, function (products, error) {
-        if (error) {
-          alert('error: ' + error);
-        } else {
-          console.info('products:', products);
-          //alert(products.toString());
-        }
-      });
-      */
+       this.inappsService.fetchProducts(this.productIds, function (products, error) {
+       if (error) {
+       alert('error: ' + error);
+       } else {
+       console.info('products:', products);
+       //alert(products.toString());
+       }
+       });
+       */
 
     }.bind(this));
 
@@ -48,10 +51,11 @@ module.exports = {
       },
       error: function (productId, error) {
         console.warn("purchase failed " + productId + " error: " + JSON.stringify(error));
-        alert(error);
+        alert("purchase failed " + productId + " error: " + JSON.stringify(error));
       },
       complete: function (purchase) {
         console.log("purchase completed " + JSON.stringify(purchase));
+
       }
     });
 
@@ -60,13 +64,14 @@ module.exports = {
   /**
    *
    */
-  buyClassicLevels: function() {
+  buyClassicLevels: function () {
     if (this.inappsService) {
-      this.inappsService.purchase('classicLevels1', 1, function(error) {
+      this.inappsService.purchase('classicLevels1', 1, function (error) {
         if (error) {
-          alert(error);
+
         } else {
           this.levelsPurchased.push('classicLevels1');
+          this.onLevelsPurchased.dispatch();
           alert('All Classic Levels are now unlocked.  For speed run and endless mode GOTO OPTIONS > General.' +
             ' Happy Thrusting!');
         }
@@ -77,7 +82,7 @@ module.exports = {
   /**
    *
    */
-  checkLevelsPurchased: function() {
+  checkLevelsPurchased: function () {
     if (this.inappsService) {
       if (this.inappsService.isPurchased(['classicLevels1'])) {
         if (this.levelsPurchased.indexOf('classicLevels1') < 0) {
@@ -89,7 +94,6 @@ module.exports = {
       }
     }
   }
-
 
 
 };
