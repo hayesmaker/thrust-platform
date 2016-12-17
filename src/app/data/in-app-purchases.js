@@ -31,18 +31,6 @@ module.exports = {
 
       var levelsPurchased = this.checkLevelsPurchased();
       console.info('inappsService initialized :: levelsPurchased=', levelsPurchased);
-      //Fetch products from the server
-      /*
-       this.inappsService.fetchProducts(this.productIds, function (products, error) {
-       if (error) {
-       alert('error: ' + error);
-       } else {
-       console.info('products:', products);
-       //alert(products.toString());
-       }
-       });
-       */
-
     }.bind(this));
 
     this.inappsService.fetchProducts(this.productIds, function(products, error){
@@ -50,7 +38,6 @@ module.exports = {
         console.log("Error: " + error);
       }
       else {
-        var next = [];
         for (var i = 0; i < products.length; ++i) {
           var product = products[i];
           console.log(product);
@@ -108,7 +95,7 @@ module.exports = {
         }
       }.bind(this));
     } else {
-      console.log('sorry no purchases available on this platform')
+      console.log('sorry no purchases available on this platform');
       callback.call();
     }
   },
