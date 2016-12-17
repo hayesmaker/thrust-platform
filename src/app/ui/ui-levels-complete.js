@@ -1,5 +1,6 @@
 var UiComponent = require('./ui-component');
 var gameState = require('../data/game-state');
+var dialogs = require('../data/dialogs');
 
 var p = UiLevelsComplete.prototype = Object.create(UiComponent.prototype, {
   constructor: UiLevelsComplete
@@ -56,12 +57,7 @@ p.renderText = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "CONGRATULATIONS", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
   this.title.y = this.layoutRect.y + this.layoutRect.height * 0.1;
-  var para1Str = "" +
-    "You have successfully recovered all the orbs in the system.\n" +
-    "Demo Completed. " +
-    "\n\n" +
-    "Thank you for playing Thrust 2016\n" +
-    "Download the full game now from the vendors page.";
+  var para1Str = dialogs.getLevelsCompleteText();
   this.paragraph1 = game.add.text(this.layoutRect.x + this.padding * 2, 0, para1Str, this.styles.default, this.group);
   this.paragraph1.width = this.layoutRect.width - this.padding * 4;
 

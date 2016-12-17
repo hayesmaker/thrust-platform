@@ -52,6 +52,11 @@ module.exports = {
     return jsonUrl;
   },
 
+  unlockGameModes: function() {
+    this.gameModes.speedRun.unlocked = true;
+    this.gameModes.endlessMode.unlocked = true;
+  },
+
   /**
    * @property gameModes
    */
@@ -62,11 +67,11 @@ module.exports = {
       selected: 'classic'
     },
     speedRun: {
-      unlocked: true,
+      unlocked: false,
       enabled: false
     },
     endlessMode: {
-      unlocked: true,
+      unlocked: false,
       enabled: false
     }
   },

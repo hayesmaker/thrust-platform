@@ -1,5 +1,6 @@
 var properties = require('../properties');
 var inAppPurchases = require('./in-app-purchases');
+var options = require('./options-model');
 
 /**
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
@@ -101,6 +102,7 @@ module.exports = {
 
   onLevelsPurchased: function() {
     this.levels = this.allLevels.slice();
+    options.unlockGameModes();
   },
 
   /**

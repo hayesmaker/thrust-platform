@@ -21,12 +21,10 @@ module.exports = {
    *
    * @method init
    * @param bootScreen {Phaser.Sprite}
-   * @param versionTxt {Phaser.Text}
    */
-  init: function (bootScreen, versionTxt) {
-    console.log('load state :: init', bootScreen, versionTxt);
+  init: function (bootScreen) {
+    console.log('load state :: init', bootScreen);
     levelsLoader.init();
-    this.version = versionTxt;
     this.bootScreen = bootScreen;
 
   },
@@ -196,9 +194,6 @@ module.exports = {
     console.log('load :: start ', gameState);
     this.loadProgressTxt.destroy();
     gameState.init();
-    if (this.version) {
-      this.version.destroy();
-    }
     if (this.bootScreen) {
       this.bootScreen.destroy();
     }

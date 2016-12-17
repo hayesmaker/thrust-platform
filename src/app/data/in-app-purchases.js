@@ -4,7 +4,7 @@ var Cocoon = global.Cocoon || {};
 module.exports = {
 
   levelsPurchased: [],
-
+//classicLevels1
   productIds: ['classicLevels1'],
 
   inappsService: null,
@@ -66,6 +66,7 @@ module.exports = {
       this.inappsService.restorePurchases(function(error) {
         if (error){
           alert(JSON.stringify(error));
+          callback.call();
         } else {
           this.levelsPurchased.push('classicLevels1');
           this.onLevelsPurchased.dispatch();

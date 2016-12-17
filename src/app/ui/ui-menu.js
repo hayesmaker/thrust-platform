@@ -3,6 +3,7 @@ var _ = require('lodash');
 var sound = require('../utils/sound');
 var inAppPurchaes = require('../data/in-app-purchases');
 var UIButton = require('./ui-button');
+var version = require('../../../package.json').version;
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -99,6 +100,14 @@ p.render = function () {
   );
   var x = 10;
   var y = 10;
+
+  var style = {font: "10px thrust_regular", fill: "#ffffff", align: 'left'};
+  this.version = game.make.text(0,0, 'v' + version, style);
+  this.version.anchor.setTo(0, 0);
+  this.version.x = game.width - this.version.width - 10;
+  this.version.y = 10;
+  this.group.add(this.version);
+
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
     var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
     purchaseLevelsBtn.render();
@@ -307,6 +316,10 @@ p.spacePressed = function () {
   this.itemSelected.dispatch(this.items[this.selectedIndex]);
 };
 
+p.dispose = function() {
+  UiComponent.prototype.dispose.call(this);
+  this.version.destroy();
+};
 
 
 

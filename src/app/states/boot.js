@@ -5,7 +5,6 @@ var features = require('../utils/features');
 var UserControl = require('../environment/UserControl');
 var particles = require('../environment/particles/manager');
 var userControl;
-var version = require('../../../package.json').version;
 var inAppPurchaes = require('../data/in-app-purchases');
 
 /**
@@ -84,13 +83,6 @@ module.exports = {
     this.bootScreen.height = game.height;
     this.bootScreen.alpha = 0;
 
-    var style = {font: "10px thrust_regular", fill: "#ffffff", align: 'left'};
-    this.version = game.make.text(0,0, 'v' + version, style);
-    this.version.anchor.setTo(0, 0.5);
-    this.version.x = 0;
-    this.version.y = game.height*0.25;
-    this.bootScreen.addChild(this.version);
-
     TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
     game.e2e.boot = this;
   },
@@ -108,6 +100,6 @@ module.exports = {
    * @method startGame
    */
   startLoad: function () {
-    game.state.start('load', false, false, this.bootScreen, this.version);
+    game.state.start('load', false, false, this.bootScreen);
   }
 };
