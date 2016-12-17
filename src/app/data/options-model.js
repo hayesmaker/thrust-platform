@@ -52,6 +52,16 @@ module.exports = {
     return jsonUrl;
   },
 
+  lockGameModes: function() {
+    this.gameModes.speedRun.unlocked = false;
+    this.gameModes.endlessMode.unlocked = false;
+  },
+
+  unlockGameModes: function() {
+    this.gameModes.speedRun.unlocked = true;
+    this.gameModes.endlessMode.unlocked = true;
+  },
+
   /**
    * @property gameModes
    */

@@ -1,4 +1,30 @@
+//var gameState = require('./game-state');
+var inAppPurchaes = require('./in-app-purchases');
+
 module.exports = {
+
+  getLevelsCompleteText: function() {
+    if (inAppPurchaes.levelsPurchased.length > 0) {
+      return this.levelsComplete[1];
+    } else {
+      return this.levelsComplete[0];
+    }
+  },
+
+  levelsComplete: [
+    "You have completed all the Thrust Free Missions\n" +
+    "You may buy the Full set of classic missions contains all 6 original" +
+    "Thrust missions based on the SPECTRUM version level layouts" +
+    "\n\n" +
+    "Thank you for playing Thrust 30\n" +
+    "More Levels Will be Available Spring 2017",
+
+    "You have successfully completed all Classic Thrust Missions\n" +
+    "All these levels have been totally redesigned for Thrust 30\n" +
+    "based on the original SPECTRUM game's levels\n" +
+    "Thank you for playing Thrust 30\n" +
+    "More Levels Will be Available Spring 2017"
+  ],
 
   training: [
     'Flight training stage 1\n' +

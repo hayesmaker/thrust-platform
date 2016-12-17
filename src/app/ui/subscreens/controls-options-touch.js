@@ -46,13 +46,17 @@ p.render = function () {
  */
 p.createDisplay = function () {
 
-  var rightAlignedStyle = _.clone(this.style);
+  var style = this.getStyle();
+  var rightAlignedStyle = _.clone(style);
   rightAlignedStyle.align = "right";
 
-  var text1 = game.add.text(0, 0, "ROTATE\nLEFT", this.style, this.group);
+  var centerStyle = _.clone(style);
+  centerStyle.align = "center";
+
+  var text1 = game.add.text(0, 0, "ROTATE\nLEFT", style, this.group);
   var text2 = game.add.text(0, 0, "ROTATE\nRIGHT", rightAlignedStyle, this.group);
-  var text3 = game.add.text(0, 0, "THRUST", this.style, this.group);
-  var text4 = game.add.text(0, 0, "FIRE", this.style, this.group);
+  var text3 = game.add.text(0, 0, "THRUST", style, this.group);
+  var text4 = game.add.text(0, 0, "FIRE", style, this.group);
   //text1.anchor.setTo(0.5);
   //text2.anchor.setTo(0.5);
   text1.x = this.layoutRect.halfWidth * 0.05;
@@ -120,13 +124,23 @@ p.createDisplay = function () {
   graphics.lineTo(coords[10].x, coords[10].y);
   graphics.lineTo(coords[11].x, coords[11].y);
 
+  var style = this.getStyle();
+  var helperTxt = game.add.text(0, 0, "Control ship using the virutual joypad\nConnect joypad and restart app\nto enable joypad", centerStyle, this.group);
+  helperTxt.anchor.setTo(0.5);
+  helperTxt.x = this.layoutRect.halfWidth;
+  helperTxt.y = this.marginTop;
+  /*
   var gamePadEnabled = new UiSwitch(this.group, "VIRTUAL JOYPAD");
   gamePadEnabled.render();
   gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
   gamePadEnabled.group.y = this.marginTop;
-  //gamePadEnabled.switchedOn.add(this.onSwitch, this, 0, name);
-  //gamePadEnabled.switchedOff.add(this.offSwitch, this, 0, name);
+  gamePadEnabled.switchedOn.add(this.virtualJoypadOn, this, 0);
+  gamePadEnabled.switchedOff.add(this.virtualJoypadOff, this, 0);
+  if (optionsModel.controls.virtualJoypad) {
+    gamePadEnabled.switch(true, true);
+  }
   this.components.push(gamePadEnabled);
+  */
 };
 
 /**
@@ -153,6 +167,7 @@ p.dispose = function () {
  *
  */
 p.virtualJoypadOn = function () {
+  game.controls.show();
   optionsModel.controls.virtualJoypad = true;
 };
 
@@ -160,5 +175,6 @@ p.virtualJoypadOn = function () {
  *
  */
 p.virtualJoypadOff = function () {
+  game.controls.hide();
   optionsModel.controls.virtualJoypad = false;
 };

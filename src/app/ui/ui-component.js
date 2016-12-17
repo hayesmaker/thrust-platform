@@ -60,9 +60,9 @@ p.style = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
 
 p.darkStyle = {font: "16px thrust_regular", fill: "#000000", align: "left"};
 
-p.minStyle = {font: "12px thrust_regular", fill: "#ffffff", align: "left"};
+p.minStyle = {font: "10px thrust_regular", fill: "#ffffff", align: "left"};
 
-p.darkMinStyle = {font: "12px thrust_regular", fill: "#000000", align: "left"};
+p.darkMinStyle = {font: "10px thrust_regular", fill: "#000000", align: "left"};
 
 p.isFullLayout = false;
 
@@ -217,10 +217,16 @@ p.initSmallLayout = function() {
 };
 
 p.getDarkStyle = function() {
+  if (game.device.iPhone || game.device.iPhone4) {
+    return this.darkMinStyle;
+  }
   return this.isFullLayout? this.darkStyle : this.darkMinStyle;
 };
 
 p.getStyle = function() {
+  if (game.device.iPhone || game.device.iPhone4) {
+    return this.minStyle;
+  }
   return this.isFullLayout? this.style : this.minStyle;
 };
 

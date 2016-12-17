@@ -26,6 +26,7 @@ p.useVirtualJoypad = false;
 p.useExternalJoypad = false;
 p.externalGamePadDetected = false;
 p.virtualJoyInit = false;
+p.isHidden = false;
 
 /**
  * @method initExternalJoypad
@@ -77,11 +78,25 @@ p.destroy = function() {
   }
 };
 
+p.show = function() {
+  this.isHidden = false;
+  this.stick.visible = true;
+  this.buttonA.visible = true;
+  this.buttonB.visible = true;
+};
+
+p.hide = function() {
+  this.isHidden = true;
+  this.stick.visible = false;
+  this.buttonA.visible = false;
+  this.buttonB.visible = false;
+};
+
 /**
  * @method initJoypad
  */
 p.initVirtualJoypad = function () {
-  if (this.virtualJoyInit) {
+  if (this.virtualJoyInit || this.isHidden) {
     this.reInit();
     return;
   }

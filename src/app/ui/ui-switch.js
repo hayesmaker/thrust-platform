@@ -18,6 +18,7 @@ p.switchedOn = null;
 p.switchedOff = null;
 p.gamepadSelector = null;
 p.originPos = null;
+p.locked = false;
 
 /**
  * Skinnable Ui switch button
@@ -25,12 +26,16 @@ p.originPos = null;
  * @class UiSwitch
  * @param group
  * @param name
+ * @param locked
  * @constructor
  */
-function UiSwitch(group, name) {
+function UiSwitch(group, name, locked) {
   UiComponent.call(this, group, name, true, false);
+  this.locked = locked;
   this.originPos = new Phaser.Point();
   //this.label = this.name;
+  this.switchedOn = new Phaser.Signal();
+  this.switchedOff = new Phaser.Signal();
 }
 
 /**
@@ -43,6 +48,7 @@ p.render = function () {
   this.alignToLabel();
   this.drawSelector();
   this.initEvents();
+
 };
 
 /**
@@ -74,11 +80,15 @@ p.createDisplay = function () {
   this.button = game.add.sprite(0, 0, this.buttonSkin, '', this.group);
   //this.button.anchor.setTo(0.5);
   this.selection.anchor.setTo(0.5);
+  if (this.locked) {
+    this.group.alpha = 0.3;
+  }
 
 };
 
 p.createLabel = function() {
-  this.label = game.add.text(0, 0, this.name, this.style, this.group);
+  var style = this.getStyle();
+  this.label = game.add.text(0, 0, this.name, style, this.group);
   this.label.anchor.setTo(0, 0.5);
   //this.label.x = -this.button.x - this.label.width - 10;
   this.label.y = this.backgroundSkin.height / 2 + 2;
@@ -116,9 +126,6 @@ p.initEvents = function () {
   this.background.inputEnabled = true;
   this.background.input.useHandCursor = true;
   this.background.events.onInputDown.add(this.mouseDown, this);
-  this.switchedOn = new Phaser.Signal();
-  this.switchedOff = new Phaser.Signal();
-  
 };
 
 p.dispose = function() {
@@ -137,22 +144,25 @@ p.dispose = function() {
  * @method mouseDown
  */
 p.mouseDown = function () {
-  this.switch();
+  if (!this.locked) {
+    this.switch();
+  }
+
 };
 
 /**
  * @method switch
  */
-p.switch = function (noAnimation) {
+p.switch = function (noAnimation, silent) {
   this.isOn = !this.isOn;
   var switchFunc = this.isOn ? this.switchOn : this.switchOff;
-  switchFunc.call(this, noAnimation);
+  switchFunc.call(this, noAnimation, silent);
 };
 
 /**
  * @method switchOn
  */
-p.switchOn = function (noAnimation) {
+p.switchOn = function (noAnimation, silent) {
   var x = this.originPos.x + this.background.width - this.button.width;
   this.selection.scale.setTo(1);
   var sX = x + this.selection.width/2;
@@ -165,7 +175,9 @@ p.switchOn = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0x2f961f, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
-  this.switchedOn.dispatch();
+  if (!silent) {
+    this.switchedOn.dispatch();
+  }
   if (noAnimation) {
     this.tl.progress(1, false);
   }
@@ -175,7 +187,7 @@ p.switchOn = function (noAnimation) {
 /**
  * @method switchOff
  */
-p.switchOff = function (noAnimation) {
+p.switchOff = function (noAnimation, silent) {
   var x = this.originPos.x;
   this.selection.scale.setTo(1);
   var sX = this. originPos.x + this.selection.width/2;
@@ -188,24 +200,35 @@ p.switchOff = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0xffffff, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
-  this.switchedOff.dispatch();
+  if (!silent) {
+    this.switchedOff.dispatch();
+  }
   if (noAnimation) {
     this.tl.progress(1, false);
   }
 };
 
 p.userSelected = function() {
-  this.gamepadSelector.visible = true;
-  this.gamepadSelector.alpha = 1;
+  if (!this.locked) {
+    this.gamepadSelector.visible = true;
+    this.gamepadSelector.alpha = 1;
+  }
+
 };
 
 p.userDeselected = function() {
-  this.gamepadSelector.visible = false;
-  this.gamepadSelector.alpha = 0;
+  if (!this.locked) {
+    this.gamepadSelector.visible = false;
+    this.gamepadSelector.alpha = 0;
+  }
+
 };
 
 p.apiSelect = function() {
-  this.switch();
+  if (!this.locked) {
+    this.switch();
+  }
+
 };
 
 

@@ -24,6 +24,7 @@ var TimelineMax = global.TimelineMax;
 var features = require('../utils/features');
 var MapAtlas = require('../environment/levels/MapAtlas');
 var options = require('../data/options-model');
+var StatusBar = global.StatusBar;
 
 /**
  * The play statem
@@ -88,6 +89,9 @@ module.exports = {
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
     gameState.levelsCompleted.add(this.levelsCompleted, this);
+    if (StatusBar) {
+      StatusBar.hide();
+    }
   },
 
   /**

@@ -1,6 +1,9 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
 var sound = require('../utils/sound');
+var inAppPurchaes = require('../data/in-app-purchases');
+var UIButton = require('./ui-button');
+var version = require('../../../package.json').version;
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -22,6 +25,12 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
   UiComponent.call(this, group, name, true, true);
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
+  this.dataProvider = [
+    'PLAY THRUST',
+    'TRAINING',
+    'HIGH-SCORES',
+    'OPTIONS'
+  ];
 }
 
 /**
@@ -83,17 +92,54 @@ p.render = function () {
   UiComponent.prototype.render.call(this);
   this.items = [];
   _.each(
-    [
-      'PLAY THRUST',
-      'TRAINING',
-      'HIGH-SCORES',
-      'OPTIONS'
-    ],
+    this.dataProvider,
     _.bind(
       this.menuItem,
       this
     )
   );
+  var x = 10;
+  var y = 10;
+
+  var style = {font: "10px thrust_regular", fill: "#ffffff", align: 'left'};
+  this.version = game.make.text(0,0, 'v' + version, style);
+  this.version.anchor.setTo(0, 0);
+  this.version.x = game.width - this.version.width - 10;
+  this.version.y = 10;
+  this.group.add(this.version);
+
+  if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
+    var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
+    purchaseLevelsBtn.render();
+    purchaseLevelsBtn.group.x = x;
+    purchaseLevelsBtn.group.y = y;
+    purchaseLevelsBtn.onItemSelected.add(this.purchaseLevels, this);
+    x = purchaseLevelsBtn.group.x + purchaseLevelsBtn.group.width;
+    this.components = [purchaseLevelsBtn];
+  }
+  if (inAppPurchaes.inappsService) {
+    var restoreButton = new UIButton(this.group, "RESTORE\nPURCHASE");
+    this.components.push(restoreButton);
+    restoreButton.render();
+    restoreButton.group.x = x + 10;
+    restoreButton.group.y = y;
+    restoreButton.onItemSelected.add(this.restorePurchase, this);
+  }
+
+};
+
+p.purchaseLevels = function() {
+  this.components[0].selectComponent();
+  inAppPurchaes.buyClassicLevels(function() {
+    this.components[0].deselectComponent();
+  }.bind(this));
+};
+
+p.restorePurchase = function() {
+  this.components[1].selectComponent();
+  inAppPurchaes.restorePurchases(function() {
+    this.components[1].deselectComponent();
+  }.bind(this));
 };
 
 /**
@@ -219,6 +265,7 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
+    game.controls.buttonA.onDown.add(this.spacePressed, this);
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
@@ -234,6 +281,7 @@ p.disable = function () {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.stick) {
+    game.controls.buttonA.onDown.remove(this.spacePressed, this);
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
   this.itemSelected.remove(this.menuSelectedCallback, this.playState);
@@ -270,6 +318,10 @@ p.spacePressed = function () {
   this.itemSelected.dispatch(this.items[this.selectedIndex]);
 };
 
+p.dispose = function() {
+  UiComponent.prototype.dispose.call(this);
+  this.version.destroy();
+};
 
 
 

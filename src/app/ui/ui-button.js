@@ -144,6 +144,8 @@ p.dispose = function() {
   spr.inputEnabled = false;
   spr.useHandCursot = false;
   spr.events.onInputDown.remove(this.componentMouseDown, this);
+  this.onItemSelected.removeAll();
+  this.onItemSelected = null;
 };
 
 p.componentMouseDown = function(arg1, arg2, id) {

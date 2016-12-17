@@ -1,4 +1,6 @@
 var properties = require('../properties');
+var inAppPurchases = require('./in-app-purchases');
+var options = require('./options-model');
 
 /**
  * Want to know what time it is? you came to wrong place... Want to know what level it is?
@@ -75,6 +77,8 @@ module.exports = {
    */
   startDebugLevel: false,
 
+  allLevels: [],
+
   /**
    * Initialise the level manager.
    *
@@ -82,9 +86,23 @@ module.exports = {
    */
   init: function(levels) {
     this.endless = levels.endless;
-    this.levels = properties.levels.data || levels.data;
+    this.allLevels = levels.data.slice();
+    this.levels = levels.data;
+
+    if (inAppPurchases.levelsPurchased.length === 0) {
+      this.levels.splice(3, 3);
+      inAppPurchases.onLevelsPurchased.add(this.onLevelsPurchased, this);
+    }
+
+    console.log('level-manager :: init this.levels', this.levels);
+    console.log('level-manager :: init this.allLevels', this.allLevels);
     this.currentLevel = this.levels[this.levelIndex];
     this.updateEndlessData();
+  },
+
+  onLevelsPurchased: function() {
+    this.levels = this.allLevels.slice();
+    options.unlockGameModes();
   },
 
   /**
