@@ -51,7 +51,7 @@ module.exports = {
     var level = levelManager.currentLevel;
     var bmd = game.make.bitmapData(1, 1);
     bmd.rect(0,0,1,1, level.missionSwipe.color);
-    this.swipe = game.add.sprite(x, y, bmd);
+    this.swipe = game.make.sprite(x, y, bmd);
     this.swipe.anchor.setTo(0);
     this.swipe.width = 5;
     this.swipe.height = 5;
@@ -87,7 +87,7 @@ module.exports = {
     this.title = game.add.text(x + 5, y + 5, title, style, this.group);
     style = { font: "12px thrust_regular", fill: "#ffffff", align: "left" };
     this.desc = game.add.text(this.title.x, this.title.y + this.title.height + 2, desc, style, this.group);
-    this.fullH = this.desc.y + this.desc.height;
+    this.fullH = (this.desc.y + this.desc.height - this.title.y) * 2;
     this.hideSwipe();
     this.tl = new TimelineMax({delay: 0.2, onComplete: this.missionStartSwipeOut, callbackScope: this, onReverseComplete: this.missionReady});
     this.tl.add(TweenMax.to(this.swipe, 0.2, {alpha: 1, ease: Quad.easeOut} ));

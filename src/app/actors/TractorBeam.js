@@ -95,9 +95,9 @@ p.startLocking = function(){
  */
 p.drawBeam = function () {
   this.graphics.clear();
-  var colour = this.hasGrabbed ? 0x00ff00 : 0xEF5696;
-  var alpha = this.hasGrabbed ? 0.5 : 0.4;
-  this.graphics.lineStyle(5, colour, alpha);
+  var colour = this.hasGrabbed ? 0x4fffff : 0xEF5696;
+  var alpha = this.hasGrabbed ? 0.6 : 0.4;
+  this.graphics.lineStyle(3, colour, alpha);
   this.graphics.moveTo(this.player.body.x,this.player.body.y);
   this.graphics.lineTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
 };
@@ -125,6 +125,7 @@ p.unlock = function () {
  * @method lock
  */
 p.lock = function () {
+  this.hasGrabbed = true;
   this.isLocked = true;
 };
 
@@ -149,7 +150,6 @@ p.lockingRelease = function () {
  */
 p.grab = function () {
   var player = this.player;
-  this.hasGrabbed = true;
   var maxForce = 200000;
   var diffX = player.position.x - this.orb.sprite.position.x;
   var diffY = player.position.y - this.orb.sprite.position.y;

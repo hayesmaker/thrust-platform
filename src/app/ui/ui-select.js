@@ -60,6 +60,7 @@ p.render = function () {
 };
 
 p.initOptions = function() {
+  var style = this.getStyle();
   var option;
   var w = 1,h = 1;
 
@@ -73,7 +74,7 @@ p.initOptions = function() {
 
   _.each(this.dataProvider, function(optionData, index) {
 
-    option = game.make.text(0,0, optionData.str, this.style);
+    option = game.make.text(0,0, optionData.str, style);
     option.x = 0;
     option.y = (index) * (option.height + this.padding * 2);
 
@@ -141,7 +142,8 @@ p.createDisplay = function () {
 };
 
 p.createLabel = function() {
-  this.label = game.add.text(0, 0, this.label, this.style, this.group);
+  var style = this.getStyle();
+  this.label = game.add.text(0, 0, this.label, style, this.group);
   this.optionLabel = game.add.text(0, 0, this.dataProvider[0].str, this.style, this.group);
   this.optionLabel.alpha = 0;
   this.optionLabel.visible = false;

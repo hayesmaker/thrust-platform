@@ -66,9 +66,19 @@ p.createDisplay = function() {
     {str: 'Classic Levels', value: 'classic'},
     {str: '2016 Levels', value: '2016'}
   ];
-  var switch1 = new UiSwitch(this.group, "Speed Run") ;
+
+  var speedRunLocked = !optionsModel.gameModes.speedRun.unlocked;
+  var endlessLocked = !optionsModel.gameModes.endlessMode.unlocked;
+
+  var style = this.getStyle();
+  if (speedRunLocked || endlessLocked) {
+    this.lockedInfo = game.add.text(this.layoutRect.halfWidth, this.marginTop, 'Purchase More Levels to Unlock Game Modes', style, this.group);
+    this.lockedInfo.anchor.setTo(0.5);
+  }
+
+  var switch1 = new UiSwitch(this.group, "Speed Run", speedRunLocked);
   switch1.render();
-  var switch2 = new UiSwitch(this.group, "Endless");
+  var switch2 = new UiSwitch(this.group, "Endless", endlessLocked);
   switch2.render();
 
   /*
@@ -96,7 +106,7 @@ p.createDisplay = function() {
   */
 
   switch1.group.x = this.layoutRect.width * 0.5 - switch1.originPos.x;
-  switch1.group.y = this.marginTop;
+  switch1.group.y = this.lockedInfo? this.lockedInfo.y + this.lockedInfo.height + paddingFaction : this.marginTop;
   switch1.switchedOn.add(this.speedRunOn, this);
   switch1.switchedOff.add(this.speedRunOff, this);
   this.components.push(switch1);

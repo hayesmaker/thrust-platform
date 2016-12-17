@@ -26,7 +26,14 @@ module.exports = {
     console.log('load state :: init', bootScreen);
     levelsLoader.init();
     this.bootScreen = bootScreen;
-
+    var x = 0;
+    var y = game.height * 0.7;
+    var bmd = game.make.bitmapData(1, 1);
+    bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0.5)');
+    this.swipe = game.add.sprite(x, y, bmd);
+    this.swipe.anchor.setTo(0);
+    this.swipe.width = 1;
+    this.swipe.height = 20;
   },
 
   /**
@@ -45,8 +52,8 @@ module.exports = {
    * @method preload
    */
   preload: function () {
-    var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
-    this.loadProgressTxt = game.add.text(0, 0, '0%', style);
+    //var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
+
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
     levelsLoader.loadLevelsJson(optionsModel.getLevelsJsonUrl());
@@ -148,7 +155,7 @@ module.exports = {
   fileComplete: function (progress, cacheKey) {
     console.log('load :: fileComplete', cacheKey);
     var percent = game.load.progress;
-    this.loadProgressTxt.text = percent + '%';
+    this.tween = TweenMax.to(this.swipe, 0.1, {width: game.width * percent/100} );
   },
 
   /**
@@ -192,7 +199,8 @@ module.exports = {
    */
   start: function () {
     console.log('load :: start ', gameState);
-    this.loadProgressTxt.destroy();
+    //this.loadProgressTxt.destroy();
+    this.swipe.destroy();
     gameState.init();
     if (this.bootScreen) {
       this.bootScreen.destroy();

@@ -1,4 +1,5 @@
 var Cocoon = global.Cocoon || {};
+var options = require('./options-model');
 
 
 module.exports = {
@@ -16,8 +17,10 @@ module.exports = {
    */
   init: function () {
     this.onLevelsPurchased = new Phaser.Signal();
+
     if (Cocoon.InApp) {
       this.inappsService = Cocoon.InApp;
+      options.lockGameModes();
     } else {
       return;
     }
@@ -109,6 +112,7 @@ module.exports = {
       if (this.inappsService.isPurchased(['classicLevels1'])) {
         if (this.levelsPurchased.indexOf('classicLevels1') < 0) {
           this.levelsPurchased.push('classicLevels1');
+          options.unlockGameModes();
         }
         return true;
       } else {
