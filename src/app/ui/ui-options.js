@@ -198,6 +198,7 @@ p.addActiveEvents = function() {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
+    game.controls.buttonA.onDown.add(this.spacePressed, this);
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useExternalJoypad) {
@@ -232,6 +233,7 @@ p.removeActiveEvents = function() {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
+    game.controls.buttonA.onDown.remove(this.spacePressed, this);
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.useExternalJoypad) {

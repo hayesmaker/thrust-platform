@@ -153,16 +153,16 @@ p.mouseDown = function () {
 /**
  * @method switch
  */
-p.switch = function (noAnimation) {
+p.switch = function (noAnimation, silent) {
   this.isOn = !this.isOn;
   var switchFunc = this.isOn ? this.switchOn : this.switchOff;
-  switchFunc.call(this, noAnimation);
+  switchFunc.call(this, noAnimation, silent);
 };
 
 /**
  * @method switchOn
  */
-p.switchOn = function (noAnimation) {
+p.switchOn = function (noAnimation, silent) {
   var x = this.originPos.x + this.background.width - this.button.width;
   this.selection.scale.setTo(1);
   var sX = x + this.selection.width/2;
@@ -175,7 +175,9 @@ p.switchOn = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0x2f961f, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
-  this.switchedOn.dispatch();
+  if (!silent) {
+    this.switchedOn.dispatch();
+  }
   if (noAnimation) {
     this.tl.progress(1, false);
   }
@@ -185,7 +187,7 @@ p.switchOn = function (noAnimation) {
 /**
  * @method switchOff
  */
-p.switchOff = function (noAnimation) {
+p.switchOff = function (noAnimation, silent) {
   var x = this.originPos.x;
   this.selection.scale.setTo(1);
   var sX = this. originPos.x + this.selection.width/2;
@@ -198,7 +200,9 @@ p.switchOff = function (noAnimation) {
   this.tl.add(TweenMax.to(this.button, 0.2, {colorProps: {tint: 0xffffff, tintAmount: 1, format: "number"}, ease: Quad.easeOut}), 0.1);
   this.tl.add(TweenMax.to(this.selection.scale, 0.25, {x: 3, y: 3, ease:Quad.easeOut}), 0.2);
   this.tl.add(TweenMax.to(this.selection, 0.25, {alpha: 0, ease:Quad.easeOut}), 0.2);
-  this.switchedOff.dispatch();
+  if (!silent) {
+    this.switchedOff.dispatch();
+  }
   if (noAnimation) {
     this.tl.progress(1, false);
   }

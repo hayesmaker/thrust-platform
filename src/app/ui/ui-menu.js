@@ -265,6 +265,7 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
+    game.controls.buttonA.onDown.add(this.spacePressed, this);
     game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
@@ -280,6 +281,7 @@ p.disable = function () {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.stick) {
+    game.controls.buttonA.onDown.remove(this.spacePressed, this);
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
   this.itemSelected.remove(this.menuSelectedCallback, this.playState);
