@@ -9,11 +9,12 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_TOKEN_SECRET
 });
 
-var url = 'https://www.thrust2016.com';
+var url = 'https://hayesmaker.itch.io/thrust-30';
 
 
 var status = function() {
-  return '#Thrust30 v' + process.env.npm_package_version +' ' + url + ' ' + 'BETA update: Touch controls fixed past level 2 #indiegamedev';
+  return '#Thrust30 Demo Release v' + process.env.npm_package_version +'-RC-1 ' + url + ' ' +
+    'play it now on Itch.io #html5dev';
 };
 
 
