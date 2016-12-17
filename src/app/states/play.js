@@ -24,7 +24,6 @@ var TimelineMax = global.TimelineMax;
 var features = require('../utils/features');
 var MapAtlas = require('../environment/levels/MapAtlas');
 var options = require('../data/options-model');
-var inAppPurchases = require('../data/in-app-purchases');
 
 /**
  * The play statem
@@ -343,9 +342,6 @@ module.exports = {
         break;
       case "OPTIONS" :
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
-        break;
-      case "BUY LEVELS":
-        inAppPurchases.buyClassicLevels();
         break;
       default :
         break;

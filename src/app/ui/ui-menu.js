@@ -2,6 +2,7 @@ var UiComponent = require('./ui-component');
 var _ = require('lodash');
 var sound = require('../utils/sound');
 var inAppPurchaes = require('../data/in-app-purchases');
+var UIButton = require('./ui-button');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -29,9 +30,6 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
     'HIGH-SCORES',
     'OPTIONS'
   ];
-  if (inAppPurchaes.levelsPurchased.length === 0) {
-    this.dataProvider.push('BUY LEVELS');
-  }
 }
 
 /**
@@ -99,6 +97,40 @@ p.render = function () {
       this
     )
   );
+  var x = 10;
+  var y = 10;
+  if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
+    var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
+    purchaseLevelsBtn.render();
+    purchaseLevelsBtn.group.x = x;
+    purchaseLevelsBtn.group.y = y;
+    purchaseLevelsBtn.onItemSelected.add(this.purchaseLevels, this);
+    x = purchaseLevelsBtn.group.x + purchaseLevelsBtn.group.width;
+    this.components = [purchaseLevelsBtn];
+  }
+  if (inAppPurchaes.inappsService) {
+    var restoreButton = new UIButton(this.group, "RESTORE\nPURCHASE");
+    this.components.push(restoreButton);
+    restoreButton.render();
+    restoreButton.group.x = x + 10;
+    restoreButton.group.y = y;
+    restoreButton.onItemSelected.add(this.restorePurchase, this);
+  }
+
+};
+
+p.purchaseLevels = function() {
+  this.components[0].selectComponent();
+  inAppPurchaes.buyClassicLevels(function() {
+    this.components[0].deselectComponent();
+  }.bind(this));
+};
+
+p.restorePurchase = function() {
+  this.components[1].selectComponent();
+  inAppPurchaes.restorePurchases(function() {
+    this.components[1].deselectComponent();
+  }.bind(this));
 };
 
 /**

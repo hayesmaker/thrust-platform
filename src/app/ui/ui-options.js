@@ -213,12 +213,12 @@ p.addActiveEvents = function() {
  * @method dispose
  */
 p.dispose = function() {
-  UiComponent.prototype.dispose.call(this);
   this.optionsList.onItemSelected.remove(this.itemSelected, this);
   this.exitButton.onItemSelected.remove(this.exit, this);
   this.removeActiveEvents();
   manager.clearSubscreens();
   this.isActive = false;
+  UiComponent.prototype.dispose.call(this);
 };
 
 
