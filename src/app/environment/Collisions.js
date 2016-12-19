@@ -1,4 +1,5 @@
 var levelManager = require('../data/level-manager');
+var options = require('../data/options-model');
 
 /**
  * Helper class to initialise Collision groups
@@ -24,7 +25,10 @@ p.startSystem = function () {
   game.physics.startSystem(Phaser.Physics.P2JS);
   //game.physics.p2.useElapsedTime = true;
   game.physics.p2.setImpactEvents(true);
-  game.physics.p2.gravity.y = levelManager.endlessData.flip? -100 : 100;
+  var heavyGravity = 150;
+  var lightGravity = 100;
+  var currentGravity = options.gameModes.gravity.enabled? heavyGravity : lightGravity;
+  game.physics.p2.gravity.y = levelManager.endlessData.flip? -lightGravity : currentGravity;
 };
 
 /**

@@ -12,6 +12,14 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/gobbapeas', function(req, res) {
+  res.render('app', {
+    title: 'Thrust 30 - @gobbapeas',
+    version: pkg.version + '-@gobbapeas',
+    engine: 'javascripts/browserify/thrust-engine-gobbapeas.js'
+  });
+});
+
 router.get('/min', function(req, res) {
   res.render('app', {
     title: title + "(minified)",

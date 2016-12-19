@@ -221,7 +221,7 @@ module.exports = {
    * @method render
    */
   render: function () {
-    if (properties.dev.stats) {
+    if (properties.dev.stats === true) {
       var color = game.device.isMobile ? '#0000ff' : '#00ff00';
       game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
     }

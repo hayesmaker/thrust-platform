@@ -62,10 +62,15 @@ module.exports = {
     this.gameModes.endlessMode.unlocked = true;
   },
 
+  versionSuffix: "",
   /**
+   *
    * @property gameModes
    */
   gameModes: {
+    sandbox: {
+      enabled: true
+    },
     levels: {
       dirty: false,
       current: 'classic',
@@ -78,6 +83,14 @@ module.exports = {
     endlessMode: {
       unlocked: true,
       enabled: false
+    },
+    gravity: {
+      unlocked: false,
+      enabled: true,
+      options: {
+        light: 100,
+        heavy: 150
+      }
     }
   },
   /**

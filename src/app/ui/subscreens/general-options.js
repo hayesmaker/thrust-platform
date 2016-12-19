@@ -69,6 +69,7 @@ p.createDisplay = function() {
 
   var speedRunLocked = !optionsModel.gameModes.speedRun.unlocked;
   var endlessLocked = !optionsModel.gameModes.endlessMode.unlocked;
+  var gravitySwitchIsEnabled = optionsModel.gameModes.gravity.unlocked;
 
   var style = this.getStyle();
   if (speedRunLocked || endlessLocked) {
@@ -80,6 +81,9 @@ p.createDisplay = function() {
   switch1.render();
   var switch2 = new UiSwitch(this.group, "Endless", endlessLocked);
   switch2.render();
+  var switch3 = new UiSwitch(this.group, "Strong gravity", !gravitySwitchIsEnabled);
+  switch3.render();
+
 
   /*
   var switch3 = new UiSwitch(this.group, "Nag\nScreens");
@@ -115,6 +119,12 @@ p.createDisplay = function() {
   switch2.switchedOn.add(this.endlessOn, this);
   switch2.switchedOff.add(this.endlessOff, this);
   this.components.push(switch2);
+  switch3.group.x = this.layoutRect.width * 0.5 - switch3.originPos.x;
+  switch3.group.y = switch2.group.y + switch2.group.height + paddingFaction;
+  switch3.switchedOn.add(this.heavyGravityOn, this);
+  switch3.switchedOff.add(this.lightGravityOn, this);
+  this.components.push(switch3);
+
   /*
   switch3.group.x = this.layoutRect.width * 0.75 - switch3.originPos.x;
   switch3.group.y = switch1.group.y;
@@ -122,6 +132,14 @@ p.createDisplay = function() {
   switch3.switchedOff.add(this.endlessOff, this);
   this.components.push(switch3);
   */
+};
+
+p.heavyGravityOn = function () {
+  optionsModel.gameModes.gravity.enabled = true;
+};
+
+p.lightGravityOn = function () {
+  optionsModel.gameModes.gravity.enabled = false;
 };
 
 /**
