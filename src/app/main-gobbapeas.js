@@ -8,7 +8,7 @@ window.onload = function () {
       gameModes: {
         gravity: {
           unlocked: true,
-          enabled: true
+          enabled: false
         }
       }
     }
