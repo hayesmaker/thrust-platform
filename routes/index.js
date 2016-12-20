@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var title = "Thrust 30";
 
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {
@@ -13,11 +14,15 @@ router.get('/', function(req, res) {
 });
 
 router.get('/gobbapeas', function(req, res) {
-  res.render('app', {
-    title: 'Thrust 30 - @gobbapeas',
-    version: pkg.version + '-@gobbapeas',
-    engine: 'javascripts/browserify/thrust-engine-gobbapeas.js'
-  });
+  if (req.authenticated) {
+    res.render('app', {
+      title: 'Thrust 30 - @gobbapeas',
+      version: pkg.version + '-@gobbapeas',
+      engine: 'javascripts/browserify/thrust-engine-gobbapeas.js'
+    });
+  } else {
+    res.status(401).send();
+  }
 });
 
 router.get('/min', function(req, res) {
