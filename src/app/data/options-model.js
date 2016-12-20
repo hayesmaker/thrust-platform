@@ -68,6 +68,7 @@ module.exports = {
    * @property gameModes
    */
   gameModes: {
+    allLevels: false,
     sandbox: {
       enabled: true
     },

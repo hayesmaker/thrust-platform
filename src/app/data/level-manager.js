@@ -93,6 +93,9 @@ module.exports = {
       this.levels.splice(3, 3);
       inAppPurchases.onLevelsPurchased.add(this.onLevelsPurchased, this);
     }
+    if (options.gameModes.allLevels) {
+      this.levels = this.allLevels.slice();
+    }
 
     console.log('level-manager :: init this.levels', this.levels);
     console.log('level-manager :: init this.allLevels', this.allLevels);

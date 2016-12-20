@@ -6,6 +6,7 @@ window.onload = function () {
     options: {
       versionSuffix: '-@gobbapeas',
       gameModes: {
+        allLevels: true,
         gravity: {
           unlocked: true,
           enabled: false
