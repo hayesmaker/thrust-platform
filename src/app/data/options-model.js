@@ -86,7 +86,7 @@ module.exports = {
     },
     gravity: {
       unlocked: false,
-      enabled: true,
+      enabled: false,
       options: {
         light: 100,
         heavy: 150
