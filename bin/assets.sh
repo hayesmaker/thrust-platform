@@ -5,5 +5,4 @@ echo Copying new assets
 
 rm -rf $THRUST_ASSETS_PATH/public
 mkdir $THRUST_ASSETS_PATH/public/
-mkdir $THRUST_ASSETS_PATH/public/assets
-cp -a ./public/assets $THRUST_ASSETS_PATH/public/assets
+cp -a ./public/assets $THRUST_ASSETS_PATH/public/
