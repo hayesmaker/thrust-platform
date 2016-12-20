@@ -6,21 +6,27 @@ var UserControl = require('../environment/UserControl');
 var particles = require('../environment/particles/manager');
 var userControl;
 var inAppPurchaes = require('../data/in-app-purchases');
+var optionsModel = require('../data/options-model');
+var _ = require('lodash');
 
 /**
  * The boot state
  *
- * @module states
- * @namespace states
- * @submodule boot
  * @class boot
  * @type {Phaser.State}
  * @static
  */
 module.exports = {
 
-  init: function (customScaleMode) {
+  /**
+   * @method init
+   * @param customScaleMode
+   * @param customOptions
+   */
+  init: function (customScaleMode, customOptions) {
     this.customScaleMode = customScaleMode;
+    this.customOptions = customOptions;
+
   },
 
   /**
@@ -50,6 +56,9 @@ module.exports = {
    * @method create
    */
   create: function () {
+
+    this.mergeOptions();
+
     game.stage.backgroundColor = properties.backgroundColour;
     //Experimental poorly documented features of Phaser
     //game.scale.forceOrientation(true, false);
@@ -70,7 +79,8 @@ module.exports = {
       game.time.advancedTiming = true;
     }
 
-    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    game.scale.canExpandParent = true;
+    game.scale.fullScreenScaleMode = game.scale.NO_SCALE;
 
     userControl = new UserControl(features);
     game.controls = userControl;
@@ -92,6 +102,11 @@ module.exports = {
    */
   update: function () {
 
+  },
+
+  mergeOptions: function() {
+    _.merge(optionsModel, this.customOptions);
+    console.log('options-', optionsModel);
   },
 
   /**

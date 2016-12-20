@@ -7,6 +7,16 @@ var bodyParser = require('body-parser');
 var serveIndex = require('serve-index');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var basic = require('express-authentication-basic');
+
+var login = basic(function(challenge, callback) {
+  if (challenge.username === 'admin' && challenge.password === 'secret123') {
+    callback(null, true, { user: 'gobbapeas' });
+  } else {
+    callback(null, false, { error: 'INVALID_PASSWORD' });
+  }
+});
+
 
 var app = express();
 
@@ -22,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // routes
+app.use(login);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
@@ -33,6 +44,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 

@@ -21,6 +21,19 @@ module.exports = {
   customScaleMode: null,
 
   /**
+   * @property customOptions
+   */
+  customOptions: {},
+
+  /**
+   * @method customOptions
+   * @param options
+   */
+  setCustomOptions: function(options) {
+    this.customOptions = options.options;
+  },
+
+  /**
    * @method enableHiResMode
    */
   enableHiResMode: function() {
@@ -63,6 +76,13 @@ module.exports = {
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
-    game.state.start('boot', true, false, this.customScaleMode);
+    game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
+    window.addEventListener('resize', function() {
+      this.enableHiResMode();
+      game.scale.setGameSize(properties.width, properties.height);
+      game.controls.refresh();
+      //todo
+
+    }.bind(this));
   }
 };  

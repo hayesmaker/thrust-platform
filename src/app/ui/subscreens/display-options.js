@@ -46,7 +46,11 @@ p.createDisplay = function () {
   var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND', 'FPS 60'];
   var x = this.isFullLayout ? 0.5 : 0.5;
   _.each(switches, function (name, index) {
-    var uiSwitch = new UiSwitch(this.group, name);
+    var lock = false;
+    if (name === 'FULL SCREEN' && !game.device.fullscreen) {
+      lock = true;
+    }
+    var uiSwitch = new UiSwitch(this.group, name, lock);
     //todo allow to define positions at render time to avoid pre-render flashes
     uiSwitch.render();
     uiSwitch.group.x = this.layoutRect.width * x - uiSwitch.originPos.x;
