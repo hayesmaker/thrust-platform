@@ -78,7 +78,11 @@ module.exports = {
     game.state.add('boot', require('./boot'));
     game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
     window.addEventListener('resize', function() {
-     game.scale.refresh();
-    });
+      this.enableHiResMode();
+      game.scale.setGameSize(properties.width, properties.height);
+      game.controls.refresh();
+      //todo
+
+    }.bind(this));
   }
 };  

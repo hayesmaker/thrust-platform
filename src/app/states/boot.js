@@ -79,6 +79,7 @@ module.exports = {
       game.time.advancedTiming = true;
     }
 
+    game.scale.canExpandParent = true;
     game.scale.fullScreenScaleMode = game.scale.NO_SCALE;
 
     userControl = new UserControl(features);
