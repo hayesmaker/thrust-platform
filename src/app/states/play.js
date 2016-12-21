@@ -325,12 +325,16 @@ module.exports = {
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
+        gameState.trainingMode = false;
+        this.newGame();
+        /*
         if (this.level.planetBusterMode) {
           console.warn('planetBusterMode');
           gameState.planetBusterMode = true;
         }
-        gameState.trainingMode = false;
-        this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
+        */
+
+        //this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "TRAINING" :
         gameState.newPlayer();
@@ -416,6 +420,13 @@ module.exports = {
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
+  },
+
+  newGame: function() {
+    levelManager.newGame();
+    gameState.currentState = gameState.PLAY_STATES.PLAY;
+    this.restartPlayState();
+
   },
 
   /**
@@ -596,7 +607,7 @@ module.exports = {
     } else {
       gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
       if (gameState.isGameOver) {
-        gameState.newGame();
+        //gameState.newGame();
         gameState.doHighScoreCheck();
       }
     }

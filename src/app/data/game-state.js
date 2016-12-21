@@ -492,7 +492,7 @@ module.exports = {
 
   /**
    * @method getCachedTimeStr
-   * @return {string}
+   * @return\ {string}
    */
   getCachedTimeStr: function() {
     return this.stopwatchCacheTxt;

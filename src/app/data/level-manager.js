@@ -123,6 +123,14 @@ module.exports = {
   },
 
   /**
+   * @method resetToLevel1
+   */
+  resetToLevel1: function() {
+    this.levelIndex = 0;
+    this.currentLevel = this.levels[this.levelIndex];
+  },
+
+  /**
    * Gets the next level configuration  
    * and updates the currentLevel index.
    * If you're on the last level, the levelIndex is reset to 0.
