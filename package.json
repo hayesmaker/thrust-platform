@@ -17,7 +17,7 @@
     "start": "pm2 start ./bin/www",
     "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
-    "build": "npm run browserify:test && npm run browserify:canvas && npm run browserify:main && npm run browserify:mobile && npm run browserify:webgl && npm run browserify:gobbapeas",
+    "build": "npm run browserify:test && npm run browserify:canvas && npm run browserify:main && npm run browserify:mobile && npm run browserify:webgl && npm run browserify:gobbapeas && npm run yuidoc",
     "build:webgl": "npm run browserify:webgl",
     "build:custom": "npm run browserify:gobbapeas",
     "postbuild": "npm run uglify:canvas",
