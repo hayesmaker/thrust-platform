@@ -532,7 +532,7 @@ module.exports = {
    */
   checkPlayerLocation: function () {
     if (this.player.alive) {
-      if (this.player.y < 100 && this.player.inGameArea) {
+      if (this.player.y < 150 && this.player.inGameArea) {
         this.player.inGameArea = false;
         this.inPlay = false;
         this.player.stop();
