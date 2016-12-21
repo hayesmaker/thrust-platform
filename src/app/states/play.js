@@ -33,9 +33,6 @@ var StatusBar = global.StatusBar;
  * - User Interface
  * - Internal (non Phaser) State transitions
  *
- * @namespace states
- * @submodule play
- * @property play.level
  * @class play
  * @type {Phaser.State}
  * @static

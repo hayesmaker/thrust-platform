@@ -41,7 +41,7 @@ var p = Bullet.prototype = Object.create(Phaser.Sprite.prototype, {
 
 /**
  * @method drawPlayerBullet
- * @returns {*|Phaser.BitmapData}
+ * @return {*|Phaser.BitmapData}
  */
 p.drawPlayerBullet = function () {
   var bulletBitmap = game.make.bitmapData(15, 2);
@@ -58,7 +58,7 @@ p.drawPlayerBullet = function () {
  *
  *
  * @method drawEnemyBullet
- * @returns {Phaser.BitmapData|*}
+ * @return {Phaser.BitmapData|*}
  */
 p.drawEnemyBullet = function () {
   var bulletBitmap = game.make.bitmapData(4, 4);

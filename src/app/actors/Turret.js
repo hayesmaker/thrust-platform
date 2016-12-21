@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @prporty _firingStrategy
+ * @property _firingStrategy
  * @type {FiringStrategy}
  * @private
  */

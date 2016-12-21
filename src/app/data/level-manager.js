@@ -111,7 +111,7 @@ module.exports = {
   /**
    * @method setNewLevel
    * @param levelIndex
-   * @returns {boolean}
+   * @return {boolean}
    */
   setNewLevel: function(levelIndex) {
     if (levelIndex !== this.levelIndex) {

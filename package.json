@@ -81,7 +81,7 @@
     "sinon-chai": "^2.8.0",
     "twitter": "^1.2.5",
     "uglify-js": "^2.6.1",
-    "yuidocjs": "^0.9.0"
+    "yuidocjs": "^0.10.2"
   },
   "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
   "main": "bin/www",

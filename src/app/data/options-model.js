@@ -29,7 +29,7 @@ module.exports = {
   /**
    *
    * @method getLevelsJsonUrl
-   * @returns {*}
+   * @return {*}
    */
   getLevelsJsonUrl: function() {
     var jsonUrl;
@@ -151,7 +151,7 @@ module.exports = {
   /**
    * @method getFilterByName
    * @param name {String}
-   * @returns {Object} returns a filter option object eg: `getFilterByName('scanlines')` returns `{scanlines: false}`
+   * @return {Object} returns a filter option object eg: `getFilterByName('scanlines')` returns `{scanlines: false}`
    */
   getFilterByName: function(name) {
     return _.find(this.display.filters, function(val) {

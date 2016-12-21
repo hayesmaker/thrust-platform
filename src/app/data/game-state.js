@@ -105,7 +105,7 @@ module.exports = {
   trainingMode: false,
 
   /**
-   * @propery gameComplete 
+   * @property gameComplete
    * @type {boolean}
    */
   gameComplete: false,
@@ -285,7 +285,7 @@ module.exports = {
   /**
    * @method getScoreByValueId
    * @param valueId
-   * @returns {*}
+   * @return {*}
    */
   getScoreByValueId: function(valueId) {
     console.log('gameState :: getScoreByValueId :', valueId, this.SCORES[valueId]);
@@ -421,7 +421,7 @@ module.exports = {
 
   /**
    * @method isPlanetDestroyed
-   * @returns {boolean}
+   * @return {boolean}
    */
   isPlanetDestroyed: function() {
     return this.bonuses.planetBuster;
@@ -461,7 +461,7 @@ module.exports = {
 
   /**
    * @method isBestTime
-   * @returns {boolean}
+   * @return {boolean}
    */
   isBestTime: function() {
     if (this.counter > this.bestTimeMs) {
@@ -484,7 +484,7 @@ module.exports = {
 
   /**
    * @method getCachedTime
-   * @returns {number}
+   * @return {number}
    */
   getCachedTime: function() {
     return this.counter;
@@ -492,7 +492,7 @@ module.exports = {
 
   /**
    * @method getCachedTimeStr
-   * @returns {string}
+   * @return {string}
    */
   getCachedTimeStr: function() {
     return this.stopwatchCacheTxt;
