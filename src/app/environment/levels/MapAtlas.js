@@ -244,7 +244,7 @@ p.levelCacheKey = function() {
 
 /**
  * @method gateCacheKey
- * @returns {string}
+ * @return {string}
  */
 p.gateCacheKey = function() {
   return this.levelData.gateDataKey + properties.mapSuffix;

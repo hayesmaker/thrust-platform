@@ -160,7 +160,7 @@ p.explode = function () {
  * Check if player is within 1000 pixels of this enemy
  *
  * @method canFire
- * @returns {boolean}
+ * @return {boolean}
  */
 p.canFire = function() {
   return (utils.distAtoB(this.position, this.player.position) < 600);

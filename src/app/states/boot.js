@@ -33,6 +33,7 @@ module.exports = {
    * @property bootScreen
    */
   bootScreen: null,
+
   /**
    * Preload the title screen
    * Initialise the e2e hooks object
@@ -45,13 +46,13 @@ module.exports = {
 
   /**
    * Initialises key game management systems:
-   * * Features
-   * * Level Manager
-   * * Scaling
-   * * phaser timing mode
-   * * User control
-   * * Display title splash screen
-   * * Initialise title screen events
+   * - Features
+   * - Level Manager
+   * - Scaling
+   * - phaser timing mode
+   * - User control
+   * - Display title splash screen
+   * - Initialise title screen events
    *
    * @method create
    */
@@ -104,7 +105,7 @@ module.exports = {
 
   },
 
-  mergeOptions: function() {
+  mergeOptions: function () {
     _.merge(optionsModel, this.customOptions);
     console.log('options-', optionsModel);
   },

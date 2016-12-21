@@ -3,16 +3,15 @@
 var properties = require('../properties');
 
 /**
- * ## Game entry point
- * > called from window.onload 
- * > initilise the Phaser.Game and register game states
- * > start state: boot.
+ * Game entry point
+ * - called from window.onload
+ * - initilise the Phaser.Game and register game states
+ * - start state: boot.
  * 
  * #### Note about fonts
  * To ensure that all fonts are loaded by window.onload, an invisible element using the font must be placed on the app's page
  * This will work fine... In the future we could implement Google's WebFontLoader
  *
- * @main
  * @class launcher
  */
 module.exports = {

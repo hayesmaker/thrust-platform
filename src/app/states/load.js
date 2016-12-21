@@ -11,9 +11,8 @@ var optionsModel = require('../data/options-model');
  * - Starts the game when complete
  *
  * @class load
- * @namespace states
- * @module states
- * @type {Object}
+ * @type {Phaser.State}
+ * @static
  */
 module.exports = {
   /**

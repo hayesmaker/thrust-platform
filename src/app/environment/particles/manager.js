@@ -4,7 +4,6 @@
  * currently houses the swirl effect uses when the player jumps into a level
  *
  * @class manager
- * @namespace environment.particles
  * @type {{group: null, manager: null, emitter: null, init: Function, create: Function, startSwirl: Function}}
  * @static
  */

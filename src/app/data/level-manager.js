@@ -111,7 +111,7 @@ module.exports = {
   /**
    * @method setNewLevel
    * @param levelIndex
-   * @returns {boolean}
+   * @return {boolean}
    */
   setNewLevel: function(levelIndex) {
     if (levelIndex !== this.levelIndex) {
@@ -120,6 +120,14 @@ module.exports = {
       return true;
     }
     return false;
+  },
+
+  /**
+   * @method resetToLevel1
+   */
+  resetToLevel1: function() {
+    this.levelIndex = 0;
+    this.currentLevel = this.levels[this.levelIndex];
   },
 
   /**

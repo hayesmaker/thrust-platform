@@ -33,9 +33,6 @@ var StatusBar = global.StatusBar;
  * - User Interface
  * - Internal (non Phaser) State transitions
  *
- * @namespace states
- * @submodule play
- * @property play.level
  * @class play
  * @type {Phaser.State}
  * @static
@@ -328,12 +325,16 @@ module.exports = {
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
+        gameState.trainingMode = false;
+        this.newGame();
+        /*
         if (this.level.planetBusterMode) {
           console.warn('planetBusterMode');
           gameState.planetBusterMode = true;
         }
-        gameState.trainingMode = false;
-        this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
+        */
+
+        //this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       case "TRAINING" :
         gameState.newPlayer();
@@ -419,6 +420,13 @@ module.exports = {
     this.groups.fuels.removeAll(true);
     this.groups.enemies.removeAll(true);
     this.groups.terrain.removeAll(true);
+  },
+
+  newGame: function() {
+    levelManager.newGame();
+    gameState.currentState = gameState.PLAY_STATES.PLAY;
+    this.restartPlayState();
+
   },
 
   /**
@@ -524,7 +532,7 @@ module.exports = {
    */
   checkPlayerLocation: function () {
     if (this.player.alive) {
-      if (this.player.y < 100 && this.player.inGameArea) {
+      if (this.player.y < 150 && this.player.inGameArea) {
         this.player.inGameArea = false;
         this.inPlay = false;
         this.player.stop();
@@ -599,7 +607,7 @@ module.exports = {
     } else {
       gameState.currentState = gameState.PLAY_STATES.HIGH_SCORES;
       if (gameState.isGameOver) {
-        gameState.newGame();
+        //gameState.newGame();
         gameState.doHighScoreCheck();
       }
     }
