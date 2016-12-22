@@ -1,5 +1,5 @@
 var properties = require('../properties');
-var inAppPurchases = require('./in-app-purchases');
+//var inAppPurchases = require('./in-app-purchases');
 var options = require('./options-model');
 
 /**
@@ -89,6 +89,7 @@ module.exports = {
     this.allLevels = levels.data.slice();
     this.levels = levels.data;
 
+    /*
     if (inAppPurchases.levelsPurchased.length === 0) {
       this.levels.splice(3, 3);
       inAppPurchases.onLevelsPurchased.add(this.onLevelsPurchased, this);
@@ -96,6 +97,7 @@ module.exports = {
     if (options.gameModes.allLevels) {
       this.levels = this.allLevels.slice();
     }
+    */
 
     console.log('level-manager :: init this.levels', this.levels);
     console.log('level-manager :: init this.allLevels', this.allLevels);
