@@ -109,6 +109,7 @@ p.render = function () {
   this.version.y = 10;
   this.group.add(this.version);
 
+  /*
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
     var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
     purchaseLevelsBtn.render();
@@ -126,6 +127,7 @@ p.render = function () {
     restoreButton.group.y = y;
     restoreButton.onItemSelected.add(this.restorePurchase, this);
   }
+  */
 
 };
 
