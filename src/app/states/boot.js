@@ -5,7 +5,7 @@ var features = require('../utils/features');
 var UserControl = require('../environment/UserControl');
 var particles = require('../environment/particles/manager');
 var userControl;
-var inAppPurchaes = require('../data/in-app-purchases');
+//var inAppPurchaes = require('../data/in-app-purchases');
 var optionsModel = require('../data/options-model');
 var _ = require('lodash');
 

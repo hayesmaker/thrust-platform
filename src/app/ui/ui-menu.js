@@ -1,8 +1,8 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
 var sound = require('../utils/sound');
-var inAppPurchaes = require('../data/in-app-purchases');
-var UIButton = require('./ui-button');
+//var inAppPurchaes = require('../data/in-app-purchases');
+//var UIButton = require('./ui-button');
 var version = require('../../../package.json').version;
 var options = require('../data/options-model');
 
@@ -99,8 +99,8 @@ p.render = function () {
       this
     )
   );
-  var x = 10;
-  var y = 10;
+  //var x = 10;
+  //var y = 10;
 
   var style = {font: "14px thrust_regular", fill: "#ffffff", align: 'left'};
   this.version = game.make.text(0,0, 'v' + version + options.versionSuffix, style);
