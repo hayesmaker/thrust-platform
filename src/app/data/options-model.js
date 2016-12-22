@@ -70,7 +70,7 @@ module.exports = {
   gameModes: {
     allLevels: false,
     sandbox: {
-      enabled: true
+      enabled: false
     },
     levels: {
       dirty: false,

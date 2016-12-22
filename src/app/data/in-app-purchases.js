@@ -17,7 +17,7 @@ module.exports = {
    */
   init: function () {
     this.onLevelsPurchased = new Phaser.Signal();
-
+    console.log('in-app-purchases init :: Cocoon', Cocoon && Cocoon.InApp);
     if (Cocoon.InApp) {
       this.inappsService = Cocoon.InApp;
       options.lockGameModes();
@@ -31,9 +31,9 @@ module.exports = {
       if (error) {
         console.error(error);
       }
-
+      console.log('inappsService initialized :: levelsPurchased=', levelsPurchased);
       var levelsPurchased = this.checkLevelsPurchased();
-      console.info('inappsService initialized :: levelsPurchased=', levelsPurchased);
+
     }.bind(this));
 
     this.inappsService.fetchProducts(this.productIds, function(products, error){

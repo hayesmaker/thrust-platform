@@ -65,7 +65,7 @@ module.exports = {
     //game.scale.forceOrientation(true, false);
     //  game.renderer.renderSession.roundPixels = true;
     //Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-    inAppPurchaes.init();
+    //inAppPurchaes.init();
     features.init();
     //levelManager.init();
     particles.init();
