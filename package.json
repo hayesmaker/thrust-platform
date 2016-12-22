@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "0.11.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
