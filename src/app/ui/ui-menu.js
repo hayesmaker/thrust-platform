@@ -131,6 +131,7 @@ p.render = function () {
 
 };
 
+/*
 p.purchaseLevels = function() {
   this.components[0].selectComponent();
   inAppPurchaes.buyClassicLevels(function() {
@@ -144,6 +145,7 @@ p.restorePurchase = function() {
     this.components[1].deselectComponent();
   }.bind(this));
 };
+*/
 
 /**
  * @method update
