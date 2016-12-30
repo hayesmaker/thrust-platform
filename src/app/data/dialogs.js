@@ -3,8 +3,12 @@ var inAppPurchaes = require('./in-app-purchases');
 
 module.exports = {
 
+  /**
+   * @todo return dynamic based on demo/full version
+   * @returns {*}
+   */
   getLevelsCompleteText: function() {
-    return this.levelsComplete[1];
+    return this.levelsComplete[0];
   },
 
   levelsComplete: [
@@ -13,7 +17,11 @@ module.exports = {
     "Thrust missions based on the SPECTRUM version level layouts" +
     "\n\n" +
     "Thank you for playing Thrust 30\n" +
-    "More Levels Will be Available Spring 2017",
+    "Coming Soon on IOS & Android \n" +
+    "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
+    "PROGRAMMING: ANDY HAYES\n" +
+    "SFX MATT GRAY\n" +
+    "GRAPHICS: Martin Keary & Andy Hayes\n\n" +
 
     "You have successfully completed all Classic Thrust Missions\n" +
     "All these levels have been totally redesigned for Thrust 30\n" +

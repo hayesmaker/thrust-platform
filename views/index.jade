@@ -1,35 +1,14 @@
-extends layout
-block content
-  include header
-  #content
-    a(href="https://twitter.com/hayes_maker" class="twitter-follow-button" data-show-count="false" data-size="large")="Follow @hayes_maker"
-    img(src='https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master')
-    div
-      div.lists
-        h4="Play Thrust 30"
-        ul
-          li
-            a(href='https://hayesmaker.itch.io/thrust-30' target='blank')='Play on Itch.io'
-          li
-            a(href='/min' target='blank')='Play BETA version'
-        h4="Test"
-        ul
-          li
-            a(href='/javascripts/test/' target='blank')='Unit tests'
-          li
-            a(href='https://www.browserstack.com/automate' target='blank')='E2E tests (Browserstack)'
-          li
-            a(href='https://www.youtube.com/watch?v=foTPMehH_a4' target='blank')='E2E tests video example'
-        h4="Source code"
-        ul
-          li
-            a(href='https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md' target='blank')='Change Log'
-          li
-            a(href='/yuidoc' target='blank')='Source documentation'
-          li
-            a(href='https://github.com/hayesmaker/thrust-platform' target='blank')='Github'
-  a(href="https://github.com/hayesmaker/thrust-engine")
-    img(style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png")
-  include review
-  div
-    img(src='/assets/images/ios-screenie.png' style="width: 500px; height: 360px")
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        include google-analytics
+        include twitter-follow
+    body
+        include header
+        #topGradient
+            img.logo(src='/assets/images/thrust-homepage-gradient-logo.png')
+            iframe.video(width="853" height="480" src="https://www.youtube.com/embed/hUQ3x2m-OWI" frameborder="0" allowfullscreen)
+        #level2Map
+            img.level-map(src='/assets/images/thrust-homepage-level2.png')

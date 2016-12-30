@@ -31,8 +31,10 @@ In 1986 Thrust was released on Commodore 64, a few months before it arrived on
 All iterations of the game are automatically tested using Unit Testing tool Mocha, 
 End to end testing frameworks Nightwatch + Phase-2-e and also cloud based
 device testing tool Browserstack all via (Travis CI).
-This keeps the game as bug free as possible... But read below for
-if you see some gameplay bugs, feel free to post a bug report.  
+This keeps the game as bug free as possible, but that doesn't mean that a few
+haven't slipped through the net.
+
+If you see some gameplay bugs, feel free to post a bug report.
  
 If you spot a bug and report it via the Github page => Issues tab 
 you'll receive a free copy of the full game when it's released on Mobile 

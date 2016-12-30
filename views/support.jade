@@ -1,0 +1,36 @@
+extends layout
+block content
+  include header
+  h1.
+    Development & Source Code
+  #content
+    a(href="https://twitter.com/hayes_maker" class="twitter-follow-button" data-show-count="false" data-size="large")="Follow @hayes_maker"
+    img(src='https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master')
+    div
+      div.lists
+        h4="Play Thrust 30"
+        ul
+          li
+            a(href='/dev' target='self')='Dev Version'
+          li
+            a(href='/min' target='self')='Minified Version'
+          li
+            a(href='/webgl' target='self')='WebGL experimental Version'
+        h4="Test"
+        ul
+          li
+            a(href='/javascripts/test/' target='blank')='Unit tests'
+          li
+            a(href='https://www.browserstack.com/automate' target='blank')='E2E tests (Browserstack)'
+          li
+            a(href='https://www.youtube.com/watch?v=foTPMehH_a4' target='blank')='E2E tests video example'
+        h4="Source code"
+        ul
+          li
+            a(href='https://github.com/hayesmaker/thrust-platform/blob/master/CHANGELOG.md' target='blank')='Change Log'
+          li
+            a(href='/yuidoc' target='blank')='Source documentation'
+          li
+            a(href='https://github.com/hayesmaker/thrust-platform' target='blank')='Github'
+  a(href="https://github.com/hayesmaker/thrust-engine")
+  include review
