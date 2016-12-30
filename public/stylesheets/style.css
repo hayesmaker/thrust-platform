@@ -123,6 +123,16 @@ div#topGradient {
     height: 773px;
 }
 
+.steam {
+    position: relative;
+    height:auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 4px solid #93994c;
+    border-radius: 10px;
+}
+
 .logo {
     position: relative;
     top: 80px;

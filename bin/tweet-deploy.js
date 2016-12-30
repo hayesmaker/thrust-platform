@@ -17,7 +17,7 @@ var status = function() {
     'Steam Greenlight & itch.io links #html5dev #gamedev #indiedev';
 };
 
-
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -26,11 +26,15 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
-
+*/
 
 
 console.log(status());
 
 /*
  Thrust 2016 Major update (v0.8.1) http://thrust-platform.herokuapp.com New Flight Training mode! #indiedev @IndieGameDevBot @IndieDevDog;
+ */
+
+/*
+ #Thrust30 update v1.0.1 Website redesign including reviews, Steam Greenlight & itch.io links #html5dev #gamedev #indiedev
  */
