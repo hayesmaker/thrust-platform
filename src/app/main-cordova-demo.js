@@ -43,8 +43,9 @@ var app = {
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {
+        versionSuffix: '-demo',
         gameModes: {
-          allLevels: true
+          allLevels: false
         }
       }
     });

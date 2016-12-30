@@ -1,3 +1,17 @@
 block header
-  a(href='/')
-    h1 #{title} #[small v#{version}]
+  nav.top-nav
+    ul
+      li
+        a(href='/')='Thrust Home'
+      li
+        a(href='/min')='Play Beta v' + version
+      li
+        a(href='http://steamcommunity.com/sharedfiles/filedetails/?id=823415391' target='blank')="Steam Greenlight"
+      li
+        a(href='#' target='blank')='iOS Appstore'
+      li
+        a(href='https://hayesmaker.itch.io/thrust-30-demo' target='blank')='Itch.io'
+      li
+        a(href='/development' target='self')='Development'
+      li
+        a(href='/testimonials' target='self')='Reviews & Testimonials'

@@ -1,29 +1,36 @@
 //var gameState = require('./game-state');
-var inAppPurchaes = require('./in-app-purchases');
+//var inAppPurchaes = require('./in-app-purchases');
 
 module.exports = {
 
+  /**
+   * @todo return dynamic based on demo/full version
+   * @returns {*}
+   */
   getLevelsCompleteText: function() {
-    if (inAppPurchaes.levelsPurchased.length > 0) {
-      return this.levelsComplete[1];
-    } else {
-      return this.levelsComplete[0];
-    }
+    return this.levelsComplete[0];
   },
 
   levelsComplete: [
-    "You have completed all the Thrust Free Missions\n" +
-    "You may buy the Full set of classic missions contains all 6 original" +
+    "You have completed all the Thrust Beta Missions\n" +
     "Thrust missions based on the SPECTRUM version level layouts" +
     "\n\n" +
     "Thank you for playing Thrust 30\n" +
-    "More Levels Will be Available Spring 2017",
+    "Coming Soon on IOS & Android \n" +
+    "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
+    "PROGRAMMING: ANDY HAYES\n" +
+    "SFX MATT GRAY\n" +
+    "GRAPHICS: Martin Keary & Andy Hayes\n\n" +
 
     "You have successfully completed all Classic Thrust Missions\n" +
     "All these levels have been totally redesigned for Thrust 30\n" +
     "based on the original SPECTRUM game's levels\n" +
-    "Thank you for playing Thrust 30\n" +
-    "More Levels Will be Available Spring 2017"
+    "More Levels Will be Available Spring 2017\n" +
+        "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
+        "PROGRAMMING: ANDY HAYES\n" +
+        "SFX MATT GRAY\n" +
+        "GRAPHICS: Martin Keary & Andy Hayes\n\n" +
+        "Thank you for playing Thrust 30"
   ],
 
   training: [

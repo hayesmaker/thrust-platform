@@ -1,8 +1,8 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
 var sound = require('../utils/sound');
-var inAppPurchaes = require('../data/in-app-purchases');
-var UIButton = require('./ui-button');
+//var inAppPurchaes = require('../data/in-app-purchases');
+//var UIButton = require('./ui-button');
 var version = require('../../../package.json').version;
 var options = require('../data/options-model');
 
@@ -99,8 +99,8 @@ p.render = function () {
       this
     )
   );
-  var x = 10;
-  var y = 10;
+  //var x = 10;
+  //var y = 10;
 
   var style = {font: "14px thrust_regular", fill: "#ffffff", align: 'left'};
   this.version = game.make.text(0,0, 'v' + version + options.versionSuffix, style);
@@ -109,6 +109,7 @@ p.render = function () {
   this.version.y = 10;
   this.group.add(this.version);
 
+  /*
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
     var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
     purchaseLevelsBtn.render();
@@ -126,9 +127,11 @@ p.render = function () {
     restoreButton.group.y = y;
     restoreButton.onItemSelected.add(this.restorePurchase, this);
   }
+  */
 
 };
 
+/*
 p.purchaseLevels = function() {
   this.components[0].selectComponent();
   inAppPurchaes.buyClassicLevels(function() {
@@ -142,6 +145,7 @@ p.restorePurchase = function() {
     this.components[1].deselectComponent();
   }.bind(this));
 };
+*/
 
 /**
  * @method update

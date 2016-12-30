@@ -81,4 +81,21 @@ router.get('/app-loader', function(req, res) {
   });
 });
 
+router.get('/development', function(req, res) {
+  res.render('support', {
+    title: title,
+    version: pkg.version,
+    engine: 'javascripts/browserify/thrust-engine-auto.js'
+  });
+});
+
+router.get('/testimonials', function(req, res) {
+  res.render('testimonials', {
+    title: title,
+    version: pkg.version,
+    engine: 'javascripts/browserify/thrust-engine-auto.js'
+  });
+});
+
+
 module.exports = router;
