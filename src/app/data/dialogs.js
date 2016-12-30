@@ -1,5 +1,5 @@
 //var gameState = require('./game-state');
-var inAppPurchaes = require('./in-app-purchases');
+//var inAppPurchaes = require('./in-app-purchases');
 
 module.exports = {
 
@@ -12,8 +12,7 @@ module.exports = {
   },
 
   levelsComplete: [
-    "You have completed all the Thrust Free Missions\n" +
-    "You may buy the Full set of classic missions contains all 6 original" +
+    "You have completed all the Thrust Beta Missions\n" +
     "Thrust missions based on the SPECTRUM version level layouts" +
     "\n\n" +
     "Thank you for playing Thrust 30\n" +
