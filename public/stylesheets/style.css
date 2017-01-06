@@ -103,7 +103,12 @@ nav.top-nav ul {
 
 nav.top-nav ul li {
     display: inline-block;
+}
+
+nav.top-nav ul a {
+    display: inline-block;
     padding: 20px 40px 20px 40px;
+
 }
 
 nav.top-nav ul li:hover {
@@ -133,6 +138,10 @@ div#topGradient {
     border-radius: 10px;
 }
 
+.steam:hover {
+    border: 4px solid #124f10;
+}
+
 .logo {
     position: relative;
     top: 80px;
@@ -149,7 +158,6 @@ div#topGradient {
     display: block;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 #level2Map {
@@ -160,5 +168,17 @@ div#topGradient {
     position: relative;
     max-width:100%;
     height:auto;
+}
+
+h1.news {
+    padding: 0 0 20px 20px;
+}
+
+article.news {
+    padding: 0 0 20px 20px;
+}
+
+a.news {
+    padding: 0 0 20px 20px;
 }
 

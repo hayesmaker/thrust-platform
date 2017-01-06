@@ -13,11 +13,11 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return '#Thrust30 update v' + process.env.npm_package_version +' ' + url + ' Website redesign including reviews,' +
-    'Steam Greenlight & itch.io links #html5dev #gamedev #indiedev';
+  return 'Brand new #Thrust30 iOS Release! v' + process.env.npm_package_version +' ' + url + ' Buy now on iOS Appstore.' +
+    '#html5dev #gamedev #indiedev';
 };
 
-/*
+
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -26,7 +26,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
-*/
+
 
 
 console.log(status());

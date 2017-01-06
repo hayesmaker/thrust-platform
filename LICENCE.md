@@ -25,3 +25,9 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ```
+
+```
+Thrust Copyright:
+"Thrust" the game is (copyright) Jeremy Smith's Estate and "Thrust" The Acorn version is (copyright) Superior Software Ltd. "Thrust" C64 and other some other 8 bit platforms is (copyright) Firebird Software Ltd
+"Thrust 30" is a remake of Thrust for modern day platforms including PC/Mac/Linux/IOS and doesn't dispute the above copyrights.
+```
