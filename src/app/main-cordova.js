@@ -43,6 +43,7 @@ var app = {
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {
+        isCordova: true,
         gameModes: {
           allLevels: true,
           gravity: {
