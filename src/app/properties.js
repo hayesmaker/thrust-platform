@@ -1,6 +1,6 @@
 'use strict';
 
-var Phaser = global.Phaser;
+//var PIXI = global.PIXI;
 
 /**
  * Defines build settings for the thrust-platform
@@ -20,12 +20,6 @@ module.exports = {
   drawBackground: true,
   width: 800,
   height: 500,
-  scale: {
-    bestFit: true,
-    hires: true,
-    web: Phaser.ScaleManager.NO_SCALE,
-    device: Phaser.ScaleManager.NO_SCALE
-  },
   dev: {
     mode: false,
     debugPhysics: false,
