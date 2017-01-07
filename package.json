@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
@@ -30,7 +30,6 @@
     "browserify:cordova": "echo 'browserifying cordova build' && browserify --version && browserify -e src/app/main-cordova.js -o public/javascripts/browserify/thrust-engine-cordova.js -d",
     "browserify:gobbapeas": "echo 'browserifying gobbapeas build' && browserify --version && browserify -e src/app/main-gobbapeas.js -o public/javascripts/browserify/thrust-engine-gobbapeas.js -d",
     "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
-
     "build:app": "npm run browserify:canvas",
     "build:cordova": "npm run browserify:cordova",
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",
