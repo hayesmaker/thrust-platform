@@ -17,7 +17,8 @@
     "start": "pm2 start ./bin/www",
     "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
-    "build": "npm run browserify:test && npm run browserify:canvas && npm run browserify:main && npm run browserify:mobile && npm run browserify:webgl && npm run browserify:gobbapeas && npm run yuidoc",
+    "build": "npm run browserify:test && npm run browserify:canvas && npm run browserify:main && npm run browserify:mobile && npm run browserify:webgl && npm run browserify:gobbapeas",
+    "build:all": "npm run build && npm run build:cordova && npm run yuidoc",
     "build:webgl": "npm run browserify:webgl",
     "build:custom": "npm run browserify:gobbapeas",
     "postbuild": "npm run uglify:canvas",
@@ -29,6 +30,7 @@
     "browserify:cordova": "echo 'browserifying cordova build' && browserify --version && browserify -e src/app/main-cordova.js -o public/javascripts/browserify/thrust-engine-cordova.js -d",
     "browserify:gobbapeas": "echo 'browserifying gobbapeas build' && browserify --version && browserify -e src/app/main-gobbapeas.js -o public/javascripts/browserify/thrust-engine-gobbapeas.js -d",
     "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
+
     "build:app": "npm run browserify:canvas",
     "build:cordova": "npm run browserify:cordova",
     "build:test": "npm run browserify:canvas && npm run browserify:test && npm run test:units",

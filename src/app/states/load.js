@@ -21,10 +21,11 @@ module.exports = {
    * @method init
    * @param bootScreen {Phaser.Sprite}
    */
-  init: function (bootScreen) {
+  init: function (bootScreen, versionTxt) {
     console.log('load state :: init', bootScreen);
     levelsLoader.init();
     this.bootScreen = bootScreen;
+    this.versionTxt = versionTxt;
     var x = 0;
     var y = game.height * 0.7;
     var bmd = game.make.bitmapData(1, 1);
@@ -172,6 +173,7 @@ module.exports = {
    * @method decodeAudio
    */
   decodeAudio: function () {
+    console.log('load :: decodeAudio');
     var sfx = game.add.audioSprite('sfx');
     sfx.allowMultiple = true;
     var music = game.add.audioSprite('music');
@@ -179,6 +181,7 @@ module.exports = {
     game.sfx = sfx;
     game.music = music;
     game.sound.setDecodedCallback(['sfx', 'music'], this.transitionOut, this);
+    console.log('load :: decodeAudio : end reach');
 
   },
 
@@ -188,22 +191,26 @@ module.exports = {
   transitionOut: function () {
     if (this.bootScreen) {
       TweenMax.to(this.swipe, 1, {alpha: 0, ease: Quad.easeOut});
-      TweenMax.to(this.bootScreen, 1, {alpha: 0, ease: Quad.easeOut, onComplete: this.start, callbackScope: this});
+      TweenMax.to(this.bootScreen, 1, {alpha: 0, ease: Quad.easeOut, onComplete: this.startPlay, callbackScope: this});
+      TweenMax.to(this.versionTxt, 1, {alpha: 0, ease: Quad.easeOut});
     } else {
-      this.start();
+      this.startPlay();
     }
   },
 
   /**
    * @method start
    */
-  start: function () {
-    console.log('load :: start ', gameState);
+  startPlay: function () {
+    console.log('load :: start play ', gameState);
     //this.loadProgressTxt.destroy();
     this.swipe.destroy();
     gameState.init();
     if (this.bootScreen) {
       this.bootScreen.destroy();
+    }
+    if (this.versionTxt) {
+      this.versionTxt.destroy();
     }
     game.state.start('play', true, false);
   }

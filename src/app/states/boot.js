@@ -8,6 +8,7 @@ var userControl;
 //var inAppPurchaes = require('../data/in-app-purchases');
 var optionsModel = require('../data/options-model');
 var _ = require('lodash');
+var version = require('../../../package.json').version;
 
 /**
  * The boot state
@@ -94,7 +95,15 @@ module.exports = {
     this.bootScreen.height = game.height;
     this.bootScreen.alpha = 0;
 
+    var style = {font: "18px thrust_regular", fill: "#ffffff", align: 'left'};
+    this.version = game.add.text(0,0, 'THRUST 30 v' + version + optionsModel.versionSuffix, style);
+    this.version.anchor.setTo(0.5, 0.5);
+    this.version.x = game.width/2;
+    this.version.y = game.height * 0.75;
+    this.version.alpha = 0;
+
     TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
+    TweenMax.to(this.version, 3, {alpha: 1, ease: Quad.easeIn});
     game.e2e.boot = this;
   },
 
@@ -116,6 +125,6 @@ module.exports = {
    * @method startGame
    */
   startLoad: function () {
-    game.state.start('load', false, false, this.bootScreen);
+    game.state.start('load', false, false, this.bootScreen, this.version);
   }
 };

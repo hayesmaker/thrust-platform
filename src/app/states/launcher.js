@@ -76,12 +76,14 @@ module.exports = {
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
     game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
-    window.addEventListener('resize', function() {
-      this.enableHiResMode();
-      game.scale.setGameSize(properties.width, properties.height);
-      game.controls.refresh();
-      //todo
-
-    }.bind(this));
+    if (!this.customOptions.isCordova) {
+      window.addEventListener('resize', function () {
+        this.enableHiResMode();
+        game.scale.setGameSize(properties.width, properties.height);
+        game.controls.refresh();
+        //todo
+      }.bind(this));
+    }
   }
+  
 };  
