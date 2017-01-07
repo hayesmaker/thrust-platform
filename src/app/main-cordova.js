@@ -44,7 +44,11 @@ var app = {
     launcher.setCustomOptions({
       options: {
         gameModes: {
-          allLevels: true
+          allLevels: true,
+          gravity: {
+            unlocked: false,
+            enabled: false
+          }
         }
       }
     });

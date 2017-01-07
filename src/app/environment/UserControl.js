@@ -112,12 +112,14 @@ p.initVirtualJoypad = function () {
 };
 
 p.refresh = function() {
-  this.stick.posX = game.width * 0.15;
-  this.stick.posY = game.height * 0.8;
-  this.buttonA.posX = game.width * 0.78;
-  this.buttonA.posY = game.height * 0.85;
-  this.buttonB.posX = game.width * 0.92;
-  this.buttonB.posY = game.height * 0.78;
+  if (this.stick) {
+    this.stick.posX = game.width * 0.15;
+    this.stick.posY = game.height * 0.8;
+    this.buttonA.posX = game.width * 0.78;
+    this.buttonA.posY = game.height * 0.85;
+    this.buttonB.posX = game.width * 0.92;
+    this.buttonB.posY = game.height * 0.78;
+  }
 };
 
 module.exports = UserControl;

@@ -24,12 +24,8 @@ module.exports = {
    * @param levelsJsonUrl
    * @param showProgress
    */
-  loadLevelsJson: function(levelsJsonUrl, showProgress) {
+  loadLevelsJson: function(levelsJsonUrl) {
     console.log('levels-loader :: loadLevelsJson', levelsJsonUrl);
-    if (showProgress) {
-      var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
-      this.loadProgressTxt = game.add.text(0, 0, '0%', style);
-    }
     game.load.json('levels-data', levelsJsonUrl);
   },
 
@@ -226,10 +222,6 @@ module.exports = {
    */
   cleanUp: function() {
     console.log('levels-loader :: cleanup');
-    if (this.levelProgressTxt) {
-      this.loadProgressTxt.destroy();
-      this.loadProgressTxt = null;
-    }
     game.load.onFileComplete.remove(this.fileComplete, this);
     game.load.onLoadComplete.remove(this.finalLoadComplete, this);
   }
