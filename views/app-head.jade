@@ -21,11 +21,10 @@ html
         meta(name="msapplication-TileImage" content="/ms-icon-144x144.png")
         meta(name="theme-color" content="#ffffff")
         meta(name='viewport', content='width=device-width, initial-scale=1')
+    body
+        block content
         script(src="javascripts/vendor/TweenMax.min.js")
         script(src="javascripts/vendor/ColorPropsPlugin.min.js")
         script(src="javascripts/vendor/SplitText.min.js")
-        script(src="javascripts/vendor/pixi.js")
         script(src="javascripts/vendor/p2.js")
         script(src= engine)
-    body
-        block content

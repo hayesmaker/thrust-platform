@@ -37,7 +37,7 @@ router.get('/dev', function(req, res) {
   res.render('app', {
     title: title + " (dev)",
     version: pkg.version,
-    engine: 'javascripts/browserify/thrust-engine-canvas.js'
+    engine: 'javascripts/browserify/thrust-engine-pixi.js'
   });
 });
 

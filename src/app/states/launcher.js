@@ -3,6 +3,9 @@
 var properties = require('../properties');
 var PIXI = global.PIXI;
 
+var load = require('../pixi/states/load');
+var gameLoop = require('../pixi/rendering/gameLoop');
+
 /**
  * Game entry point
  * - called from window.onload
@@ -73,29 +76,6 @@ module.exports = {
    * @method start
    */
   start: function() {
-    var domParent = document.getElementById('gameContainer') || '';
-    var renderer = PIXI.autoDetectRenderer(
-      properties.width, properties.height,
-      {backgroundColor : properties.backgroundColour},
-      true
-    );
-    document.body.appendChild(renderer.view);
-    var stage = new PIXI.Container();
-    renderer.render(stage);
-    
-    /* PIXI ENTRY POINT */
-    /*
-    this.renderer = new PIXI.autoDetectRenderer(this.properties.width, this.properties.height, {backgroundColor : 0x1099bb}, true);
-    if (!domParent) {
-      document.appendChild(this.renderer.view);
-    } else {
-      throw "no dom parent initialisation set up yet";
-    }
-    this.stage = new PIXI.Container();
-
-    //this.renderer.backgroundColor = 0xff0000;
-    */
-    /* PHASER ENTRY POINT
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
@@ -109,7 +89,6 @@ module.exports = {
         //todo
       }.bind(this));
     }
-    */
   }
   
 };  

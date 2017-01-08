@@ -10,6 +10,8 @@ tests.js
 test/e2e/nightwatch/reports/
 assets.zip
 assets.tar.gz
+.DS_Store
+dist/
 
 public/assets/atlas/combined.json
 public/assets/atlas/combined.png
