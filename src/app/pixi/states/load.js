@@ -1,7 +1,8 @@
 
 export default class Load {
-  constructor() {
-
+  constructor(stage) {
+    this.start();
+    this.stage = stage;
   }
 
 
@@ -10,10 +11,17 @@ export default class Load {
   }
 
   preload () {
-
+    loader.add('assets/atlas/combined.json')
+      .load(this.create.bind(this));
   }
 
   create () {
+    console.log('Texture Atlas loaded');
+
+    let combinedAtlas = loader.resources['assets/atlas/combined.json'].textures;
+    let sprite = new Sprite(combinedAtlas['player.png']);
+    this.stage.addChild(sprite);
+    sprite.scale.set(10,10);
 
   }
 
