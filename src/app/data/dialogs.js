@@ -12,7 +12,7 @@ module.exports = {
   },
 
   levelsComplete: [
-    "You have completed all the Thrust Beta Missions\n" +
+    "You have successfully completed all the Thrust Missions\n" +
     "Thrust missions based on the SPECTRUM version level layouts" +
     "\n\n" +
     "Thank you for playing Thrust 30\n" +
@@ -20,7 +20,7 @@ module.exports = {
     "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
     "PROGRAMMING: ANDY HAYES\n" +
     "SFX MATT GRAY\n" +
-    "GRAPHICS: Martin Keary & Andy Hayes\n\n" +
+    "GRAPHICS: Martin Keary & Andy Hayes\n\n",
 
     "You have successfully completed all Classic Thrust Missions\n" +
     "All these levels have been totally redesigned for Thrust 30\n" +
