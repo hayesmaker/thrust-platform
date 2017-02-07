@@ -4,7 +4,7 @@ var properties = require('../properties');
 var PIXI = global.PIXI;
 
 var load = require('../pixi/states/load');
-var gameLoop = require('../pixi/rendering/gameLoop');
+var gameLoop = require('../pixi/rendering/game-loop');
 
 /**
  * Game entry point
