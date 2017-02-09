@@ -9,6 +9,9 @@ global.loader = PIXI.loader;
 global.resources = PIXI.loader.resources;
 global.autoDetectRenderer = PIXI.autoDetectRenderer;
 
+//Thrust Aliases
+global.textureAtlasPath = 'assets/atlas/combined.json';
+
 export function main() {
   new Launcher();
 }

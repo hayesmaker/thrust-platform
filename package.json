@@ -60,6 +60,7 @@
     "chai": "^3.4.1",
     "cookie-parser": "~1.3.4",
     "debug": "~2.1.1",
+    "ensy": "^1.2.1",
     "express": "~4.12.0",
     "express-authentication": "^0.3.2",
     "express-authentication-basic": "^0.3.1",

@@ -1,28 +1,26 @@
 
 export default class Load {
   constructor(stage) {
-    this.start();
+    this.hasStarted = false;
     this.stage = stage;
+    this.onComplete = null;
+    this.onCompleteContext = null;
   }
 
 
   start () {
+    this.hasStarted = true;
     this.preload();
   }
 
   preload () {
-    loader.add('assets/atlas/combined.json')
+    loader.add(global.textureAtlasPath)
       .load(this.create.bind(this));
   }
 
   create () {
     console.log('Texture Atlas loaded');
-
-    let combinedAtlas = loader.resources['assets/atlas/combined.json'].textures;
-    let sprite = new Sprite(combinedAtlas['player.png']);
-    this.stage.addChild(sprite);
-    sprite.scale.set(10,10);
-
+    this.complete();
   }
 
   load () {
@@ -30,7 +28,21 @@ export default class Load {
   }
 
   update () {
-    console.log('load :: update');
+    if (!this.hasStarted) {
+      this.start();
+    }
+    console.log('load update');
+  }
+
+  complete () {
+    this.nextState();
+  }
+
+  nextState() {
+    if (this.onComplete && this.onCompleteContext) {
+      this.onComplete.call(this.onCompleteContext);
+    }
+
   }
 }
 
