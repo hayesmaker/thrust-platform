@@ -66,6 +66,7 @@
     "express-authentication": "^0.3.2",
     "express-authentication-basic": "^0.3.1",
     "express-authorization": "^1.0.0",
+    "fpsmeter": "^0.3.1",
     "install": "^0.8.3",
     "jade": "~1.9.2",
     "lodash": "^4.0.0",

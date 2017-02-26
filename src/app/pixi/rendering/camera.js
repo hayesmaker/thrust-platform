@@ -66,10 +66,10 @@ export default class Camera {
   }
 
   updateView () {
-    this.stage.pivot.x = this.viewportRect.x;
-    this.stage.pivot.y = this.viewportRect.y;
-    this.stage.position.x = this.renderer.width/2;
-    this.stage.position.y = this.renderer.height/2;
+    this.stage.pivot.x = Math.floor(this.viewportRect.x);
+    this.stage.pivot.y = Math.floor(this.viewportRect.y);
+    this.stage.position.x = Math.floor(this.renderer.width*0.5);
+    this.stage.position.y = Math.floor(this.renderer.height*0.5);
   }
 
   update() {

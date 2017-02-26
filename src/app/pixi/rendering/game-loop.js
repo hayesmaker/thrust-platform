@@ -17,9 +17,12 @@ export default class GameLoop {
       return;
     }
     window.requestAnimationFrame(this.loop.bind(this));
+    this.currentState.meter && this.currentState.meter.tickStart();
     if (this.currentState) {
       this.currentState.update();
     }
     this.renderer.render(this.stage);
+    this.currentState.meter && this.currentState.meter.tick();
+
   }
 }
