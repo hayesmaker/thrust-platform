@@ -1,5 +1,6 @@
 import p2 from 'p2';
 import * as Pixi2P2 from '../utils/Pixi2P2';
+import Camera from '../rendering/camera';
 
 const shipTurnSpeed = 5;
 
@@ -17,6 +18,7 @@ export default class Play {
   }
 
   initCameraWorld() {
+
     let options = {
       screenWidth: 800,
       screenHeight: 600,
@@ -25,8 +27,10 @@ export default class Play {
       centerX: 400,
       centerY: 300
     };
-    this.pixicamWorld = new pixicam.World(options);
-    this.camera = this.pixicamWorld.camera;
+    //this.pixicamWorld = new pixicam.World(options);
+    //this.camera = this.pixicamWorld.camera;
+    this.camera = new Camera(this.stage, this.renderer);
+
   }
 
   start() {
@@ -35,25 +39,33 @@ export default class Play {
   }
 
   create() {
-    //this.stage.scale.y = -1;
+    this.stage.scale.y = -1;
     this.world = new p2.World({
       gravity: [0, -1]
     });
 
     this.initKeyboardControl();
-
-    let combinedAtlas = loader.resources[global.textureAtlasPath].textures;
+    let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     this.sprite = new Sprite(combinedAtlas['player.png']);
-    this.sprite.scale.set(1, 1);
+    this.sprite.scale.set(1, -1);
     this.sprite.anchor.set(0.5, 0.5);
     let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height) });
-    this.boxBody = new p2.Body({mass: 1, position: [Pixi2P2.p2(this.pixicamWorld.width/2),Pixi2P2.p2(this.pixicamWorld.height/2)], angularVelocity: 0});
+    this.boxBody = new p2.Body({
+      mass: 1,
+      position: [
+      Pixi2P2.p2(this.renderer.width/2),
+      Pixi2P2.p2(-this.renderer.height/2)
+    ], 
+      angularVelocity: 0
+    });
     this.boxBody.addShape(boxShape);
     this.world.addBody(this.boxBody);
-    //this.stage.addChild(this.sprite);
+    this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);
-    this.stage.addChild(this.pixicamWorld);
-    this.pixicamWorld.addChild(this.sprite);
+    //this.stage.addChild(this.sprite);
+    //this.camera.follow(this.sprite);
+    //this.stage.addChild(this.stage);
+    //this.pixicamWorld.addChild(this.sprite);
     this.addDebugGraphics();
   }
 
@@ -66,11 +78,15 @@ export default class Play {
     graphics.lineTo(250, 50);
     graphics.lineTo(100, 100);
     graphics.lineTo(50, 50);
+    graphics.lineTo(-500, 0);
+    graphics.lineTo(1500, 400);
+    graphics.lineTo(2000, -1000);
+    graphics.lineTo(-2000, 0);
 
     let spr = new Sprite();
-    this.pixicamWorld.addChild(spr);
+    this.camera.world.addChild(spr);
     spr.x = this.renderer.width/2;
-    spr.y = this.renderer.height/2;
+    spr.y = -this.renderer.height/2;
     spr.addChild(graphics);
   }
 
@@ -118,9 +134,9 @@ export default class Play {
     }
     // Set velocities
     if (this.keyLeft) {
-      this.boxBody.angularVelocity = -shipTurnSpeed;
-    } else if (this.keyRight) {
       this.boxBody.angularVelocity = shipTurnSpeed;
+    } else if (this.keyRight) {
+      this.boxBody.angularVelocity = -shipTurnSpeed;
     } else {
       this.boxBody.angularVelocity = 0;
     }
@@ -129,12 +145,14 @@ export default class Play {
 
     if (this.sprite) {
       this.sprite.position.x = Pixi2P2.pixi(this.boxBody.position[0]);
-      this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1], true);
+      this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
     }
 
+    this.camera.update();
+
     //this.camera.update();
-    this.pixicamWorld.update();
+    //this.pixicamWorld.update();
 
     console.log('play :: update');
   }

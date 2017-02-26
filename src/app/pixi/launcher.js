@@ -1,14 +1,12 @@
 import GameLoop from './rendering/game-loop';
 import Load from './states/load';
 import Play from './states/play';
-import p2 from 'p2';
-import * as pixicam from 'pixicam';
 
 export default class PixiLauncher {
   constructor() {
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let colour = 0xff0000;
+    let colour = 0x000000;
     let renderer = autoDetectRenderer(
       width, height,
       {
@@ -25,8 +23,10 @@ export default class PixiLauncher {
       //renderer.height = window.innerHeight;
     });
 
+
     this.load = new Load(stage);
-    this.play = new Play(stage, renderer);
+    this.play = new Play(stage, renderer, this.camera);
+
     this.loop = new GameLoop(renderer, stage, this.load);
     this.loop.start();
     this.load.onComplete = this.startPlayState;

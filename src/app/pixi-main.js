@@ -14,7 +14,9 @@ global.Point = PIXI.Point;
 global.Rectangle = PIXI.Rectangle;
 
 //Thrust Aliases
-global.textureAtlasPath = 'assets/atlas/combined.json';
+global.ASSETS = {
+  textureAtlasPath: 'assets/atlas/combined.json'
+};
 
 export function main() {
   new Launcher();
