@@ -32,7 +32,7 @@
     "build:all": "npm run build && npm run build:cordova && npm run yuidoc",
     "build:webgl": "npm run browserify:webgl",
     "build:custom": "npm run browserify:gobbapeas",
-    "postbuild": "npm run uglify:canvas",
+
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
     "deploy:skipTests": "npm run heroku",
