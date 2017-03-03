@@ -19,7 +19,6 @@ export default class Load {
   }
 
   create () {
-    console.log('Texture Atlas loaded');
     this.complete();
   }
 
@@ -31,7 +30,6 @@ export default class Load {
     if (!this.hasStarted) {
       this.start();
     }
-    console.log('load update');
   }
 
   complete () {

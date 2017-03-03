@@ -18,3 +18,7 @@ public/assets/atlas/combined.png
 public/assets/audiosprite/
 public/assets/atlas/combined-2016.json
 public/assets/atlas/combined-2016.png
+
+#new for pixi
+.nyc_output/
+coverage/

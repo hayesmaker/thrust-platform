@@ -1,5 +1,7 @@
+import Container from './mocks/Container';
+
 global.DisplayObject = {};
-global.Container = function() {};
+global.Container = Container;
 global.Sprite = {};
 global.Graphics = {};
 global.TextureCache = {};
@@ -7,7 +9,9 @@ global.loader = {};
 global.resources = {};
 global.autoDetectRenderer = {};
 global.Point = {};
-global.Rectangle = function() {};
+global.Rectangle = function(x, y, width, height) {
+  return {x,y,width,height};
+};
 
-import camera from './rendering/camera';
+import cameraSpec from './rendering/camera-spec';
 

@@ -1,9 +1,9 @@
-import Launcher from "./pixi/launcher";
-import Aliases from "./pixi/aliases";
+import PixiLauncher from './pixi/launcher';
+import Aliases from './pixi/aliases';
 
 export function main() {
   Aliases.init();
-  new Launcher();
+  new PixiLauncher();
 }
 
 main();

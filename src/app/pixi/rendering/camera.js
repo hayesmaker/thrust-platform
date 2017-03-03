@@ -6,19 +6,20 @@ export default class Camera {
     this.target = null;
     this.world = new Container();
     this.stage.addChild(this.world);
-    this.worldSize();
-    this.viewSize();
+    this.zoom = 1;
+    this.defaultWorld();
+    this.defaultView();
   }
 
-  viewSize() {
-    this.viewportRect = new Rectangle(0,0, this.renderer.width, this.renderer.height);
+  defaultView() {
+    this.viewportRect = new Rectangle(0, 0, this.renderer.width, this.renderer.height);
   }
 
-  worldSize() {
-    this.worldRect = new Rectangle(0,-this.renderer.height*2, this.renderer.width*2, 0);
+  defaultWorld() {
+    this.worldRect = new Rectangle(0, -this.renderer.height * 3, this.renderer.width * 3, 0);
   }
 
-  updateViewPort(x, y, width, height) {
+  updateViewport(x, y, width, height) {
     this.viewportRect.x = x;
     this.viewportRect.y = y;
     this.viewportRect.width = width;
@@ -26,10 +27,32 @@ export default class Camera {
   }
 
   updateWorldSize(x, y, width, height) {
-    this.worldRect.x = x;
-    this.worldRect.y = y;
-    this.worldRect.width = width;
-    this.worldRect.height = height;
+    this.worldRect.x = Math.floor(x);
+    this.worldRect.y = Math.floor(y);
+    this.worldRect.width = Math.floor(width);
+    this.worldRect.height = Math.floor(height);
+  }
+
+  zoomTo(val) {
+    if (val !== this.zoom) {
+      this.zoom = val;
+      this.world.scale.set(val, val);
+      this.updateWorldSize(
+        this.worldRect.x,
+        this.worldRect.y,
+        this.worldRect.width,
+        this.worldRect.height
+      );
+    }
+    /*
+     this.updateViewport(
+     this.viewportRect.x * val,
+     this.viewportRect.y * val,
+     this.viewportRect.width * val,
+     this.viewportRect.height * val
+     );
+     */
+
   }
 
   follow(sprite) {
@@ -42,34 +65,38 @@ export default class Camera {
   }
 
   xRightCheck() {
-    if (this.viewportRect.x > this.worldRect.width) {
-      this.viewportRect.x = this.worldRect.width;
+    var rightBoundary = this.worldRect.width - this.renderer.width;
+    if (this.viewportRect.x > rightBoundary) {
+      this.viewportRect.x = rightBoundary;
     }
   }
 
   xLeftCheck() {
-    if (this.viewportRect.x < this.worldRect.x) {
-      this.viewportRect.x = this.worldRect.x;
-    }
-  }
-
-  yTopCheck() {
-    if (this.viewportRect.y < this.worldRect.y) {
-      this.viewportRect.y = this.worldRect.y;
+    var leftBoundary = this.worldRect.x;
+    if (this.viewportRect.x < leftBoundary) {
+      this.viewportRect.x = leftBoundary;
     }
   }
 
   yBottomCheck() {
-    if (this.viewportRect.y > this.worldRect.height) {
-      this.viewportRect.y = this.worldRect.height;
+    var bottomBoundary = this.worldRect.y + this.renderer.height;
+    if (this.viewportRect.y < bottomBoundary) {
+      this.viewportRect.y = bottomBoundary;
     }
   }
 
-  updateView () {
-    this.stage.pivot.x = Math.floor(this.viewportRect.x);
-    this.stage.pivot.y = Math.floor(this.viewportRect.y);
-    this.stage.position.x = Math.floor(this.renderer.width*0.5);
-    this.stage.position.y = Math.floor(this.renderer.height*0.5);
+  yTopCheck() {
+    var topBoundary = this.worldRect.height;
+    if (this.viewportRect.y > topBoundary) {
+      this.viewportRect.y = topBoundary;
+    }
+  }
+
+  updateView() {
+    this.stage.pivot.x = Math.floor(this.viewportRect.x * this.zoom);
+    this.stage.pivot.y = Math.floor(this.viewportRect.y * this.zoom);
+    this.stage.position.x = Math.floor(this.renderer.width * 0.5);
+    this.stage.position.y = Math.floor(this.renderer.height * 0.5);
   }
 
   update() {

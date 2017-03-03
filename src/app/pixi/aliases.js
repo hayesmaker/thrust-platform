@@ -3,6 +3,10 @@ import * as PIXI from 'pixi.js';
 export default class Aliases {
   constructor() {}
   static init() {
+    console.log('pixi');
+    console.log('pixi');
+    console.log('pixi');
+    console.log('pixi');
     //Pixi Aliases
     global.DisplayObject = PIXI.DisplayObject;
     global.Container = PIXI.Container;
@@ -15,9 +19,12 @@ export default class Aliases {
     global.Point = PIXI.Point;
     global.Rectangle = PIXI.Rectangle;
 
+    //Vendor Aliases
+    global.TweenLite = TweenLite;
+
 //Thrust Aliases
     global.ASSETS = {
       textureAtlasPath: 'assets/atlas/combined.json'
     };
   }
-};
+}

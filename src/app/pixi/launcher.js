@@ -17,18 +17,9 @@ export default class PixiLauncher {
     );
     window.document.body.appendChild(renderer.view);
     let stage = new Container();
-
-    window.addEventListener('resize', function () {
-      console.log('resize :: ', renderer, window.innerWidth, window.innerHeight);
-      //renderer.width = window.innerWidth;
-      //renderer.height = window.innerHeight;
-    });
-
-    new FPSHelper();
-
+    FPSHelper.init();
     this.load = new Load(stage);
     this.play = new Play(stage, renderer, this.camera);
-
     this.loop = new GameLoop(renderer, stage, this.load);
     this.loop.start();
     this.load.onComplete = this.startPlayState;
@@ -36,7 +27,6 @@ export default class PixiLauncher {
   }
 
   startPlayState() {
-    console.log('startPlayState', this);
     this.loop.currentState = this.play;
   }
-};
+}

@@ -18,15 +18,16 @@ export default class Play {
   }
 
   initCameraWorld() {
-
-    let options = {
-      screenWidth: 800,
-      screenHeight: 600,
-      width: 5000,
-      height: 600,
-      centerX: 400,
-      centerY: 300
-    };
+    /*
+     let options = {
+     screenWidth: 800,
+     screenHeight: 600,
+     width: 5000,
+     height: 600,
+     centerX: 400,
+     centerY: 300
+     };
+     */
     //this.pixicamWorld = new pixicam.World(options);
     //this.camera = this.pixicamWorld.camera;
     this.camera = new Camera(this.stage, this.renderer);
@@ -40,29 +41,29 @@ export default class Play {
 
   create() {
     this.meter = new FPSMeter({
-      interval:  100,     // Update interval in milliseconds.
+      interval: 100,     // Update interval in milliseconds.
       smoothing: 10,      // Spike smoothing strength. 1 means no smoothing.
-      show:      'fps',   // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
-      toggleOn:  'click', // Toggle between show 'fps' and 'ms' on this event.
-      decimals:  1,       // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
-      maxFps:    60,      // Max expected FPS value.
+      show: 'fps',   // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
+      toggleOn: 'click', // Toggle between show 'fps' and 'ms' on this event.
+      decimals: 1,       // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
+      maxFps: 60,      // Max expected FPS value.
       threshold: 100,     // Minimal tick reporting interval in milliseconds.
 
       // Meter position
       position: 'absolute', // Meter position.
-      zIndex:   10,         // Meter Z index.
-      left:     '5px',      // Meter left offset.
-      top:      '5px',      // Meter top offset.
-      right:    'auto',     // Meter right offset.
-      bottom:   'auto',     // Meter bottom offset.
-      margin:   '0 0 0 0',  // Meter margin. Helps with centering the counter when left: 50%;
+      zIndex: 10,         // Meter Z index.
+      left: '5px',      // Meter left offset.
+      top: '5px',      // Meter top offset.
+      right: 'auto',     // Meter right offset.
+      bottom: 'auto',     // Meter bottom offset.
+      margin: '0 0 0 0',  // Meter margin. Helps with centering the counter when left: 50%;
 
       // Theme
       theme: 'colorful', // Meter theme. Build in: 'dark', 'light', 'transparent', 'colorful'.
-      heat:  1,      // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
+      heat: 1,      // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
 
       // Graph
-      graph:   1, // Whether to show history graph.
+      graph: 1, // Whether to show history graph.
       history: 20 // How many history states to show in a graph.
     });
     this.stage.scale.y = -1;
@@ -75,13 +76,13 @@ export default class Play {
     this.sprite = new Sprite(combinedAtlas['player.png']);
     this.sprite.scale.set(1, -1);
     this.sprite.anchor.set(0.5, 0.5);
-    let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height) });
+    let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height)});
     this.boxBody = new p2.Body({
       mass: 1,
       position: [
-      Pixi2P2.p2(this.renderer.width/2),
-      Pixi2P2.p2(-this.renderer.height/2)
-    ], 
+        Pixi2P2.p2(this.renderer.width / 2),
+        Pixi2P2.p2(-this.renderer.height / 2)
+      ],
       angularVelocity: 0
     });
     this.boxBody.addShape(boxShape);
@@ -95,12 +96,12 @@ export default class Play {
     this.addDebugGraphics();
   }
 
-  addDebugGraphics () {
+  addDebugGraphics() {
     let graphics = new Graphics();
     // set a fill and line style
     //graphics.beginFill(0xFF3300);
     graphics.lineStyle(4, 0xffd900, 1);
-    graphics.moveTo(0,0);
+    graphics.moveTo(0, 0);
     graphics.lineTo(250, 50);
     graphics.lineTo(100, 100);
     graphics.lineTo(50, 50);
@@ -109,11 +110,30 @@ export default class Play {
     graphics.lineTo(2000, -1000);
     graphics.lineTo(-2000, 0);
 
+
     let spr = new Sprite();
     this.camera.world.addChild(spr);
-    spr.x = this.renderer.width/2;
-    spr.y = -this.renderer.height/2;
+    spr.x = this.renderer.width / 2;
+    spr.y = -this.renderer.height / 2;
     spr.addChild(graphics);
+
+    graphics = new Graphics();
+    graphics.lineStyle(14, 0xffffff, 1);
+    graphics.drawRect(0, 0, this.renderer.width * 3, -this.renderer.height * 3);
+    let border = new Sprite();
+    this.camera.world.addChild(border);
+    border.x = -this.renderer.width / 2;
+    border.y = this.renderer.height * 0.5;
+    border.addChild(graphics);
+
+    graphics = new Graphics();
+    graphics.lineStyle(10, 0xff0000, 1);
+    graphics.drawRect(0, 0, this.renderer.width * 2, -this.renderer.height * 2);
+    let innerBorder = new Sprite();
+    this.camera.world.addChild(innerBorder);
+    innerBorder.x = 0;
+    innerBorder.y = 0;
+    innerBorder.addChild(graphics);
   }
 
   initKeyboardControl() {
@@ -175,11 +195,16 @@ export default class Play {
       this.sprite.rotation = this.boxBody.angle;
     }
 
+    this.playerVel = this.calculateSpeed();
+    console.log('this.playerVel', this.playerVel);
+    this.camera.zoomTo(2/this.playerVel);
     this.camera.update();
+  }
 
-    //this.camera.update();
-    //this.pixicamWorld.update();
-
-    console.log('play :: update');
+  calculateSpeed() {
+    return Math.sqrt(
+      Math.pow(this.boxBody.velocity[0], 2) +
+      Math.pow(this.boxBody.velocity[1], 2)
+    );
   }
 }
