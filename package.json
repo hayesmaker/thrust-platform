@@ -71,7 +71,7 @@
     "npm": "^4.0.5",
     "phase-2-e": "^0.1.3",
     "phaser": "^2.6.2",
-    "phaser-ce": "^2.7.2",
+    "phaser-ce": "^2.7.3",
     "pm2": "^0.15.10",
     "proxyquire": "^1.7.3",
     "proxyquire-universal": "^1.0.8",

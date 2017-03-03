@@ -72,6 +72,7 @@ module.exports = {
   start: function() {
     var domParent = document.getElementById('gameContainer') || '';
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
+
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));

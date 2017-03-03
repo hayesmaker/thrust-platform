@@ -42,6 +42,10 @@ module.exports = {
    * @method preload
    */
   preload: function () {
+
+    PIXI.canUseNewCanvasBlendModes = function () {
+      return game.device.canUseMultiply;
+    };
     game.load.image('splash', 'assets/images/splash-1.png');
   },
 
@@ -96,9 +100,9 @@ module.exports = {
     this.bootScreen.alpha = 0;
 
     var style = {font: "18px thrust_regular", fill: "#ffffff", align: 'left'};
-    this.version = game.add.text(0,0, 'THRUST 30 v' + version + optionsModel.versionSuffix, style);
+    this.version = game.add.text(0, 0, 'THRUST 30 v' + version + optionsModel.versionSuffix, style);
     this.version.anchor.setTo(0.5, 0.5);
-    this.version.x = game.width/2;
+    this.version.x = game.width / 2;
     this.version.y = game.height * 0.75;
     this.version.alpha = 0;
 
