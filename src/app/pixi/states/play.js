@@ -109,31 +109,11 @@ export default class Play {
     graphics.lineTo(1500, 400);
     graphics.lineTo(2000, -1000);
     graphics.lineTo(-2000, 0);
-
-
     let spr = new Sprite();
     this.camera.world.addChild(spr);
     spr.x = this.renderer.width / 2;
     spr.y = -this.renderer.height / 2;
     spr.addChild(graphics);
-
-    graphics = new Graphics();
-    graphics.lineStyle(14, 0xffffff, 1);
-    graphics.drawRect(0, 0, this.renderer.width * 3, -this.renderer.height * 3);
-    let border = new Sprite();
-    this.camera.world.addChild(border);
-    border.x = -this.renderer.width / 2;
-    border.y = this.renderer.height * 0.5;
-    border.addChild(graphics);
-
-    graphics = new Graphics();
-    graphics.lineStyle(10, 0xff0000, 1);
-    graphics.drawRect(0, 0, this.renderer.width * 2, -this.renderer.height * 2);
-    let innerBorder = new Sprite();
-    this.camera.world.addChild(innerBorder);
-    innerBorder.x = 0;
-    innerBorder.y = 0;
-    innerBorder.addChild(graphics);
   }
 
   initKeyboardControl() {
@@ -196,8 +176,17 @@ export default class Play {
     }
 
     this.playerVel = this.calculateSpeed();
-    console.log('this.playerVel', this.playerVel);
-    this.camera.zoomTo(2/this.playerVel);
+    console.log('this.player', this.playerVel, this.sprite.position.x, this.sprite.position.y);
+    /*
+    if (this.playerVel >= 5) {
+      this.camera.zoomTo(0.7);
+    } else if (this.playerVel >= 3)
+    {
+      this.camera.zoomTo(1);
+    } else {
+      this.camera.zoomTo(1.3);
+    }
+    */
     this.camera.update();
   }
 

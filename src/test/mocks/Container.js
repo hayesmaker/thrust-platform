@@ -11,7 +11,7 @@ export default class Container {
         this.scale.x = x;
         this.scale.y = y;
       }
-    }
+    };
   }
 
   addChild(displayObject) {

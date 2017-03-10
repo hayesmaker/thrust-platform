@@ -9,6 +9,27 @@ export default class Camera {
     this.zoom = 1;
     this.defaultWorld();
     this.defaultView();
+    this.addDebugShiz();
+  }
+
+  addDebugShiz() {
+    var graphics = new Graphics();
+    graphics.lineStyle(14, 0x00ffff, 1);
+    graphics.drawRect(0,this.renderer.height/2,this.worldRect.width,this.worldRect.y);
+    let border = new Sprite();
+    this.world.addChild(border);
+    border.x = -this.renderer.width/2;
+    border.y = 0;
+    border.addChild(graphics);
+
+    graphics = new Graphics();
+    graphics.lineStyle(10, 0xff0000, 1);
+    graphics.drawRect(0, 0, this.renderer.width * 2, -this.renderer.height * 2);
+    let innerBorder = new Sprite();
+    this.world.addChild(innerBorder);
+    innerBorder.x = 0;
+    innerBorder.y = 0;
+    innerBorder.addChild(graphics);
   }
 
   defaultView() {
@@ -16,7 +37,7 @@ export default class Camera {
   }
 
   defaultWorld() {
-    this.worldRect = new Rectangle(0, -this.renderer.height * 3, this.renderer.width * 3, 0);
+    this.worldRect = new Rectangle(0, -this.renderer.height*3, this.renderer.width*3, 0);
   }
 
   updateViewport(x, y, width, height) {

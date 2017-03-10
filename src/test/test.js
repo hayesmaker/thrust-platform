@@ -1,9 +1,11 @@
 import Container from './mocks/Container';
+import Graphics from './mocks/Graphics';
+import Sprite from './mocks/Sprite';
 
 global.DisplayObject = {};
 global.Container = Container;
-global.Sprite = {};
-global.Graphics = {};
+global.Sprite = Sprite;
+global.Graphics = Graphics;
 global.TextureCache = {};
 global.loader = {};
 global.resources = {};
