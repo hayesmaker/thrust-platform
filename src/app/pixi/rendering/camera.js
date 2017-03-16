@@ -15,16 +15,16 @@ export default class Camera {
   addDebugShiz() {
     var graphics = new Graphics();
     graphics.lineStyle(14, 0x00ffff, 1);
-    graphics.drawRect(0,this.renderer.height/2,this.worldRect.width,this.worldRect.y);
+    graphics.drawRect(0,0,this.worldRect.width,this.worldRect.y);
     let border = new Sprite();
     this.world.addChild(border);
-    border.x = -this.renderer.width/2;
+    border.x = 0;
     border.y = 0;
     border.addChild(graphics);
 
     graphics = new Graphics();
     graphics.lineStyle(10, 0xff0000, 1);
-    graphics.drawRect(0, 0, this.renderer.width * 2, -this.renderer.height * 2);
+    graphics.drawRect(this.renderer.width/2, -this.renderer.height/2, this.renderer.width * 2, -this.renderer.height * 2);
     let innerBorder = new Sprite();
     this.world.addChild(innerBorder);
     innerBorder.x = 0;
@@ -86,28 +86,28 @@ export default class Camera {
   }
 
   xRightCheck() {
-    var rightBoundary = this.worldRect.width - this.renderer.width;
+    var rightBoundary = this.worldRect.width - (this.renderer.width * 0.5) / this.zoom;
     if (this.viewportRect.x > rightBoundary) {
       this.viewportRect.x = rightBoundary;
     }
   }
 
   xLeftCheck() {
-    var leftBoundary = this.worldRect.x;
+    var leftBoundary = this.worldRect.x + (this.renderer.width * 0.5) / this.zoom;
     if (this.viewportRect.x < leftBoundary) {
       this.viewportRect.x = leftBoundary;
     }
   }
 
   yBottomCheck() {
-    var bottomBoundary = this.worldRect.y + this.renderer.height;
+    var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * this.zoom;
     if (this.viewportRect.y < bottomBoundary) {
       this.viewportRect.y = bottomBoundary;
     }
   }
 
   yTopCheck() {
-    var topBoundary = this.worldRect.height;
+    var topBoundary = this.worldRect.height - (this.renderer.height * 0.5) / this.zoom;
     if (this.viewportRect.y > topBoundary) {
       this.viewportRect.y = topBoundary;
     }

@@ -187,6 +187,7 @@ export default class Play {
       this.camera.zoomTo(1.3);
     }
     */
+    this.camera.zoomTo(1);
     this.camera.update();
   }
 

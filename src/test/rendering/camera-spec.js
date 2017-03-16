@@ -126,6 +126,13 @@ describe('Camera Tests', function () {
     expect(camera.viewportRect.y).to.equal(100);
   });
 
+  /*
+   var rightBoundary = this.worldRect.width - (this.renderer.width * 0.5) / this.zoom;
+   if (this.viewportRect.x > rightBoundary) {
+   this.viewportRect.x = rightBoundary;
+   }
+   */
+
   it('xRightCheck given the viewport position x is higher than the world boundary width' +
     'ensure that viewportRect.x ' +
     'does not exceed the World boundary', function () {
