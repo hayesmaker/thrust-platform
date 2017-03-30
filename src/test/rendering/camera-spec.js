@@ -11,7 +11,7 @@ describe('Camera Tests', function () {
   let mockStage;
   beforeEach(function () {
     mockStage = new Container();
-    mockStage.name = "stageMock";
+    mockStage.name = 'stageMock';
     camera = new Camera(
       mockStage,
       {
@@ -129,17 +129,20 @@ describe('Camera Tests', function () {
   /*
    var rightBoundary = this.worldRect.width - (this.renderer.width * 0.5) / this.zoom;
    if (this.viewportRect.x > rightBoundary) {
-   this.viewportRect.x = rightBoundary;
+    this.viewportRect.x = rightBoundary;
    }
    */
 
-  it('xRightCheck given the viewport position x is higher than the world boundary width' +
+  it('xRightCheck given the viewport position x is larger than the world\'s right boundary' +
     'ensure that viewportRect.x ' +
-    'does not exceed the World boundary', function () {
-    camera.viewportRect.x = 1025;
+    'does not exceed the right boundary', function () {
     camera.worldRect.width = 1024;
+    camera.renderer.width = 512;
+    camera.zoom = 1;
+    camera.viewportRect.x = 1025;
+    //right boundary 768;
     camera.xRightCheck();
-    expect(camera.viewportRect.x).to.equal(0);
+    expect(camera.viewportRect.x).to.equal(768);
   });
 
   it('xRightCheck given the viewport position x is lower than the world boundary width' +
@@ -150,50 +153,66 @@ describe('Camera Tests', function () {
     expect(camera.viewportRect.x).to.equal(-1);
   });
 
-  it('xLeftCheck given the viewport position x is lower than the world boundary position' +
+  /*
+   var leftBoundary = this.worldRect.x + (this.renderer.width * 0.5) / this.zoom;
+   if (this.viewportRect.x < leftBoundary) {
+    this.viewportRect.x = leftBoundary;
+   }
+   */
+  it('xLeftCheck given the viewport position x is lower than the left boundary position' +
     'ensure that viewportRect.x ' +
-    'does not exceed the World boundary', function () {
-    camera.viewportRect.x = -10;
+    'does not exceed the left boundary', function () {
     camera.worldRect.x = 0;
+    camera.renderer.width = 512;
+    camera.zoom = 1;
+    camera.viewportRect.x = 250;
     camera.xLeftCheck();
-    expect(camera.viewportRect.x).to.equal(0);
+    expect(camera.viewportRect.x).to.equal(256);
   });
 
-  it('xLeft given the viewport position x is lower than the world boundary width' +
-    'ensure that viewport position is not updated', function () {
-    camera.viewportRect.x = 20;
+  it('xLeft given the viewport position x is greater than the left boundary position' +
+    'ensure that viewport position is updated', function () {
     camera.worldRect.x = 0;
+    camera.renderer.width = 512;
+    camera.zoom = 1;
+    camera.viewportRect.x = 300;
     camera.xLeftCheck();
-    expect(camera.viewportRect.x).to.equal(20);
+    expect(camera.viewportRect.x).to.equal(300);
   });
 
   /*
-   var topBoundary = this.worldRect.height;
+   var topBoundary = this.worldRect.height - (this.renderer.height * 0.5) / this.zoom;
    if (this.viewportRect.y > topBoundary) {
-   this.viewportRect.y = topBoundary;
+    this.viewportRect.y = topBoundary;
    }
    */
 
   it('yTopCheck given the viewport position y is lower than the world boundary position ensure' +
     'the viewport is not updated', function () {
-    camera.viewportRect.y = 1530;
     camera.worldRect.height = 1536;
+    camera.renderer.height = 768;
+    camera.viewportRect.y = 1100;
+    camera.zoom = 1;
     camera.yTopCheck();
-    expect(camera.viewportRect.y).to.equal(1530);
+    expect(camera.viewportRect.y).to.equal(1100);
   });
 
   it('yTopCheck given the viewport position y is greater than the world boundary ' +
     'ensure the viewportRect.y does not exceed the world boundary', function () {
-    camera.viewportRect.y = 800;
-    camera.worldRect.height = 790;
+    camera.worldRect.height = 1536;
+    camera.renderer.height = 768;
+    camera.viewportRect.y = 1530;
+    camera.zoom = 1;
     camera.yTopCheck();
-    expect(camera.viewportRect.y).to.equal(790);
+    expect(camera.viewportRect.y).to.equal(1152);
   });
 
   /*
-   var bottomBoundary = this.worldRect.y + this.renderer.height;
-   if (this.viewportRect.y < bottomBoundary) {
-   this.viewportRect.y = bottomBoundary;
+   yBottomCheck() {
+     var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * 1 / this.zoom;
+    if (this.viewportRect.y < bottomBoundary) {
+      this.viewportRect.y = bottomBoundary;
+    }
    }
    */
 

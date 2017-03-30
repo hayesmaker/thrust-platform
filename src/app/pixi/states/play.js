@@ -111,8 +111,8 @@ export default class Play {
     graphics.lineTo(-2000, 0);
     let spr = new Sprite();
     this.camera.world.addChild(spr);
-    spr.x = this.renderer.width / 2;
-    spr.y = -this.renderer.height / 2;
+    spr.x = 0;
+    spr.y = 0;
     spr.addChild(graphics);
   }
 
@@ -154,11 +154,9 @@ export default class Play {
     if (!this.hasStarted) {
       this.start();
     }
-
     if (this.keyUp) {
       this.boxBody.applyForceLocal([0, 4]);
     }
-    // Set velocities
     if (this.keyLeft) {
       this.boxBody.angularVelocity = shipTurnSpeed;
     } else if (this.keyRight) {
@@ -166,28 +164,14 @@ export default class Play {
     } else {
       this.boxBody.angularVelocity = 0;
     }
-
     this.world.step(1 / 60);
-
     if (this.sprite) {
       this.sprite.position.x = Pixi2P2.pixi(this.boxBody.position[0]);
       this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
     }
-
     this.playerVel = this.calculateSpeed();
-    console.log('this.player', this.playerVel, this.sprite.position.x, this.sprite.position.y);
-    /*
-    if (this.playerVel >= 5) {
-      this.camera.zoomTo(0.7);
-    } else if (this.playerVel >= 3)
-    {
-      this.camera.zoomTo(1);
-    } else {
-      this.camera.zoomTo(1.3);
-    }
-    */
-    this.camera.zoomTo(1);
+    this.camera.zoomTo(2);
     this.camera.update();
   }
 

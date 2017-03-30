@@ -100,7 +100,7 @@ export default class Camera {
   }
 
   yBottomCheck() {
-    var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * this.zoom;
+    var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * 1 / this.zoom;
     if (this.viewportRect.y < bottomBoundary) {
       this.viewportRect.y = bottomBoundary;
     }
