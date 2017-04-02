@@ -171,7 +171,7 @@ export default class Play {
       this.sprite.rotation = this.boxBody.angle;
     }
     this.playerVel = this.calculateSpeed();
-    this.camera.zoomTo(2);
+    this.camera.zoomTo(1);
     this.camera.update();
   }
 
