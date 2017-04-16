@@ -17,4 +17,8 @@ public/assets/audiosprite/
 public/assets/atlas/combined-2016.json
 public/assets/atlas/combined-2016.png
 
+.DS_Store
+.nyc_output/
+coverage/
+
 dist/
