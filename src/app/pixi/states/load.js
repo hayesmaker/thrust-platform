@@ -43,34 +43,3 @@ export default class Load {
 
   }
 }
-
-/*
-module.exports = {
-
-  start: function() {
-    gameLoop.currentState = this;
-    this.preload();
-  },
-
-  preload: function() {
-
-  },
-
-  create: function() {
-
-  },
-
-  load: function() {
-
-  },
-
-  update: function() {
-    console.log('load :: update');
-  },
-
-  complete: function() {
-
-  }
-
-};
-  */

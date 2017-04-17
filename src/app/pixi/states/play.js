@@ -1,6 +1,7 @@
 import p2 from 'p2';
 import * as Pixi2P2 from '../utils/Pixi2P2';
 import Camera from '../rendering/camera';
+import TiledLevelMap from '../levels/TiledLevelMap';
 
 const shipTurnSpeed = 5;
 
@@ -72,6 +73,10 @@ export default class Play {
     });
 
     this.initKeyboardControl();
+
+    this.map = new TiledLevelMap(this.camera);
+    this.map.renderSprites();
+
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     this.sprite = new Sprite(combinedAtlas['player.png']);
     this.sprite.scale.set(1, -1);
