@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "ISC",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "private": true,
   "nyc": {
     "include": [
@@ -26,13 +26,11 @@
     "browserify:test": "browserify -t [ babelify ] src/test/test.js -o public/javascripts/test/tests.js -d",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "lint": "eslint src/app/pixi/x**/*.js",
-
     "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build:all": "npm run build && npm run build:cordova && npm run yuidoc",
     "build:webgl": "npm run browserify:webgl",
     "build:custom": "npm run browserify:gobbapeas",
-
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
     "deploy:skipTests": "npm run heroku",
@@ -44,7 +42,6 @@
     "browserify:cordova": "echo 'browserifying cordova build' && browserify --version && browserify -e src/app/main-cordova.js -o public/javascripts/browserify/thrust-engine-cordova.js -d",
     "browserify:gobbapeas": "echo 'browserifying gobbapeas build' && browserify --version && browserify -e src/app/main-gobbapeas.js -o public/javascripts/browserify/thrust-engine-gobbapeas.js -d",
     "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
-
     "changelog": "echo 'updating changelog' && github_changelog_generator",
     "tweet:deploy": "node ./bin/tweet-deploy",
     "assets": "./bin/assets.sh",
