@@ -16,6 +16,7 @@ export default class Play {
     this.keyUp = false;
     this.keyRight = false;
     this.keyDown = false;
+    this.isPaused = false;
   }
 
   initCameraWorld() {
@@ -123,16 +124,27 @@ export default class Play {
 
   initKeyboardControl() {
     // Catch key down events
-    window.onkeydown = function (evt) {
+    window.onkeydown = (evt) => {
       this.handleKey(evt.keyCode, true);
-    }.bind(this);
+    };
 
     // Catch key up events
-    window.onkeyup = function (evt) {
+    window.onkeyup = (evt) => {
       this.handleKey(evt.keyCode, false);
-    }.bind(this);
+    };
 
-    // Handle key up or down
+    window.onkeypress = (evt) => {
+      this.handleKeyPress(evt.keyCode, false);
+    };
+  }
+
+  handleKeyPress(code) {
+    switch(code) {
+      case 27:
+      case 167:
+        this.isPaused = !this.isPaused;
+        break;
+    }
   }
 
   handleKey(code, isDown) {
@@ -156,6 +168,9 @@ export default class Play {
   }
 
   update() {
+    if (this.isPaused) {
+      return;
+    }
     if (!this.hasStarted) {
       this.start();
     }
