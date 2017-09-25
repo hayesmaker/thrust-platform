@@ -99,7 +99,7 @@ export default class Play {
     //this.camera.follow(this.sprite);
     //this.stage.addChild(this.stage);
     //this.pixicamWorld.addChild(this.sprite);
-    this.addDebugGraphics();
+    //this.addDebugGraphics();
   }
 
   addDebugGraphics() {
@@ -190,7 +190,13 @@ export default class Play {
       this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
     }
+    /*
     this.playerVel = this.calculateSpeed();
+    let zoomLevel = Math.abs(1/this.playerVel);
+    if (zoomLevel < 0.5) zoomLevel = 0.5;
+    if (zoomLevel > 2) zoomLevel = 2;
+    console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
+    */
     this.camera.zoomTo(1);
     this.camera.update();
   }

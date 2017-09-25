@@ -1,13 +1,39 @@
 export default class Camera {
 
-  constructor(stage, renderer) {
+  /**
+   * @constructor
+   * @param stage
+   * @param renderer
+   * @param x
+   * @param y
+   * @param w
+   * @param h
+   */
+  constructor(stage, renderer,x,y,w,h) {
     this.stage = stage;
     this.renderer = renderer;
     this.target = null;
     this.world = new Container();
     this.stage.addChild(this.world);
     this.zoom = 1;
-    this.defaultWorld();
+
+     x = x || 0;
+     y = y || -1000;
+     w = w || 1546;
+     h = h || 0;
+
+    this.defaultWorld(x,y,w,h);
+    /*
+     "world": {
+     "width": 1536,
+     "height": 1000
+     },
+     "mapPosition": {
+     "x": 0,
+     "y": 730
+     },
+     */
+    //this.updateWorldSize(x, y, w, h);
     this.defaultView();
     this.addDebugShiz();
   }
@@ -36,8 +62,9 @@ export default class Camera {
     this.viewportRect = new Rectangle(0, 0, this.renderer.width, this.renderer.height);
   }
 
-  defaultWorld() {
-    this.worldRect = new Rectangle(0, -this.renderer.height*3, this.renderer.width*3, 0);
+  defaultWorld(x,y,w,h) {
+    //this.worldRect = new Rectangle(0, -this.renderer.height*3, this.renderer.width*3, 0);
+    this.worldRect = new Rectangle(x,y,w,h);
   }
 
   updateViewport(x, y, width, height) {
