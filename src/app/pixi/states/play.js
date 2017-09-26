@@ -42,32 +42,6 @@ export default class Play {
   }
 
   create() {
-    this.meter = new FPSMeter({
-      interval: 100,     // Update interval in milliseconds.
-      smoothing: 10,      // Spike smoothing strength. 1 means no smoothing.
-      show: 'fps',   // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
-      toggleOn: 'click', // Toggle between show 'fps' and 'ms' on this event.
-      decimals: 1,       // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
-      maxFps: 60,      // Max expected FPS value.
-      threshold: 100,     // Minimal tick reporting interval in milliseconds.
-
-      // Meter position
-      position: 'absolute', // Meter position.
-      zIndex: 10,         // Meter Z index.
-      left: '5px',      // Meter left offset.
-      top: '5px',      // Meter top offset.
-      right: 'auto',     // Meter right offset.
-      bottom: 'auto',     // Meter bottom offset.
-      margin: '0 0 0 0',  // Meter margin. Helps with centering the counter when left: 50%;
-
-      // Theme
-      theme: 'colorful', // Meter theme. Build in: 'dark', 'light', 'transparent', 'colorful'.
-      heat: 1,      // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
-
-      // Graph
-      graph: 1, // Whether to show history graph.
-      history: 20 // How many history states to show in a graph.
-    });
     this.stage.scale.y = -1;
     this.world = new p2.World({
       gravity: [0, -1]
@@ -171,6 +145,7 @@ export default class Play {
     if (this.isPaused) {
       return;
     }
+
     if (!this.hasStarted) {
       this.start();
     }
@@ -203,9 +178,6 @@ export default class Play {
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
     }
-
-
-
     this.camera.update();
   }
 
