@@ -39,10 +39,10 @@ export default class Camera {
      },
      */
 
-     x = x || 0;
-     y = y || -1000;
-     w = w || 1546;
-     h = h || 0;
+    x = x || 0;
+    y = y || -1000;
+    w = w || 1546;
+    h = h || 0;
 
     this.defaultWorld(x,y,w,h);
     this.defaultView();

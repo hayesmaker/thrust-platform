@@ -11,8 +11,8 @@ export default class TiledLevelMap {
     let textureData = loader.resources[global.ASSETS.textureAtlasPath].data;
     let gameData = loader.resources[global.ASSETS.levelDataPath].data;
     let level1Data = gameData.data[0];
-    console.log('renderSprites :: textureData', textureData);
-    console.log('renderSprites :: gameData', gameData);
+    //console.log('renderSprites :: textureData', textureData);
+    //console.log('renderSprites :: gameData', gameData);
 
     /*
     this.sprite = new Sprite(combinedAtlas['level-1_0012.png']);
@@ -50,7 +50,7 @@ export default class TiledLevelMap {
       tile.x = x;
       tile.y = y - 730;
       tile.scale.set(2, -2);
-      console.log('index %s frame=', index, x, y);
+      //console.log('index %s frame=', index, x, y);
       this.camera.world.addChild(tile);
     });
 
@@ -66,7 +66,7 @@ export default class TiledLevelMap {
         key: key
       };
     });
-    console.log('getFramesArr', array)  ;
+    //onsole.log('getFramesArr', array)  ;
     return array;
   }
 

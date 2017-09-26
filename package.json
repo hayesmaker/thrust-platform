@@ -25,7 +25,7 @@
     "test:list": "npm run browserify:test && npm run mocha",
     "browserify:test": "browserify -t [ babelify ] src/test/test.js -o public/javascripts/test/tests.js -d",
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
-    "lint": "eslint src/app/pixi/x**/*.js",
+    "lint": "eslint src/app/pixi/**/*.js",
     "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build:all": "npm run build && npm run build:cordova && npm run yuidoc",
