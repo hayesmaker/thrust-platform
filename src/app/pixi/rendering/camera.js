@@ -1,5 +1,16 @@
 export default class Camera {
 
+  set zoomLevel(val) {
+    if (val != this.zoom) {
+      this.zoomTo(val);
+    }
+    this.zoom = val;
+  }
+
+  get zoomLevel() {
+    return this.zoom;
+  }
+
   /**
    * @constructor
    * @param stage
@@ -17,12 +28,6 @@ export default class Camera {
     this.stage.addChild(this.world);
     this.zoom = 1;
 
-     x = x || 0;
-     y = y || -1000;
-     w = w || 1546;
-     h = h || 0;
-
-    this.defaultWorld(x,y,w,h);
     /*
      "world": {
      "width": 1536,
@@ -33,7 +38,13 @@ export default class Camera {
      "y": 730
      },
      */
-    //this.updateWorldSize(x, y, w, h);
+
+     x = x || 0;
+     y = y || -1000;
+     w = w || 1546;
+     h = h || 0;
+
+    this.defaultWorld(x,y,w,h);
     this.defaultView();
     this.addDebugShiz();
   }

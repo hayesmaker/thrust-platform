@@ -197,7 +197,15 @@ export default class Play {
     if (zoomLevel > 2) zoomLevel = 2;
     console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
     */
-    this.camera.zoomTo(1);
+    //console.log('pos=', this.sprite.position.y);
+    if (this.sprite.position.y <= -600) {
+      TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
+    } else {
+      TweenLite.to(this.camera, 1, {zoomLevel: 1});
+    }
+
+
+
     this.camera.update();
   }
 

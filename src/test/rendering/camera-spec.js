@@ -12,13 +12,20 @@ describe('Camera Tests', function () {
   beforeEach(function () {
     mockStage = new Container();
     mockStage.name = 'stageMock';
+    let x,y,w,h;
+    x = 0;
+    y=-1000;
+    w=1546;
+    h = 0;
     camera = new Camera(
       mockStage,
       {
         name: 'rendererMock',
         width: 1024,
         height: 768
-      });
+      },
+      x,y,w,h
+    );
   });
 
   afterEach(function () {
@@ -53,8 +60,8 @@ describe('Camera Tests', function () {
 
   it('Camera World boundaries should be created with defaults', function () {
     expect(camera.worldRect.x).to.equal(0);
-    expect(camera.worldRect.y).to.equal(-768 * 3);
-    expect(camera.worldRect.width).to.equal(1024 * 3);
+    expect(camera.worldRect.y).to.equal(-1000);
+    expect(camera.worldRect.width).to.equal(1546);
     expect(camera.worldRect.height).to.equal(0);
   });
 
