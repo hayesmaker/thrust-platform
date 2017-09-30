@@ -47,6 +47,8 @@ export default class Play {
       gravity: [0, -1]
     });
 
+    this.addDebugBg();
+
     this.initKeyboardControl();
 
     this.map = new TiledLevelMap(this.camera);
@@ -76,24 +78,32 @@ export default class Play {
     //this.addDebugGraphics();
   }
 
-  addDebugGraphics() {
+  addDebugBg() {
     let graphics = new Graphics();
-    // set a fill and line style
-    //graphics.beginFill(0xFF3300);
-    graphics.lineStyle(4, 0xffd900, 1);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(250, 50);
-    graphics.lineTo(100, 100);
-    graphics.lineTo(50, 50);
-    graphics.lineTo(-500, 0);
-    graphics.lineTo(1500, 400);
-    graphics.lineTo(2000, -1000);
-    graphics.lineTo(-2000, 0);
+    graphics.lineStyle(2, 0x00abcc, 0.5);
     let spr = new Sprite();
     this.camera.world.addChild(spr);
     spr.x = 0;
-    spr.y = 0;
+    spr.y = -1000;
     spr.addChild(graphics);
+    let x = 0,
+      y = 0,
+      w = 1546,
+      h = 1000,
+      hSpc = 100,
+      vSpc = 100;
+    let numCols = w / hSpc;
+    let numRows = h / vSpc;
+    graphics.moveTo(x, y);
+    for (let i = 0; i < numCols; i++) {
+      graphics.moveTo(i * hSpc, y);
+      graphics.lineTo(i * hSpc, h);
+    }
+    graphics.moveTo(x,y);
+    for (let i = 0; i < numRows; i++) {
+      graphics.moveTo(x, 1000 - i * vSpc);
+      graphics.lineTo(w, 1000 - i * vSpc);
+    }
   }
 
   initKeyboardControl() {
@@ -172,7 +182,6 @@ export default class Play {
     if (zoomLevel > 2) zoomLevel = 2;
     console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
     */
-    //console.log('pos=', this.sprite.position.y);
     if (this.sprite.position.y <= -600) {
       TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
     } else {

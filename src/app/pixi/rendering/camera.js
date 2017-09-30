@@ -46,7 +46,7 @@ export default class Camera {
 
     this.defaultWorld(x,y,w,h);
     this.defaultView();
-    this.addDebugShiz();
+    //this.addDebugShiz();
   }
 
   addDebugShiz() {
