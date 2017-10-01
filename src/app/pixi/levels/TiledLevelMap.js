@@ -11,6 +11,8 @@ export default class TiledLevelMap {
     let textureData = loader.resources[global.ASSETS.textureAtlasPath].data;
     let gameData = loader.resources[global.ASSETS.levelDataPath].data;
     let level1Data = gameData.data[0];
+    let level1PhysicsData = loader.resources[global.ASSETS.level1PhysicsPath].data['level-1'];
+    console.log('level1Physics=', level1PhysicsData);
     //console.log('renderSprites :: textureData', textureData);
     //console.log('renderSprites :: gameData', gameData);
 

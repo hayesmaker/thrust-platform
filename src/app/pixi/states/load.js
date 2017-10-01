@@ -15,7 +15,8 @@ export default class Load {
 
   preload () {
     loader.add(global.ASSETS.levelDataPath);
-    loader.add(global.ASSETS.textureAtlasPath)
+    loader.add(global.ASSETS.textureAtlasPath);
+    loader.add(global.ASSETS.level1PhysicsPath)
       .load(this.create.bind(this));
   }
 

@@ -1,12 +1,12 @@
 'use strict';
 
 var properties = require('../properties');
-var features = require('./features');
-var UserControl = require('.././UserControl');
-var particles = require('.././particles/manager');
+var features = require('../utils/features');
+var UserControl = require('../environment/UserControl');
+var particles = require('../environment/particles/manager');
 var userControl;
 //var inAppPurchaes = require('../data/in-app-purchases');
-var optionsModel = require('.././options-model');
+var optionsModel = require('../data/options-model');
 var _ = require('lodash');
 var version = require('../../../package.json').version;
 
