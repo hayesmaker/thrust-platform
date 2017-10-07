@@ -2,6 +2,7 @@ import  _ from 'lodash';
 import p2 from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
+import {degToRad} from '../utils/maths';
 
 export default class TiledLevelMap {
 
@@ -75,32 +76,27 @@ export default class TiledLevelMap {
 
     let body = new p2.Body({
       position: [
-        pxmi(0),
-        pxmi(730)
+        pxm(1536/2),
+        pxm(1000-h/2)
       ],
       mass: 0
     });
 
+    body.angle = degToRad(180);
+
     for(let i = 0; i < data.length; i++) {
-
       let vertices = [];
-
       for (let s = 0; s < data[i].shape.length; s += 2) {
-        vertices.push([pxmi(data[i].shape[s] ), pxmi(data[i].shape[s+1])]);
+        vertices.push([pxmi(data[i].shape[s]) * 2, pxmi(data[i].shape[s+1]) * 2]);
       }
-
       c = new p2.Convex({vertices: vertices});
-
       for (let j = 0; j !== c.vertices.length; j++) {
         v = c.vertices[j];
         p2.vec2.sub(v, v, c.centerOfMass);
       }
-
       p2.vec2.scale(cm, c.centerOfMass, 1);
-
       cm[0] -= pxmi(w/2);
       cm[1] -= pxmi(h/2);
-
       c.updateTriangles();
       c.updateCenterOfMass();
       c.updateBoundingRadius();

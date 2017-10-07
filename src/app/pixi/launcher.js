@@ -17,7 +17,7 @@ export default class PixiLauncher {
     );
     window.document.body.appendChild(renderer.view);
     let stage = new Container();
-    stage.scale.y = -1;
+    stage.scale.y = 1;
     FPSStats.init();
     this.load = new Load(stage);
     this.play = new Play(stage, renderer, this.camera);

@@ -40,19 +40,19 @@ export default class Camera {
      */
 
     x = x || 0;
-    y = y || -1000;
+    y = y || 0;
     w = w || 1546;
-    h = h || 0;
+    h = h || 1000;
 
     this.defaultWorld(x,y,w,h);
     this.defaultView();
-    //this.addDebugShiz();
+    this.addDebugShiz();
   }
 
   addDebugShiz() {
     var graphics = new Graphics();
-    graphics.lineStyle(14, 0x00ffff, 1);
-    graphics.drawRect(0,0,this.worldRect.width,this.worldRect.y);
+    graphics.lineStyle(14, 0x00ffff, 0.8);
+    graphics.drawRect(0,0,this.worldRect.width,this.worldRect.height);
     let border = new Sprite();
     this.world.addChild(border);
     border.x = 0;
@@ -60,13 +60,14 @@ export default class Camera {
     border.addChild(graphics);
 
     graphics = new Graphics();
-    graphics.lineStyle(10, 0xff0000, 1);
-    graphics.drawRect(this.renderer.width/2, -this.renderer.height/2, this.renderer.width * 2, -this.renderer.height * 2);
+    graphics.lineStyle(5, 0xff0000, 0.25);
+    graphics.drawRect(this.renderer.width/2, this.renderer.height/2, this.world.width - this.renderer.width, this.world.height - this.renderer.height);
     let innerBorder = new Sprite();
     this.world.addChild(innerBorder);
     innerBorder.x = 0;
     innerBorder.y = 0;
     innerBorder.addChild(graphics);
+
   }
 
   defaultView() {
@@ -138,15 +139,15 @@ export default class Camera {
   }
 
   yBottomCheck() {
-    var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * 1 / this.zoom;
-    if (this.viewportRect.y < bottomBoundary) {
-      this.viewportRect.y = bottomBoundary;
+    var bottomBandary = this.worldRect.height - (this.renderer.height/2) / this.zoom;
+    if (this.viewportRect.y > bottomBandary) {
+      this.viewportRect.y = bottomBandary;
     }
   }
 
   yTopCheck() {
-    var topBoundary = this.worldRect.height - (this.renderer.height * 0.5) / this.zoom;
-    if (this.viewportRect.y > topBoundary) {
+    var topBoundary = (this.renderer.height/2) / this.zoom;
+    if (this.viewportRect.y < topBoundary) {
       this.viewportRect.y = topBoundary;
     }
   }

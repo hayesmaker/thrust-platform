@@ -44,9 +44,9 @@ export default class Play {
   }
 
   create() {
-    this.stage.scale.y = -1;
+    //this.stage.scale.y = -1;
     this.world = new p2.World({
-      gravity: [0, -1]
+      gravity: [0, 1]
     });
 
     this.addDebugBg();
@@ -58,14 +58,14 @@ export default class Play {
 
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     this.sprite = new Sprite(combinedAtlas['player.png']);
-    this.sprite.scale.set(1, -1);
+    this.sprite.scale.set(1, 1);
     this.sprite.anchor.set(0.5, 0.5);
     let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height)});
     this.boxBody = new p2.Body({
       mass: 1,
       position: [
         Pixi2P2.p2(this.renderer.width / 2),
-        Pixi2P2.p2(-this.renderer.height / 2)
+        Pixi2P2.p2(this.renderer.height / 2)
       ],
       angularVelocity: 0
     });
@@ -93,7 +93,7 @@ export default class Play {
     let spr = new Sprite();
     this.camera.world.addChild(spr);
     spr.x = 0;
-    spr.y = -1000;
+    spr.y = 0;
     spr.addChild(graphics);
     let x = 0,
       y = 0,
@@ -169,12 +169,12 @@ export default class Play {
       this.start();
     }
     if (this.keyUp) {
-      this.boxBody.applyForceLocal([0, 4]);
+      this.boxBody.applyForceLocal([0, -4]);
     }
     if (this.keyLeft) {
-      this.boxBody.angularVelocity = shipTurnSpeed;
-    } else if (this.keyRight) {
       this.boxBody.angularVelocity = -shipTurnSpeed;
+    } else if (this.keyRight) {
+      this.boxBody.angularVelocity = shipTurnSpeed;
     } else {
       this.boxBody.angularVelocity = 0;
     }
@@ -192,7 +192,7 @@ export default class Play {
     if (zoomLevel > 2) zoomLevel = 2;
     console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
     */
-    if (this.sprite.position.y <= -600) {
+    if (this.sprite.position.y >= 600) {
       TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
