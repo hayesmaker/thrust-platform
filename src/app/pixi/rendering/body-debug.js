@@ -14,7 +14,7 @@ export default class BodyDebug {
        pixelsPerLengthUnit: mpx(1),
        debugPolygons: false,
        lineWidth: 1,
-       alpha: 0.5
+       alpha: 0.25
      };
 
      this.settings = _.merge(defaultSettings, settings);

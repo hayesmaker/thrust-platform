@@ -44,18 +44,18 @@ export default class TiledLevelMap {
      tile.scale.setTo(this.levelData.mapScale);
      */
     let tile;
-    let zoom = 1;
+    let zoom = 2;
     tileWidth = tileHeight = 96 * zoom;
     let worldWidth = 768 * zoom;
     let numTilesWide = worldWidth / tileWidth;
-
+    let h = 270;
     _.each(frames, (frame, index) => {
       x = Math.floor(index % numTilesWide) * tileWidth;
-      y = Math.floor(index / numTilesWide) * -tileHeight;
+      y = Math.floor(index / numTilesWide) * tileHeight;
       tile = new Sprite(combinedAtlas[frame.key]);
       tile.x = x;
-      tile.y = y;
-      tile.scale.set(zoom, -zoom);
+      tile.y = y + 1000-h;
+      tile.scale.set(zoom, zoom);
       //console.log('index %s frame=', index, x, y);
       this.camera.world.addChild(tile);
     });
