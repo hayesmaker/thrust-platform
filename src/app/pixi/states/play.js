@@ -2,6 +2,7 @@ import p2 from 'p2';
 import * as Pixi2P2 from '../utils/Pixi2P2';
 import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
+import BodyDebug from '../rendering/body-debug';
 
 const shipTurnSpeed = 5;
 
@@ -17,6 +18,7 @@ export default class Play {
     this.keyRight = false;
     this.keyDown = false;
     this.isPaused = false;
+    this.playerDebug = null;
   }
 
   initCameraWorld() {
@@ -51,7 +53,7 @@ export default class Play {
 
     this.initKeyboardControl();
 
-    this.map = new TiledLevelMap(this.camera);
+    this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
 
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
@@ -71,6 +73,13 @@ export default class Play {
     this.world.addBody(this.boxBody);
     this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);
+
+    let spr = new Sprite();
+    let graphics = new Graphics();
+    this.playerDebug = new BodyDebug(spr, graphics, this.boxBody, {});
+    this.camera.world.addChild(spr);
+    spr.addChild(graphics);
+
     //this.stage.addChild(this.sprite);
     //this.camera.follow(this.sprite);
     //this.stage.addChild(this.stage);
@@ -174,6 +183,7 @@ export default class Play {
       this.sprite.position.x = Pixi2P2.pixi(this.boxBody.position[0]);
       this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
+      this.playerDebug.updateSpriteTransform();
     }
     /*
     this.playerVel = this.calculateSpeed();
