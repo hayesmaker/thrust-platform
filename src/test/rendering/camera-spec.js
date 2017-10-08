@@ -62,7 +62,7 @@ describe('Camera Tests', function () {
     expect(camera.worldRect.x).to.equal(0);
     expect(camera.worldRect.y).to.equal(-1000);
     expect(camera.worldRect.width).to.equal(1546);
-    expect(camera.worldRect.height).to.equal(0);
+    expect(camera.worldRect.height).to.equal(1000);
   });
 
   it('Camera Viewport should be created with defaults', function () {
@@ -133,13 +133,6 @@ describe('Camera Tests', function () {
     expect(camera.viewportRect.y).to.equal(100);
   });
 
-  /*
-   var rightBoundary = this.worldRect.width - (this.renderer.width * 0.5) / this.zoom;
-   if (this.viewportRect.x > rightBoundary) {
-    this.viewportRect.x = rightBoundary;
-   }
-   */
-
   it('xRightCheck given the viewport position x is larger than the world\'s right boundary' +
     'ensure that viewportRect.x ' +
     'does not exceed the right boundary', function () {
@@ -147,7 +140,6 @@ describe('Camera Tests', function () {
     camera.renderer.width = 512;
     camera.zoom = 1;
     camera.viewportRect.x = 1025;
-    //right boundary 768;
     camera.xRightCheck();
     expect(camera.viewportRect.x).to.equal(768);
   });
@@ -160,12 +152,6 @@ describe('Camera Tests', function () {
     expect(camera.viewportRect.x).to.equal(-1);
   });
 
-  /*
-   var leftBoundary = this.worldRect.x + (this.renderer.width * 0.5) / this.zoom;
-   if (this.viewportRect.x < leftBoundary) {
-    this.viewportRect.x = leftBoundary;
-   }
-   */
   it('xLeftCheck given the viewport position x is lower than the left boundary position' +
     'ensure that viewportRect.x ' +
     'does not exceed the left boundary', function () {
@@ -187,15 +173,8 @@ describe('Camera Tests', function () {
     expect(camera.viewportRect.x).to.equal(300);
   });
 
-  /*
-   var topBoundary = this.worldRect.height - (this.renderer.height * 0.5) / this.zoom;
-   if (this.viewportRect.y > topBoundary) {
-    this.viewportRect.y = topBoundary;
-   }
-   */
-
   it('yTopCheck given the viewport position y is lower than the world boundary position ensure' +
-    'the viewport is not updated', function () {
+    'the viewport is updated', function () {
     camera.worldRect.height = 1536;
     camera.renderer.height = 768;
     camera.viewportRect.y = 1100;
@@ -206,37 +185,32 @@ describe('Camera Tests', function () {
 
   it('yTopCheck given the viewport position y is greater than the world boundary ' +
     'ensure the viewportRect.y does not exceed the world boundary', function () {
-    camera.worldRect.height = 1536;
+    camera.worldRect.height = 1000;
     camera.renderer.height = 768;
-    camera.viewportRect.y = 1530;
+    camera.viewportRect.y = 1600;
     camera.zoom = 1;
     camera.yTopCheck();
-    expect(camera.viewportRect.y).to.equal(1152);
+    expect(camera.viewportRect.y).to.equal(1600);
   });
 
-  /*
-   yBottomCheck() {
-     var bottomBoundary = this.worldRect.y + (this.renderer.height * 0.5) * 1 / this.zoom;
-    if (this.viewportRect.y < bottomBoundary) {
-      this.viewportRect.y = bottomBoundary;
-    }
-   }
-   */
-
-  it('yBottomCheck given the vieport position y is greater than the worldRect ensure the viewport is ' +
-    'not updated', function () {
-    camera.viewportRect.y = 700;
-    camera.worldRect.height = 650;
+  it('yBottomCheck given the viewport position y is greater than the worldRect ensure the viewport does not exceed ' +
+    'the world boundary', function () {
+    camera.viewportRect.y = 1500;
+    camera.worldRect.height = 1000;
+    camera.renderer.height = 768;
+    camera.zoom = 1;
     camera.yBottomCheck();
-    expect(camera.viewportRect.y).to.equal(700);
+    expect(camera.viewportRect.y).to.equal(616);
   });
 
   it('yBottomCheck given the vieport position y is lower than the worldRect' +
-    'height then ensure the viewport position does not exceed the world boundary', function () {
-    camera.viewportRect.y = 600;
+    'height then ensure the viewport position is not updated', function () {
+    camera.viewportRect.y = 100;
     camera.worldRect.height = 650;
+    camera.renderer.height = 768;
+    camera.zoom = 1;
     camera.yBottomCheck();
-    expect(camera.viewportRect.y).to.equal(600);
+    expect(camera.viewportRect.y).to.equal(100);
   });
 
   it('updateView should align the stage pivot to the viewport position', function () {

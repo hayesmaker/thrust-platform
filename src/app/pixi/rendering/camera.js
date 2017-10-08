@@ -27,23 +27,10 @@ export default class Camera {
     this.world = new Container();
     this.stage.addChild(this.world);
     this.zoom = 1;
-
-    /*
-     "world": {
-     "width": 1536,
-     "height": 1000
-     },
-     "mapPosition": {
-     "x": 0,
-     "y": 730
-     },
-     */
-
     x = x || 0;
     y = y || 0;
     w = w || 1546;
     h = h || 1000;
-
     this.defaultWorld(x,y,w,h);
     this.defaultView();
     this.addDebugShiz();
@@ -104,15 +91,6 @@ export default class Camera {
         this.worldRect.height
       );
     }
-    /*
-     this.updateViewport(
-     this.viewportRect.x * val,
-     this.viewportRect.y * val,
-     this.viewportRect.width * val,
-     this.viewportRect.height * val
-     );
-     */
-
   }
 
   follow(sprite) {
