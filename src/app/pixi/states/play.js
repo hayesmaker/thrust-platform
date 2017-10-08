@@ -2,6 +2,7 @@ import p2 from 'p2';
 import * as Pixi2P2 from '../utils/Pixi2P2';
 import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
+import BodyDebug from '../rendering/body-debug';
 
 const shipTurnSpeed = 5;
 
@@ -17,6 +18,7 @@ export default class Play {
     this.keyRight = false;
     this.keyDown = false;
     this.isPaused = false;
+    this.playerDebug = null;
   }
 
   initCameraWorld() {
@@ -42,52 +44,28 @@ export default class Play {
   }
 
   create() {
-    this.meter = new FPSMeter({
-      interval: 100,     // Update interval in milliseconds.
-      smoothing: 10,      // Spike smoothing strength. 1 means no smoothing.
-      show: 'fps',   // Whether to show 'fps', or 'ms' = frame duration in milliseconds.
-      toggleOn: 'click', // Toggle between show 'fps' and 'ms' on this event.
-      decimals: 1,       // Number of decimals in FPS number. 1 = 59.9, 2 = 59.94, ...
-      maxFps: 60,      // Max expected FPS value.
-      threshold: 100,     // Minimal tick reporting interval in milliseconds.
-
-      // Meter position
-      position: 'absolute', // Meter position.
-      zIndex: 10,         // Meter Z index.
-      left: '5px',      // Meter left offset.
-      top: '5px',      // Meter top offset.
-      right: 'auto',     // Meter right offset.
-      bottom: 'auto',     // Meter bottom offset.
-      margin: '0 0 0 0',  // Meter margin. Helps with centering the counter when left: 50%;
-
-      // Theme
-      theme: 'colorful', // Meter theme. Build in: 'dark', 'light', 'transparent', 'colorful'.
-      heat: 1,      // Allow themes to use coloring by FPS heat. 0 FPS = red, maxFps = green.
-
-      // Graph
-      graph: 1, // Whether to show history graph.
-      history: 20 // How many history states to show in a graph.
-    });
-    this.stage.scale.y = -1;
+    //this.stage.scale.y = -1;
     this.world = new p2.World({
-      gravity: [0, -1]
+      gravity: [0, 1]
     });
+
+    this.addDebugBg();
 
     this.initKeyboardControl();
 
-    this.map = new TiledLevelMap(this.camera);
+    this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
 
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     this.sprite = new Sprite(combinedAtlas['player.png']);
-    this.sprite.scale.set(1, -1);
+    this.sprite.scale.set(1, 1);
     this.sprite.anchor.set(0.5, 0.5);
     let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height)});
     this.boxBody = new p2.Body({
       mass: 1,
       position: [
         Pixi2P2.p2(this.renderer.width / 2),
-        Pixi2P2.p2(-this.renderer.height / 2)
+        Pixi2P2.p2(this.renderer.height / 2)
       ],
       angularVelocity: 0
     });
@@ -95,6 +73,13 @@ export default class Play {
     this.world.addBody(this.boxBody);
     this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);
+
+    let spr = new Sprite();
+    let graphics = new Graphics();
+    this.playerDebug = new BodyDebug(spr, graphics, this.boxBody, {});
+    this.camera.world.addChild(spr);
+    spr.addChild(graphics);
+
     //this.stage.addChild(this.sprite);
     //this.camera.follow(this.sprite);
     //this.stage.addChild(this.stage);
@@ -102,24 +87,32 @@ export default class Play {
     //this.addDebugGraphics();
   }
 
-  addDebugGraphics() {
+  addDebugBg() {
     let graphics = new Graphics();
-    // set a fill and line style
-    //graphics.beginFill(0xFF3300);
-    graphics.lineStyle(4, 0xffd900, 1);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(250, 50);
-    graphics.lineTo(100, 100);
-    graphics.lineTo(50, 50);
-    graphics.lineTo(-500, 0);
-    graphics.lineTo(1500, 400);
-    graphics.lineTo(2000, -1000);
-    graphics.lineTo(-2000, 0);
+    graphics.lineStyle(2, 0x00abcc, 0.5);
     let spr = new Sprite();
     this.camera.world.addChild(spr);
     spr.x = 0;
     spr.y = 0;
     spr.addChild(graphics);
+    let x = 0,
+      y = 0,
+      w = 1546,
+      h = 1000,
+      hSpc = 100,
+      vSpc = 100;
+    let numCols = w / hSpc;
+    let numRows = h / vSpc;
+    graphics.moveTo(x, y);
+    for (let i = 0; i < numCols; i++) {
+      graphics.moveTo(i * hSpc, y);
+      graphics.lineTo(i * hSpc, h);
+    }
+    graphics.moveTo(x,y);
+    for (let i = 0; i < numRows; i++) {
+      graphics.moveTo(x, 1000 - i * vSpc);
+      graphics.lineTo(w, 1000 - i * vSpc);
+    }
   }
 
   initKeyboardControl() {
@@ -171,16 +164,17 @@ export default class Play {
     if (this.isPaused) {
       return;
     }
+
     if (!this.hasStarted) {
       this.start();
     }
     if (this.keyUp) {
-      this.boxBody.applyForceLocal([0, 4]);
+      this.boxBody.applyForceLocal([0, -4]);
     }
     if (this.keyLeft) {
-      this.boxBody.angularVelocity = shipTurnSpeed;
-    } else if (this.keyRight) {
       this.boxBody.angularVelocity = -shipTurnSpeed;
+    } else if (this.keyRight) {
+      this.boxBody.angularVelocity = shipTurnSpeed;
     } else {
       this.boxBody.angularVelocity = 0;
     }
@@ -189,6 +183,7 @@ export default class Play {
       this.sprite.position.x = Pixi2P2.pixi(this.boxBody.position[0]);
       this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
+      this.playerDebug.updateSpriteTransform();
     }
     /*
     this.playerVel = this.calculateSpeed();
@@ -197,15 +192,11 @@ export default class Play {
     if (zoomLevel > 2) zoomLevel = 2;
     console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
     */
-    //console.log('pos=', this.sprite.position.y);
-    if (this.sprite.position.y <= -600) {
+    if (this.sprite.position.y >= 600) {
       TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
     }
-
-
-
     this.camera.update();
   }
 

@@ -1,9 +1,9 @@
 'use strict';
 
 var properties = require('../properties');
-var levelsLoader = require('./levels-loader');
-var gameState = require('.././game-state');
-var optionsModel = require('.././options-model');
+var levelsLoader = require('../utils/levels-loader');
+var gameState = require('../data/game-state');
+var optionsModel = require('../data/options-model');
 /**
  * The load state
  * - Loads in game assets

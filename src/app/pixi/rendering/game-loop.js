@@ -1,5 +1,8 @@
+import FPSStats from '../utils/fps-stats';
+
 export default class GameLoop {
   constructor(renderer, stage, startState) {
+    this.meter = new FPSStats();
     this.renderer = renderer;
     this.stage = stage;
     this.currentState = startState;
@@ -13,6 +16,7 @@ export default class GameLoop {
     this.isStopped = true;
   }
   loop () {
+    this.meter && this.meter.tickStart();
     if (this.stopped) {
       return;
     }
@@ -22,7 +26,6 @@ export default class GameLoop {
       this.currentState.update();
     }
     this.renderer.render(this.stage);
-    this.currentState.meter && this.currentState.meter.tick();
-
+    this.meter && this.meter.tickEnd();
   }
 }

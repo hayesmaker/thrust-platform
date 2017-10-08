@@ -22,7 +22,8 @@ export default class Aliases {
     //Thrust Aliases
     global.ASSETS = {
       textureAtlasPath: 'assets/atlas/combined.json',
-      levelDataPath: 'assets/levels/classic.json'
+      levelDataPath: 'assets/levels/classic.json',
+      level1PhysicsPath: 'assets/physics-new/level-1-phyics.json'
     };
   }
 }

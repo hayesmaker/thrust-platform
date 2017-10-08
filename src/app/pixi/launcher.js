@@ -1,7 +1,7 @@
 import GameLoop from './rendering/game-loop';
 import Load from './states/load';
 import Play from './states/play';
-import FPSHelper from './utils/fps-stats';
+import FPSStats from './utils/fps-stats';
 
 export default class PixiLauncher {
   constructor() {
@@ -17,7 +17,8 @@ export default class PixiLauncher {
     );
     window.document.body.appendChild(renderer.view);
     let stage = new Container();
-    FPSHelper.init();
+    stage.scale.y = 1;
+    FPSStats.init();
     this.load = new Load(stage);
     this.play = new Play(stage, renderer, this.camera);
     this.loop = new GameLoop(renderer, stage, this.load);
