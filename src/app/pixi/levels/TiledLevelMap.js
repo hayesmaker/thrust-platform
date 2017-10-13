@@ -16,33 +16,8 @@ export default class TiledLevelMap {
     let textureData = loader.resources[global.ASSETS.textureAtlasPath].data;
     let gameData = loader.resources[global.ASSETS.levelDataPath].data;
     let level1Data = gameData.data[0];
-
-    //console.log('renderSprites :: textureData', textureData);
-    //console.log('renderSprites :: gameData', gameData);
-
-    /*
-    this.sprite = new Sprite(combinedAtlas['level-1_0012.png']);
-    this.sprite.scale.set(1, -1);
-    this.sprite.anchor.set(0.5, 0.5);
-    this.sprite.x = 200;
-    this.sprite.y = -200;
-    this.camera.world.addChild(this.sprite);
-    */
-
     let frames = this.getFramesArr(level1Data, textureData);
     let x, y, tileWidth, tileHeight;
-    /*
-    var standardTileSize = this.levelData.tileSize || this.defaultTileSize;
-    var tileWidth = standardTileSize * this.levelData.mapScale;
-    var tileHeight = standardTileSize * this.levelData.mapScale;
-    var numTilesWide = this.levelData.world.width / tileWidth;
-    */
-    /*
-     x = Math.floor(index % numTilesWide) * tileWidth;
-     y = Math.floor(index / numTilesWide) * tileHeight;
-     tile = game.add.sprite(x, y, this.key, frame.index, this.spriteBatch);
-     tile.scale.setTo(this.levelData.mapScale);
-     */
     let tile;
     let zoom = 2;
     tileWidth = tileHeight = 96 * zoom;
@@ -56,7 +31,6 @@ export default class TiledLevelMap {
       tile.x = x;
       tile.y = y + 1000-h;
       tile.scale.set(zoom, zoom);
-      //console.log('index %s frame=', index, x, y);
       this.camera.world.addChild(tile);
     });
     this.initPhysics();
@@ -64,16 +38,10 @@ export default class TiledLevelMap {
 
   initPhysics() {
     let data = loader.resources[global.ASSETS.level1PhysicsPath].data['level-1'];
-    console.log('level1Physics=', data);
-    /*
-     "width": 1536,
-     "height": 1000
-     */
     let w = 1536;
     let h = 270;
     let cm = p2.vec2.create();
     let c,v;
-
     let body = new p2.Body({
       position: [
         pxm(1536/2),
@@ -81,9 +49,7 @@ export default class TiledLevelMap {
       ],
       mass: 0
     });
-
     body.angle = degToRad(180);
-
     for(let i = 0; i < data.length; i++) {
       let vertices = [];
       for (let s = 0; s < data[i].shape.length; s += 2) {
@@ -100,36 +66,26 @@ export default class TiledLevelMap {
       c.updateTriangles();
       c.updateCenterOfMass();
       c.updateBoundingRadius();
-
       body.addShape(c, cm);
     }
-
     body.aabbNeedsUpdate = true;
     this.world.addBody(body);
-
     let spr = new Sprite();
     let graphics = new Graphics();
-    let bodyDebug = new BodyDebug(spr, graphics, body, {});
+    new BodyDebug(spr, graphics, body, {});
     this.camera.world.addChild(spr);
     spr.addChild(graphics);
-
-
-
-
   }
 
   getFramesArr(level1Data, textureData) {
     let result = _.pickBy(textureData.frames, function(value, key) {
       return _.startsWith(key, level1Data.atlasData.levelKey);
     });
-    let array = _.map(result, (value, key) => {
+    return _.map(result, (value, key) => {
       return {
         frame:value,
         key: key
       };
     });
-    //onsole.log('getFramesArr', array)  ;
-    return array;
   }
-
 }
