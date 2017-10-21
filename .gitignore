@@ -22,3 +22,4 @@ public/assets/atlas/combined-2016.png
 #new for pixi
 .nyc_output/
 coverage/
+tmp/

@@ -1,14 +1,6 @@
 const FACTOR = 100;
 const FRACTION = 0.01;
 
-export function pixi (value, y) {
-  return value * FACTOR * (y ? -1 : 1);
-}
-
-export function p2 (value) {
-  return value * FRACTION;
-}
-
 /**
  * Convert p2 physics value (meters) to pixel scale.
  * By default Phaser uses a scale of 20px per meter.

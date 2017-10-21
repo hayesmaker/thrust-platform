@@ -1,8 +1,11 @@
 import p2 from 'p2';
-import * as Pixi2P2 from '../utils/Pixi2P2';
+import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
 import BodyDebug from '../rendering/body-debug';
+import _ from 'lodash';
+
+import PlayerBullet from '../actors/PlayerBullet';
 
 const shipTurnSpeed = 5;
 
@@ -49,6 +52,9 @@ export default class Play {
       gravity: [0, 1]
     });
 
+    this.world.setGlobalStiffness(1e18);
+    this.world.defaultContactMaterial.restitution = 0.1;
+
     this.addDebugBg();
 
     this.initKeyboardControl();
@@ -60,12 +66,12 @@ export default class Play {
     this.sprite = new Sprite(combinedAtlas['player.png']);
     this.sprite.scale.set(1, 1);
     this.sprite.anchor.set(0.5, 0.5);
-    let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height)});
+    let boxShape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
     this.boxBody = new p2.Body({
       mass: 1,
       position: [
-        Pixi2P2.p2(this.renderer.width / 2),
-        Pixi2P2.p2(this.renderer.height / 2)
+        pxm(300),
+        pxm(400)
       ],
       angularVelocity: 0
     });
@@ -79,6 +85,11 @@ export default class Play {
     this.playerDebug = new BodyDebug(spr, graphics, this.boxBody, {});
     this.camera.world.addChild(spr);
     spr.addChild(graphics);
+
+    let bullet = new PlayerBullet(this.camera, this.world);
+    bullet.renderSprite();
+    this.bullets = [bullet];
+
 
     //this.stage.addChild(this.sprite);
     //this.camera.follow(this.sprite);
@@ -180,11 +191,14 @@ export default class Play {
     }
     this.world.step(1 / 60);
     if (this.sprite) {
-      this.sprite.position.x = Pixi2P2.pixi(this.boxBody.position[0]);
-      this.sprite.position.y = Pixi2P2.pixi(this.boxBody.position[1]);
+      this.sprite.position.x = mpx(this.boxBody.position[0]);
+      this.sprite.position.y = mpx(this.boxBody.position[1]);
       this.sprite.rotation = this.boxBody.angle;
       this.playerDebug.updateSpriteTransform();
     }
+    _.each(this.bullets, (bullet) => {
+      bullet.update();
+    });
     /*
     this.playerVel = this.calculateSpeed();
     let zoomLevel = Math.abs(1/this.playerVel);

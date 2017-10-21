@@ -228,7 +228,7 @@ export default class BodyDebug {
   /**
    * Draws a p2.Box to the Graphics object.
    *
-   * @method Phaser.Physics.P2.BodyDebug#drawRectangle
+   * @method drawRectangle
    * @private
    */
   drawRectangle (g, x, y, angle, w, h, color, fillColor, lineWidth) {
@@ -239,6 +239,43 @@ export default class BodyDebug {
     g.lineStyle(lineWidth, color, 1);
     g.beginFill(fillColor);
     g.drawRect(x - w / 2, y - h / 2, w, h);
+
+  }
+
+
+  /**
+   * Draws a p2.Line to the Graphics object.
+   *
+   * @method drawLine
+   * @private
+   */
+  drawLine (g, len, color, lineWidth) {
+
+    if (lineWidth === undefined) { lineWidth = 1; }
+    if (color === undefined) { color = 0x000000; }
+
+    g.lineStyle(lineWidth * 5, color, 1);
+    g.moveTo(-len / 2, 0);
+    g.lineTo(len / 2, 0);
+
+  }
+
+  /**
+   * Draws a p2.Circle to the Graphics object.
+   *
+   * @method Phaser.Physics.P2.BodyDebug#drawCircle
+   * @private
+   */
+  drawCircle (g, x, y, angle, radius, color, lineWidth) {
+
+    if (lineWidth === undefined) { lineWidth = 1; }
+    if (color === undefined) { color = 0xffffff; }
+    g.lineStyle(lineWidth, 0x000000, 1);
+    g.beginFill(color, 1.0);
+    g.drawCircle(x, y, radius);
+    g.endFill();
+    g.moveTo(x, y);
+    g.lineTo(x + radius * Math.cos(angle), y + radius * Math.sin(angle));
 
   }
 

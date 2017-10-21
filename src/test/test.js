@@ -17,4 +17,5 @@ global.Rectangle = function(x, y, width, height) {
 
 import cameraSpec from './rendering/camera-spec';
 import tiledLevelMapSpec from './levels/tiled-level-map-spec';
+import playerSpec from './actors/player-spec';
 

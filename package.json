@@ -20,6 +20,7 @@
     "build:babel": "babel ./src/app --out-dir dist --source-maps  --presets es2015",
     "build:pixi": "browserify dist/pixi-main.js -t babelify --outfile public/javascripts/browserify/thrust-engine-pixi.js -d",
     "test": "cross-env NODE_ENV=test mocha --require babel-polyfill --compilers js:babel-register src/test/test.js --reporter nyan",
+    "test:report": "cross-env NODE_ENV=test mocha --require babel-polyfill --compilers js:babel-register src/test/test.js --reporter tap",
     "istanbul": "nyc npm test",
     "istanbul:report": "nyc --reporter=lcov npm test",
     "test:list": "npm run browserify:test && npm run mocha",
