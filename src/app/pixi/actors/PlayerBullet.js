@@ -3,78 +3,87 @@ import p2  from 'p2';
 import BodyDebug from '../rendering/body-debug';
 
 export default class PlayerBullet {
-
-  constructor(camera, world) {
-    this.camera = camera;
-    this.world = world;
+  constructor() {
+    /**
+     * 350 is the previous firing magnitude default
+     * trying 400 now to see if it plays better
+     *
+     * @property bulletSpeed
+     * @type {number}
+     * @default 350
+     */
+    this.bulletSpeed = 10;
+    /**
+     * @property lifespan
+     * @type {number}
+     */
+    this.lifespan = 2000;
+    /**
+     * @property halfPi
+     * @type {number}
+     */
+    this.halfPi = Math.PI * 0.5;
+    this.active = false;
     this.sprite = null;
+    this.createSprite();
+    this.createBody();
+    this.w = 15;
+    this.h = 2;
   }
 
-  renderSprite() {
+  createSprite() {
     let graphics = new Graphics();
-    graphics.lineStyle(5, 0xff0000, 0.8);
-    graphics.moveTo(0,0);
-    graphics.lineTo(25, 0);
+    graphics.lineStyle(1, 0x4affff, 1);
+    graphics.drawRect(-7.5,-0.5, 15, 1);
     this.sprite = new Sprite();
     this.sprite.addChild(graphics);
-    this.camera.world.addChild(this.sprite);
-    this.sprite.x = 0;
-    this.sprite.y = 0;
-
-    this.initPhysics();
-    this.initDebug();
+    this.sprite.anchor.set(0.5,0.5);
   }
 
-  initPhysics() {
-    console.log('bulletwidth', pxm(100), this.sprite.width);
-    var shape = new p2.Line({
-      width: 2
+  createBody() {
+    let shape = new p2.Box({
+      width: pxm(15), height: pxm(2)
     });
-    //var circleShape = new p2.Circle({radius: pxm(100)});
-    //circleShape.sensor = false;
     this.body = new p2.Body({
-      mass: 0.1,
-      position: [
-        pxm(200),
-        pxm(200)
-      ],
-      angularVelocity: 1
-    });
-
-    this.body.addShape(shape);
-    this.world.addBody(this.body);
-    this.camera.world.addChild(this.sprite);
-
-    /*
-    let boxShape = new p2.Box({width: Pixi2P2.p2(this.sprite.width), height: Pixi2P2.p2(this.sprite.height)});
-    this.boxBody = new p2.Body({
       mass: 1,
-      position: [
-        Pixi2P2.p2(this.renderer.width / 2),
-        Pixi2P2.p2(this.renderer.height / 2)
-      ],
       angularVelocity: 0
     });
-    this.boxBody.addShape(boxShape);
-    this.world.addBody(this.boxBody);
-    this.camera.world.addChild(this.sprite);
-    this.camera.follow(this.sprite);
-    */
+    this.body.addShape(shape);
   }
 
-  initDebug() {
+  initDebug(camera) {
     let spr = new Sprite();
     let graphics = new Graphics();
     this.debug = new BodyDebug(spr, graphics, this.body, {});
-    this.camera.world.addChild(spr);
+    camera.world.addChild(spr);
     spr.addChild(graphics);
   }
 
   update() {
-    //this.sprite.position.x = mpx(this.circleBody.position[0]);
-    //this.sprite.position.y = mpx(this.circleBody.position[1]);
+    this.sprite.position.x = mpx(this.body.position[0]);
+    this.sprite.position.y = mpx(this.body.position[1]);
     this.sprite.rotation = this.body.angle;
-    this.debug.updateSpriteTransform();
+    //this.debug.updateSpriteTransform();
+  }
+
+  fire(camera, world, player) {
+
+    this.active = true;
+    camera.world.addChild(this.sprite);
+    world.addBody(this.body);
+    let angle = player.body.angle - this.halfPi;
+    let r = player.sprite.width * 0.5;
+    let x = player.sprite.position.x + Math.cos(angle) * r;
+    let y = player.sprite.position.y + Math.sin(angle) * r;
+    this.body.position = [pxm(x), pxm(y)];
+    this.body.velocity = [this.bulletSpeed * Math.cos(angle), this.bulletSpeed * Math.sin(angle)];
+    this.body.angle = angle;
+    //console.log('bullet fire', r, player.sprite.position.x, player.sprite.position.y, angle);
+    //this.initDebug(camera);
+  }
+
+  destroy() {
+
   }
 
 

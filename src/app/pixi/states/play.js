@@ -4,10 +4,10 @@ import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
 import BodyDebug from '../rendering/body-debug';
 import _ from 'lodash';
+import BulletPool from '../utils/BulletPool';
 
+import Player from '../actors/Player';
 import PlayerBullet from '../actors/PlayerBullet';
-
-const shipTurnSpeed = 5;
 
 export default class Play {
   constructor(stage, renderer) {
@@ -25,20 +25,7 @@ export default class Play {
   }
 
   initCameraWorld() {
-    /*
-     let options = {
-     screenWidth: 800,
-     screenHeight: 600,
-     width: 5000,
-     height: 600,
-     centerX: 400,
-     centerY: 300
-     };
-     */
-    //this.pixicamWorld = new pixicam.World(options);
-    //this.camera = this.pixicamWorld.camera;
     this.camera = new Camera(this.stage, this.renderer);
-
   }
 
   start() {
@@ -47,55 +34,27 @@ export default class Play {
   }
 
   create() {
-    //this.stage.scale.y = -1;
-    this.world = new p2.World({
-      gravity: [0, 1]
-    });
-
+    this.world = new p2.World({gravity: [0, 1]});
     this.world.setGlobalStiffness(1e18);
     this.world.defaultContactMaterial.restitution = 0.1;
-
     this.addDebugBg();
-
     this.initKeyboardControl();
-
     this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
+    this.player = new Player(this.camera, this.world);
+    this.player.renderSprite();
+    this.initStaticMemory();
+  }
 
-    let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
-    this.sprite = new Sprite(combinedAtlas['player.png']);
-    this.sprite.scale.set(1, 1);
-    this.sprite.anchor.set(0.5, 0.5);
-    let boxShape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
-    this.boxBody = new p2.Body({
-      mass: 1,
-      position: [
-        pxm(300),
-        pxm(400)
-      ],
-      angularVelocity: 0
-    });
-    this.boxBody.addShape(boxShape);
-    this.world.addBody(this.boxBody);
-    this.camera.world.addChild(this.sprite);
-    this.camera.follow(this.sprite);
+  initStaticMemory() {
 
-    let spr = new Sprite();
-    let graphics = new Graphics();
-    this.playerDebug = new BodyDebug(spr, graphics, this.boxBody, {});
-    this.camera.world.addChild(spr);
-    spr.addChild(graphics);
-
+    this.bulletPool = new BulletPool();
+    this.player.setBullets(this.bulletPool);
+    /*
     let bullet = new PlayerBullet(this.camera, this.world);
     bullet.renderSprite();
     this.bullets = [bullet];
-
-
-    //this.stage.addChild(this.sprite);
-    //this.camera.follow(this.sprite);
-    //this.stage.addChild(this.stage);
-    //this.pixicamWorld.addChild(this.sprite);
-    //this.addDebugGraphics();
+    */
   }
 
   addDebugBg() {
@@ -119,7 +78,7 @@ export default class Play {
       graphics.moveTo(i * hSpc, y);
       graphics.lineTo(i * hSpc, h);
     }
-    graphics.moveTo(x,y);
+    graphics.moveTo(x, y);
     for (let i = 0; i < numRows; i++) {
       graphics.moveTo(x, 1000 - i * vSpc);
       graphics.lineTo(w, 1000 - i * vSpc);
@@ -127,23 +86,19 @@ export default class Play {
   }
 
   initKeyboardControl() {
-    // Catch key down events
     window.onkeydown = (evt) => {
       this.handleKey(evt.keyCode, true);
     };
-
-    // Catch key up events
     window.onkeyup = (evt) => {
       this.handleKey(evt.keyCode, false);
     };
-
     window.onkeypress = (evt) => {
       this.handleKeyPress(evt.keyCode, false);
     };
   }
 
   handleKeyPress(code) {
-    switch(code) {
+    switch (code) {
       case 27:
       case 167:
         this.isPaused = !this.isPaused;
@@ -155,6 +110,9 @@ export default class Play {
     switch (code) {
       case 32:
         this.keyShoot = isDown;
+        if (!isDown) {
+          this.player.loadGun();
+        }
         break;
       case 37:
         this.keyLeft = isDown;
@@ -175,38 +133,27 @@ export default class Play {
     if (this.isPaused) {
       return;
     }
-
     if (!this.hasStarted) {
       this.start();
     }
     if (this.keyUp) {
-      this.boxBody.applyForceLocal([0, -4]);
+      this.player.thrust();
+    }
+    if (this.keyShoot) {
+      this.player.fire();
     }
     if (this.keyLeft) {
-      this.boxBody.angularVelocity = -shipTurnSpeed;
+      this.player.rotateLeft();
     } else if (this.keyRight) {
-      this.boxBody.angularVelocity = shipTurnSpeed;
+      this.player.rotateRight();
     } else {
-      this.boxBody.angularVelocity = 0;
+      this.player.resetAngularForces();
     }
     this.world.step(1 / 60);
-    if (this.sprite) {
-      this.sprite.position.x = mpx(this.boxBody.position[0]);
-      this.sprite.position.y = mpx(this.boxBody.position[1]);
-      this.sprite.rotation = this.boxBody.angle;
-      this.playerDebug.updateSpriteTransform();
+    if (this.player) {
+      this.player.update();
     }
-    _.each(this.bullets, (bullet) => {
-      bullet.update();
-    });
-    /*
-    this.playerVel = this.calculateSpeed();
-    let zoomLevel = Math.abs(1/this.playerVel);
-    if (zoomLevel < 0.5) zoomLevel = 0.5;
-    if (zoomLevel > 2) zoomLevel = 2;
-    console.log('speed %s zoomLevel %s', this.playerVel, zoomLevel);
-    */
-    if (this.sprite.position.y >= 600) {
+    if (this.player.sprite.position.y >= 600) {
       TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
@@ -214,6 +161,10 @@ export default class Play {
     this.camera.update();
   }
 
+  /**
+   * @deprecated
+   * @returns {number}
+   */
   calculateSpeed() {
     return Math.sqrt(
       Math.pow(this.boxBody.velocity[0], 2) +

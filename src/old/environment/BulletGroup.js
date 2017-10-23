@@ -60,6 +60,7 @@ p.halfPi = Math.PI * 0.5;
 p.fire = function(position, body) {
   var x = position.x;
   var y = position.y;
+
   var angle = body.rotation + Math.PI + Math.random() * Math.PI;
   this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, this.lifespan);
 };
