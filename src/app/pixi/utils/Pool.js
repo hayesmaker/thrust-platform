@@ -14,8 +14,8 @@ export default class Pool {
      */
     this.objects = [];
 
-    if(options.size !== undefined){
-      this.resize(options.size);
+    if(options.size !== undefined && options.world !== undefined){
+      this.resize(options.size, options.world);
     }
   }
 
@@ -24,7 +24,7 @@ export default class Pool {
    * @param {number} size
    * @return {Pool} Self, for chaining
    */
-  resize(size) {
+  resize(size, world) {
     let objects = this.objects;
 
     while (objects.length > size) {
@@ -32,7 +32,7 @@ export default class Pool {
     }
 
     while (objects.length < size) {
-      objects.push(this.create());
+      objects.push(this.create(world));
     }
 
     return this;

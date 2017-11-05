@@ -1,7 +1,7 @@
 var pkg = require('../package');
 var express = require('express');
 var router = express.Router();
-var title = "Thrust 30";
+var title = "Thrust 30 (" + pkg.version + "-pre-alpha)";
 
 
 /* GET home page. */
@@ -27,7 +27,7 @@ router.get('/gobbapeas', function(req, res) {
 
 router.get('/min', function(req, res) {
   res.render('app', {
-    title: title + "(minified)",
+    title: title,
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-canvas.min.js'
   });

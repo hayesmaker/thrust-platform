@@ -25,6 +25,8 @@ export default class Player {
     this.sprite.anchor.set(0.5, 0.5);
 
     let shape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
+    shape.collisionGroup = global.COLLISIONS.SHIP;
+    shape.collisionMask = global.COLLISIONS.LAND;
     this.body = new p2.Body({mass: 1, position: [pxm(400), pxm(400)]});
     this.body.addShape(shape);
     this.world.addBody(this.body);
@@ -32,21 +34,25 @@ export default class Player {
     this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);
 
+    /*
     let dubugSpr = new Sprite();
     let graphics = new Graphics();
     this.playerDebug = new BodyDebug(dubugSpr, graphics, this.body, {});
     this.camera.world.addChild(dubugSpr);
     dubugSpr.addChild(graphics);
+    */
   }
 
   update() {
     this.sprite.position.x = mpx(this.body.position[0]);
     this.sprite.position.y = mpx(this.body.position[1]);
     this.sprite.rotation = this.body.angle;
-    this.playerDebug.updateSpriteTransform();
+    //this.playerDebug.updateSpriteTransform();
     let i = this.activeBullets.length;
+    let activeBullet;
     while (i--) {
-      this.activeBullets[i].update();
+      activeBullet = this.activeBullets[i];
+      activeBullet.update();
     }
   }
 
@@ -65,9 +71,8 @@ export default class Player {
   fire() {
     if (this.isLoaded) {
       this.isLoaded = false;
-      console.log('fire');
       let bullet = this.bullets.get();
-      bullet.fire(this.camera, this.world, this);
+      bullet.fire(this.camera, this);
       this.activeBullets.push(bullet);
     }
   }

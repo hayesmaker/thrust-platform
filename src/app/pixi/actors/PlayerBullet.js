@@ -3,7 +3,8 @@ import p2  from 'p2';
 import BodyDebug from '../rendering/body-debug';
 
 export default class PlayerBullet {
-  constructor() {
+  constructor(world) {
+    this.world = world;
     /**
      * 350 is the previous firing magnitude default
      * trying 400 now to see if it plays better
@@ -44,11 +45,14 @@ export default class PlayerBullet {
     let shape = new p2.Box({
       width: pxm(15), height: pxm(2)
     });
+    shape.collisionGroup = global.COLLISIONS.BULLET;
+    shape.collisionMask = global.COLLISIONS.LAND;
     this.body = new p2.Body({
       mass: 1,
       angularVelocity: 0
     });
     this.body.addShape(shape);
+    this.body.parent = this;
   }
 
   initDebug(camera) {
@@ -63,14 +67,14 @@ export default class PlayerBullet {
     this.sprite.position.x = mpx(this.body.position[0]);
     this.sprite.position.y = mpx(this.body.position[1]);
     this.sprite.rotation = this.body.angle;
+    this.sprite.visible = this.active;
     //this.debug.updateSpriteTransform();
   }
 
-  fire(camera, world, player) {
-
+  fire(camera, player) {
     this.active = true;
     camera.world.addChild(this.sprite);
-    world.addBody(this.body);
+    this.world.addBody(this.body);
     let angle = player.body.angle - this.halfPi;
     let r = player.sprite.width * 0.5;
     let x = player.sprite.position.x + Math.cos(angle) * r;
@@ -78,12 +82,14 @@ export default class PlayerBullet {
     this.body.position = [pxm(x), pxm(y)];
     this.body.velocity = [this.bulletSpeed * Math.cos(angle), this.bulletSpeed * Math.sin(angle)];
     this.body.angle = angle;
-    //console.log('bullet fire', r, player.sprite.position.x, player.sprite.position.y, angle);
-    //this.initDebug(camera);
   }
 
   destroy() {
-
+    this.active = false;
+    console.log('PlayerBullet :: destroy');
+    this.world.removeBody(this.body);
+    this.body.setZeroForce();
+    this.body.angularVelocity = 0;
   }
 
 

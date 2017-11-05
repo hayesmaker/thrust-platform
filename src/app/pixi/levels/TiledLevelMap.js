@@ -63,6 +63,8 @@ export default class TiledLevelMap {
       p2.vec2.scale(cm, c.centerOfMass, 1);
       cm[0] -= pxmi(w/2);
       cm[1] -= pxmi(h/2);
+      c.collisionGroup = global.COLLISIONS.LAND;
+      c.collisionMask = global.COLLISIONS.SHIP | global.COLLISIONS.BULLET;
       c.updateTriangles();
       c.updateCenterOfMass();
       c.updateBoundingRadius();
@@ -70,11 +72,13 @@ export default class TiledLevelMap {
     }
     body.aabbNeedsUpdate = true;
     this.world.addBody(body);
+    /*
     let spr = new Sprite();
     let graphics = new Graphics();
     new BodyDebug(spr, graphics, body, {});
     this.camera.world.addChild(spr);
     spr.addChild(graphics);
+    */
   }
 
   getFramesArr(level1Data, textureData) {

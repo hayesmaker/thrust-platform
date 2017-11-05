@@ -1,13 +1,8 @@
 import p2 from 'p2';
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
-import BodyDebug from '../rendering/body-debug';
-import _ from 'lodash';
 import BulletPool from '../utils/BulletPool';
-
 import Player from '../actors/Player';
-import PlayerBullet from '../actors/PlayerBullet';
 
 export default class Play {
   constructor(stage, renderer) {
@@ -21,7 +16,6 @@ export default class Play {
     this.keyRight = false;
     this.keyDown = false;
     this.isPaused = false;
-    this.playerDebug = null;
   }
 
   initCameraWorld() {
@@ -37,6 +31,15 @@ export default class Play {
     this.world = new p2.World({gravity: [0, 1]});
     this.world.setGlobalStiffness(1e18);
     this.world.defaultContactMaterial.restitution = 0.1;
+    this.world.on(
+      "impact", function (evt) {
+        let bodyA = evt.bodyA;
+        let bodyB = evt.bodyB;
+        console.log('impact', bodyA.id, bodyB.id);
+        if (bodyA.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyA, bodyB);
+        if (bodyB.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyB, bodyA);
+
+      }.bind(this));
     this.addDebugBg();
     this.initKeyboardControl();
     this.map = new TiledLevelMap(this.camera, this.world);
@@ -46,15 +49,17 @@ export default class Play {
     this.initStaticMemory();
   }
 
-  initStaticMemory() {
+  checkBulletToGround(bullet, impact) {
+    if (impact.shapes[0].collisionGroup === global.COLLISIONS.LAND) {
+      if (bullet.parent.active) {
+        this.bulletPool.release(bullet.parent);
+      }
+    }
+  }
 
-    this.bulletPool = new BulletPool();
+  initStaticMemory() {
+    this.bulletPool = new BulletPool(this.world);
     this.player.setBullets(this.bulletPool);
-    /*
-    let bullet = new PlayerBullet(this.camera, this.world);
-    bullet.renderSprite();
-    this.bullets = [bullet];
-    */
   }
 
   addDebugBg() {
@@ -149,16 +154,18 @@ export default class Play {
     } else {
       this.player.resetAngularForces();
     }
-    this.world.step(1 / 60);
-    if (this.player) {
-      this.player.update();
-    }
     if (this.player.sprite.position.y >= 600) {
-      TweenLite.to(this.camera, 1, {zoomLevel: 1.6});
+      TweenLite.to(this.camera, 1, {zoomLevel: 1.5});
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
     }
     this.camera.update();
+
+    this.world.step(1 / 60);
+
+    if (this.player) {
+      this.player.update();
+    }
   }
 
   /**

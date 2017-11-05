@@ -25,5 +25,12 @@ export default class Aliases {
       levelDataPath: 'assets/levels/classic.json',
       level1PhysicsPath: 'assets/physics-new/level-1-phyics.json'
     };
+
+    //Collision Groups
+    global.COLLISIONS = {
+      SHIP:Math.pow(2,1),
+      BULLET:Math.pow(2,2),
+      LAND:Math.pow(2,3),
+    };
   }
 }
