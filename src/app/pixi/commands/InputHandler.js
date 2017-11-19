@@ -2,12 +2,13 @@ import RotateLeftCommand from './RotateLeftCommand';
 import PlayerFireCommand from './FireCommand';
 import RotateRightCommand from './RotateRightCommand';
 import ThrustCommand from './ThrustCommand';
+import PlayerLoadCommand from './PlayerLoadCommand';
+import RotateResetCommand from './RotateResetCommand';
 import MenuUpCommand from './MenuUpComand';
 import MenuLeftCommand from './MenuLeftComand';
 import MenuRightCommand from './MenuRightComand';
 import MenuDownCommand from './MenuDownComand';
 import MenuSelectCommand from './MenuSelectCommand';
-import RotateResetCommand from './RotateResetCommand';
 
 /**
  * Command driven InputHandler
@@ -30,6 +31,7 @@ export default class InputHandler {
     this.keyUp = false;
     this.keyDown = false;
     this.keySpace = false;
+    this.keySpaceUp = true;
     this.inPlayCommands();
   }
 
@@ -43,9 +45,10 @@ export default class InputHandler {
     this.buttonB = new ThrustCommand(this.player);
     this.padRight = new RotateRightCommand(this.player);
     this.padLeft = new RotateLeftCommand(this.player);
+    this.fireUp = new PlayerLoadCommand(this.player);
+    this.reset = new RotateResetCommand(this.player);
     this.padUp = this.nullCommand;
     this.padDown = this.nullCommand;
-    this.reset = new RotateResetCommand(this.player);
   }
 
   /**
@@ -62,6 +65,9 @@ export default class InputHandler {
     if (this.keyUp) {
       this.buttonB.execute();
     }
+    if (this.keySpaceUp) {
+      this.fireUp.execute();
+    }
     if (this.keySpace) {
       this.buttonA.execute();
     }
@@ -73,7 +79,6 @@ export default class InputHandler {
     }
     if (!this.keyLeft && !this.keyRight) {
       this.reset.execute();
-      //this.player.resetAngularForces();
     }
   }
 
@@ -114,9 +119,7 @@ export default class InputHandler {
     switch (code) {
       case 32:
         this.keySpace = isDown;
-        if (!isDown) {
-          this.player.loadGun();
-        }
+        this.keySpaceUp = !isDown;
         break;
       case 37:
         this.keyLeft = isDown;
