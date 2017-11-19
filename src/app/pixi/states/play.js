@@ -3,6 +3,7 @@ import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
 import BulletPool from '../utils/BulletPool';
 import Player from '../actors/Player';
+import InputHandler from '../commands/InputHandler';
 
 export default class Play {
   constructor(stage, renderer) {
@@ -41,11 +42,13 @@ export default class Play {
 
       }.bind(this));
     this.addDebugBg();
-    this.initKeyboardControl();
+    //this.initKeyboardControl();
     this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
     this.player = new Player(this.camera, this.world);
     this.player.renderSprite();
+    this.inputHanlder = new InputHandler(this, this.player);
+    this.inputHanlder.initKeyboardControl();
     this.initStaticMemory();
   }
 
@@ -90,50 +93,6 @@ export default class Play {
     }
   }
 
-  initKeyboardControl() {
-    window.onkeydown = (evt) => {
-      this.handleKey(evt.keyCode, true);
-    };
-    window.onkeyup = (evt) => {
-      this.handleKey(evt.keyCode, false);
-    };
-    window.onkeypress = (evt) => {
-      this.handleKeyPress(evt.keyCode, false);
-    };
-  }
-
-  handleKeyPress(code) {
-    switch (code) {
-      case 27:
-      case 167:
-        this.isPaused = !this.isPaused;
-        break;
-    }
-  }
-
-  handleKey(code, isDown) {
-    switch (code) {
-      case 32:
-        this.keyShoot = isDown;
-        if (!isDown) {
-          this.player.loadGun();
-        }
-        break;
-      case 37:
-        this.keyLeft = isDown;
-        break;
-      case 38:
-        this.keyUp = isDown;
-        break;
-      case 39:
-        this.keyRight = isDown;
-        break;
-      case 40:
-        this.keyDown = isDown;
-        break;
-    }
-  }
-
   update() {
     if (this.isPaused) {
       return;
@@ -141,28 +100,14 @@ export default class Play {
     if (!this.hasStarted) {
       this.start();
     }
-    if (this.keyUp) {
-      this.player.thrust();
-    }
-    if (this.keyShoot) {
-      this.player.fire();
-    }
-    if (this.keyLeft) {
-      this.player.rotateLeft();
-    } else if (this.keyRight) {
-      this.player.rotateRight();
-    } else {
-      this.player.resetAngularForces();
-    }
+    this.inputHanlder.handleInput();
     if (this.player.sprite.position.y >= 600) {
       TweenLite.to(this.camera, 1, {zoomLevel: 1.5});
     } else {
       TweenLite.to(this.camera, 1, {zoomLevel: 1});
     }
     this.camera.update();
-
     this.world.step(1 / 60);
-
     if (this.player) {
       this.player.update();
     }

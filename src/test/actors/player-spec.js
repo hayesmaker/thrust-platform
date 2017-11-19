@@ -18,7 +18,7 @@ describe('Player Actor Tests', function () {
     player = null;
   });
 
-  it('Camera should be defined', function () {
+  it('Player should be defined', function () {
     expect(player).to.exist;
   });
 });
