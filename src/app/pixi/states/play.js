@@ -48,6 +48,7 @@ export default class Play {
     this.player = new Player(this.camera, this.world);
     this.player.renderSprite();
     this.inputHanlder = new InputHandler(this, this.player);
+    this.inputHanlder.initPlayCommands();
     this.inputHanlder.initKeyboardControl();
     this.initStaticMemory();
   }

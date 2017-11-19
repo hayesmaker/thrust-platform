@@ -1,4 +1,4 @@
-class Command {
+export default class Command {
   constructor(player) {
     this.player = player;
   }
@@ -7,5 +7,3 @@ class Command {
 
   }
 }
-
-export default Command;

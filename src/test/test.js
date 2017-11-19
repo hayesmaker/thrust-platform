@@ -1,6 +1,6 @@
-import Container from './mocks/Container';
-import Graphics from './mocks/Graphics';
-import Sprite from './mocks/Sprite';
+import Container from './stubs/Container';
+import Graphics from './stubs/Graphics';
+import Sprite from './stubs/Sprite';
 
 global.DisplayObject = {};
 global.Container = Container;

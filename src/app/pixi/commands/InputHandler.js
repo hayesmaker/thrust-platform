@@ -4,6 +4,7 @@ import RotateRightCommand from './RotateRightCommand';
 import ThrustCommand from './ThrustCommand';
 import PlayerLoadCommand from './PlayerLoadCommand';
 import RotateResetCommand from './RotateResetCommand';
+import NullCommand from './NullCommand';
 import MenuUpCommand from './MenuUpComand';
 import MenuLeftCommand from './MenuLeftComand';
 import MenuRightCommand from './MenuRightComand';
@@ -25,20 +26,19 @@ export default class InputHandler {
   constructor(state, player) {
     this.state = state;
     this.player = player;
-    this.nullCommand = {execute: function(){}};
+    this.nullCommand = new NullCommand();
     this.keyLeft = false;
     this.keyRight = false;
     this.keyUp = false;
     this.keyDown = false;
     this.keySpace = false;
     this.keySpaceUp = true;
-    this.inPlayCommands();
   }
 
   /**
    * @method inPlayCommands
    */
-  inPlayCommands() {
+  initPlayCommands() {
     this.buttonX = new PlayerFireCommand(this.player);
     this.buttonY = new ThrustCommand(this.player);
     this.buttonA = new PlayerFireCommand(this.player);
