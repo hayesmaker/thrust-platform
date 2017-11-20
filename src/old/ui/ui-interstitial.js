@@ -1,11 +1,11 @@
 var UIComponent = require('./ui-component');
 var _ = require('lodash');
-var gameState = require('.././game-state');
+var gameState = require('../data/game-state');
 var TweenLite = global.TweenLite;
 var TimelineLite = global.TimelineLite;
 var Quad = global.Quad;
 var dialog = require('./mission-dialog');
-var sound = require('./sound');
+var sound = require('../utils/sound');
 
 var p = UIInterstial.prototype = Object.create(UIComponent.prototype, {
   constructor: UIInterstial

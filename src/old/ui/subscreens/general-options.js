@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
 var UiSwitch = require('../ui-switch');
-var optionsModel = require('../.././options-model');
+var optionsModel = require('../../data/options-model');
 var UiSelect = require('../ui-select');
 
 var p = GeneralOptions.prototype = Object.create(UiComponent.prototype, {

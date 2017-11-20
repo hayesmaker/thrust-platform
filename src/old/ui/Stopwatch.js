@@ -1,8 +1,8 @@
 'use strict';
 
 
-var options = require('.././options-model');
-var gameState = require('.././game-state');
+var options = require('../data/options-model');
+var gameState = require('../data/game-state');
 
 /**
  * @class StopWatch

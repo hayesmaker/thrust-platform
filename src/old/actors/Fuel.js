@@ -1,10 +1,10 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
-var FuelParticlesSystem = require('./particles/FuelParticlesSystem');
-var gameState = require('./game-state');
+var FuelParticlesSystem = require('../environment/particles/FuelParticlesSystem');
+var gameState = require('../data/game-state');
 var _ = require('lodash');
-var particles = require('./particles/manager');
+var particles = require('../environment/particles/manager');
 var TweenLite = global.TweenLite;
 var sound = require('../utils/sound');
 var properties = require('../properties');

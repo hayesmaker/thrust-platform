@@ -2,7 +2,7 @@
 
 var properties = require('../properties');
 var sound = require('../utils/sound');
-var gameState = require('./game-state');
+var gameState = require('../data/game-state');
 
 /**
  *

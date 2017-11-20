@@ -1,5 +1,5 @@
-var gameState = require('.././game-state');
-var sound = require('./sound');
+var gameState = require('../data/game-state');
+var sound = require('../utils/sound');
 
 /**
  * Manages the fuel display

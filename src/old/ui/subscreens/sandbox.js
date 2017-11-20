@@ -1,11 +1,11 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
 var UiSwitch = require('../ui-switch');
-var optionsModel = require('../.././options-model');
-var gameState = require('../.././game-state');
+var optionsModel = require('../../data/options-model');
+var gameState = require('../../data/game-state');
 var UiSelect = require('../ui-select');
 var properties = require('../../properties');
-var levelManager = require('../.././level-manager');
+var levelManager = require('../../data/level-manager');
 
 var p = Sandbox.prototype = Object.create(UiComponent.prototype, {
   constructor: Sandbox

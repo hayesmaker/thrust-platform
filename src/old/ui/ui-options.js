@@ -8,7 +8,7 @@ var UiPanel = require('./ui-panel');
 var UiList = require('./ui-list');
 var manager = require('./manager');
 var UiButton = require('./ui-button');
-var gameState = require('.././game-state');
+var gameState = require('../data/game-state');
 var _ = require('lodash');
 var controlsFactory = require('./factories/controls-factory');
 

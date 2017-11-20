@@ -1,7 +1,7 @@
 //var utils = require('../utils/canvas');
 var TweenMax = global.TweenMax;
-var textData = require('.././dialogs');
-var gameState = require('.././game-state');
+var textData = require('../data/dialogs');
+var gameState = require('../data/game-state');
 
 module.exports = {
 

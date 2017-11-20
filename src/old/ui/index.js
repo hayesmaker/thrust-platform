@@ -1,4 +1,4 @@
-var gameState = require('.././game-state');
+var gameState = require('../data/game-state');
 var UIMenu = require('./ui-menu');
 var UIHighScores = require('./ui-high-scores');
 var UIInterstitial = require('./ui-interstitial');

@@ -1,7 +1,7 @@
 var UIComponent = require('./ui-component');
 var _ = require('lodash');
-var gameState = require('.././game-state');
-var levelManager = require('.././level-manager');
+var gameState = require('../data/game-state');
+var levelManager = require('../data/level-manager');
 
 var p = UIHighScores.prototype = Object.create(UIComponent.prototype, {
   constructor: UIHighScores

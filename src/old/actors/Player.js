@@ -3,9 +3,9 @@
 var properties = require('../properties');
 var utils = require('../utils');
 var ShipParticle = require('./bitmaps/ShipParticle');
-var particles = require('./particles/manager');
-var levelManager = require('./level-manager');
-var gameState = require('./game-state');
+var particles = require('../environment/particles/manager');
+var levelManager = require('../data/level-manager');
+var gameState = require('../data/game-state');
 var _ = require('lodash');
 var sound = require('../utils/sound');
 var ThrustSound = sound.PLAYER_THRUST_MID;
@@ -635,7 +635,6 @@ p.exhaustUpdate = function () {
 p.death = function () {
   if (this.inPlay) {
     this.onKilled.dispatch();
-    //this.exists = false;
     this.inPlay = false;
     this.alive = false;
     game.time.events.add(2000, _.bind(this.checkRespawn, this));

@@ -1,8 +1,8 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
-var gameState = require('./game-state');
-var particleManager = require('./particles/manager');
+var gameState = require('../data/game-state');
+var particleManager = require('../environment/particles/manager');
 var sound = require('../utils/sound');
 
 

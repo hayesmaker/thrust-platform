@@ -86,7 +86,6 @@ export default class PlayerBullet {
 
   destroy() {
     this.active = false;
-    console.log('PlayerBullet :: destroy');
     this.world.removeBody(this.body);
     this.body.setZeroForce();
     this.body.angularVelocity = 0;

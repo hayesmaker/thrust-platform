@@ -1,4 +1,4 @@
-var optionsModel = require('.././options-model');
+var optionsModel = require('../data/options-model');
 
 /**
  * @class sound

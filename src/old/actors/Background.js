@@ -2,7 +2,7 @@
 
 var properties = require('../properties');
 var _ = require('lodash');
-var options = require('../options-model');
+var options = require('../data/options-model');
 
 /**
  * Background description

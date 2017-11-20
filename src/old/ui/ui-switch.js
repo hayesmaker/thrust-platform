@@ -1,5 +1,5 @@
 var UiComponent = require('./ui-component');
-var canvas = require('./canvas');
+var canvas = require('../utils/canvas');
 var TimelineMax = global.TimelineMax;
 var TweenMax = global.TweenMax;
 var Quad = global.Quad;

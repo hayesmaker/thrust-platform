@@ -1,6 +1,6 @@
 module.exports = UiButton;
 
-var canvas = require('./canvas');
+var canvas = require('../utils/canvas');
 var UiComponent = require('./ui-component');
 /**
  * Generic UiButton component

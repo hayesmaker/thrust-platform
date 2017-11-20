@@ -1,4 +1,4 @@
-var levelManager = require('.././level-manager');
+var levelManager = require('../data/level-manager');
 var properties = require('../properties');
 var _ = require('lodash');
 

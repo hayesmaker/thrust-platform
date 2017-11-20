@@ -1,8 +1,8 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
 var UiSwitch = require('../ui-switch');
-var optionsModel = require('../.././options-model');
-var sound = require('.././sound');
+var optionsModel = require('../../data/options-model');
+var sound = require('../../utils/sound');
 
 var p = SoundOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: SoundOptions

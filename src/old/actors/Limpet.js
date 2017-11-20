@@ -1,10 +1,10 @@
 'use strict';
 
 var PhysicsActor = require('./PhysicsActor');
-var gameState = require('./game-state');
-var particles = require('./particles/manager');
+var gameState = require('../data/game-state');
+var particles = require('../environment/particles/manager');
 var sound = require('../utils/sound');
-var levelManager = require('./level-manager');
+var levelManager = require('../data/level-manager');
 var utils = require('../utils/index');
 var _ = require('lodash');
 

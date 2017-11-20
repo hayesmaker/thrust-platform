@@ -1,10 +1,10 @@
 var UiComponent = require('./ui-component');
 var _ = require('lodash');
-var sound = require('./sound');
+var sound = require('../utils/sound');
 //var inAppPurchaes = require('../data/in-app-purchases');
 //var UIButton = require('./ui-button');
 var version = require('../../../package.json').version;
-var options = require('.././options-model');
+var options = require('../data/options-model');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu

@@ -1,7 +1,7 @@
 'use strict';
 
-var levelManager = require('.././level-manager');
-var sound = require('./sound');
+var levelManager = require('../data/level-manager');
+var sound = require('../utils/sound');
 var TimelineMax = global.TimelineMax;
 
 /**
