@@ -22,7 +22,7 @@ before_script:
 - npm run build
 script:
 - npm start
-- npm test
+- npm run test:basic
 after_script:
 - pm2 stop all
 deploy:
