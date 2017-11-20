@@ -36,13 +36,12 @@ export default class Play {
       "impact", function (evt) {
         let bodyA = evt.bodyA;
         let bodyB = evt.bodyB;
-        console.log('impact', bodyA.id, bodyB.id);
+        //console.log('impact', bodyA.id, bodyB.id);
         if (bodyA.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyA, bodyB);
         if (bodyB.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyB, bodyA);
 
       }.bind(this));
     this.addDebugBg();
-    //this.initKeyboardControl();
     this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
     this.player = new Player(this.camera, this.world);
