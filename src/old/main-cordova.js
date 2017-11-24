@@ -20,6 +20,7 @@
  */
 var launcher = require('./states/launcher');
 var Phaser = global.Phaser;
+var version = require('../../../package.json').version;
 
 var app = {
   // Application Constructor
@@ -44,7 +45,7 @@ var app = {
     launcher.setCustomOptions({
       options: {
         versionSuffix: '-0',
-        version: '1.0.5',
+        version: version,
         isCordova: true,
         gameModes: {
           allLevels: true,

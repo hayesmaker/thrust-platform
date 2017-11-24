@@ -1,11 +1,12 @@
 var launcher = require('./states/launcher');
+var version = require('../../../package.json').version;
 
 window.onload = function() {
   launcher.renderMode = Phaser.CANVAS;
   launcher.enableHiResMode();
   launcher.setCustomOptions({
     options: {
-      version: '1.0.5',
+      version: version,
       versionSuffix: '-0',
       gameModes: {
         allLevels: true
