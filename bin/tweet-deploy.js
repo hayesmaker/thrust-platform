@@ -13,7 +13,7 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return 'Full version of Thrust 30 is now in BETA and free to play, only at ' + url + ' #indiegamedev #html5';
+  return 'v2.0.0-pre-alpha development builds now playable at: ' + url + ' #indiegamedev #pixijs #html5';
 };
 
 
