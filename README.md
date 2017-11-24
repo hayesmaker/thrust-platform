@@ -1,7 +1,7 @@
 # thrust-platform
-[![Build Status](https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master)]
+![Build Status](https://travis-ci.org/hayesmaker/thrust-platform.svg?branch=master)
 (https://travis-ci.org/hayesmaker/thrust-platform)
-[![Phase-2-e](https://img.shields.io/badge/e2e-phase--2--e-green.svg)]
+![Phase-2-e](https://img.shields.io/badge/e2e-phase--2--e-green.svg)
 (https://github.com/hayesmaker/phase-2-e)
 
 Game engine for creating thrust-a-likes...  Physics blasters which require brains.
@@ -10,6 +10,17 @@ http://thrust-platform.herokuapp.com/
 
 Inspired and heavily copied from BBC Micro and Commodore 64 game "Thrust" by Jeremy Smith.  
 https://en.wikipedia.org/wiki/Thrust_(video_game).
+
+### Assets
+Currently the Assets are protected, and not shared here, I will be deploying
+assets for a single Thrust level only to demonstrate a game using the platform.
+
+### Builds
+Currently builds of Thrust 30 are tightly coupled here in the platform repo.
+I'm planning to make the platform completely seperate from Thrust 30, so that
+it can more easily be used as intended.
+- To build Thrust 30 v2.0.0-pre-alpha (re-write which removes Phaserjs): `npm run build`
+- To build Thrust 30 v1 (current production version): `npm run build:old`
 
 ### Features
 - `Browserstack` Have been kind enough to support this open source project. https://www.browserstack.com/

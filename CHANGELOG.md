@@ -2,7 +2,32 @@
 
 ## [Unreleased](https://github.com/hayesmaker/thrust-platform/tree/HEAD)
 
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.15...HEAD)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.16...HEAD)
+
+**Implemented enhancements:**
+
+- Feature/custom builds [\#60](https://github.com/hayesmaker/thrust-platform/pull/60) ([hayesmaker](https://github.com/hayesmaker))
+
+**Merged pull requests:**
+
+- Epic/pixi refactor [\#66](https://github.com/hayesmaker/thrust-platform/pull/66) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/polygon collision levels [\#65](https://github.com/hayesmaker/thrust-platform/pull/65) ([hayesmaker](https://github.com/hayesmaker))
+- Epic/1.1 release [\#64](https://github.com/hayesmaker/thrust-platform/pull/64) ([hayesmaker](https://github.com/hayesmaker))
+- Fix/broken ios startup [\#63](https://github.com/hayesmaker/thrust-platform/pull/63) ([hayesmaker](https://github.com/hayesmaker))
+- Official release [\#62](https://github.com/hayesmaker/thrust-platform/pull/62) ([hayesmaker](https://github.com/hayesmaker))
+- Fix/game over level reset [\#61](https://github.com/hayesmaker/thrust-platform/pull/61) ([hayesmaker](https://github.com/hayesmaker))
+- Itch.io Release Candidate 1 [\#59](https://github.com/hayesmaker/thrust-platform/pull/59) ([hayesmaker](https://github.com/hayesmaker))
+- properly destroy virtual joypad when clearing up the game world [\#58](https://github.com/hayesmaker/thrust-platform/pull/58) ([hayesmaker](https://github.com/hayesmaker))
+- Stabilise deployment [\#56](https://github.com/hayesmaker/thrust-platform/pull/56) ([hayesmaker](https://github.com/hayesmaker))
+- stabilise performance in mobile builds [\#55](https://github.com/hayesmaker/thrust-platform/pull/55) ([hayesmaker](https://github.com/hayesmaker))
+- level tidy up [\#54](https://github.com/hayesmaker/thrust-platform/pull/54) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/odds and sods [\#53](https://github.com/hayesmaker/thrust-platform/pull/53) ([hayesmaker](https://github.com/hayesmaker))
+- new music keys [\#52](https://github.com/hayesmaker/thrust-platform/pull/52) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/fix runtime errors [\#51](https://github.com/hayesmaker/thrust-platform/pull/51) ([hayesmaker](https://github.com/hayesmaker))
+- Feature/new sound fx [\#50](https://github.com/hayesmaker/thrust-platform/pull/50) ([hayesmaker](https://github.com/hayesmaker))
+
+## [v0.9.16](https://github.com/hayesmaker/thrust-platform/tree/v0.9.16) (2016-10-11)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.9.15...v0.9.16)
 
 **Merged pull requests:**
 
@@ -290,17 +315,17 @@
 - Build/fix/mocha issues [\#5](https://github.com/hayesmaker/thrust-platform/pull/5) ([hayesmaker](https://github.com/hayesmaker))
 
 ## [v0.3.8](https://github.com/hayesmaker/thrust-platform/tree/v0.3.8) (2016-04-07)
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.7...v0.3.8)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/0.3.7...v0.3.8)
 
 **Merged pull requests:**
 
 - Feature/query param builds [\#4](https://github.com/hayesmaker/thrust-platform/pull/4) ([hayesmaker](https://github.com/hayesmaker))
 
-## [v0.3.7](https://github.com/hayesmaker/thrust-platform/tree/v0.3.7) (2016-04-07)
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/0.3.7...v0.3.7)
-
 ## [0.3.7](https://github.com/hayesmaker/thrust-platform/tree/0.3.7) (2016-04-07)
-[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.6...0.3.7)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.7...0.3.7)
+
+## [v0.3.7](https://github.com/hayesmaker/thrust-platform/tree/v0.3.7) (2016-04-07)
+[Full Changelog](https://github.com/hayesmaker/thrust-platform/compare/v0.3.6...v0.3.7)
 
 **Merged pull requests:**
 
