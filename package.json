@@ -90,15 +90,7 @@
     "sinon-chai": "^2.8.0",
     "twitter": "^1.2.5",
     "uglify-js": "^2.6.1",
-    "yuidocjs": "^0.10.2"
-  },
-  "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
-  "main": "bin/www",
-  "keywords": [
-    "thrust",
-    "phaser"
-  ],
-  "devDependencies": {
+    "yuidocjs": "^0.10.2",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.23.1",
     "babel-istanbul": "^0.12.1",
@@ -108,7 +100,15 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-register": "^6.23.0",
     "babelify": "^7.3.0",
-    "browserify-istanbul": "^0.2.1",
+    "browserify-istanbul": "^0.2.1"
+  },
+  "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
+  "main": "bin/www",
+  "keywords": [
+    "thrust",
+    "phaser"
+  ],
+  "devDependencies": {
     "chai": "^3.5.0",
     "cross-env": "^3.1.4",
     "eslint": "^3.16.1",
