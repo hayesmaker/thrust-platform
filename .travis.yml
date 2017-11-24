@@ -20,9 +20,11 @@ addons:
         secure: "z5AyOXEQiuyfMC8DVYFiYSbXVCqEPZq8W6dq6kmyPOdwjgqdqtmeLzhqntcrpx3KBprpgtX/oCsbA+YaLZC0n91rtXzXkYlq03G2BDBNnmTYhQZbOL6OpGzL4juWmu8GdJEgTApT0yCDIVEQk592K1P7U4K/09DP/7wXZ9vmBhi7PQEbVKHwKY+VYGbuH9U5omrfRlLcg9jkxa/Y1QsxwnKNhasN5ywupnXKZFPGkr/9ZX13iuoQWEKoNWlqfjiFBqk+8FF2IiNwmb0TSDRoyisytcGs6X/k5xhzh8iNC1YJ9gJIM3U/UJG78t06qI+qYZzaTNwhWNR5IuH0eo0W4Em3eQtzwZOZce0tfBkw/PBxrfIeoEvyROdlsk/uYBj7P+LpOuXkcujs7VpRUPbKlxAKdiiCeEfSDD+S5xfgVpOhKjeiYBfL7PR4yAyiYJHZq+I2dV+L9lcbc1vy8YwHBujKqLMzQCi6njM/efA+LG4MKOPC0gFgQuUj3S2iFurROMQqU53RDIG0HIIvmpi8whETK6PlmI5J9aCZEQ+J+LjUYP7UZzBBAVc6NWf0Oe+cxWklMLLX9FirDJprRMKsjEf044sK7kh/K3+8yiv66kwlpGnOjB/G0Kgrdu7JfESmCvYmkRud29/NRdAm5lWJo5N+UKIKEW8zJj0r9OMWdL4="
 before_script:
 - npm run build
+- npm run build:old
 script:
 - npm start
 - npm run test:basic
+- npm run browserify:test
 after_script:
 - pm2 stop all
 deploy:
