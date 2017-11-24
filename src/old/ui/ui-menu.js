@@ -3,7 +3,6 @@ var _ = require('lodash');
 var sound = require('../utils/sound');
 //var inAppPurchaes = require('../data/in-app-purchases');
 //var UIButton = require('./ui-button');
-var version = '1.3.0';
 var options = require('../data/options-model');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
@@ -103,7 +102,7 @@ p.render = function () {
   //var y = 10;
 
   var style = {font: "14px thrust_regular", fill: "#ffffff", align: 'left'};
-  this.version = game.make.text(0,0, 'v' + version + options.versionSuffix, style);
+  this.version = game.make.text(0,0, 'v' + options.version + options.versionSuffix, style);
   this.version.anchor.setTo(0, 0);
   this.version.x = game.width - this.version.width - 10;
   this.version.y = 10;

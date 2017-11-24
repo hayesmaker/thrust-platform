@@ -5,6 +5,7 @@ window.onload = function() {
   launcher.enableHiResMode();
   launcher.setCustomOptions({
     options: {
+      version: '1.0.5',
       versionSuffix: '-0',
       gameModes: {
         allLevels: true
