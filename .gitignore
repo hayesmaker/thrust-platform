@@ -10,6 +10,8 @@ tests.js
 test/e2e/nightwatch/reports/
 assets.zip
 assets.tar.gz
+.DS_Store
+dist/
 
 public/assets/atlas/combined.json
 public/assets/atlas/combined.png
@@ -17,8 +19,11 @@ public/assets/audiosprite/
 public/assets/atlas/combined-2016.json
 public/assets/atlas/combined-2016.png
 
+#new for pixi
+.nyc_output/
+coverage/
+tmp/
 .DS_Store
 .nyc_output/
 coverage/
-
 dist/

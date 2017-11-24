@@ -11,12 +11,20 @@ html
             img.logo(src='/assets/images/thrust-homepage-gradient-logo.png')
             iframe.video(width="853" height="480" src="https://www.youtube.com/embed/hUQ3x2m-OWI" frameborder="0" allowfullscreen)
             a(href='https://itunes.apple.com/us/app/thrust-30/id1168344027' target='_blank')
-        img.ios(src='/assets/images/ios-badge.png')
+        .icons
+            a(href='https://itunes.apple.com/us/app/thrust-30/id1168344027' target='_blank')
+                img.ios(src='/assets/images/ios-badge.png')
+            a.news(href="/min")
+                img.ios(src='/assets/images/badge.png')
         main
             h1.news="News"
-            article.news="Full game is now free to play - play here at Thrust30.com (16 April 2017)"
+            article.news="Thrust 30 released on iOS (1st Jan 2017)"
+                a.news(href='http://steamcommunity.com/sharedfiles/filedetails/?id=823415391' target='_blank')='Get on Appstore'
+            article.news="Full game is now free to play on web (16 April 2017)"
                 a.news(href='/min')='Play Now'
-            article.news="Thrust 30 released on iOS (1 Jan 2017)"
-                a.news(href='https://itunes.apple.com/us/app/thrust-30/id1168344027?mt=8' target='_blank')='Buy now on Appstore'
+            article.news="IOS version is now free to play (Nov 2017)"
+                a.news(href='http://steamcommunity.com/sharedfiles/filedetails/?id=823415391' target='_blank')='Get on Appstore'
+            article.news="Announcing a complete re-write of Thrust 30 (Nov 2017)"
+                a.news(href="/dev")='See Dev Section'
         #level2Map
-            img.level-map(src='/assets/images/thrust-homepage-level2.png')
+            include review

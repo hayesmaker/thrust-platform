@@ -17,7 +17,6 @@ var login = basic(function(challenge, callback) {
   }
 });
 
-
 var app = express();
 
 // view engine setup
@@ -34,6 +33,7 @@ app.use(cookieParser());
 // routes
 app.use(login);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', routes);
 app.use('/users', users);
 
