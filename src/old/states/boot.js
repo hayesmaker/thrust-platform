@@ -8,7 +8,7 @@ var userControl;
 //var inAppPurchaes = require('../data/in-app-purchases');
 var optionsModel = require('../data/options-model');
 var _ = require('lodash');
-var version = require('../../../package.json').version;
+var version = '1.3.0';
 
 /**
  * The boot state

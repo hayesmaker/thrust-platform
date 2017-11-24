@@ -3,7 +3,7 @@ var _ = require('lodash');
 var sound = require('../utils/sound');
 //var inAppPurchaes = require('../data/in-app-purchases');
 //var UIButton = require('./ui-button');
-var version = require('../../../package.json').version;
+var version = '1.3.0';
 var options = require('../data/options-model');
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
