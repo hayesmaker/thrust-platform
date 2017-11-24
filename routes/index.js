@@ -26,7 +26,7 @@ router.get('/gobbapeas', function(req, res) {
 });
 
 router.get('/min', function(req, res) {
-  res.render('app', {
+  res.render('app-prod', {
     title: title,
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-canvas.min.js'
@@ -50,7 +50,7 @@ router.get('/mobile', function(req, res) {
 });
 
 router.get('/canvas', function(req, res) {
-  res.render('app', {
+  res.render('app-prod', {
     title: title + " (canvas)",
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-canvas.js'
