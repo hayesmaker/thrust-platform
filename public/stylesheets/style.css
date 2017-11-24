@@ -10,6 +10,10 @@
     font-style: normal;
 }
 
+.icons {
+    text-align: center;
+}
+
 body {
     color: whitesmoke;
     background-color: #210032;
@@ -48,7 +52,7 @@ h1 small {
 }
 
 #review {
-  padding-left: 20px;
+    padding-left: 20px;
 }
 
 ul {
@@ -65,11 +69,11 @@ div.lists {
 }
 
 div.screenshot {
-  max-width: 40%;
-  display: inline-block;
-  position: absolute;
-  right: 20px;
-  border: 1px solid darkgray;
+    max-width: 40%;
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    border: 1px solid darkgray;
 }
 
 .readable {
@@ -119,8 +123,6 @@ nav ul li a {
     text-decoration: none;
 }
 
-
-
 div#topGradient {
     background: url(/assets/images/thrust-homepage-top-gradient.png) repeat-x top;
     width: 100%;
@@ -143,6 +145,8 @@ div#topGradient {
 .ios {
     border: 4px solid #ffffff;
     border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
 }
 
 .ios:hover {
@@ -152,8 +156,8 @@ div#topGradient {
 .logo {
     position: relative;
     top: 80px;
-    max-width:100%;
-    height:auto;
+    max-width: 100%;
+    height: auto;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -173,8 +177,8 @@ div#topGradient {
 
 .level-map {
     position: relative;
-    max-width:100%;
-    height:auto;
+    max-width: 100%;
+    height: auto;
 }
 
 h1.news {
