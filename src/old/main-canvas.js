@@ -1,5 +1,5 @@
 var launcher = require('./states/launcher');
-var version = require('../../../package.json').version;
+var version = require('./package.json').version;
 
 window.onload = function() {
   launcher.renderMode = Phaser.CANVAS;

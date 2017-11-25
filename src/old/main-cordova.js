@@ -20,7 +20,7 @@
  */
 var launcher = require('./states/launcher');
 var Phaser = global.Phaser;
-var version = require('../../../package.json').version;
+var version = require('./package.json').version;
 
 var app = {
   // Application Constructor
