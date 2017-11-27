@@ -50,3 +50,6 @@ it can more easily be used as intended.
 - See [CHANGELOG](CHANGELOG.md)
 
 <iframe frameborder="0" src="https://itch.io/embed/107837?border_width=5&amp;bg_color=000000&amp;fg_color=e28fef&amp;link_color=34b2ac&amp;border_color=ed45ce" width="560" height="175"></iframe>
+
+## Licence
+- See [LICENCE](LICENCE.md)

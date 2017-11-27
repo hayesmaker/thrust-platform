@@ -1,7 +1,7 @@
 var pkg = require('../package');
 var express = require('express');
 var router = express.Router();
-var title = "Thrust 30 (" + pkg.version + "-pre-alpha)";
+var title = "Thrust 30";
 
 
 /* GET home page. */

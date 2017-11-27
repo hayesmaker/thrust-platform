@@ -61,7 +61,7 @@ module.exports = {
     this.gameModes.speedRun.unlocked = true;
     this.gameModes.endlessMode.unlocked = true;
   },
-
+  version: "",
   versionSuffix: "",
   /**
    *

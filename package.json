@@ -1,8 +1,8 @@
 {
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
-  "license": "ISC",
-  "version": "2.0.0",
+  "license": "MIT",
+  "version": "2.0.1-0",
   "private": true,
   "nyc": {
     "include": [
@@ -121,7 +121,5 @@
     "thrust",
     "phaser"
   ],
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }

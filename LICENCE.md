@@ -1,15 +1,4 @@
-Copyright (c) 2015, Hayesmaker Media Ltd
-
-### Assets and Level Data 
-[Creative Commons Licence](http://creativecommons.org/licenses/by-nc-nd/3.0/)
-- this includes everything inside [public/assets](public/assets) folder and [properties.js](src/app/properties.js)
-```
-Creative Commons Licence
-You may use the level data and assets included in this repository, but not for commericial use.  
-And any modifications must include an attributation to Hayesmaker Media Ltd.
-```
-
-###Engine Source Code
+## Thrust-Platform Source Code
 [MIT Licence](http://choosealicense.com/licenses/mit/)
 ```
 Permission to use, copy, modify, and/or distribute this software for any

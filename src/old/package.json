@@ -1,0 +1,11 @@
+{
+  "name": "hayesmaker.thrust30.legacy",
+  "version": "1.0.5",
+  "description": "phaserjs implementation of thrust30 - currently being ported to pure pixijs/p2 inside pixi package",
+  "main": "main-canvas.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hayesmaker",
+  "license": "ISC"
+}
