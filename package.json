@@ -1,7 +1,7 @@
 {
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
-  "license": "ISC",
+  "license": "MIT",
   "version": "2.0.1-0",
   "private": true,
   "nyc": {
