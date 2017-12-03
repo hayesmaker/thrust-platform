@@ -124,8 +124,8 @@ function Player(collisions, groups) {
   this.initialPos.setTo(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'combined', 'player.png');
+  this.scale.setTo(0.5, 0.5);
   this.groups.actors.add(this);
-
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
   this.thrustAnim.anchor.setTo(0.5, -0.6);
   this.thrustAnim.animations.add('rocket', [
@@ -294,7 +294,6 @@ p.spawn = function () {
   this.body.motionState = 1;
   this.alpha = 0;
   this.visible = true;
-  //this.exists = true;
   this.alive = true;
   this.inPlay = true;
   TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut});
@@ -307,7 +306,7 @@ p.spawn = function () {
  * @method respawn
  * @param [completeCallback]
  * @param [thisArg]
- * @param [removeShip] {Boolean}
+ * @param [removeShip] {boolean}
  */
 p.respawn = function (completeCallback, thisArg, removeShip) {
   console.log('Player :: respawn :', removeShip, gameState.cheats.infiniteLives);
@@ -319,7 +318,7 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
-  if (removeShip === true && !gameState.cheats.infiniteLives) {
+  if (removeShip && !gameState.cheats.infiniteLives) {
     gameState.lives--;
   }
 
@@ -451,7 +450,6 @@ p.stopThrustFx = function () {
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
   game.sfx.stop(ThrustSound);
-  //this.thrustSfx.stop();
 };
 
 /**
@@ -469,8 +467,6 @@ p.connectAttempt = function () {
     if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
     }
-  } else {
-
   }
 };
 

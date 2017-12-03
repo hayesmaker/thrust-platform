@@ -38,26 +38,22 @@
       },
       "mapDataUrl": "assets/physics/level-1.json",
       "mapDataKey": "level-1",
-      "mapScale": 2,
+      "mapScale": 1,
       "world": {
-        "width": 1536,
-        "height": 1000
+        "width": 768,
+        "height": 700
       },
       "mapPosition": {
         "x": 0,
-        "y": 730
+        "y": 500
       },
       "spawns": [
         {
-          "x": 400,
-          "y": 550,
+          "x": 300,
+          "y": 300,
           "orb": false
         }
       ],
-      "startPosition": {
-        "x": 0,
-        "y": -50
-      },
       "orbPosition": {
         "x": 915,
         "y": 852
@@ -106,7 +102,6 @@
         "y": 550,
         "orb": false
       }],
-      "startPosition": {"x": 0, "y": 0},
       "powerStation": {
         "x": 600,
         "y": 825
@@ -381,7 +376,6 @@
         "orb": false,
         "enemies": 9
       }],
-      "startPosition": {"x": 250, "y": 0},
       "orbPosition": {"x": 1560, "y": 2400},
       "powerStation": {
         "x": 1290,
@@ -530,8 +524,7 @@
         "orb": false,
         "enemies": 11
       }],
-      "startPosition": {"x": 0, "y": 0},
-      "powerStation": {
+      "powerSta tion": {
         "x": 1870,
         "y": 2474
       },
