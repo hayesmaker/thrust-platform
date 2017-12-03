@@ -22,10 +22,8 @@ module.exports = {
   /**
    * @method loadLevelsJson
    * @param levelsJsonUrl
-   * @param showProgress
    */
   loadLevelsJson: function(levelsJsonUrl) {
-    console.log('levels-loader :: loadLevelsJson', levelsJsonUrl);
     game.load.json('levels-data', levelsJsonUrl);
   },
 
@@ -33,24 +31,13 @@ module.exports = {
    * @method startLoad
    */
   startLoad: function() {
-    console.log('levels-loader :: startLoad', this.levelsData);
-    this.loadAtlas(this.levelsData.atlas);
-  },
-
-  /**
-   * @method loadAtlas
-   * @param atlas {Object} contains key, imgUrl, dataUrl
-   */
-  loadAtlas: function(atlas) {
-    console.log('levels-loader :: loadAtlas :: this.levelsData.atlas', atlas);
-    game.load.atlas(atlas.key, atlas.imgUrl, atlas.dataUrl);
+    game.load.atlas(this.levelsData.atlas.key, this.levelsData.atlas.imgUrl, this.levelsData.atlas.dataUrl);
   },
 
   /**
    * @method loadLevelsPack
    */
   loadLevelsPack: function() {
-    console.log('levels-loader :: loadLevelsPack :', levelManager.levels);
     _.each(levelManager.levels, _.bind(this.loadLevel, this));
   },
 
@@ -68,7 +55,6 @@ module.exports = {
    * @param levelData
    */
   loadLevelImg: function(levelData) {
-    console.log('levels-loader :: loadLevelImg', levelData);
     if (!levelData.useAtlas) {
       game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     }
@@ -83,6 +69,9 @@ module.exports = {
       game.load.image(levelData.gateImgKey, levelData.gateImgUrl);
       game.load.physics(levelData.gateDataKey + properties.mapSuffix, levelData.gateDataUrl);
     }
+    game.load.physics('playerPhysics', 'assets/physics/player.json');
+    game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
+    game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
   },
 
   /**
@@ -143,15 +132,12 @@ module.exports = {
    * @param cacheKey
    */
   fileComplete: function(progress, cacheKey) {
-    console.log('levels-loader :: fileComplete cacheKey=', cacheKey);
     if (this.levelProgressTxt) {
       var percent = game.load.progress;
       this.loadProgressTxt.text = percent + '%';
     }
     if (this.isLevelsJson(cacheKey)) {
-      console.log('levels-loader :: isLevelsJson : cacheKey=', cacheKey);
       this.levelsData = game.cache.getJSON('levels-data');
-      console.log('levels-loader :: this.levelsData =', this.levelsData);
       levelManager.init(this.levelsData);
       this.startLoad();
     }
@@ -159,7 +145,6 @@ module.exports = {
       this.loadLevelsPack();
     }
     if (this.isLevelData(cacheKey)) {
-      console.log('levels-loader :: this.isLevelData loadPhysics');
       var levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
       var level = this.getLevelByCacheKey(cacheKey);
       if (!level) {
@@ -167,34 +152,25 @@ module.exports = {
       }
       if (level.hasOwnProperty('mapScale')) {
         if (cacheKey.indexOf('gate') >= 0) {
-          this.scaleMapData(levelPhysics.data, level, level.gateDataKey);
+          this.scalePhysicsData(levelPhysics.data[level.gateDataKey], level.mapScale);
         } else {
-          this.scaleMapData(levelPhysics.data, level, level.mapDataKey);
+          this.scalePhysicsData(levelPhysics.data[level.mapDataKey], level.mapScale);
         }
       }
     }
   },
 
   /**
-   * @method loadComplete
-   */
-  loadComplete: function() {
-    this.levelsLoadComplete();
-  },
-
-  /**
-   * Take's a Phaser Physics data and scales it by level.mapScale
+   * Take's a Phaser Physics data and scales it by scale val
    *
-   * @method scaleMapData
-   * @param physicsData
-   * @param level
-   * @param key {String}
+   * @method scalePhysicsData
+   * @param data {array}
+   * @param scale {number}
    */
-  scaleMapData: function (physicsData, level, key) {
-    console.log('scaleMapData::', level);
-    _.each(physicsData[key], function (node) {
+  scalePhysicsData: function (data, scale) {
+    _.each(data, function (node) {
       _.each(node.shape, function (value, n) {
-        node.shape[n] = value * level.mapScale;
+        node.shape[n] = value * scale;
       });
     });
   },
@@ -205,25 +181,24 @@ module.exports = {
   levelsLoadComplete: function() {
     console.log('levelsJson loadComplete :: levelsData');
     this.cleanUp();
-
   },
 
   /**
-   * @method finalLoadComplete
+   * @method loadComplete
    */
-  finalLoadComplete: function() {
-    console.log('finalLoadComplete');
-
+  loadComplete: function() {
+    this.levelsLoadComplete();
   },
+
+
   /**
    * removing the signals here but it may not be necessary
    *
    * @method cleanUp
    */
   cleanUp: function() {
-    console.log('levels-loader :: cleanup');
     game.load.onFileComplete.remove(this.fileComplete, this);
-    game.load.onLoadComplete.remove(this.finalLoadComplete, this);
+    game.load.onLoadComplete.remove(this.loadComplete, this);
   }
 
 
