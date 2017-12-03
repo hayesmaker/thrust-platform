@@ -14,7 +14,7 @@ module.exports = {
   /**
    * @method init
    */
-  init: function() {
+  init: function () {
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
   },
@@ -23,21 +23,21 @@ module.exports = {
    * @method loadLevelsJson
    * @param levelsJsonUrl
    */
-  loadLevelsJson: function(levelsJsonUrl) {
+  loadLevelsJson: function (levelsJsonUrl) {
     game.load.json('levels-data', levelsJsonUrl);
   },
 
   /**
    * @method startLoad
    */
-  startLoad: function() {
+  startLoad: function () {
     game.load.atlas(this.levelsData.atlas.key, this.levelsData.atlas.imgUrl, this.levelsData.atlas.dataUrl);
   },
 
   /**
    * @method loadLevelsPack
    */
-  loadLevelsPack: function() {
+  loadLevelsPack: function () {
     _.each(levelManager.levels, _.bind(this.loadLevel, this));
   },
 
@@ -45,7 +45,7 @@ module.exports = {
    * @method loadLevel
    * @param levelData {Object} defines a map key and url, and the physics data key and url
    */
-  loadLevel: function(levelData) {
+  loadLevel: function (levelData) {
     this.loadLevelImg(levelData);
     this.loadLevelPhysics(levelData);
   },
@@ -54,7 +54,7 @@ module.exports = {
    * @method loadLevelImage
    * @param levelData
    */
-  loadLevelImg: function(levelData) {
+  loadLevelImg: function (levelData) {
     if (!levelData.useAtlas) {
       game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
     }
@@ -63,7 +63,7 @@ module.exports = {
   /**
    * @method loadLevelPhysics
    */
-  loadLevelPhysics: function(levelData) {
+  loadLevelPhysics: function (levelData) {
     game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
     if (levelData.gateImgKey) {
       game.load.image(levelData.gateImgKey, levelData.gateImgUrl);
@@ -78,12 +78,23 @@ module.exports = {
    * Checks the physics data in the game cache, and ensures it's a level map. (It uses the mapSuffix in the
    * json object to tell).
    *
-   * @method isLevelData
+   * @method isLevelPhysicsData
    * @param cacheKey
-   * @return {boolean|*|Object|any}
+   * @return {boolean}
    */
-  isLevelData: function (cacheKey) {
+  isLevelPhysicsData: function (cacheKey) {
     return cacheKey.indexOf(properties.mapSuffix) >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+  },
+
+  /**
+   * Checks the physics data in the game cache and ensures it's the player physics data json
+   *
+   * @method isPlayerPhysicsData
+   * @param cacheKey
+   * @returns {boolean}
+   */
+  isPlayerPhysicsData: function(cacheKey) {
+    return cacheKey.indexOf('playerPhysics') >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
   },
 
   /**
@@ -91,7 +102,7 @@ module.exports = {
    * @param cacheKey
    * @returns {boolean}
    */
-  isLevelsJson: function(cacheKey) {
+  isLevelsJson: function (cacheKey) {
     return cacheKey === 'levels-data';
   },
 
@@ -100,7 +111,7 @@ module.exports = {
    * @param cacheKey
    * @returns {boolean}
    */
-  isLevelsAtlas: function(cacheKey) {
+  isLevelsAtlas: function (cacheKey) {
     return cacheKey === 'combined';
   },
 
@@ -119,7 +130,7 @@ module.exports = {
     }, this);
     if (!myLevel) {
       //isPhysicsGate data?
-      myLevel = _.find(levelManager.levels, function(levelData) {
+      myLevel = _.find(levelManager.levels, function (levelData) {
         return levelData.gateDataKey + properties.mapSuffix === cacheKey;
       });
     }
@@ -131,9 +142,13 @@ module.exports = {
    * @param progress
    * @param cacheKey
    */
-  fileComplete: function(progress, cacheKey) {
+  fileComplete: function (progress, cacheKey) {
+    var percent;
+    var levelPhysics;
+    var level;
+    var playerPhysics;
     if (this.levelProgressTxt) {
-      var percent = game.load.progress;
+      percent = game.load.progress;
       this.loadProgressTxt.text = percent + '%';
     }
     if (this.isLevelsJson(cacheKey)) {
@@ -144,9 +159,14 @@ module.exports = {
     if (this.isLevelsAtlas(cacheKey)) {
       this.loadLevelsPack();
     }
-    if (this.isLevelData(cacheKey)) {
-      var levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-      var level = this.getLevelByCacheKey(cacheKey);
+
+    if (this.isPlayerPhysicsData(cacheKey)) {
+      playerPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+      this.scalePhysicsData(playerPhysics.data['player'], 0.5);
+    }
+    if (this.isLevelPhysicsData(cacheKey)) {
+      level = this.getLevelByCacheKey(cacheKey);
+      levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
       if (!level) {
         level = properties.levels.training;
       }
@@ -178,7 +198,7 @@ module.exports = {
   /**
    * @method levelsLoadComplete
    */
-  levelsLoadComplete: function() {
+  levelsLoadComplete: function () {
     console.log('levelsJson loadComplete :: levelsData');
     this.cleanUp();
   },
@@ -186,7 +206,7 @@ module.exports = {
   /**
    * @method loadComplete
    */
-  loadComplete: function() {
+  loadComplete: function () {
     this.levelsLoadComplete();
   },
 
@@ -196,7 +216,7 @@ module.exports = {
    *
    * @method cleanUp
    */
-  cleanUp: function() {
+  cleanUp: function () {
     game.load.onFileComplete.remove(this.fileComplete, this);
     game.load.onLoadComplete.remove(this.loadComplete, this);
   }
