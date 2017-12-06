@@ -704,7 +704,15 @@ module.exports = {
       this.orb.setPlayer(this.player);
       this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
       this.player.setTractorBeam(this.tractorBeam);
-      this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'combined', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
+      this.orbHolder = new PhysicsActor(
+        this.collisions,
+        this.groups,
+        'combined',
+        'orb-holder.png',
+        this.level.orbHolder.x,
+        this.level.orbHolder.y
+      );
+      this.orbHolder.scale.setTo(0.5);
     }
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));

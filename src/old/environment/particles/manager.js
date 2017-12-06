@@ -163,7 +163,7 @@ module.exports = {
    * @param boundCallback {Function}
    */
   playerTeleport: function (x, y, boundCallback) {
-    var circle = this.manager.createCircleZone(25);
+    var circle = this.manager.createCircleZone(25/2);
     this.emitter.force.y = 0;
     this.emitter.emit('transporter', x, y, {
       zone: circle,
@@ -177,7 +177,7 @@ module.exports = {
   },
 
   orbTeleport: function (x, y) {
-    var circle = this.manager.createCircleZone(25);
+    var circle = this.manager.createCircleZone(25/2);
     this.emitter.force.y = 0;
     this.emitter.emit('transporter', x, y, {
       zone: circle,

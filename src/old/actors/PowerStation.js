@@ -59,6 +59,8 @@ p.init = function() {
   ], 1, true);
   this.play('normal');
   this.startParticles();
+  this.scale.setTo(0.5);
+
 };
 
 /**

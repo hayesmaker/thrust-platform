@@ -127,6 +127,7 @@ function Player(collisions, groups) {
   this.scale.setTo(0.5, 0.5);
   this.groups.actors.add(this);
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
+  this.thrustAnim.scale.setTo(0.5, 0.5);  
   this.thrustAnim.anchor.setTo(0.5, -0.6);
   this.thrustAnim.animations.add('rocket', [
     'rocket_002.png',
@@ -135,33 +136,22 @@ function Player(collisions, groups) {
   this.thrustAnim.visible = false;
   this.refuelAnimSprite = game.add.sprite(this.x, this.y, 'combined', 'Fuel_PU_000.png', this.groups.actors);
   this.refuelAnimSprite.anchor.setTo(0.5);
+  this.refuelAnimSprite.scale.setTo(0.5);
   this.refuelAnimSprite.animations.add('refuelling', [
     'Fuel_PU_000.png',
-    'Fuel_PU_001.png',
     'Fuel_PU_002.png',
-    'Fuel_PU_003.png',
     'Fuel_PU_004.png',
-    'Fuel_PU_005.png',
     'Fuel_PU_006.png',
-    'Fuel_PU_007.png',
     'Fuel_PU_008.png',
-    'Fuel_PU_009.png',
     'Fuel_PU_010.png',
-    'Fuel_PU_011.png',
     'Fuel_PU_012.png',
-    'Fuel_PU_013.png',
     'Fuel_PU_014.png',
-    'Fuel_PU_015.png',
     'Fuel_PU_016.png',
-    'Fuel_PU_017.png',
     'Fuel_PU_018.png',
-    'Fuel_PU_019.png',
     'Fuel_PU_020.png',
-    'Fuel_PU_021.png',
     'Fuel_PU_022.png',
-    'Fuel_PU_023.png',
     'Fuel_PU_024.png'
-  ], 30, true);
+  ], 15, true);
   this.refuelAnimSprite.visible = false;
   this.alpha = 0;
   this.init();
@@ -309,7 +299,6 @@ p.spawn = function () {
  * @param [removeShip] {boolean}
  */
 p.respawn = function (completeCallback, thisArg, removeShip) {
-  console.log('Player :: respawn :', removeShip, gameState.cheats.infiniteLives);
   this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();

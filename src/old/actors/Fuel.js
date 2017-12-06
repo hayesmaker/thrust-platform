@@ -25,11 +25,10 @@ var properties = require('../properties');
  */
 function Fuel(collisions, groups, imageCacheKey, imageFrameKey, x, y, player) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, imageFrameKey, x, y);
+  this.scale.setTo(0.5);
   this.health = 250;
   this.player = player;
   this.init();
-
-
 }
 
 var p = Fuel.prototype = Object.create(PhysicsActor.prototype, {
@@ -114,6 +113,7 @@ p.createFuelAnim = function () {
   ], 60, true);
   this.fuelAnim.visible = true;
   this.fuelAnim.play('refuelling');
+  this.fuelAnim.scale.setTo(0.5);
 };
 
 /**

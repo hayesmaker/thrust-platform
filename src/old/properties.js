@@ -22,10 +22,10 @@ module.exports = {
   height: 500,
   dev: {
     mode: false,
-    debugPhysics: true,
+    debugPhysics: false,
     debugPositions: false,
-    stats: false,
-    skipIntro: true
+    stats: true,
+    skipIntro: false
   },
   gamePlay: {
     firingMagnitude: 350,

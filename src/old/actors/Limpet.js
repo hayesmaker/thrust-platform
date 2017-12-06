@@ -36,7 +36,7 @@ function Limpet (collisions, groups, x, y, angleDeg, player) {
   this.alive = false;
   this.angle = angleDeg;
   this.fireRate = this.getFireRate();
-
+  this.scale.setTo(0.5);
   if (game.device.pixelRatio > 1) {
     //this.scale.setTo(0.5);
   }
@@ -63,7 +63,7 @@ function Limpet (collisions, groups, x, y, angleDeg, player) {
   this.play('normal');
 
   this.initCustomPhysics(true);
-  this.body.addRectangle(50, 25, 0, 0);
+  this.body.addRectangle(25, 12.5, 0, 0);
   this.body.rotation = game.math.degToRad(this.angle);
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);

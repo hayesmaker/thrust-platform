@@ -1,6 +1,8 @@
 var levelManager = require('../data/level-manager');
 var properties = require('../properties');
 var _ = require('lodash');
+var mobileOverrides = require('../data/mobile-overrides');
+var tabletOverrides = require('../data/tablet-overrides');
 
 
 module.exports = {
@@ -25,13 +27,6 @@ module.exports = {
    */
   loadLevelsJson: function (levelsJsonUrl) {
     game.load.json('levels-data', levelsJsonUrl);
-  },
-
-  /**
-   * @method startLoad
-   */
-  startLoad: function () {
-    game.load.atlas(this.levelsData.atlas.key, this.levelsData.atlas.imgUrl, this.levelsData.atlas.dataUrl);
   },
 
   /**
@@ -98,6 +93,24 @@ module.exports = {
   },
 
   /**
+   * @method isPowerPhysicsData
+   * @param cacheKey
+   * @returns {*}
+   */
+  isPowerPhysicsData: function(cacheKey) {
+    return cacheKey.indexOf('powerStationPhysics') >= 0 && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+  },
+
+  /**
+   * @method isOrbHolderPhysicsData
+   * @param cacheKey
+   * @returns {*}
+   */
+  isOrbHolderPhysicsData: function(cacheKey) {
+    return cacheKey.indexOf('orbHolderPhysics') && game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+  },
+
+  /**
    * @method isLevelsJson
    * @param cacheKey
    * @returns {boolean}
@@ -137,6 +150,34 @@ module.exports = {
     return myLevel;
   },
 
+  isTablet: function() {
+    return game.device.iPad || window.outerWidth > 1000;
+  },
+
+  isMobile: function() {
+    return game.device.iOS || game.device.android || game.device.windowsPhone;
+  },
+
+  /**
+   * Cascading device type checking activates mobile or tablet overrides on game settings json file
+   *
+   * @method setLevelsData
+   */
+  setLevelsData: function() {
+    var levelsData =  game.cache.getJSON('levels-data');
+    if (game.device.desktop) {
+      //no op
+    } else if (this.isTablet()) {
+      _.merge(levelsData, tabletOverrides);
+    } else if (this.isMobile()) {
+      _.merge(levelsData, mobileOverrides);
+    } else {
+      //no op
+    }
+    levelManager.init(levelsData);
+    return levelsData;
+  },
+
   /**
    * @method fileComplete
    * @param progress
@@ -147,22 +188,30 @@ module.exports = {
     var levelPhysics;
     var level;
     var playerPhysics;
+    var orbHolderPhysics;
+    var powerStationPhysics;
     if (this.levelProgressTxt) {
       percent = game.load.progress;
       this.loadProgressTxt.text = percent + '%';
     }
     if (this.isLevelsJson(cacheKey)) {
-      this.levelsData = game.cache.getJSON('levels-data');
-      levelManager.init(this.levelsData);
-      this.startLoad();
+      this.levelsData = this.setLevelsData();
+      game.load.atlas(this.levelsData.atlas.key, this.levelsData.atlas.imgUrl, this.levelsData.atlas.dataUrl);
     }
     if (this.isLevelsAtlas(cacheKey)) {
       this.loadLevelsPack();
     }
-
     if (this.isPlayerPhysicsData(cacheKey)) {
       playerPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
       this.scalePhysicsData(playerPhysics.data['player'], 0.5);
+    }
+    if (this.isOrbHolderPhysicsData(cacheKey)) {
+      orbHolderPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+      this.scalePhysicsData(orbHolderPhysics.data['orb-holder'], 0.5);
+    }
+    if (this.isPowerPhysicsData(cacheKey)) {
+      powerStationPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
+      this.scalePhysicsData(powerStationPhysics.data['power-station'], 0.5);
     }
     if (this.isLevelPhysicsData(cacheKey)) {
       level = this.getLevelByCacheKey(cacheKey);
