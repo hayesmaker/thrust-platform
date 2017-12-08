@@ -121,14 +121,15 @@ function Player(collisions, groups) {
    * @type {Phaser.Point}
    */
   this.respawnPos = new Phaser.Point();
-  this.initialPos.setTo(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
+  this.initialPos.setTo(levelManager.currentLevel.player.spawns[0].x, levelManager.currentLevel.player.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'combined', 'player.png');
-  this.scale.setTo(0.5, 0.5);
+  var scale = levelManager.currentLevel.player.scale;
+  this.scale.setTo(scale);
   this.groups.actors.add(this);
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
-  this.thrustAnim.scale.setTo(0.5, 0.5);  
-  this.thrustAnim.anchor.setTo(0.5, -0.6);
+  this.thrustAnim.scale.setTo(scale);
+  this.thrustAnim.anchor.setTo(0.5 , -0.6);
   this.thrustAnim.animations.add('rocket', [
     'rocket_002.png',
     'rocket_001.png'
@@ -136,7 +137,7 @@ function Player(collisions, groups) {
   this.thrustAnim.visible = false;
   this.refuelAnimSprite = game.add.sprite(this.x, this.y, 'combined', 'Fuel_PU_000.png', this.groups.actors);
   this.refuelAnimSprite.anchor.setTo(0.5);
-  this.refuelAnimSprite.scale.setTo(0.5);
+  this.refuelAnimSprite.scale.setTo(scale);
   this.refuelAnimSprite.animations.add('refuelling', [
     'Fuel_PU_000.png',
     'Fuel_PU_002.png',
@@ -544,7 +545,7 @@ p.explosion = function (force) {
  * @param hasOrb {Boolean}
  */
 p.setRespawnPosition = function (position, hasOrb) {
-  var spawns = levelManager.currentLevel.spawns;
+  var spawns = levelManager.currentLevel.player.spawns;
   var distances = [];
   var distance;
   var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {

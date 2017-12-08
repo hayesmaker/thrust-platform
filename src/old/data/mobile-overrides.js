@@ -17,7 +17,7 @@ module.exports = {
         "y": 500
       },
       "player": {
-        "spawns:": [
+        "spawns": [
           {
             "x": 300,
             "y": 300,
@@ -26,23 +26,19 @@ module.exports = {
         ],
         "scale": 0.5
       },
-      "spawns": [
-        {
-          "x": 300,
-          "y": 300,
-          "orb": false
-        }
-      ],
-      "orbPosition": {
+      "orb": {
+        "scale": 0.5,
         "x": 478,
         "y": 560
       },
       "orbHolder": {
+        "scale": 0.5,
         "x": 478,
         "y": 580
       },
       "enemies": [
         {
+          "scale": 0.5,
           "x": 353,
           "y": 570,
           "rotation": 30
@@ -50,6 +46,7 @@ module.exports = {
       ],
       "fuels": [
         {
+          "scale": 0.5,
           "x": 263,
           "y": 542
         }

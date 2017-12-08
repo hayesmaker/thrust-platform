@@ -25,18 +25,19 @@ var _ = require('lodash');
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @param {Number} [angleDeg] - initial angle in degrees, if unset is 0
- * @@param {Player} player - the player for calculating player distance
+ * @param {Player} player - the player for calculating player distance
+ * @param {Number} scale
  * @extends {PhysicsActor}
  * @constructor
  */
-function Limpet (collisions, groups, x, y, angleDeg, player) {
+function Limpet (collisions, groups, x, y, angleDeg, player, scale) {
   this.player = player;
 
   PhysicsActor.call(this, collisions, groups, 'combined', 'turret_001.png', x, y);
   this.alive = false;
   this.angle = angleDeg;
   this.fireRate = this.getFireRate();
-  this.scale.setTo(0.5);
+  this.scale.setTo(scale);
   if (game.device.pixelRatio > 1) {
     //this.scale.setTo(0.5);
   }
@@ -63,7 +64,7 @@ function Limpet (collisions, groups, x, y, angleDeg, player) {
   this.play('normal');
 
   this.initCustomPhysics(true);
-  this.body.addRectangle(25, 12.5, 0, 0);
+  this.body.addRectangle(50 * this.scale.x, 25 * this.scale.x, 0, 0);
   this.body.rotation = game.math.degToRad(this.angle);
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);

@@ -13,9 +13,10 @@ var gameState = require('../data/game-state');
  * @param collisions
  * @constructor
  */
-function Orb(groups, x, y, collisions) {
+function Orb(groups, x, y, collisions, scale) {
   this.groups = groups;
   this.collisions = collisions;
+  this.scale = scale;
   this.player = null;
   this.sprite = game.add.sprite(x, y, 'combined', 'orb.png', this.groups.actors);
   this.glowSprite = game.make.sprite(x, y, 'combined', 'orb-shine.png');
@@ -23,8 +24,8 @@ function Orb(groups, x, y, collisions) {
   this.groups.actors.add(this.glowSprite);
   this.initialPosition = {x: x, y: y};
   this.init();
-  this.sprite.scale.setTo(0.5);
-  this.glowSprite.scale.setTo(0.5);
+  this.sprite.scale.setTo(scale);
+  this.glowSprite.scale.setTo(scale);
 }
 
 var p = Orb.prototype;
@@ -46,7 +47,7 @@ p.init = function () {
 p.initPhysics = function () {
   game.physics.p2.enable(this.sprite, properties.dev.debugPhysics);
   this.body = this.sprite.body;
-  this.body.setCircle(13/2, 0, 0);
+  this.body.setCircle(13*this.scale, 0, 0);
   this.body.motionState = 2;
   this.body.setCollisionGroup(this.collisions.orb);
   this.body.collides([this.collisions.players, this.collisions.terrain, this.collisions.fuels], this.crash, this);
@@ -63,8 +64,8 @@ p.drawSensor = function () {
   bmd.ctx.fill();
   bmd.ctx.closePath();
   this.sensor = game.add.sprite(this.body.x, this.body.y, bmd, this.groups.actors);
-  this.sensor.width =  190 * 0.5;
-  this.sensor.height = 190 * 0.5;
+  this.sensor.width =  190 * this.scale;
+  this.sensor.height = 190 * this.scale;
   //this.sensor.scale.setTo(0.5);
 };
 

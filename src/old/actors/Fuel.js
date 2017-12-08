@@ -20,12 +20,13 @@ var properties = require('../properties');
  * @param {Number} [x] - initial position x, if unset is 0
  * @param {Number} [y] - initial position y, if unset is 0
  * @param {Player} player
+ * @param {Number} scale
  * @extends {PhysicsActor}
  * @constructor
  */
-function Fuel(collisions, groups, imageCacheKey, imageFrameKey, x, y, player) {
+function Fuel(collisions, groups, imageCacheKey, imageFrameKey, x, y, player, scale) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, imageFrameKey, x, y);
-  this.scale.setTo(0.5);
+  this.scale.setTo(scale);
   this.health = 250;
   this.player = player;
   this.init();
@@ -113,7 +114,7 @@ p.createFuelAnim = function () {
   ], 60, true);
   this.fuelAnim.visible = true;
   this.fuelAnim.play('refuelling');
-  this.fuelAnim.scale.setTo(0.5);
+  this.fuelAnim.scale.setTo(this.scale.x);
 };
 
 /**
