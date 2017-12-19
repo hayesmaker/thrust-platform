@@ -58,6 +58,7 @@ module.exports = {
     this.player = player;
     this.groups = groups;
     this.collisions = collisions;
+    this.scale = player.scale.x;
   },
 
   /**
@@ -65,9 +66,13 @@ module.exports = {
    */
   newHoverDrones: function() {
     _.each(this.hoverDroneData, function(data) {
-      this.hoverDrones.push(new HoverDrone(data.x, data.y, this.hoverDroneWidth, this.groups, this.collisions));
+      this.hoverDrones.push(new HoverDrone(
+        data.x * this.scale,
+        data.y * this.scale,
+        this.hoverDroneWidth * this.scale,
+        this.groups,
+        this.collisions));
     }.bind(this));
-
     _.each(this.hoverDrones, function(drone) {
       drone.onTrainingComplete.add(this.hoverDroneActivated, this);
     }.bind(this));
@@ -78,7 +83,13 @@ module.exports = {
    */
   newDrones: function () {
     _.each(this.standardDroneData, function (data) {
-      this.standardDrones.push(new Drone(data.x, data.y, this.standardDroneWidth, data.rotation, this.groups, this.collisions));
+      this.standardDrones.push(new Drone(
+        data.x * this.scale,
+        data.y * this.scale,
+        this.standardDroneWidth * this.scale,
+        data.rotation,
+        this.groups,
+        this.collisions));
     }.bind(this));
     _.each(this.standardDrones, function(drone, i) {
       if (i < this.standardDrones.length - 1) {

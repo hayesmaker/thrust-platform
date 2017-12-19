@@ -21,11 +21,11 @@ module.exports = {
   width: 800,
   height: 500,
   dev: {
-    mode: false,
-    debugPhysics: false,
-    debugPositions: false,
-    stats: true,
-    skipIntro: false
+    mode: 0,
+    debugPhysics: 1,
+    debugPositions: 0,
+    stats: 1,
+    skipIntro: 0
   },
   gamePlay: {
     firingMagnitude: 350,
@@ -41,34 +41,6 @@ module.exports = {
     key: 'combined'
   },
   levels: {
-    training: {
-      mapImgUrl: 'assets/levels/training.png',
-      mapImgKey: 'training',
-      mapDataUrl: 'assets/physics/training.json',
-      mapDataKey: 'training',
-      mapScale: 2,
-      useAtlas: false,
-      mapPosition: {
-        x: 0,
-        y: 1700
-      },
-      missionSwipe: {
-        title: 'Flight Training',
-        desc: 'Welcome to flight training pilot',
-        color: "rgba(124, 255, 0, 0.7)"
-      },
-      world: {
-        width: 3000,
-        height: 3000
-      },
-      spawns: [{
-        x: 1500,
-        y: 1550,
-        orb: false
-      }],
-      orbPosition: {x: 2600, y: 1732},
-      orbHolder: {x: 2600, y: 1770}
-    },
     startLevel: 1
   }
 };

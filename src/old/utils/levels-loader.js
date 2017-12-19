@@ -34,6 +34,8 @@ module.exports = {
    */
   loadLevelsPack: function () {
     _.each(levelManager.levels, _.bind(this.loadLevel, this));
+    game.load.image(levelManager.training.mapImgKey, levelManager.training.mapImgUrl);
+    game.load.physics(levelManager.training.mapDataKey + properties.mapSuffix, levelManager.training.mapDataUrl);
   },
 
   /**
@@ -203,26 +205,27 @@ module.exports = {
     }
     if (this.isPlayerPhysicsData(cacheKey)) {
       playerPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-      this.scalePhysicsData(playerPhysics.data['player'], 0.5);
+      this.scalePhysicsData(playerPhysics.data['player'], this.levelsData.actorsScale);
     }
     if (this.isOrbHolderPhysicsData(cacheKey)) {
       orbHolderPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-      this.scalePhysicsData(orbHolderPhysics.data['orb-holder'], 0.5);
+      this.scalePhysicsData(orbHolderPhysics.data['orb-holder'],  this.levelsData.actorsScale);
     }
     if (this.isPowerPhysicsData(cacheKey)) {
       powerStationPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
-      this.scalePhysicsData(powerStationPhysics.data['power-station'], 0.5);
+      this.scalePhysicsData(powerStationPhysics.data['power-station'],  this.levelsData.actorsScale);
     }
     if (this.isLevelPhysicsData(cacheKey)) {
       level = this.getLevelByCacheKey(cacheKey);
       levelPhysics = game.cache.getItem(cacheKey, Phaser.Cache.PHYSICS);
       if (!level) {
-        level = properties.levels.training;
+        level = this.levelsData.training;
       }
       if (level.hasOwnProperty('mapScale')) {
         if (cacheKey.indexOf('gate') >= 0) {
           this.scalePhysicsData(levelPhysics.data[level.gateDataKey], level.mapScale);
         } else {
+          console.log('levels-loader :: fileComplete : scaleMap=', level.mapScale);
           this.scalePhysicsData(levelPhysics.data[level.mapDataKey], level.mapScale);
         }
       }

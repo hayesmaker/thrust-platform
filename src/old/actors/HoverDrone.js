@@ -47,10 +47,10 @@ p.numActive = 0;
  * @param width
  */
 p.drawFlags = function (x, y, width) {
-  var pos1 = new Phaser.Point(x - width / 2, y);
-  var pos2 = new Phaser.Point(x, y - width / 2);
-  var pos3 = new Phaser.Point(x + width / 2, y);
-  var pos4 = new Phaser.Point(x, y + width / 2);
+  var pos1 = new Phaser.Point(x - width * 0.75, y);
+  var pos2 = new Phaser.Point(x, y - width  * 0.75);
+  var pos3 = new Phaser.Point(x + width  * 0.75, y);
+  var pos4 = new Phaser.Point(x, y + width * 0.75);
   this.flag1 = game.add.sprite(pos1.x, pos1.y, 'combined', 'drone.png', this.groups.drones);
   this.flag2 = game.add.sprite(pos2.x, pos2.y, 'combined', 'drone.png', this.groups.drones);
   this.flag3 = game.add.sprite(pos3.x, pos3.y, 'combined', 'drone.png', this.groups.drones);
@@ -63,7 +63,7 @@ p.drawFlags = function (x, y, width) {
   bmd.rect(0, 0, 1, 1, 'rgba(255, 0, 0, 0)');
   this.sensor = game.add.sprite(x, y, bmd);
   this.sensor.anchor.setTo(0.5);
-  this.sensor.width = this.sensor.height = width - this.flag1.width;
+  this.sensor.width = this.sensor.height = width * 1.5 - this.flag1.width;
   this.deactivate();
   //this.flag1.tint = 0xffffff;
   //this.flag2.tint = 0x0000ff;
@@ -137,11 +137,11 @@ p.isNotHovering = function () {
   this.flag4.tint = 0xffffff;
 };
 
+
 /**
  * @method contactStart
  */
 p.contactStart = function () {
-
   if (this.active && !this.hasPassed && this.newContact) {
     this.startTimer();
     this.isHovering();
@@ -175,7 +175,7 @@ p.resetTimer = function () {
  * @method startTimer
  */
 p.startTimer = function () {
-  this.timer = game.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
+  this.timer = game.time.events.loop(Phaser.Timer.SECOND * 0.5, this.updateTimer, this);
   this.updateTimer();
 };
 

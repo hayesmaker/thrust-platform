@@ -67,16 +67,10 @@ module.exports = {
      * @type {{font: string, fill: string, align: string}}
      */
 
-    //_.bind(this.swipeSound, this);
-
-    console.log('levelIndex=', levelManager.levelIndex);
-    console.log('levels.length=', levelManager.levels.length);
-    console.log('levels.endlessModeIndex=', levelManager.endlessModeIndex);
-    console.log('levels.endlessCycle=', levelManager.endlessCycle);
     var levelNo = levelManager.levelIndex + 1 +
       levelManager.levels.length * levelManager.endlessModeIndex +
       levelManager.endless.length * levelManager.endlessCycle;
-    console.log('levels.levelNo = ', levelNo);
+
     var title = level.missionSwipe.title.replace('%n', levelNo.toString());
     var repl1 = levelManager.endlessData.flip? "\nReverse Gravity" : "";
     var repl2 = levelManager.endlessData.blink? "\nBlink Map" : "";

@@ -11,6 +11,7 @@ var gameState = require('../data/game-state');
  * @param x
  * @param y
  * @param collisions
+ * @param scale
  * @constructor
  */
 function Orb(groups, x, y, collisions, scale) {

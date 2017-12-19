@@ -129,7 +129,7 @@ function Player(collisions, groups) {
   this.groups.actors.add(this);
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
   this.thrustAnim.scale.setTo(scale);
-  this.thrustAnim.anchor.setTo(0.5 , -0.6);
+  this.thrustAnim.anchor.setTo(0.5, -0.6);
   this.thrustAnim.animations.add('rocket', [
     'rocket_002.png',
     'rocket_001.png'
@@ -313,20 +313,20 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
   }
 
   sound.playSound(sound.PLAYER_TELEPORT_IN);
-  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function () {
-    if (completeCallback) {
-      completeCallback.call(thisArg);
-    }
-    this.spawn();
-    if (this.spawnWithOrb) {
-      this.tractorBeam.respawn(true);
-    } else {
-      if (this.tractorBeam) {
-        this.tractorBeam.respawn(false);
+  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, this.scale.x,
+    function () {
+      if (completeCallback) {
+        completeCallback.call(thisArg);
       }
-    }
-  }.bind(this));
-
+      this.spawn();
+      if (this.spawnWithOrb) {
+        this.tractorBeam.respawn(true);
+      } else {
+        if (this.tractorBeam) {
+          this.tractorBeam.respawn(false);
+        }
+      }
+    }.bind(this));
 };
 
 /**§
@@ -512,7 +512,7 @@ p.explosion = function (force) {
     var hasOrb = false;
     this.stopThrustFx();
     if (this.tractorBeam) {
-     hasOrb = this.tractorBeam.isLocked;
+      hasOrb = this.tractorBeam.isLocked;
     }
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
@@ -548,7 +548,7 @@ p.setRespawnPosition = function (position, hasOrb) {
   var spawns = levelManager.currentLevel.player.spawns;
   var distances = [];
   var distance;
-  var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {
+  var enemiesKilled = _.findIndex(this.groups.enemies.children, function (limpet) {
     return limpet.exists === true;
   });
   if (enemiesKilled === -1) {
@@ -635,7 +635,7 @@ p.death = function () {
  * @param context
  */
 p.checkRespawn = function (callback, context) {
-  if (gameState.lives  - 1 < 0 || gameState.fuel <= 0) {
+  if (gameState.lives - 1 < 0 || gameState.fuel <= 0) {
     console.log('game over');
     gameState.isGameOver = true;
     //game over
@@ -649,7 +649,6 @@ p.checkRespawn = function (callback, context) {
       }
       this.earlyInterstitial.dispatch();
     }
-
 
 
   }

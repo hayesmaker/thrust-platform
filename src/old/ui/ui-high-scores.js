@@ -31,7 +31,8 @@ p.joypadUpButton = true;
 p.joypadFireButton = true;
 p.highScoreInputEnabled = false;
 p.items = [];
-p.padding = 30;
+p.padding = 0;
+p.margin = 0;
 p.maxY = 0;
 p.styles = {
   title: {font: '26px thrust_regular', fill: '#ffffff', align: 'left'},
@@ -48,7 +49,7 @@ p.mobileChars = [
   "F", "G", "H", "I", "J", "K",
   "L", "M", "N", "O", "P", "Q",
   "R", "S", "T", "U", "V",
-  "W", "X", "Y", "Z", " ", ":)",
+  "W", "X", "Y", "Z", "<", ":)",
   "END"
 ];
 p.mobileCharDirty = false;
@@ -64,16 +65,21 @@ p.render = function () {
   this.drawPressFire();
 };
 
+/**
+ *
+ */
 p.initFullLayout = function () {
   UIComponent.prototype.initFullLayout.call(this);
-  this.padding = game.width * 0.1;
-  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
+  this.margin = game.width * levelManager.hiscoreLayout.margin;
+  this.padding = game.width * levelManager.hiscoreLayout.padding;
+  this.layoutRect = new Phaser.Rectangle(this.margin, this.margin, game.width - this.margin * 2, game.height - this.margin * 2);
 };
 
 p.initSmallLayout = function () {
   UIComponent.prototype.initSmallLayout.call(this);
-  this.padding = game.width * 0.1;
-  this.layoutRect = new Phaser.Rectangle(this.padding, this.padding, game.width - this.padding * 2, game.height - this.padding * 2);
+  this.margin = game.width * levelManager.hiscoreLayout.margin;
+  this.padding = game.width * levelManager.hiscoreLayout.padding;
+  this.layoutRect = new Phaser.Rectangle(this.margin, this.margin, game.width - this.margin * 2, game.height - this.margin * 2);
   this.styles = {
     title: {font: '14px thrust_regular', fill: '#ffffff', align: 'left'},
     scores: {font: '10px thrust_regular', fill: '#ffffff', align: 'left'},
@@ -106,7 +112,7 @@ p.centerDisplay = function () {
 p.createTitle = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "HIGH SCORES", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
-  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.075;
+  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.08;
 };
 
 p.addHighScore = function (highscore, index) {
@@ -167,8 +173,10 @@ p.drawPressFire = function () {
 
 p.drawBestTime = function() {
   var style = this.styles.subtitle;
-  this.bestTimeLabel = game.add.text(this.paddingLeft, this.maxY + this.lineHeight * 2, "Fastest Run: ", style, this.group);
-  this.bestTimeValue = game.add.text(this.bestTimeLabel.x + this.bestTimeLabel.width, this.bestTimeLabel.y, "-- : -- : --", style, this.group);
+  this.bestTimeLabel = game.add.text(this.layoutRect.width/2, this.maxY + this.lineHeight * 2, "Fastest Run", style, this.group);
+  this.bestTimeLabel.anchor.set(0.5, 0.5);
+  this.bestTimeValue = game.add.text(this.layoutRect.width/2, this.bestTimeLabel.y + this.lineHeight, "-- : -- : --", style, this.group);
+  this.bestTimeValue.anchor.set(0.5, 0.5);
   if (gameState.bestTimeMs > 0) {
     this.bestTimeValue.text = gameState.bestTimeStr;
   }
@@ -334,10 +342,14 @@ p.assignMobileChar = function () {
     return;
   }
   if (this.newScoreName.length < 13) {
-    this.newScoreName = this.newScoreName + this.char;
-    this.mobileCharsIndex = 0;
-    this.char = this.mobileChars[this.mobileCharsIndex];
-    this.renderScoreInput(this.newScoreName + this.char);
+    if (this.char === "<") {
+      this.doScoreBackspace();
+    } else {
+      this.newScoreName = this.newScoreName + this.char;
+      this.mobileCharsIndex = 0;
+      this.char = this.mobileChars[this.mobileCharsIndex];
+      this.renderScoreInput(this.newScoreName + this.char);
+    }
   } else {
     this.char = this.mobileChars[this.mobileChars.length - 1];
     this.renderScoreInput(this.newScoreName + this.char);
@@ -443,10 +455,17 @@ p.swallowBackspace = function (e) {
   if (e.keyCode === 8) {
     e.preventDefault();
     if (this.newScoreName.length) {
-      this.newScoreName = this.newScoreName.substring(0, this.newScoreName.length - 1);
-      this.renderScoreInput(this.newScoreName);
+      this.doScoreBackspace();
     }
   }
+};
+
+/**
+ * @method doScoreBackspace
+ */
+p.doScoreBackspace = function() {
+  this.newScoreName = this.newScoreName.substring(0, this.newScoreName.length - 1);
+  this.renderScoreInput(this.newScoreName);
 };
 
 /**

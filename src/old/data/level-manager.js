@@ -88,12 +88,15 @@ module.exports = {
     this.endless = levels.endless;
     this.allLevels = levels.data.slice();
     this.levels = levels.data;
+    this.hiscoreLayout = levels.hiscoreLayout;
+    this.training = levels.training;
     if (options.gameModes.allLevels) {
       this.levels = this.allLevels.slice();
     } else {
       this.levels.splice(3, 3);
       //inAppPurchases.onLevelsPurchased.add(this.onLevelsPurchased, this);
     }
+
     this.currentLevel = this.levels[this.levelIndex];
     this.updateEndlessData();
   },
@@ -196,7 +199,7 @@ module.exports = {
    * @method startTraining
    */
   startTraining: function() {
-    this.currentLevel = properties.levels.training;
+    this.currentLevel = this.training;
   }
 
 

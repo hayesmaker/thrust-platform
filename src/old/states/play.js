@@ -189,7 +189,6 @@ module.exports = {
     if (this.cleaning) {
       return;
     }
-
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
@@ -510,9 +509,8 @@ module.exports = {
     }
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
-    } else {
-      this.player.checkPlayerControl(this.cursors, this.buttonADown);
     }
+    this.player.checkPlayerControl(this.cursors, this.buttonADown);
   },
 
   /**
@@ -532,7 +530,7 @@ module.exports = {
    */
   checkPlayerLocation: function () {
     if (this.player.alive) {
-      if (this.player.y < 150 && this.player.inGameArea) {
+      if (this.player.y < 150 * this.player.scale.x && this.player.inGameArea) {
         this.player.inGameArea = false;
         this.inPlay = false;
         this.player.stop();
@@ -548,11 +546,11 @@ module.exports = {
           droneManager.trainingComplete();
           gameState.playTime = this.stopwatch.getText();
         }
-        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
+        particles.playerTeleport(this.player.x, this.player.y, this.player.scale.x, _.bind(this.levelTransition, this));
         if (this.tractorBeam && this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
-          particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
+          particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y, this.orb.scale);
         }
       }
     }
@@ -949,7 +947,7 @@ module.exports = {
    * @param data
    */
   createSwitch: function (data) {
-    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation, data.gateDuration);
+    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation, data.gateDuration, data.scale);
     this.switches.push(gateSwitch);
 
   },

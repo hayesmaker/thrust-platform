@@ -63,7 +63,6 @@ module.exports = {
     }
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('pause', 'assets/images/pause-button.png');
-    this.preloadTrainingMap(properties.levels.training);
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
@@ -135,11 +134,6 @@ module.exports = {
       this.getMusicAudioFormats(),
       'assets/audiosprite/thrust-music.json'
     );
-  },
-
-  preloadTrainingMap: function (levelData) {
-    game.load.image(levelData.mapImgKey, levelData.mapImgUrl);
-    game.load.physics(levelData.mapDataKey + properties.mapSuffix, levelData.mapDataUrl);
   },
 
   /**
