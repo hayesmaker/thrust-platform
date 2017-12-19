@@ -22,9 +22,9 @@ module.exports = {
   height: 500,
   dev: {
     mode: 0,
-    debugPhysics: 1,
+    debugPhysics: 0,
     debugPositions: 0,
-    stats: 1,
+    stats: 0,
     skipIntro: 0
   },
   gamePlay: {
