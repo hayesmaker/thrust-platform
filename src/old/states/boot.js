@@ -98,7 +98,7 @@ module.exports = {
     this.version = game.add.text(0,0, 'THRUST 30 v' + optionsModel.version + optionsModel.versionSuffix, style);
     this.version.anchor.setTo(0.5, 0.5);
     this.version.x = game.width/2;
-    this.version.y = game.height * 0.75;
+    this.version.y = game.height * 0.78;
     this.version.alpha = 0;
 
     TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
