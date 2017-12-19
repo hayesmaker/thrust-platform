@@ -17,7 +17,7 @@ module.exports = {
     },
     "missionSwipe": {
       "title": "Flight Training",
-      "desc": "Welcome to flight training pilot",
+      "desc": "Activate the training drones",
       "color": "rgba(124, 255, 0, 0.7)"
     },
     "world": {

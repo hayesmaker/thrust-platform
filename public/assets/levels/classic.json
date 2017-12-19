@@ -44,7 +44,7 @@
     },
     "missionSwipe": {
       "title": "Flight Training",
-      "desc": "Welcome to flight training pilot",
+      "desc": "Follow the instructions,\nactivate the drones",
       "color": "rgba(124, 255, 0, 0.7)"
     },
     "world": {

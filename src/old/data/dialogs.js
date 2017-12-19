@@ -33,11 +33,11 @@ module.exports = {
 
     'Mastering Thrust requires precise control of your ship despite the gravitational forces acting on it.\n' +
     'Fly to the right to find the drones arranged in diamond formation.  ' +
-    'Hover between each set of drones for 4 seconds to activate it.\n' +
+    'Hover between each set of drones for 2 seconds to activate it.\n' +
     'Press (B) to continue',
 
-    'To complete each mission, you must recover the ORB located on the planet\'s surface' +
-    'Attach the ORB by flying near to it without crashing' +
+    'To complete each mission, you must recover the ORB\n' +
+    'Attach the ORB by flying near to it without crashing\n' +
     'When it turns blue, Thrust up high enough from the surface to complete a level\n' +
     'Press (B) to continue.',
 
