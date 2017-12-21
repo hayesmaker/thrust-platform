@@ -17,7 +17,7 @@ var sound = require('../utils/sound');
  * @extends {PhysicsActor}
  * @constructor
  */
-function GateSwitch (collisions, groups, map, x, y, angleDeg, gateDuration) {
+function GateSwitch (collisions, groups, map, x, y, angleDeg, gateDuration, scale) {
   this.gateDuration = gateDuration * 1000 || 6000;
   var bmd = game.make.bitmapData(50, 50);
   bmd.ctx.strokeStyle = '#ffffff';
@@ -32,9 +32,10 @@ function GateSwitch (collisions, groups, map, x, y, angleDeg, gateDuration) {
   this.map = map;
   this.angle = angleDeg;
   this.alive = true;
+  this.scale.setTo(scale);
 
   this.initCustomPhysics(true);
-  this.body.addCircle(22, 0, 0, 0);
+  this.body.addCircle(22 * this.scale.x, 0, 0, 0);
   this.body.rotation = game.math.degToRad(this.angle);
   this.body.fixedRotation = true;
   this.body.setCollisionGroup(this.collisions.enemies);

@@ -2,7 +2,6 @@
 //var inAppPurchaes = require('./in-app-purchases');
 
 module.exports = {
-
   /**
    * @todo return dynamic based on demo/full version
    * @returns {*}
@@ -15,46 +14,33 @@ module.exports = {
     "You have successfully completed all the Thrust Missions\n" +
     "Thrust missions based on the SPECTRUM version level layouts" +
     "\n\n" +
-    "Thank you for playing Thrust 30\n" +
-    "Coming Soon on IOS & Android \n" +
-    "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
-    "PROGRAMMING: ANDY HAYES\n" +
-    "SFX MATT GRAY\n" +
-    "GRAPHICS: Martin Keary & Andy Hayes\n\n",
-
-    "You have successfully completed all Classic Thrust Missions\n" +
-    "All these levels have been totally redesigned for Thrust 30\n" +
-    "based on the original SPECTRUM game's levels\n" +
-    "More Levels Will be Available Spring 2017\n" +
-        "CREDITS: \nMusic: Matt Gray & Martin Keary \n" +
-        "PROGRAMMING: ANDY HAYES\n" +
-        "SFX MATT GRAY\n" +
-        "GRAPHICS: Martin Keary & Andy Hayes\n\n" +
-        "Thank you for playing Thrust 30"
+    "Now try the classic \"endless mode\" and \"speedrun\" from\n the options menu\n" +
+    "Follow the Thrust 30 Facebook group for updates \n\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCREDITS: \n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tMUSIC & SFX: Matt Gray\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tADDITIONAL MUSIC: Martin Keary\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tGRAPHICS: Martin Keary & Andy Hayes\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPROGRAMMING: ANDY HAYES\n",
   ],
 
   training: [
     'Flight training stage 1\n' +
-    'Use left, right and thrust to pilot your ship between the highlighted drones.\n' +
-    'Try to keep your ship pointed upwards as much as possible, and use your thrust to counter ' +
-    'the planet\'s gravity.\n' +
-    'Press Fire to begin.',
+    'Use left (<-), right (->) and THRUST (A) to pilot your ship between drones.\n' +
+    'Press Fire (B) to begin.',
 
-    'Flight training stage 2\n' +
-    'Mastering Thrust requires precise control of your ship despite the gravitational forces acting on it.\n' +
-    'Fly to the right to find the drones arranged in diamond formation.  ' +
-    'Hover between each set of drones for 4 seconds to activate it, then move on to the next.\n' +
-    'Press Fire to continue',
+    'Mastering Thrust requires precise control of your ship\n' +
+    'Fly to the right to find the drones arranged in diamond formation.\n' +
+    'Hover between each set of drones for 2 seconds to activate it.\n' +
+    'Press (B) to continue',
 
-    'Flight training stage 3: Recovering The Orb\n' +
-    'To complete each mission, you must recover an orb positioned somewhere on or beneath the planet\'s surface.  ' +
-    'You can attach the orb by hovering next to it for 1 second.  ' +
-    'Then pilot your ship high enough from the planet\'s surface so your warp drive can engage\n' +
-    'Press Fire to continue.',
+    'To complete each mission, you must recover the ORB\n' +
+    'Attach the ORB by flying near to it without crashing\n' +
+    'When it turns blue, Thrust up high enough from the surface to complete a level\n' +
+    'Press (B) to continue.',
 
     'Flight Training Complete!\n' +
     'Congratulations, you successfully completed flight training.\n' +
-    'You\'re now ready to begin real life Thrust missions.\n\n' +
-    'Press Fire to return to the Menu'
+    'You\'re now ready to begin real life Thrust missions.\n' +
+    'Press (B) to return to the Menu'
   ]
 };

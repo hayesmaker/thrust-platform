@@ -121,12 +121,14 @@ function Player(collisions, groups) {
    * @type {Phaser.Point}
    */
   this.respawnPos = new Phaser.Point();
-  this.initialPos.setTo(levelManager.currentLevel.spawns[0].x, levelManager.currentLevel.spawns[0].y);
+  this.initialPos.setTo(levelManager.currentLevel.player.spawns[0].x, levelManager.currentLevel.player.spawns[0].y);
   this.respawnPos.copyFrom(this.initialPos);
   Phaser.Sprite.call(this, game, this.initialPos.x, this.initialPos.y, 'combined', 'player.png');
+  var scale = levelManager.currentLevel.player.scale;
+  this.scale.setTo(scale);
   this.groups.actors.add(this);
-
   this.thrustAnim = game.add.sprite(this.x, this.y, 'combined', 'rocket_001.png', this.groups.actors);
+  this.thrustAnim.scale.setTo(scale);
   this.thrustAnim.anchor.setTo(0.5, -0.6);
   this.thrustAnim.animations.add('rocket', [
     'rocket_002.png',
@@ -135,33 +137,22 @@ function Player(collisions, groups) {
   this.thrustAnim.visible = false;
   this.refuelAnimSprite = game.add.sprite(this.x, this.y, 'combined', 'Fuel_PU_000.png', this.groups.actors);
   this.refuelAnimSprite.anchor.setTo(0.5);
+  this.refuelAnimSprite.scale.setTo(scale);
   this.refuelAnimSprite.animations.add('refuelling', [
     'Fuel_PU_000.png',
-    'Fuel_PU_001.png',
     'Fuel_PU_002.png',
-    'Fuel_PU_003.png',
     'Fuel_PU_004.png',
-    'Fuel_PU_005.png',
     'Fuel_PU_006.png',
-    'Fuel_PU_007.png',
     'Fuel_PU_008.png',
-    'Fuel_PU_009.png',
     'Fuel_PU_010.png',
-    'Fuel_PU_011.png',
     'Fuel_PU_012.png',
-    'Fuel_PU_013.png',
     'Fuel_PU_014.png',
-    'Fuel_PU_015.png',
     'Fuel_PU_016.png',
-    'Fuel_PU_017.png',
     'Fuel_PU_018.png',
-    'Fuel_PU_019.png',
     'Fuel_PU_020.png',
-    'Fuel_PU_021.png',
     'Fuel_PU_022.png',
-    'Fuel_PU_023.png',
     'Fuel_PU_024.png'
-  ], 30, true);
+  ], 15, true);
   this.refuelAnimSprite.visible = false;
   this.alpha = 0;
   this.init();
@@ -294,7 +285,6 @@ p.spawn = function () {
   this.body.motionState = 1;
   this.alpha = 0;
   this.visible = true;
-  //this.exists = true;
   this.alive = true;
   this.inPlay = true;
   TweenMax.to(this, 0.3, {alpha: 1, ease: Quad.easeOut});
@@ -307,10 +297,9 @@ p.spawn = function () {
  * @method respawn
  * @param [completeCallback]
  * @param [thisArg]
- * @param [removeShip] {Boolean}
+ * @param [removeShip] {boolean}
  */
 p.respawn = function (completeCallback, thisArg, removeShip) {
-  console.log('Player :: respawn :', removeShip, gameState.cheats.infiniteLives);
   this.body.reset(this.respawnPos.x, this.respawnPos.y);
   this.body.setZeroVelocity();
   this.body.setZeroDamping();
@@ -319,25 +308,25 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
   this.body.motionState = 2;
   this.body.angle = 0;
   this.alpha = 0;
-  if (removeShip === true && !gameState.cheats.infiniteLives) {
+  if (removeShip && !gameState.cheats.infiniteLives) {
     gameState.lives--;
   }
 
   sound.playSound(sound.PLAYER_TELEPORT_IN);
-  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, function () {
-    if (completeCallback) {
-      completeCallback.call(thisArg);
-    }
-    this.spawn();
-    if (this.spawnWithOrb) {
-      this.tractorBeam.respawn(true);
-    } else {
-      if (this.tractorBeam) {
-        this.tractorBeam.respawn(false);
+  particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, this.scale.x,
+    function () {
+      if (completeCallback) {
+        completeCallback.call(thisArg);
       }
-    }
-  }.bind(this));
-
+      this.spawn();
+      if (this.spawnWithOrb) {
+        this.tractorBeam.respawn(true);
+      } else {
+        if (this.tractorBeam) {
+          this.tractorBeam.respawn(false);
+        }
+      }
+    }.bind(this));
 };
 
 /**§
@@ -451,7 +440,6 @@ p.stopThrustFx = function () {
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
   game.sfx.stop(ThrustSound);
-  //this.thrustSfx.stop();
 };
 
 /**
@@ -469,8 +457,6 @@ p.connectAttempt = function () {
     if (this.tractorBeam.isLocked && this.alive) {
       this.tractorBeam.grab(this);
     }
-  } else {
-
   }
 };
 
@@ -526,7 +512,7 @@ p.explosion = function (force) {
     var hasOrb = false;
     this.stopThrustFx();
     if (this.tractorBeam) {
-     hasOrb = this.tractorBeam.isLocked;
+      hasOrb = this.tractorBeam.isLocked;
     }
     this.explodeEmitter.x = this.position.x;
     this.explodeEmitter.y = this.position.y;
@@ -559,10 +545,10 @@ p.explosion = function (force) {
  * @param hasOrb {Boolean}
  */
 p.setRespawnPosition = function (position, hasOrb) {
-  var spawns = levelManager.currentLevel.spawns;
+  var spawns = levelManager.currentLevel.player.spawns;
   var distances = [];
   var distance;
-  var enemiesKilled = _.findIndex(this.groups.enemies.children, function(limpet) {
+  var enemiesKilled = _.findIndex(this.groups.enemies.children, function (limpet) {
     return limpet.exists === true;
   });
   if (enemiesKilled === -1) {
@@ -649,7 +635,7 @@ p.death = function () {
  * @param context
  */
 p.checkRespawn = function (callback, context) {
-  if (gameState.lives  - 1 < 0 || gameState.fuel <= 0) {
+  if (gameState.lives - 1 < 0 || gameState.fuel <= 0) {
     console.log('game over');
     gameState.isGameOver = true;
     //game over
@@ -663,7 +649,6 @@ p.checkRespawn = function (callback, context) {
       }
       this.earlyInterstitial.dispatch();
     }
-
 
 
   }

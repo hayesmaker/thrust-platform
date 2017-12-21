@@ -110,7 +110,7 @@ module.exports = {
    * @method debugSpawns
    */
   debugSpawns: function () {
-    _.each(this.level.spawns, function (spawn) {
+    _.each(this.level.player.spawns, function (spawn) {
       var spawnBm = game.make.bitmapData(50, 50);
       spawnBm.ctx.fillStyle = '#ff93ff';
       spawnBm.ctx.beginPath();
@@ -189,7 +189,6 @@ module.exports = {
     if (this.cleaning) {
       return;
     }
-
     this.checkPlayerInput();
     this.actorsUpdate();
     this.uiUpdate();
@@ -510,9 +509,8 @@ module.exports = {
     }
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
-    } else {
-      this.player.checkPlayerControl(this.cursors, this.buttonADown);
     }
+    this.player.checkPlayerControl(this.cursors, this.buttonADown);
   },
 
   /**
@@ -532,7 +530,7 @@ module.exports = {
    */
   checkPlayerLocation: function () {
     if (this.player.alive) {
-      if (this.player.y < 150 && this.player.inGameArea) {
+      if (this.player.y < 150 * this.player.scale.x && this.player.inGameArea) {
         this.player.inGameArea = false;
         this.inPlay = false;
         this.player.stop();
@@ -548,11 +546,11 @@ module.exports = {
           droneManager.trainingComplete();
           gameState.playTime = this.stopwatch.getText();
         }
-        particles.playerTeleport(this.player.x, this.player.y, _.bind(this.levelTransition, this));
+        particles.playerTeleport(this.player.x, this.player.y, this.player.scale.x, _.bind(this.levelTransition, this));
         if (this.tractorBeam && this.tractorBeam.hasGrabbed) {
           gameState.bonuses.orbRecovered = true;
           this.tractorBeam.breakLink();
-          particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y);
+          particles.orbTeleport(this.orb.sprite.x, this.orb.sprite.y, this.orb.scale);
         }
       }
     }
@@ -699,18 +697,34 @@ module.exports = {
     this.player.onKilled.add(this.playerKilled, this);
     this.player.earlyInterstitial.add(this.earlyInterstitial, this);
 
-    if (this.level.orbPosition) {
-      this.orb = new Orb(this.groups, this.level.orbPosition.x, this.level.orbPosition.y, this.collisions);
+    if (this.level.orb) {
+      this.orb = new Orb(this.groups, this.level.orb.x, this.level.orb.y, this.collisions, this.level.orb.scale);
       this.orb.setPlayer(this.player);
       this.tractorBeam = new TractorBeam(this.orb, this.player, this.groups);
       this.player.setTractorBeam(this.tractorBeam);
-      this.orbHolder = new PhysicsActor(this.collisions, this.groups, 'combined', 'orb-holder.png', this.level.orbHolder.x, this.level.orbHolder.y);
+      this.orbHolder = new PhysicsActor(
+        this.collisions,
+        this.groups,
+        'combined',
+        'orb-holder.png',
+        this.level.orbHolder.x,
+        this.level.orbHolder.y
+      );
+      this.orbHolder.scale.setTo(this.level.orbHolder.scale);
     }
     if (!gameState.trainingMode) {
       _.each(this.level.enemies, _.bind(this.createLimpet, this));
       _.each(this.level.fuels, _.bind(this.createFuel, this));
       if (this.level.powerStation) {
-        this.powerStation = new PowerStation(this.collisions, this.groups, 'combined', 'power-station_001.png', this.level.powerStation.x, this.level.powerStation.y);
+        this.powerStation = new PowerStation(
+          this.collisions,
+          this.groups,
+          'combined',
+          'power-station_001.png',
+          this.level.powerStation.x,
+          this.level.powerStation.y,
+          this.level.powerStation.scale
+        );
         this.powerStation.initPhysics('powerStationPhysics', 'power-station');
         this.powerStation.destructionSequenceActivated.add(this.startDestructionSequence, this);
         this.powerStation.body.setCollisionGroup(this.collisions.terrain);
@@ -933,7 +947,7 @@ module.exports = {
    * @param data
    */
   createSwitch: function (data) {
-    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation, data.gateDuration);
+    var gateSwitch = new Switch(this.collisions, this.groups, this.map, data.x, data.y, data.rotation, data.gateDuration, data.scale);
     this.switches.push(gateSwitch);
 
   },
@@ -945,7 +959,7 @@ module.exports = {
    *
    */
   createLimpet: function (data) {
-    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation, this.player);
+    var limpet = new Limpet(this.collisions, this.groups, data.x, data.y, data.rotation, this.player, data.scale);
     limpet.enemiesDestroyed.add(this.allEnemiesDestroyed, this);
     this.limpetGuns.push(limpet);
   },
@@ -976,7 +990,7 @@ module.exports = {
    * @param data
    */
   createFuel: function (data) {
-    var fuel = new Fuel(this.collisions, this.groups, 'combined', 'fuel.png', data.x, data.y, this.player);
+    var fuel = new Fuel(this.collisions, this.groups, 'combined', 'fuel.png', data.x, data.y, this.player, data.scale);
     this.fuels.push(fuel);
   },
 

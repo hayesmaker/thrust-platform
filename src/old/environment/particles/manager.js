@@ -160,10 +160,11 @@ module.exports = {
    * @method playerTeleport
    * @param x
    * @param y
+   * @param scale
    * @param boundCallback {Function}
    */
-  playerTeleport: function (x, y, boundCallback) {
-    var circle = this.manager.createCircleZone(25);
+  playerTeleport: function (x, y, scale, boundCallback) {
+    var circle = this.manager.createCircleZone(25 * scale);
     this.emitter.force.y = 0;
     this.emitter.emit('transporter', x, y, {
       zone: circle,
@@ -176,8 +177,14 @@ module.exports = {
     }
   },
 
-  orbTeleport: function (x, y) {
-    var circle = this.manager.createCircleZone(25);
+  /**
+   * @method orbTeleport
+   * @param x
+   * @param y
+   * @param scale
+   */
+  orbTeleport: function (x, y, scale) {
+    var circle = this.manager.createCircleZone(25 * scale);
     this.emitter.force.y = 0;
     this.emitter.emit('transporter', x, y, {
       zone: circle,
@@ -187,11 +194,21 @@ module.exports = {
     });
   },
 
+  /**
+   * @method explode
+   * @param x
+   * @param y
+   */
   explode: function (x, y) {
     this.emitter.force.y = 0.1;
     this.emitter.emit('explode', x, y, {total: 20});
   },
 
+  /**
+   * @method fuelExplode
+   * @param x
+   * @param y
+   */
   fuelExplode: function (x, y) {
     this.emitter.force.y = -0.005;
     this.emitter.emit('fuelExplode', x, y, {total: 80});

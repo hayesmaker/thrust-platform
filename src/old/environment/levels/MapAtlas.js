@@ -122,6 +122,7 @@ p.renderGate = function () {
   this.gateSprite = game.make.sprite(0,0, this.levelData.gateImgKey);
   this.gateSprite.scale.setTo(this.levelData.mapScale);
   this.gateSprite.position.setTo(this.levelData.gatePosition.x,this.levelData.gatePosition.y);
+  //this.gateSprite.scale.setTo(this.levelData.gatePosition.scale);
   this.parent.add(this.gateSprite);
   //this.gateSprite.visible = false;
   if (this.levelData.linkSwitchToGate) {

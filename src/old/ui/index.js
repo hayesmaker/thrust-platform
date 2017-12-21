@@ -26,7 +26,7 @@ module.exports = {
     this.fuel.update(gameState.fuel, true);
     this.lives.init(0, 50, this.scoreGroup);
     this.lives.update(gameState.lives, true);
-    this.missionSwipe.init(0, this.lives.textfield.y + this.lives.textfield.height + 10, game.width * 0.5, game.height * 0.1, this.group);
+    this.missionSwipe.init(0, this.lives.textfield.y + this.lives.textfield.height + 10, game.width * 0.6, game.height * 0.1, this.group);
     this.interstitial = new UIInterstitial(this.group, "INTERSTITIAL", playState);
     this.interstitial.onExitComplete.add(this.levelTransitionCompleted, this);
     this.interstitial.trainingComplete.add(this.onTrainingCompleted, this);

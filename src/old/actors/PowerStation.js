@@ -14,16 +14,18 @@ var sound = require('../utils/sound');
  * @param {Collisions} collisions - Our collisions container of collisionGroups.
  * @param {Groups} groups - Our groups container.
  * @param {String} imageCacheKey - Sprite image key.
- * @param {String} imageFrame - Sprite frame key.
- * @param {Number} [x] - initial position x, if unset is 0
- * @param {Number} [y] - initial position y, if unset is 0
+ * @param {String} imageFrame - Sprite frame ke
+ * @param {Number} x - initial position x
+ * @param {Number} y - initial position y
+ * @param {Number} scale
  * @extends {Phaser.Sprite}
  * @constructor
  */
-function PowerStation (collisions, groups, imageCacheKey, imageFrame, x, y) {
+function PowerStation (collisions, groups, imageCacheKey, imageFrame, x, y, scale) {
   PhysicsActor.call(this, collisions, groups, imageCacheKey, imageFrame, x, y);
   this.health = gameState.POWER_STATION_HEALTH;
   this.init();
+  this.scale.setTo(scale);
 }
 
 var p = PowerStation.prototype = Object.create(PhysicsActor.prototype, {

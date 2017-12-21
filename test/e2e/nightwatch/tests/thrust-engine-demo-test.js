@@ -36,7 +36,7 @@ module.exports = {
     client
       .waitForPhaser(5000)
       .waitForGame(5000)
-      .waitForState('boot', 5000)
+      .waitForState('boot', 30000)
       .assert.currentState('boot');
   },
 
@@ -50,9 +50,9 @@ module.exports = {
    */
   'E2E Actors are avaialable to test' : function (client) {
     client
-      .waitForActors(10000)
+      .waitForActors(30000)
       .beginDemo()
-      .waitForState('play', 10000)
+      .waitForState('play', 30000)
       .assert.currentState('play')
       .pause(750)
       .keys([client.Keys.DOWN_ARROW], function() {

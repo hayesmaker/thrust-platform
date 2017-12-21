@@ -13,7 +13,8 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return 'v2.0.0-pre-alpha development builds now playable at: ' + url + ' #indiegamedev #pixijs #html5';
+  return 'v1.0.4 ios app release and v2.0.0-pre-alpha development builds now playable at: ' + url +
+  ' #thrust30 #gamedev #html5games #html5';
 };
 
 
