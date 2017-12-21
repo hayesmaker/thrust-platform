@@ -109,6 +109,9 @@ module.exports = {
     var passedDrones = _.map(this.hoverDrones, function(drone) {
       return drone.hasPassed;
     });
+    console.info('drone-manager :: hoverDroneActivated passedDrones',
+      passedDrones, passedDrones.indexOf(false) < 0
+    );
     if (passedDrones.indexOf(false) < 0) {
       this.gotoOrbStage();
     }
@@ -128,8 +131,8 @@ module.exports = {
    * @method nextTrainingStage
    */
   nextTrainingStage: function() {
+    console.info('drone-manager :: nextTrainingStage :', this.trainingStageIndex);
     this.player.stop();
-
     if (this.trainingStageIndex === 1) {
       this.followOrb = true;
     }
@@ -157,17 +160,11 @@ module.exports = {
    */
   doStageSpecifics: function() {
     if (this.trainingStageIndex === 1) {
-      //activate Hover Drones
       _.each(this.hoverDrones, function(hoverDrone) {
         hoverDrone.activate();
       }.bind(this));
     } else if (this.trainingStageIndex === 2) {
-      //activate orb
       this.player.orbActivated = true;
-
-
     }
-
-
   }
 };

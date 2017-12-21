@@ -22,7 +22,7 @@ module.exports = {
   height: 500,
   dev: {
     mode: 0,
-    debugPhysics: 0,
+    debugPhysics: 1,
     debugPositions: 0,
     stats: 0,
     skipIntro: 0

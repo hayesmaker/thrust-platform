@@ -2,9 +2,6 @@
 //var inAppPurchaes = require('./in-app-purchases');
 
 module.exports = {
-
-
-
   /**
    * @todo return dynamic based on demo/full version
    * @returns {*}
@@ -31,8 +28,8 @@ module.exports = {
     'Use left (<-), right (->) and THRUST (A) to pilot your ship between drones.\n' +
     'Press Fire (B) to begin.',
 
-    'Mastering Thrust requires precise control of your ship despite the gravitational forces acting on it.\n' +
-    'Fly to the right to find the drones arranged in diamond formation.  ' +
+    'Mastering Thrust requires precise control of your ship\n' +
+    'Fly to the right to find the drones arranged in diamond formation.\n' +
     'Hover between each set of drones for 2 seconds to activate it.\n' +
     'Press (B) to continue',
 
