@@ -5,6 +5,7 @@ var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
 var UILevelsComplete = require('./ui-levels-complete');
+var game = global.game;
 
 
 
@@ -16,6 +17,7 @@ module.exports = {
     this.playState = playState;
     manager.init(this);
     this.group = game.make.group();
+    this.group.fixedToCamera = true;
     this.fade.init(this.group);
     this.scoreGroup = game.add.group(this.group);
     this.scoreGroup.x = 10;

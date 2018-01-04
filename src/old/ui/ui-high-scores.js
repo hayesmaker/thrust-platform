@@ -226,6 +226,9 @@ p.checkTouchInput = function () {
   if (!this.highScoreInputEnabled) {
     return;
   }
+
+  //* @todo touch controls
+  /*
   var stick = game.controls.stick;
   if (stick) {
     if (stick.isDown) {
@@ -247,6 +250,7 @@ p.checkTouchInput = function () {
       }
     }
   }
+  */
   this.renderMobileChar();
 };
 
@@ -375,7 +379,8 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+    // @todo touch menu
+    //game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
 
@@ -387,7 +392,8 @@ p.disable = function () {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
+    // @todo touch menu
+    //game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
 };
 
@@ -418,6 +424,7 @@ p.upButtonA = function() {
 p.enableKeyboardEntry = function () {
   this.subTitle3.visible = false;
   this.highScoreInputEnabled = true;
+  /* @todo touch menu
   if (game.controls.stick) {
     //game.controls.buttonB.onDown.add(this.pressButtonB, this);
     this.char = this.mobileChars[this.mobileCharsIndex];
@@ -426,6 +433,7 @@ p.enableKeyboardEntry = function () {
     game.controls.buttonA.onUp.add(this.upButtonA, this);
 
   }
+  */
   this.disable();
   window.addEventListener('keydown', this.swallowBackspace);
   window.addEventListener('keypress', this.keyboardOnPress);
@@ -437,11 +445,11 @@ p.enableKeyboardEntry = function () {
 p.disableKeyboardEntry = function () {
   this.subTitle3.visible = true;
   this.highScoreInputEnabled = false;
-  if (game.controls.stick) {
-    //game.controls.buttonB.onDown.add(this.pressButtonB, this);
-    game.controls.buttonB.onUp.remove(this.upButtonB, this);
-    game.controls.buttonA.onUp.remove(this.upButtonA, this);
-  }
+  //if (game.controls.stick) {
+    // @todo touch menu
+    //game.controls.buttonB.onUp.remove(this.upButtonB, this);
+    //game.controls.buttonA.onUp.remove(this.upButtonA, this);
+  //}
   window.removeEventListener('keydown', this.swallowBackspace);
   window.removeEventListener('keypress', this.keyboardOnPress);
   this.enable();

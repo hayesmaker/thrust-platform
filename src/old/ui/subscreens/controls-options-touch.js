@@ -124,12 +124,11 @@ p.createDisplay = function () {
   graphics.lineTo(coords[10].x, coords[10].y);
   graphics.lineTo(coords[11].x, coords[11].y);
 
-  var style = this.getStyle();
   var helperTxt = game.add.text(0, 0, "Control ship using the virutual joypad\nConnect joypad and restart app\nto enable joypad", centerStyle, this.group);
   helperTxt.anchor.setTo(0.5);
   helperTxt.x = this.layoutRect.halfWidth;
   helperTxt.y = this.marginTop;
-  /*
+
   var gamePadEnabled = new UiSwitch(this.group, "VIRTUAL JOYPAD");
   gamePadEnabled.render();
   gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
@@ -140,7 +139,6 @@ p.createDisplay = function () {
     gamePadEnabled.switch(true, true);
   }
   this.components.push(gamePadEnabled);
-  */
 };
 
 /**

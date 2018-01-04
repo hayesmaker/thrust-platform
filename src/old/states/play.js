@@ -293,9 +293,11 @@ module.exports = {
       ui.showUser();
       this.playGame();
       this.showPauseButton();
+      game.controls.gotoPlayMode();
     } else {
       this.hidePauseButton();
       ui.hideUser();
+      game.controls.gotoInputMode();
     }
     var shouldFadeBackground = (
       state === gameState.PLAY_STATES.COMPLETE ||
@@ -315,12 +317,12 @@ module.exports = {
 
   /**
    * @method menuItemSelected
-   * @param item {Object}
+   * @param itemId {String}
    */
-  menuItemSelected: function (item) {
+  menuItemSelected: function (itemId) {
 
-    switch (item.text.text) {
-      case "PLAY THRUST" :
+    switch (itemId) {
+      case "play" :
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
@@ -335,16 +337,24 @@ module.exports = {
 
         //this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
+      /*
       case "TRAINING" :
         gameState.newPlayer();
         gameState.trainingMode = true;
         this.restartPlayState();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
-      case "HIGH-SCORES":
+      */
+      case "scores":
         this.showCurrentScreenByState(gameState.PLAY_STATES.HIGH_SCORES);
         break;
-      case "OPTIONS" :
+      case "options" :
+        this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
+        break;
+      case "rules" :
+
+        break;
+      case "modes":
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
       default :
@@ -413,7 +423,7 @@ module.exports = {
       this.tractorBeam = null;
       this.player.tractorBeam = null;
     }
-    game.controls.destroy();
+    //game.controls.destroy();
     this.groups.background.removeAll(true);
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);
@@ -563,11 +573,6 @@ module.exports = {
     if (gameState.isGameOver && !this.isGameOver) {
       this.isGameOver = true;
       ui.showGameOver();
-      console.warn('play :: checkGameOver :: isGameOver', this.isGameOver);
-      /*
-      this.stopStopwatch();
-      ui.stopwatch.hide();
-      */
       sound.playSound(sound.UI_GAME_OVER);
       game.time.events.add(2000, _.bind(this.gameOver, this));
     }
@@ -918,12 +923,11 @@ module.exports = {
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;
     }
-
-    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
-      game.controls.initVirtualJoypad();
-    }
-
     ui.init(this.menuItemSelected, this);
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
+      //game.controls.initVirtualJoypad();
+      game.controls.initAdvancedTouchControls();
+    }
     if (gameState.trainingMode) {
       //ui.drawTrainingUi();
     }
@@ -1036,17 +1040,19 @@ module.exports = {
   /**
    * Initialises player control
    *
-   * Maybe we can move out control initialisation and handling to
+   * Maybe move out control initialisation and handling to
    * tidy up play state
    *
    * @method initControls
    */
   initControls: function () {
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
-      game.controls.buttonA.onDown.add(this.pressButtonA, this);
-      game.controls.buttonA.onUp.add(this.upButtonA, this);
-      game.controls.buttonB.onDown.add(this.pressButtonB, this);
-      game.controls.buttonB.onUp.add(this.upButtonB, this);
+      //game.controls.buttonA.onDown.add(this.pressButtonA, this);
+      //game.controls.buttonA.onUp.add(this.upButtonA, this);
+      //game.controls.buttonB.onDown.add(this.pressButtonB, this);
+      //game.controls.buttonB.onUp.add(this.upButtonB, this);
+      //game.controls.fireButtonDown.add(this.pressButtonA, this);
+      //game.controls.fireButtonUp.add(this.upButtonA, this);
     }
     if (game.controls.useKeys || game.controls.useVirtualJoypad) {
       this.cursors = game.controls.cursors;
@@ -1092,7 +1098,6 @@ module.exports = {
    */
   pressButtonB: function () {
     this.buttonBDown = true;
-    this.player.fire();
   },
 
   /**

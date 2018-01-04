@@ -56,7 +56,6 @@ module.exports = {
     this.swipe.width = 5;
     this.swipe.height = 5;
     this.group.add(this.swipe);
-    this.group.fixedToCamera = true;
     this.isReversed = false;
 
     /**

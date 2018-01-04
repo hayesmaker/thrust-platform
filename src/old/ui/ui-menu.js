@@ -4,6 +4,7 @@ var sound = require('../utils/sound');
 //var inAppPurchaes = require('../data/in-app-purchases');
 //var UIButton = require('./ui-button');
 var options = require('../data/options-model');
+var game = global.game;
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -26,10 +27,11 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
   this.dataProvider = [
-    'PLAY THRUST',
-    'TRAINING',
-    'HIGH-SCORES',
-    'OPTIONS'
+    {label: 'PLAY', id: 'play'},
+    {label: 'HOW TO PLAY', id: 'rules'},
+    {label: 'GAME MODES', id: 'modes'},
+    {label: 'HIGH SCORES', id: 'scores'},
+    {label: 'OPTIONS', id: 'options'}
   ];
 }
 
@@ -56,16 +58,22 @@ p.items = [];
 p.itemSelected = new Phaser.Signal();
 
 /**
- * @property style
+ * @property styleSelected
  * @type {{font: string, fill: string, align: string}}
  */
-p.style = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleFullSelected = {font: "24px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleFullDeselected = {font: "24px thrust_regular", fill: "#1d0431", align: "left"};
+p.styleMinSelected = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleMinDeselected = {font: "16px thrust_regular", fill: "#1d0431", align: "left"};
 
 /**
  * @property padding
- * @type {number}
+ * @type {{x: number, y: number}}
  */
-p.padding = 5;
+p.padding = {
+  x: 50,
+  y: 10
+};
 
 /**
  * @property selectedIndex
@@ -101,7 +109,7 @@ p.render = function () {
   //var x = 10;
   //var y = 10;
 
-  var style = {font: "14px thrust_regular", fill: "#ffffff", align: 'left'};
+  var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
   this.version = game.make.text(0,0, 'v' + options.version + options.versionSuffix, style);
   this.version.anchor.setTo(0, 0);
   this.version.x = game.width - this.version.width - 10;
@@ -150,7 +158,6 @@ p.restorePurchase = function() {
  * @method update
  */
 p.update = function () {
-  var stick = game.controls.stick;
   var joypad = game.externalJoypad;
   if (joypad) {
     if (joypad.up.isDown) {
@@ -174,7 +181,9 @@ p.update = function () {
       }
     }.bind(this);
 
-  } else if (stick) {
+  }
+  /* @todo virtual joypad
+  else if (stick) {
     if (stick.isDown) {
       if (stick.direction === Phaser.UP) {
         this.stickUpPressed = true;
@@ -187,6 +196,7 @@ p.update = function () {
       this.checkPressed();
     }
   }
+  */
 };
 
 /**
@@ -204,23 +214,60 @@ p.checkPressed = function() {
 };
 
 /**
+ *
+ *
  * @method menuItem
- * @param label
- * @param index
+ * @param data {Object}
+ * @param index {Number}
  */
-p.menuItem = function (label, index) {
-  var text = game.add.text(game.width / 2, game.height / 2 - 35 + 35 * index, label, this.style, this.group);
-  text.anchor.setTo(0.5);
-  var graphic = game.add.graphics(0, 0, this.group);
-  graphic.beginFill(0xff0000, 0.8);
-  graphic.drawRect(0, 0, text.width + this.padding * 2, text.height + this.padding * 2);
+p.menuItem = function (data, index) {
+  var styleSelected = this.isFullLayout? this.styleFullSelected : this.styleMinSelected;
+  var styleDeselected = this.isFullLayout? this.styleFullDeselected : this.styleMinDeselected;
+  var textDeselected = game.make.text(
+    0,
+    0,
+    data.label,
+    styleDeselected,
+    this.group
+  );
+  var textSelected = game.make.text(
+    0,
+    0,
+    data.label,
+    styleSelected,
+    this.group
+  );
+  textSelected.visible = false;
+  textSelected.anchor.setTo(0.5);
+  textDeselected.anchor.setTo(0.5);
+  var graphic = game.make.graphics(0, 0, this.group);
+  graphic.beginFill(0xffffff, 0.5);
+  graphic.drawRect(0, 0, game.width * 0.35, textSelected.height + this.padding.y * 2);
   graphic.endFill();
-  graphic.x = text.x - text.width / 2 - this.padding;
-  graphic.y = text.y - text.height / 2 - this.padding;
-  text.bringToTop();
+  graphic.anchor.setTo(0.5);
+  graphic.x = 0;
+  graphic.y = 0;
+  textSelected.x = textDeselected.x = graphic.width/2;
+  textSelected.y = textDeselected.y = graphic.height/2;
+  var menuSpr = game.add.sprite(0,0, '', '', this.group);
+  menuSpr.x = game.width/2 - graphic.width * 0.5;
+
+  var topY = game.height /2 - 100;
+  if (game.width < 1000 || game.height < 700) {
+    topY = graphic.height + game.height * 0.1;
+  }
+  menuSpr.y = topY  + (graphic.height + (2*this.padding.y)) * index - graphic.height * 0.5;
+  menuSpr.addChild(graphic);
+  menuSpr.addChild(textDeselected);
+  menuSpr.addChild(textSelected);
+  menuSpr.inputEnabled = true;
+
+  //textSelected.bringToTop();
   this.items.push({
-    text: text,
-    graphic: graphic
+    textSelected: textSelected,
+    textDeselected: textDeselected,
+    graphic: graphic,
+    id: data.id
   });
 };
 
@@ -245,7 +292,8 @@ p.menuItem = function (label, index) {
  */
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
-  this.items[index].graphic.visible = true;
+  //this.items[index].graphic.visible = true;
+  this.items[index].textSelected.visible = true;
   sound.playSound(sound.UI_MENU_SELECT, 1);
 };
 
@@ -254,7 +302,7 @@ p.selectItemByIndex = function (index) {
  * @param item
  */
 p.deselectItem = function (item) {
-  item.graphic.visible = false;
+  item.textSelected.visible = false;
 };
 
 /**
@@ -269,8 +317,9 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonA.onDown.add(this.spacePressed, this);
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+    //@todo touch menu
+    //game.controls.buttonA.onDown.add(this.spacePressed, this);
+    //game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
 };
@@ -284,10 +333,11 @@ p.disable = function () {
     game.controls.cursors.down.onDown.remove(this.downPressed, this);
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
-  if (game.controls.stick) {
-    game.controls.buttonA.onDown.remove(this.spacePressed, this);
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
-  }
+  //@todo touch menu
+  //if (game.controls.stick) {
+    //game.controls.buttonA.onDown.remove(this.spacePressed, this);
+    //game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  //}
   this.itemSelected.remove(this.menuSelectedCallback, this.playState);
 };
 
@@ -319,7 +369,7 @@ p.downPressed = function () {
  * @method spacePressed
  */
 p.spacePressed = function () {
-  this.itemSelected.dispatch(this.items[this.selectedIndex]);
+  this.itemSelected.dispatch(this.items[this.selectedIndex].id);
 };
 
 p.dispose = function() {

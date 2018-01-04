@@ -347,14 +347,15 @@ p.update = function () {
 /**
  * @method checkPlayerControl
  * @param cursors
- * @param buttonAPressed
  */
-p.checkPlayerControl = function (cursors, buttonAPressed) {
+p.checkPlayerControl = function (cursors) {
   if (!this.alive || !this.inGameArea) {
+    this.stopThrustFx();
     return;
   }
+  this.checkVirtualFireButton();
   this.checkRotate(game.controls.stick, cursors);
-  this.checkThrust(buttonAPressed, cursors);
+  this.checkThrust(cursors);
 };
 
 /**
@@ -370,6 +371,15 @@ p.checkPlayerControlJoypad = function () {
   this.checkJoypadFire();
   this.checkThrust(game.externalJoypad.thrustButton.isDown);
   this.checkRotate(null, game.externalJoypad);
+};
+
+p.checkVirtualFireButton = function() {
+  if (game.controls.fireButtonIsDown && this.canFire) {
+    this.fire();
+    this.canFire = false;
+  } else if (!game.controls.fireButtonIsDown) {
+    this.canFire = true;
+  }
 };
 
 /**
@@ -399,9 +409,11 @@ p.checkJoypadFire = function () {
  * @param cursors
  */
 p.checkRotate = function (stick, cursors) {
-  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors && cursors.left.isDown) {
+  if ((cursors && cursors.left.isDown) ||
+    game.controls.moveLeftIsDown) {
     this.rotate(-90);
-  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors && cursors.right.isDown) {
+  } else if ((cursors && cursors.right.isDown) ||
+    game.controls.moveRightIsDown) {
     this.rotate(90);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();
@@ -413,8 +425,8 @@ p.checkRotate = function (stick, cursors) {
  * @param buttonAPressed
  * @param cursors
  */
-p.checkThrust = function (buttonAPressed, cursors) {
-  if (cursors && cursors.up.isDown || buttonAPressed) {
+p.checkThrust = function (cursors) {
+  if (cursors && cursors.up.isDown || game.controls.thrustButtonIsDown) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;
@@ -436,10 +448,12 @@ p.checkThrust = function (buttonAPressed, cursors) {
  * @method stopThrustFx
  */
 p.stopThrustFx = function () {
-  this.thrustAnim.visible = false;
-  this.thrustAnim.animations.stop('rocket', true);
-  this.thrustStarted = false;
-  game.sfx.stop(ThrustSound);
+  if (this.thrustStarted) {
+    this.thrustAnim.visible = false;
+    this.thrustAnim.animations.stop('rocket', true);
+    this.thrustStarted = false;
+    game.sfx.stop(ThrustSound);
+  }
 };
 
 /**
