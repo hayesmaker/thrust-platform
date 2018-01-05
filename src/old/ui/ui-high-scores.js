@@ -431,7 +431,6 @@ p.enableKeyboardEntry = function () {
     this.renderScoreInput(this.newScoreName + this.char);
     game.controls.buttonB.onUp.add(this.upButtonB, this);
     game.controls.buttonA.onUp.add(this.upButtonA, this);
-
   }
   */
   this.disable();

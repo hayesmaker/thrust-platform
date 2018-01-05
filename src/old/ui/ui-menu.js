@@ -261,9 +261,11 @@ p.menuItem = function (data, index) {
   menuSpr.addChild(textDeselected);
   menuSpr.addChild(textSelected);
   menuSpr.inputEnabled = true;
+  menuSpr.events.onInputDown.add(this.onMenuItemTouch, this, 0, index);
 
   //textSelected.bringToTop();
   this.items.push({
+    spr: menuSpr,
     textSelected: textSelected,
     textDeselected: textDeselected,
     graphic: graphic,
@@ -372,8 +374,23 @@ p.spacePressed = function () {
   this.itemSelected.dispatch(this.items[this.selectedIndex].id);
 };
 
+/**
+ * @method onMenuItemTouch
+ * @param e
+ * @param pointer
+ * @param index
+ */
+p.onMenuItemTouch = function(e, pointer, index) {
+  this.selectItemByIndex(index);
+  this.itemSelected.dispatch(this.items[index].id);
+};
+
 p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
+  _.each(this.items, function(item) {
+    item.spr.events.onInputUp.remove(this.onMenuItemTouch, this);
+    item.spr.destroy();
+  }.bind(this));
   this.version.destroy();
 };
 
