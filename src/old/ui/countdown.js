@@ -63,7 +63,9 @@ module.exports = {
 
   stop: function() {
     console.log('ui-countdown-stop');
-    game.sfx.stop(sound.UI_COUNTDOWN_START);
+    if (game.sfx) {
+      game.sfx.stop(sound.UI_COUNTDOWN_START);
+    }
     this.label.visible = false;
     this.timer.stop(false);
   },
