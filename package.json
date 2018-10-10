@@ -15,7 +15,8 @@
     "instrument": false
   },
   "scripts": {
-    "start": "pm2 start ./bin/www",
+    "start": "node ./bin/www",
+    "start:pm2": "pm2 start ./bin/www",
     "build:heroku": "npm run build && npm run build:old && npm run browserify:test",
     "build": "npm run build:babel && npm run build:pixi",
     "build:babel": "babel ./src/app --out-dir dist --source-maps  --presets es2015",
