@@ -1,0 +1,139 @@
+{
+  "atlas": {
+    "key": "combined",
+    "imgUrl": "assets/atlas/combined-demo.png",
+    "dataUrl": "assets/atlas/combined-demo.json"
+  },
+  "endless": [
+    {
+      "rate": 1.1,
+      "blink": false,
+      "flip": false
+    },
+    {
+      "rate": 1.1,
+      "blink": false,
+      "flip": true
+    },
+    {
+      "rate": 1.1,
+      "blink": true,
+      "flip": false
+    },
+    {
+      "rate": 1.1,
+      "blink": true,
+      "flip": true
+    }
+  ],
+  "hiscoreLayout": {
+    "margin": 0.05,
+    "padding": 0.05
+  },
+  "actorsScale": 1,
+  "training": {
+    "mapImgUrl": "assets/levels/training.png",
+    "mapImgKey": "training",
+    "mapDataUrl": "assets/physics/training.json",
+    "mapDataKey": "training",
+    "mapScale": 2,
+    "useAtlas": false,
+    "mapPosition": {
+      "x": 0,
+      "y": 1700
+    },
+    "missionSwipe": {
+      "title": "Flight Training",
+      "desc": "Follow the instructions,\nactivate the drones",
+      "color": "rgba(124, 255, 0, 0.7)"
+    },
+    "world": {
+      "width": 3000,
+      "height": 3000
+    },
+    "player": {
+      "scale": 1,
+      "spawns": [{
+        "x": 1500,
+        "y": 1500,
+        "orb": false
+      }]
+    },
+    "orb": {
+      "scale": 1,
+      "x": 2600,
+      "y": 1732
+    },
+    "orbHolder": {
+      "scale": 1,
+      "x": 2600,
+      "y": 1770
+    }
+  },
+  "data": [
+    {
+      "enemyFireRate": 100,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(255, 0, 0, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-1",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-1.json",
+      "mapDataKey": "level-1",
+      "mapScale": 2,
+      "world": {
+        "width": 1536,
+        "height": 1000
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 730
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 300,
+            "y": 300,
+            "orb": false
+          }
+        ]
+      },
+      "orb": {
+        "scale": 1,
+        "x": 915,
+        "y": 852
+      },
+      "orbHolder": {
+        "x": 915,
+        "y": 890,
+        "scale": 1
+      },
+      "enemies": [
+        {
+          "x": 705,
+          "y": 869,
+          "rotation": 30,
+          "scale": 1
+        }
+      ],
+      "fuels": [
+        {
+          "scale": 1,
+          "x": 550,
+          "y": 816
+        }
+      ],
+      "powerStation": {
+        "scale": 1,
+        "x": 1100,
+        "y": 800
+      }
+    }
+  ]
+}

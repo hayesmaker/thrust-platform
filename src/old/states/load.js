@@ -20,16 +20,17 @@ module.exports = {
    *
    * @method init
    * @param bootScreen {Phaser.Sprite}
+   * @param versionTxt {String}
    */
   init: function (bootScreen, versionTxt) {
-    console.log('load state :: init', bootScreen);
+    console.log('load state :: init', properties, bootScreen);
     levelsLoader.init();
     this.bootScreen = bootScreen;
     this.versionTxt = versionTxt;
     var x = 0;
     var y = game.height * 0.7;
     var bmd = game.make.bitmapData(1, 1);
-    bmd.rect(0,0,1,1, 'rgba(255, 0, 0, 0.5)');
+    bmd.rect(0, 0, 1, 1, 'rgba(255, 0, 0, 0.5)');
     this.swipe = game.add.sprite(x, y, bmd);
     this.swipe.anchor.setTo(0);
     this.swipe.width = 1;
@@ -66,8 +67,12 @@ module.exports = {
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
-    this.loadSfx();
-    this.loadMusic();
+
+    console.log('load :: properties :: demo: ', properties.levels);
+    if (!properties.levels.demo) {
+      this.loadSfx();
+      this.loadMusic();
+    }
   },
 
   /**
@@ -100,7 +105,7 @@ module.exports = {
    * @method getSfxAudioFormats
    * @returns {*}
    */
-  getMusicAudioFormats: function() {
+  getMusicAudioFormats: function () {
     var formats;
     if (game.device.android) {
       formats = 'assets/audiosprite/thrust-music.ogg';
@@ -149,7 +154,7 @@ module.exports = {
   fileComplete: function (progress, cacheKey) {
     console.log('load :: fileComplete', cacheKey);
     var percent = game.load.progress;
-    this.tween = TweenMax.to(this.swipe, 0.1, {width: game.width * percent/100} );
+    this.tween = TweenMax.to(this.swipe, 0.1, {width: game.width * percent / 100});
   },
 
   /**
@@ -167,16 +172,19 @@ module.exports = {
    * @method decodeAudio
    */
   decodeAudio: function () {
-    console.log('load :: decodeAudio');
-    var sfx = game.add.audioSprite('sfx');
-    sfx.allowMultiple = true;
-    var music = game.add.audioSprite('music');
-    music.allowMultiple = true;
-    game.sfx = sfx;
-    game.music = music;
-    game.sound.setDecodedCallback(['sfx', 'music'], this.transitionOut, this);
-    console.log('load :: decodeAudio : end reach');
-
+    try {
+      console.log('load :: decodeAudio');
+      var sfx = game.add.audioSprite('sfx');
+      sfx.allowMultiple = true;
+      var music = game.add.audioSprite('music');
+      music.allowMultiple = true;
+      game.sfx = sfx;
+      game.music = music;
+      game.sound.setDecodedCallback(['sfx', 'music'], this.transitionOut, this);
+      console.log('load :: decodeAudio : end reach');
+    } catch (e) {
+      this.transitionOut();
+    }
   },
 
   /**

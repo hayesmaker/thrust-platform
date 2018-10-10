@@ -1,5 +1,5 @@
 var _ = require('lodash');
-
+var properties = require('../properties');
 /**
  * @class options-model
  * @type {{}}
@@ -15,6 +15,7 @@ module.exports = {
     this.initFps();
     this.initDisplay();
     this.initEvents();
+
   },
 
   /**
@@ -38,7 +39,7 @@ module.exports = {
     }
     switch(this.gameModes.levels.selected) {
       case 'classic' :
-        jsonUrl = 'assets/levels/classic.json';
+        jsonUrl = properties.levels.demo? 'assets/levels/demo.json' : 'assets/levels/classic.json';
         break;
       case '2016' :
         jsonUrl = 'assets/levels/2016.json';
@@ -98,8 +99,8 @@ module.exports = {
    * @property sound
    */
   sound: {
-    soundFx: true,
-    music: true
+    soundFx: false,
+    music: false
   },
   /**
    * @property display
