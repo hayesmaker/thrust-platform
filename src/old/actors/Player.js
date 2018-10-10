@@ -156,7 +156,9 @@ function Player(collisions, groups) {
   this.refuelAnimSprite.visible = false;
   this.alpha = 0;
   this.init();
-  this.thrustSfx = game.sfx.get(ThrustSound);
+  if (game.sfx) {
+    this.thrustSfx = game.sfx.get(ThrustSound);
+  }
 }
 
 var p = Player.prototype = Object.create(Phaser.Sprite.prototype, {
@@ -237,7 +239,10 @@ p.showRefuelAnim = function () {
 p.hideRefuelAnim = function () {
   this.refuelAnimSprite.animations.stop('refuelling', true);
   this.refuelAnimSprite.visible = false;
-  game.sfx.stop(sound.FUEL_REFUELLING);
+  if (game.sfx) {
+    game.sfx.stop(sound.FUEL_REFUELLING);
+  }
+
 };
 
 /**
@@ -439,7 +444,9 @@ p.stopThrustFx = function () {
   this.thrustAnim.visible = false;
   this.thrustAnim.animations.stop('rocket', true);
   this.thrustStarted = false;
-  game.sfx.stop(ThrustSound);
+  if (game.sfx) {
+    game.sfx.stop(ThrustSound);
+  }
 };
 
 /**

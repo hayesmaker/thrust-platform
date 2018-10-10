@@ -41,6 +41,7 @@ module.exports = {
     key: 'combined'
   },
   levels: {
+    demo: true,
     startLevel: 1
   }
 };
