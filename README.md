@@ -39,12 +39,15 @@ it can more easily be used as intended.
 ## Install
 - `npm install`
 
-## Run
-- `npm start`
-- Load the launcher: http://localhost:4000
+## Build
+- `npm run build`
 
 ## Tests
 - `npm test`
+
+## Run
+- `npm start`
+- Load the launcher: http://localhost:4000
 
 ## Changelog
 - See [CHANGELOG](CHANGELOG.md)
