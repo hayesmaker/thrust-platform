@@ -14,4 +14,4 @@ fi
 npm run build:heroku
 
 #  copy and paste for local levels
-curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz
+# curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz
