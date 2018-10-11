@@ -69,7 +69,7 @@ module.exports = {
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
 
     console.log('load :: env :: THRUST_ENV: ', process.env.THRUST_ENV);
-    if (!process.env.THRUST_ENV === 'demo') {
+    if (process.env.THRUST_ENV === 'fullgame') {
       this.loadSfx();
       this.loadMusic();
     }
