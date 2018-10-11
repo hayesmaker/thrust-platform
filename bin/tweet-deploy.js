@@ -13,7 +13,7 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return 'Thrust 30 v1.0.5 released - Fixed the crash on load issue - Game is back - Enjoy Pilots!  ' + url +
+  return 'Thrust 30 v1.2.0 released ' + url +
   ' #thrust30 #gamedev #html5games #indiegamedev';
 };
 
@@ -27,7 +27,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
   }
 });
 
-console.log(status());
+//console.log(status());
 
 /*
  Thrust 2016 Major update (v0.8.1) http://thrust-platform.herokuapp.com New Flight Training mode! #indiedev @IndieGameDevBot @IndieDevDog;
