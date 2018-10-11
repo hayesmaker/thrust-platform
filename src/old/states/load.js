@@ -68,8 +68,8 @@ module.exports = {
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
 
-    console.log('load :: properties :: demo: ', properties.levels);
-    if (!properties.levels.demo) {
+    console.log('load :: env :: THRUST_ENV: ', process.env.THRUST_ENV);
+    if (!process.env.THRUST_ENV === 'demo') {
       this.loadSfx();
       this.loadMusic();
     }

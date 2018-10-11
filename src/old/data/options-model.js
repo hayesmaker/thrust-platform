@@ -39,7 +39,7 @@ module.exports = {
     }
     switch(this.gameModes.levels.selected) {
       case 'classic' :
-        jsonUrl = properties.levels.demo? 'assets/levels/demo.json' : 'assets/levels/classic.json';
+        jsonUrl = process.env.THRUST_ENV === 'demo'? 'assets/levels/demo.json' : 'assets/levels/classic.json';
         break;
       case '2016' :
         jsonUrl = 'assets/levels/2016.json';
