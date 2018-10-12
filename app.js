@@ -7,21 +7,12 @@ var bodyParser = require('body-parser');
 var serveIndex = require('serve-index');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var basic = require('express-authentication-basic');
-
-var login = basic(function(challenge, callback) {
-  if (challenge.username === 'admin' && challenge.password === 'secret123') {
-    callback(null, true, { user: 'gobbapeas' });
-  } else {
-    callback(null, false, { error: 'INVALID_PASSWORD' });
-  }
-});
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/assets/favicon/favicon.ico', {}));
@@ -31,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // routes
-app.use(login);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', routes);
