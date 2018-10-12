@@ -359,7 +359,7 @@
       "gateDataKey": "level-4-gate",
       "gateDataUrl": "assets/physics/level-4-gate.json",
       "gateTweenTo": {
-        "x": 605,
+        "x": 1240,
         "y": 2000
       },
       "gatePosition": {
