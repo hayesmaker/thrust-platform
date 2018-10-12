@@ -13,7 +13,7 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return 'Thrust 30 update: Prepared the codebase for future updates and  fixed a small bug in the gate animation on level 4 ' + url +
+  return 'Thrust 30 update: Just fixed 110 #nodejs dependency vulnerabilities - I need a drink! ' + url +
   ' #thrust30 #gamedev #html5games #indiegamedev';
 };
 
