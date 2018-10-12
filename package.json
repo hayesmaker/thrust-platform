@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "MIT",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "nyc": {
     "include": [
@@ -16,7 +16,6 @@
   },
   "scripts": {
     "start": "pm2 start ./bin/www",
-    "build:heroku": "npm run build:fullgame && npm run build:new && npm run browserify:test",
     "build:new": "npm run build:babel && npm run build:pixi",
     "build:babel": "babel ./src/app --out-dir dist --source-maps  --presets es2015",
     "build:pixi": "browserify dist/pixi-main.js -t babelify --outfile public/javascripts/browserify/thrust-engine-pixi.js -d",
@@ -32,9 +31,9 @@
     "postinstall": "./bin/custom-build.sh",
     "prebuild": "mkdir -p public/javascripts/browserify",
     "build": "npm run browserify:canvas && npm run uglify:canvas",
+    "build:heroku": "npm run build:fullgame && npm run build:new && npm run browserify:test",
     "build:fullgame": "npm run browserify:canvas:full && npm run uglify:canvas",
     "build:webgl": "npm run browserify:webgl",
-    "build:custom": "npm run browserify:gobbapeas",
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
     "deploy:skipTests": "npm run heroku",
