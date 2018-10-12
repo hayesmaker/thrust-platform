@@ -18,6 +18,7 @@ var status = function() {
 };
 
 
+/*
 client.post('statuses/update', {status: status() }, function(error, tweet) {
   if (!error) {
     console.log('Tweeted:' + tweet + ' status: ', status());
@@ -26,6 +27,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+*/
 
 //console.log(status());
 
