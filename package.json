@@ -15,6 +15,7 @@
     "instrument": false
   },
   "scripts": {
+    "create:out": "mkdirp ./out/bundle",
     "start": "pm2 start ./bin/www",
     "build": "./bin/custom-build.sh",
     "build:new": "npm run build:babel && npm run build:pixi",

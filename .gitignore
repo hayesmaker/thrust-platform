@@ -12,6 +12,7 @@ assets.zip
 assets.tar.gz
 .DS_Store
 dist/
+out/
 
 public/assets/atlas/combined.json
 public/assets/atlas/combined.png

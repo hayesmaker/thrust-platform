@@ -114,7 +114,8 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+    //use new advanced touch controls
+    //game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
 
