@@ -2,7 +2,7 @@
   "name": "thrust-platform",
   "author": "Hayesmaker Media Ltd @hayes_maker",
   "license": "MIT",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "private": true,
   "nyc": {
     "include": [
@@ -30,9 +30,8 @@
     "mocha": "echo 'Attempting to run mocha bdd style unit tests' && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./public/javascripts/test/index.html",
     "lint": "eslint src/app/pixi/**/*.js",
     "prebuild": "mkdirp public/javascripts/browserify",
-    "build:demo": "npm run browserify:canvas && npm run uglify:canvas",
-    "build:heroku": "npm run build:fullgame && npm run build:new && npm run browserify:test",
-    "build": "npm run browserify:canvas:full && npm run uglify:canvas",
+    "build:heroku": "npm run browserify:canvas:full && npm run uglify:canvas",
+    "build": "npm run browserify:canvas && npm run uglify:canvas",
     "build:webgl": "npm run browserify:webgl",
     "getAssets": "curl -O $THRUST_ASSETS_PACK && tar -xzf assets.tar.gz",
     "debug:android": "echo 'Ensure Android device is connected, and has USB debugging enabled' && adb forward tcp:9222 localabstract:chrome_devtools_remote",
