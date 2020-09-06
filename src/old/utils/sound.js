@@ -63,7 +63,7 @@ module.exports = {
    * @param loop
    */
   playSound: function(name, volume, loop) {
-    if (optionsModel.sound.soundFx) {
+    if (optionsModel.sound.soundFx && game.sfx) {
       game.sfx.play(name, volume);
       var sound = game.sfx.get(name);
       if (loop) {
@@ -93,7 +93,7 @@ module.exports = {
     if (this.currentMusic !== name) {
       this.currentMusic = name;
       this.stopMusic();
-      if (optionsModel.sound.music) {
+      if (optionsModel.sound.music && game.music) {
         game.music.play(name, volume);
         this.music = game.music.get(name);
         if (loop) {

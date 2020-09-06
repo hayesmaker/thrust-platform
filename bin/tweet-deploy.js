@@ -13,9 +13,10 @@ var url = 'http://www.thrust30.com';
 
 
 var status = function() {
-  return 'v1.0.4 ios app release and v2.0.0-pre-alpha development builds now playable at: ' + url +
-  ' #thrust30 #gamedev #html5games #html5';
+  return 'Thrust 30 update: Just fixed 110 #nodejs dependency vulnerabilities - I need a drink! ' + url +
+  ' #thrust30 #gamedev #html5games #indiegamedev';
 };
+
 
 
 client.post('statuses/update', {status: status() }, function(error, tweet) {
@@ -26,6 +27,7 @@ client.post('statuses/update', {status: status() }, function(error, tweet) {
     console.error(error);
   }
 });
+
 
 console.log(status());
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var properties = require('../properties');
+///var process = require('process');
 
 /**
  * Game entry point
@@ -72,6 +73,7 @@ module.exports = {
    * @method start
    */
   start: function() {
+    console.log('process', process.env.THRUST_ENV);
     var domParent = document.getElementById('gameContainer') || '';
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
     game.state.add('play', require('./play'));

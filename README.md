@@ -19,8 +19,8 @@ assets for a single Thrust level only to demonstrate a game using the platform.
 Currently builds of Thrust 30 are tightly coupled here in the platform repo.
 I'm planning to make the platform completely seperate from Thrust 30, so that
 it can more easily be used as intended.
-- To build Thrust 30 v2.0.0-pre-alpha (re-write which removes Phaserjs): `npm run build`
-- To build Thrust 30 v1 (current production version): `npm run build:old`
+- To build Thrust 30 v2.0.0-pre-alpha (re-write which removes Phaserjs): `npm run build:new`
+- To build Thrust 30 v1 (current production version): `npm run build`
 
 ### Features
 - `Browserstack` Have been kind enough to support this open source project. https://www.browserstack.com/
@@ -35,16 +35,22 @@ it can more easily be used as intended.
 
 ## Prerequisistes
 - `node` & `npm`
+- `Currently build with Node v12.18.2 and NPM v6.14.5 
+until I fix the build for latest node version`
+
 
 ## Install
 - `npm install`
 
-## Run
-- `npm start`
-- Load the launcher: http://localhost:4000
+## Build
+- `npm run build`
 
 ## Tests
 - `npm test`
+
+## Run
+- `npm start`
+- Load the launcher: http://localhost:4000
 
 ## Changelog
 - See [CHANGELOG](CHANGELOG.md)

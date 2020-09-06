@@ -1,5 +1,5 @@
 var _ = require('lodash');
-
+var properties = require('../properties');
 /**
  * @class options-model
  * @type {{}}
@@ -15,6 +15,7 @@ module.exports = {
     this.initFps();
     this.initDisplay();
     this.initEvents();
+
   },
 
   /**
@@ -38,7 +39,8 @@ module.exports = {
     }
     switch(this.gameModes.levels.selected) {
       case 'classic' :
-        jsonUrl = 'assets/levels/classic.json';
+        jsonUrl = process.env.THRUST_ENV === 'demo'? 'assets/levels/demo.json' : 'assets/levels/classic.json';
+        console.log("JSON url=", jsonUrl);
         break;
       case '2016' :
         jsonUrl = 'assets/levels/2016.json';

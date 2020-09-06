@@ -1,3 +1,4 @@
+//require('dotenv').config();
 var launcher = require('./states/launcher');
 var version = require('./package.json').version;
 
