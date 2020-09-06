@@ -23,7 +23,3 @@ public/assets/atlas/combined-2016.png
 .nyc_output/
 coverage/
 tmp/
-.DS_Store
-.nyc_output/
-coverage/
-dist/

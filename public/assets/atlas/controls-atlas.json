@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "button-1-ontouch.png",
+	"frame": {"x":1,"y":1,"w":193,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":192},
+	"sourceSize": {"w":193,"h":192}
+},
+{
+	"filename": "button-1.png",
+	"frame": {"x":190,"y":204,"w":193,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":192},
+	"sourceSize": {"w":193,"h":192}
+},
+{
+	"filename": "button-move-ontouch.png",
+	"frame": {"x":196,"y":1,"w":187,"h":201},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":187,"h":201},
+	"sourceSize": {"w":187,"h":201}
+},
+{
+	"filename": "button-move.png",
+	"frame": {"x":1,"y":195,"w":187,"h":201},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":187,"h":201},
+	"sourceSize": {"w":187,"h":201}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "controls-atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":384,"h":397},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3402436c2128bf8675d4caf6b9531ebc:f30cbe66c4f4d9c1cbdfa1bdece52737:cb2ea99b53c47c3923658852d272ffe9$"
+}
+}
