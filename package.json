@@ -73,7 +73,7 @@
     "dotenv": "^6.1.0",
     "ensy": "^1.2.1",
     "envify": "^4.1.0",
-    "eslint": "^3.16.1",
+    "eslint": "^4.18.2",
     "express": "^4.16.4",
     "express-authorization": "^1.0.0",
     "fpsmeter": "^0.3.1",
