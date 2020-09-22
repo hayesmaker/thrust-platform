@@ -18,8 +18,8 @@ module.exports = {
   enableJoyPad: false,
   fatalCollisions: true,
   drawBackground: true,
-  width: 800,
-  height: 500,
+  width: 1024,
+  height: 768,
   dev: {
     mode: 0,
     debugPhysics: 0,
