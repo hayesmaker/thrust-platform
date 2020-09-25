@@ -89,6 +89,7 @@ module.exports = {
     if (StatusBar) {
       StatusBar.hide();
     }
+    console.log("Play :: gameState scaleMode", gameState.gameScale);
   },
 
   /**
@@ -521,7 +522,7 @@ module.exports = {
     if (game.controls.useExternalJoypad) {
       this.player.checkPlayerControlJoypad();
     }
-    this.player.checkPlayerControl(this.cursors, this.buttonADown);
+    this.player.checkPlayerControl(this.cursors);
   },
 
   /**
@@ -553,6 +554,7 @@ module.exports = {
         sound.playSound(sound.PLAYER_TELEPORT_OUT);
         this.player.levelExit();
         this.stopStopwatch();
+        //@deprecated traningMode
         if (gameState.trainingMode) {
           droneManager.trainingComplete();
           gameState.playTime = this.stopwatch.getText();

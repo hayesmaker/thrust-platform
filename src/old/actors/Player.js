@@ -20,6 +20,8 @@ var ThrustSound = sound.PLAYER_THRUST_MID;
  * @constructor
  */
 function Player(collisions, groups) {
+  this.rotateVal = 90 * 1;//gameState.gameScale;
+  this.thrustVal = 400 * 1;//gameState.gameScale;
   /**
    * @property orbActivated
    * @type {boolean}
@@ -359,8 +361,8 @@ p.checkPlayerControl = function (cursors) {
     return;
   }
   this.checkVirtualFireButton();
-  this.checkRotate(null, cursors);
-  this.checkThrust(cursors);
+  this.checkRotate(game.externalJoypad, cursors);
+  this.checkThrust(game.externalJoypad, cursors);
 };
 
 /**
@@ -374,8 +376,8 @@ p.checkPlayerControlJoypad = function () {
     return;
   }
   this.checkJoypadFire();
-  this.checkThrust(game.externalJoypad.thrustButton.isDown);
-  this.checkRotate(null, game.externalJoypad);
+  //this.checkThrust(game.externalJoypad, null);
+  //this.checkRotate(game.externalJoypad, null);
 };
 
 p.checkVirtualFireButton = function() {
@@ -415,11 +417,13 @@ p.checkJoypadFire = function () {
  */
 p.checkRotate = function (stick, cursors) {
   if ((cursors && cursors.left.isDown) ||
+    stick && stick.left.isDown ||
     game.controls.moveLeftIsDown) {
-    this.rotate(-90);
+    this.rotate(-this.rotateVal);
   } else if ((cursors && cursors.right.isDown) ||
+    stick && stick.right.isDown ||
     game.controls.moveRightIsDown) {
-    this.rotate(90);
+    this.rotate(this.rotateVal);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();
   }
@@ -427,10 +431,11 @@ p.checkRotate = function (stick, cursors) {
 
 /**
  * @method checkThrust
+ * @param stick
  * @param cursors
  */
-p.checkThrust = function (cursors) {
-  if (cursors && cursors.up.isDown || game.controls.thrustButtonIsDown) {
+p.checkThrust = function (stick, cursors) {
+  if ((cursors && cursors.up.isDown) || (stick && stick.thrustButton.isDown)) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;
@@ -438,7 +443,7 @@ p.checkThrust = function (cursors) {
         this.thrustAnim.play('rocket');
         sound.playSound(ThrustSound, 0.6, true);
       }
-      this.body.thrust(400);
+      this.body.thrust(this.thrustVal);
       if (!this.isRefuelling && !gameState.cheats.infiniteFuel) {
         gameState.fuel--;
       }

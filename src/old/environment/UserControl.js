@@ -12,7 +12,9 @@ function UserControl(features) {
   this.features = features;
   this.initExternalJoypad();
   this.initKeys();
-  this.initTouchEvents();
+  if (!this.useExternalJoypad && features.isTouchScreen) {
+    this.initTouchEvents();
+  }
 }
 
 var game = global.game;
@@ -22,7 +24,7 @@ var p = UserControl.prototype;
 p.gamepad = null;
 p.useKeys = false;
 p.useExternalJoypad = false;
-p.useVirtualJoypad = true;
+p.useVirtualJoypad = false;
 p.externalGamePadDetected = false;
 p.isHidden = false;
 p.fireButtonDown = null;
@@ -40,6 +42,7 @@ p.initExternalJoypad = function () {
   this.gamepad = game.input.gamepad.pad1;
   this.gamepad.addCallbacks(this, {
     onConnect: function () {
+      console.warn("UserControl :: initExternalJoypad");
       this.useExternalJoypad = true;
       this.useVirtualJoypad = false;
       game.externalJoypad = {};
@@ -71,18 +74,19 @@ p.initKeys = function () {
 
 
 p.gotoPlayMode = function () {
-  if (!this.useExternalJoypad) {
+  if (this.advancedTouchControlsGroup) {
     this.advancedTouchControlsGroup.visible = true;
   }
 };
 
 p.gotoInputMode = function () {
-  // if (!this.useExternalJoypad) {
-  this.advancedTouchControlsGroup.visible = false;
-  // }
+  if (this.advancedTouchControlsGroup) {
+    this.advancedTouchControlsGroup.visible = false;
+  }
 };
 
 p.initTouchEvents = function() {
+  this.useVirtualJoypad = true;
   this.fireButtonDown = new Phaser.Signal();
   this.fireButtonUp = new Phaser.Signal();
   this.thrustButtonDown = new Phaser.Signal();
@@ -148,14 +152,14 @@ p.initAdvancedTouchControls = function () {
   this.advancedFireButton.events.onInputUp.add(this.checkUp, this);
   this.advancedThrustButton.events.onInputDown.add(this.checkDown, this);
   this.advancedThrustButton.events.onInputUp.add(this.checkUp, this);
-  this.moveButtonLeft.events.onInputOut.add(this.checkUp, this);
-  this.moveButtonRight.events.onInputOut.add(this.checkUp, this);
-  this.advancedFireButton.events.onInputOut.add(this.checkUp, this);
-  this.advancedThrustButton.events.onInputOut.add(this.checkUp, this);
-  this.moveButtonLeft.events.onInputOver.add(this.checkDown, this);
-  this.moveButtonRight.events.onInputOver.add(this.checkDown, this);
-  this.advancedFireButton.events.onInputOver.add(this.checkDown, this);
-  this.advancedThrustButton.events.onInputOver.add(this.checkDown, this);
+  //this.moveButtonLeft.events.onInputOut.add(this.checkUp, this);
+  //this.moveButtonRight.events.onInputOut.add(this.checkUp, this);
+  //this.advancedFireButton.events.onInputOut.add(this.checkUp, this);
+  //this.advancedThrustButton.events.onInputOut.add(this.checkUp, this);
+  //this.moveButtonLeft.events.onInputOver.add(this.checkDown, this);
+  //this.moveButtonRight.events.onInputOver.add(this.checkDown, this);
+  //this.advancedFireButton.events.onInputOver.add(this.checkDown, this);
+  //this.advancedThrustButton.events.onInputOver.add(this.checkDown, this);
 };
 
 p.checkDown = function (e) {

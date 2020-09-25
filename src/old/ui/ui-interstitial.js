@@ -322,22 +322,29 @@ p.update = function() {
  * @method enable
  */
 p.enable = function() {
+  console.log("ui-interstitial :: enable :", game.controls.useKeys);
   this.enabled = true;
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
-  game.controls.fireButtonDown.add(this.spacePressed, this);
+  if (game.controls.useVirtualJoypad) {
+    game.controls.fireButtonDown.add(this.spacePressed, this);
+  }
 };
 
 /**
  * @method disable
  */
 p.disable = function() {
+  console.log("ui-interstitial :: disable :", game.controls.useKeys);
   this.enabled = false;
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
-  game.controls.fireButtonDown.remove(this.spacePressed, this);
+  if (game.controls.useVirtualJoypad) {
+    game.controls.fireButtonDown.remove(this.spacePressed, this);
+  }
+
 };
 
 /**
@@ -416,6 +423,7 @@ p.transitionExit = function() {
  * @method transitionEnterComplete
  */
 p.transitionEnterComplete = function() {
+  console.log("ui-interstitial :: transitionEnterComplete");
   this.enable();
 };
 

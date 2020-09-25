@@ -92,6 +92,11 @@ p.createDisplay = function () {
   rect.beginFill(0xff0000, 0.35);
   rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
   rect.endFill();
+
+  //@todo remove this signal when leaving high score
+  rect.inputEnabled = true;
+  rect.events.onInputDown.add(this.spacePressed, this, 0);
+
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
   this.drawBestTime();
@@ -106,7 +111,7 @@ p.centerDisplay = function () {
 p.createTitle = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "HIGH SCORES", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
-  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.08;
+  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.16;
 };
 
 p.addHighScore = function (highscore, index) {
@@ -178,12 +183,14 @@ p.drawBestTime = function() {
 };
 
 p.createSubtitles = function () {
+
+  var inputText = game.controls.useVirtualJoypad? "TAP TO EXIT" : "PRESS FIRE";
   var style = this.styles.subtitle;
   this.subTitle1 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.layoutRect.y + this.layoutRect.height * 0.8, "", style, this.group);
   this.subTitle1.anchor.setTo(0.5);
   this.subTitle2 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
   this.subTitle2.anchor.setTo(0.5);
-  this.subTitle3 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
+  this.subTitle3 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0,inputText, this.styles.title, this.group);
   this.subTitle3.anchor.setTo(0.5);
   this.subTitle3.y = this.layoutRect.y + this.layoutRect.height - this.layoutRect.height * 0.075;
   this.subTitle1.visible = false;
@@ -389,6 +396,8 @@ p.enable = function () {
   }
   if (controls.advancedTouchControlsGroup) {
     controls.fireButtonUp.add(this.spacePressed, this);
+    //@todo
+    //enable touch
   }
 };
 

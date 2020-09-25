@@ -9,9 +9,6 @@ var manager = require('./manager');
 var UILevelsComplete = require('./ui-levels-complete');
 var game = global.game;
 
-
-
-
 module.exports = {
   playState: null,
 

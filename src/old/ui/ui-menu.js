@@ -254,7 +254,8 @@ p.menuItem = function (data, index) {
 
   var topY = game.height /2 - 100;
   if (game.width < 1000 || game.height < 700) {
-    topY = graphic.height + game.height * 0.1;
+    //console.warn("small layout");
+    //topY = graphic.height + game.height * 0.1;
   }
   menuSpr.y = topY  + (graphic.height + (2*this.padding.y)) * index - graphic.height * 0.5;
   menuSpr.addChild(graphic);

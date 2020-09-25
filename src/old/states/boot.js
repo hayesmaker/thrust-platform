@@ -24,10 +24,9 @@ module.exports = {
      * @param customOptions
      */
     init: function (customScaleMode, customOptions) {
-        console.log('boot :: init env', process.env.THRUST_ENV);
+        console.log('boot :: init env', process.env.THRUST_ENV, 'game:', game);
         this.customScaleMode = customScaleMode;
         this.customOptions = customOptions;
-
     },
 
     /**
