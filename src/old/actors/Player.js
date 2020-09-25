@@ -359,7 +359,7 @@ p.checkPlayerControl = function (cursors) {
     return;
   }
   this.checkVirtualFireButton();
-  this.checkRotate(game.controls.stick, cursors);
+  this.checkRotate(null, cursors);
   this.checkThrust(cursors);
 };
 

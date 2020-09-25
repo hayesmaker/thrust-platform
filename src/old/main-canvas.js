@@ -8,7 +8,7 @@ window.onload = function() {
   launcher.setCustomOptions({
     options: {
       version: version,
-      versionSuffix: '-0',
+      versionSuffix: '-1',
       gameModes: {
         allLevels: true
       }

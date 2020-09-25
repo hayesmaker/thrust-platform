@@ -113,9 +113,13 @@ p.enable = function () {
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
-  if (game.controls.useVirtualJoypad) {
+  if (game.controls.advancedTouchControlsGroup) {
+    game.controls.fireButtonDown.add(this.spacePressed, this);
     //use new advanced touch controls
     //game.controls.buttonB.onDown.add(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
+    game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
 };
 
@@ -127,7 +131,10 @@ p.disable = function () {
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
-  if (game.controls.stick) {
+  if (game.controls.advancedTouchControlsGroup) {
+    game.controls.fireButtonDown.remove(this.spacePressed, this);
+  }
+  if (game.controls.useExternalJoypad) {
     game.controls.buttonB.onDown.remove(this.spacePressed, this);
   }
 };

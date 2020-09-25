@@ -73,7 +73,7 @@ module.exports = {
    * @method start
    */
   start: function() {
-    console.log('process', process.env.THRUST_ENV);
+    console.info('THRUST_ENV', process.env.THRUST_ENV);
     var domParent = document.getElementById('gameContainer') || '';
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
     game.state.add('play', require('./play'));
@@ -85,7 +85,6 @@ module.exports = {
         this.enableHiResMode();
         game.scale.setGameSize(properties.width, properties.height);
         game.controls.refresh();
-        //todo
       }.bind(this));
     }
   }

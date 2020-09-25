@@ -58,8 +58,8 @@ module.exports = {
      * @method create
      */
     create: function () {
-
-        this.mergeOptions();
+        _.merge(optionsModel, this.customOptions);
+        console.log('options-', optionsModel);
 
         game.stage.backgroundColor = properties.backgroundColour;
         //Experimental poorly documented features of Phaser
@@ -112,11 +112,6 @@ module.exports = {
      */
     update: function () {
 
-    },
-
-    mergeOptions: function () {
-        _.merge(optionsModel, this.customOptions);
-        console.log('options-', optionsModel);
     },
 
     /**

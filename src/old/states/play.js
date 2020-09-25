@@ -297,7 +297,7 @@ module.exports = {
     } else {
       this.hidePauseButton();
       ui.hideUser();
-      game.controls.gotoInputMode();
+      // game.controls.gotoInputMode();
     }
     var shouldFadeBackground = (
       state === gameState.PLAY_STATES.COMPLETE ||
@@ -307,6 +307,7 @@ module.exports = {
     ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.MENU) {
       sound.playMusic("thrust-title-theme1", 0.5, true);
+      game.controls.gotoInputMode();
       ui.removeGameOver();
     }
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {

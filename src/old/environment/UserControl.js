@@ -49,6 +49,7 @@ p.initExternalJoypad = function () {
       game.externalJoypad.down = this.gamepad.getButton(Phaser.Gamepad.BUTTON_13);
       game.externalJoypad.left = this.gamepad.getButton(Phaser.Gamepad.BUTTON_14);
       game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
+      //this.refresh();
     }.bind(this)
   });
   game.input.gamepad.start();
@@ -76,9 +77,9 @@ p.gotoPlayMode = function () {
 };
 
 p.gotoInputMode = function () {
-  if (!this.useExternalJoypad) {
-    this.advancedTouchControlsGroup.visible = false;
-  }
+  // if (!this.useExternalJoypad) {
+  this.advancedTouchControlsGroup.visible = false;
+  // }
 };
 
 p.initTouchEvents = function() {
@@ -115,7 +116,7 @@ p.initAdvancedTouchControls = function () {
   this.moveButtonRight.inputEnabled = true;
   this.advancedThrustButton.inputEnabled = true;
   this.advancedFireButton.inputEnabled = true;
-  var style = {font: "24px thrust_regular", fill: "#ffffff", align: "left"};
+  var style = {font: "20px thrust_regular", fill: "#ffffff", align: "left"};
   var buttonFireTxt = game.make.text(0, 0, "FIRE", style);
   var buttonThrustTxt = game.make.text(0, 0, "THRUST", style);
   this.advancedFireButton.addChild(buttonFireTxt);
