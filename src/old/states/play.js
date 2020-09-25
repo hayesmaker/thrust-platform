@@ -335,7 +335,6 @@ module.exports = {
           gameState.planetBusterMode = true;
         }
         */
-
         //this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       /*
@@ -346,6 +345,7 @@ module.exports = {
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
       */
+
       case "scores":
         this.showCurrentScreenByState(gameState.PLAY_STATES.HIGH_SCORES);
         break;
@@ -353,7 +353,7 @@ module.exports = {
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
       case "rules" :
-
+        this.showCurrentScreenByState(itemId);
         break;
       case "modes":
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);

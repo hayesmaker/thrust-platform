@@ -1,6 +1,8 @@
 var gameState = require('../data/game-state');
 var UIMenu = require('./ui-menu');
 var UIHighScores = require('./ui-high-scores');
+var UiRules  = require('./ui-rules');
+var UiRules2  = require('./rules2');
 var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
@@ -36,6 +38,8 @@ module.exports = {
     this.interstitial.trainingFailed.add(this.onTrainingFailed, this);
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
+    this.rules = new UiRules(this.group, "rules", playState);
+    this.rules2 = new UiRules2(this.group, "rules2", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);

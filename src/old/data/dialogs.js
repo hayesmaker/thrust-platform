@@ -10,6 +10,26 @@ module.exports = {
     return this.levelsComplete[0];
   },
 
+  getRulesText: function(index) {
+    return ["Objective:\n\n" +
+      "We have captured several battle grade starships\n" +
+      "which we need for a major offensive against the\n" +
+      "INTERGALACTIC EMPIRE\n" +
+      "However. We lack the Klystron Pods to power them\n\n" +
+      "Your goal is to steal several of the Empire's \n" +
+      "Klystron pods from various storage planets\n" +
+      "So we may turn their own weapons against them\n" +
+      "In the coming offensive\n",
+
+      "The Game:\n\n" +
+      "Destroy enemy turrets to avoid taking fire\n\n" +
+      "Hover above fuel tanks to refuel your ship\n\n" +
+        "Hover above the Klystron Pod to activate tractor beam to capture\n\n" +
+        "Once captured your tractor beam will turn from purple to blue.\n\n" +
+        "Thrust into space with the pod attached to warp to the next system"
+    ][index];
+  },
+
   levelsComplete: [
     "You have successfully completed all the Thrust Missions\n" +
     "Thrust missions based on the SPECTRUM version level layouts" +

@@ -29,7 +29,7 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
   this.dataProvider = [
     {label: 'PLAY', id: 'play'},
     {label: 'HOW TO PLAY', id: 'rules'},
-    {label: 'GAME MODES', id: 'modes'},
+    /*{label: 'GAME MODES', id: 'modes'},*/
     {label: 'HIGH SCORES', id: 'scores'},
     {label: 'OPTIONS', id: 'options'}
   ];
