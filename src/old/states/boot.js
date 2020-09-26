@@ -59,7 +59,6 @@ module.exports = {
     create: function () {
         _.merge(optionsModel, this.customOptions);
         console.log('options-', optionsModel);
-
         game.stage.backgroundColor = properties.backgroundColour;
         //Experimental poorly documented features of Phaser
         //game.scale.forceOrientation(true, false);
@@ -70,7 +69,6 @@ module.exports = {
         //levelManager.init();
         particles.init();
         //gameState.init();
-
         if (this.customScaleMode >= 0) {
             game.scale.scaleMode = this.customScaleMode;
         } else {
@@ -79,28 +77,23 @@ module.exports = {
         if (properties.dev.stats) {
             game.time.advancedTiming = true;
         }
-
         game.scale.canExpandParent = true;
         game.scale.fullScreenScaleMode = game.scale.NO_SCALE;
-
         userControl = new UserControl(features);
         game.controls = userControl;
         game.e2e = {};
-
         this.bootScreen = game.add.sprite(0, 0, 'splash');
         this.bootScreen.inputEnabled = true;
         this.bootScreen.useHandCursor = true;
         this.bootScreen.width = game.width;
         this.bootScreen.height = game.height;
         this.bootScreen.alpha = 0;
-
         var style = {font: "18px thrust_regular", fill: "#ffffff", align: 'left'};
         this.version = game.add.text(0, 0, 'THRUST 30 v' + optionsModel.version + optionsModel.versionSuffix, style);
         this.version.anchor.setTo(0.5, 0.5);
         this.version.x = game.width / 2;
         this.version.y = game.height * 0.78;
         this.version.alpha = 0;
-
         TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
         TweenMax.to(this.version, 3, {alpha: 1, ease: Quad.easeIn});
         game.e2e.boot = this;

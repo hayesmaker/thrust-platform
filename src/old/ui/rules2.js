@@ -8,8 +8,12 @@ var p = UiRules.prototype = Object.create(UiComponent.prototype, {
 
 module.exports = UiRules;
 
+/**
+ * @property debounceGamepadFire
+ * @type {boolean}
+ */
+p.debounceGamepadFire = true;
 p.group = null;
-p.debounce = false;
 p.padding = 20;
 
 /**
@@ -139,9 +143,14 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.externalJoypad.fireButton.isDown && !this.debounce) {
-    this.debounce = true;
-    this.spacePressed();
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
+      this.spacePressed();
+    }
   }
 };
 
@@ -149,6 +158,5 @@ p.update = function() {
  * @method spacePressed
  */
 p.spacePressed = function () {
-  //image.events.onInputDown.remove(this.spacePressed, this, 0);
   this.playState.showCurrentScreenByState.call(this.playState, gameState.PLAY_STATES.MENU);
 };

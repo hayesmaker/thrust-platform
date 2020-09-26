@@ -52,7 +52,7 @@ p.initExternalJoypad = function () {
       game.externalJoypad.down = this.gamepad.getButton(Phaser.Gamepad.BUTTON_13);
       game.externalJoypad.left = this.gamepad.getButton(Phaser.Gamepad.BUTTON_14);
       game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
-      //this.refresh();
+      this.gotoInputMode(); //hide virtual gamepad
     }.bind(this)
   });
   game.input.gamepad.start();

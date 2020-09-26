@@ -51,8 +51,8 @@ p.createDisplay = function () {
   spr.y = this.layoutRect.height * 0.5;
   var text1 = game.add.text(0, 0, "ROTATE\nRIGHT", this.style, this.group);
   var text2 = game.add.text(0, 0, "ROTATE\nLEFT", this.style, this.group);
-  var text3 = game.add.text(0, 0, "THRUST", this.style, this.group);
-  var text4 = game.add.text(0, 0, "FIRE", this.style, this.group);
+  var text3 = game.add.text(0, 0, "FIRE", this.style, this.group);
+  var text4 = game.add.text(0, 0, "THRUST", this.style, this.group);
   text1.anchor.setTo(0.5);
   text2.anchor.setTo(0.5);
   text1.x = this.layoutRect.halfWidth * 0.5;
@@ -108,13 +108,11 @@ p.createDisplay = function () {
   graphics.moveTo(coords[9].x, coords[9].y);
   graphics.lineTo(coords[10].x, coords[10].y);
   graphics.lineTo(coords[11].x, coords[11].y);
-  var gamePadEnabled = new UiSwitch(this.group, "GAMEPAD ENABLED");
-  gamePadEnabled.render();
-  gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
-  gamePadEnabled.group.y = this.layoutRect.height * 0.8;
-  //gamePadEnabled.switchedOn.add(this.onSwitch, this, 0, name);
-  //gamePadEnabled.switchedOff.add(this.offSwitch, this, 0, name);
-  this.components.push(gamePadEnabled);
+  // var gamePadEnabled = new UiSwitch(this.group, "GAMEPAD ENABLED");
+  // gamePadEnabled.render();
+  // gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
+  // gamePadEnabled.group.y = this.layoutRect.height * 0.8;
+  // this.components.push(gamePadEnabled);
 };
 
 /**
@@ -141,12 +139,14 @@ p.dispose = function () {
  *
  */
 p.virtualJoypadOn = function () {
-  optionsModel.controls.virtualJoypad = true;
+  // this.useExternalJoypad = false;
+  // this.useVirtualJoypad = true;
 };
 
 /**
  *
  */
 p.virtualJoypadOff = function () {
-  optionsModel.controls.virtualJoypad = false;
+  // this.useExternalJoypad = false;
+  // this.useVirtualJoypad = true;
 };

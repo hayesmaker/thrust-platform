@@ -325,6 +325,7 @@ module.exports = {
 
     switch (itemId) {
       case "play" :
+        console.log("play :: menuItemSelcted", itemId);
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
@@ -518,9 +519,6 @@ module.exports = {
   checkPlayerInput: function () {
     if (!this.inPlay) {
       return;
-    }
-    if (game.controls.useExternalJoypad) {
-      this.player.checkPlayerControlJoypad();
     }
     this.player.checkPlayerControl(this.cursors);
   },

@@ -36,10 +36,15 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
 }
 
 /**
- * @property joypadFireButton
+ * @property debounceGamepadFire
  * @type {boolean}
  */
-p.joypadFireButton = true;
+p.debounceGamepadFire = true;
+/**
+ * @property debounceGamepadDpad
+ * @type {boolean}
+ */
+p.debounceGamepadDpad = false;
 /**
  * @property group
  * @type {Phaser.Group}
@@ -82,22 +87,11 @@ p.padding = {
 p.selectedIndex = 0;
 
 /**
- * @property stickUpPressed
- * @type {boolean}
- */
-p.stickUpPressed = false;
-
-/**
- * @property stickDownPressed
- * @type {boolean}
- */
-p.stickDownPressed = false;
-
-/**
  * @method render
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
+  this.debounceGamepadFire = true;
   this.items = [];
   _.each(
     this.dataProvider,
@@ -158,58 +152,23 @@ p.restorePurchase = function() {
  * @method update
  */
 p.update = function () {
-  var joypad = game.externalJoypad;
-  if (joypad) {
-    if (joypad.up.isDown) {
-      this.stickUpPressed = true;
-      this.stickDownPressed = false;
-    } else if (joypad.down.isDown) {
-      this.stickUpPressed = false;
-      this.stickDownPressed = true;
-    } else {
-      this.checkPressed();
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
+      this.spacePressed();
     }
-    game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
-      if (buttonCode === Phaser.Gamepad.BUTTON_1) {
-        this.joypadFireButton = true;
-      }
-    }.bind(this);
-    game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
-      if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
-        this.joypadFireButton = false;
-        this.spacePressed();
-      }
-    }.bind(this);
-
-  }
-  /* @todo virtual joypad
-  else if (stick) {
-    if (stick.isDown) {
-      if (stick.direction === Phaser.UP) {
-        this.stickUpPressed = true;
-        this.stickDownPressed = false;
-      } else if (stick.direction === Phaser.DOWN) {
-        this.stickUpPressed = false;
-        this.stickDownPressed = true;
-      }
-    } else {
-      this.checkPressed();
+    if (gamepad.up.isUp && gamepad.down.isUp) {
+      this.debounceGamepadDpad = false;
+    } else if (gamepad.up.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
+      this.upPressed();
+    } else if (gamepad.down.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
+      this.downPressed();
     }
-  }
-  */
-};
-
-/**
- * @method checkPressed
- */
-p.checkPressed = function() {
-  if (this.stickDownPressed) {
-    this.stickDownPressed = false;
-    this.downPressed();
-  }
-  if (this.stickUpPressed) {
-    this.stickUpPressed = false;
-    this.upPressed();
   }
 };
 
@@ -372,6 +331,7 @@ p.downPressed = function () {
  * @method spacePressed
  */
 p.spacePressed = function () {
+  console.warn("ui-menu :: spacePressed");
   this.itemSelected.dispatch(this.items[this.selectedIndex].id);
 };
 

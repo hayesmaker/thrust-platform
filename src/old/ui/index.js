@@ -73,14 +73,23 @@ module.exports = {
     this.drawStopwatch();
     this.score.trainingMode();
   },
-  
-  update: function(uiMode) {
-    if (uiMode) {
+
+  /**
+   * @method ui.update
+   */
+  update: function() {
+    if (gameState.currentState === gameState.PLAY_STATES.MENU) {
       this.menu.update();
+    } else if (gameState.currentState === "OPTIONS") {
       this.options.update();
-    } else {
+    } else if (gameState.currentState === "rules") {
+      this.rules.update();
+    } else if (gameState.currentState === "rules2") {
+      this.rules2.update();
+    } else if (gameState.currentState === gameState.PLAY_STATES.GAME_OVER) {
       this.gameOver.update();
     }
+
   },
 
   levelTransitionCompleted: function() {

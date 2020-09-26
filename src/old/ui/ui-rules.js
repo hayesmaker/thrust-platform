@@ -8,8 +8,12 @@ var p = UiRules.prototype = Object.create(UiComponent.prototype, {
 
 module.exports = UiRules;
 
+/**
+ * @property debounceGamepadFire
+ * @type {boolean}
+ */
+p.debounceGamepadFire = true;
 p.group = null;
-p.debounce = false;
 p.padding = 20;
 
 /**
@@ -23,7 +27,6 @@ p.padding = 20;
  */
 function UiRules(group, name, playState) {
   UiComponent.call(this, group, name, true, true);
-  this.debounce = false;
   this.playState = playState;
   //this.scale = 1;
   this.scale = gameState.gameScale;
@@ -110,6 +113,7 @@ p.renderImage = function () {
  */
 p.enable = function () {
   this.enabled = true;
+  this.debounceGamepadFire = true;
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
@@ -138,9 +142,14 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.externalJoypad.fireButton.isDown && !this.debounce) {
-    this.debounce = true;
-    this.spacePressed();
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
+      this.spacePressed();
+    }
   }
 };
 
@@ -148,6 +157,5 @@ p.update = function() {
  * @method spacePressed
  */
 p.spacePressed = function () {
-  this.dispose();
   this.playState.showCurrentScreenByState.call(this.playState, "rules2");
 };

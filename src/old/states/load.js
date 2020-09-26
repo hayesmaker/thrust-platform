@@ -60,7 +60,7 @@ module.exports = {
 
     levelsLoader.loadLevelsJson(optionsModel.getLevelsJsonUrl());
     game.load.atlas('controls', 'assets/atlas/controls-atlas.png', 'assets/atlas/controls-atlas.json');
-    game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
+    //game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
