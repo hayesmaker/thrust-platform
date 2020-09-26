@@ -44,7 +44,7 @@
     "browserify:webgl": "echo 'browserifying webgl build' && browserify --version && browserify -e src/old/main-webgl.js -o public/javascripts/browserify/thrust-engine-webgl.js -d",
     "browserify:main": "echo 'browserifying auto build' && browserify --version && browserify -e src/old/main-auto.js -o public/javascripts/browserify/thrust-engine-auto.js -d",
     "browserify:cordova": "echo 'browserifying cordova build' && browserify --version && browserify -e src/old/main-cordova.js -o public/javascripts/browserify/thrust-engine-cordova.js -d",
-    "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js -o public/javascripts/browserify/thrust-engine-canvas.min.js --source-map public/javascripts/browserify/thrust-engine.min.js.map --screw-ie8",
+    "uglify:canvas": "echo 'Uglifying bundle' && uglifyjs public/javascripts/browserify/thrust-engine-canvas.js --compress drop_console=true --mangle --source-map -o public/javascripts/browserify/thrust-engine-canvas.min.js",
     "changelog": "echo 'updating changelog' && github_changelog_generator",
     "tweet:deploy": "node ./bin/tweet-deploy",
     "assets": "./bin/assets.sh",
@@ -105,7 +105,7 @@
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "twitter": "^1.2.5",
-    "uglify-js": "^2.6.1"
+    "uglify-js": "^3.10.4"
   },
   "description": "Thrust: an awesome 8 bit physics based puzzle/blaster.  Thrust-Platform: A Canvas based HTML5 game engine for making games similar to Thrust",
   "main": "bin/www",
