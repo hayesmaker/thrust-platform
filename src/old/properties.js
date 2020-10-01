@@ -19,7 +19,7 @@ module.exports = {
   fatalCollisions: true,
   drawBackground: true,
   width: 1024,
-  height: 768,
+  height: 600,
   dev: {
     mode: 0,
     debugPhysics: 0,

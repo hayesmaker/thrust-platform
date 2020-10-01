@@ -70,7 +70,7 @@ module.exports = {
    * @property FUEL_AMOUNT
    * @type {Number}
    */
-  FUEL_AMOUNT: 600,
+  FUEL_AMOUNT: 700,
 
   /**
    *

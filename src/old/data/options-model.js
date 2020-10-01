@@ -111,7 +111,7 @@ module.exports = {
     fullscreen: true,
     fx: {
       background: true,
-      particles: false
+      particles: true
     }
   },
   /**
@@ -133,11 +133,11 @@ module.exports = {
   initFps: function() {
     //if (game.device.iOS || game.device.android || game.device.windowsPhone || )
     if (this.display.fps === 30) {
-      game.device.isMobile = true;
+      //game.device.isMobile = true;
       game.time.desiredFps = this.display.fps = 30;
     } else {
       game.time.desiredFps = this.display.fps = 60;
-      game.device.isMobile = false;
+      //game.device.isMobile = false;
     }
   },
 
@@ -145,9 +145,9 @@ module.exports = {
    * @method initDisplay
    */
   initDisplay: function() {
-    if (game.device.iOS || game.device.android || game.device.windowsPhone) {
-      this.display.fx.particles = false;
-    }
+    // if (game.device.iOS || game.device.android || game.device.windowsPhone) {
+    //   this.display.fx.particles = false;
+    // }
   },
 
   /**

@@ -40,7 +40,7 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   //@todo make dynamic demo/full
   onDeviceReady: function() {
-    launcher.renderMode = Phaser.CANVAS;
+    launcher.renderMode = Phaser.AUTO;
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {

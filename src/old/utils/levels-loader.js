@@ -153,7 +153,7 @@ module.exports = {
   },
 
   isTablet: function() {
-    return game.device.iPad || window.outerWidth > 1000;
+    return game.device.iPad;
   },
 
   isMobile: function() {
@@ -170,9 +170,9 @@ module.exports = {
     if (game.device.desktop) {
       //no op
     } else if (this.isTablet()) {
-      _.merge(levelsData, tabletOverrides);
+      //_.merge(levelsData, tabletOverrides);
     } else if (this.isMobile()) {
-      _.merge(levelsData, mobileOverrides);
+      //_.merge(levelsData, mobileOverrides);
     } else {
       //no op
     }
