@@ -43,7 +43,7 @@ p.render = function () {
  */
 p.createDisplay = function () {
   var paddingFaction = this.layoutRect.height * 0.025;
-  var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND', 'FPS 60'];
+  var switches = ['FULL SCREEN', 'PARTICLE FX', 'BACKGROUND', 'SHOW FPS', 'FPS 60'];
   var x = this.isFullLayout ? 0.5 : 0.5;
   _.each(switches, function (name, index) {
     var lock = false;
@@ -63,6 +63,9 @@ p.createDisplay = function () {
 
 p.onSwitch = function (name) {
   switch (name) {
+    case "SHOW FPS":
+      this.showFpsOn();
+      break;
     case "FPS 60":
       this.fpsToggleOn();
       break;
@@ -80,6 +83,9 @@ p.onSwitch = function (name) {
 
 p.offSwitch = function (name) {
   switch (name) {
+    case "SHOW FPS":
+      this.showFpsOff();
+      break;
     case "FPS 60":
       this.fpsToggleOff();
       break;
@@ -145,6 +151,23 @@ p.fullscreenOff = function () {
 };
 
 /**
+ * @method showFpsOn
+ */
+p.showFpsOn = function () {
+  game.time.advancedTiming = true;
+  optionsModel.display.showFps = true;
+};
+
+/**
+ * @method showFpsOff
+ */
+p.showFpsOff = function () {
+  game.time.advancedTiming = false;
+  optionsModel.display.showFps = false;
+};
+
+
+/**
  * @method particlesOn
  */
 p.particlesOn = function () {
@@ -171,6 +194,10 @@ p.renderDefaults = function () {
   var particlesSwitch = this.getComponentByName("PARTICLE FX");
   var backgroundSwitch = this.getComponentByName("BACKGROUND");
   var fpsSwitch = this.getComponentByName("FPS 60");
+  var showFpsSwitch = this.getComponentByName("SHOW FPS");
+  if (optionsModel.display.showFps) {
+    showFpsSwitch.switch(true);
+  }
   if (optionsModel.display.fx.background) {
     backgroundSwitch.switch(true);
   }

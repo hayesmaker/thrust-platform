@@ -44,15 +44,10 @@ var app = {
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {
-        versionSuffix: '-0',
         version: version,
-        isCordova: true,
+        versionSuffix: '',
         gameModes: {
-          allLevels: true,
-          gravity: {
-            unlocked: false,
-            enabled: false
-          }
+          allLevels: true
         }
       }
     });

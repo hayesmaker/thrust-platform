@@ -50,6 +50,8 @@ p.itemSelected = null;
 p.layoutRect = null;
 p.rectangleGraphic = null;
 p.newScoreName = "";
+p.char = "";
+
 p.mobileCharsIndex = 0;
 p.mobileChars = [
   " ", "A", "B", "C", "D", "E",

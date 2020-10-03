@@ -107,6 +107,7 @@ module.exports = {
    * @property display
    */
   display: {
+    showFps: false,
     fps: 60,
     fullscreen: true,
     fx: {

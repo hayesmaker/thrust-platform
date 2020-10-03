@@ -216,11 +216,12 @@ module.exports = {
    * Needed for debug display
    *
    * @method render
+   *
    */
   render: function () {
-    if (properties.dev.stats === true) {
-      var color = game.device.isMobile ? '#0000ff' : '#00ff00';
-      game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
+    if (properties.dev.stats || options.display.showFps === true) {
+      var color = '#00ff00';
+      game.debug.text(game.time.fps || '--', game.width - 100, 14, color);
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);

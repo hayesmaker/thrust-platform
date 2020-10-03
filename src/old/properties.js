@@ -24,7 +24,7 @@ module.exports = {
     mode: 0,
     debugPhysics: 0,
     debugPositions: 0,
-    stats: true,
+    stats: false,
     skipIntro: 0
   },
   gamePlay: {
