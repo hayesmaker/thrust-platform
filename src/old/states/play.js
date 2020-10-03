@@ -305,7 +305,8 @@ module.exports = {
     var shouldFadeBackground = (
       state === gameState.PLAY_STATES.COMPLETE ||
       state === gameState.PLAY_STATES.HIGH_SCORES ||
-      state === gameState.PLAY_STATES.INTERSTITIAL
+      state === gameState.PLAY_STATES.INTERSTITIAL ||
+        state === "rules" || state === "rules2"
     );
     ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.MENU) {

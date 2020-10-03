@@ -62,6 +62,7 @@ module.exports = {
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
+    game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
     game.load.image('thrust-logo', 'assets/images/thrust-homepage-gradient-logo.png');
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
