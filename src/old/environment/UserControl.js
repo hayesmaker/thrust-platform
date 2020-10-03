@@ -10,6 +10,7 @@
  */
 function UserControl(features) {
   this.features = features;
+  game.controls = this;
   this.initExternalJoypad();
   this.initKeys();
   if (!this.useExternalJoypad && features.isTouchScreen) {
@@ -22,6 +23,7 @@ var Phaser = global.Phaser;
 var p = UserControl.prototype;
 
 p.gamepad = null;
+p.gamepad2 = null;
 p.useKeys = false;
 p.useExternalJoypad = false;
 p.useVirtualJoypad = false;
@@ -40,7 +42,13 @@ p.touchScale = 1;
  */
 p.initExternalJoypad = function () {
   this.gamepad = game.input.gamepad.pad1;
-  this.gamepad.addCallbacks(this, {
+  this.gamepad2 = game.input.gamepad.pad2;
+  var connectionObj = {
+    onDisconnect: function(val) {
+      console.warn("UserControl :: disconnected a gamepad *check this* val=", val);
+      //this.useExternalJoypad = false;
+      //this.useVirtualJoypad = false;
+    },
     onConnect: function () {
       console.warn("UserControl :: initExternalJoypad");
       this.useExternalJoypad = true;
@@ -54,7 +62,9 @@ p.initExternalJoypad = function () {
       game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
       this.gotoInputMode(); //hide virtual gamepad
     }.bind(this)
-  });
+  };
+  this.gamepad.addCallbacks(this, connectionObj);
+  this.gamepad2.addCallbacks(this, connectionObj);
   game.input.gamepad.start();
 };
 

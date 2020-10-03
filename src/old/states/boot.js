@@ -80,7 +80,6 @@ module.exports = {
         game.scale.canExpandParent = true;
         game.scale.fullScreenScaleMode = game.scale.NO_SCALE;
         userControl = new UserControl(features);
-        game.controls = userControl;
         game.e2e = {};
         this.bootScreen = game.add.sprite(0, 0, 'splash');
         this.bootScreen.inputEnabled = true;
