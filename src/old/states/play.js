@@ -203,11 +203,11 @@ module.exports = {
     if (this.uiMode || this.isGameOver) {
       ui.update(this.uiMode);
     }
-    if (game.controls.useExternalJoypad &&
-      gameState.trainingMode &&
-      ui.missionDialog.enabled) {
-      ui.missionDialog.update();
-    }
+    // if (game.controls.useExternalJoypad &&
+    //   gameState.trainingMode &&
+    //   ui.missionDialog.enabled) {
+    //   ui.missionDialog.update();
+    // }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
@@ -914,7 +914,7 @@ module.exports = {
     if (this.uiPaused) {
       this.uiPaused.destroy();
     }
-    this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED", style);
+    this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED\n\nHIT ESCAPE or TAP SCREEN", style);
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
@@ -1046,17 +1046,7 @@ module.exports = {
    * @method initControls
    */
   initControls: function () {
-
     console.log("play :: initControls : options.controls=", game.controls.useKeys, options.controls);
-
-    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
-      //game.controls.buttonA.onDown.add(this.pressButtonA, this);
-      //game.controls.buttonA.onUp.add(this.upButtonA, this);
-      //game.controls.buttonB.onDown.add(this.pressButtonB, this);
-      //game.controls.buttonB.onUp.add(this.upButtonB, this);
-      //game.controls.fireButtonDown.add(this.pressButtonA, this);
-      //game.controls.fireButtonUp.add(this.upButtonA, this);
-    }
     if (game.controls.useKeys || game.controls.useVirtualJoypad) {
       if (options.controls.classicKeys) {
         game.controls.cursors.up = game.controls.keyShiftPress;
@@ -1071,12 +1061,24 @@ module.exports = {
       game.controls.xKey.onUp.add(this.xUp, this);
       game.controls.esc.onUp.add(this.escPressed, this);
     }
+    if (game.controls.useExternalJoypad) {
+      game.controls.gamepad.onUpCallback = function(val, index) {
+        // console.log("gamepad", val, i);
+        if (val === 9 || val === 8) {
+          this.escPressed();
+        }
+      }.bind(this);
+    }
+
+
+
   },
 
   /**
    * @method escPressed
    */
   escPressed: function () {
+    console.log("esc pressed");
     game.paused = this.uiPaused.visible = !game.paused;
   },
 

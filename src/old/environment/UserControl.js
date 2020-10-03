@@ -60,11 +60,16 @@ p.initExternalJoypad = function () {
       game.externalJoypad.down = this.gamepad.getButton(Phaser.Gamepad.BUTTON_13);
       game.externalJoypad.left = this.gamepad.getButton(Phaser.Gamepad.BUTTON_14);
       game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
+      game.externalJoypad.selectPressed = this.gamepad.getButton(Phaser.Gamepad.BUTTON_8);
+      game.externalJoypad.startPressed = this.gamepad.getButton(Phaser.Gamepad.BUTTON_9);
       this.gotoInputMode(); //hide virtual gamepad
     }.bind(this)
   };
   this.gamepad.addCallbacks(this, connectionObj);
   this.gamepad2.addCallbacks(this, connectionObj);
+  // this.gamepad.onUpCallback = function(val, i) {
+  //   console.log("gamepad", val, i);
+  // };
   game.input.gamepad.start();
 };
 
