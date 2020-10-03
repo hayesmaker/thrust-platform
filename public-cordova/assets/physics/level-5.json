@@ -1,0 +1,161 @@
+{ 
+    
+    "level-5": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   623, 141  ,  590, 141  ,  540, 70  ,  622.87823486328125, 70.55963134765625  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   695, 778  ,  644, 754  ,  599.6163330078125, 657.38865661621094  ,  694.76611328125, 657.88166809082031  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   694.72845458984375, 870.33546447753906  ,  638, 862  ,  694.0894775390625, 830.71884918212891  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   637, 504  ,  721.63482666015625, 429.990478515625  ,  664, 524  ,  637, 524  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   216.798583984375, 405.71002197265625  ,  259.44345092773438, 380.93658447265625  ,  407.46795654296875, 380.81329345703125  ,  421, 465  ,  312.68789672851562, 524.154296875  ,  287.1749267578125, 524.154296875  ,  216.67532348632812, 487.17898559570312  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   550, 323  ,  408, 250  ,  526, 236  ,  694.58795166015625, 237.10333251953125  ,  694.51959228515625, 322.51556396484375  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   719.80322265625, 9.674072265625  ,  962, 13  ,  791, 156  ,  719.18817138671875, 119.8831787109375  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   408, 250  ,  250, 250  ,  526, 174  ,  526, 236  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   129, 605  ,  0, 905  ,  95, 524  ,  129, 542  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   962, 13  ,  851, 354  ,  791, 323  ,  791, 156  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   526, 174  ,  250, 250  ,  477.61376953125, 23.20416259765625  ,  540, 70  ,  590, 141  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   601, 754  ,  599.6163330078125, 657.38865661621094  ,  644, 754  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   551, 777  ,  290, 646  ,  375.91567993164062, 597.61190795898438  ,  552, 633  ,  599.6163330078125, 657.38865661621094  ,  601, 754  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   540, 70  ,  477.61376953125, 23.20416259765625  ,  539.97540283203125, 50.26446533203125  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   790.73480224609375, 726.08625793457031  ,  790, 717  ,  851, 405  ,  850, 741  ,  822, 741  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   552, 633  ,  375.91567993164062, 597.61190795898438  ,  552, 598  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   851, 405  ,  778.82330322265625, 582.69851684570312  ,  664, 524  ,  721.63482666015625, 429.990478515625  ,  766.7447509765625, 404.8472900390625  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   958, 896  ,  863, 753  ,  851, 354  ,  962, 13  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   551, 837  ,  0, 905  ,  202, 646  ,  290, 646  ,  551, 777  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   719, 886  ,  0, 905  ,  600, 861  ,  638, 862  ,  694.72845458984375, 870.33546447753906  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   502, 430  ,  560, 465  ,  421, 465  ,  407.46795654296875, 380.81329345703125  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   721.63482666015625, 429.990478515625  ,  637, 504  ,  560, 465  ,  502, 430  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   851, 405  ,  790, 717  ,  778, 717  ,  778.82330322265625, 582.69851684570312  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   111, 323  ,  95, 323  ,  2, 10  ,  477, 10  ,  477.61376953125, 23.20416259765625  ,  250, 250  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   851, 405  ,  863, 753  ,  850, 741  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   95, 323  ,  95, 524  ,  0, 905  ,  2, 10  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   202, 646  ,  0, 905  ,  129, 605  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   600, 861  ,  0, 905  ,  551, 837  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   958, 896  ,  863, 871  ,  863, 753  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   958, 896  ,  835, 886  ,  863, 871  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   958, 896  ,  0, 905  ,  835, 886  ]
+        }
+    ]
+}

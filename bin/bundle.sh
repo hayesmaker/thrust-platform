@@ -9,7 +9,7 @@ usage()
 
 rm -rf out
 npm run create:out
-cp -a ./public/* ./out/bundle/
+cp -a ./public-cordova/* ./out/bundle/
 while [ "$1" != "" ]; do
     case $1 in
         -i | --include )        include=1

@@ -110,6 +110,13 @@ p.render = function () {
   this.version.y = 10;
   this.group.add(this.version);
 
+  this.logo = game.make.sprite(0, 0, 'thrust-logo');
+  this.logo.width = this.logo.width * 0.5;
+  this.logo.height = this.logo.height * 0.5;
+  this.logo.position.x = game.width/2 - this.logo.width/2;
+  this.logo.position.y = 10;
+  this.group.add(this.logo);
+
   /*
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
     var purchaseLevelsBtn = new UIButton(this.group, "BUY\nLEVELS");
@@ -353,6 +360,7 @@ p.dispose = function() {
     item.spr.destroy();
   }.bind(this));
   this.version.destroy();
+  this.logo.destroy();
 };
 
 

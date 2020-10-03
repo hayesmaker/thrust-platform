@@ -1,0 +1,20 @@
+{
+  "resources": [
+    "thrust-music.ogg",
+    "thrust-music.m4a",
+    "thrust-music.mp3",
+    "thrust-music.ac3"
+  ],
+  "spritemap": {
+    "thrust-in-game1": {
+      "start": 0,
+      "end": 325.4595918367347,
+      "loop": false
+    },
+    "thrust-title-theme1": {
+      "start": 327,
+      "end": 406.68,
+      "loop": true
+    }
+  }
+}

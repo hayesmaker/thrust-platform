@@ -1,9 +1,6 @@
 var levelManager = require('../data/level-manager');
 var properties = require('../properties');
 var _ = require('lodash');
-var mobileOverrides = require('../data/mobile-overrides');
-var tabletOverrides = require('../data/tablet-overrides');
-
 
 module.exports = {
   /**
@@ -34,8 +31,8 @@ module.exports = {
    */
   loadLevelsPack: function () {
     _.each(levelManager.levels, _.bind(this.loadLevel, this));
-    game.load.image(levelManager.training.mapImgKey, levelManager.training.mapImgUrl);
-    game.load.physics(levelManager.training.mapDataKey + properties.mapSuffix, levelManager.training.mapDataUrl);
+    //game.load.image(levelManager.training.mapImgKey, levelManager.training.mapImgUrl);
+    //game.load.physics(levelManager.training.mapDataKey + properties.mapSuffix, levelManager.training.mapDataUrl);
   },
 
   /**

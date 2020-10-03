@@ -82,6 +82,7 @@ module.exports = {
     this.createActors();
     this.createLevelMap();
     this.createUi();
+
     gameState.uiCreated = true;
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
@@ -916,8 +917,8 @@ module.exports = {
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
-
-    if (features.isTouchScreen) {
+    ui.init(this.menuItemSelected, this);
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       if (this.pauseButton) {
         this.pauseButton.destroy();
       }
@@ -925,14 +926,9 @@ module.exports = {
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;
-    }
-    ui.init(this.menuItemSelected, this);
-    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
+
       //game.controls.initVirtualJoypad();
       game.controls.initAdvancedTouchControls();
-    }
-    if (gameState.trainingMode) {
-      //ui.drawTrainingUi();
     }
     ui.countdown.complete.add(this.countdownComplete, this);
   },
