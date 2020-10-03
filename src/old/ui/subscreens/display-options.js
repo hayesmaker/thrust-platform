@@ -214,8 +214,8 @@ p.renderDefaults = function () {
 
 p.dispose = function () {
   _.each(this.components, function (component) {
-    //component.switchedOn.removeAll();
-    //component.switchedOff.removeAll();
+    component.switchedOn && component.switchedOn.removeAll();
+    component.switchedOff && component.switchedOff.removeAll();
   });
   UiComponent.prototype.dispose.call(this);
 };

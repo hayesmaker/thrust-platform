@@ -119,6 +119,7 @@ module.exports = {
    * @property controls
    */
   controls: {
+    classicKeys: false,
     virtualJoypad: false,
     keyboard: true,
     externalGamepad: false

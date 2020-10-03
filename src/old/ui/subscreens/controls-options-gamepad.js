@@ -1,7 +1,5 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
-var UiSwitch = require('../ui-switch');
-var optionsModel = require('../../data/options-model');
 
 var p = ControlOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: ControlOptions
@@ -108,11 +106,6 @@ p.createDisplay = function () {
   graphics.moveTo(coords[9].x, coords[9].y);
   graphics.lineTo(coords[10].x, coords[10].y);
   graphics.lineTo(coords[11].x, coords[11].y);
-  // var gamePadEnabled = new UiSwitch(this.group, "GAMEPAD ENABLED");
-  // gamePadEnabled.render();
-  // gamePadEnabled.group.x = this.layoutRect.halfWidth - gamePadEnabled.originPos.x;
-  // gamePadEnabled.group.y = this.layoutRect.height * 0.8;
-  // this.components.push(gamePadEnabled);
 };
 
 /**

@@ -32,6 +32,7 @@
     "lint": "eslint src/app/pixi/**/*.js",
     "prebuild": "mkdirp public/javascripts/browserify",
     "build:fullgame": "npm run browserify:canvas:full && npm run uglify:canvas",
+    "build:dev": "npm run browserify:canvas:full",
     "build:cordova": "npm run browserify:cordova && npm run uglify:canvas",
     "build:demo": "npm run browserify:canvas && npm run uglify:canvas",
     "build:webgl": "npm run browserify:webgl",
