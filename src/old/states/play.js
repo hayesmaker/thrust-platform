@@ -521,7 +521,7 @@ module.exports = {
     if (!this.inPlay) {
       return;
     }
-    this.player.checkPlayerControl(this.cursors);
+    this.player.checkPlayerControl(game.controls.cursors);
   },
 
   /**
@@ -583,7 +583,7 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    var hasOrb = this.tractorBeam ? true : false;
+    var hasOrb = !!this.tractorBeam;
     this.player.tweenOutAndRemove(hasOrb);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -604,6 +604,7 @@ module.exports = {
   gameOver: function () {
     console.warn('play :: gameOver called');
     ui.countdown.stop();
+    game.controls.cursors = game.input.keyboard.createCursorKeys();
     this.stopStopwatch();
     if (gameState.trainingMode) {
       gameState.trainingMode = false;
@@ -1048,6 +1049,9 @@ module.exports = {
    * @method initControls
    */
   initControls: function () {
+
+    console.log("play :: initControls : options.controls=", game.controls.useKeys, options.controls);
+
     if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       //game.controls.buttonA.onDown.add(this.pressButtonA, this);
       //game.controls.buttonA.onUp.add(this.upButtonA, this);
@@ -1057,8 +1061,15 @@ module.exports = {
       //game.controls.fireButtonUp.add(this.upButtonA, this);
     }
     if (game.controls.useKeys || game.controls.useVirtualJoypad) {
-      this.cursors = game.controls.cursors;
-      game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      if (options.controls.classicKeys) {
+        game.controls.cursors.up = game.controls.keyShiftPress;
+        game.controls.cursors.left = game.controls.keyAPress;
+        game.controls.cursors.right = game.controls.keySPress;
+        game.controls.keyEnterPress.onDown.add(this.player.fire, this.player);
+      } else {
+        game.controls.cursors = game.input.keyboard.createCursorKeys();
+        game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      }
       game.controls.xKey.onDown.add(this.xDown, this);
       game.controls.xKey.onUp.add(this.xUp, this);
       game.controls.esc.onUp.add(this.escPressed, this);
@@ -1159,8 +1170,8 @@ module.exports = {
    * @param point
    */
   checkUp: function (slow, fast, point) {
-    if (this.cursors.up.isDown) {
-      this.cursors.up.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.up.isDown) {
+      game.controls.cursors.up.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y - this.crossHairSpeed;
     }
   },
@@ -1172,8 +1183,8 @@ module.exports = {
    * @param point
    */
   checkDown: function (slow, fast, point) {
-    if (this.cursors.down.isDown) {
-      this.cursors.down.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.down.isDown) {
+      game.controls.cursors.down.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y + this.crossHairSpeed;
     }
   },
@@ -1185,8 +1196,8 @@ module.exports = {
    * @param point
    */
   checkRight: function (slow, fast, point) {
-    if (this.cursors.right.isDown) {
-      this.cursors.right.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.right.isDown) {
+      game.controls.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x + this.crossHairSpeed;
     }
   },
@@ -1198,8 +1209,8 @@ module.exports = {
    * @param point
    */
   checkLeft: function (slow, fast, point) {
-    if (this.cursors.left.isDown) {
-      this.cursors.right.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.left.isDown) {
+      game.controls.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
   }

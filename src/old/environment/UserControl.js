@@ -68,6 +68,10 @@ p.initKeys = function () {
   this.useKeys = true;
   this.cursors = game.input.keyboard.createCursorKeys();
   this.spacePress = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  this.keyAPress = game.input.keyboard.addKey(Phaser.Keyboard.A);
+  this.keySPress = game.input.keyboard.addKey(Phaser.Keyboard.S);
+  this.keyEnterPress = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+  this.keyShiftPress = game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
   this.xKey = game.input.keyboard.addKey(Phaser.Keyboard.X);
   this.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 };

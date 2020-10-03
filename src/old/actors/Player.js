@@ -20,8 +20,8 @@ var ThrustSound = sound.PLAYER_THRUST_MID;
  * @constructor
  */
 function Player(collisions, groups) {
-  this.rotateVal = 90 * 1;//gameState.gameScale;
-  this.thrustVal = 400 * 1;//gameState.gameScale;
+  this.rotateVal = 90;
+  this.thrustVal = 400;
   /**
    * @property orbActivated
    * @type {boolean}

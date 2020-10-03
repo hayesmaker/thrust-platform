@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var properties = require('../properties');
 /**
  * @class options-model
  * @type {{}}
