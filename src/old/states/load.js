@@ -58,15 +58,16 @@ module.exports = {
     game.load.onFileComplete.add(this.fileComplete, this);
     game.load.onLoadComplete.add(this.loadComplete, this);
     levelsLoader.loadLevelsJson(optionsModel.getLevelsJsonUrl());
-    game.load.atlas('dpad', 'assets/images/virtualjoystick/skins/dpad.png', 'assets/images/virtualjoystick/skins/dpad.json');
+    game.load.atlas('controls', 'assets/atlas/controls-atlas.png', 'assets/atlas/controls-atlas.json');
     if (properties.dev.mode) {
       game.load.image('crossHair', 'assets/images/cross-hair.png');
     }
     game.load.image('coverImage', 'assets/images/thrust-cover-styled-538x422.png');
-    game.load.image('pause', 'assets/images/pause-button.png');
+    game.load.image('thrust-logo', 'assets/images/thrust-homepage-gradient-logo.png');
     game.load.physics('playerPhysics', 'assets/physics/player.json');
     game.load.physics('powerStationPhysics', 'assets/physics/power-station.json');
     game.load.physics('orbHolderPhysics', 'assets/physics/orb-holder.json');
+
 
     console.log('load :: env :: THRUST_ENV: ', process.env.THRUST_ENV);
     if (process.env.THRUST_ENV === 'fullgame') {

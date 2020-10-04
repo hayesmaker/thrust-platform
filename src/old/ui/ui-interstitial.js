@@ -313,7 +313,8 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
+  if (game.controls.gamepad2.justPressed(Phaser.Gamepad.BUTTON_1) ||
+    game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
     this.spacePressed();
   }
 };
@@ -322,12 +323,13 @@ p.update = function() {
  * @method enable
  */
 p.enable = function() {
+  console.log("ui-interstitial :: enable :", game.controls.useKeys);
   this.enabled = true;
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+    game.controls.fireButtonDown.add(this.spacePressed, this);
   }
 };
 
@@ -335,13 +337,15 @@ p.enable = function() {
  * @method disable
  */
 p.disable = function() {
+  console.log("ui-interstitial :: disable :", game.controls.useKeys);
   this.enabled = false;
   if (game.controls.useKeys) {
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
+    game.controls.fireButtonDown.remove(this.spacePressed, this);
   }
+
 };
 
 /**
@@ -420,6 +424,7 @@ p.transitionExit = function() {
  * @method transitionEnterComplete
  */
 p.transitionEnterComplete = function() {
+  console.log("ui-interstitial :: transitionEnterComplete");
   this.enable();
 };
 

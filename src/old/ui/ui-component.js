@@ -1,5 +1,6 @@
 var manager = require('./manager');
 var _ = require('lodash');
+var Phaser = global.Phaser;
 
 /**
  * Base Class for UiComponents, 

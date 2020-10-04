@@ -20,6 +20,8 @@ var ThrustSound = sound.PLAYER_THRUST_MID;
  * @constructor
  */
 function Player(collisions, groups) {
+  this.rotateVal = 90;
+  this.thrustVal = 400;
   /**
    * @property orbActivated
    * @type {boolean}
@@ -28,11 +30,11 @@ function Player(collisions, groups) {
   this.orbActivated = false;
 
   /**
-   * @property joypadFireButton
+   * @property debounceGamepadFire
    * @type {boolean}
-   * @default true
    */
-  this.joypadFireButton = true;
+  p.debounceGamepadFire = true;
+
   /**
    * @property inPlay
    * @type {boolean}
@@ -316,7 +318,6 @@ p.respawn = function (completeCallback, thisArg, removeShip) {
   if (removeShip && !gameState.cheats.infiniteLives) {
     gameState.lives--;
   }
-
   sound.playSound(sound.PLAYER_TELEPORT_IN);
   particles.playerTeleport(this.respawnPos.x, this.respawnPos.y, this.scale.x,
     function () {
@@ -352,29 +353,26 @@ p.update = function () {
 /**
  * @method checkPlayerControl
  * @param cursors
- * @param buttonAPressed
  */
-p.checkPlayerControl = function (cursors, buttonAPressed) {
+p.checkPlayerControl = function (cursors) {
   if (!this.alive || !this.inGameArea) {
+    this.stopThrustFx();
     return;
   }
-  this.checkRotate(game.controls.stick, cursors);
-  this.checkThrust(buttonAPressed, cursors);
+  this.checkVirtualFireButton();
+  this.checkJoypadFire();
+  this.checkRotate(game.externalJoypad, cursors);
+  this.checkThrust(game.externalJoypad, cursors);
 };
 
-/**
- * Called by play update method, only when an external joypad
- * is connected.
- *
- * @method checkPlayerControlJoypad
- */
-p.checkPlayerControlJoypad = function () {
-  if (!this.alive || !this.inGameArea) {
-    return;
+
+p.checkVirtualFireButton = function() {
+  if (game.controls.fireButtonIsDown && this.canFire) {
+    this.fire();
+    this.canFire = false;
+  } else if (!game.controls.fireButtonIsDown) {
+    this.canFire = true;
   }
-  this.checkJoypadFire();
-  this.checkThrust(game.externalJoypad.thrustButton.isDown);
-  this.checkRotate(null, game.externalJoypad);
 };
 
 /**
@@ -385,17 +383,15 @@ p.checkPlayerControlJoypad = function () {
  * @method checkJoypadFire
  */
 p.checkJoypadFire = function () {
-  game.input.gamepad.pad1.onUpCallback = function (buttonCode) {
-    if (buttonCode === Phaser.Gamepad.BUTTON_1) {
-      this.joypadFireButton = true;
-    }
-  }.bind(this);
-  game.input.gamepad.pad1.onDownCallback = function (buttonCode) {
-    if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
-      this.joypadFireButton = false;
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
       this.fire();
     }
-  }.bind(this);
+  }
 };
 
 /**
@@ -404,10 +400,14 @@ p.checkJoypadFire = function () {
  * @param cursors
  */
 p.checkRotate = function (stick, cursors) {
-  if ((stick && stick.isDown && stick.direction === Phaser.LEFT) || cursors && cursors.left.isDown) {
-    this.rotate(-90);
-  } else if ((stick && stick.isDown && stick.direction === Phaser.RIGHT) || cursors && cursors.right.isDown) {
-    this.rotate(90);
+  if ((cursors && cursors.left.isDown) ||
+    stick && stick.left.isDown ||
+    game.controls.moveLeftIsDown) {
+    this.rotate(-this.rotateVal);
+  } else if ((cursors && cursors.right.isDown) ||
+    stick && stick.right.isDown ||
+    game.controls.moveRightIsDown) {
+    this.rotate(this.rotateVal);
   } else if (!game.e2e.controlOverride) {
     this.body.setZeroRotation();
   }
@@ -415,11 +415,13 @@ p.checkRotate = function (stick, cursors) {
 
 /**
  * @method checkThrust
- * @param buttonAPressed
+ * @param stick
  * @param cursors
  */
-p.checkThrust = function (buttonAPressed, cursors) {
-  if (cursors && cursors.up.isDown || buttonAPressed) {
+p.checkThrust = function (stick, cursors) {
+  if ((cursors && cursors.up.isDown) ||
+    (stick && stick.thrustButton.isDown ||
+      game.controls.thrustButtonIsDown)) {
     if (gameState.fuel >= 0) {
       if (!this.thrustStarted) {
         this.thrustStarted = true;
@@ -427,7 +429,7 @@ p.checkThrust = function (buttonAPressed, cursors) {
         this.thrustAnim.play('rocket');
         sound.playSound(ThrustSound, 0.6, true);
       }
-      this.body.thrust(400);
+      this.body.thrust(this.thrustVal);
       if (!this.isRefuelling && !gameState.cheats.infiniteFuel) {
         gameState.fuel--;
       }
@@ -647,7 +649,6 @@ p.checkRespawn = function (callback, context) {
     gameState.isGameOver = true;
     //game over
   } else {
-
     if (!gameState.bonuses.planetBuster) {
       this.respawn(callback, context, true);
     } else {

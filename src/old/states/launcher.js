@@ -73,21 +73,19 @@ module.exports = {
    * @method start
    */
   start: function() {
-    console.log('process', process.env.THRUST_ENV);
+    console.info('THRUST_ENV', process.env.THRUST_ENV);
     var domParent = document.getElementById('gameContainer') || '';
     global.game = new Phaser.Game(properties.width, properties.height, this.renderMode, domParent, 'boot', false, true);
     game.state.add('play', require('./play'));
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
     game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
-    if (!this.customOptions.isCordova) {
-      window.addEventListener('resize', function () {
-        this.enableHiResMode();
-        game.scale.setGameSize(properties.width, properties.height);
-        game.controls.refresh();
-        //todo
-      }.bind(this));
-    }
+    // if (!this.customOptions.isCordova) {
+    //   // window.addEventListener('resize', function () {
+    //   //   this.enableHiResMode();
+    //   //   game.scale.setGameSize(properties.width, properties.height);
+    //   // }.bind(this));
+    // }
   }
   
 };  

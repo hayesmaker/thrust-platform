@@ -40,19 +40,14 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   //@todo make dynamic demo/full
   onDeviceReady: function() {
-    launcher.renderMode = Phaser.CANVAS;
+    launcher.renderMode = Phaser.AUTO;
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {
-        versionSuffix: '-0',
         version: version,
-        isCordova: true,
+        versionSuffix: '',
         gameModes: {
-          allLevels: true,
-          gravity: {
-            unlocked: false,
-            enabled: false
-          }
+          allLevels: true
         }
       }
     });

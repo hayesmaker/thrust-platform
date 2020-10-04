@@ -70,7 +70,7 @@ module.exports = {
    * @property FUEL_AMOUNT
    * @type {Number}
    */
-  FUEL_AMOUNT: 600,
+  FUEL_AMOUNT: 700,
 
   /**
    *
@@ -120,6 +120,7 @@ module.exports = {
     HIGH_SCORES: "HIGH_SCORES",
     INTERSTITIAL: "INTERSTITIAL",
     GAME_OVER: "GAME_OVER",
+    RULES: "RULES",
     OPTIONS: "OPTIONS",
     COMPLETE: "GAME_COMPLETE",
     GAME_COMPLETE: "GAME_COMPLETE"

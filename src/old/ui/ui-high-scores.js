@@ -25,10 +25,16 @@ function UIHighScores(group, name, playState) {
   _.bindAll(this, 'swallowBackspace');
 }
 
-p.joypadThrustButton = true;
-p.joypadDownButton = true;
-p.joypadUpButton = true;
-p.joypadFireButton = true;
+/**
+ * @property debounceGamepadFire
+ * @type {boolean}
+ */
+p.debounceGamepadFire = true;
+/**
+ * @property debounceGamepadDpad
+ * @type {boolean}
+ */
+p.debounceGamepadDpad = false;
 p.highScoreInputEnabled = false;
 p.items = [];
 p.padding = 0;
@@ -42,7 +48,10 @@ p.styles = {
 p.selectedIndex = 0;
 p.itemSelected = null;
 p.layoutRect = null;
+p.rectangleGraphic = null;
 p.newScoreName = "";
+p.char = "";
+
 p.mobileCharsIndex = 0;
 p.mobileChars = [
   " ", "A", "B", "C", "D", "E",
@@ -60,7 +69,6 @@ p.mobileCharDirty = false;
 p.render = function () {
   UIComponent.prototype.render.call(this);
   this.items = [];
-  this.initSignals();
   this.createDisplay();
   this.drawPressFire();
 };
@@ -88,16 +96,13 @@ p.initSmallLayout = function () {
 };
 
 
-
-p.initSignals = function () {
-
-};
-
 p.createDisplay = function () {
   var rect = game.add.graphics(0, 0, this.group);
   rect.beginFill(0xff0000, 0.35);
   rect.drawRect(this.layoutRect.x, this.layoutRect.y, this.layoutRect.width, this.layoutRect.height);
   rect.endFill();
+
+  this.rectangleGraphic = rect;
   this.createTitle();
   _.each(gameState.highScoreTable, _.bind(this.addHighScore, this));
   this.drawBestTime();
@@ -112,7 +117,7 @@ p.centerDisplay = function () {
 p.createTitle = function () {
   this.title = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "HIGH SCORES", this.styles.title, this.group);
   this.title.anchor.setTo(0.5);
-  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.08;
+  this.title.y = this.layoutRect.y + this.layoutRect.height * 0.16;
 };
 
 p.addHighScore = function (highscore, index) {
@@ -162,6 +167,7 @@ p.insertNewScore = function () {
     this.renderHighScores();
     this.newHighScoreSubTitle();
     this.enableKeyboardEntry();
+    this.enableTouchInputEntry();
   } else {
     this.gameOverSubTitle();
   }
@@ -183,12 +189,14 @@ p.drawBestTime = function() {
 };
 
 p.createSubtitles = function () {
+  //@todo check this logic is working
+  var inputText = game.controls.useVirtualJoypad? "TAP TO EXIT" : "PRESS FIRE";
   var style = this.styles.subtitle;
   this.subTitle1 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.layoutRect.y + this.layoutRect.height * 0.8, "", style, this.group);
   this.subTitle1.anchor.setTo(0.5);
   this.subTitle2 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, this.subTitle1.y + this.subTitle1.height + 10, "", style, this.group);
   this.subTitle2.anchor.setTo(0.5);
-  this.subTitle3 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0, "PRESS FIRE", this.styles.scores, this.group);
+  this.subTitle3 = game.add.text(this.layoutRect.x + this.layoutRect.halfWidth, 0,inputText, this.styles.title, this.group);
   this.subTitle3.anchor.setTo(0.5);
   this.subTitle3.y = this.layoutRect.y + this.layoutRect.height - this.layoutRect.height * 0.075;
   this.subTitle1.visible = false;
@@ -207,119 +215,81 @@ p.gameOverSubTitle = function () {
   this.subTitle1.text = "GAME OVER";
   this.subTitle2.text = "YOU REACHED LEVEL " + parseInt(levelManager.levelIndex + 1, 10);
   this.subTitle3.visible = true;
-
   if (gameState.gameComplete) {
     gameState.newGame();
     this.subTitle2.text = "YOU COMPLETED ALL LEVELS";
   }
 };
 
-/*
-p.bestTimeCheck = function() {
-  if (gameState.shouldUpdateBestTime) {
-    this.bestTimeValue.text = gameState.stopwatchCacheTxt;
-  }
-};
-*/
-
-p.checkTouchInput = function () {
+p.enableTouchInputEntry = function () {
+  var controls = game.controls;
   if (!this.highScoreInputEnabled) {
     return;
   }
-  var stick = game.controls.stick;
-  if (stick) {
-    if (stick.isDown) {
-      if (stick.direction === Phaser.UP) {
-        this.stickUpPressed = true;
-        this.stickDownPressed = false;
-      } else if (stick.direction === Phaser.DOWN) {
-        this.stickUpPressed = false;
-        this.stickDownPressed = true;
-      }
-    } else {
-      if (this.stickDownPressed) {
-        this.stickDownPressed = false;
-        this.stepDownMobileChar();
-      }
-      if (this.stickUpPressed) {
-        this.stickUpPressed = false;
-        this.stepUpMobileChar();
-      }
-    }
+  if (!controls.advancedTouchControlsGroup) {
+    return;
   }
-  this.renderMobileChar();
+  controls.moveRightButtonUp.add(this.stepUpMobileChar, this);
+  controls.moveLeftButtonUp.add(this.stepDownMobileChar, this);
+  controls.fireButtonUp.add(this.assignMobileChar, this);
 };
 
 /**
  * @method checkJoypadInput
  */
 p.checkJoypadInput = function() {
-  game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
-    if (buttonCode === Phaser.Gamepad.BUTTON_1) {
-      this.joypadFireButton = true;
-    }
-    if (buttonCode === Phaser.Gamepad.BUTTON_0) {
-      this.joypadThrustButton = true;
-    }
-    if (buttonCode === Phaser.Gamepad.BUTTON_12) {
-      this.joypadUpButton = true;
-    }
-    if (buttonCode === Phaser.Gamepad.BUTTON_13) {
-      this.joypadDownButton = true;
-    }
-  }.bind(this);
-  game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
-    if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
-      this.joypadFireButton = false;
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
       if (this.highScoreInputEnabled) {
-        this.upButtonA();
+        this.assignMobileChar();
       } else {
         this.spacePressed();
       }
     }
     if (!this.highScoreInputEnabled) {
-      return;
-    }
-    if (buttonCode === Phaser.Gamepad.BUTTON_12 && this.joypadUpButton) {
-      this.joypadUpButton = false;
-      this.stepUpMobileChar();
-      this.renderMobileChar();
-    }
-    
-    if (buttonCode === Phaser.Gamepad.BUTTON_13 && this.joypadDownButton) {
-      this.joypadDownButton = false;
+      return null;
+    } else if (gamepad.left.isUp && gamepad.right.isUp) {
+      this.debounceGamepadDpad = false;
+    } else if (gamepad.left.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
       this.stepDownMobileChar();
-      this.renderMobileChar();
+    } else if (gamepad.right.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
+      this.stepUpMobileChar();
     }
-    if (buttonCode === Phaser.Gamepad.BUTTON_0 && this.joypadThrustButton) {
-      this.joypadThrustButton = false;
-      this.upButtonB();
-    }
-  }.bind(this);
+  }
 };
 
 /**
  * @method stepUpMobileChar
  */
 p.stepUpMobileChar = function () {
+  console.log("stepUpMobileChar", this.mobileCharsIndex);
   if (this.mobileCharsIndex + 1 === this.mobileChars.length) {
     this.mobileCharsIndex = 0;
   } else {
     this.mobileCharsIndex++;
   }
   this.mobileCharDirty = true;
+  this.renderMobileChar();
 };
 
 /**
  * @method stepDownMobileChar
  */
 p.stepDownMobileChar = function () {
+  console.log("stepUpMobileChar", this.mobileCharsIndex);
   if (this.mobileCharsIndex === 0) {
     this.mobileCharsIndex = this.mobileChars.length - 1;
   } else {
     this.mobileCharsIndex--;
   }
   this.mobileCharDirty = true;
+  this.renderMobileChar();
 };
 
 /**
@@ -360,34 +330,41 @@ p.assignMobileChar = function () {
  * @method update
  */
 p.update = function() {
-  if (game.controls.useVirtualJoypad) {
-    this.checkTouchInput();
-  } else if (game.controls.useExternalJoypad) {
-    this.checkJoypadInput();
-  }
+  this.checkJoypadInput();
 };
 
 /**
  * @method enable
+ *
+ * enables the fire button / space bar when entering the high score screen
+ * (or when player commits a high score if entering a high score)
  */
 p.enable = function () {
-  if (game.controls.useKeys) {
-    game.controls.spacePress.onDown.add(this.spacePressed, this);
+  var controls = game.controls;
+  if (controls.useKeys) {
+    controls.spacePress.onDown.add(this.spacePressed, this);
   }
-  if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+  if (controls.useVirtualJoypad) {
+    controls.fireButtonUp.add(this.spacePressed, this);
+    this.rectangleGraphic.inputEnabled = true;
+    this.rectangleGraphic.events.onInputDown.add(this.spacePressed, this, 0);
   }
+
 };
 
 /**
  * @method disable
+ * disable fire button / space bar signals when leaving high score screen
  */
 p.disable = function () {
-  if (game.controls.useKeys) {
-    game.controls.spacePress.onDown.remove(this.spacePressed, this);
+  var controls = game.controls;
+  if (controls.useKeys) {
+    controls.spacePress.onDown.remove(this.spacePressed, this);
   }
-  if (game.controls.useVirtualJoypad) {
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  if (controls.useVirtualJoypad) {
+   controls.fireButtonUp.remove(this.spacePressed, this);
+    this.rectangleGraphic.inputEnabled = false;
+    this.rectangleGraphic.events.onInputDown.remove(this.spacePressed, this, 0);
   }
 };
 
@@ -399,33 +376,11 @@ p.spacePressed = function () {
 };
 
 /**
- * @method upButtonB
- */
-p.upButtonB = function() {
-  this.assignMobileChar();
-};
-
-/**
- * @method upButtonA
- */
-p.upButtonA = function() {
-  this.assignMobileChar();
-};
-
-/**
  * @method enableKeyboardEntry
  */
 p.enableKeyboardEntry = function () {
   this.subTitle3.visible = false;
   this.highScoreInputEnabled = true;
-  if (game.controls.stick) {
-    //game.controls.buttonB.onDown.add(this.pressButtonB, this);
-    this.char = this.mobileChars[this.mobileCharsIndex];
-    this.renderScoreInput(this.newScoreName + this.char);
-    game.controls.buttonB.onUp.add(this.upButtonB, this);
-    game.controls.buttonA.onUp.add(this.upButtonA, this);
-
-  }
   this.disable();
   window.addEventListener('keydown', this.swallowBackspace);
   window.addEventListener('keypress', this.keyboardOnPress);
@@ -435,12 +390,13 @@ p.enableKeyboardEntry = function () {
  * @method disableKeyboardEntry
  */
 p.disableKeyboardEntry = function () {
+  var controls = game.controls;
   this.subTitle3.visible = true;
   this.highScoreInputEnabled = false;
-  if (game.controls.stick) {
-    //game.controls.buttonB.onDown.add(this.pressButtonB, this);
-    game.controls.buttonB.onUp.remove(this.upButtonB, this);
-    game.controls.buttonA.onUp.remove(this.upButtonA, this);
+  if (controls.advancedTouchControlsGroup) {
+    controls.moveRightButtonUp.remove(this.stepUpMobileChar, this);
+    controls.moveLeftButtonUp.remove(this.stepDownMobileChar, this);
+    controls.fireButtonUp.remove(this.assignMobileChar, this);
   }
   window.removeEventListener('keydown', this.swallowBackspace);
   window.removeEventListener('keypress', this.keyboardOnPress);

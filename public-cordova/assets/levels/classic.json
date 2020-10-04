@@ -1,0 +1,827 @@
+{
+  "atlas": {
+    "key": "combined",
+    "imgUrl": "assets/atlas/combined.png",
+    "dataUrl": "assets/atlas/combined.json"
+  },
+  "endless": [
+    {
+      "rate": 1.1,
+      "blink": false,
+      "flip": false
+    },
+    {
+      "rate": 1.1,
+      "blink": false,
+      "flip": true
+    },
+    {
+      "rate": 1.1,
+      "blink": true,
+      "flip": false
+    },
+    {
+      "rate": 1.1,
+      "blink": true,
+      "flip": true
+    }
+  ],
+  "hiscoreLayout": {
+    "margin": 0.05,
+    "padding": 0.05
+  },
+  "actorsScale": 1,
+  "training": {
+    "mapImgUrl": "assets/levels/training.png",
+    "mapImgKey": "training",
+    "mapDataUrl": "assets/physics/training.json",
+    "mapDataKey": "training",
+    "mapScale": 2,
+    "useAtlas": false,
+    "mapPosition": {
+      "x": 0,
+      "y": 1700
+    },
+    "missionSwipe": {
+      "title": "Flight Training",
+      "desc": "Follow the instructions,\nactivate the drones",
+      "color": "rgba(124, 255, 0, 0.7)"
+    },
+    "world": {
+      "width": 3000,
+      "height": 3000
+    },
+    "player": {
+      "scale": 1,
+      "spawns": [{
+        "x": 1500,
+        "y": 1500,
+        "orb": false
+      }]
+    },
+    "orb": {
+      "scale": 1,
+      "x": 2600,
+      "y": 1732
+    },
+    "orbHolder": {
+      "scale": 1,
+      "x": 2600,
+      "y": 1770
+    }
+  },
+  "data": [
+    {
+      "enemyFireRate": 100,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(255, 0, 0, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-1",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-1.json",
+      "mapDataKey": "level-1",
+      "mapScale": 2,
+      "world": {
+        "width": 1536,
+        "height": 1000
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 730
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 300,
+            "y": 300,
+            "orb": false
+          }
+        ]
+      },
+      "orb": {
+        "scale": 1,
+        "x": 915,
+        "y": 852
+      },
+      "orbHolder": {
+        "x": 915,
+        "y": 890,
+        "scale": 1
+      },
+      "enemies": [
+        {
+          "x": 705,
+          "y": 869,
+          "rotation": 30,
+          "scale": 1
+        }
+      ],
+      "fuels": [
+        {
+          "scale": 1,
+          "x": 550,
+          "y": 816
+        }
+      ],
+      "powerStation": {
+        "scale": 1,
+        "x": 1100,
+        "y": 800
+      }
+    },
+    {
+      "enemyFireRate": 100,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(62, 217, 42, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-2",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-2.json",
+      "mapDataKey": "level-2",
+      "mapScale": 2,
+      "world": {
+        "width": 1536,
+        "height": 2000
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 740
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 600,
+            "y": 550,
+            "orb": false
+          }
+        ]
+      },
+      "powerStation": {
+        "scale": 1,
+        "x": 600,
+        "y": 825
+      },
+      "orb": {
+        "scale": 1,
+        "x": 720,
+        "y": 1700
+      },
+      "orbHolder": {
+        "scale": 1,
+        "x": 720,
+        "y": 1738
+      },
+      "enemies": [
+        {
+          "scale": 1,
+          "x": 675,
+          "y": 1405,
+          "rotation": 152
+        },
+        {
+          "scale": 1,
+          "x": 1055,
+          "y": 1310,
+          "rotation": 207
+        }
+      ],
+      "fuels": [
+        {
+          "scale": 1,
+          "x": 830,
+          "y": 1735
+        }
+      ]
+    },
+    {
+      "enemyFireRate": 150,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(29, 192, 222, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-3",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-3.json",
+      "mapDataKey": "level-3",
+      "mapScale": 2,
+      "world": {
+        "width": 1920,
+        "height": 3200
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 790
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 775,
+            "y": 620,
+            "orb": false,
+            "enemies": 0
+          },
+          {
+            "x": 1110,
+            "y": 1560,
+            "orb": true,
+            "enemies": 2
+          },
+          {
+            "x": 415,
+            "y": 2050,
+            "orb": false,
+            "enemies": 5
+          }
+        ]
+      },
+      "powerStation": {
+        "scale": 1,
+        "x": 1440,
+        "y": 950
+      },
+      "orb": {
+        "scale": 1,
+        "x": 408,
+        "y": 2470
+      },
+      "orbHolder": {
+        "scale": 1,
+        "x": 408,
+        "y": 2505
+      },
+      "enemies": [
+        {
+          "scale": 1,
+          "x": 1635,
+          "y": 1505,
+          "rotation": 327
+        },
+        {
+          "scale": 1,
+          "x": 1030,
+          "y": 1450,
+          "rotation": 155
+        },
+        {
+          "scale": 1,
+          "x": 550,
+          "y": 1738,
+          "rotation": 150
+        },
+        {
+          "scale": 1,
+          "x": 357,
+          "y": 1928,
+          "rotation": 152
+        },
+        {
+          "scale": 1,
+          "x": 600,
+          "y": 2090,
+          "rotation": 327
+        }
+      ],
+      "fuels": [
+        {
+          "scale": 1,
+          "x": 912,
+          "y": 819
+        },
+        {
+          "scale": 1,
+          "x": 1370,
+          "y": 1515
+        },
+        {
+          "scale": 1,
+          "x": 1440,
+          "y": 1515
+        },
+        {
+          "scale": 1,
+          "x": 1510,
+          "y": 1515
+        },
+        {
+          "scale": 1,
+          "x": 1080,
+          "y": 1852
+        },
+        {
+          "scale": 1,
+          "x": 745,
+          "y": 2041
+        }
+      ]
+    },
+    {
+      "mapScale": 2,
+      "world": {
+        "width": 1728,
+        "height": 3000
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 880
+      },
+      "enemyFireRate": 200,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(148, 24, 206, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-4",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-4.json",
+      "mapDataKey": "level-4",
+      "gateImgKey": "level-4-gate",
+      "gateImgUrl": "assets/levels/level-4-gate.png",
+      "gateDataKey": "level-4-gate",
+      "gateDataUrl": "assets/physics/level-4-gate.json",
+      "gateTweenTo": {
+        "x": 1240,
+        "y": 2000
+      },
+      "gatePosition": {
+        "scale": 1,
+        "x": 1390,
+        "y": 2000
+      },
+      "switches": [
+        {
+          "scale": 1,
+          "x": 1488,
+          "y": 1850,
+          "rotation": 0
+        },
+        {
+          "scale": 1,
+          "x": 1488,
+          "y": 2150,
+          "rotation": 0
+        }
+      ],
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 700,
+            "y": 700,
+            "orb": false,
+            "enemies": 0
+          },
+          {
+            "x": 773,
+            "y": 1157,
+            "orb": true,
+            "enemies": 2
+          },
+          {
+            "x": 1330,
+            "y": 1700,
+            "orb": false,
+            "enemies": 7
+          }
+        ]
+      },
+      "powerStation": {
+        "scale": 1,
+        "x": 326,
+        "y": 1612
+      },
+      "orb": {
+        "scale": 1,
+        "x": 984,
+        "y": 2553
+      },
+      "orbHolder": {
+        "scale": 1,
+        "x": 984,
+        "y": 2593
+      },
+      "enemies": [
+        {
+          "scale": 1,
+          "x": 495,
+          "y": 1138,
+          "rotation": 152
+        },
+        {
+          "scale": 1,
+          "x": 357,
+          "y": 1310,
+          "rotation": 28
+        },
+        {
+          "scale": 1,
+          "x": 330,
+          "y": 1425,
+          "rotation": 152
+        },
+        {
+          "scale": 1,
+          "x": 700,
+          "y": 1472,
+          "rotation": 205
+        },
+        {
+          "scale": 1,
+          "x": 595,
+          "y": 1695,
+          "rotation": 28
+        },
+        {
+          "scale": 1,
+          "x": 1375,
+          "y": 2420,
+          "rotation": 332
+        },
+        {
+          "scale": 1,
+          "x": 910,
+          "y": 2238,
+          "rotation": 152
+        }
+      ]
+    },
+    {
+      "enemyFireRate": 225,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the orb %s1 %s2",
+        "color": "rgba(228, 215, 11, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-5",
+        "imageKey": "levels-atlas"
+      },
+      "mapDataUrl": "assets/physics/level-5.json",
+      "mapDataKey": "level-5",
+      "gateImgKey": "level-5-gate",
+      "gateImgUrl": "assets/levels/level-5-gate.png",
+      "gateDataKey": "level-5-gate",
+      "gateDataUrl": "assets/physics/level-5-gate.json",
+      "gateTweenTo": {
+        "x": 1305,
+        "y": 2070
+      },
+      "gatePosition": {
+        "scale": 1,
+        "x": 1470,
+        "y": 2070
+      },
+      "switches": [
+        {
+          "scale": 1,
+          "x": 1557,
+          "y": 1928,
+          "rotation": 0
+        },
+        {
+          "scale": 1,
+          "x": 1103,
+          "y": 2300,
+          "rotation": 180
+        }
+      ],
+      "mapScale": 2,
+      "world": {
+        "width": 1920,
+        "height": 2810
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 696
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 500,
+            "y": 400,
+            "orb": false,
+            "enemies": 0
+          },
+          {
+            "x": 1470,
+            "y": 1327,
+            "orb": true,
+            "enemies": 3
+          },
+          {
+            "x": 340,
+            "y": 1690,
+            "orb": true,
+            "enemies": 4
+          },
+          {
+            "x": 1206,
+            "y": 1806,
+            "orb": false,
+            "enemies": 9
+          }
+        ]
+      },
+      "orb": {
+        "scale": 1,
+        "x": 1560,
+        "y": 2400
+      },
+      "powerStation": {
+        "scale": 1,
+        "x": 1290,
+        "y": 1140
+      },
+      "orbHolder": {
+        "scale": 1,
+        "x": 1560,
+        "y": 2438
+      },
+      "enemies": [
+        {
+          "scale": 1,
+          "x": 1126,
+          "y": 1020,
+          "rotation": 152
+        },
+        {
+          "scale": 1,
+          "x": 1487,
+          "y": 975,
+          "rotation": 207
+        },
+        {
+          "scale": 1,
+          "x": 1630,
+          "y": 1380,
+          "rotation": 208
+        },
+        {
+          "scale": 1,
+          "x": 355,
+          "y": 1945,
+          "rotation": 28
+        },
+        {
+          "scale": 1,
+          "x": 1230,
+          "y": 1695,
+          "rotation": 210
+        },
+        {
+          "scale": 1,
+          "x": 1388,
+          "y": 1788,
+          "rotation": 210
+        },
+        {
+          "scale": 1,
+          "x": 1146,
+          "y": 1966,
+          "rotation": 28
+        },
+        {
+          "scale": 1,
+          "x": 1606,
+          "y": 2174,
+          "rotation": 205
+        },
+        {
+          "scale": 1,
+          "x": 1148,
+          "y": 2378,
+          "rotation": 28
+        }
+      ],
+      "fuels": [
+        {
+          "scale": 1,
+          "x": 1150,
+          "y": 802
+        },
+        {
+          "scale": 1,
+          "x": 1102,
+          "y": 1135
+        },
+        {
+          "scale": 1,
+          "x": 1174,
+          "y": 1135
+        },
+        {
+          "scale": 1,
+          "x": 1223,
+          "y": 1522
+        },
+        {
+          "scale": 1,
+          "x": 970,
+          "y": 1858
+        },
+        {
+          "scale": 1,
+          "x": 1040,
+          "y": 1858
+        },
+        {
+          "scale": 1,
+          "x": 1270,
+          "y": 1977
+        }
+      ]
+    },
+    {
+      "enemyFireRate": 250,
+      "useAtlas": true,
+      "missionSwipe": {
+        "title": "Mission %n",
+        "desc": "Recover the final orb %s1 %s2",
+        "color": "rgba(246, 0, 255, 0.7)"
+      },
+      "atlasData": {
+        "levelKey": "level-6",
+        "imageKey": "combined"
+      },
+      "mapImgKey": "level-6-img",
+      "mapImgUrl": "assets/levels/level-6.png",
+      "mapDataUrl": "assets/physics/level-6.json",
+      "mapDataKey": "level-6",
+      "gateImgKey": "level-6-gate",
+      "gateImgUrl": "assets/levels/level-6-gate.png",
+      "gateDataKey": "level-6-gate",
+      "gateDataUrl": "assets/physics/level-6-gate.json",
+      "gateTweenTo": {
+        "x": 1810,
+        "y": 1938
+      },
+      "gatePosition": {
+        "scale": 1,
+        "x": 1995,
+        "y": 1938
+      },
+      "switches": [
+        {
+          "scale": 1,
+          "x": 2087,
+          "y": 1805,
+          "rotation": 0
+        },
+        {
+          "scale": 1,
+          "x": 1754,
+          "y": 2072,
+          "rotation": 180
+        }
+      ],
+      "mapScale": 2,
+      "world": {
+        "width": 2304,
+        "height": 2700
+      },
+      "mapPosition": {
+        "x": 0,
+        "y": 660
+      },
+      "player": {
+        "scale": 1,
+        "spawns": [
+          {
+            "x": 400,
+            "y": 400,
+            "orb": false,
+            "enemies": 0
+          },
+          {
+            "x": 1020,
+            "y": 1282,
+            "orb": true,
+            "enemies": 4
+          },
+          {
+            "x": 987,
+            "y": 1852,
+            "orb": true,
+            "enemies": 6
+          },
+          {
+            "x": 781,
+            "y": 2195,
+            "orb": true,
+            "enemies": 8
+          },
+          {
+            "x": 1916,
+            "y": 2030,
+            "orb": false,
+            "enemies": 11
+          }
+        ]
+      },
+      "powerStation": {
+        "scale": 1,
+        "x": 1870,
+        "y": 2474
+      },
+      "orb": {
+        "scale": 1,
+        "x": 1755,
+        "y": 2345
+      },
+      "orbHolder": {
+        "scale": 1,
+        "x": 1755,
+        "y": 2384
+      },
+      "enemies": [
+        {
+          "scale": 1,
+          "x": 1032,
+          "y": 900,
+          "rotation": 208
+        },
+        {
+          "scale": 1,
+          "x": 955,
+          "y": 1208,
+          "rotation": 150
+        },
+        {
+          "scale": 1,
+          "x": 1395,
+          "y": 1305,
+          "rotation": 210
+        },
+        {
+          "scale": 1,
+          "x": 1080,
+          "y": 1500,
+          "rotation": 332
+        },
+        {
+          "scale": 1,
+          "x": 1105,
+          "y": 1741,
+          "rotation": 210
+        },
+        {
+          "scale": 1,
+          "x": 1133,
+          "y": 1856,
+          "rotation": 332
+        },
+        {
+          "scale": 1,
+          "x": 645,
+          "y": 2219,
+          "rotation": 155
+        },
+        {
+          "scale": 1,
+          "x": 910,
+          "y": 2212,
+          "rotation": 210
+        },
+        {
+          "scale": 1,
+          "x": 1702,
+          "y": 2169,
+          "rotation": 153
+        },
+        {
+          "scale": 1,
+          "x": 1848,
+          "y": 2289,
+          "rotation": 332
+        },
+        {
+          "scale": 1,
+          "x": 1990,
+          "y": 2219,
+          "rotation": 332
+        }
+      ]
+    }
+  ]
+}

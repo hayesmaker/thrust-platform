@@ -8,8 +8,8 @@ module.exports = {
     this.counter = 1;
     this.group = group;
     var x = game.width/2;
-    var y = game.height * 0.05;
-    var style = { font: "12px thrust_regular", fill: "#ffffff", align: "center" };
+    var y = 30;
+    var style = { font: "64px thrust_regular", fill: "#ffffff", align: "center" };
     this.text = game.add.text(x, y, "GAME OVER", style, this.group);
     this.text.anchor.setTo(0.5);
     this.text.visible = false;

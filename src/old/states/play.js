@@ -82,6 +82,7 @@ module.exports = {
     this.createActors();
     this.createLevelMap();
     this.createUi();
+
     gameState.uiCreated = true;
     this.createGroupLayering();
     this.showCurrentScreenByState(gameState.currentState);
@@ -89,6 +90,7 @@ module.exports = {
     if (StatusBar) {
       StatusBar.hide();
     }
+    console.log("Play :: gameState scaleMode", gameState.gameScale);
   },
 
   /**
@@ -201,11 +203,11 @@ module.exports = {
     if (this.uiMode || this.isGameOver) {
       ui.update(this.uiMode);
     }
-    if (game.controls.useExternalJoypad &&
-      gameState.trainingMode &&
-      ui.missionDialog.enabled) {
-      ui.missionDialog.update();
-    }
+    // if (game.controls.useExternalJoypad &&
+    //   gameState.trainingMode &&
+    //   ui.missionDialog.enabled) {
+    //   ui.missionDialog.update();
+    // }
     if (this.isDevMode) {
       this.devModeUpdate();
     }
@@ -215,11 +217,12 @@ module.exports = {
    * Needed for debug display
    *
    * @method render
+   *
    */
   render: function () {
-    if (properties.dev.stats === true) {
-      var color = game.device.isMobile ? '#0000ff' : '#00ff00';
-      game.debug.text(game.time.fps || '--', game.width - 50, 14, color);
+    if (properties.dev.stats || options.display.showFps === true) {
+      var color = '#00ff00';
+      game.debug.text(game.time.fps || '--', game.width - 100, 14, color);
     }
     if (properties.dev.debugPositions) {
       game.debug.cameraInfo(game.camera, 400, 32);
@@ -293,18 +296,22 @@ module.exports = {
       ui.showUser();
       this.playGame();
       this.showPauseButton();
+      game.controls.gotoPlayMode();
     } else {
       this.hidePauseButton();
       ui.hideUser();
+      // game.controls.gotoInputMode();
     }
     var shouldFadeBackground = (
       state === gameState.PLAY_STATES.COMPLETE ||
       state === gameState.PLAY_STATES.HIGH_SCORES ||
-      state === gameState.PLAY_STATES.INTERSTITIAL
+      state === gameState.PLAY_STATES.INTERSTITIAL ||
+        state === "rules" || state === "rules2"
     );
     ui.showScreen(state, shouldFadeBackground);
     if (state === gameState.PLAY_STATES.MENU) {
       sound.playMusic("thrust-title-theme1", 0.5, true);
+      game.controls.gotoInputMode();
       ui.removeGameOver();
     }
     if (state === gameState.PLAY_STATES.HIGH_SCORES && gameState.shouldEnterHighScore) {
@@ -315,12 +322,13 @@ module.exports = {
 
   /**
    * @method menuItemSelected
-   * @param item {Object}
+   * @param itemId {String}
    */
-  menuItemSelected: function (item) {
+  menuItemSelected: function (itemId) {
 
-    switch (item.text.text) {
-      case "PLAY THRUST" :
+    switch (itemId) {
+      case "play" :
+        console.log("play :: menuItemSelcted", itemId);
         //sound.stopMusic();
         sound.playMusic("thrust-in-game1", 0.7, true);
         gameState.newPlayer();
@@ -332,19 +340,27 @@ module.exports = {
           gameState.planetBusterMode = true;
         }
         */
-
         //this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
+      /*
       case "TRAINING" :
         gameState.newPlayer();
         gameState.trainingMode = true;
         this.restartPlayState();
         this.showCurrentScreenByState(gameState.PLAY_STATES.PLAY);
         break;
-      case "HIGH-SCORES":
+      */
+
+      case "scores":
         this.showCurrentScreenByState(gameState.PLAY_STATES.HIGH_SCORES);
         break;
-      case "OPTIONS" :
+      case "options" :
+        this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
+        break;
+      case "rules" :
+        this.showCurrentScreenByState(itemId);
+        break;
+      case "modes":
         this.showCurrentScreenByState(gameState.PLAY_STATES.OPTIONS);
         break;
       default :
@@ -413,7 +429,7 @@ module.exports = {
       this.tractorBeam = null;
       this.player.tractorBeam = null;
     }
-    game.controls.destroy();
+    //game.controls.destroy();
     this.groups.background.removeAll(true);
     this.groups.actors.removeAll(true);
     this.groups.fuels.removeAll(true);
@@ -507,10 +523,7 @@ module.exports = {
     if (!this.inPlay) {
       return;
     }
-    if (game.controls.useExternalJoypad) {
-      this.player.checkPlayerControlJoypad();
-    }
-    this.player.checkPlayerControl(this.cursors, this.buttonADown);
+    this.player.checkPlayerControl(game.controls.cursors);
   },
 
   /**
@@ -542,6 +555,7 @@ module.exports = {
         sound.playSound(sound.PLAYER_TELEPORT_OUT);
         this.player.levelExit();
         this.stopStopwatch();
+        //@deprecated traningMode
         if (gameState.trainingMode) {
           droneManager.trainingComplete();
           gameState.playTime = this.stopwatch.getText();
@@ -563,11 +577,6 @@ module.exports = {
     if (gameState.isGameOver && !this.isGameOver) {
       this.isGameOver = true;
       ui.showGameOver();
-      console.warn('play :: checkGameOver :: isGameOver', this.isGameOver);
-      /*
-      this.stopStopwatch();
-      ui.stopwatch.hide();
-      */
       sound.playSound(sound.UI_GAME_OVER);
       game.time.events.add(2000, _.bind(this.gameOver, this));
     }
@@ -576,7 +585,7 @@ module.exports = {
    * @method levelTransition
    */
   levelTransition: function () {
-    var hasOrb = this.tractorBeam ? true : false;
+    var hasOrb = !!this.tractorBeam;
     this.player.tweenOutAndRemove(hasOrb);
     game.time.events.add(1000, _.bind(this.levelInterstitialStart, this));
   },
@@ -597,6 +606,7 @@ module.exports = {
   gameOver: function () {
     console.warn('play :: gameOver called');
     ui.countdown.stop();
+    game.controls.cursors = game.input.keyboard.createCursorKeys();
     this.stopStopwatch();
     if (gameState.trainingMode) {
       gameState.trainingMode = false;
@@ -904,12 +914,12 @@ module.exports = {
     if (this.uiPaused) {
       this.uiPaused.destroy();
     }
-    this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED", style);
+    this.uiPaused = game.add.text(game.width / 2, game.height / 2, "GAME PAUSED\n\nHIT ESCAPE or TAP SCREEN", style);
     this.uiPaused.anchor.setTo(0.5);
     this.uiPaused.fixedToCamera = true;
     this.uiPaused.visible = false;
-
-    if (features.isTouchScreen) {
+    ui.init(this.menuItemSelected, this);
+    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
       if (this.pauseButton) {
         this.pauseButton.destroy();
       }
@@ -917,15 +927,9 @@ module.exports = {
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;
-    }
 
-    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
-      game.controls.initVirtualJoypad();
-    }
-
-    ui.init(this.menuItemSelected, this);
-    if (gameState.trainingMode) {
-      //ui.drawTrainingUi();
+      //game.controls.initVirtualJoypad();
+      game.controls.initAdvancedTouchControls();
     }
     ui.countdown.complete.add(this.countdownComplete, this);
   },
@@ -1036,31 +1040,45 @@ module.exports = {
   /**
    * Initialises player control
    *
-   * Maybe we can move out control initialisation and handling to
+   * Maybe move out control initialisation and handling to
    * tidy up play state
    *
    * @method initControls
    */
   initControls: function () {
-    if (game.controls.useVirtualJoypad && !game.controls.useExternalJoypad) {
-      game.controls.buttonA.onDown.add(this.pressButtonA, this);
-      game.controls.buttonA.onUp.add(this.upButtonA, this);
-      game.controls.buttonB.onDown.add(this.pressButtonB, this);
-      game.controls.buttonB.onUp.add(this.upButtonB, this);
-    }
+    console.log("play :: initControls : options.controls=", game.controls.useKeys, options.controls);
     if (game.controls.useKeys || game.controls.useVirtualJoypad) {
-      this.cursors = game.controls.cursors;
-      game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      if (options.controls.classicKeys) {
+        game.controls.cursors.up = game.controls.keyShiftPress;
+        game.controls.cursors.left = game.controls.keyAPress;
+        game.controls.cursors.right = game.controls.keySPress;
+        game.controls.keyEnterPress.onDown.add(this.player.fire, this.player);
+      } else {
+        game.controls.cursors = game.input.keyboard.createCursorKeys();
+        game.controls.spacePress.onDown.add(this.player.fire, this.player);
+      }
       game.controls.xKey.onDown.add(this.xDown, this);
       game.controls.xKey.onUp.add(this.xUp, this);
       game.controls.esc.onUp.add(this.escPressed, this);
     }
+    if (game.controls.useExternalJoypad) {
+      game.controls.gamepad.onUpCallback = function(val, index) {
+        // console.log("gamepad", val, i);
+        if (val === 9 || val === 8) {
+          this.escPressed();
+        }
+      }.bind(this);
+    }
+
+
+
   },
 
   /**
    * @method escPressed
    */
   escPressed: function () {
+    console.log("esc pressed");
     game.paused = this.uiPaused.visible = !game.paused;
   },
 
@@ -1092,7 +1110,6 @@ module.exports = {
    */
   pressButtonB: function () {
     this.buttonBDown = true;
-    this.player.fire();
   },
 
   /**
@@ -1152,8 +1169,8 @@ module.exports = {
    * @param point
    */
   checkUp: function (slow, fast, point) {
-    if (this.cursors.up.isDown) {
-      this.cursors.up.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.up.isDown) {
+      game.controls.cursors.up.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y - this.crossHairSpeed;
     }
   },
@@ -1165,8 +1182,8 @@ module.exports = {
    * @param point
    */
   checkDown: function (slow, fast, point) {
-    if (this.cursors.down.isDown) {
-      this.cursors.down.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.down.isDown) {
+      game.controls.cursors.down.shiftKey ? slow(this) : fast(this);
       point.y = this.crossHair.y + this.crossHairSpeed;
     }
   },
@@ -1178,8 +1195,8 @@ module.exports = {
    * @param point
    */
   checkRight: function (slow, fast, point) {
-    if (this.cursors.right.isDown) {
-      this.cursors.right.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.right.isDown) {
+      game.controls.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x + this.crossHairSpeed;
     }
   },
@@ -1191,8 +1208,8 @@ module.exports = {
    * @param point
    */
   checkLeft: function (slow, fast, point) {
-    if (this.cursors.left.isDown) {
-      this.cursors.right.shiftKey ? slow(this) : fast(this);
+    if (game.controls.cursors.left.isDown) {
+      game.controls.cursors.right.shiftKey ? slow(this) : fast(this);
       point.x = this.crossHair.x - this.crossHairSpeed;
     }
   }

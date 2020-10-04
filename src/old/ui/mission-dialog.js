@@ -170,7 +170,7 @@ module.exports = {
       game.controls.spacePress.onDown.add(this.spacePressed, this);
     }
     if (game.controls.useVirtualJoypad) {
-      game.controls.buttonB.onDown.add(this.spacePressed, this);
+      //game.controls.buttonB.onDown.add(this.spacePressed, this);
     }
   },
 
@@ -183,7 +183,7 @@ module.exports = {
       game.controls.spacePress.onDown.remove(this.spacePressed, this);
     }
     if (game.controls.useVirtualJoypad) {
-      game.controls.buttonB.onDown.remove(this.spacePressed, this);
+      //game.controls.buttonB.onDown.remove(this.spacePressed, this);
     }
   },
 

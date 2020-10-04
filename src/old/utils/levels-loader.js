@@ -1,9 +1,6 @@
 var levelManager = require('../data/level-manager');
 var properties = require('../properties');
 var _ = require('lodash');
-var mobileOverrides = require('../data/mobile-overrides');
-var tabletOverrides = require('../data/tablet-overrides');
-
 
 module.exports = {
   /**
@@ -34,8 +31,8 @@ module.exports = {
    */
   loadLevelsPack: function () {
     _.each(levelManager.levels, _.bind(this.loadLevel, this));
-    game.load.image(levelManager.training.mapImgKey, levelManager.training.mapImgUrl);
-    game.load.physics(levelManager.training.mapDataKey + properties.mapSuffix, levelManager.training.mapDataUrl);
+    //game.load.image(levelManager.training.mapImgKey, levelManager.training.mapImgUrl);
+    //game.load.physics(levelManager.training.mapDataKey + properties.mapSuffix, levelManager.training.mapDataUrl);
   },
 
   /**
@@ -153,7 +150,7 @@ module.exports = {
   },
 
   isTablet: function() {
-    return game.device.iPad || window.outerWidth > 1000;
+    return game.device.iPad;
   },
 
   isMobile: function() {
@@ -170,9 +167,9 @@ module.exports = {
     if (game.device.desktop) {
       //no op
     } else if (this.isTablet()) {
-      _.merge(levelsData, tabletOverrides);
+      //_.merge(levelsData, tabletOverrides);
     } else if (this.isMobile()) {
-      _.merge(levelsData, mobileOverrides);
+      //_.merge(levelsData, mobileOverrides);
     } else {
       //no op
     }

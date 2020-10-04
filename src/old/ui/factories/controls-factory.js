@@ -11,11 +11,11 @@ module.exports = {
    * @returns {UiComponent}
    */
   getControlsScreen: function() {
-    if (game.controls.useVirtualJoypad) {
+    if (game.controls.advancedTouchControlsGroup && !game.controls.useExternalJoypad) {
       return touch;
     } else if (game.controls.useExternalJoypad) {
       return gamepad;
-    } else if (game.controls.useKeys) {
+    } else {
       return keys;
     }
   }

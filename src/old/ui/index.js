@@ -1,13 +1,13 @@
 var gameState = require('../data/game-state');
 var UIMenu = require('./ui-menu');
 var UIHighScores = require('./ui-high-scores');
+var UiRules  = require('./ui-rules');
+var UiRules2  = require('./rules2');
 var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
 var UILevelsComplete = require('./ui-levels-complete');
-
-
-
+var game = global.game;
 
 module.exports = {
   playState: null,
@@ -16,6 +16,7 @@ module.exports = {
     this.playState = playState;
     manager.init(this);
     this.group = game.make.group();
+    this.group.fixedToCamera = true;
     this.fade.init(this.group);
     this.scoreGroup = game.add.group(this.group);
     this.scoreGroup.x = 10;
@@ -34,6 +35,8 @@ module.exports = {
     this.interstitial.trainingFailed.add(this.onTrainingFailed, this);
     this.menu = new UIMenu(this.group, "MENU", menuSelectedCallback, playState);
     this.highscores = new UIHighScores(this.group, "HIGH_SCORES", playState);
+    this.rules = new UiRules(this.group, "rules", playState);
+    this.rules2 = new UiRules2(this.group, "rules2", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
     this.missionDialog.init(this.group);
@@ -70,14 +73,23 @@ module.exports = {
     this.drawStopwatch();
     this.score.trainingMode();
   },
-  
-  update: function(uiMode) {
-    if (uiMode) {
+
+  /**
+   * @method ui.update
+   */
+  update: function() {
+    if (gameState.currentState === gameState.PLAY_STATES.MENU) {
       this.menu.update();
+    } else if (gameState.currentState === "OPTIONS") {
       this.options.update();
-    } else {
+    } else if (gameState.currentState === "rules") {
+      this.rules.update();
+    } else if (gameState.currentState === "rules2") {
+      this.rules2.update();
+    } else if (gameState.currentState === gameState.PLAY_STATES.GAME_OVER) {
       this.gameOver.update();
     }
+
   },
 
   levelTransitionCompleted: function() {

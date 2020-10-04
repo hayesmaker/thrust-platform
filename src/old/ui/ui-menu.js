@@ -4,6 +4,7 @@ var sound = require('../utils/sound');
 //var inAppPurchaes = require('../data/in-app-purchases');
 //var UIButton = require('./ui-button');
 var options = require('../data/options-model');
+var game = global.game;
 
 var p = UIMenu.prototype = Object.create(UiComponent.prototype, {
   constructor: UIMenu
@@ -26,18 +27,24 @@ function UIMenu(group, name, menuSelectedCallback, playState) {
   this.menuSelectedCallback = menuSelectedCallback;
   this.playState = playState;
   this.dataProvider = [
-    'PLAY THRUST',
-    'TRAINING',
-    'HIGH-SCORES',
-    'OPTIONS'
+    {label: 'PLAY', id: 'play'},
+    {label: 'HOW TO PLAY', id: 'rules'},
+    /*{label: 'GAME MODES', id: 'modes'},*/
+    {label: 'HIGH SCORES', id: 'scores'},
+    {label: 'OPTIONS', id: 'options'}
   ];
 }
 
 /**
- * @property joypadFireButton
+ * @property debounceGamepadFire
  * @type {boolean}
  */
-p.joypadFireButton = true;
+p.debounceGamepadFire = true;
+/**
+ * @property debounceGamepadDpad
+ * @type {boolean}
+ */
+p.debounceGamepadDpad = false;
 /**
  * @property group
  * @type {Phaser.Group}
@@ -56,16 +63,22 @@ p.items = [];
 p.itemSelected = new Phaser.Signal();
 
 /**
- * @property style
+ * @property styleSelected
  * @type {{font: string, fill: string, align: string}}
  */
-p.style = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleFullSelected = {font: "24px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleFullDeselected = {font: "24px thrust_regular", fill: "#1d0431", align: "left"};
+p.styleMinSelected = {font: "16px thrust_regular", fill: "#ffffff", align: "left"};
+p.styleMinDeselected = {font: "16px thrust_regular", fill: "#1d0431", align: "left"};
 
 /**
  * @property padding
- * @type {number}
+ * @type {{x: number, y: number}}
  */
-p.padding = 5;
+p.padding = {
+  x: 50,
+  y: 10
+};
 
 /**
  * @property selectedIndex
@@ -74,39 +87,39 @@ p.padding = 5;
 p.selectedIndex = 0;
 
 /**
- * @property stickUpPressed
- * @type {boolean}
- */
-p.stickUpPressed = false;
-
-/**
- * @property stickDownPressed
- * @type {boolean}
- */
-p.stickDownPressed = false;
-
-/**
  * @method render
  */
 p.render = function () {
   UiComponent.prototype.render.call(this);
-  this.items = [];
-  _.each(
-    this.dataProvider,
-    _.bind(
-      this.menuItem,
-      this
-    )
-  );
+  this.debounceGamepadFire = true;
   //var x = 10;
   //var y = 10;
 
-  var style = {font: "14px thrust_regular", fill: "#ffffff", align: 'left'};
+  var style = {font: "12px thrust_regular", fill: "#ffffff", align: 'left'};
   this.version = game.make.text(0,0, 'v' + options.version + options.versionSuffix, style);
   this.version.anchor.setTo(0, 0);
   this.version.x = game.width - this.version.width - 10;
-  this.version.y = 10;
+  this.version.y = game.height - this.version.height - 10;
   this.group.add(this.version);
+
+  this.logo = game.make.sprite(0, 0, 'thrust-logo');
+  this.logo.width = game.width * 0.6;
+  this.logo.scale.y = this.logo.scale.x;
+  //this.logo.height =
+  this.logo.position.x = game.width/2 - this.logo.width/2;
+  this.logo.position.y = 20;
+  this.group.add(this.logo);
+  this.topY = this.logo.position.y + this.logo.height;
+  this.items = [];
+
+  this.menuSpr = game.add.sprite(0,0, '', '', this.group);
+  _.each(this.dataProvider, _.bind(this.menuItem, this));
+  var lastItem = this.items[this.items.length - 1];
+  var lastY = lastItem.graphic.position.y + lastItem.graphic.height;
+  //this.menuSpr.y = ;
+  this.menuSpr.y = (this.logo.y + this.logo.height) / 2 + (game.height) / 2 - lastY / 2;
+  console.log("this.menuSpr height", lastY, this.menuSpr.y);
+
 
   /*
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
@@ -150,77 +163,81 @@ p.restorePurchase = function() {
  * @method update
  */
 p.update = function () {
-  var stick = game.controls.stick;
-  var joypad = game.externalJoypad;
-  if (joypad) {
-    if (joypad.up.isDown) {
-      this.stickUpPressed = true;
-      this.stickDownPressed = false;
-    } else if (joypad.down.isDown) {
-      this.stickUpPressed = false;
-      this.stickDownPressed = true;
-    } else {
-      this.checkPressed();
+  var gamepad = game.externalJoypad;
+  if (gamepad) {
+    if (gamepad.fireButton.isUp) {
+      this.debounceGamepadFire = false;
+    } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
+      this.debounceGamepadFire = true;
+      this.spacePressed();
     }
-    game.input.gamepad.pad1.onUpCallback = function(buttonCode) {
-      if (buttonCode === Phaser.Gamepad.BUTTON_1) {
-        this.joypadFireButton = true;
-      }
-    }.bind(this);
-    game.input.gamepad.pad1.onDownCallback = function(buttonCode) {
-      if (buttonCode === Phaser.Gamepad.BUTTON_1 && this.joypadFireButton) {
-        this.joypadFireButton = false;
-        this.spacePressed();
-      }
-    }.bind(this);
-
-  } else if (stick) {
-    if (stick.isDown) {
-      if (stick.direction === Phaser.UP) {
-        this.stickUpPressed = true;
-        this.stickDownPressed = false;
-      } else if (stick.direction === Phaser.DOWN) {
-        this.stickUpPressed = false;
-        this.stickDownPressed = true;
-      }
-    } else {
-      this.checkPressed();
+    if (gamepad.up.isUp && gamepad.down.isUp) {
+      this.debounceGamepadDpad = false;
+    } else if (gamepad.up.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
+      this.upPressed();
+    } else if (gamepad.down.isDown && !this.debounceGamepadDpad) {
+      this.debounceGamepadDpad = true;
+      this.downPressed();
     }
   }
 };
 
 /**
- * @method checkPressed
- */
-p.checkPressed = function() {
-  if (this.stickDownPressed) {
-    this.stickDownPressed = false;
-    this.downPressed();
-  }
-  if (this.stickUpPressed) {
-    this.stickUpPressed = false;
-    this.upPressed();
-  }
-};
-
-/**
+ *
+ *
  * @method menuItem
- * @param label
- * @param index
+ * @param data {Object}
+ * @param index {Number}
  */
-p.menuItem = function (label, index) {
-  var text = game.add.text(game.width / 2, game.height / 2 - 35 + 35 * index, label, this.style, this.group);
-  text.anchor.setTo(0.5);
-  var graphic = game.add.graphics(0, 0, this.group);
-  graphic.beginFill(0xff0000, 0.8);
-  graphic.drawRect(0, 0, text.width + this.padding * 2, text.height + this.padding * 2);
+p.menuItem = function (data, index) {
+  var styleSelected = this.isFullLayout? this.styleFullSelected : this.styleMinSelected;
+  var styleDeselected = this.isFullLayout? this.styleFullDeselected : this.styleMinDeselected;
+  var textDeselected = game.make.text(
+    0,
+    0,
+    data.label,
+    styleDeselected,
+    this.group
+  );
+  var textSelected = game.make.text(
+    0,
+    0,
+    data.label,
+    styleSelected,
+    this.group
+  );
+  textSelected.visible = false;
+  textSelected.anchor.setTo(0.5);
+  textDeselected.anchor.setTo(0.5);
+  var graphic = game.make.graphics(0, 0, this.group);
+  graphic.beginFill(0xffffff, 0.5);
+  graphic.drawRect(0, 0, game.width * 0.35, textSelected.height + this.padding.y * 2);
   graphic.endFill();
-  graphic.x = text.x - text.width / 2 - this.padding;
-  graphic.y = text.y - text.height / 2 - this.padding;
-  text.bringToTop();
+  graphic.anchor.setTo(0.5);
+  graphic.x = 0;
+  graphic.y = 0;
+  var topY = 0;
+  console.log("ui-menu :: menuItem topY=", game.height, this.topY, topY);
+  graphic.x = game.width/2 - graphic.width * 0.5;
+  graphic.y = topY  + (graphic.height + (2*this.padding.y)) * index;
+  textSelected.x = graphic.width / 2;
+  textSelected.y = graphic.height /2;
+  textDeselected.x = textSelected.x;
+  textDeselected.y = textSelected.y;
+
+  this.menuSpr.addChild(graphic);
+  graphic.addChild(textDeselected);
+  graphic.addChild(textSelected);
+  graphic.inputEnabled = true;
+  graphic.events.onInputDown.add(this.onMenuItemTouch, this, 0, index);
+
+  //textSelected.bringToTop();
   this.items.push({
-    text: text,
-    graphic: graphic
+    textSelected: textSelected,
+    textDeselected: textDeselected,
+    graphic: graphic,
+    id: data.id
   });
 };
 
@@ -245,7 +262,8 @@ p.menuItem = function (label, index) {
  */
 p.selectItemByIndex = function (index) {
   _.each(this.items, this.deselectItem);
-  this.items[index].graphic.visible = true;
+  //this.items[index].graphic.visible = true;
+  this.items[index].textSelected.visible = true;
   sound.playSound(sound.UI_MENU_SELECT, 1);
 };
 
@@ -254,7 +272,7 @@ p.selectItemByIndex = function (index) {
  * @param item
  */
 p.deselectItem = function (item) {
-  item.graphic.visible = false;
+  item.textSelected.visible = false;
 };
 
 /**
@@ -269,8 +287,9 @@ p.enable = function () {
     game.controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (game.controls.useVirtualJoypad) {
-    game.controls.buttonA.onDown.add(this.spacePressed, this);
-    game.controls.buttonB.onDown.add(this.spacePressed, this);
+    //@todo touch menu
+    //game.controls.buttonA.onDown.add(this.spacePressed, this);
+    //game.controls.buttonB.onDown.add(this.spacePressed, this);
   }
   this.itemSelected.add(this.menuSelectedCallback, this.playState);
 };
@@ -284,10 +303,11 @@ p.disable = function () {
     game.controls.cursors.down.onDown.remove(this.downPressed, this);
     game.controls.spacePress.onDown.remove(this.spacePressed, this);
   }
-  if (game.controls.stick) {
-    game.controls.buttonA.onDown.remove(this.spacePressed, this);
-    game.controls.buttonB.onDown.remove(this.spacePressed, this);
-  }
+  //@todo touch menu
+  //if (game.controls.stick) {
+    //game.controls.buttonA.onDown.remove(this.spacePressed, this);
+    //game.controls.buttonB.onDown.remove(this.spacePressed, this);
+  //}
   this.itemSelected.remove(this.menuSelectedCallback, this.playState);
 };
 
@@ -319,12 +339,30 @@ p.downPressed = function () {
  * @method spacePressed
  */
 p.spacePressed = function () {
-  this.itemSelected.dispatch(this.items[this.selectedIndex]);
+  console.warn("ui-menu :: spacePressed");
+  this.itemSelected.dispatch(this.items[this.selectedIndex].id);
+};
+
+/**
+ * @method onMenuItemTouch
+ * @param e
+ * @param pointer
+ * @param index
+ */
+p.onMenuItemTouch = function(e, pointer, index) {
+  this.selectItemByIndex(index);
+  this.itemSelected.dispatch(this.items[index].id);
 };
 
 p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
+  _.each(this.items, function(item) {
+    item.graphic.events.onInputUp.remove(this.onMenuItemTouch, this);
+    item.graphic.destroy();
+    this.menuSpr.destroy();
+  }.bind(this));
   this.version.destroy();
+  this.logo.destroy();
 };
 
 

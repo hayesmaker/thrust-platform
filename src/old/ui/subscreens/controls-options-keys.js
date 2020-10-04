@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var UiComponent = require('../ui-component');
 var optionsModel = require('../../data/options-model');
+var UiSwitch = require('../ui-switch');
 
 var p = ControlOptions.prototype = Object.create(UiComponent.prototype, {
   constructor: ControlOptions
@@ -13,6 +14,11 @@ module.exports = ControlOptions;
  * @type {null}
  */
 p.group = null;
+
+p.rightTexts = [];
+
+p.modernKeys  = ['LEFT ARROW', 'RIGHT ARROW', 'UP ARROW', 'SPACE', 'ESC'];
+p.classicKeys  = ['A', 'S', 'SHIFT', 'ENTER', 'ESC'];
 
 /**
  *
@@ -41,33 +47,60 @@ p.render = function() {
  * @method createDisplay
  */
 p.createDisplay = function() {
+  var uiSwitch = new UiSwitch(this.group, "CLASSIC KEYS");
+  uiSwitch.render();
+  uiSwitch.group.x = this.layoutRect.halfWidth - uiSwitch.originPos.x;
+  uiSwitch.group.y = this.marginTop;
+  this.components.push(uiSwitch);
+  uiSwitch.switchedOn.add(this.onSwitch, this, 0, name);
+  uiSwitch.switchedOff.add(this.offSwitch, this, 0, name);
 
   var leftTexts = ['ROTATE LEFT', 'ROTATE RIGHT', 'THRUST', 'FIRE', 'PAUSE'];
-  var leftText;
+  var lText;
+  var rText;
   var fraction = this.layoutRect.height * 0.05;
   _.each(leftTexts, function(str, index) {
-    leftText = game.add.text(0, 0, str, this.style, this.group);
-    leftText.anchor.setTo(1, 0);
-    leftText.x = this.layoutRect.width * 0.45;
-    leftText.y = this.marginTop + index * (leftText.height + fraction);
+    lText = game.add.text(0, 0, str, this.style, this.group);
+    lText.anchor.setTo(1, 0);
+    lText.x = this.layoutRect.width * 0.45;
+    lText.y = this.marginTop + (index + 2) * (lText.height + fraction);
   }.bind(this));
-
-  var rightTexts = ['LEFT ARROW', 'RIGHT ARROW', 'UP ARROW', 'SPACE', 'ESC'];
-  var rightText;
-  _.each(rightTexts, function(str, index) {
-    leftText = game.add.text(0, 0, str, this.style, this.group);
-    leftText.anchor.setTo(0, 0);
-    leftText.x = this.layoutRect.width * 0.55;
-    leftText.y = this.marginTop + index * (leftText.height + fraction);
+  var fieldLabels = optionsModel.controls.classicKeys? this.classicKeys : this.modernKeys;
+  _.each(fieldLabels, function(str, index) {
+    rText = game.add.text(0, 0, str, this.style, this.group);
+    rText.anchor.setTo(0, 0);
+    rText.x = this.layoutRect.width * 0.55;
+    rText.y = this.marginTop + (index + 2) * (rText.height + fraction);
+    this.rightTexts.push(rText);
   }.bind(this));
+};
 
+p.onSwitch = function() {
+  optionsModel.controls.classicKeys = true;
+  this.renderLabels();
+};
+
+p.offSwitch = function () {
+  optionsModel.controls.classicKeys = false;
+  this.renderLabels();
 };
 
 /**
  * @method renderDefaults
  */
 p.renderDefaults = function() {
+  var uiSwitch = this.getComponentByName("CLASSIC KEYS");
+  if (optionsModel.controls.classicKeys) {
+    uiSwitch.switchOn(true, true);
+  }
 
+};
+
+p.renderLabels = function() {
+  var fieldLabels = optionsModel.controls.classicKeys? this.classicKeys : this.modernKeys;
+  _.each(this.rightTexts, function(rText, index) {
+    rText.text = fieldLabels[index];
+  }.bind(this));
 };
 
 /**
@@ -76,8 +109,8 @@ p.renderDefaults = function() {
  */
 p.dispose = function(){
   _.each(this.components, function(component) {
-    component.switchOn.removeAll();
-    component.switchOff.removeAll();
+    component.switchedOn && component.switchedOn.removeAll();
+    component.switchedOff && component.switchedOff.removeAll();
   });
   UiComponent.prototype.dispose.call(this);
 };
