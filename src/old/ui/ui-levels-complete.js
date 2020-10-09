@@ -138,8 +138,7 @@ p.update = function() {
   if (!this.enabled) {
     return;
   }
-  if (game.controls.gamepad2.justPressed(Phaser.Gamepad.BUTTON_1) ||
-    game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
+  if (game.controls.gamepad && game.controls.gamepad.justPressed(Phaser.Gamepad.BUTTON_1)) {
     this.spacePressed();
   }
 };

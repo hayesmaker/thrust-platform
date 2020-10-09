@@ -21,10 +21,10 @@ module.exports = {
   swipe: null,
 
   /**
-   * @property swipeTl
-   * @type {TimelineLite}
+   * @property tl
+   * @type {TimelineMax}
    */
-  swipeTl: null,
+  tl: null,
 
   /**
    * @property group

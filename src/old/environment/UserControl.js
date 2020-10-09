@@ -1,8 +1,17 @@
+var _ = require('lodash');
 /**
  * UserControl description
  *
  * defines a public variable and calls init - change this constructor to suit your needs.
  * nb. there's no requirement to call an init function
+ *
+ * UserControl Logic is currently found in these modules:
+ * - ui-menu
+ * - Player
+ * - ui-rules & rules2
+ * - ui-highscore
+ * - ui-interstitial
+ * - ui-levels-complete
  *
  * @class UserControl
  * @constructor
@@ -11,11 +20,10 @@
 function UserControl(features) {
   this.features = features;
   game.controls = this;
-  this.initExternalJoypad();
+  // this.initExternalJoypad();
   this.initKeys();
-  if (!this.useExternalJoypad && features.isTouchScreen) {
-    this.initTouchEvents();
-  }
+  this.initGamepads();
+  this.initTouchEvents(); //always call?
 }
 
 var game = global.game;
@@ -23,11 +31,9 @@ var Phaser = global.Phaser;
 var p = UserControl.prototype;
 
 p.gamepad = null;
-p.gamepad2 = null;
 p.useKeys = false;
 p.useExternalJoypad = false;
 p.useVirtualJoypad = false;
-p.externalGamePadDetected = false;
 p.isHidden = false;
 p.fireButtonDown = null;
 p.fireButtonUp = null;
@@ -38,41 +44,44 @@ p.moveRightButtonUp = null;
 p.touchScale = 1;
 
 /**
- * @method initExternalJoypad
+ *
  */
-p.initExternalJoypad = function () {
-  this.gamepad = game.input.gamepad.pad1;
-  this.gamepad2 = game.input.gamepad.pad2;
-  var connectionObj = {
-    onDisconnect: function(val) {
-      console.warn("UserControl :: disconnected a gamepad *check this* val=", val);
-      //this.useExternalJoypad = false;
-      //this.useVirtualJoypad = false;
-    },
-    onConnect: function () {
-      console.warn("UserControl :: initExternalJoypad");
-      this.useExternalJoypad = true;
-      this.useVirtualJoypad = false;
-      game.externalJoypad = {};
-      game.externalJoypad.fireButton = this.gamepad.getButton(Phaser.Gamepad.BUTTON_1);
-      game.externalJoypad.thrustButton = this.gamepad.getButton(Phaser.Gamepad.BUTTON_0);
-      game.externalJoypad.up = this.gamepad.getButton(Phaser.Gamepad.BUTTON_12);
-      game.externalJoypad.down = this.gamepad.getButton(Phaser.Gamepad.BUTTON_13);
-      game.externalJoypad.left = this.gamepad.getButton(Phaser.Gamepad.BUTTON_14);
-      game.externalJoypad.right = this.gamepad.getButton(Phaser.Gamepad.BUTTON_15);
-      game.externalJoypad.selectPressed = this.gamepad.getButton(Phaser.Gamepad.BUTTON_8);
-      game.externalJoypad.startPressed = this.gamepad.getButton(Phaser.Gamepad.BUTTON_9);
-      this.gotoInputMode(); //hide virtual gamepad
-    }.bind(this)
-  };
-  this.gamepad.addCallbacks(this, connectionObj);
-  this.gamepad2.addCallbacks(this, connectionObj);
-  // this.gamepad.onUpCallback = function(val, i) {
-  //   console.log("gamepad", val, i);
-  // };
-  game.input.gamepad.start();
+p.initGamepads = function() {
+  var gamepadManager = game.input.gamepad;
+  game.externalJoypad = {};
+  game.externalJoypad.connected = new Phaser.Signal();
+  game.externalJoypad.isConnected = false;
+  gamepadManager.onConnectCallback = function(id) {
+    console.log("UserControl :: gamepad connected", id, gamepadManager);
+    var currentGamepad = gamepadManager._gamepads[id];
+    this.gamepad = currentGamepad;
+    this.useExternalJoypad = true;
+    this.useVirtualJoypad = false;
+    game.externalJoypad.isConnected = true;
+    game.externalJoypad.fireButton = currentGamepad.getButton(Phaser.Gamepad.BUTTON_1);
+    game.externalJoypad.thrustButton = currentGamepad.getButton(Phaser.Gamepad.BUTTON_0);
+    game.externalJoypad.up = currentGamepad.getButton(Phaser.Gamepad.BUTTON_12);
+    game.externalJoypad.down = currentGamepad.getButton(Phaser.Gamepad.BUTTON_13);
+    game.externalJoypad.left = currentGamepad.getButton(Phaser.Gamepad.BUTTON_14);
+    game.externalJoypad.right = currentGamepad.getButton(Phaser.Gamepad.BUTTON_15);
+    game.externalJoypad.selectPressed = currentGamepad.getButton(Phaser.Gamepad.BUTTON_8);
+    game.externalJoypad.startPressed = currentGamepad.getButton(Phaser.Gamepad.BUTTON_9);
+    game.externalJoypad.connected.dispatch(currentGamepad);
+    this.gotoInputMode(); //hide virtual gamepad
+  }.bind(this);
+  gamepadManager.onDisconnectCallback = function() {
+    var noPadsConnected = _.every(gamepadManager._gamepads, function(gamepad) {
+      return gamepad.index === null;
+    });
+    if (noPadsConnected) {
+      this.gamepad = null;
+      game.externalJoypad.isConnected = false;
+      this.useExternalJoypad = false;
+      this.useVirtualJoypad = true;
+    }
+  }.bind(this);
+  gamepadManager.start();
 };
-
 
 /**
  * UserControl initialisation
@@ -93,19 +102,20 @@ p.initKeys = function () {
 
 
 p.gotoPlayMode = function () {
+  console.log("hide touch input mode");
   if (this.advancedTouchControlsGroup) {
     this.advancedTouchControlsGroup.visible = true;
   }
 };
 
 p.gotoInputMode = function () {
+  console.log("show touch input mode");
   if (this.advancedTouchControlsGroup) {
     this.advancedTouchControlsGroup.visible = false;
   }
 };
 
 p.initTouchEvents = function() {
-  this.useVirtualJoypad = true;
   this.fireButtonDown = new Phaser.Signal();
   this.fireButtonUp = new Phaser.Signal();
   this.thrustButtonDown = new Phaser.Signal();
@@ -171,14 +181,15 @@ p.initAdvancedTouchControls = function () {
   this.advancedFireButton.events.onInputUp.add(this.checkUp, this);
   this.advancedThrustButton.events.onInputDown.add(this.checkDown, this);
   this.advancedThrustButton.events.onInputUp.add(this.checkUp, this);
-  //this.moveButtonLeft.events.onInputOut.add(this.checkUp, this);
-  //this.moveButtonRight.events.onInputOut.add(this.checkUp, this);
-  //this.advancedFireButton.events.onInputOut.add(this.checkUp, this);
-  //this.advancedThrustButton.events.onInputOut.add(this.checkUp, this);
-  //this.moveButtonLeft.events.onInputOver.add(this.checkDown, this);
-  //this.moveButtonRight.events.onInputOver.add(this.checkDown, this);
-  //this.advancedFireButton.events.onInputOver.add(this.checkDown, this);
-  //this.advancedThrustButton.events.onInputOver.add(this.checkDown, this);
+
+  // this.moveButtonLeft.events.onInputOut.add(this.checkUp, this);
+  // this.moveButtonRight.events.onInputOut.add(this.checkUp, this);
+  // this.advancedFireButton.events.onInputOut.add(this.checkUp, this);
+  // this.advancedThrustButton.events.onInputOut.add(this.checkUp, this);
+  // this.moveButtonLeft.events.onInputOver.add(this.checkDown, this);
+  // this.moveButtonRight.events.onInputOver.add(this.checkDown, this);
+  // this.advancedFireButton.events.onInputOver.add(this.checkDown, this);
+  // this.advancedThrustButton.events.onInputOver.add(this.checkDown, this);
 };
 
 p.checkDown = function (e) {

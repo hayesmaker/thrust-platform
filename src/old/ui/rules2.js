@@ -144,7 +144,7 @@ p.update = function() {
     return;
   }
   var gamepad = game.externalJoypad;
-  if (gamepad) {
+  if (gamepad.isConnected) {
     if (gamepad.fireButton.isUp) {
       this.debounceGamepadFire = false;
     } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {

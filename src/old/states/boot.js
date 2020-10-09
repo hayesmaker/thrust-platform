@@ -87,14 +87,15 @@ module.exports = {
         this.bootScreen.width = game.width;
         this.bootScreen.height = game.height;
         this.bootScreen.alpha = 0;
+        //var style = {font: "16px Arial", fontWeight: 'bold', fill: "#b6d7c0", align: 'left'};
         var style = {font: "18px thrust_regular", fill: "#ffffff", align: 'left'};
         this.version = game.add.text(0, 0, 'THRUST 30 v' + optionsModel.version + optionsModel.versionSuffix, style);
         this.version.anchor.setTo(0.5, 0.5);
         this.version.x = game.width / 2;
         this.version.y = game.height * 0.78;
         this.version.alpha = 0;
-        TweenMax.to(this.bootScreen, 3, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
-        TweenMax.to(this.version, 3, {alpha: 1, ease: Quad.easeIn});
+        TweenMax.to(this.bootScreen, 1, {alpha: 1, ease: Quad.easeIn, onComplete: this.startLoad, callbackScope: this});
+        TweenMax.to(this.version, 1, {alpha: 1, ease: Quad.easeIn});
         game.e2e.boot = this;
     },
 

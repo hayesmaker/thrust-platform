@@ -31,6 +31,7 @@ p.classicKeys  = ['A', 'S', 'SHIFT', 'ENTER', 'ESC'];
  */
 function ControlOptions(group, name, layoutRect) {
   UiComponent.call(this, group, name, true, false);
+  this.rightTexts = [];
   this.layoutRect = layoutRect;
 }
 

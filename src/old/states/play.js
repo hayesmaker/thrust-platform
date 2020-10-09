@@ -927,7 +927,6 @@ module.exports = {
       this.pauseButton.anchor.setTo(1, 0);
       this.pauseButton.fixedToCamera = true;
       this.pauseButton.visible = false;
-
       //game.controls.initVirtualJoypad();
       game.controls.initAdvancedTouchControls();
     }

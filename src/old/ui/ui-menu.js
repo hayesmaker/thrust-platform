@@ -163,13 +163,16 @@ p.restorePurchase = function() {
  * @method update
  */
 p.update = function () {
+  if (!game.controls.useExternalJoypad) {
+    return;
+  }
   var gamepad = game.externalJoypad;
   if (gamepad) {
     if (gamepad.fireButton.isUp) {
       this.debounceGamepadFire = false;
     } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
       this.debounceGamepadFire = true;
-      this.spacePressed();
+      this.gamepadFirePressed();
     }
     if (gamepad.up.isUp && gamepad.down.isUp) {
       this.debounceGamepadDpad = false;
@@ -340,6 +343,15 @@ p.downPressed = function () {
  */
 p.spacePressed = function () {
   console.warn("ui-menu :: spacePressed");
+  //disable touch control
+  //enable keys
+  game.controls.useVirtualJoypad = false;
+  game.controls.useExternalJoypad = false;
+  this.itemSelected.dispatch(this.items[this.selectedIndex].id);
+};
+
+p.gamepadFirePressed = function() {
+  game.controls.useVirtualJoypad = false;
   this.itemSelected.dispatch(this.items[this.selectedIndex].id);
 };
 
@@ -351,6 +363,9 @@ p.spacePressed = function () {
  */
 p.onMenuItemTouch = function(e, pointer, index) {
   this.selectItemByIndex(index);
+  game.controls.useVirtualJoypad = true;
+  game.controls.useExternalJoypad = false;
+  //game.controls.initAdvancedTouchControls();
   this.itemSelected.dispatch(this.items[index].id);
 };
 

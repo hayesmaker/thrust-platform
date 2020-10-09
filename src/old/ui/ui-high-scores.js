@@ -237,9 +237,9 @@ p.enableTouchInputEntry = function () {
 /**
  * @method checkJoypadInput
  */
-p.checkJoypadInput = function() {
+p.checkJoypadInput = function () {
   var gamepad = game.externalJoypad;
-  if (gamepad) {
+  if (gamepad.isConnected) {
     if (gamepad.fireButton.isUp) {
       this.debounceGamepadFire = false;
     } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
@@ -342,6 +342,7 @@ p.update = function() {
 p.enable = function () {
   var controls = game.controls;
   if (controls.useKeys) {
+    controls.initKeys();
     controls.spacePress.onDown.add(this.spacePressed, this);
   }
   if (controls.useVirtualJoypad) {
@@ -382,6 +383,10 @@ p.enableKeyboardEntry = function () {
   this.subTitle3.visible = false;
   this.highScoreInputEnabled = true;
   this.disable();
+  game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+  game.input.keyboard.removeKey(Phaser.Keyboard.A);
+  game.input.keyboard.removeKey(Phaser.Keyboard.S);
+  game.input.keyboard.removeKey(Phaser.Keyboard.ENTER);
   window.addEventListener('keydown', this.swallowBackspace);
   window.addEventListener('keypress', this.keyboardOnPress);
 };
