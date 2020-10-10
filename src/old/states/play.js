@@ -21,7 +21,6 @@ var sound = require('../utils/sound');
 var droneManager = require('../actors/drone-manager');
 var Stopwatch = require('../ui/Stopwatch');
 var TimelineMax = global.TimelineMax;
-var features = require('../utils/features');
 var MapAtlas = require('../environment/levels/MapAtlas');
 var options = require('../data/options-model');
 var StatusBar = global.StatusBar;
