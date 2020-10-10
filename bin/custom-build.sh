@@ -7,7 +7,7 @@ if [[ $NODE_ENV == "production" ]]; then
   echo "Production build - Bundling full game assets"
   curl -O $THRUST_ASSETS_PACK
   tar -xzf assets.tar.gz
-  npm run build:fullgame
+  npm run build:all
 else
   echo "Non production build - Bundling demo assets"
   npm run build:demo

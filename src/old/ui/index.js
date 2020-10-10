@@ -7,6 +7,7 @@ var UIInterstitial = require('./ui-interstitial');
 var UIOptions = require('./ui-options');
 var manager = require('./manager');
 var UILevelsComplete = require('./ui-levels-complete');
+var UINotice = require('./ui-notice');
 var game = global.game;
 
 module.exports = {
@@ -39,6 +40,8 @@ module.exports = {
     this.rules2 = new UiRules2(this.group, "rules2", playState);
     this.options = new UIOptions(this.group, "OPTIONS", playState);
     this.levelsComplete = new UILevelsComplete(this.group, gameState.PLAY_STATES.COMPLETE, playState);
+    this.uiNotice = UINotice.init(this.group);
+
     this.missionDialog.init(this.group);
     this.gameOver.init(this.group);
   },

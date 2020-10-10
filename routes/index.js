@@ -58,7 +58,7 @@ router.get('/canvas', function(req, res) {
 });
 
 router.get('/webgl', function(req, res) {
-  res.render('app', {
+  res.render('app-prod', {
     title: title + " (webgl)",
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-webgl.js'
@@ -66,7 +66,7 @@ router.get('/webgl', function(req, res) {
 });
 
 router.get('/auto', function(req, res) {
-  res.render('app', {
+  res.render('app-prod', {
     title: title + " (auto)",
     version: pkg.version,
     engine: 'javascripts/browserify/thrust-engine-auto.js'

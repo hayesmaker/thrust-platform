@@ -361,8 +361,8 @@ p.checkPlayerControl = function (cursors) {
   }
   this.checkVirtualFireButton();
   this.checkJoypadFire();
-  this.checkRotate(game.externalJoypad, cursors);
-  this.checkThrust(game.externalJoypad, cursors);
+  this.checkRotate(game.externalJoypad.isConnected? game.externalJoypad : null, cursors);
+  this.checkThrust(game.externalJoypad.isConnected? game.externalJoypad : null, cursors);
 };
 
 
@@ -384,7 +384,7 @@ p.checkVirtualFireButton = function() {
  */
 p.checkJoypadFire = function () {
   var gamepad = game.externalJoypad;
-  if (gamepad) {
+  if (gamepad.isConnected) {
     if (gamepad.fireButton.isUp) {
       this.debounceGamepadFire = false;
     } else if (gamepad.fireButton.isDown && !this.debounceGamepadFire) {
