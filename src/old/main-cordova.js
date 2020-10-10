@@ -44,6 +44,7 @@ var app = {
     launcher.enableHiResMode();
     launcher.setCustomOptions({
       options: {
+        isCordova: true,
         version: version,
         versionSuffix: '',
         gameModes: {

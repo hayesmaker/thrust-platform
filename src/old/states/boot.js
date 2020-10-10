@@ -79,6 +79,7 @@ module.exports = {
         }
         game.scale.canExpandParent = true;
         game.scale.fullScreenScaleMode = game.scale.NO_SCALE;
+        console.log("boot :: create : scale:", this.scale.scaleMode, game.scale);
         userControl = new UserControl(features);
         game.e2e = {};
         this.bootScreen = game.add.sprite(0, 0, 'splash');

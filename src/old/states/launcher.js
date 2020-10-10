@@ -80,12 +80,16 @@ module.exports = {
     game.state.add('load', require('./load'));
     game.state.add('boot', require('./boot'));
     game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
-    // if (!this.customOptions.isCordova) {
-    //   // window.addEventListener('resize', function () {
-    //   //   this.enableHiResMode();
-    //   //   game.scale.setGameSize(properties.width, properties.height);
-    //   // }.bind(this));
-    // }
+    window.addEventListener('resize', function() {
+      console.info("resize", window.innerWidth + "x" + window.innerHeight, game);
+      if (game.state.current !== 'boot' && game.state.current !== 'load') {
+        console.log("game.state ::", game.state.current);
+        if (!this.customOptions.isCordova) {
+            this.enableHiResMode();
+            game.scale.setGameSize(properties.width, properties.height);
+            game.state.start('boot', true, false, this.customScaleMode, this.customOptions);
+        }
+      }
+    }.bind(this));
   }
-  
 };  
