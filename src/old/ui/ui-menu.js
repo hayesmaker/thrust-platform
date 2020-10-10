@@ -92,14 +92,6 @@ p.selectedIndex = 0;
 p.render = function () {
   UiComponent.prototype.render.call(this);
   this.debounceGamepadFire = true;
-  this.items = [];
-  _.each(
-    this.dataProvider,
-    _.bind(
-      this.menuItem,
-      this
-    )
-  );
   //var x = 10;
   //var y = 10;
 
@@ -107,15 +99,27 @@ p.render = function () {
   this.version = game.make.text(0,0, 'v' + options.version + options.versionSuffix, style);
   this.version.anchor.setTo(0, 0);
   this.version.x = game.width - this.version.width - 10;
-  this.version.y = 10;
+  this.version.y = game.height - this.version.height - 10;
   this.group.add(this.version);
 
   this.logo = game.make.sprite(0, 0, 'thrust-logo');
-  this.logo.width = this.logo.width * 0.5;
-  this.logo.height = this.logo.height * 0.5;
+  this.logo.width = game.width * 0.6;
+  this.logo.scale.y = this.logo.scale.x;
+  //this.logo.height =
   this.logo.position.x = game.width/2 - this.logo.width/2;
-  this.logo.position.y = 10;
+  this.logo.position.y = 20;
   this.group.add(this.logo);
+  this.topY = this.logo.position.y + this.logo.height;
+  this.items = [];
+
+  this.menuSpr = game.add.sprite(0,0, '', '', this.group);
+  _.each(this.dataProvider, _.bind(this.menuItem, this));
+  var lastItem = this.items[this.items.length - 1];
+  var lastY = lastItem.graphic.position.y + lastItem.graphic.height;
+  //this.menuSpr.y = ;
+  this.menuSpr.y = (this.logo.y + this.logo.height) / 2 + (game.height) / 2 - lastY / 2;
+  console.log("this.menuSpr height", lastY, this.menuSpr.y);
+
 
   /*
   if (inAppPurchaes.levelsPurchased.length === 0 && inAppPurchaes.inappsService) {
@@ -213,26 +217,23 @@ p.menuItem = function (data, index) {
   graphic.anchor.setTo(0.5);
   graphic.x = 0;
   graphic.y = 0;
-  textSelected.x = textDeselected.x = graphic.width/2;
-  textSelected.y = textDeselected.y = graphic.height/2;
-  var menuSpr = game.add.sprite(0,0, '', '', this.group);
-  menuSpr.x = game.width/2 - graphic.width * 0.5;
+  var topY = 0;
+  console.log("ui-menu :: menuItem topY=", game.height, this.topY, topY);
+  graphic.x = game.width/2 - graphic.width * 0.5;
+  graphic.y = topY  + (graphic.height + (2*this.padding.y)) * index;
+  textSelected.x = graphic.width / 2;
+  textSelected.y = graphic.height /2;
+  textDeselected.x = textSelected.x;
+  textDeselected.y = textSelected.y;
 
-  var topY = game.height /2 - 100;
-  if (game.width < 1000 || game.height < 700) {
-    //console.warn("small layout");
-    //topY = graphic.height + game.height * 0.1;
-  }
-  menuSpr.y = topY  + (graphic.height + (2*this.padding.y)) * index - graphic.height * 0.5;
-  menuSpr.addChild(graphic);
-  menuSpr.addChild(textDeselected);
-  menuSpr.addChild(textSelected);
-  menuSpr.inputEnabled = true;
-  menuSpr.events.onInputDown.add(this.onMenuItemTouch, this, 0, index);
+  this.menuSpr.addChild(graphic);
+  graphic.addChild(textDeselected);
+  graphic.addChild(textSelected);
+  graphic.inputEnabled = true;
+  graphic.events.onInputDown.add(this.onMenuItemTouch, this, 0, index);
 
   //textSelected.bringToTop();
   this.items.push({
-    spr: menuSpr,
     textSelected: textSelected,
     textDeselected: textDeselected,
     graphic: graphic,
@@ -356,8 +357,9 @@ p.onMenuItemTouch = function(e, pointer, index) {
 p.dispose = function() {
   UiComponent.prototype.dispose.call(this);
   _.each(this.items, function(item) {
-    item.spr.events.onInputUp.remove(this.onMenuItemTouch, this);
-    item.spr.destroy();
+    item.graphic.events.onInputUp.remove(this.onMenuItemTouch, this);
+    item.graphic.destroy();
+    this.menuSpr.destroy();
   }.bind(this));
   this.version.destroy();
   this.logo.destroy();
