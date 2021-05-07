@@ -84,7 +84,7 @@
     "fpsmeter": "^0.3.1",
     "install": "^0.8.3",
     "istanbul": "^0.4.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "mocha": "^5.2.0",
     "mocha-phantomjs-core": "^2.1.1",
