@@ -79,7 +79,7 @@
     "ensy": "^1.2.1",
     "envify": "^4.1.0",
     "eslint": "^3.16.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-authorization": "^1.0.0",
     "fpsmeter": "^0.3.1",
     "install": "^0.8.3",
